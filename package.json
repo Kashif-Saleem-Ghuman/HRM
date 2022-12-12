@@ -1,0 +1,45 @@
+{
+  "name": "bib-hrm-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "aframe": "^1.2.0",
+    "core-js": "^3.6.5",
+    "crypto-js": "^4.1.1",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.21",
+    "nuxt": "^2.14.5",
+    "sass": "^1.38.0",
+    "sass-loader": "^10.1.1",
+    "v-click-outside": "^3.1.2",
+    "v-movable": "^0.3.2",
+    "vue-columns-resizable": "0.0.1",
+    "vue-doc-preview": "^0.3.2",
+    "vue-html2canvas": "0.0.4",
+    "vue-signature-pad": "2.0.5",
+    "vuedraggable": "^2.24.3",
+    "vuelidate": "^0.7.6",
+    "webpack": "^4.46.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@types/crypto-js": "^4.1.1",
+    "@vue/test-utils": "^1.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^26.3.0",
+    "cookie-universal-nuxt": "^2.1.5",
+    "jest": "^26.4.2",
+    "rollpkg": "0.4.2",
+    "vue-jest": "^3.0.4"
+  }
+}

@@ -13,5 +13,5 @@ node_modules/
 .env
 .nuxt
 
-# ignore package-lock if generated (project uses yarn, not npm)
-package-lock.json
+# ignore package-lock if generated (project uses yarn)
+package-lock.json*

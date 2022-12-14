@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import getJson from "../utils/dataJson/data.js";
+import getJson from "../utils/dataJson/app_wrap_data.js";
 const navData = getJson();
 export default {
   props: {

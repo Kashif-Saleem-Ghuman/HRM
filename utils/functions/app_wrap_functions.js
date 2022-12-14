@@ -12,3 +12,9 @@ export function handleToggleWrapperTheme(value) {
     this.$cookies.remove("b_ssojwt");
     window.location.href = process.env.LOGOUT_URL;
 }
+export function myProfile() {
+    window.open(process.env.USER_PROFILE_URL, "_blank")
+}
+export function openAccountPage() {
+    window.open(process.env.ACCOUNT_PAGE_URL, "_blank")
+  }

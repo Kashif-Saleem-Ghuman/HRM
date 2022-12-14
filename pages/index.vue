@@ -12,6 +12,9 @@
         <bib-header logo="https://templates.biztree.com/static/brand/bib-symbol-2019--white.svg" hide-search-box
           mainAction="Upgrade" @callToAction="headerActionCall()" @help-click="headerHelpClick()" 
           :avatarLink="userPhoto" @side-menu-expand="collapseNavigation1 = !collapseNavigation1" :isLightTheme="lightThemeChecked">
+          <template #avatar_menu>
+            <avatar-sub-menu @logout="logout" @openAccountPage="openAccountPage" @myProfile="myProfile"></avatar-sub-menu>
+          </template>
         </bib-header>
       </template>
       <template #switcher>
@@ -25,7 +28,7 @@
       </template>
       <template #content>
         <div id="main-section" class="p-1">
-          <h1>Content Goes Here</h1>
+          <h1><bib-icon icon="nodes" variant="success" :scale="2"></bib-icon> Welcome to HRM App</h1>
           <modal-wrapper></modal-wrapper><br />
           <bib-notification :popupMessages="popupMessages"></bib-notification>
         </div>
@@ -39,7 +42,16 @@ import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import { mapGetters } from 'vuex';
 import axios from 'axios';
-import {getUser, handleToggleWrapperTheme, headerHelpClick, headerActionCall, openPopupNotification} from "../utils/functions/functions_lib.js"
+import {
+  getUser, 
+  handleToggleWrapperTheme, 
+  openAccountPage,
+  myProfile,
+  logout, 
+  headerHelpClick, 
+  headerActionCall, 
+  openPopupNotification
+} from "../utils/functions/functions_lib.js"
 export default {
   data() {
     return {
@@ -51,7 +63,6 @@ export default {
       loading: false,
       popupNotificationMsgs:appWrapItems.popupNotificationMsgs,
       popupMessages: [],
-      myProfile: process.env.USER_PROFILE_URL,
       userPhoto: '',
       token: ""
     };
@@ -79,7 +90,6 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.openPopupNotification(1);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     if (accessToken && cookies) {
@@ -104,7 +114,7 @@ export default {
         }
   },
   methods: {
-    getUser, handleToggleWrapperTheme, headerHelpClick, headerActionCall, openPopupNotification
+    getUser, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification
   }
 
 }

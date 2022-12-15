@@ -2,12 +2,12 @@ const data = () => {
   return {
     popupNotificationMsgs: [
       {
-        text: 'Message success description...',
+        text: 'Home page load suceessfully...',
         variant: 'success'
       },
       {
-        text: 'Message test long description...',
-        variant: 'warning'
+        text: 'Employe list page load suceessfully...',
+        variant: 'success'
       },
     ],
     appItems: [
@@ -66,8 +66,8 @@ const data = () => {
       },
     ],
     navItems: [
-      { label: "Menu Goes Here", icon: "file", key: "new_tab", href: "/about" },
-      { label: "Menu Goes Here 2", icon: "file", key: "file" },
+      { label: "Home", icon: "file", key: "home", },
+      { label: "Employe List", icon: "file", key: "employe" },
     ],
 
 

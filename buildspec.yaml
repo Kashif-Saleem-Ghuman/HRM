@@ -6,7 +6,7 @@ phases:
       - echo Build started on `date`
       - echo Installign BIB Shared components library
       - echo Installign dependencies...
-      - cp -r ../../github.com/Biztree/bib-shared .
+      - cp -r ../../github.com/Biztree/bib-shared ../
       - echo copying environment files
       - aws s3 cp ${STAGE_ENV_FILE_PATH} app.env
       - aws s3 cp ${GLOBAL_ENV_FILE_PATH} global.env

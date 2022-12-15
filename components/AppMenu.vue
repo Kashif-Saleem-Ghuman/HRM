@@ -5,7 +5,6 @@
       @click="menuClick($event)"></bib-app-navigation>
       <div class="mt-05 mb-05" :class="seprator" style="height: 1px">
     </div>
-    <bib-app-navigation :items="navItems" :isLightTheme="lightThemeChecked" @click="menuClick($event)"></bib-app-navigation>
   </div>
 </template>
 <script>
@@ -28,12 +27,12 @@ export default {
   },
   methods: {
     menuClick(event) {
-      if (event.key == "new_tab") {
-        alert("Nav action called")
+      if (event.key == "home") {
+       this.$router.push('/')
         return;
       }
-      if (event.key == "file") {
-        alert("Nav action called")
+      if (event.key == "employe") {
+        this.$router.push('/employe-list')
         return;
       }
 

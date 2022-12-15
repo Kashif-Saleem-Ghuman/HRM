@@ -32,8 +32,6 @@ export default {
     // Simple usage
     'cookie-universal-nuxt',
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
-    '@nuxtjs/proxy',
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     
@@ -42,9 +40,7 @@ export default {
     // proxy: true,
     baseURL: process.env.VUE_APP_API_ENDPOINT,
   },
-  router: {
-    middleware: ['auth'],
-  },
+  
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [],
   styleResources: {
@@ -52,9 +48,7 @@ export default {
       '../bib-shared/css/global.scss'
     ]
   },
-  // serverMiddleware: [
-  //   '~/middleware/redirects'
-  // ],
+ 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     postcss: null,
@@ -63,20 +57,6 @@ export default {
       loaders.scss.additionalData = '@use "sass:math";'
     }
   },
-  // auth: {
-  //   // plugins: ['~/plugins/auth'],
-  //   redirect: {
-      
-  //   },
-  //   strategies: {
-  //     local: {
-  //       autoFetchUser: false,
-  //       tokenName: 'Authorization',
-  //       required: true,
-  //       tokenType: "Bearer"
-  //     }
-  //   }
-  // },
   target: 'static',
   ssr: false
  

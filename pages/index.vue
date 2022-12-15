@@ -75,43 +75,43 @@ export default {
     ...mapGetters(["getAccessToken"]),
   },
   created() {
-    if (process.browser) {
-      if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
-        let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-        localStorage.setItem("accessToken", jwt);
-        this.token = jwt;
-        this.$store.dispatch("setToken", jwt);
-      }
-      else {
-        localStorage.setItem("accessToken", this.token);
-        this.$store.dispatch("setToken", this.token);
-      }
-    }
+    // if (process.browser) {
+    //   if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
+    //     let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+    //     localStorage.setItem("accessToken", jwt);
+    //     this.token = jwt;
+    //     this.$store.dispatch("setToken", jwt);
+    //   }
+    //   else {
+    //     localStorage.setItem("accessToken", this.token);
+    //     this.$store.dispatch("setToken", this.token);
+    //   }
+    // }
   },
   mounted() {
-    this.loading = true;
-    let accessToken = localStorage.getItem("accessToken");
-    let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-    if (accessToken && cookies) {
-            axios.post(process.env.VUE_APP_CONVERT_API_URL + "backend-api-goes-here", {}, {
-                headers: {
-                    "Authorization": accessToken
-                }
-            }).then(response => {
-                if (response.data.code == "valid_token") {
-                    this.token = response.data.jwt;
-                    var userId = response?.data?.u?.sub;
-                    localStorage.setItem("userID", userId);
-                }
-                this.getUser();
-            }).catch(err => {
-                this.loading = false;
-                alert(err);
-            });
-        }else {
-          // window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
-          console.log("redirect ok")
-        }
+    // this.loading = true;
+    // let accessToken = localStorage.getItem("accessToken");
+    // let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+    // if (accessToken && cookies) {
+    //         axios.post(process.env.VUE_APP_CONVERT_API_URL + "backend-api-goes-here", {}, {
+    //             headers: {
+    //                 "Authorization": accessToken
+    //             }
+    //         }).then(response => {
+    //             if (response.data.code == "valid_token") {
+    //                 this.token = response.data.jwt;
+    //                 var userId = response?.data?.u?.sub;
+    //                 localStorage.setItem("userID", userId);
+    //             }
+    //             this.getUser();
+    //         }).catch(err => {
+    //             this.loading = false;
+    //             alert(err);
+    //         });
+    //     }else {
+    //       // window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
+    //       console.log("redirect ok")
+    //     }
   },
   methods: {
     getUser, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification

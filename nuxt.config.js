@@ -63,20 +63,20 @@ export default {
       loaders.scss.additionalData = '@use "sass:math";'
     }
   },
-  auth: {
-    // plugins: ['~/plugins/auth'],
-    redirect: {
+  // auth: {
+  //   // plugins: ['~/plugins/auth'],
+  //   redirect: {
       
-    },
-    strategies: {
-      local: {
-        autoFetchUser: false,
-        tokenName: 'Authorization',
-        required: true,
-        tokenType: "Bearer"
-      }
-    }
-  },
+  //   },
+  //   strategies: {
+  //     local: {
+  //       autoFetchUser: false,
+  //       tokenName: 'Authorization',
+  //       required: true,
+  //       tokenType: "Bearer"
+  //     }
+  //   }
+  // },
   target: 'static',
   ssr: false
  

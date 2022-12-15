@@ -19,7 +19,7 @@ export default {
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/../bib-shared/js/colors.js', '~/../bib-shared/js/plugins.js',],
+  // plugins: ['~/../bib-shared/js/colors.js', '~/../bib-shared/js/plugins.js',],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: [

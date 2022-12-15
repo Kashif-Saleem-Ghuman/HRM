@@ -40,8 +40,6 @@
   <script>
   import getJson from "../utils/dataJson/app_wrap_data.js";
   const appWrapItems = getJson();
-  import { mapGetters } from 'vuex';
-  import axios from 'axios';
   import {
     getUser, 
     handleToggleWrapperTheme, 

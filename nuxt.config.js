@@ -19,12 +19,12 @@ export default {
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['../../bib-shared/js/plugins'],
+  plugins: ['~/../bib-shared/js/colors.js', '~/../bib-shared/js/plugins.js',],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: [
     { path: '~/components/', pathPrefix: false },
-    { path: '~/../../bib-shared/components/', pathPrefix: false }
+    { path: '~/../bib-shared/components/', pathPrefix: false }
   ],
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
@@ -49,7 +49,7 @@ export default {
   modules: [],
   styleResources: {
     scss: [
-      '../../bib-shared/css/global.scss'
+      '../bib-shared/css/global.scss'
     ]
   },
   // serverMiddleware: [
@@ -66,11 +66,7 @@ export default {
   auth: {
     // plugins: ['~/plugins/auth'],
     redirect: {
-      // login: process.env.AUTH_REDIRECT_URL+process.env.VUE_APP_URL+'/dashboard',
-      // login: '/',
-      login: '/',
-      callback: '/auth/login',
-      home: '/',
+      
     },
     strategies: {
       local: {

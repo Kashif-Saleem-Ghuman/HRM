@@ -75,9 +75,9 @@ export default {
     ...mapGetters(['getAccessToken']),
   },
   created() {
-    if (process.browser) {
       if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
         let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+        console.log("call i item", jwt)
         localStorage.setItem('accessToken', jwt)
         this.token = jwt
         this.$store.dispatch('setToken', jwt)
@@ -85,7 +85,7 @@ export default {
         localStorage.setItem('accessToken', this.token)
         this.$store.dispatch('setToken', this.token)
       }
-    }
+    
   },
   mounted() {
     this.loading = true;
@@ -109,7 +109,7 @@ export default {
         console.log(err)
       })
     } else {
-        window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL
+        window.location.href = process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/"
     }
 
     this.loading = false;

@@ -6,9 +6,10 @@ export function headerActionCall() {
 }
 export function handleToggleWrapperTheme(value) {
     this.lightThemeChecked = value;
+    this.$cookies.set("isLightTheme", value);
   }
   export function logout() {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken") ;
     this.$cookies.remove("b_ssojwt");
     window.location.href = process.env.LOGOUT_URL;
 }

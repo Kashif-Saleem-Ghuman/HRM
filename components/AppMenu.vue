@@ -25,6 +25,7 @@ export default {
       lightThemeChecked: false,
     }
   },
+  
   methods: {
     menuClick(event) {
       if (event.key == "home") {

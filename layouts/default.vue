@@ -9,7 +9,7 @@
         " :label="notificationText" :variant="notificationVariant"></bib-notification-persistent>
       </template>
       <template #topbar>
-        <bib-header logo="https://templates.biztree.com/static/brand/bib-symbol-2019--white.svg" hide-search-box
+        <bib-header hide-search-box
           mainAction="Upgrade" @callToAction="headerActionCall()" @help-click="headerHelpClick()"
           :avatarLink="userPhoto" @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked">
@@ -38,6 +38,8 @@
 </template>
   
 <script>
+import axios from 'axios';
+import { mapGetters } from 'vuex';
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
@@ -55,16 +57,62 @@ export default {
     return {
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
-      lightThemeChecked: false,
+      lightThemeChecked: this.$cookies.get("isLightTheme") || false,
       showNotification: false,
       showPopup: false,
       loading: false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: '',
-      token: ""
+      token: "",
     };
 
+  },
+  fetch() {
+    this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME)
+  },
+  computed: {
+    ...mapGetters(['getAccessToken']),
+  },
+  created() {
+    if (process.browser) {
+      if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
+        let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+        localStorage.setItem('accessToken', jwt)
+        this.token = jwt
+        this.$store.dispatch('setToken', jwt)
+      } else {
+        localStorage.setItem('accessToken', this.token)
+        this.$store.dispatch('setToken', this.token)
+      }
+    }
+  },
+  mounted() {
+    this.loading = true;
+    this.openPopupNotification(0);
+    this.loading = true;
+    let accessToken = localStorage.getItem('accessToken');
+    let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+    if (accessToken && cookies) {
+      axios.post(process.env.SSO_URL, {
+        "token": accessToken
+      },
+      ).then(res => {
+        if (res.data.code == 'valid_token') {
+          this.token = res.data.jwt;
+          var userId = res?.data?.u?.sub
+          localStorage.setItem('userID', userId)
+        }
+        this.getUser();
+      }).catch(err => {
+        this.loading = false;
+        console.log(err)
+      })
+    } else {
+        window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL
+    }
+
+    this.loading = false;
   },
   methods: {
     getUser, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification

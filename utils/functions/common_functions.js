@@ -1,3 +1,4 @@
+import axios from 'axios';
 export async function getUser() {
     let userID = localStorage.getItem("userID");
     try {
@@ -8,8 +9,10 @@ export async function getUser() {
         });
         this.userPhoto = avtar.data[0].Photo;
     }
-    catch (e) { }
+    catch (e) {
+        alert(e)
+    }
 }
 export function openPopupNotification(n) {
     this.popupMessages.push(this.popupNotificationMsgs[n])
-  }
+}

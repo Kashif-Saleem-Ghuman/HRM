@@ -92,6 +92,7 @@ export default {
     this.openPopupNotification(0);
     this.loading = true;
     let accessToken = localStorage.getItem('accessToken');
+    console.log(accessToken, 'accessToken')
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     if (accessToken && cookies) {
       axios.post(process.env.SSO_URL, {

@@ -95,7 +95,7 @@ export default {
     console.log(accessToken, 'accessToken')
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     if (accessToken && cookies) {
-      axios.post(process.env.SSO_URL, {
+      axios.post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
         "token": accessToken
       },
       ).then(res => {

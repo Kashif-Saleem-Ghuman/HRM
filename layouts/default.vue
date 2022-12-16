@@ -106,9 +106,8 @@ export default {
         this.getUser();
       }).catch(err => {
         this.loading = false;
-        alert(err);
+        console.log(err)
       })
-
     } else {
         window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL
     }

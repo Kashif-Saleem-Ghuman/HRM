@@ -14,20 +14,12 @@
 <script>
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
-import { openPopupNotification } from "../utils/functions/functions_lib.js";
 export default {
   data() {
     return {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
     };
-  },
-  mounted() {
-    this.loading = true;
-    this.openPopupNotification(0);
-  },
-  methods: {
-    openPopupNotification,
   },
 };
 </script>

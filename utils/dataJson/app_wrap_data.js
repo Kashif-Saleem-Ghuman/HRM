@@ -65,12 +65,58 @@ const data = () => {
 
       },
     ],
-    navItems: [
-      { label: "Home", icon: "file", key: "home", },
-      { label: "Employe List", icon: "file", key: "employe" },
+    bibTabs: [
+      {
+        title: "Personal",
+        value: "personal",
+      },
+      {
+        title: "Work",
+        value: "work",
+      },
+      {
+        title: "Tasks",
+        value: "tasks",
+      },
+      {
+        title: "Team",
+        value: "team",
+      },
+      {
+        title: "Documents",
+        value: "documents",
+      },
+      {
+        title: "Work Week",
+        value: "Workweek",
+      },
+
+      {
+        title: "Payroll",
+        value: "payroll",
+      },
+      {
+        title: "File Manager",
+        value: "filemanager",
+      },
     ],
-
-
+    navItems: [
+      // { label: "Home", icon: "file", key: "home", selected: false},
+      { label: "Employees", icon: "recently-added", key: "employees", selected: false},
+      { label: "Recruiting", icon: "output", key: "recruiting", selected: false},
+      { label: "Hiring", icon: "techno", key: "hiring", selected: false},
+      { label: "Onboarding", icon: "prod", key: "onboarding", selected: false},
+    ],
+    navItems2: [
+      { label: "Payroll", icon: "contractors", key: "payroll", selected: false},
+      { label: "Leaves", icon: "briefcase", key: "leaves", selected: false},
+      { label: "Comapny Profile", icon: "save", key: "comapny_profile", selected: false},
+      { label: "Evaluations", icon: "drag", key: "employe", selected: false},
+      { label: "Setting", icon: "setting", key: "setting", selected: false},
+    ],
+    navItemsHome: [
+      { label: "Home", icon: "file", key: "home", selected: false},
+    ]
   }
 }
 export default data;

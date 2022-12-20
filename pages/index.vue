@@ -8,6 +8,7 @@
       <modal-wrapper></modal-wrapper>
     </p>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    
   </div>
 </template>
 

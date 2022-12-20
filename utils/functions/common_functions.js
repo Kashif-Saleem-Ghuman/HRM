@@ -8,6 +8,20 @@ export async function getUser() {
             }
         });
         this.userPhoto = avtar.data[0].Photo;
+        localStorage.setItem('businessId',avtar.data[0].BusinessId )
+    }
+    catch (e) {
+        alert(e)
+    }
+}
+export async function getBusinessId() {
+    let businessId = localStorage.getItem("businessId");
+    try {
+        const businessid = await axios.get(process.env.ORG_API_URL + "/" + businessId, {
+            headers: {
+                "Authorization": "Bearer " + this.getAccessToken
+            }
+        });
     }
     catch (e) {
         alert(e)

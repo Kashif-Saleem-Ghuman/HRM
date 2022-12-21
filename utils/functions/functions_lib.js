@@ -5,6 +5,7 @@ import {
   openAccountPage,
   myProfile,
   logout,
+  isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
 import {
   getUser,
@@ -21,4 +22,5 @@ export {
   openAccountPage,
   myProfile,
   logout,
+  isThemeCheck,
 };

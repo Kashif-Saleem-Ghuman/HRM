@@ -34,7 +34,6 @@
     </bib-app-wrapper>
   </div>
 </template>
-  
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
@@ -50,6 +49,7 @@ import {
   headerHelpClick,
   headerActionCall,
   openPopupNotification,
+  isThemeCheck,
 } from "../utils/functions/functions_lib.js"
 export default {
   data() {
@@ -76,7 +76,6 @@ export default {
   created() {
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      console.log("call i item", jwt)
       localStorage.setItem('accessToken', jwt)
       this.token = jwt
       this.$store.dispatch('setToken', jwt)
@@ -91,17 +90,8 @@ export default {
       this.openPopupNotification(0);
       this.loading = true;
       let accessToken = localStorage.getItem('accessToken');
-      let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      let isTheme = this.$cookies.get('isLightTheme');
-      if (isTheme == undefined) {
-        this.$cookies.set("isLightTheme", false, {
-          path: "/",
-          domain: location.host.includes("business-in-a-box.com")
-            ? ".business-in-a-box.com"
-            : undefined,
-          maxAge: 60 * 60 * 24 * 30,
-        });
-      }
+      let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);  
+      this.isThemeCheck();    
       if (accessToken && cookies) {
         axios.post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
           "token": accessToken
@@ -113,7 +103,7 @@ export default {
             localStorage.setItem('userID', userId)
           }
           this.getUser();
-          this.getBusinessId();
+          // this.getBusinessId();
         }).catch(err => {
           this.loading = false;
           console.log(err)
@@ -123,10 +113,10 @@ export default {
       }
 
       this.loading = false;
-      // this.$store.dispatch("user/setTeamMembers")
+      // this.$store.dispatch("user/fetchBusinessId")
   },
   methods: {
-    getUser, getBusinessId, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification
+    isThemeCheck, getUser, getBusinessId, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification
   }
 
 }

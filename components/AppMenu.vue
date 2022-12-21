@@ -3,7 +3,6 @@
   <div>
    <bib-app-navigation :items="appWrapItems.navItems" :isLightTheme="lightThemeChecked" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px">
-   <bib-app-navigation :items="appWrapItems.navItems2" :isLightTheme="lightThemeChecked" @click="menuClick($event)"></bib-app-navigation>    
   </div>
   </div>
 </template>
@@ -46,15 +45,8 @@ export default {
         this.appWrapItems.navItems[i].selected = false;
       }
     }
-    for (let i = 0; i < this.appWrapItems.navItems2.length; i++) {
-      if (this.appWrapItems.navItems2[i].key == event.key) {
-        this.appWrapItems.navItems2[i].selected = true;
-      } else {
-        this.appWrapItems.navItems2[i].selected = false;
-      }
-    }
     if (process.client) {
-    if (event.key == "dashboard") {
+    if (event.key == "home") {
      this.$router.push('/')
       return;
     }

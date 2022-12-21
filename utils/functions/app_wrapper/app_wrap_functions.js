@@ -19,4 +19,15 @@ export function myProfile() {
 export function openAccountPage() {
     window.open(process.env.ACCOUNT_PAGE_URL, "_blank")
   }
-
+export function isThemeCheck(){
+    let isTheme = this.$cookies.get('isLightTheme');
+    if (isTheme == undefined) {
+        this.$cookies.set("isLightTheme", false, {
+          path: "/",
+          domain: location.host.includes("business-in-a-box.com")
+            ? ".business-in-a-box.com"
+            : undefined,
+          maxAge: 60 * 60 * 24 * 30,
+        });
+      }
+}

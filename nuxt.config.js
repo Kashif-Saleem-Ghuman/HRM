@@ -48,7 +48,7 @@ export default {
       '../bib-shared/css/global.scss'
     ]
   },
- 
+  serverMiddleware: ["~/middleware/redirects"],
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     postcss: null,

@@ -9,10 +9,9 @@
         " :label="notificationText" :variant="notificationVariant"></bib-notification-persistent>
       </template>
       <template #topbar>
-        <bib-header hide-search-box
-          mainAction="Upgrade" @callToAction="headerActionCall()" @help-click="headerHelpClick()"
-          :avatarLink="userPhoto" @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
-          :isLightTheme="lightThemeChecked" @logo-click="headerLogoClick()" >
+        <bib-header hide-search-box mainAction="Upgrade" @callToAction="headerActionCall()"
+          @help-click="headerHelpClick()" :avatarLink="userPhoto"
+          @side-menu-expand="collapseNavigation1 = !collapseNavigation1" :isLightTheme="lightThemeChecked">
           <template #avatar_menu>
             <avatar-sub-menu @logout="logout" @openAccountPage="openAccountPage"
               @myProfile="myProfile"></avatar-sub-menu>
@@ -25,8 +24,7 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu
-          :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'" :selectedMenu="selectedMenu"></app-menu>
+        <app-menu :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"></app-menu>
       </template>
       <template #content>
         <div id="main-content" class="pl-1">
@@ -52,14 +50,12 @@ import {
   headerHelpClick,
   headerActionCall,
   openPopupNotification,
-  headerLogoClick
 } from "../utils/functions/functions_lib.js"
 export default {
   data() {
     return {
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
-      selectedMenu:true,
       lightThemeChecked: this.$cookies.get("isLightTheme") || false,
       showNotification: false,
       showPopup: false,
@@ -77,60 +73,60 @@ export default {
   computed: {
     ...mapGetters(['getAccessToken']),
   },
-  
   created() {
-      if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
-        let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-        console.log("call i item", jwt)
-        localStorage.setItem('accessToken', jwt)
-        this.token = jwt
-        this.$store.dispatch('setToken', jwt)
-      } else {
-        localStorage.setItem('accessToken', this.token)
-        this.$store.dispatch('setToken', this.token)
-      }
-  },
-  mounted() {
-    this.loading = true;
-    this.openPopupNotification(0);
-    this.loading = true;
-    let accessToken = localStorage.getItem('accessToken');
-    let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-    let isTheme = this.$cookies.get('isLightTheme');
-        if(isTheme == undefined){
-             this.$cookies.set("isLightTheme", false, {
-                    path: "/",
-                    domain: location.host.includes("business-in-a-box.com")
-                    ? ".business-in-a-box.com"
-                    : undefined,
-                    maxAge: 60 * 60 * 24 * 30,
-                });
-        }
-    if (accessToken && cookies) {
-      axios.post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
-        "token": accessToken
-      },
-      ).then(res => {
-        if (res.data.code == 'valid_token') {
-          this.token = res.data.jwt;
-          var userId = res?.data?.u?.sub
-          localStorage.setItem('userID', userId)
-        }
-        this.getUser();
-        this.getBusinessId();
-      }).catch(err => {
-        this.loading = false;
-        console.log(err)
-      })
+    if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
+      let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+      console.log("call i item", jwt)
+      localStorage.setItem('accessToken', jwt)
+      this.token = jwt
+      this.$store.dispatch('setToken', jwt)
     } else {
-        window.location.href = process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/"
+      localStorage.setItem('accessToken', this.token)
+      this.$store.dispatch('setToken', this.token)
     }
 
-    this.loading = false;
-    // this.$store.dispatch("user/setTeamMembers")
+  },
+  mounted() {
+      this.loading = true;
+      this.openPopupNotification(0);
+      this.loading = true;
+      let accessToken = localStorage.getItem('accessToken');
+      let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+      let isTheme = this.$cookies.get('isLightTheme');
+      if (isTheme == undefined) {
+        this.$cookies.set("isLightTheme", false, {
+          path: "/",
+          domain: location.host.includes("business-in-a-box.com")
+            ? ".business-in-a-box.com"
+            : undefined,
+          maxAge: 60 * 60 * 24 * 30,
+        });
+      }
+      if (accessToken && cookies) {
+        axios.post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
+          "token": accessToken
+        },
+        ).then(res => {
+          if (res.data.code == 'valid_token') {
+            this.token = res.data.jwt;
+            var userId = res?.data?.u?.sub
+            localStorage.setItem('userID', userId)
+          }
+          this.getUser();
+          this.getBusinessId();
+        }).catch(err => {
+          this.loading = false;
+          console.log(err)
+        })
+      } else {
+        window.location.href = process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/"
+      }
+
+      this.loading = false;
+      // this.$store.dispatch("user/setTeamMembers")
   },
   methods: {
-    getUser, headerLogoClick, getBusinessId, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification
+    getUser, getBusinessId, handleToggleWrapperTheme, openAccountPage, myProfile, logout, headerHelpClick, headerActionCall, openPopupNotification
   }
 
 }

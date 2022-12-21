@@ -101,11 +101,10 @@ const data = () => {
       },
     ],
     navItems: [
-      // { label: "Home", icon: "file", key: "home", selected: false},
-      { label: "Employees", icon: "recently-added", key: "employees", selected: false},
-      { label: "Recruiting", icon: "output", key: "recruiting", selected: false},
-      { label: "Hiring", icon: "techno", key: "hiring", selected: false},
-      { label: "Onboarding", icon: "prod", key: "onboarding", selected: false},
+      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
+      { label: "Employees", icon: "recently-added", key: "employees", url:"/employees/employe-list", selected: false},
+      { label: "Hiring", icon: "techno", key: "hiring", url:'/hiring', selected: false},
+      { label: "Onboarding", icon: "prod", key: "onboarding", url:'/onboarding', selected: false},
     ],
     navItems2: [
       { label: "Payroll", icon: "contractors", key: "payroll", selected: false},

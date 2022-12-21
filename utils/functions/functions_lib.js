@@ -5,7 +5,6 @@ import {
   openAccountPage,
   myProfile,
   logout,
-  headerLogoClick,
 } from "./app_wrapper/app_wrap_functions.js";
 import {
   getUser,
@@ -22,5 +21,4 @@ export {
   openAccountPage,
   myProfile,
   logout,
-  headerLogoClick
 };

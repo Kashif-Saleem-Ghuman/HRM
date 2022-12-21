@@ -19,6 +19,4 @@ export function myProfile() {
 export function openAccountPage() {
     window.open(process.env.ACCOUNT_PAGE_URL, "_blank")
   }
-export function headerLogoClick(){
-    this.$router.push('/');
-}
+

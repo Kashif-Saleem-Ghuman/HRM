@@ -101,21 +101,17 @@ const data = () => {
       },
     ],
     navItems: [
-      { label: "Home", icon: "file", key: "home", url:"/dashboard", selected: false},
-      { label: "Employees", icon: "recently-added", key: "employees", url:"/employees/employe-list", selected: false},
-      { label: "Hiring", icon: "techno", key: "hiring", url:'/hiring', selected: false},
-      { label: "Onboarding", icon: "prod", key: "onboarding", url:'/onboarding', selected: false},
+      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
+      { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+      { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+      { label: "People", icon: "recently-added", key: "people", url:"/people", selected: false},
+      { label: "Timesheets", icon: "techno", key: "timesheets", url:'/timesheets', selected: false},
+      { label: "Time tracker", icon: "prod", key: "timetracker", url:'/timetracker', selected: false},
+      { label: "Absense", icon: "prod", key: "absense", url:'/absense', selected: false},
+      { label: "Performance", icon: "prod", key: "performance", url:'/performance', selected: false},
+      { label: "Compensation", icon: "prod", key: "compensation", url:'/compensation', selected: false},
+      { label: "Files", icon: "contractors", key: "files", url:"/files", selected: false},
     ],
-    navItems2: [
-      { label: "Payroll", icon: "contractors", key: "payroll", selected: false},
-      { label: "Leaves", icon: "briefcase", key: "leaves", selected: false},
-      { label: "Comapny Profile", icon: "save", key: "comapny_profile", selected: false},
-      { label: "Evaluations", icon: "drag", key: "employe", selected: false},
-      { label: "Setting", icon: "setting", key: "setting", selected: false},
-    ],
-    navItemsHome: [
-      { label: "Home", icon: "file", key: "home", selected: false},
-    ]
   }
 }
 export default data;

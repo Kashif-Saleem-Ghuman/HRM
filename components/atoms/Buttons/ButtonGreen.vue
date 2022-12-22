@@ -27,9 +27,6 @@ export default {
     titleClass: {
       type: String,
     },
-    clickFunction:{
-      type:Function
-    }
   },
   data() {
     return {

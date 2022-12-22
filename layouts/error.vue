@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import notFound from '../components/notfound';
+import notFound from '~/components/common/notfound/index.vue';
 export default {
     name: 'nuxt-error',
     layout: 'default', // optional

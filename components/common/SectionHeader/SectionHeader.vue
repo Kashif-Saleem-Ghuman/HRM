@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-between align-center nav_wrapper">
+  <div class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper">
     <section-header-left
       title="People"
       avatar="t.jpg"
@@ -11,9 +11,7 @@
       <template v-for="user in userItems">
         <section-header-right :avatar="user.avatarUrl"> </section-header-right>
       </template>
-      <button type="button" @click="addUser()" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2 ml-05 d-flex justify-center align-center border-white">
-      <bib-icon icon="user-add" :scale="1" variant="success"></bib-icon>
-    </button>
+      <button-circle icon="user-add" scale="1" @click="addUser()" variant="success" showLight="true" class="ml-05"></button-circle>
     </div>
   </div>
 </template>
@@ -37,10 +35,6 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-.nav_wrapper {
-  border-bottom: 1px solid var(--bib-light);
-}
-
 .title-text {
   font-size: 1.25rem;
   font-weight: bold;

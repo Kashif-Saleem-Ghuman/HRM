@@ -1,16 +1,10 @@
 <template>
-    <nav  class="bg-white d-flex align-center gap-05 py-075 px-025">
-    <button type="button" @click="" class="cursor-pointer d-flex cursor-pointer bg-white border-white">
-      <bib-icon :icon="arrowleft" :scale="1.5" variant="secondary"></bib-icon>
-    </button>
+    <nav  class="bg-white d-flex align-center gap-05">
+    <button-circle icon="arrow-left" scale="1" variant="secondary" showWhite="true"></button-circle>
     <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
     <span class=" mr-1 title-text">{{ title }}</span>
-    <button type="button" @click="" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2  d-flex justify-center align-center border-white">
-      <bib-icon :icon="bookmark" :scale="0.8" variant="secondary"></bib-icon>
-    </button>
-    <button type="button" @click="" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2  d-flex justify-center align-center border-white">
-      <bib-icon :icon="moreIcon" :scale="0.8" variant="secondary"></bib-icon>
-    </button>
+    <button-circle icon="bookmark" scale="0.8" variant="secondary" showLight="true"></button-circle>
+    <button-circle icon="horizontal-dots" scale="0.8" variant="secondary" showLight="true"></button-circle>
   </nav>
   </template>
 <script>

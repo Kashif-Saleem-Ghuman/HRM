@@ -8,6 +8,7 @@
 <script>
 export default {
     name: 'ActionLeft', 
+    props:{},
     methods:{
         employeModal(){
         alert("employe called")

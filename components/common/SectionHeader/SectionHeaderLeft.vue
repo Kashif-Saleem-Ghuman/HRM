@@ -1,6 +1,6 @@
 <template>
     <nav  class="bg-white d-flex align-center gap-05">
-    <button-circle icon="arrow-left" scale="1" variant="secondary" showWhite="true" @on-click="employeModal"></button-circle>
+    <button-circle icon="arrow-left" scale="1" variant="secondary" showWhite="true" @on-click=""></button-circle>
     <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
     <span class=" mr-1 title-text">{{ title }}</span>
     <button-circle icon="bookmark" scale="0.8" variant="secondary" showLight="true" @on-click="bookmarkButton"></button-circle>

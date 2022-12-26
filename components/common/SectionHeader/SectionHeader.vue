@@ -11,7 +11,7 @@
       <template v-for="user in userItems">
         <section-header-right :avatar="user.avatarUrl"> </section-header-right>
       </template>
-      <button-circle icon="user-add" scale="1" @click="addUser()" variant="success" showLight="true" class="ml-05"></button-circle>
+      <button-circle icon="user-add" scale=1 @click="addUser()" variant="success" showLight="true" class="ml-05"></button-circle>
     </div>
   </div>
 </template>

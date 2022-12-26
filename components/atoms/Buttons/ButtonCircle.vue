@@ -20,10 +20,10 @@
        type: String,
      },
      showLight:{
-      type:Boolean
+      type:String
      },
      showWhite:{
-      type:Boolean
+      type:String
      }
    },
  }

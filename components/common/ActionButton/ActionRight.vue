@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex">
-        <button-circle icon="arrowhead-down" scale="0.8" variant="secondary" showLight="true"></button-circle>
-        <button-circle icon="techno" scale="0.8" variant="secondary" showLight="true"></button-circle>
+        <button-circle icon="arrowhead-down" scale="1" variant="secondary" showLight="true"></button-circle>
+        <button-circle icon="techno" scale="1" variant="secondary" showLight="true"></button-circle>
     </div>
 </template>
 

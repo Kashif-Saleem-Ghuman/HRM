@@ -16,7 +16,7 @@ export default {
       type: String,
     },
     scale: {
-      type: String,
+      type: Number,
     },
     variant: {
       type: String,

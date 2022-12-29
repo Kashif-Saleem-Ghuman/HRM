@@ -1,10 +1,10 @@
 <template>
     <nav  class="bg-white d-flex align-center gap-05">
-    <button-circle icon="arrow-left" scale="1" variant="secondary" showWhite="true" @on-click=""></button-circle>
+    <button-circle icon="arrow-left" :scale="1" variant="secondary" showWhite="true" @on-click=""></button-circle>
     <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
-    <span class=" mr-1 title-text">{{ title }}</span>
-    <button-circle icon="bookmark" scale="0.8" variant="secondary" showLight="true" @on-click="bookmarkButton"></button-circle>
-    <button-circle icon="horizontal-dots" scale="0.8" variant="secondary" showLight="true" @on-click="moreButton"></button-circle>
+    <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
+    <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" showLight="true" @on-click="bookmarkButton"></button-circle>
+    <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" showLight="true" @on-click="moreButton"></button-circle>
   </nav>
   </template>
 <script>
@@ -13,7 +13,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Page Title"
+      default: ""
     },
     arrowleft:{
       type:String,
@@ -30,7 +30,8 @@ export default {
     avatar: {
       type: String,
       default: ""
-    }
+    },
+
   },
   methods:{
         backButton(){

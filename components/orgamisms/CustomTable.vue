@@ -20,7 +20,7 @@
                 field.header_icon && field.header_icon.isActive,
             }"
           >
-            <div class="align-center" :class="{'cursor-pointer': $listeners['column-header-clicked']}">
+            <div class="align-center" :class="{'cursor-pointer': $listeners['column-header-clicked']}" :id="field.label + '_action'">
               <span> {{ field.label }} </span>
               <template v-if="field.header_icon">
                 <div

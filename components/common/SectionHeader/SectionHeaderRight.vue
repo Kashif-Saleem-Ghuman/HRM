@@ -10,7 +10,11 @@ export default {
     avatar: {
       type: String,
       default: ""
+    },
+    items:{
+      type:Array
     }
+
   },
 
   data() {

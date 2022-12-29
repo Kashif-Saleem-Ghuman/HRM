@@ -1,5 +1,5 @@
 <template>
-    <custom-table :fields="tableFields" class="border-gray4 bg-white"  :sections="tableSections"
+    <custom-table :fields="tableFields" class="border-gray4 bg-white" :sections="userList"
         @item-clicked="handleItemClick_Table" :hide-no-column="true">
         <template #cell(name)="data">
             <div class="d-flex align-center text-left gap-05">
@@ -7,15 +7,15 @@
                 </bib-avatar>
                 <div class="info_wrapper">
                     <div class="title">
-                    {{ data.value.name }}
-                </div>
-                <div class="description">
-                    {{ data.value.desc }}
-                </div>
+                        {{ data.value.name }}
+                    </div>
+                    <div class="description">
+                        {{ data.value.desc }}
+                    </div>
                 </div>
             </div>
         </template>
-        <template  #cell(department)="data">
+        <template #cell(department)="data">
             <div class="justify-between text-dark">
                 <span>{{ data.value.department }}</span>
             </div>
@@ -24,7 +24,7 @@
             <div class="justify-center text-dark">
                 <circle-text :title="data.value.attendance" :className="data.value.bgColor"></circle-text>
             </div>
-        
+
         </template>
         <template #cell(satisfaction)="data">
             <div class="justify-center text-dark">
@@ -33,50 +33,49 @@
         </template>
         <template #cell(performance)="data">
             <div class="justify-between text-dark">
-                <span>{{ data.value.performance }}
-                </span>
+                <!-- <span>{{ data.value.performance }} -->
+                <star-rating :round-start-rating="false" :border-width="0" :star-size="18" :show-rating=false
+                    :rating="data.value.performance" :read-only=true
+                    :active-color="['#E6000E', '#000', '#FFC130', '#6BBF68']"
+                    :active-border-color="['#F6546A', '#a8c3c0']" :clearable="true" active-on-click
+                    :padding="0"></star-rating>
+
             </div>
         </template>
-        <!-- <template #cell_action="data">
-                      <bib-button pop="horizontal-dots">
-                          <template v-slot:menu>
-                              <div class="list">
-                                  <span class="list__item" @click="handleAction_Table(data)">View profile</span>
-                                  <span class="list__item">Edit</span>
-                                  <span class="list__item">Delete</span>
-                              </div>
-                          </template>
-                      </bib-button>
-                    </template>
-                 -->
     </custom-table>
 </template>
   
 <script>
-  import { TABLE_SECTIONS, TABLE_FIELDS} from '../../../utils/constant/Constant.js'
-
+import { TABLE_SECTIONS, TABLE_FIELDS } from '../../../utils/constant/Constant.js'
+import { StarRating } from '../StarRating/StarRating.vue';
+import { mapGetters } from "vuex";
 export default {
+    props: {
+        userList: {
+            type: Array,
+            default: ""
+        }
+    },
     data() {
         return {
-            tableFields:TABLE_FIELDS,
-            tableSections:TABLE_SECTIONS,
-            attendanceClass:[],
-            satisfaction:""
+            tableFields: TABLE_FIELDS,
+            tableSections: TABLE_SECTIONS,
+            attendanceClass: [],
+            satisfaction: "",
         }
-
     },
-    mounted(){
+    mounted() {
         for (let i = 0; i < this.tableSections.length; i++) {
             var percentageValue = this.tableSections[i].attendance.replace(/%\s?/g, '');
             //  this.attendanceValue.push(percentageValue )
-            if(percentageValue >=70){
+            if (percentageValue >= 70) {
                 this.attendanceClass.push('variant_green')
             }
-            if(percentageValue <=50){
+            if (percentageValue <= 50) {
                 this.attendanceClass.push('variant_gray')
             }
-    }
-    console.log(this.attendanceClass, "class")
+        }
+        // console.log(this.attendanceClass, "class")
     },
     methods: {
         handleItemClick_Table(item) {
@@ -91,29 +90,35 @@ export default {
 </script>
   
 <style lang="scss">
-.info_wrapper{
-    color:$black;
+.info_wrapper {
+    color: $black;
     font-weight: normal;
 }
-.title{
-        font-size: 14px;
-        font-weight: 600;
-    }
-    .description{
-        font-size: 14px;
-        font-weight: normal;
-        color:$black;
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
 }
-.variant_green{
+
+.description {
+    font-size: 14px;
+    font-weight: normal;
+    color: $black;
+}
+
+.variant_green {
     background: #D6F7D5;
 }
-.variant_yellow{
+
+.variant_yellow {
     background: #F7F3D5;
 }
-.variant_light_pink{
+
+.variant_light_pink {
     background: #F6D5D5;
 }
-.variant_gray{
+
+.variant_gray {
     background: #F2F2F5;
 }
 </style>

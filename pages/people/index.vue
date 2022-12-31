@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     actionBY() {
-      alert("called");
+      this.$router.push('/people/employeeprofile')
     },
     sortBy(event) {
       console.log(event, "callled");

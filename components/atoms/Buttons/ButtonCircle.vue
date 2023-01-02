@@ -1,8 +1,5 @@
 <template>
-    <button v-if="showWhite" type="button" @click="$emit('on-click')" class="cursor-pointer shape-circle bg-white width-2 height-2  d-flex justify-center align-center border-white">
-      <bib-icon :icon="icon" :scale="scale" :variant="variant"></bib-icon>
-    </button>
-    <button v-else="showLight" type="button" @click="$emit('on-click')" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2  d-flex justify-center align-center border-white">
+    <button type="button" @click="$emit('on-click')" class="cursor-pointer shape-circle icon-size d-flex justify-center align-center border-0" :class="icon_bg">
       <bib-icon :icon="icon" :scale="scale" :variant="variant"></bib-icon>
     </button>
  </template>
@@ -19,12 +16,19 @@
      variant: {
        type: String,
      },
-     showLight:{
+     icon_bg:{
       type:String
      },
-     showWhite:{
-      type:String
-     }
+     
    },
  }
  </script>
+ <style lang="scss">
+ .border-0{
+  border:0;
+ }
+ .icon-size{
+  height:2.1rem;
+  width:2.1rem
+ }
+</style>

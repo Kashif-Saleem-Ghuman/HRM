@@ -1,6 +1,6 @@
 <template>
   <div class="avtar_margin">
-    <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
+    <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
   </div>
 </template>
 <script>
@@ -10,7 +10,11 @@ export default {
     avatar: {
       type: String,
       default: ""
+    },
+    items:{
+      type:Array
     }
+
   },
 
   data() {

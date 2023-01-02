@@ -140,7 +140,7 @@ export default {
     }
 
     this.loading = false;
-    // this.$store.dispatch("user/fetchBusinessId")
+    // this.$store.dispatch("users/setProductToStore")
   },
   methods: {
     isThemeCheck,

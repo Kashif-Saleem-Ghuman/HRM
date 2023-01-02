@@ -1,26 +1,19 @@
 <template>
-    <nav  class="bg-white d-flex align-center gap-05 py-075 px-025">
-    <button type="button" @click="" class="cursor-pointer d-flex cursor-pointer bg-white border-white">
-      <bib-icon :icon="arrowleft" :scale="1.5" variant="secondary"></bib-icon>
-    </button>
-    <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
-    <span class=" mr-1 title-text">{{ title }}</span>
-    <button type="button" @click="" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2  d-flex justify-center align-center border-white">
-      <bib-icon :icon="bookmark" :scale="0.8" variant="secondary"></bib-icon>
-    </button>
-    <button type="button" @click="" class="cursor-pointer shape-circle bg-secondary-sub3 width-2 height-2  d-flex justify-center align-center border-white">
-      <bib-icon :icon="moreIcon" :scale="0.8" variant="secondary"></bib-icon>
-    </button>
+    <nav  class="bg-white d-flex align-center gap-05">
+    <button-circle icon="arrow-left" :scale="1" variant="secondary" @on-click="" icon_bg="bg-white"></button-circle>
+    <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
+    <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
+    <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="bookmarkButton"></button-circle>
+    <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle>
   </nav>
   </template>
 <script>
 export default {
-
   name: 'SectionHeader',
   props: {
     title: {
       type: String,
-      default: "Page Title"
+      default: ""
     },
     arrowleft:{
       type:String,
@@ -37,14 +30,20 @@ export default {
     avatar: {
       type: String,
       default: ""
-    }
-  },
+    },
 
-  data() {
-    return {
-
-    }
   },
+  methods:{
+        backButton(){
+        alert("Back Button called")
+      },
+      bookmarkButton(){
+        alert("Bookmark Button called")
+      },
+      moreButton(){
+        alert("More Button called")
+      }
+    } 
 }
 
 </script>

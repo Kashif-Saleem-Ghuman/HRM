@@ -1,10 +1,10 @@
 <template>
     <nav  class="bg-white d-flex align-center gap-05">
-    <button-circle icon="arrow-left" :scale="1" variant="secondary" showWhite="true" @on-click=""></button-circle>
-    <bib-avatar v-if="avatar" :src="avatar"></bib-avatar>
+    <button-circle icon="arrow-left" :scale="1" variant="secondary" @on-click="" icon_bg="bg-white"></button-circle>
+    <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
     <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
-    <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" showLight="true" @on-click="bookmarkButton"></button-circle>
-    <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" showLight="true" @on-click="moreButton"></button-circle>
+    <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="bookmarkButton"></button-circle>
+    <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle>
   </nav>
   </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div id="people-action-wrapper">
-    <div class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper">
+    <div class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper">
       <section-header-left
         title="People"
         bookmark="bookmark-solid"
@@ -8,7 +8,7 @@
         avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU"
         headerRight="headerRight"
       ></section-header-left>
-      <div class="d-flex justify-between mr-1">
+      <div class="d-flex justify-between">
         <template v-for="user in userItems">
           <section-header-right :avatar="user.avatarUrl">
           </section-header-right>
@@ -18,8 +18,8 @@
           :scale="1"
           @click="addUser()"
           variant="success"
-          showLight="true"
           class="ml-05"
+          icon_bg="light-green"
         ></button-circle>
       </div>
     </div>
@@ -32,10 +32,6 @@
         ></action-left>
       </div>
       <action-right
-        icon="add"
-        variant="success"
-        title="Import"
-        titleClass="button-title"
         v-on:change-sort="sortBy"
       ></action-right>
     </div>
@@ -53,15 +49,15 @@ export default {
       userItems: [
         {
           avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
+            "1",
         },
         {
           avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
+            "1",
         },
         {
           avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
+            "1",
         },
       ],
     };

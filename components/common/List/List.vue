@@ -96,8 +96,8 @@ export default {
     };
   },
   methods: {
-    handleItemClick_Table(item) {
-      console.log("table item clicked:", item);
+    handleItemClick_Table($event, keyI, item) {
+      this.$router.push('/people/' + item.id)
     },
     handleAction_Table(data) {
       console.log(data);

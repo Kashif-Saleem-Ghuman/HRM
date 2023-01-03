@@ -6,7 +6,7 @@
                @vdropzone-removed-file="openImage()">
       <div class="d-flex align-center">
                 <div class="mr-1">
-                    <bib-avatar size="120px" :src="dropzoneOptions.url" class="avtar-border"></bib-avatar>
+                    <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
                 </div>
                 <div>
                     <div class="text-left">
@@ -22,6 +22,11 @@
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 export default {
+    props:{
+        src:{
+            type:String
+        }
+    },
     name: 'app',
     components: {
         vueDropzone: vue2Dropzone

@@ -72,11 +72,10 @@ export default {
   },
   mounted() {
     this.loading = true;
-    //   this.openPopupNotification(1);
   },
   methods: {
     actionBY() {
-      this.$router.push('/people/employeeprofile')
+      // this.$router.push('/people/employeeprofile')
     },
     sortBy(event) {
       console.log(event, "callled");

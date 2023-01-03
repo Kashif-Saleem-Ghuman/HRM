@@ -1,6 +1,6 @@
 <template>
     <nav  class="bg-white d-flex align-center gap-05">
-    <button-circle icon="arrow-left" :scale="1" variant="secondary" @on-click="" icon_bg="bg-white"></button-circle>
+    <button-circle icon="arrow-left" :scale="1" variant="secondary" @on-click="backRouter" icon_bg="bg-white"></button-circle>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
     <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
     <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="bookmarkButton"></button-circle>
@@ -34,11 +34,11 @@ export default {
 
   },
   methods:{
-        backButton(){
-        alert("Back Button called")
-      },
       bookmarkButton(){
-        alert("Bookmark Button called")
+       console.log(this.users, "calllled")
+      },
+      backRouter(){
+        this.$router.back();
       },
       moreButton(){
         alert("More Button called")

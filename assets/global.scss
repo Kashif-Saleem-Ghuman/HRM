@@ -3,6 +3,31 @@ html,
 body {
   font-family: $font-family;
 }
+$input-label-color: #85858F;
+$input-label-size: 13px;
+$input-bg-color: #F8F8F9;
+$input-placeholder-color: #B1B1B4;
+$input-border-color: #E8E8EB;
+$input-borderradius: 4px;
+$validation-star-color:#FA0F00;
+
+.custom-input {
+    input {
+        background-color: $input-bg-color;
+        border: 1px solid $input-border-color;
+        // border-radius:$input-borderradius;
+    }
+    select {
+        background-color: $input-bg-color !important;
+        border: 1px solid $input-border-color;
+        // border-radius:$input-borderradius;
+    }
+    label {
+        font-size: $input-label-size !important;
+        color: $input-label-color;
+        font-weight: 600;
+    }
+}
 .row-custom{
     margin: 0 -8px;
 }

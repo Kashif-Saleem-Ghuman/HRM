@@ -20,10 +20,21 @@
               icon="info"
               :scale="0.9"
             ></tabs-title>
-            <div class="py-1"><drop-zone :src="form.preview" :className="form.preview!='' ? 'hide' :''"></drop-zone></div>
+            <div class="py-1">
+              <drop-zone
+                :src="form.preview"
+                :className="form.preview != '' ? 'hide' : ''"
+              ></drop-zone>
+            </div>
           </div>
           <div class="py-1 row-custom">
-            <info :firstname="form.name" :midname="form.midname" :lastname="form.lastname" :email="form.email" :mobile="form.mobile"></info>
+            <info
+              :firstname="form.name"
+              :midname="form.midname"
+              :lastname="form.lastname"
+              :email="form.email"
+              :mobile="form.mobile"
+            ></info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
                 <div class="col-12">
@@ -36,26 +47,25 @@
               </div>
               <div class="pt-2" id="tab_info_wrapper">
                 <div v-if="activeTab == personalTabItem[0].value">
-                    <div class="row mx-0">
-                      <div class="col-12">
-                        <tabs-title
-                          :title="personalTabItem[0].title"
-                          variant="gray"
-                          icon="info"
-                          :scale="0.9"
-                        ></tabs-title>
-                      </div>
+                  <div class="row mx-0">
+                    <div class="col-12">
+                      <tabs-title
+                        :title="personalTabItem[0].title"
+                        variant="gray"
+                        icon="info"
+                        :scale="0.9"
+                      ></tabs-title>
                     </div>
-                    <div id="personal-info">
-                      <personal-info
-                        :date_vmodel="form.birthday"
-                        :gender_vmodel="form.gender"
-                        :options="form.genderOptions"
-                      ></personal-info>
-                    </div>
+                  </div>
+                  <div id="personal-info">
+                    <personal-info
+                      :date_vmodel="form.birthday"
+                      :gender_vmodel="form.gender"
+                      :options="form.genderOptions"
+                    ></personal-info>
+                  </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div class="row mx-0 pb-1 pt-1">
@@ -70,57 +80,56 @@
         <div class="section-mid"></div>
         <div class="section-right py-1 pl-2 pr-1 row-custom">
           <div class="row mx-0 pt-1">
-                <div class="col-12">
-                  <bib-tabs
-                    :tabs="employeInfoTabItem"
-                    :value="employeInfoActiveTab"
-                    @change="employee_info_Tabs"
-                  ></bib-tabs>
-                </div>
-                </div>
-                <div class="pt-2" id="tab_info_wrapper">
-                <div v-if="employeInfoActiveTab == employeInfoTabItem[0].value">
-                    <div class="row mx-0">
-                      <div class="col-12">
-                        <tabs-title
-                          :title="employeInfoTabItem[0].title"
-                          variant="gray"
-                          icon="info"
-                          :scale="0.9"
-                        ></tabs-title>
-                      </div>
-                    </div>
-                    <div id="personal-info">
-                      <employee-info
-                        :hireDate="form.hireDate"
-                        :socialInsuranceNumber="form.socialInsuranceNumber"
-                        :employeeNumber="form.employeeNumber"
-                        :employeeStatus="form.employeeStatus"
-                        :esstatusOptions="form.esstatusOptions"
-                        :department="form.department"
-                        :departmentOptions="form.departmentOptions"
-                        :team="form.team"
-                        :teamOptions="form.teamOptions"
-                        :title="title"
-                        :titleOptions="form.titleOptions"
-                        :reportsTo="form.reportsTo"
-                        :reportsToOptions="form.reportsToOptions"
-                        @change-tog="switchChecked2 = !switchChecked2"
-                      ></employee-info>
-                      
-                    </div>
-                    <div class="row mx-0 pb-1 pt-1">
-                      <div class="col-12">
-            <black-button
-              label="Save"
-              size="custom"
-              variant="dark"
-              @click="sortBy()"
-            ></black-button>
+            <div class="col-12">
+              <bib-tabs
+                :tabs="employeInfoTabItem"
+                :value="employeInfoActiveTab"
+                @change="employee_info_Tabs"
+              ></bib-tabs>
+            </div>
           </div>
-        </div>
+          <div class="pt-2" id="tab_info_wrapper">
+            <div v-if="employeInfoActiveTab == employeInfoTabItem[0].value">
+              <div class="row mx-0">
+                <div class="col-12">
+                  <tabs-title
+                    :title="employeInfoTabItem[0].title"
+                    variant="gray"
+                    icon="info"
+                    :scale="0.9"
+                  ></tabs-title>
                 </div>
-                </div> 
+              </div>
+              <div id="personal-info">
+                <employee-info
+                  :hireDate="form.hireDate"
+                  :socialInsuranceNumber="form.socialInsuranceNumber"
+                  :employeeNumber="form.employeeNumber"
+                  :employeeStatus="form.employeeStatus"
+                  :esstatusOptions="form.esstatusOptions"
+                  :department="form.department"
+                  :departmentOptions="form.departmentOptions"
+                  :team="form.team"
+                  :teamOptions="form.teamOptions"
+                  :title="title"
+                  :titleOptions="form.titleOptions"
+                  :reportsTo="form.reportsTo"
+                  :reportsToOptions="form.reportsToOptions"
+                  @change-tog="switchChecked2 = !switchChecked2"
+                ></employee-info>
+              </div>
+              <div class="row mx-0 pb-1 pt-1">
+                <div class="col-12">
+                  <black-button
+                    label="Save"
+                    size="custom"
+                    variant="dark"
+                    @click="sortBy()"
+                  ></black-button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,7 +137,11 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { USER_DETAILS, PERSONAL_INFO_TAB, EMPLOYEE_INFO_TAB } from "../../../utils/constant/Constant.js";
+import {
+  USER_DETAILS,
+  PERSONAL_INFO_TAB,
+  EMPLOYEE_INFO_TAB,
+} from "../../../utils/constant/Constant.js";
 export default {
   data() {
     return {

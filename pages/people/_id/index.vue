@@ -10,7 +10,7 @@
         headerRight="headerRight"
       ></section-header-left>
     </div>
-    <div class="d-flex">
+    <div class="d-flex custom-input">
       <div class="section-wrapper d-flex">
         <div class="section-left py-2 px-2">
           <div>
@@ -20,73 +20,26 @@
               icon="info"
               :scale="0.9"
             ></tabs-title>
-            <div class="py-1"><drop-zone :src="form.preview"></drop-zone></div>
+            <div class="py-1"><drop-zone :src="form.preview" :className="form.preview!='' ? 'hide' :''"></drop-zone></div>
           </div>
-          <div class="py-1 row-custom custom-input">
-            <div id="profile-info-wrapper">
-              <div class="row mx-0">
-                <div class="col-4">
-                  <bib-input
-                    type="text"
-                    label="First Name"
-                    v-model="form.name"
-                    placeholder="Type your name"
-                  ></bib-input>
-                </div>
-                <div class="col-4">
-                  <bib-input
-                    type="text"
-                    label="Middle Name"
-                    v-model="form.midname"
-                    placeholder="Type your name"
-                  ></bib-input>
-                </div>
-                <div class="col-4">
-                  <bib-input
-                    type="text"
-                    label="Last Name"
-                    v-model="form.lastname"
-                    placeholder="Type your name"
-                  ></bib-input>
-                </div>
-              </div>
-              <div class="row mx-0 pt-1">
-                <div class="col-6">
-                  <bib-input
-                    type="text"
-                    label="Personal email address •"
-                    v-model="form.email"
-                    placeholder="Enter your email"
-                  ></bib-input>
-                </div>
-              </div>
-              <div class="row mx-0 pt-1">
-                <div class="col-6">
-                  <bib-input
-                    type="text"
-                    label="Personal mobile number •"
-                    v-model="form.mobile"
-                    placeholder="Enter your email"
-                  ></bib-input>
-                </div>
-              </div>
-            </div>
+          <div class="py-1 row-custom">
+            <info :firstname="form.name" :midname="form.midname" :lastname="form.lastname" :email="form.email" :mobile="form.mobile"></info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
                 <div class="col-12">
                   <bib-tabs
-                    :tabs="bibTabs"
+                    :tabs="personalTabItem"
                     :value="activeTab"
                     @change="handleChange_Tabs"
                   ></bib-tabs>
                 </div>
               </div>
               <div class="pt-2" id="tab_info_wrapper">
-                <div v-if="activeTab == tabItem[0].value">
+                <div v-if="activeTab == personalTabItem[0].value">
                     <div class="row mx-0">
                       <div class="col-12">
                         <tabs-title
-                          :title="tabItem[0].title"
+                          :title="personalTabItem[0].title"
                           variant="gray"
                           icon="info"
                           :scale="0.9"
@@ -101,49 +54,11 @@
                       ></personal-info>
                     </div>
                 </div>
-                <div v-if="activeTab == tabItem[1].value">
-                    <div class="row mx-0">
-                      <div class="col-12">
-                        <tabs-title
-                          :title="tabItem[1].title"
-                          variant="gray"
-                          icon="info"
-                          :scale="0.9"
-                        ></tabs-title>
-                      </div>
-                  </div>
-                  <div id="Address-info">
-                      <personal-info
-                        :date_vmodel="form.birthday"
-                        :gender_vmodel="form.gender"
-                        :options="form.genderOptions"
-                      ></personal-info>
-                    </div>
-                </div>
-                <div v-if="activeTab == tabItem[2].value">
-                    <div class="row mx-0">
-                      <div class="col-12">
-                        <tabs-title
-                          :title="tabItem[2].title"
-                          variant="gray"
-                          icon="info"
-                          :scale="0.9"
-                        ></tabs-title>
-                      </div>
-                  </div>
-                  <div id="Address-info">
-                      <personal-info
-                        :date_vmodel="form.birthday"
-                        :gender_vmodel="form.gender"
-                        :options="form.genderOptions"
-                      ></personal-info>
-                    </div>
-                </div>
               </div>
               
             </div>
           </div>
-          <div class="row mx-0 pt-1 pb-2">
+          <div class="row mx-0 pb-1 pt-1">
             <black-button
               label="Save"
               size="custom"
@@ -153,36 +68,66 @@
           </div>
         </div>
         <div class="section-mid"></div>
-        <!-- <div class="section-right py-1 px-2">
-        </div> -->
+        <div class="section-right py-1 pl-2 pr-1 row-custom">
+          <div class="row mx-0 pt-1">
+                <div class="col-12">
+                  <bib-tabs
+                    :tabs="employeInfoTabItem"
+                    :value="employeInfoActiveTab"
+                    @change="employee_info_Tabs"
+                  ></bib-tabs>
+                </div>
+                </div>
+                <div class="pt-2" id="tab_info_wrapper">
+                <div v-if="employeInfoActiveTab == employeInfoTabItem[0].value">
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <tabs-title
+                          :title="employeInfoTabItem[0].title"
+                          variant="gray"
+                          icon="info"
+                          :scale="0.9"
+                        ></tabs-title>
+                      </div>
+                    </div>
+                    <div id="personal-info">
+                      <employee-info
+                        :hireDate="form.hireDate"
+                        :socialInsuranceNumber="form.socialInsuranceNumber"
+                        :employeeNumber="form.employeeNumber"
+                        :employeeStatus="form.employeeStatus"
+                        :esstatusOptions="form.esstatusOptions"
+                        :department="form.department"
+                        :departmentOptions="form.departmentOptions"
+                        :team="form.team"
+                        :teamOptions="form.teamOptions"
+                        :title="title"
+                        :titleOptions="form.titleOptions"
+                        :reportsTo="form.reportsTo"
+                        :reportsToOptions="form.reportsToOptions"
+                        @change-tog="switchChecked2 = !switchChecked2"
+                      ></employee-info>
+                      
+                    </div>
+                </div>
+                </div> 
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { USER_DETAILS, EMPLOYEE_TAB } from "../../../utils/constant/Constant.js";
+import { USER_DETAILS, PERSONAL_INFO_TAB, EMPLOYEE_INFO_TAB } from "../../../utils/constant/Constant.js";
 export default {
   data() {
     return {
       id: this.$route.params.id,
-      tabItem: EMPLOYEE_TAB,
+      personalTabItem: PERSONAL_INFO_TAB,
+      employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
-      bibTabs: [
-        {
-          title: "Personal Information",
-          value: "personal-information",
-        },
-        {
-          title: "Address",
-          value: "address",
-        },
-        {
-          title: "Contacts",
-          value: "contacts",
-        },
-      ],
       activeTab: "personal-information",
+      employeInfoActiveTab: "employment-information",
     };
   },
   created() {
@@ -192,7 +137,7 @@ export default {
 
   mounted() {
     this.fetchSingleUser();
-    console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
+    // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
     sortBy() {
@@ -207,6 +152,9 @@ export default {
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
+    employee_info_Tabs(tab) {
+      this.employeInfoActiveTab = tab.value;
+    },
   },
 };
 </script>
@@ -216,7 +164,7 @@ export default {
 
   .section-left {
     width: 50%;
-    height: 100vh;
+    height: 100%;
   }
 
   .section-mid {

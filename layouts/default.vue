@@ -74,6 +74,7 @@ import {
   headerActionCall,
   openPopupNotification,
   isThemeCheck,
+  getEmployess
 } from "../utils/functions/functions_lib.js";
 export default {
   data() {
@@ -130,7 +131,7 @@ export default {
             var userId = res?.data?.u?.sub;
             localStorage.setItem("userID", userId);
           }
-          this.getUser();
+          // this.getEmployess();
           // this.getBusinessId();
         })
         .catch((err) => {
@@ -156,6 +157,7 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
+    getEmployess
   },
 };
 </script>

@@ -36,9 +36,28 @@ export const mutations = {
 };
 
 export const actions = {
+
   async setUserList(ctx) {
-    ctx.commit("SET_USER", TABLE_SECTIONS);
+    ctx.commit('SET_USER', TABLE_SECTIONS);  
   },
+  
+  // async setUserList(ctx) {
+  //   try {
+  //     const employeeList = await this.$axios.$get(`${process.env.API_URL}/employees`, {
+  //       headers: {
+  //         "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+  //       }
+  //     })
+  //     console.log(employeeList.employees)
+  //     if (employeeList) {
+  //       ctx.commit("SET_USER", employeeList.employees);
+  //       return employeeList;
+  //     } 
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // },
+
   async setSingleUserList(ctx, payload) {
     var id = payload.userId;
     var users = TABLE_SECTIONS.find((user) => user.id === payload.userId);

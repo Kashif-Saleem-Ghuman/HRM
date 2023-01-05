@@ -4,11 +4,11 @@
                :options="dropzoneOptions" 
                :use-custom-slot=true
                @vdropzone-removed-file="openImage()">
-      <div class="d-flex align-center">
+      <div  class="d-flex align-center">
                 <div class="mr-1">
                     <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
                 </div>
-                <div>
+                <div  :class="className">
                     <div class="text-left">
                         <p>Click to upload or drag and drop photos here...</p>
                         <p>JPG, PNG, TIFF, GIF (max 100 MB)</p>
@@ -23,8 +23,11 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 export default {
     props:{
-        src:{
+        className:{
             type:String
+        },
+        src:{
+            type:String,
         }
     },
     name: 'app',
@@ -34,7 +37,7 @@ export default {
     data: function () {
         return {
             dropzoneOptions: {
-                previewTemplate: this.getTempalte(),
+                // previewTemplate: this.getTempalte(),
                 url: '/testupload',
                 thumbnailWidth: 120,
                 thumbnailHeight: 120,
@@ -72,6 +75,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.hide{
+    display: none;
+}
 .dropzone-box {
     border:0;
     .dropzone {
@@ -94,20 +100,20 @@ export default {
     padding: 0px;
     border:0;
     h3 {
-            font-size: 1rem;
+            font-size: 12px;
             color: #8989FF;
             font-weight: 600;
             margin: 0
         }
         p {
-            font-size: 14px;
+            font-size: 12px;
             color: #8989FF;
             font-weight: 500;
             line-height:24px;
             margin: 0
         }
         .dz-message{
-    margin:0
+    margin:0;
 }
  }
 
@@ -140,7 +146,7 @@ border:0;
     transform: scale(1, 1) !important;
     -webkit-filter: blur(0px) !important;
     filter: blur(0px) !important;
-    border-radius:50%
+    border-radius:50%;
 }
 
 .dz-success-mark, .dz-error-mark {
@@ -148,16 +154,7 @@ border:0;
 }
 
 .vue-dropzone>.dz-preview .dz-remove {
-    position: inherit;
-    z-index: 1330;
-    color: #000;
-    padding: 0px;
-    bottom: 50px;
-    left:125px;
-    border: 1px #8989FF solid;
-    opacity: 1;
-    width:auto;
-    letter-spacing:normal;
+   
     // display:none;
 }
 .vue-dropzone>.dz-preview .dz-remove:hover {
@@ -173,32 +170,5 @@ border:0;
   margin-top: 30px;
 }
 
-.custom-detail {
-    position: absolute;
-    width: 200%;
-    height: 200px;
-    margin-left: 140px;
-    top: 2rem;
-}
-
-.dropzone-box {
-  width: 100%;
-  height: auto;
-//   border: 2px solid #e5e5e5;
-}
-
-.custom-detail .dz-size{
-  margin-top: 60px;
-  font-size: 14px;
-    color: #8989FF;
-    font-weight: 500;
-    margin: 0
-}
-
-.custom-detail .dz-filename{
-    color: #8989FF;
-    font-weight: 500;
-    margin: 0
-}
 
 </style>

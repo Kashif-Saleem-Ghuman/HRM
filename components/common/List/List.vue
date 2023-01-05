@@ -17,7 +17,7 @@
         </bib-avatar>
         <div class="info_wrapper">
           <div class="title">
-            {{ data.value.name }}
+            {{ data.value.name  }} {{ data.value.lastName  }}
           </div>
           <div class="description">
             {{ data.value.desc }}

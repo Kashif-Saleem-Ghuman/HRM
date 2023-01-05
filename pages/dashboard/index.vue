@@ -17,6 +17,7 @@
       <action-right icon="add" variant="success" title="Import" titleClass="button-title"
         v-on:change-sort="sortBy"></action-right>
     </div>
+    <bib-switch :checked="switchChecked2" @change="switchChecked2 = !switchChecked2"></bib-switch>
     <!-- <action-button v-on:new-employee-action="sortBy" v-on:import-action="sortBy"></action-button> -->
   </div>
 </template>
@@ -26,6 +27,10 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      
+                            switchChecked1: true,
+                            switchChecked2: false,
+                          
       userItems: [
         {
           avatarUrl:

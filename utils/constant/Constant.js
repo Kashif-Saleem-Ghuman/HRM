@@ -103,32 +103,111 @@ export const USER_DETAILS = [
     age: 36,
     birthday: "2021-09-22",
     time: "11:56",
-    gender: "Select Gender",
     desc: "Director of Global Communication and Innovation",
     department: "Marketing",
     attendance: "98",
     satisfaction: "98",
     performance: 4.3,
-    preview: "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1658236252001.jpg",
+    preview: "",
     extension: "png",
+    gender: "Select Gender",
     genderOptions: [
       { label: "Please choose one", value: null },
       { label: "Male", value: "male" },
       { label: "Female", value: "female" },
     ],
+    hireDate:"2021-01-14",
+    socialInsuranceNumber:"3444 5444 6777",
+    employeeNumber:"7565",
+    employeeStatus:"Select Status",
+    esstatusOptions: [
+      { label: "Please choose one", value: null },
+      { label: "Dummy Value", value: "value" },
+      { label: "Dummy Value", value: "value" },
+    ],
+    department:"Select Department",
+    departmentOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    team:"Select Team",
+    teamOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    title:"Select Title",
+    titleOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    reportsTo:"Select Reporting",
+    reportsToOptions: [
+      { label: "Please choose one", value: null },
+      { label: "Bruno", value: "Bruno" },
+      { label: "Kelvin", value: "kelvin" },
+    ],
+    
     __v: 0,
     active: false,
   },
   {
     id: "2",
-    name: "Michael Faraday",
+    name: "Michael",
+    lastname:"Faraday",
     desc: "Database Administrator",
     attendance: "98",
     department: "IT",
     satisfaction: "48",
+    lastname: "Vervelsky",
+    email: "name@organization.com",
+    mobile: "+1 514 555 8877",
+    age: 36,
+    birthday: "2021-09-22",
     performance: 3,
     extension: "png",
-    preview: "",
+    preview: "http://localhost:3000/_nuxt/_/bib-shared/img/black-logo.png",
+    gender: "Male",
+    genderOptions: [
+      { label: "Please choose one", value: null },
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+    ],
+    hireDate:"2021-01-14",
+    socialInsuranceNumber:"3444 5444 6777",
+    employeeNumber:"7565",
+    employeeStatus:"Select Status",
+    esstatusOptions: [
+      { label: "Please choose one", value: null },
+      { label: "Dummy Value", value: "value" },
+      { label: "Dummy Value", value: "value" },
+    ],
+    department:"Select Department",
+    departmentOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    team:"Select Team",
+    teamOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    title:"Select Title",
+    titleOptions: [
+      { label: "Please choose one", value: null },
+      { label: "IT", value: "value" },
+      { label: "HR", value: "value" },
+    ],
+    reportsTo:"Select Reporting",
+    reportsToOptions: [
+      { label: "Please choose one", value: null },
+      { label: "Bruno", value: "Bruno" },
+      { label: "Kelvin", value: "kelvin" },
+    ],
     __v: 0,
     active: false,
   },
@@ -172,7 +251,7 @@ export const USER_DETAILS = [
     active: false,
   },
 ];
-export const EMPLOYEE_TAB = [
+export const PERSONAL_INFO_TAB = [
   {
     title: "Personal Information",
     value: "personal-information",
@@ -184,5 +263,31 @@ export const EMPLOYEE_TAB = [
   {
     title: "Contacts",
     value: "contacts",
+  },
+];
+export const EMPLOYEE_INFO_TAB = [
+  {
+    title: "Employment Information",
+    value: "employment-information",
+  },
+  {
+    title: "Compensation",
+    value: "compensation",
+  },
+  {
+    title: "Benefits",
+    value: "benefits",
+  },
+  {
+    title: "Time-off",
+    value: "time-off",
+  },
+  {
+    title: "Attendance",
+    value: "attendance",
+  },
+  {
+    title: "Files",
+    value: "files",
   },
 ]

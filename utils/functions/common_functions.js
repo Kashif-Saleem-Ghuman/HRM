@@ -14,6 +14,20 @@ export async function getUser() {
         alert(e)
     }
 }
+export async function getEmployess() {
+    // let userID = localStorage.getItem("userID");
+    try {
+        const response = await axios.get(process.env.API_URL + "employees", {
+            headers: {
+                "Authorization": "Bearer " + this.getAccessToken
+            }
+        });
+        console.log(response, "calllllled")
+    }
+    catch (e) {
+        alert(e)
+    }
+}
 export async function getBusinessId() {
     let businessId = localStorage.getItem("businessId");
     try {

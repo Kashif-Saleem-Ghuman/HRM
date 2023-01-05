@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-          <div class="row mx-0 pb-1 pt-1">
+          <div class="row mx-0 pb-1 pt-0">
             <black-button
               label="Save"
               size="custom"

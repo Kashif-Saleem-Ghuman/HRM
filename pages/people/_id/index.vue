@@ -109,6 +109,16 @@
                       ></employee-info>
                       
                     </div>
+                    <div class="row mx-0 pb-1 pt-1">
+                      <div class="col-12">
+            <black-button
+              label="Save"
+              size="custom"
+              variant="dark"
+              @click="sortBy()"
+            ></black-button>
+          </div>
+        </div>
                 </div>
                 </div> 
         </div>

@@ -1,10 +1,102 @@
+@import '@/assets/variable.scss';
+html,
+body {
+  font-family: $font-family;
+}
+$input-label-color: #85858F;
+$input-label-size: 11px;
+$input-bg-color: #F8F8F9;
+$input-placeholder-color: #B1B1B4;
+$input-border-color: #E8E8EB;
+$input-borderradius: 4px;
+$validation-star-color:#FA0F00;
+
+.custom-input {
+    input {
+        background-color: $input-bg-color;
+        border: 1px solid $input-border-color;
+        font-size: 11px !important;
+        margin-bottom: 12px !important;
+        // border-radius:$input-borderradius;
+    }
+    select {
+        background-color: $input-bg-color !important;
+        border: 1px solid $input-border-color;
+        font-size: 11px !important;
+        margin-bottom: 12px !important
+        // border-radius:$input-borderradius;
+    }
+    textarea {
+      background-color: $input-bg-color !important;
+      border: 1px solid $input-border-color;
+      font-size: 11px !important;
+      // border-radius:$input-borderradius;
+  }
+    label {
+        font-size: $input-label-size !important;
+        color: $input-label-color;
+        font-weight: 600;
+    }
+}
+
+.row-custom{
+    margin: 0 -8px;
+}
 .cursor-pointer{
     cursor:pointer
 }
 .bottom_border_wrapper {
     border-bottom: 1px solid var(--bib-light);
   }
-  .light-green{
-    background-color: #F0F9EF;
+ /** layout **/
+.row {
+    display: flex;
+    margin: 0 -.5rem;
   }
   
+  [class*='col'] {
+    padding: 0 .5rem;
+  }
+  
+  @for $i from 1 through 12 {
+    .col-#{$i} {
+      max-width: #{ math.div(round(math.div(100%, 12) * $i * 10000), 10000) };
+      flex: 0 0 #{ math.div(round(math.div(100%, 12) * $i * 10000), 10000) };
+    }
+  }
+  
+  .flex{
+    &-shrink-0{
+      flex-shrink: 0;
+    }
+    &-shrink-1{
+      flex-shrink: 1;
+    }
+  }
+  
+  #__layout {
+    .main {
+      width: 100%;
+      transition: width .2s;
+  
+      /*&.open-sidebar {
+        width: calc(100% - #{$sidebar-width});
+      }*/
+    }
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+  }
+  
+  @keyframes slidein-right {
+    from { transform: translateX(100%);}
+    to { transform: translateX(0);}
+  }
+  
+  .light-green{
+    background-color: #F0F9EF;
+  } 
+   

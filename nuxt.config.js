@@ -1,3 +1,4 @@
+import userList from './utils/constant/Constant.js'
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -12,7 +13,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
+  
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
     '~/assets/global.scss'

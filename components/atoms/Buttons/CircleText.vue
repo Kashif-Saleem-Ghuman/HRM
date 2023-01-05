@@ -13,8 +13,8 @@ import { title } from 'process';
        type: String,
      },
      className: {
-       type: String,
-       default:"",
+       type: Array,
+       default:[],
      },
      variant: {
        type: String,

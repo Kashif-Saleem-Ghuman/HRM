@@ -17,10 +17,10 @@ export default {
     },
     computed: {
         errorPage() {
-            if (this.error.statusCode === 404) {
+            if (this.error.statusCode === 404 || this.error.statusCode == 503) {
                 return notFound;
             }
-            return error500;
+            // return error500;
         }
     },
 }

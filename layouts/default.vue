@@ -20,6 +20,7 @@
           
           mainAction="Upgrade"
           @callToAction="headerActionCall()"
+          @callToActions="headerActionCallll()"
           @help-click="headerHelpClick()"
           :avatarLink="userPhoto"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
@@ -49,7 +50,7 @@
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
         ></app-menu>
       </template>
-      <template #content>
+       <template #content>
         <div id="main-content">
           <Nuxt />
         </div>
@@ -73,6 +74,7 @@ import {
   headerActionCall,
   openPopupNotification,
   isThemeCheck,
+  getEmployess
 } from "../utils/functions/functions_lib.js";
 export default {
   data() {
@@ -87,6 +89,7 @@ export default {
       popupMessages: [],
       userPhoto: "",
       token: "",
+
     };
   },
   fetch() {
@@ -108,6 +111,7 @@ export default {
   },
   mounted() {
     this.loading = true;
+    this.test = false;
     this.openPopupNotification(0);
     this.loading = true;
     let accessToken = localStorage.getItem("accessToken");
@@ -127,7 +131,7 @@ export default {
             var userId = res?.data?.u?.sub;
             localStorage.setItem("userID", userId);
           }
-          this.getUser();
+          // this.getEmployess();
           // this.getBusinessId();
         })
         .catch((err) => {
@@ -153,6 +157,7 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
+    getEmployess
   },
 };
 </script>

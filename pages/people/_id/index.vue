@@ -24,6 +24,7 @@
               <drop-zone
                 :src="form.preview"
                 :className="form.preview != '' ? 'hide' : ''"
+                :customRemove="form.preview == '' ? 'hide' : ''"
               ></drop-zone>
             </div>
           </div>

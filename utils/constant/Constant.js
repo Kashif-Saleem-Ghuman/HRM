@@ -168,7 +168,7 @@ export const USER_DETAILS = [
     birthday: "2021-09-22",
     performance: 3,
     extension: "png",
-    preview: "http://localhost:3000/_nuxt/_/bib-shared/img/black-logo.png",
+    preview: "https://www.w3schools.com/howto/img_avatar.png",
     gender: "Male",
     genderOptions: [
       { label: "Please choose one", value: null },

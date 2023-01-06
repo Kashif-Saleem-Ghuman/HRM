@@ -146,6 +146,7 @@ import {
 export default {
   data() {
     return {
+      webPortalAccess: false,
       id: this.$route.params.id,
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,

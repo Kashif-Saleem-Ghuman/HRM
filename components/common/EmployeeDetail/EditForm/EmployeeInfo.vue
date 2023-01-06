@@ -1,6 +1,6 @@
 <template>
-  <div style="padding-top: 22px;">
-    <div class="row mx-0" >
+  <div style="padding-top: 22px">
+    <div class="row mx-0">
       <div class="col-6">
         <bib-input
           type="date"
@@ -81,17 +81,24 @@
     </div>
     <div class="row mx-0">
       <div class="col-12">
-        <span style="display: block; font-size: 10px;">Allow web portal access</span>
-        <div style="padding-bottom: 24px; padding-top: 3px;"><bib-switch :checked="switchChecked2" @change="switchChecked2 = !switchChecked2"></bib-switch></div>
+        <span style="display: block; font-size: 10px; padding-top: 5px"
+          >Allow web portal access</span
+        >
+        <div style="padding-bottom: 24px; padding-top: 5px">
+          <bib-switch :checked="webPortalAccess" @change="webPortalAccess = !webPortalAccess"></bib-switch>
+
+        </div>
       </div>
     </div>
     <div class="row mx-0">
       <div class="col-12">
-        <bib-input type="textarea" placeholder="Type about yourself" label="Textarea"></bib-input>
-
+        <bib-input
+          type="textarea"
+          placeholder="Type about yourself"
+          label="Textarea"
+        ></bib-input>
       </div>
     </div>
-    
   </div>
 </template>
 <script>
@@ -140,14 +147,9 @@ export default {
     note: {
       type: String,
     },
-    data() {
-                        return {
-                         
-                            switchChecked1: true,
-                            switchChecked2: false
-                          
-                        }
-                      }
+    webPortalAccess:{
+      type:String
+    },
   },
 };
 </script>

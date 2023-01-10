@@ -6,6 +6,7 @@
         label="Date of Birth"
         v-model="date_vmodel"
         placeholder="Enter your email"
+        @change="$emit('input', $event, 'date')"
       ></bib-input>
     </div>
     <div class="col-6">
@@ -15,6 +16,7 @@
         v-model="gender_vmodel"
         :options="options"
         placeholder="Enter your email"
+        @input="$emit('input', $event, 'gender')"
       ></bib-input>
     </div>
   </div>

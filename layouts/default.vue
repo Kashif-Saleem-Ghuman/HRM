@@ -53,6 +53,7 @@
        <template #content>
         <div id="main-content">
           <Nuxt />
+          <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
         </div>
       </template>
     </bib-app-wrapper>
@@ -111,9 +112,7 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.test = false;
     this.openPopupNotification(0);
-    this.loading = true;
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();

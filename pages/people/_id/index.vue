@@ -25,6 +25,7 @@
                 :src="form.preview"
                 :className="form.preview != '' ? 'hide' : ''"
                 :customRemove="form.preview == '' ? 'hide' : ''"
+                @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
           </div>
@@ -35,6 +36,7 @@
               :lastname="form.lastname"
               :email="form.email"
               :mobile="form.mobile"
+              @input="handleInput"
             ></info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
@@ -63,6 +65,7 @@
                       :date_vmodel="form.birthday"
                       :gender_vmodel="form.gender"
                       :options="form.genderOptions"
+                      @input="handleInput"
                     ></personal-info>
                   </div>
                 </div>
@@ -116,7 +119,7 @@
                   :titleOptions="form.titleOptions"
                   :reportsTo="form.reportsTo"
                   :reportsToOptions="form.reportsToOptions"
-                  @change-tog="switchChecked2 = !switchChecked2"
+                  @input="handleInput"
                 ></employee-info>
               </div>
               <div class="row mx-0 pb-1 pt-1">
@@ -125,7 +128,7 @@
                     label="Save"
                     size="custom"
                     variant="dark"
-                    @click="sortBy()"
+                    @click="getAllData"
                   ></black-button>
                 </div>
               </div>
@@ -148,9 +151,13 @@ export default {
     return {
       webPortalAccess: false,
       id: this.$route.params.id,
+      fileDetail:'',
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
+      updateForm:{
+        switch:'',
+      },
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
@@ -159,12 +166,32 @@ export default {
     // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
     // this.$store.dispatch("users/setSingleUserList");
   },
-
   mounted() {
+    console.log(this.thumnail, "thumnail")
     this.fetchSingleUser();
+    console.log(this.updateForm, "this.updateForm")
     // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
+    vfileAdded(file) {
+      this.fileDetail = file
+    },
+    switcherValue(){
+      this.webPortalAccess = !this.webPortalAccess
+    },
+    handleInput(event, name) {
+      console.log(event, "asdjkakjdshakjsdh")
+      this.updateForm[name] = event
+    },
+    // vfileAdded(file) {
+    //   console.log(file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
+    // },
+    getAllData() {
+      
+      this.updateForm.switch = this.webPortalAccess
+      console.info(this.updateForm)
+      // axios.post('/some/url', this.form)
+    },
     sortBy() {
       alert("called");
     },

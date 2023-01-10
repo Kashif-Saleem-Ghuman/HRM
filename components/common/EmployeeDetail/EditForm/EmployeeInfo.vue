@@ -7,6 +7,7 @@
           label="Hire Date"
           v-model="hireDate"
           placeholder="Enter your email"
+          @change="$emit('input', $event, 'hiredate')"
         ></bib-input>
       </div>
     </div>
@@ -17,6 +18,7 @@
           label="Social Insurance Number"
           v-model="socialInsuranceNumber"
           placeholder="Enter your email"
+          @input="$emit('input', $event, 'socialInsuranceNumber')"
         ></bib-input>
       </div>
     </div>
@@ -27,6 +29,7 @@
           label="Employee number"
           v-model="employeeNumber"
           placeholder="Enter your email"
+          @change="$emit('input', $event, 'employeNumber')"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -36,6 +39,7 @@
           v-model="employeeStatus"
           :options="esstatusOptions"
           placeholder="Enter your email"
+          @input="$emit('input', $event, 'employeeStatus')"
         ></bib-input>
       </div>
     </div>
@@ -47,6 +51,7 @@
           v-model="department"
           :options="departmentOptions"
           placeholder="Enter your email"
+          @input="$emit('input', $event, 'department')"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -56,6 +61,7 @@
           v-model="team"
           placeholder="Enter your team"
           :options="teamOptions"
+          @input="$emit('input', $event, 'team')"
         ></bib-input>
       </div>
     </div>
@@ -67,6 +73,7 @@
           v-model="title"
           :options="titleOptions"
           placeholder="Enter title"
+          @input="$emit('input', $event, 'title')"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -76,6 +83,7 @@
           v-model="reportsTo"
           :options="reportsToOptions"
           placeholder="Enter your email"
+          @input="$emit('input', $event, 'reportsto')"
         ></bib-input>
       </div>
     </div>
@@ -86,7 +94,6 @@
         >
         <div style="padding-bottom: 24px; padding-top: 5px">
           <bib-switch :checked="webPortalAccess" @change="webPortalAccess = !webPortalAccess"></bib-switch>
-
         </div>
       </div>
     </div>
@@ -96,6 +103,7 @@
           type="textarea"
           placeholder="Type about yourself"
           label="Textarea"
+          @change="$emit('input', $event, 'textarea')"
         ></bib-input>
       </div>
     </div>
@@ -150,6 +158,7 @@ export default {
     webPortalAccess:{
       type:String
     },
+    
   },
 };
 </script>

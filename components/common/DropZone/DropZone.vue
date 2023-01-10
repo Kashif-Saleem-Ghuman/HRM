@@ -6,6 +6,7 @@
       :options="dropzoneOptions"
       :use-custom-slot="true"
       @vdropzone-removed-file="openImage()"
+      @vdropzone-thumbnail="$emit('vfileAdded', $event)"
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
@@ -35,17 +36,19 @@ export default {
     },
     customRemove:{
         type:String
-    }
+    },
+    
   },
   name: "app",
   components: {
     vueDropzone: vue2Dropzone,
+    thumnail:'',
   },
   data: function () {
     return {
       dropzoneOptions: {
         // previewTemplate: this.getTempalte(),
-        url: "/testupload",
+        url: "false",
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,
@@ -60,6 +63,10 @@ export default {
     };
   },
   methods: {
+    // vfileAdded(file) {
+    //   this.thumbnail = file.dataURL
+    //   console.log(this.thumbnail, file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
+    // },
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
     },

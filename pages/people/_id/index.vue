@@ -120,6 +120,8 @@
                   :reportsTo="form.reportsTo"
                   :reportsToOptions="form.reportsToOptions"
                   @input="handleInput"
+                  :webPortalAccess= this.webPortalAccess
+                  @change-it="chnage"
                 ></employee-info>
               </div>
               <div class="row mx-0 pb-1 pt-1">
@@ -151,12 +153,12 @@ export default {
     return {
       webPortalAccess: false,
       id: this.$route.params.id,
-      fileDetail:'',
+      fileDetail: "",
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
-      updateForm:{
-        switch:'',
+      updateForm: {
+        switch: "",
       },
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
@@ -167,30 +169,29 @@ export default {
     // this.$store.dispatch("users/setSingleUserList");
   },
   mounted() {
-    console.log(this.thumnail, "thumnail")
+    console.log(this.thumnail, "thumnail");
     this.fetchSingleUser();
-    console.log(this.updateForm, "this.updateForm")
+    console.log(this.updateForm, "this.updateForm");
     // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
-    vfileAdded(file) {
-      this.fileDetail = file
-    },
-    switcherValue(){
+    chnage(){
       this.webPortalAccess = !this.webPortalAccess
-    },
-    handleInput(event, name) {
-      console.log(event, "asdjkakjdshakjsdh")
-      this.updateForm[name] = event
-    },
-    // vfileAdded(file) {
-    //   console.log(file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
-    // },
-    getAllData() {
-      
       this.updateForm.switch = this.webPortalAccess
-      console.info(this.updateForm)
-      // axios.post('/some/url', this.form)
+      console.log(this.updateForm.switch, "sdjbasjdadsjagsdjasgdhj")
+    },
+    vfileAdded(file) {
+      this.fileDetail = file;
+    },
+    // switcherValue() {
+    //   this.webPortalAccess = !this.webPortalAccess;
+    // },
+    handleInput(event, name) {
+      this.updateForm[name] = event;
+    },
+    getAllData() {
+      this.updateForm.switch = this.webPortalAccess;
+      console.info(this.updateForm);
     },
     sortBy() {
       alert("called");

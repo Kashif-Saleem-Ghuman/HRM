@@ -7,6 +7,8 @@
         moreIcon="horizontal-dots"
         avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU"
         headerRight="headerRight"
+        :items="items"
+        @vclick="clickAction"
       ></section-header-left>
       <div class="d-flex justify-between">
         <template v-for="user in userItems">
@@ -44,6 +46,11 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      items: [
+      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
+      { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+      { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+    ],
       users: [],
       orderBy: "asc",
       userItems: [
@@ -74,6 +81,9 @@ export default {
     this.loading = true;
   },
   methods: {
+    clickAction(event){
+      console.log(event.key)
+    },
     actionBY() {
       // this.$router.push('/people/employeeprofile')
     },

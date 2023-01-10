@@ -4,7 +4,8 @@
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
     <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
     <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="bookmarkButton"></button-circle>
-    <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle>
+    <!-- <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle> -->
+    <dropdown-menu :items="items" @click="$emit('vclick', $event)"></dropdown-menu>
   </nav>
   </template>
 <script>
@@ -31,7 +32,14 @@ export default {
       type: String,
       default: ""
     },
-
+    items:{
+      type:Array
+    }
+  },
+  data() {
+    return {
+      
+    }
   },
   methods:{
       bookmarkButton(){
@@ -44,6 +52,7 @@ export default {
         alert("More Button called")
       }
     } 
+ 
 }
 
 </script>

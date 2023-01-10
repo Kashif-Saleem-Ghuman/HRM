@@ -8,7 +8,7 @@
         :variant="variant"
         class="ml-05 icon"
       ></bib-icon>
-      <button class="pl-05" v-if="updateButton">Update</button>
+      <button class="pl-05 cursor-pointer" v-if="updateButton" @click="$emit('click')">Update</button>
     </h3>
   </div>
 </template>

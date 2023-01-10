@@ -11,7 +11,9 @@
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
           <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
-          <div class="custom-remove" :class="customRemove"><span onclick="openImage()">REMOVE FILE</span></div>
+          <div class="custom-remove" :class="customRemove">
+            <span onclick="openImage()">REMOVE FILE</span>
+          </div>
         </div>
         <div :class="className">
           <div class="text-left">
@@ -34,15 +36,14 @@ export default {
     src: {
       type: String,
     },
-    customRemove:{
-        type:String
+    customRemove: {
+      type: String,
     },
-    
   },
   name: "app",
   components: {
     vueDropzone: vue2Dropzone,
-    thumnail:'',
+    thumnail: "",
   },
   data: function () {
     return {
@@ -98,8 +99,7 @@ export default {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 3px;
-//   opacity:0;
-  
+  //   opacity:0;
 }
 .dropzone-box {
   border: 0;
@@ -180,7 +180,7 @@ export default {
   border-radius: 50%;
   margin-bottom: -50px;
   //    background-color: #000;
-     opacity: 1 !important;
+  opacity: 1 !important;
   line-height: 100px;
   border: 0px #8989ff solid;
   font-size: 11px;

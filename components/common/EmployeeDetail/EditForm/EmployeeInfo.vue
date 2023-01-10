@@ -93,7 +93,7 @@
           >Allow web portal access</span
         >
         <div style="padding-bottom: 24px; padding-top: 5px">
-          <bib-switch :checked="webPortalAccess" @change="webPortalAccess = !webPortalAccess"></bib-switch>
+          <bib-switch :checked="webPortalAccess" @change="$emit('change-it', 'key')"></bib-switch>
         </div>
       </div>
     </div>

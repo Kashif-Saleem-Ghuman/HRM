@@ -7,6 +7,7 @@
           label="First Name"
           v-model="firstname"
           placeholder="Type your name"
+          @change="$emit('input', $event, 'firstname')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -15,6 +16,7 @@
           label="Middle Name"
           v-model="midname"
           placeholder="Type your name"
+          @change="$emit('input', $event, 'midname')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -23,6 +25,7 @@
           label="Last Name"
           v-model="lastname"
           placeholder="Type your name"
+          @change="$emit('input', $event, 'lastname')"
         ></bib-input>
       </div>
     </div>
@@ -33,6 +36,8 @@
           label="Personal email address •"
           v-model="email"
           placeholder="Enter your email"
+          @change="$emit('input', $event, 'email')"
+
         ></bib-input>
       </div>
     </div>
@@ -43,6 +48,7 @@
           label="Personal mobile number •"
           v-model="mobile"
           placeholder="Enter your email"
+          @change="$emit('input', $event, 'mobile')"
         ></bib-input>
       </div>
     </div>
@@ -67,6 +73,15 @@ export default {
     mobile: {
       type: String,
     },
+    input:{
+      type:Function
+    },
   },
+  methods:{
+    updateInput($event){
+      // console.log($event, "called")
+      this.$emit("update-value", $event)
+    }
+  }
 };
 </script>

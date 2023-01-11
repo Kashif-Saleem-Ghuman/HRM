@@ -53,6 +53,10 @@
        <template #content>
         <div id="main-content">
           <Nuxt />
+          <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
+          <transition name="drawer">
+            <action-sidebar v-show="openSidebar"></action-sidebar>
+          </transition>
         </div>
       </template>
     </bib-app-wrapper>
@@ -79,6 +83,7 @@ import {
 export default {
   data() {
     return {
+      openSidebar: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
       lightThemeChecked: this.$cookies.get("isLightTheme") || false,
@@ -108,12 +113,13 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("setToken", this.token);
     }
+    this.$root.$on('close-sidebar', () => {
+      this.openSidebar = false
+    })
   },
   mounted() {
     this.loading = true;
-    this.test = false;
     this.openPopupNotification(0);
-    this.loading = true;
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();

@@ -10,7 +10,7 @@
         headerRight="headerRight"
       ></section-header-left>
     </div>
-    <div class="d-flex custom-input">
+    <div class="d-flex">
       <div class="section-wrapper d-flex">
         <div class="section-left py-2 px-2">
           <div>
@@ -24,20 +24,16 @@
               <drop-zone
                 :src="form.preview"
                 :className="form.preview != '' ? 'hide' : ''"
-                :customRemove="form.preview == '' ? 'hide' : ''"
-                @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
           </div>
           <div class="py-1 row-custom">
-            <info
+            <static-info
               :firstname="form.name"
-              :midname="form.midname"
               :lastname="form.lastname"
               :email="form.email"
               :mobile="form.mobile"
-              @input="handleInput"
-            ></info>
+            ></static-info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
                 <div class="col-12">
@@ -57,28 +53,20 @@
                         variant="gray"
                         icon="info"
                         :scale="0.9"
+                        updateButton
                       ></tabs-title>
                     </div>
                   </div>
                   <div id="personal-info">
-                    <personal-info
+                    <static-personal-info
                       :date_vmodel="form.birthday"
                       :gender_vmodel="form.gender"
                       :options="form.genderOptions"
-                      @input="handleInput"
-                    ></personal-info>
+                    ></static-personal-info>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mx-0 pb-1 pt-0">
-            <black-button
-              label="Save"
-              size="custom"
-              variant="dark"
-              @click="sortBy()"
-            ></black-button>
           </div>
         </div>
         <div class="section-mid"></div>
@@ -101,38 +89,26 @@
                     variant="gray"
                     icon="info"
                     :scale="0.9"
+                    updateButton
                   ></tabs-title>
                 </div>
               </div>
               <div id="personal-info">
-                <employee-info
+                <static-employee-info
                   :hireDate="form.hireDate"
                   :socialInsuranceNumber="form.socialInsuranceNumber"
                   :employeeNumber="form.employeeNumber"
                   :employeeStatus="form.employeeStatus"
-                  :esstatusOptions="form.esstatusOptions"
+                  esstatusOptions="Active"
                   :department="form.department"
-                  :departmentOptions="form.departmentOptions"
+                  departmentOptions="Product Design"
                   :team="form.team"
-                  :teamOptions="form.teamOptions"
-                  :title="title"
-                  :titleOptions="form.titleOptions"
+                  teamOptions="A"
+                  title="Director"
+                  titleOptions="Software Engineer"
                   :reportsTo="form.reportsTo"
-                  :reportsToOptions="form.reportsToOptions"
-                  @input="handleInput"
-                  :webPortalAccess= this.webPortalAccess
-                  @change-it="chnage"
-                ></employee-info>
-              </div>
-              <div class="row mx-0 pb-1 pt-1">
-                <div class="col-12">
-                  <black-button
-                    label="Save"
-                    size="custom"
-                    variant="dark"
-                    @click="getAllData"
-                  ></black-button>
-                </div>
+                  reportsToOptions="Bruno Goulet"
+                ></static-employee-info>
               </div>
             </div>
           </div>
@@ -147,19 +123,14 @@ import {
   USER_DETAILS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
-} from "../../../utils/constant/Constant.js";
+} from "../../utils/constant/Constant.js";
 export default {
   data() {
     return {
-      webPortalAccess: false,
       id: this.$route.params.id,
-      fileDetail: "",
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
-      updateForm: {
-        switch: "",
-      },
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
@@ -168,36 +139,17 @@ export default {
     // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
     // this.$store.dispatch("users/setSingleUserList");
   },
+
   mounted() {
-    console.log(this.thumnail, "thumnail");
     this.fetchSingleUser();
-    console.log(this.updateForm, "this.updateForm");
     // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
-    chnage(){
-      this.webPortalAccess = !this.webPortalAccess
-      this.updateForm.switch = this.webPortalAccess
-      console.log(this.updateForm.switch, "sdjbasjdadsjagsdjasgdhj")
-    },
-    vfileAdded(file) {
-      this.fileDetail = file;
-    },
-    // switcherValue() {
-    //   this.webPortalAccess = !this.webPortalAccess;
-    // },
-    handleInput(event, name) {
-      this.updateForm[name] = event;
-    },
-    getAllData() {
-      this.updateForm.switch = this.webPortalAccess;
-      console.info(this.updateForm);
-    },
     sortBy() {
       alert("called");
     },
     async fetchSingleUser() {
-      var users = USER_DETAILS.find((user) => user.id === this.id);
+      var users = USER_DETAILS.find((user) => user.id === "2");
       this.form = users;
       return users;
     },

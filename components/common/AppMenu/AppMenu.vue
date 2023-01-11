@@ -59,7 +59,7 @@ export default {
       return;
     }
     if (event.key == "myprofile") {
-     this.$router.push('/people/info')
+     this.$router.push('/myprofile')
       return;
     }
     if (event.key == "people") {

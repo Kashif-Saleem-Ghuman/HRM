@@ -1,102 +1,116 @@
-@import '@/assets/variable.scss';
+@import "@/assets/variable.scss";
 html,
 body {
   font-family: $font-family;
 }
-$input-label-color: #85858F;
+$input-label-color: #85858f;
 $input-label-size: 12px;
-$input-bg-color: #F8F8F9;
-$input-placeholder-color: #B1B1B4;
-$input-border-color: #E8E8EB;
+$input-bg-color: #f8f8f9;
+$input-placeholder-color: #b1b1b4;
+$input-border-color: #e8e8eb;
 $input-borderradius: 4px;
-$validation-star-color:#FA0F00;
+$validation-star-color: #fa0f00;
 
 .custom-input {
-    input {
-        background-color: $input-bg-color;
-        border: 1px solid $input-border-color;
-        // font-size: 11px !important;
-        margin-bottom: 12px !important;
-        // border-radius:$input-borderradius;
-    }
-    select {
-        background-color: $input-bg-color !important;
-        border: 1px solid $input-border-color;
-        // font-size: 11px !important;
-        margin-bottom: 12px !important
-        // border-radius:$input-borderradius;
-    }
-    textarea {
-      background-color: $input-bg-color !important;
-      border: 1px solid $input-border-color;
-      // font-size: 11px !important;
-      // border-radius:$input-borderradius;
+  input {
+    background-color: $input-bg-color;
+    border: 1px solid $input-border-color;
+    // font-size: 11px !important;
+    margin-bottom: 12px !important;
+    // border-radius:$input-borderradius;
   }
-    label {
-        font-size: $input-label-size !important;
-        color: $input-label-color;
-        font-weight: 600;
-    }
+  select {
+    background-color: $input-bg-color !important;
+    border: 1px solid $input-border-color;
+    // font-size: 11px !important;
+    margin-bottom: 12px !important;
+    // border-radius:$input-borderradius;
+  }
+  textarea {
+    background-color: $input-bg-color !important;
+    border: 1px solid $input-border-color;
+    // font-size: 11px !important;
+    // border-radius:$input-borderradius;
+  }
+  label {
+    font-size: $input-label-size !important;
+    color: $input-label-color;
+    font-weight: 600;
+  }
 }
 
-.row-custom{
-    margin: 0 -8px;
+.row-custom {
+  margin: 0 -8px;
 }
-.cursor-pointer{
-    cursor:pointer
+.cursor-pointer {
+  cursor: pointer;
 }
 .bottom_border_wrapper {
-    border-bottom: 1px solid var(--bib-light);
-  }
- /** layout **/
+  border-bottom: 1px solid var(--bib-light);
+}
+/** layout **/
 .row {
-    display: flex;
-    margin: 0 -.5rem;
+  display: flex;
+  margin: 0 -0.5rem;
+}
+
+[class*="col"] {
+  padding: 0 0.5rem;
+}
+
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    max-width: #{math.div(round(math.div(100%, 12) * $i * 10000), 10000)};
+    flex: 0 0 #{math.div(round(math.div(100%, 12) * $i * 10000), 10000)};
   }
-  
-  [class*='col'] {
-    padding: 0 .5rem;
+}
+
+.flex {
+  &-shrink-0 {
+    flex-shrink: 0;
   }
-  
-  @for $i from 1 through 12 {
-    .col-#{$i} {
-      max-width: #{ math.div(round(math.div(100%, 12) * $i * 10000), 10000) };
-      flex: 0 0 #{ math.div(round(math.div(100%, 12) * $i * 10000), 10000) };
-    }
+  &-shrink-1 {
+    flex-shrink: 1;
   }
-  
-  .flex{
-    &-shrink-0{
-      flex-shrink: 0;
-    }
-    &-shrink-1{
-      flex-shrink: 1;
-    }
+}
+.light-green {
+  background-color: #f0f9ef;
+}
+
+@keyframes slidein-right {
+  from {
+    transform: translateX(100%);
   }
-  
-  #__layout {
-    .main {
-      width: 100%;
-      transition: width .2s;
-  
-      /*&.open-sidebar {
-        width: calc(100% - #{$sidebar-width});
-      }*/
-    }
+  to {
+    transform: translateX(0);
   }
-  
-  .header {
-    position: fixed;
-    top: 0;
-    z-index: 10;
+}
+
+.side-panel {
+  position: fixed;
+  z-index: 11;
+  width: $sidebar-width;
+  top: 65px;
+  bottom: 0;
+  right: 1px;
+  background-color: $white;
+  box-shadow: 5px 2px 15px $gray6;
+  transition: transform 0.2s;
+  &__header__actions {
+    padding: 0.75rem 1.5rem;
   }
-  
-  @keyframes slidein-right {
-    from { transform: translateX(100%);}
-    to { transform: translateX(0);}
+}
+
+.drawer-enter-active {
+  animation: slidein-right 0.2s;
+}
+
+.drawer-leave-active {
+  animation: slidein-right 0.2s reverse;
+}
+@media screen and (max-width: 1600px) {
+  .side-panel {
+    max-width: $sidebar-width - 160px;
+    width: 35rem;
   }
-  
-  .light-green{
-    background-color: #F0F9EF;
-  } 
-   
+}

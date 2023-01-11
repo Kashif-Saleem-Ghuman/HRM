@@ -123,7 +123,7 @@ import {
   USER_DETAILS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
-} from "../../../utils/constant/Constant.js";
+} from "../../utils/constant/Constant.js";
 export default {
   data() {
     return {

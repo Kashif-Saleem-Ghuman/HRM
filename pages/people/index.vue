@@ -79,6 +79,7 @@ export default {
   },
   mounted() {
     this.loading = true;
+    console.log(this.userList, "userList")
   },
   methods: {
     clickAction(event){

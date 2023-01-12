@@ -22,20 +22,20 @@
             ></tabs-title>
             <div class="py-1">
               <drop-zone
-                :src="form.preview"
-                :className="form.preview != '' ? 'hide' : ''"
-                :customRemove="form.preview == '' ? 'hide' : ''"
+                :src="form.avatar"
+                :className="form.avatar != '' ? 'hide' : ''"
+                :customRemove="form.avatar == '' ? 'hide' : ''"
                 @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
           </div>
           <div class="py-1 row-custom">
             <info
-              :firstname="form.name"
-              :midname="form.midname"
-              :lastname="form.lastname"
+              :firstname="form.firstName"
+              :midname="form.middleName"
+              :lastname="form.lastName"
               :email="form.email"
-              :mobile="form.mobile"
+              :mobile="form.phone"
               @input="handleInput"
             ></info>
             <div class="tab-wrapper">
@@ -62,9 +62,9 @@
                   </div>
                   <div id="personal-info">
                     <personal-info
-                      :date_vmodel="form.birthday"
-                      :gender_vmodel="form.gender"
-                      :options="form.genderOptions"
+                      :dob="form.dateOfBirth"
+                      :gender="form.gender"
+                      :options="formOptions.genderOptions"
                       @input="handleInput"
                     ></personal-info>
                   </div>
@@ -107,20 +107,20 @@
               <div id="personal-info">
                 <employee-info
                   :hireDate="form.hireDate"
-                  :socialInsuranceNumber="form.socialInsuranceNumber"
+                  :socialInsuranceNumber="form.sin"
                   :employeeNumber="form.employeeNumber"
-                  :employeeStatus="form.employeeStatus"
-                  :esstatusOptions="form.esstatusOptions"
+                  :employeeStatus="form.status"
+                  :esstatusOptions="formOptions.esstatusOptions"
                   :department="form.department"
-                  :departmentOptions="form.departmentOptions"
+                  :departmentOptions="formOptions.departmentOptions"
                   :team="form.team"
-                  :teamOptions="form.teamOptions"
+                  :teamOptions="formOptions.teamOptions"
                   :title="title"
-                  :titleOptions="form.titleOptions"
+                  :titleOptions="formOptions.titleOptions"
                   :reportsTo="form.reportsTo"
-                  :reportsToOptions="form.reportsToOptions"
+                  :reportsToOptions="formOptions.reportsToOptions"
                   @input="handleInput"
-                  :webPortalAccess= this.webPortalAccess
+                  :webPortalAccess= this.allowWebAccess
                   @change-it="chnage"
                 ></employee-info>
               </div>
@@ -145,6 +145,7 @@
 import { mapGetters } from "vuex";
 import {
   USER_DETAILS,
+  SELECT_OPTIONS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
 } from "../../../utils/constant/Constant.js";
@@ -157,6 +158,7 @@ export default {
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
+      formOptions:{},
       updateForm: {
         switch: "",
       },
@@ -166,26 +168,28 @@ export default {
   },
   created() {
     // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
-    // this.$store.dispatch("users/setSingleUserList");
+    this.$store.dispatch("users/GET_USERS_LIST");
+  },
+  computed: {
+    ...mapGetters({
+      userList: "users/GET_USERS_LIST",
+    }),
   },
   mounted() {
-    console.log(this.thumnail, "thumnail");
     this.fetchSingleUser();
     console.log(this.updateForm, "this.updateForm");
     // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
+
   methods: {
-    chnage(){
-      this.webPortalAccess = !this.webPortalAccess
-      this.updateForm.switch = this.webPortalAccess
-      console.log(this.updateForm.switch, "sdjbasjdadsjagsdjasgdhj")
+    chnage() {
+      this.webPortalAccess = !this.webPortalAccess;
+      this.updateForm.switch = this.webPortalAccess;
+      console.log(this.updateForm.switch, "sdjbasjdadsjagsdjasgdhj");
     },
     vfileAdded(file) {
       this.fileDetail = file;
     },
-    // switcherValue() {
-    //   this.webPortalAccess = !this.webPortalAccess;
-    // },
     handleInput(event, name) {
       this.updateForm[name] = event;
     },
@@ -197,8 +201,10 @@ export default {
       alert("called");
     },
     async fetchSingleUser() {
-      var users = USER_DETAILS.find((user) => user.id === this.id);
+      var users = this.userList.find((user) => user.id === this.id);
       this.form = users;
+      this.formOptions = SELECT_OPTIONS;
+      console.log(this.formOptions.genderOptions, "thumnail");
       return users;
     },
 

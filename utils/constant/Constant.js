@@ -92,9 +92,43 @@ export const TABLE_SECTIONS = [
     active: false,
   },
 ];
+export const SELECT_OPTIONS = 
+  {
+    genderOptions: [
+    { label: "Please choose one", value: null },
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+  ],
+  esstatusOptions: [
+    { label: "Please choose one", value: null },
+    { label: "Dummy Value", value: "value" },
+    { label: "Dummy Value", value: "value" },
+  ],
+  departmentOptions: [
+    { label: "Please choose one", value: null },
+    { label: "IT", value: "value" },
+    { label: "HR", value: "value" },
+  ],
+  teamOptions: [
+    { label: "Please choose one", value: null },
+    { label: "IT", value: "value" },
+    { label: "HR", value: "value" },
+  ],
+  titleOptions: [
+    { label: "Please choose one", value: null },
+    { label: "IT", value: "value" },
+    { label: "HR", value: "value" },
+  ],
+  reportsToOptions: [
+    { label: "Please choose one", value: null },
+    { label: "Bruno", value: "Bruno" },
+    { label: "Kelvin", value: "kelvin" },
+  ],
+}
+;
 export const USER_DETAILS = [
   {
-    id: "1",
+    id: "63bfcfd36bb6d8b00bb07d90",
     name: "Charles-Augustin de Coulomb",
     midname: "Middle Name",
     lastname: "Vervelsky",

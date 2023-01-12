@@ -93,7 +93,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJVU0VSIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY3MzUxODU3Njk0MiwiZXhwIjoxNjgxMjk0NTc2OTQyLCJqdGkiOiI4ZjlmYzljNy03Nzc5LTQwYmEtYmY3NC0wNmRlM2NjM2Y4OWMifQ.PQPBApR7xzifmrAL3pOsYvBoJrUjTkGs8BU5m_n2Mbk",
+      token: "",
 
     };
   },

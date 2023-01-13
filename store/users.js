@@ -43,7 +43,7 @@ export const actions = {
   
   async setUserList(ctx) {
     try {
-      const employeeList = await this.$axios.$get(`https://dev-hrm-api.business-in-a-box.com/v1/employees`, {
+      const employeeList = await this.$axios.$get(`${process.env.API_URL}/employees`, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
         }

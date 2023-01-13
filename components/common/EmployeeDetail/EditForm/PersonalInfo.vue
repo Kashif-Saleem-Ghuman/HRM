@@ -6,16 +6,16 @@
         label="Date of Birth"
         v-model="dob"
         placeholder="Select your DOB"
-        @change="$emit('input', $event, 'date')"
+        @change="$emit('input', $event, 'dateOfBirth')"
       ></bib-input>
     </div>
     <div class="col-6">
       <bib-input
         type="select"
         label="Gender"
-        :value="gender"
+        v-model="gender"
         :options="options"
-        placeholder="Enter your email"
+        placeholder="Select Your Gender"
         @input="$emit('input', $event, 'gender')"
       ></bib-input>
     </div>

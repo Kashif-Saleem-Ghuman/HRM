@@ -5,7 +5,7 @@
     <span class=" mr-1 title-text" v-if="title">{{ title }}</span>
     <button-circle v-if="bookmark" :icon="bookmark" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="bookmarkButton"></button-circle>
     <!-- <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle> -->
-    <dropdown-menu :items="items" @click="$emit('vclick', $event)"></dropdown-menu>
+    <dropdown-menu v-if="moreIcon" :items="items" @click="$emit('vclick', $event)"></dropdown-menu>
   </nav>
   </template>
 <script>

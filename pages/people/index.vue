@@ -4,7 +4,7 @@
       <section-header-left
         title="People"
         bookmark="bookmark-solid"
-        moreIcon="horizontal-dots"
+        moreIcon="moreIcon"
         avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU"
         headerRight="headerRight"
         :items="items"
@@ -47,9 +47,9 @@ export default {
   data() {
     return {
       items: [
-      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
-      { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
-      { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+      { label: "submenu Comes here", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
+      // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+      // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
     ],
       users: [],
       orderBy: "asc",
@@ -75,11 +75,10 @@ export default {
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
+      
     }),
   },
   mounted() {
-    this.loading = true;
-    console.log(this.userList, "userList")
   },
   methods: {
     clickAction(event){

@@ -20,7 +20,7 @@
             {{ data.value.firstName  }} {{ data.value.lastName  }}
           </div>
           <div class="description">
-            {{ data.value.desc }}
+            {{ data.value.title }}
           </div>
         </div>
       </div>

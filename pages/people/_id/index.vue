@@ -6,7 +6,6 @@
       <section-header-left
         title="Employee Profile"
         bookmark="bookmark-solid"
-        moreIcon="horizontal-dots"
         headerRight="headerRight"
       ></section-header-left>
     </div>
@@ -23,8 +22,8 @@
             <div class="py-1">
               <drop-zone
                 :src="form.avatar"
-                :className="form.avatar != '' ? 'hide' : ''"
-                :customRemove="form.avatar == '' ? 'hide' : ''"
+                :className="form.avatar != null ? 'hide' : ''"
+                :customRemove="form.avatar == null ? 'hide' : ''"
                 @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
@@ -77,7 +76,7 @@
               label="Save"
               size="custom"
               variant="dark"
-              @click="sortBy()"
+              @click="getAllData()"
             ></black-button>
           </div>
         </div>
@@ -115,12 +114,13 @@
                   :departmentOptions="formOptions.departmentOptions"
                   :team="form.team"
                   :teamOptions="formOptions.teamOptions"
-                  :title="title"
+                  :title="form.title"
                   :titleOptions="formOptions.titleOptions"
                   :reportsTo="form.reportsTo"
                   :reportsToOptions="formOptions.reportsToOptions"
+                  :note="form.note"
                   @input="handleInput"
-                  :webPortalAccess= this.allowWebAccess
+                  :webPortalAccess="this.allowWebAccess"
                   @change-it="chnage"
                 ></employee-info>
               </div>
@@ -130,7 +130,6 @@
                     label="Save"
                     size="custom"
                     variant="dark"
-                    @click="getAllData"
                   ></black-button>
                 </div>
               </div>
@@ -139,53 +138,63 @@
         </div>
       </div>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import {
-  USER_DETAILS,
   SELECT_OPTIONS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
 } from "../../../utils/constant/Constant.js";
+import getJson from "../../../utils/dataJson/app_wrap_data";
+const appWrapItems = getJson();
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 export default {
   data() {
     return {
+      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupMessages: [],
       webPortalAccess: false,
-      id: this.$route.params.id,
+      loading: false,
       fileDetail: "",
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
+      localData: {},
       form: {},
-      formOptions:{},
-      updateForm: {
-        switch: "",
-      },
+      formOptions: {},
+      updateForm: {},
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
   },
   created() {
-    // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
     this.$store.dispatch("users/GET_USERS_LIST");
-  },
-  computed: {
-    ...mapGetters({
-      userList: "users/GET_USERS_LIST",
-    }),
-  },
-  mounted() {
-    this.fetchSingleUser();
-    console.log(this.updateForm, "this.updateForm");
-    // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
+    if (process.client) {
+      this.$axios
+        .$get(`${process.env.API_URL}/employees/${this.$route.params.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((res) => {
+          this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+    }
   },
 
+  mounted() {
+    this.fetchSingleUser();
+  },
   methods: {
-    chnage() {
-      this.webPortalAccess = !this.webPortalAccess;
-      this.updateForm.switch = this.webPortalAccess;
-      console.log(this.updateForm.switch, "sdjbasjdadsjagsdjasgdhj");
+    openPopupNotification,
+    chnage(event, name) {
+      this.updateForm[name] = event;
     },
     vfileAdded(file) {
       this.fileDetail = file;
@@ -193,19 +202,35 @@ export default {
     handleInput(event, name) {
       this.updateForm[name] = event;
     },
-    getAllData() {
-      this.updateForm.switch = this.webPortalAccess;
-      console.info(this.updateForm);
+    async getAllData() {
+      this.loading = true;
+      await this.$axios
+        .$put(
+          `${process.env.API_URL}/employees/${this.$route.params.id}`,
+          this.updateForm,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.openPopupNotification(1);
+          this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+      this.loading = false;
     },
     sortBy() {
       alert("called");
     },
     async fetchSingleUser() {
-      var users = this.userList.find((user) => user.id === this.id);
-      this.form = users;
+      // var users = this.userList.find((user) => user.id === this.id);
+      // this.form = users;
       this.formOptions = SELECT_OPTIONS;
-      console.log(this.formOptions.genderOptions, "thumnail");
-      return users;
+      console.log(this.form, "http://localhost:3000/");
     },
 
     handleChange_Tabs(tab) {

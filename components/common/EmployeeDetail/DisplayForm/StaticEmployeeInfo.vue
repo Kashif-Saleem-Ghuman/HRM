@@ -33,17 +33,17 @@
     <div class="row mx-0">
       <div class="col-6">
         <label>Department</label>
-      <p>{{ departmentOptions }}</p>
+      <p>{{ department }}</p>
       </div>
       <div class="col-6">
         <label>Team</label>
-      <p>{{ teamOptions }}</p>
+      <p>{{ team }}</p>
       </div>
     </div>
     <div class="row mx-0">
       <div class="col-6">
         <label>Title</label>
-      <p>{{ titleOptions }}</p>
+      <p>{{ title }}</p>
       </div>
       <div class="col-6">
         <label>Reports To</label>
@@ -53,7 +53,9 @@
     <div class="row mx-0">
       <div class="col-12">
         <span style="display: block; font-size: 10px;">Allow web portal access</span>
-        <div style="padding-bottom: 24px; padding-top: 3px;"><bib-switch :checked="true" disabled></bib-switch></div>
+        <div style="padding-bottom: 24px; padding-top: 3px;">
+          <bib-switch :checked="allowWebAccess"></bib-switch>
+        </div>
       </div>
     </div>
     <div class="row mx-0">
@@ -112,6 +114,9 @@ export default {
     note: {
       type: String,
     },
+    allowWebAccess:{
+      type:Boolean
+    }
   },
 };
 </script>

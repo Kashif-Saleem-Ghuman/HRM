@@ -96,28 +96,28 @@ export const SELECT_OPTIONS =
   {
     genderOptions: [
     { label: "Please choose one", value: null },
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ],
   esstatusOptions: [
     { label: "Please choose one", value: null },
-    { label: "Dummy Value", value: "value" },
-    { label: "Dummy Value", value: "value" },
+    { label: "Active", value: "Active" },
+    { label: "In Active", value: "In Active" },
   ],
   departmentOptions: [
     { label: "Please choose one", value: null },
-    { label: "IT", value: "value" },
-    { label: "HR", value: "value" },
+    { label: "IT", value: "IT" },
+    { label: "HR", value: "HR" },
   ],
   teamOptions: [
     { label: "Please choose one", value: null },
-    { label: "IT", value: "value" },
-    { label: "HR", value: "value" },
+    { label: "Technical", value: "Technical" },
+    { label: "Account", value: "Account" },
   ],
   titleOptions: [
     { label: "Please choose one", value: null },
-    { label: "IT", value: "value" },
-    { label: "HR", value: "value" },
+    { label: "Sr. Technical Lead", value: "Sr. Technical Lead" },
+    { label: "Technical Lead", value: "Technical Lead" },
   ],
   reportsToOptions: [
     { label: "Please choose one", value: null },

@@ -29,10 +29,10 @@
           </div>
           <div class="py-1 row-custom">
             <static-info
-              :firstname="form.name"
-              :lastname="form.lastname"
+            :firstname="form.firstName"
+              :lastname="form.lastName"
               :email="form.email"
-              :mobile="form.mobile"
+              :mobile="form.phone"
             ></static-info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
@@ -59,9 +59,8 @@
                   </div>
                   <div id="personal-info">
                     <static-personal-info
-                      :date_vmodel="form.birthday"
+                      :date_vmodel="form.dateOfBirth"
                       :gender_vmodel="form.gender"
-                      :options="form.genderOptions"
                     ></static-personal-info>
                   </div>
                 </div>
@@ -96,18 +95,17 @@
               <div id="personal-info">
                 <static-employee-info
                   :hireDate="form.hireDate"
-                  :socialInsuranceNumber="form.socialInsuranceNumber"
-                  :employeeNumber="form.employeeNumber"
-                  :employeeStatus="form.employeeStatus"
-                  esstatusOptions="Active"
+                  :socialInsuranceNumber="form.sin"
+                  :employeeNumber="form.employeeNumber = null ? '': '1111'"
+                  :employeeStatus="form.status"
                   :department="form.department"
-                  departmentOptions="Product Design"
                   :team="form.team"
                   teamOptions="A"
-                  title="Director"
+                  :title="form.title"
                   titleOptions="Software Engineer"
                   :reportsTo="form.reportsTo"
                   reportsToOptions="Bruno Goulet"
+                  :allowWebAccess="form.allowWebAccess"
                 ></static-employee-info>
               </div>
             </div>
@@ -138,22 +136,31 @@ export default {
   created() {
     // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
     // this.$store.dispatch("users/setSingleUserList");
+    if (process.client) {
+      this.$axios
+        .$get(`${process.env.API_URL}/employees/63bfcfd36bb6d8b00bb07d90`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((res) => {
+          this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+    }
+  
   },
 
   mounted() {
-    this.fetchSingleUser();
+    // this.fetchSingleUser();
     // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
     sortBy() {
       alert("called");
     },
-    async fetchSingleUser() {
-      var users = USER_DETAILS.find((user) => user.id === "2");
-      this.form = users;
-      return users;
-    },
-
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },

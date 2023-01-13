@@ -6,8 +6,8 @@
           type="date"
           label="Hire Date"
           v-model="hireDate"
-          placeholder="Enter your email"
-          @change="$emit('input', $event, 'hiredate')"
+          placeholder="Select your Hire Date"
+          @change="$emit('input', $event, 'hireDate')"
         ></bib-input>
       </div>
     </div>
@@ -18,7 +18,7 @@
           label="Social Insurance Number"
           v-model="socialInsuranceNumber"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'socialInsuranceNumber')"
+          @input="$emit('input', $event, 'sin')"
         ></bib-input>
       </div>
     </div>
@@ -39,7 +39,7 @@
           v-model="employeeStatus"
           :options="esstatusOptions"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'employeeStatus')"
+          @input="$emit('input', $event, 'status')"
         ></bib-input>
       </div>
     </div>
@@ -93,7 +93,7 @@
           >Allow web portal access</span
         >
         <div style="padding-bottom: 24px; padding-top: 5px">
-          <bib-switch :checked="webPortalAccess" @change="$emit('change-it', 'key')"></bib-switch>
+          <bib-switch :checked="webPortalAccess" @change="$emit('change-it', $event, 'allowWebAccess'), webPortalAccess= !webPortalAccess"></bib-switch>
         </div>
       </div>
     </div>
@@ -101,9 +101,10 @@
       <div class="col-12">
         <bib-input
           type="textarea"
+          v-model="note"
           placeholder="Type about yourself"
           label="Textarea"
-          @change="$emit('input', $event, 'textarea')"
+          @change="$emit('input', $event, 'note')"
         ></bib-input>
       </div>
     </div>

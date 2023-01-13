@@ -94,7 +94,6 @@ export default {
       popupMessages: [],
       userPhoto: "",
       token: "",
-
     };
   },
   fetch() {

@@ -26,37 +26,37 @@ export const mutations = {
     // sort By Title
     if (payload.order == "desc") {
       console.log(state.userList, "userList");
-      state.userList.sort((a, b) => b.name.localeCompare(a.name));
+      state.userList.sort((a, b) => b.firstName.localeCompare(a.firstName));
     }
     if (payload.order == "asc") {
       console.log(state.userList, "userList");
-      state.userList.sort((a, b) => a.name.localeCompare(b.name));
+      state.userList.sort((a, b) => a.firstName.localeCompare(b.firstName));
     }
   },
 };
 
 export const actions = {
 
-  async setUserList(ctx) {
-    ctx.commit('SET_USER', TABLE_SECTIONS);  
-  },
-  
   // async setUserList(ctx) {
-  //   try {
-  //     const employeeList = await this.$axios.$get(`${process.env.API_URL}/employees`, {
-  //       headers: {
-  //         "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-  //       }
-  //     })
-  //     console.log(employeeList.employees)
-  //     if (employeeList) {
-  //       ctx.commit("SET_USER", employeeList.employees);
-  //       return employeeList;
-  //     } 
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
+  //   ctx.commit('SET_USER', TABLE_SECTIONS);  
   // },
+  
+  async setUserList(ctx) {
+    try {
+      const employeeList = await this.$axios.$get(`${process.env.API_URL}/employees`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
+      console.log(employeeList.employees)
+      if (employeeList) {
+        ctx.commit("SET_USER", employeeList.employees);
+        return employeeList;
+      } 
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
   async setSingleUserList(ctx, payload) {
     var id = payload.userId;

@@ -7,7 +7,7 @@
           label="First Name"
           v-model="firstname"
           placeholder="Type your name"
-          @change="$emit('input', $event, 'firstname')"
+          @change="$emit('input', $event, 'firstName')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -16,7 +16,7 @@
           label="Middle Name"
           v-model="midname"
           placeholder="Type your name"
-          @change="$emit('input', $event, 'midname')"
+          @change="$emit('input', $event, 'middleName')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -25,7 +25,7 @@
           label="Last Name"
           v-model="lastname"
           placeholder="Type your name"
-          @change="$emit('input', $event, 'lastname')"
+          @change="$emit('input', $event, 'lastName')"
         ></bib-input>
       </div>
     </div>
@@ -48,7 +48,7 @@
           label="Personal mobile number •"
           v-model="mobile"
           placeholder="Enter your email"
-          @change="$emit('input', $event, 'mobile')"
+          @change="$emit('input', $event, 'phone')"
         ></bib-input>
       </div>
     </div>

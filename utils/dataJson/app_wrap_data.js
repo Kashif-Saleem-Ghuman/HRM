@@ -2,11 +2,11 @@ const data = () => {
   return {
     popupNotificationMsgs: [
       {
-        text: 'Home page load suceessfully...',
+        text: 'Home page load successfully...',
         variant: 'success'
       },
       {
-        text: 'Employe list page load suceessfully...',
+        text: 'Employee data update successfully...',
         variant: 'success'
       },
     ],

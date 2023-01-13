@@ -11,16 +11,16 @@
         <bib-avatar
           class="mt-auto mb-auto"
           shape="circle"
-          :src="data.value.preview"
+          :src="data.value.avatar"
           size="3rem"
         >
         </bib-avatar>
         <div class="info_wrapper">
           <div class="title">
-            {{ data.value.name  }} {{ data.value.lastName  }}
+            {{ data.value.firstName  }} {{ data.value.lastName  }}
           </div>
           <div class="description">
-            {{ data.value.desc }}
+            {{ data.value.title }}
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
     <template #cell(attendance)="data">
       <div class="justify-center text-dark">
         <circle-text
-        :title="data.value.attendance =='' ? 'N/A' : data.value.attendance + '%'"
+        :title="data.value.attendance ==null ? 'N/A' : data.value.attendance + '%'"
           :className="[
             data.value.attendance >= 70 ? 'variant_green' : '',
             data.value.attendance < 70 ? 'variant_yellow' : '',
@@ -46,7 +46,7 @@
     <template #cell(satisfaction)="data">
       <div class="justify-center text-dark">
         <circle-text
-          :title="data.value.satisfaction =='' ? 'N/A' : data.value.satisfaction + '%'"
+          :title="data.value.satisfaction == null ? 'N/A' : data.value.satisfaction + '%'"
           :className="[
             data.value.satisfaction >= 80 ? 'variant_green' : '',
             data.value.satisfaction < 80 ? 'variant_yellow' : '',

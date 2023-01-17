@@ -1,6 +1,7 @@
 <template>
   <div id="side-panel" class="side-panel">
     <h1 class="p-2">Hello World</h1>
+    <bib-icon icon="folder" :scale="1.25"></bib-icon>
     <div
       class="of-scroll-x"
       style="height: 400px; width: 100%; background-color: #eee"

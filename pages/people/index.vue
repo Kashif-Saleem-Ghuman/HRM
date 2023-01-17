@@ -11,8 +11,8 @@
         @vclick="clickAction"
       ></section-header-left>
       <div class="d-flex justify-between">
-        <template v-for="user in userItems">
-          <section-header-right :avatar="user.avatarUrl">
+        <template v-for="user in userList.slice(0,4)">
+          <section-header-right @click="userId(user.id)" :avatar="user.avatar == null ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png' : user.avatar">
           </section-header-right>
         </template>
         <button-circle
@@ -38,6 +38,7 @@
       ></action-right>
     </div>
     <list :userList="userList"></list>
+    <action-sidebar v-show="openSidebar"></action-sidebar>
   </div>
 </template>
 <script>
@@ -46,6 +47,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      openSidebar: false,
       items: [
       { label: "submenu Comes here", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
       // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
@@ -84,8 +86,12 @@ export default {
     clickAction(event){
       console.log(event.key)
     },
+    userId(id){
+      this.$router.push('/people/' + id)
+    },
     actionBY() {
-      // this.$router.push('/people/employeeprofile')
+      // this.openSidebar = true
+      alert("callled")
     },
     sortBy(event) {
       console.log(event, "callled");

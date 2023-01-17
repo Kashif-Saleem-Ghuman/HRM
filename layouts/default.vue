@@ -134,10 +134,14 @@ export default {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
             var userId = res?.data?.u?.sub;
+            var businessId = res?.data?.u?.subb
+            var userRole = res?.data?.u?.subr
             localStorage.setItem("userID", userId);
+            localStorage.setItem("businessId", businessId);
+            localStorage.setItem("userRole", userRole);
           }
           // this.getEmployess();
-          // this.getBusinessId();
+          this.getBusinessId();
         })
         .catch((err) => {
           this.loading = false;
@@ -149,7 +153,6 @@ export default {
     }
 
     this.loading = false;
-    // this.$store.dispatch("users/setProductToStore")
   },
   methods: {
     isThemeCheck,

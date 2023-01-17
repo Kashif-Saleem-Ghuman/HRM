@@ -125,7 +125,7 @@ import {
 export default {
   data() {
     return {
-      id: this.$route.params.id,
+      id: '',
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
@@ -136,9 +136,42 @@ export default {
   created() {
     // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
     // this.$store.dispatch("users/setSingleUserList");
+    // if (process.client) {
+    //   var users = this.userList.find((user) => user.id === this.id);
+    //   this.form = users;
+    //   console.log(users, "userListuserListuserListuserListuserList")
+    //   this.$axios
+    //     .$get(`${process.env.API_URL}/employees/63bfcfd36bb6d8b00bb07d90`, {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       this.form = res;
+    //     })
+    //     .catch((err) => {
+    //       console.log("There was an issue in employees API", err);
+    //     });
+    // }
+  
+  },
+  fetch() {
+    this.$store.dispatch("users/setUserList");
+  },
+  computed: {
+    ...mapGetters({
+      userList: "users/GET_USERS_LIST",
+      
+    }),
+  },
+  mounted() {
     if (process.client) {
+      var businessId = localStorage.getItem('businessId')
+      var users = this.userList.find((user) => user.businessId === businessId);
+      this.id = users.id
+      console.log(this.id, "userListuserListuserListuserListuserList")
       this.$axios
-        .$get(`${process.env.API_URL}/employees/63bfcfd36bb6d8b00bb07d90`, {
+        .$get(`${process.env.API_URL}/employees/${this.id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -150,12 +183,6 @@ export default {
           console.log("There was an issue in employees API", err);
         });
     }
-  
-  },
-
-  mounted() {
-    // this.fetchSingleUser();
-    // console.log(EMPLOYEE_TAB[0], "asdkjansdjkahkjsdhasd")
   },
   methods: {
     sortBy() {

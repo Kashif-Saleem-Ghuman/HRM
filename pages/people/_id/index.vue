@@ -76,7 +76,7 @@
               label="Save"
               size="custom"
               variant="dark"
-              @click="getAllData()"
+              @click="getAllData('leftAction')"
             ></black-button>
           </div>
         </div>
@@ -130,6 +130,7 @@
                     label="Save"
                     size="custom"
                     variant="dark"
+                    @click="getAllData('rightAction')"
                   ></black-button>
                 </div>
               </div>
@@ -157,7 +158,7 @@ export default {
     return {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
-      webPortalAccess: false,
+      webPortalAccess: '',
       loading: false,
       fileDetail: "",
       personalTabItem: PERSONAL_INFO_TAB,
@@ -195,14 +196,22 @@ export default {
     openPopupNotification,
     chnage(event, name) {
       this.updateForm[name] = event;
+      console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
     },
     vfileAdded(file) {
       this.fileDetail = file;
+      // console.log(this.fileDetail.dataURL, "vfileAdded")
     },
     handleInput(event, name) {
       this.updateForm[name] = event;
     },
-    async getAllData() {
+    async getAllData(name) {
+      // if(name == 'leftAction'){
+      // console.log(name, "left Action")
+      // }
+      // if(name=='rightAction'){
+      //   console.log(name, "Right Action")
+      // }
       this.loading = true;
       await this.$axios
         .$put(
@@ -215,6 +224,7 @@ export default {
           }
         )
         .then((res) => {
+          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
           this.openPopupNotification(1);
           this.form = res;
         })
@@ -230,7 +240,6 @@ export default {
       // var users = this.userList.find((user) => user.id === this.id);
       // this.form = users;
       this.formOptions = SELECT_OPTIONS;
-      console.log(this.form, "http://localhost:3000/");
     },
 
     handleChange_Tabs(tab) {

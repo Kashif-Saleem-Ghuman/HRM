@@ -48,7 +48,7 @@ export const actions = {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
         }
       })
-      console.log(employeeList.employees)
+      // console.log(employeeList.employees[0].id, "ckashdkjahsdkjhajksdhakjsdhkjasdkjaksdh")
       if (employeeList) {
         ctx.commit("SET_USER", employeeList.employees);
         return employeeList;

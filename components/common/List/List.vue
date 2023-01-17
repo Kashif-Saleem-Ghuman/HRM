@@ -58,7 +58,7 @@
     </template>
     <template #cell(performance)="data">
       <div class="justify-between text-dark">
-        <!-- <span>{{ data.value.performance }} -->
+        <!-- <span>{{ data.value.performance }}</span> -->
         <star-rating
           :round-start-rating="false"
           :border-width="0"
@@ -80,7 +80,6 @@
 <script>
 import { TABLE_FIELDS } from "../../../utils/constant/Constant.js";
 import { StarRating } from "../StarRating/StarRating.vue";
-import { mapGetters } from "vuex";
 export default {
   props: {
     userList: {

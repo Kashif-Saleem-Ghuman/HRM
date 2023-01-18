@@ -10,9 +10,9 @@
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
-          <bib-avatar size="120px" :src="src" class="avtar-border" onclick="openImage()"></bib-avatar>
+          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
           <div class="custom-remove" :class="customRemove">
-            <span onclick="openImage()">Remove File</span>
+            <span v-on:click="openImage()">Remove File</span>
           </div>
         </div>
         <div :class="className">

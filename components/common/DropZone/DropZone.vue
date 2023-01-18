@@ -10,9 +10,9 @@
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
-          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
+          <bib-avatar size="120px" :src="src" class="avtar-border" onclick="openImage()"></bib-avatar>
           <div class="custom-remove" :class="customRemove">
-            <span v-on:click="openImage()">REMOVE FILE</span>
+            <span onclick="openImage()">Remove File</span>
           </div>
         </div>
         <div :class="className">
@@ -50,7 +50,9 @@ export default {
       success: false,
       error: false,
       dropzoneOptions: {
-        url: "https://dev-hrm.business-in-a-box.com/",
+        // previewTemplate: this.getTempalte(),
+        url: "false",
+        autoProcessQueue: false,
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,
@@ -66,9 +68,27 @@ export default {
     };
   },
   methods: {
+    // vfileAdded(file) {
+    //   this.thumbnail = file.dataURL
+    //   console.log(this.thumbnail, file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
+    // },
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
     },
+    getTempalte: function () {
+      return `
+      <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
+        <div class="dz-image">
+          <img data-dz-thumbnail></img>
+        </div>
+        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+        <div class="dz-success-mark"><span class="dz-upload" data-dz-success></span></div>
+        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+        <div class="dz-success-mark"><i class="fa fa-check"></i></div>
+        <div class="dz-error-mark"><i class="fa fa-close"></i></div>
+      </div>`;
+    },
+    
   },
 };
 </script>
@@ -160,7 +180,12 @@ export default {
 .dz-error-mark {
   display: none;
 }
-
+.vue-dropzone > .dz-preview .dz-progress{
+  display: none;
+}
+.vue-dropzone > .dz-preview .dz-sucess{
+  display: block !important;
+}
 .vue-dropzone > .dz-preview .dz-remove {
   border-radius: 50%;
   margin-bottom: -50px;

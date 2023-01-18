@@ -12,7 +12,7 @@
         <div class="mr-1" style="position: relative">
           <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
           <div class="custom-remove" :class="customRemove">
-            <span onclick="openImage()">REMOVE FILE</span>
+            <span v-on:click="openImage()">REMOVE FILE</span>
           </div>
         </div>
         <div :class="className">
@@ -47,12 +47,14 @@ export default {
   },
   data: function () {
     return {
+      success: false,
+      error: false,
       dropzoneOptions: {
-        // previewTemplate: this.getTempalte(),
         url: "false",
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,
+        maxFilesize: 1,
         maxFiles: 1,
         init: function () {
           this.on("maxfilesexceeded", function (file) {
@@ -64,25 +66,8 @@ export default {
     };
   },
   methods: {
-    // vfileAdded(file) {
-    //   this.thumbnail = file.dataURL
-    //   console.log(this.thumbnail, file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
-    // },
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
-    },
-    getTempalte: function () {
-      return `
-      <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
-        <div class="dz-image">
-          <img data-dz-thumbnail></img>
-        </div>
-        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-        <div class="dz-success-mark"><span class="dz-upload" data-dz-success></span></div>
-        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-        <div class="dz-success-mark"><i class="fa fa-check"></i></div>
-        <div class="dz-error-mark"><i class="fa fa-close"></i></div>
-      </div>`;
     },
   },
 };

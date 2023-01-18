@@ -177,7 +177,7 @@ export default {
       this.$axios
         .$get(`${process.env.API_URL}/employees/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: this.getAccessToken,
           },
         })
         .then((res) => {
@@ -188,18 +188,42 @@ export default {
         });
     }
   },
-
+  computed: {
+        ...mapGetters(["getAccessToken"]),
+  },
   mounted() {
     this.fetchSingleUser();
   },
+
   methods: {
     openPopupNotification,
     chnage(event, name) {
       this.updateForm[name] = event;
-      console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
     },
-    vfileAdded(file) {
+    async vfileAdded(file) {
       this.fileDetail = file;
+      let pimg = new FormData();
+      pimg.append("file", this.fileDetail);
+      await this.$axios
+        .$put(
+          `${process.env.API_URL}/employees/${this.$route.params.id}`,
+          pimg,
+          {
+            headers: {
+              Authorization: this.getAccessToken,
+              "Content-Type": "multipart/form-data"
+            },
+          }
+        )
+        .then((res) => {
+          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
+          this.openPopupNotification(0);
+          this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+      this.loading = false;
       // console.log(this.fileDetail.dataURL, "vfileAdded")
     },
     handleInput(event, name) {

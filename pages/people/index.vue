@@ -76,11 +76,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userList: "users/GET_USERS_LIST",
-      
+      userList: "users/GET_USERS_LIST",     
     }),
   },
   mounted() {
+    console.log(this.userList,"userList")
   },
   methods: {
     clickAction(event){

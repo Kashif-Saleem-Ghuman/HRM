@@ -50,7 +50,7 @@ export default {
       success: false,
       error: false,
       dropzoneOptions: {
-        url: "false",
+        url: "https://dev-hrm.business-in-a-box.com/",
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,

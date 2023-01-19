@@ -1,5 +1,5 @@
 <template>
-  <div class="avtar_margin" @click="$emit('click')">
+  <div class="avtar_margin cursor-pointer" @click="$emit('click')">
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
   </div>
 </template>

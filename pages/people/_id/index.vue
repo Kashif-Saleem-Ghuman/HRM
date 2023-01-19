@@ -226,7 +226,7 @@ export default {
           pimg,
           {
             headers: {
-              Authorization: this.getAccessToken,
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
               "Content-Type": "multipart/form-data",
             },
           }

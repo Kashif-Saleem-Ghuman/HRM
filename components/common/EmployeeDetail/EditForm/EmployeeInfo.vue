@@ -18,7 +18,7 @@
           label="Social Insurance Number"
           v-model="socialInsuranceNumber"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'sin')"
+          @change="$emit('input', $event, 'sin')"
         ></bib-input>
       </div>
     </div>
@@ -73,7 +73,7 @@
           v-model="title"
           :options="titleOptions"
           placeholder="Enter title"
-          @input="$emit('input', $event, 'title')"
+          @change="$emit('input', $event, 'title')"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -83,7 +83,7 @@
           v-model="reportsTo"
           :options="reportsToOptions"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'reportsto')"
+          @input="$emit('input', $event, 'reportTo')"
         ></bib-input>
       </div>
     </div>

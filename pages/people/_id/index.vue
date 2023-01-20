@@ -116,7 +116,7 @@
                   :teamOptions="formOptions.teamOptions"
                   :title="form.title"
                   :titleOptions="formOptions.titleOptions"
-                  :reportsTo="users.firstName"
+                  :reportsTo="form.reportTo"
                   :reportsToOptions="usersOptions"
                   :note="form.note"
                   @input="handleInput"
@@ -184,6 +184,8 @@ export default {
     }),
   },
   async mounted() {
+    this.updateForm = {name:'blank'};
+    console.log(this.updateForm.name,"this.updateForm == {}this.updateForm == {}")
     this.formOptions = SELECT_OPTIONS;
     await this.usersList();
     await this.user(this.$route.params.id);
@@ -241,9 +243,14 @@ export default {
       this.loading = false;
     },
     handleInput(event, name) {
+      this.updateForm = {}
       this.updateForm[name] = event;
     },
-    async getAllData(name) {
+    async getAllData() {
+      if(this.updateForm.name == 'blank'){
+        alert("No data to Update")
+        return true
+      }
       this.loading = true;
       await this.$axios
         .$put(

@@ -3,7 +3,6 @@ export default function (req, res, next) {
     {
       from: "/",
       to: "/people",
-      // to: "/inbox",
     },
   ];
   const redirect = redirects.find((r) => r.from === req.url);

@@ -101,10 +101,10 @@ const data = () => {
       },
     ],
     navItems: [
-      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
+      { label: "Dashboard", icon: "file", key: "dashboard", url:"/dashboard", selected: false, id:"bansdbamnsbdmnasbdmnbasmndbasmndbmnasbdmnasbdnmasbdmnbsadmnbasdnmbasdn"},
       { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
       { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
-      { label: "People", icon: "recently-added", key: "people", url:"/people", selected: false},
+      { label: "People", icon: "recently-added", key: "people", url:"/people", selected: false, id:"bansdbamnsbdmnasbdmnbasmndbasmndbmnasbdmnasbdnmasbdmnbsadmnbasdnmbasdn"},
       { label: "Timesheets", icon: "techno", key: "timesheets", url:'/timesheets', selected: false},
       { label: "Time tracker", icon: "prod", key: "timetracker", url:'/timetracker', selected: false},
       { label: "Absense", icon: "prod", key: "absense", url:'/absense', selected: false},

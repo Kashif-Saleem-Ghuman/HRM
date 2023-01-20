@@ -1,6 +1,8 @@
 <template>
   <div id="people-action-wrapper">
-    <div class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper">
+    <div
+      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
+    >
       <section-header-left
         title="People"
         bookmark="bookmark-solid"
@@ -11,8 +13,15 @@
         @vclick="clickAction"
       ></section-header-left>
       <div class="d-flex justify-between">
-        <template v-for="user in userList.slice(0,4)">
-          <section-header-right @click="userId(user.id)" :avatar="user.avatar == null ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png' : user.avatar">
+        <template v-for="user in userList.slice(0, 4)">
+          <section-header-right
+            @click="userId(user.id)"
+            :avatar="
+              user.avatar == null
+                ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png'
+                : user.avatar
+            "
+          >
           </section-header-right>
         </template>
         <button-circle
@@ -33,9 +42,7 @@
           peoplePageAction="peoplePageAction"
         ></action-left>
       </div>
-      <action-right
-        v-on:change-sort="sortBy"
-      ></action-right>
+      <action-right v-on:change-sort="sortBy"></action-right>
     </div>
     <list :userList="userList"></list>
     <action-sidebar v-show="openSidebar"></action-sidebar>
@@ -49,24 +56,27 @@ export default {
     return {
       openSidebar: false,
       items: [
-      { label: "submenu Comes here", icon: "file", key: "dashboard", url:"/dashboard", selected: false},
-      // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
-      // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
-    ],
+        {
+          label: "submenu Comes here",
+          icon: "file",
+          key: "dashboard",
+          url: "/dashboard",
+          selected: false,
+        },
+        // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+        // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+      ],
       users: [],
       orderBy: "asc",
       userItems: [
         {
-          avatarUrl:
-            "1",
+          avatarUrl: "1",
         },
         {
-          avatarUrl:
-            "1",
+          avatarUrl: "1",
         },
         {
-          avatarUrl:
-            "1",
+          avatarUrl: "1",
         },
       ],
     };
@@ -76,29 +86,29 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userList: "users/GET_USERS_LIST",     
+      userList: "users/GET_USERS_LIST",
     }),
   },
   mounted() {
-    var userRole = localStorage.getItem('userRole')
-    if(userRole === 'USER'){
-      if (this.$router.history.current.fullPath == '/people') {
-        this.$router.push('/myprofile')
-      return;
+    var userRole = localStorage.getItem("userRole");
+    if (userRole === "USER") {
+      if (this.$router.history.current.fullPath == "/people") {
+        this.$router.push("/myprofile");
+        return;
       }
     }
-    console.log(this.userList,"userList")
+    console.log(this.userList, "userList");
   },
   methods: {
-    clickAction(event){
-      console.log(event.key)
+    clickAction(event) {
+      console.log(event.key);
     },
-    userId(id){
-      this.$router.push('/people/' + id)
+    userId(id) {
+      this.$router.push("/people/" + id);
     },
     actionBY() {
       // this.openSidebar = true
-      alert("callled")
+      alert("callled");
     },
     sortBy(event) {
       console.log(event, "callled");

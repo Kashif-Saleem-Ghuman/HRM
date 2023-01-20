@@ -174,30 +174,32 @@ export default {
       employeInfoActiveTab: "employment-information",
     };
   },
-  created() {
-  },
+  created() {},
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
       getDepartment: "users/GET_DEPARTMENT_LIST",
-      getUser:"users/GET_USER"
+      getUser: "users/GET_USER",
     }),
   },
   async mounted() {
-    this.updateForm = {name:'blank'};
-    console.log(this.updateForm.name,"this.updateForm == {}this.updateForm == {}")
+    this.updateForm = { name: "blank" };
+    console.log(
+      this.updateForm.name,
+      "this.updateForm == {}this.updateForm == {}"
+    );
     this.formOptions = SELECT_OPTIONS;
     await this.usersList();
     await this.user(this.$route.params.id);
     await this.department();
     this.getEmployeeDetails();
-    this.form = this.getUser
+    this.form = this.getUser;
   },
   methods: {
     ...mapActions({
       usersList: "users/setUserList",
       department: "users/setDepartmentList",
-      user: "users/setUser", 
+      user: "users/setUser",
     }),
     getEmployeeDetails() {
       var reportTo = [{ label: "Please select", value: null }];
@@ -208,10 +210,10 @@ export default {
       this.usersOptions = reportTo;
       var depatment = [{ label: "Please select", value: null }];
       for (let i = 0; i < this.getDepartment.length; i++) {
-        var key = this.getDepartment[i]
+        var key = this.getDepartment[i];
         depatment.push({ label: key, value: key });
       }
-      this.departmentOptions = depatment
+      this.departmentOptions = depatment;
     },
 
     openPopupNotification,
@@ -243,13 +245,13 @@ export default {
       this.loading = false;
     },
     handleInput(event, name) {
-      this.updateForm = {}
+      this.updateForm = {};
       this.updateForm[name] = event;
     },
     async getAllData() {
-      if(this.updateForm.name == 'blank'){
-        alert("No data to Update")
-        return true
+      if (this.updateForm.name == "blank") {
+        alert("No data to Update");
+        return true;
       }
       this.loading = true;
       await this.$axios

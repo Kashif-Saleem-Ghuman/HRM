@@ -24,6 +24,7 @@
               <drop-zone
               :src="form.avatar"
               :className="form.avatar != null ? 'hide' : ''"
+              @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
           </div>
@@ -117,7 +118,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import {
-  USER_DETAILS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
 } from "../../utils/constant/Constant.js";
@@ -146,13 +146,11 @@ export default {
   async mounted() {
    
     await this.users();
-
     if (process.client) {
       var userEmail = localStorage.getItem('userEmail')
       var users = this.userList.find((user) => user.email === userEmail);
       this.id = users.id
       await this.user(this.id);
-      console.log(this.getUser.teams[0], "userssssssssssssssssssss")
       this.form = this.getUser
     }
     var team = this.form.teams
@@ -164,6 +162,30 @@ export default {
       users: "users/setUserList",
       user: "users/setUser",
     }),
+    async vfileAdded(file) {
+      this.fileDetail = file;
+      let pimg = new FormData();
+      pimg.append("file", this.fileDetail);
+      await this.$axios
+        .$put(
+          `${process.env.API_URL}/employees/${this.id}`,
+          pimg,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          this.openPopupNotification(0);
+          this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+      this.loading = false;
+    },
     sortBy() {
       alert("called");
     },

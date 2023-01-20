@@ -38,7 +38,11 @@ export default {
           this.appWrapItems.navItems[i].selected = false;
         }
       }
-    }
+      var userRole = localStorage.getItem('userRole')
+    if(userRole === 'USER'){
+      var check = document.querySelector("[title=\"People\"]");
+      check.style = "display: none";
+    }}
   },
   methods: {
     menuClick(event) {

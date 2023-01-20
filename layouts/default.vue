@@ -93,8 +93,8 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      token: "",
-    };
+      token:"",
+     };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);

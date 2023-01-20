@@ -112,8 +112,8 @@
                   :esstatusOptions="formOptions.esstatusOptions"
                   :department="form.department"
                   :departmentOptions="departmentOptions"
-                  :team="form.team"
-                  :teamOptions="formOptions.teamOptions"
+                  :team="teamOptions"
+                  :teamOptions="teamOptions"
                   :title="form.title"
                   :titleOptions="formOptions.titleOptions"
                   :reportsTo="form.reportTo"
@@ -169,6 +169,7 @@ export default {
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
+      teamOptions: "",
       updateForm: {},
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
@@ -194,6 +195,7 @@ export default {
     await this.department();
     this.getEmployeeDetails();
     this.form = this.getUser;
+    
   },
   methods: {
     ...mapActions({
@@ -202,6 +204,14 @@ export default {
       user: "users/setUser",
     }),
     getEmployeeDetails() {
+      var team = [{ label: "Please select", value: null }];
+      for (let i = 0; i < this.getUser.teams.length; i++) {
+        var key = this.getUser.teams[i];
+        team.push({ label: key, value: key });
+        console.log(team, "asdasasdasdaad")
+        this.teamOptions=team
+      }
+
       var reportTo = [{ label: "Please select", value: null }];
       for (let i = 0; i < this.userList.length; i++) {
         var key = this.userList[i].firstName + " " + this.userList[i].lastName;
@@ -214,6 +224,7 @@ export default {
         depatment.push({ label: key, value: key });
       }
       this.departmentOptions = depatment;
+      
     },
 
     openPopupNotification,

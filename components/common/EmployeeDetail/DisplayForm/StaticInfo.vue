@@ -59,6 +59,7 @@ export default {
     font-size: 16px;
     margin: 0 0 24px 0;
     line-height: 40px;
+    height:40px;
     align-items: center;
     font-weight: 500;
     border-bottom: 1px solid #e8e8eb;

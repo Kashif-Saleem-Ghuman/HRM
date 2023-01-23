@@ -14,11 +14,11 @@
     <div class="row mx-0">
       <div class="col-6">
         <bib-input
-          type="password"
+          type="text"
           label="Social Insurance Number"
           v-model="socialInsuranceNumber"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'sin')"
+          @change="$emit('input', $event, 'sin')"
         ></bib-input>
       </div>
     </div>
@@ -68,12 +68,12 @@
     <div class="row mx-0">
       <div class="col-6">
         <bib-input
-          type="select"
+          type="text"
           label="Title"
           v-model="title"
           :options="titleOptions"
           placeholder="Enter title"
-          @input="$emit('input', $event, 'title')"
+          @change="$emit('input', $event, 'title')"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -83,7 +83,7 @@
           v-model="reportsTo"
           :options="reportsToOptions"
           placeholder="Enter your email"
-          @input="$emit('input', $event, 'reportsto')"
+          @input="$emit('input', $event, 'reportTo')"
         ></bib-input>
       </div>
     </div>
@@ -103,7 +103,7 @@
           type="textarea"
           v-model="note"
           placeholder="Type about yourself"
-          label="Textarea"
+          label="Note"
           @change="$emit('input', $event, 'note')"
         ></bib-input>
       </div>

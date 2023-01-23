@@ -47,7 +47,7 @@
       </div>
       <div class="col-6">
         <label>Reports To</label>
-      <p>{{ reportsToOptions }}</p>
+      <p>{{ reportsTo }}</p>
       </div>
     </div>
     <div class="row mx-0">

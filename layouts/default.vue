@@ -93,8 +93,8 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      token: "",
-    };
+      token:"",
+     };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -136,9 +136,11 @@ export default {
             var userId = res?.data?.u?.sub;
             var businessId = res?.data?.u?.subb
             var userRole = res?.data?.u?.subr
+            var userEmail = res?.data?.u?.sube
             localStorage.setItem("userID", userId);
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
+            localStorage.setItem("userEmail", userEmail);
           }
           // this.getEmployess();
           this.getBusinessId();

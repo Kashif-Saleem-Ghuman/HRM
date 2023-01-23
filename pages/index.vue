@@ -1,9 +1,13 @@
-<template> </template>
-
+<template></template>
 <script>
 export default {
   mounted() {
-    this.$router.push("/people");
-  }
+    var userRole = localStorage.getItem("userRole");
+    if (userRole === "ADMIN") {
+      this.$router.push("/people");
+    } else {
+      this.$router.push("/myprofile");
+    }
+  },
 };
 </script>

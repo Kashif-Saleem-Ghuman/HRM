@@ -22,8 +22,9 @@
             ></tabs-title>
             <div class="py-1">
               <drop-zone
-                :src="form.preview"
-                :className="form.preview != '' ? 'hide' : ''"
+              :src="form.avatar"
+              :className="form.avatar != null ? 'hide' : ''"
+              @vfileAdded="vfileAdded"
               ></drop-zone>
             </div>
           </div>
@@ -99,12 +100,11 @@
                   :employeeNumber="form.employeeNumber = null ? '': '1111'"
                   :employeeStatus="form.status"
                   :department="form.department"
-                  :team="form.team"
+                  :team="this.teamOption"
                   teamOptions="A"
                   :title="form.title"
                   titleOptions="Software Engineer"
-                  :reportsTo="form.reportsTo"
-                  reportsToOptions="Bruno Goulet"
+                  :reportsTo="form.reportTo"
                   :allowWebAccess="form.allowWebAccess"
                 ></static-employee-info>
               </div>
@@ -116,9 +116,8 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import {
-  USER_DETAILS,
   PERSONAL_INFO_TAB,
   EMPLOYEE_INFO_TAB,
 } from "../../utils/constant/Constant.js";
@@ -129,62 +128,64 @@ export default {
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
+      teamOption:'',
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
   },
-  created() {
-    // this.$store.dispatch("users/setSingleUserList", { userId: this.$route.params.id})
-    // this.$store.dispatch("users/setSingleUserList");
-    // if (process.client) {
-    //   var users = this.userList.find((user) => user.id === this.id);
-    //   this.form = users;
-    //   console.log(users, "userListuserListuserListuserListuserList")
-    //   this.$axios
-    //     .$get(`${process.env.API_URL}/employees/63bfcfd36bb6d8b00bb07d90`, {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       this.form = res;
-    //     })
-    //     .catch((err) => {
-    //       console.log("There was an issue in employees API", err);
-    //     });
-    // }
   
-  },
   fetch() {
     this.$store.dispatch("users/setUserList");
   },
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
-      
+      getUser:"users/GET_USER"
     }),
   },
-  mounted() {
+  async mounted() {
+   
+    await this.users();
     if (process.client) {
-      var businessId = localStorage.getItem('businessId')
-      var users = this.userList.find((user) => user.businessId === businessId);
+      var userEmail = localStorage.getItem('userEmail')
+      var users = this.userList.find((user) => user.email === userEmail);
       this.id = users.id
-      console.log(this.id, "userListuserListuserListuserListuserList")
-      this.$axios
-        .$get(`${process.env.API_URL}/employees/${this.id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
+      await this.user(this.id);
+      this.form = this.getUser
+    }
+    var team = this.form.teams
+    var teamOption =  team.join(',  ');
+    this.teamOption = teamOption; 
+  },
+  methods: {
+    ...mapActions({
+      users: "users/setUserList",
+      user: "users/setUser",
+    }),
+    async vfileAdded(file) {
+      this.fileDetail = file;
+      let pimg = new FormData();
+      pimg.append("file", this.fileDetail);
+      await this.$axios
+        .$put(
+          `${process.env.API_URL}/employees/${this.id}`,
+          pimg,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then((res) => {
+          this.openPopupNotification(0);
           this.form = res;
         })
         .catch((err) => {
           console.log("There was an issue in employees API", err);
         });
-    }
-  },
-  methods: {
+      this.loading = false;
+    },
     sortBy() {
       alert("called");
     },

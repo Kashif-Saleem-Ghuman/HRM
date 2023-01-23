@@ -111,13 +111,13 @@
                   :employeeStatus="form.status"
                   :esstatusOptions="formOptions.esstatusOptions"
                   :department="form.department"
-                  :departmentOptions="formOptions.departmentOptions"
-                  :team="form.team"
-                  :teamOptions="formOptions.teamOptions"
+                  :departmentOptions="departmentOptions"
+                  :team="teamOptions"
+                  :teamOptions="teamOptions"
                   :title="form.title"
                   :titleOptions="formOptions.titleOptions"
-                  :reportsTo="form.reportsTo"
-                  :reportsToOptions="formOptions.reportsToOptions"
+                  :reportsTo="form.reportTo"
+                  :reportsToOptions="usersOptions"
                   :note="form.note"
                   @input="handleInput"
                   :webPortalAccess="this.allowWebAccess"
@@ -144,7 +144,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import {
   SELECT_OPTIONS,
   PERSONAL_INFO_TAB,
@@ -158,44 +158,75 @@ export default {
     return {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
-      webPortalAccess: '',
+      webPortalAccess: "",
       loading: false,
       fileDetail: "",
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       localData: {},
       form: {},
+      users: {},
+      usersOptions: "",
       formOptions: {},
+      departmentOptions: "",
+      teamOptions: "",
       updateForm: {},
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
   },
-  created() {
-    this.$store.dispatch("users/GET_USERS_LIST");
-    if (process.client) {
-      this.$axios
-        .$get(`${process.env.API_URL}/employees/${this.$route.params.id}`, {
-          headers: {
-            Authorization: this.getAccessToken,
-          },
-        })
-        .then((res) => {
-          this.form = res;
-        })
-        .catch((err) => {
-          console.log("There was an issue in employees API", err);
-        });
-    }
-  },
+  created() {},
   computed: {
-        ...mapGetters(["getAccessToken"]),
+    ...mapGetters({
+      userList: "users/GET_USERS_LIST",
+      getDepartment: "users/GET_DEPARTMENT_LIST",
+      getUser: "users/GET_USER",
+    }),
   },
-  mounted() {
-    this.fetchSingleUser();
+  async mounted() {
+    this.updateForm = { name: "blank" };
+    console.log(
+      this.updateForm.name,
+      "this.updateForm == {}this.updateForm == {}"
+    );
+    this.formOptions = SELECT_OPTIONS;
+    await this.usersList();
+    await this.user(this.$route.params.id);
+    await this.department();
+    this.getEmployeeDetails();
+    this.form = this.getUser;
+    
   },
-
   methods: {
+    ...mapActions({
+      usersList: "users/setUserList",
+      department: "users/setDepartmentList",
+      user: "users/setUser",
+    }),
+    getEmployeeDetails() {
+      var team = [{ label: "Please select", value: null }];
+      for (let i = 0; i < this.getUser.teams.length; i++) {
+        var key = this.getUser.teams[i];
+        team.push({ label: key, value: key });
+        console.log(team, "asdasasdasdaad")
+        this.teamOptions=team
+      }
+
+      var reportTo = [{ label: "Please select", value: null }];
+      for (let i = 0; i < this.userList.length; i++) {
+        var key = this.userList[i].firstName + " " + this.userList[i].lastName;
+        reportTo.push({ label: key, value: key });
+      }
+      this.usersOptions = reportTo;
+      var depatment = [{ label: "Please select", value: null }];
+      for (let i = 0; i < this.getDepartment.length; i++) {
+        var key = this.getDepartment[i];
+        depatment.push({ label: key, value: key });
+      }
+      this.departmentOptions = depatment;
+      
+    },
+
     openPopupNotification,
     chnage(event, name) {
       this.updateForm[name] = event;
@@ -210,13 +241,12 @@ export default {
           pimg,
           {
             headers: {
-              Authorization: this.getAccessToken,
-              "Content-Type": "multipart/form-data"
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              "Content-Type": "multipart/form-data",
             },
           }
         )
         .then((res) => {
-          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
           this.openPopupNotification(0);
           this.form = res;
         })
@@ -224,18 +254,16 @@ export default {
           console.log("There was an issue in employees API", err);
         });
       this.loading = false;
-      // console.log(this.fileDetail.dataURL, "vfileAdded")
     },
     handleInput(event, name) {
+      this.updateForm = {};
       this.updateForm[name] = event;
     },
-    async getAllData(name) {
-      // if(name == 'leftAction'){
-      // console.log(name, "left Action")
-      // }
-      // if(name=='rightAction'){
-      //   console.log(name, "Right Action")
-      // }
+    async getAllData() {
+      if (this.updateForm.name == "blank") {
+        alert("No data to Update");
+        return true;
+      }
       this.loading = true;
       await this.$axios
         .$put(
@@ -248,7 +276,7 @@ export default {
           }
         )
         .then((res) => {
-          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/")
+          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/");
           this.openPopupNotification(1);
           this.form = res;
         })

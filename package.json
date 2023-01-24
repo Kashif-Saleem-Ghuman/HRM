@@ -19,6 +19,7 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.21",
     "nuxt": "^2.14.5",
+    "nuxt-i18n": "^6.28.1",
     "sass": "^1.38.0",
     "sass-loader": "^10.1.1",
     "v-click-outside": "^3.1.2",
@@ -31,7 +32,8 @@
     "vue2-dropzone": "^3.6.0",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.6",
-    "webpack": "^4.46.0"
+    "webpack": "^4.46.0",
+    "@bizinbox/bib-ui-lib": "^2.0.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",

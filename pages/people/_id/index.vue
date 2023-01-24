@@ -28,7 +28,7 @@
               ></drop-zone>
             </div>
           </div>
-          <div class="py-1 row-custom">
+          <div class="py-1 row-custom" id="personal-info">
             <info
               :firstname="form.firstName"
               :midname="form.middleName"
@@ -59,7 +59,7 @@
                       ></tabs-title>
                     </div>
                   </div>
-                  <div id="personal-info">
+                  <div>
                     <personal-info
                       :dob="form.dateOfBirth"
                       :gender="form.gender"
@@ -103,7 +103,7 @@
                   ></tabs-title>
                 </div>
               </div>
-              <div id="personal-info">
+              <div id="employee-info">
                 <employee-info
                   :hireDate="form.hireDate"
                   :socialInsuranceNumber="form.sin"
@@ -171,6 +171,7 @@ export default {
       departmentOptions: "",
       teamOptions: "",
       updateForm: {},
+      isFlag:false,
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
@@ -184,11 +185,6 @@ export default {
     }),
   },
   async mounted() {
-    this.updateForm = { name: "blank" };
-    console.log(
-      this.updateForm.name,
-      "this.updateForm == {}this.updateForm == {}"
-    );
     this.formOptions = SELECT_OPTIONS;
     await this.usersList();
     await this.user(this.$route.params.id);
@@ -208,7 +204,6 @@ export default {
       for (let i = 0; i < this.getUser.teams.length; i++) {
         var key = this.getUser.teams[i];
         team.push({ label: key, value: key });
-        console.log(team, "asdasasdasdaad")
         this.teamOptions=team
       }
 
@@ -256,15 +251,17 @@ export default {
       this.loading = false;
     },
     handleInput(event, name) {
-      this.updateForm = {};
       this.updateForm[name] = event;
+      this.form[name] = event;
+      this.isFlag = true
     },
     async getAllData() {
-      if (this.updateForm.name == "blank") {
+      if (this.isFlag == false) {
         alert("No data to Update");
         return true;
       }
       this.loading = true;
+      this.isFlag = false
       await this.$axios
         .$put(
           `${process.env.API_URL}/employees/${this.$route.params.id}`,

@@ -16,3 +16,4 @@ dist/
 
 # ignore package-lock if generated (project uses yarn)
 package-lock.json*
+.npmrc

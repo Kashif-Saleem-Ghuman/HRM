@@ -1,5 +1,5 @@
 <template>
-  <div id="profile-info-wrapper">
+  <div>
     <div class="row mx-0">
       <div class="col-4">
         <bib-input

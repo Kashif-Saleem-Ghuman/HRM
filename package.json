@@ -32,8 +32,7 @@
     "vue2-dropzone": "^3.6.0",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.6",
-    "webpack": "^4.46.0",
-    "@bizinbox/bib-ui-lib": "^2.0.0"
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",

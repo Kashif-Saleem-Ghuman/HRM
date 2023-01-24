@@ -4,17 +4,19 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Installign BIB Shared components library
-      - echo Installign dependencies...
-      - cp -r ../../github.com/Biztree/bib-shared ../
+      - echo $NPM_AUTH_TOKEN >> .npmrc
       - echo copying environment files
       - aws s3 cp ${STAGE_ENV_FILE_PATH} app.env
       - aws s3 cp ${GLOBAL_ENV_FILE_PATH} global.env
       - cat app.env global.env >> .env      
+  build:
+    commands:
+      - echo nove version
+      - node -v
       - echo installing dependencies
       - yarn install
       - echo Building the Front End distro...
-      - yarn run generate
+      - yarn run generate --fail-on-error
   post_build:
     commands:
       - echo Build completed on `date`

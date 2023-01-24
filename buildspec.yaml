@@ -9,6 +9,7 @@ phases:
       - aws s3 cp ${STAGE_ENV_FILE_PATH} app.env
       - aws s3 cp ${GLOBAL_ENV_FILE_PATH} global.env
       - cat app.env global.env >> .env      
+      - ls -la
   build:
     commands:
       - echo node version

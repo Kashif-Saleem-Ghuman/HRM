@@ -1,7 +1,7 @@
 version: 0.2
 
 phases:
-  build:
+  pre_build:
     commands:
       - echo Build started on `date`
       - echo $NPM_AUTH_TOKEN >> .npmrc
@@ -11,7 +11,7 @@ phases:
       - cat app.env global.env >> .env      
   build:
     commands:
-      - echo nove version
+      - echo node version
       - node -v
       - echo installing dependencies
       - yarn install

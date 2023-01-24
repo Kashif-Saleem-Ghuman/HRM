@@ -27,7 +27,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .avtar_margin {
-  margin-right: 1px;
+  margin-right:-7px;
 }
 </style>
   

@@ -28,7 +28,7 @@
               ></drop-zone>
             </div>
           </div>
-          <div class="py-1 row-custom">
+          <div class="py-1 row-custom" id="personal-info">
             <info
               :firstname="form.firstName"
               :midname="form.middleName"
@@ -59,7 +59,7 @@
                       ></tabs-title>
                     </div>
                   </div>
-                  <div id="personal-info">
+                  <div>
                     <personal-info
                       :dob="form.dateOfBirth"
                       :gender="form.gender"
@@ -76,7 +76,6 @@
               label="Save"
               size="custom"
               variant="dark"
-              :disable="disabledLeft"
               @click="getAllData('leftAction')"
             ></black-button>
           </div>
@@ -104,7 +103,7 @@
                   ></tabs-title>
                 </div>
               </div>
-              <div id="personal-info">
+              <div id="employee-info">
                 <employee-info
                   :hireDate="form.hireDate"
                   :socialInsuranceNumber="form.sin"
@@ -131,7 +130,6 @@
                     label="Save"
                     size="custom"
                     variant="dark"
-                    :disable="this.disabledRight"
                     @click="getAllData('rightAction')"
                   ></black-button>
                 </div>
@@ -163,8 +161,6 @@ export default {
       webPortalAccess: "",
       loading: false,
       fileDetail: "",
-      disabledLeft:'disabled',
-      disabledRight:'disabled',
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       localData: {},
@@ -255,17 +251,9 @@ export default {
       this.loading = false;
     },
     handleInput(event, name) {
-      var id = document.getElementById('profile-info')
-      console.log(id, "kjsdhakdhakjsdhkasdkhaskjd")
-      if(id){
-        this.disabledLeft = ''
-        this.updateForm[name] = event;
+      this.updateForm[name] = event;
       this.form[name] = event;
-      }
-      // this.updateForm[name] = event;
-      // this.form[name] = event;
-      // this.disabled = ''
-      // this.isFlag = true
+      this.isFlag = true
     },
     async getAllData() {
       if (this.isFlag == false) {

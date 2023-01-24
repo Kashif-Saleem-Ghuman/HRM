@@ -24,6 +24,9 @@
           >
           </section-header-right>
         </template>
+        <div style="z-index: 100;" class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0">
+          <span style="font-size: 14px; font-weight: 500;">{{totalUser}}</span>
+        </div>
         <button-circle
           icon="user-add"
           :scale="1"
@@ -49,7 +52,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -68,6 +71,7 @@ export default {
       ],
       users: [],
       orderBy: "asc",
+      totalUser:'',
       userItems: [
         {
           avatarUrl: "1",
@@ -89,7 +93,8 @@ export default {
       userList: "users/GET_USERS_LIST",
     }),
   },
-  mounted() {
+  async mounted() {
+    await this.usersList();
     var userRole = localStorage.getItem("userRole");
     if (userRole === "USER") {
       if (this.$router.history.current.fullPath == "/people") {
@@ -97,9 +102,13 @@ export default {
         return;
       }
     }
-    console.log(this.userList, "userList");
+    this.totalUser = this.userList.length
+    console.log(this.userList.length, "userList");
   },
   methods: {
+    ...mapActions({
+      usersList: "users/setUserList",
+    }),
     clickAction(event) {
       console.log(event.key);
     },

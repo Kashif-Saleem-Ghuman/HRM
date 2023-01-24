@@ -76,6 +76,7 @@
               label="Save"
               size="custom"
               variant="dark"
+              :disable="disabledLeft"
               @click="getAllData('leftAction')"
             ></black-button>
           </div>
@@ -130,6 +131,7 @@
                     label="Save"
                     size="custom"
                     variant="dark"
+                    :disable="this.disabledRight"
                     @click="getAllData('rightAction')"
                   ></black-button>
                 </div>
@@ -161,6 +163,8 @@ export default {
       webPortalAccess: "",
       loading: false,
       fileDetail: "",
+      disabledLeft:'disabled',
+      disabledRight:'disabled',
       personalTabItem: PERSONAL_INFO_TAB,
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       localData: {},
@@ -171,6 +175,7 @@ export default {
       departmentOptions: "",
       teamOptions: "",
       updateForm: {},
+      isFlag:false,
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
@@ -184,11 +189,6 @@ export default {
     }),
   },
   async mounted() {
-    this.updateForm = { name: "blank" };
-    console.log(
-      this.updateForm.name,
-      "this.updateForm == {}this.updateForm == {}"
-    );
     this.formOptions = SELECT_OPTIONS;
     await this.usersList();
     await this.user(this.$route.params.id);
@@ -208,7 +208,6 @@ export default {
       for (let i = 0; i < this.getUser.teams.length; i++) {
         var key = this.getUser.teams[i];
         team.push({ label: key, value: key });
-        console.log(team, "asdasasdasdaad")
         this.teamOptions=team
       }
 
@@ -256,15 +255,25 @@ export default {
       this.loading = false;
     },
     handleInput(event, name) {
-      this.updateForm = {};
-      this.updateForm[name] = event;
+      var id = document.getElementById('profile-info')
+      console.log(id, "kjsdhakdhakjsdhkasdkhaskjd")
+      if(id){
+        this.disabledLeft = ''
+        this.updateForm[name] = event;
+      this.form[name] = event;
+      }
+      // this.updateForm[name] = event;
+      // this.form[name] = event;
+      // this.disabled = ''
+      // this.isFlag = true
     },
     async getAllData() {
-      if (this.updateForm.name == "blank") {
+      if (this.isFlag == false) {
         alert("No data to Update");
         return true;
       }
       this.loading = true;
+      this.isFlag = false
       await this.$axios
         .$put(
           `${process.env.API_URL}/employees/${this.$route.params.id}`,

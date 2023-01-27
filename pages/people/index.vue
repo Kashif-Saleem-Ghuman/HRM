@@ -48,7 +48,7 @@
       <action-right v-on:change-sort="sortBy"></action-right>
     </div>
     <list :userList="userList"></list>
-    <action-sidebar v-show="openSidebar"></action-sidebar>
+    <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
 </template>
 <script>

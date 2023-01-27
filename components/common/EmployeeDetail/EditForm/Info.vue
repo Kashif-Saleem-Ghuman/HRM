@@ -15,7 +15,7 @@
           type="text"
           label="Middle Name"
           v-model="midname"
-          placeholder="Type your name"
+          placeholder="Type your middle name"
           @change="$emit('input', $event, 'middleName')"
         ></bib-input>
       </div>
@@ -24,37 +24,49 @@
           type="text"
           label="Last Name"
           v-model="lastname"
-          placeholder="Type your name"
+          placeholder="Type your last name"
           @change="$emit('input', $event, 'lastName')"
         ></bib-input>
       </div>
     </div>
     <div class="row mx-0">
       <div class="col-6">
+        <label class="text-gray6 d-flex align-center"
+          >Personal email address <span class="text-danger">*</span></label
+        >
         <bib-input
-          type="text"
-          label="Personal email address •"
+          type="email"
           v-model="email"
           placeholder="Enter your email"
           @change="$emit('input', $event, 'email')"
-
+          :variant="emailValidation"
         ></bib-input>
+        <div v-if="ValidateEmail" class="text-danger validation-text">
+          {{ ValidateEmail }}
+        </div>
       </div>
     </div>
     <div class="row mx-0">
-      <div class="col-6">
+      <div class="col-6 validation-mark">
+        <label class="text-gray6 d-flex align-center"
+          >Personal mobile number <span class="text-danger">*</span></label
+        >
         <bib-input
           type="text"
-          label="Personal mobile number •"
           v-model="mobile"
-          placeholder="Enter your email"
+          placeholder="Enter mobile number"
           @change="$emit('input', $event, 'phone')"
+          :variant="phoneValidation"
         ></bib-input>
+        <div v-if="ValidatePhone" class="text-danger validation-text">
+          {{ ValidatePhone }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { validate } from "json-schema";
 export default {
   name: "Info",
   props: {
@@ -73,15 +85,44 @@ export default {
     mobile: {
       type: String,
     },
-    input:{
-      type:Function
+    input: {
+      type: Function,
     },
-  },
-  methods:{
-    updateInput($event){
-      // console.log($event, "called")
-      this.$emit("update-value", $event)
+    ValidateEmail: {
+      type: Array,
+    },
+    ValidatePhone: {
+      type: Array,
+    },
+    phoneValidation:{
+      type:String
+    },
+    emailValidation:{
+      type:String
     }
-  }
+  },
+  data() {
+    return {
+      methods: {
+        updateInput($event) {
+          // console.log($event, "called")
+          this.$emit("update-value", $event);
+        },
+      },
+    };
+  },
+  components: { validate },
 };
 </script>
+<style lang="scss">
+.validation-mark {
+  label {
+    line-height: 20px !important;
+  }
+}
+.text-gray6 {
+  span {
+    padding-left: 4px;
+  }
+}
+</style>

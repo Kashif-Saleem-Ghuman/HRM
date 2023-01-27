@@ -10,7 +10,20 @@ $input-placeholder-color: #b1b1b4;
 $input-border-color: #e8e8eb;
 $input-borderradius: 4px;
 $validation-star-color: #fa0f00;
-
+.validation-text{
+  font-size: 12px;
+  height: 27px;
+  margin-top: -6px;
+  animation: fadeInAnimation ease 2s
+}
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+   }
+}
 .custom-input {
   input {
     background-color: $input-bg-color;

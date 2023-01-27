@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@bizinbox/bib-ui-lib": "^2.0.0",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/style-resources": "^1.2.1",
@@ -17,6 +18,7 @@
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
     "fs": "0.0.1-security",
+    "json-schema": "^0.4.0",
     "lodash": "^4.17.21",
     "nuxt": "^2.14.5",
     "nuxt-i18n": "^6.28.1",
@@ -32,8 +34,7 @@
     "vue2-dropzone": "^3.6.0",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.6",
-    "webpack": "^4.46.0",
-    "@bizinbox/bib-ui-lib": "^2.0.0"
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",

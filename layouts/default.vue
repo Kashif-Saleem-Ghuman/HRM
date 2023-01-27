@@ -55,7 +55,7 @@
           <Nuxt />
           <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
           <transition name="drawer">
-            <action-sidebar v-show="openSidebar"></action-sidebar>
+            <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
           </transition>
         </div>
       </template>

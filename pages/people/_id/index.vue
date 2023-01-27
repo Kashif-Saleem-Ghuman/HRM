@@ -36,6 +36,11 @@
               :email="form.email"
               :mobile="form.phone"
               @input="handleInput"
+              @validateEmail="validateEmail"
+              :emailValidation="form.email === '' ? 'alert' : ''"
+              :phoneValidation="form.phone === null ? 'alert' : ''"
+              :ValidateEmail="msg.email"
+              :ValidatePhone="msg.phone"
             ></info>
             <div class="tab-wrapper">
               <div class="row mx-0 pt-1">
@@ -165,13 +170,14 @@ export default {
       employeInfoTabItem: EMPLOYEE_INFO_TAB,
       localData: {},
       form: {},
+      msg: [],
       users: {},
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
       teamOptions: "",
       updateForm: {},
-      isFlag:false,
+      isFlag: false,
       activeTab: "personal-information",
       employeInfoActiveTab: "employment-information",
     };
@@ -185,13 +191,15 @@ export default {
     }),
   },
   async mounted() {
+    this.email = this.form.email;
     this.formOptions = SELECT_OPTIONS;
+    this.loading = true;
     await this.usersList();
     await this.user(this.$route.params.id);
     await this.department();
     this.getEmployeeDetails();
     this.form = this.getUser;
-    
+    this.loading = false;
   },
   methods: {
     ...mapActions({
@@ -199,12 +207,13 @@ export default {
       department: "users/setDepartmentList",
       user: "users/setUser",
     }),
+
     getEmployeeDetails() {
       var team = [{ label: "Please select", value: null }];
       for (let i = 0; i < this.getUser.teams.length; i++) {
         var key = this.getUser.teams[i];
         team.push({ label: key, value: key });
-        this.teamOptions=team
+        this.teamOptions = team;
       }
 
       var reportTo = [{ label: "Please select", value: null }];
@@ -219,7 +228,6 @@ export default {
         depatment.push({ label: key, value: key });
       }
       this.departmentOptions = depatment;
-      
     },
 
     openPopupNotification,
@@ -253,15 +261,51 @@ export default {
     handleInput(event, name) {
       this.updateForm[name] = event;
       this.form[name] = event;
-      this.isFlag = true
+      this.isFlag = true;
+      if (name === "email") {
+        if (
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+            this.updateForm.email
+          )
+        ) {
+          this.msg["email"] = "";
+        } else {
+          this.msg["email"] = "Please enter a valid email address";
+        }
+      }
+      if (name === "phone") {
+        if (/^\d{10}$/.test(this.updateForm.phone)) {
+          this.msg["phone"] = "";
+        } else {
+          this.msg["phone"] = "Please enter a valid phone number";
+        }
+      }
     },
     async getAllData() {
-      if (this.isFlag == false) {
-        alert("No data to Update");
-        return true;
-      }
-      this.loading = true;
-      this.isFlag = false
+      // if (this.isFlag == false) {
+      //   alert("No data to Update");
+      //   return true;
+      // }
+      
+        if (/^\d{10}$/.test(this.updateForm.phone || this.form.phone)) {
+          this.msg["phone"] = "";
+        } else {
+          this.msg["phone"] = "Please enter a valid phone number";
+          return
+        };
+      
+        if (
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+            this.updateForm.email || this.form.email
+          )
+        ) {
+          this.msg["email"] = "";
+        } else {
+          this.msg["email"] = "Please enter a valid email address";
+          return
+        };  
+        this.loading = true;
+      this.isFlag = false;
       await this.$axios
         .$put(
           `${process.env.API_URL}/employees/${this.$route.params.id}`,
@@ -281,6 +325,24 @@ export default {
           console.log("There was an issue in employees API", err);
         });
       this.loading = false;
+      
+      // if (
+      //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      //     this.updateForm.email
+      //   )
+      // ) {
+      //   this.msg["email"] = "";
+      // } else {
+      //   this.msg["email"] = "Please enter a valid email address";
+      //   return true
+      // }
+      // if (/^\d{10}$/.test(this.updateForm.phone)) {
+      //     this.msg["phone"] = "";
+      //   } else {
+      //     this.msg["phone"] = "Please enter a valid phone number";
+      //     return true
+      //   }
+      
     },
     sortBy() {
       alert("called");

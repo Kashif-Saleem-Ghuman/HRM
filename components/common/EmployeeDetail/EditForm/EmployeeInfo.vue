@@ -17,7 +17,7 @@
           type="text"
           label="Social Insurance Number"
           v-model="socialInsuranceNumber"
-          placeholder="Enter your email"
+          placeholder="Enter your social insurance number"
           @change="$emit('input', $event, 'sin')"
         ></bib-input>
       </div>
@@ -28,7 +28,7 @@
           type="text"
           label="Employee number"
           v-model="employeeNumber"
-          placeholder="Enter your email"
+          placeholder="Enter your employe number"
           @change="$emit('input', $event, 'employeNumber')"
         ></bib-input>
       </div>
@@ -38,7 +38,7 @@
           label="Employee Status"
           v-model="employeeStatus"
           :options="esstatusOptions"
-          placeholder="Enter your email"
+          placeholder="Please select employee status"
           @input="$emit('input', $event, 'status')"
         ></bib-input>
       </div>
@@ -50,7 +50,7 @@
           label="Department"
           v-model="department"
           :options="departmentOptions"
-          placeholder="Enter your email"
+          placeholder="Enter your department"
           @input="$emit('input', $event, 'department')"
         ></bib-input>
       </div>
@@ -59,7 +59,7 @@
           type="select"
           label="Team"
           v-model="team"
-          placeholder="Enter your team"
+          placeholder="Please select your teams"
           :options="teamOptions"
           @input="$emit('input', $event, 'team')"
         ></bib-input>
@@ -82,7 +82,7 @@
           label="Reports to"
           v-model="reportsTo"
           :options="reportsToOptions"
-          placeholder="Enter your email"
+          placeholder="Please select reports to"
           @input="$emit('input', $event, 'reportTo')"
         ></bib-input>
       </div>

@@ -57,7 +57,7 @@ export default {
     }
     if (process.client) {
     if (event.key == "dashboard") {
-     this.$router.push('/')
+     this.$router.push('/dashboard')
       return;
     }
     if (event.key == "inbox") {

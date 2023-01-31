@@ -3,7 +3,6 @@
     class="button"
     :class="[
       variant ? 'button--' + variant : '',
-      disable ? 'button--' + disable : '',
     ]"
     :href="href"
     @click="$emit('click')"
@@ -43,12 +42,7 @@ export default {
         return "";
       },
     },
-    disable: {
-      type: String,
-      default() {
-        return "";
-      },
-    },
+    
   },
   data() {
     return {};
@@ -76,10 +70,6 @@ $dark-sub: var(--bib-dark-sub2);
     color: $white;
     width:200px;
   }
-  &--disabled {
-  cursor: not-allowed;
-  background-color: #b1b1b4 !important;
-}
   &:focus,
   &:active,
   &:focus-within {

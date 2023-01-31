@@ -38,23 +38,43 @@
         v-on:change-sort="sortBy"
       ></action-right>
     </div>
-    <bib-switch
-      :checked="switchChecked2"
-      @change="switchChecked2 = !switchChecked2"
-    ></bib-switch>
-    <modal-wrapper></modal-wrapper>
+    <div class="py-2 px-2">
+      <div class="d-flex"  style="position: relative;">
+        <progress-circle :progressCount="70" :fill="fill" emptyfill="#D5E8D4" variant="__bg-green" @mouseover="mouseover" @mouseleave="mouseleave"></progress-circle>
+        <tooltip :show="showTooltip"></tooltip>
+      </div>
+      <div class="py-2 d-flex">
+        <chips title="Punched in" variant="__bgsucess"></chips>
+        <chips title="Absent" variant="__bgabsent"></chips>
+        <chips title="Vacation" variant="__bgvacation"></chips>
+        <chips title="Absent" variant="__bgabsentpink"></chips>
+        <chips title="Pending" variant="__bgpending"></chips>
+      </div>
+      <div class="py-2 d-flex">
+        <chips title="V" shapeCircle="__shape-circle" variant="__bgsucess"></chips>
+        <chips title="V" shapeCircle="__shape-circle" variant="__bgvacation"></chips>
+        <chips title="V" shapeCircle="__shape-circle" variant="__bgabsent"></chips>
+        <chips title="M" shapeCircle="__shape-circle" variant="__bgabsentpink"></chips>
+        <chips title="N/A" shapeCircle="__shape-circle"></chips>
+        <!-- <chips title="M"  variant="__bgabsent"></chips>
+        <chips title="A" variant="__bgvacation"></chips>
+        <chips title="Absent" variant="__bgabsentpink"></chips>
+        <chips title="Pending" variant="__bgdefault"></chips> -->
+      </div>
+    </div>
+    
+    <!-- <modal-wrapper></modal-wrapper> -->
     <!-- <action-button v-on:new-employee-action="sortBy" v-on:import-action="sortBy"></action-button> -->
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   data() {
     return {
       switchChecked1: true,
       switchChecked2: false,
-
+      showTooltip:false,
+      fill:"#2BA026" ,
       userItems: [
         {
           avatarUrl:
@@ -72,9 +92,12 @@ export default {
     };
   },
   methods: {
-    sortBy() {
-      alert("called");
+    mouseover() {
+      this.showTooltip=true
     },
+    mouseleave(){
+      this.showTooltip= false
+    }
   },
 };
 </script>

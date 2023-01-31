@@ -24,6 +24,28 @@ export const TABLE_FIELDS = [
     label: "Performance",
   },
 ];
+export const TABLE_FIELDS_DIR = [
+  {
+    key: "",
+    label: "#",
+  },
+  {
+    key: "name",
+    label: "Employee",
+  },
+  {
+    key: "presence",
+    label: "Presence",
+  },
+  {
+    key: "department",
+    label: "Department",
+  },
+  {
+    key: "team",
+    label: "Team",
+  },
+];
 export const TABLE_SECTIONS = [
   {
     id: "1",

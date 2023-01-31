@@ -174,7 +174,7 @@ export default {
       users: {},
       usersOptions: "",
       formOptions: {},
-      departmentOptions: "",
+      departmentOptions: '',
       teamOptions: "",
       updateForm: {},
       isFlag: false,
@@ -188,6 +188,8 @@ export default {
       userList: "users/GET_USERS_LIST",
       getDepartment: "users/GET_DEPARTMENT_LIST",
       getUser: "users/GET_USER",
+      getReportsList: "users/GET_REPORTS_LIST",
+      getTeamList: "users/GET_TEAM_LIST",
     }),
   },
   async mounted() {
@@ -197,7 +199,12 @@ export default {
     await this.usersList();
     await this.user(this.$route.params.id);
     await this.department();
-    this.getEmployeeDetails();
+    await this.reports();
+    await this.team();
+    this.departmentOptions = this.getDepartment
+    this.usersOptions = this.getReportsList
+    this.teamOptions = this.getTeamList
+    // this.getEmployeeDetails();
     this.form = this.getUser;
     this.loading = false;
   },
@@ -206,28 +213,30 @@ export default {
       usersList: "users/setUserList",
       department: "users/setDepartmentList",
       user: "users/setUser",
+      reports: "users/setReportsList",
+      team: "users/setTeamList",
     }),
 
     getEmployeeDetails() {
-      var team = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.getUser.teams.length; i++) {
-        var key = this.getUser.teams[i];
-        team.push({ label: key, value: key });
-        this.teamOptions = team;
-      }
+      // var team = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.getUser.teams.length; i++) {
+      //   var key = this.getUser.teams[i];
+      //   team.push({ label: key, value: key });
+      //   this.teamOptions = team;
+      // }
 
-      var reportTo = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.userList.length; i++) {
-        var key = this.userList[i].firstName + " " + this.userList[i].lastName;
-        reportTo.push({ label: key, value: key });
-      }
-      this.usersOptions = reportTo;
-      var depatment = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.getDepartment.length; i++) {
-        var key = this.getDepartment[i];
-        depatment.push({ label: key, value: key });
-      }
-      this.departmentOptions = depatment;
+      // var reportTo = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.userList.length; i++) {
+      //   var key = this.userList[i].firstName + " " + this.userList[i].lastName;
+      //   reportTo.push({ label: key, value: key });
+      // }
+      // this.usersOptions = reportTo;
+      // var depatment = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.getDepartment.length; i++) {
+      //   var key = this.getDepartment[i];
+      //   depatment.push({ label: key, value: key });
+      // }
+      // this.departmentOptions = depatment;
     },
 
     openPopupNotification,

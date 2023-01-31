@@ -30,6 +30,19 @@
         <span>{{ data.value.department }}</span>
       </div>
     </template>
+    <template #cell(presence)="data">
+      <div class="justify-center text-dark">
+        <circle-text
+        :title="data.value.attendance ==null ? 'N/A' : data.value.attendance + '%'"
+          :className="[
+            data.value.attendance >= 70 ? 'variant_green' : '',
+            data.value.attendance < 70 ? 'variant_yellow' : '',
+            data.value.attendance < 35 ? 'variant_light_pink' : '',
+            data.value.attendance < 20 ? 'variant_gray' : '',
+          ]"
+        ></circle-text>
+      </div>
+    </template>
     <template #cell(attendance)="data">
       <div class="justify-center text-dark">
         <circle-text
@@ -78,7 +91,7 @@
 </template>
 
 <script>
-import { TABLE_FIELDS } from "../../../utils/constant/Constant.js";
+import { TABLE_FIELDS, TABLE_FIELDS_DIR } from "../../../utils/constant/Constant.js";
 import { StarRating } from "../StarRating/StarRating.vue";
 export default {
   props: {
@@ -89,10 +102,20 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_FIELDS,
+      tableFields: '',
       attendanceClass: [],
       satisfaction: "",
     };
+  },
+  created(){
+    if (this.$router.history.current.fullPath == "/people") {
+        this.tableFields = TABLE_FIELDS
+        return;
+      }
+      if (this.$router.history.current.fullPath == "/people/directory") {
+        this.tableFields = TABLE_FIELDS_DIR
+        return;
+      }
   },
   methods: {
     handleItemClick_Table($event, keyI, item) {

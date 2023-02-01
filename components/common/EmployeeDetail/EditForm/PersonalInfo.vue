@@ -4,18 +4,18 @@
       <bib-input
         type="date"
         label="Date of Birth"
-        v-model="dob"
-        placeholder="Select your DOB"
-        @change="$emit('input', $event, 'dateOfBirth')"
+        v-model="date_vmodel"
+        placeholder="Enter your email"
+        @change="$emit('input', $event, 'date')"
       ></bib-input>
     </div>
     <div class="col-6">
       <bib-input
         type="select"
         label="Gender"
-        v-model="gender"
+        v-model="gender_vmodel"
         :options="options"
-        placeholder="Select Your Gender"
+        placeholder="Enter your email"
         @input="$emit('input', $event, 'gender')"
       ></bib-input>
     </div>
@@ -25,10 +25,10 @@
 export default {
   name: "PersonalInfo",
   props: {
-    dob: {
+    date_vmodel: {
       type: String,
     },
-    gender: {
+    gender_vmodel: {
       type: String,
     },
     options: {

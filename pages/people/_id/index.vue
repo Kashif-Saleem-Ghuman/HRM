@@ -77,12 +77,12 @@
             </div>
           </div>
           <div class="row mx-0 pb-1 pt-0">
-            <black-button
+            <custom-button
               label="Save"
               size="custom"
               variant="dark"
               @click="getAllData('leftAction')"
-            ></black-button>
+            ></custom-button>
           </div>
         </div>
         <div class="section-mid"></div>
@@ -131,12 +131,12 @@
               </div>
               <div class="row mx-0 pb-1 pt-1">
                 <div class="col-12">
-                  <black-button
+                  <custom-button
                     label="Save"
                     size="custom"
                     variant="dark"
                     @click="getAllData('rightAction')"
-                  ></black-button>
+                  ></custom-button>
                 </div>
               </div>
             </div>

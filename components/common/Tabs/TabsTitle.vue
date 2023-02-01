@@ -44,7 +44,7 @@ export default {
 }
 .tab_title {
   h3 {
-    font-size: 12px;
+    font-size: 14px;
     color: #85858f;
     font-weight: 600;
     margin: 0;

@@ -321,6 +321,44 @@ export const PERSONAL_INFO_TAB = [
     value: "contacts",
   },
 ];
+export const EMPLOYEE_PROFILE_TAB = [
+  {
+    title: "Employee Profile",
+    value: "Employee Profile",
+  },
+  {
+    title: "Personal Information",
+    value: "Personal Information",
+  },
+  {
+    title: "Contact Info",
+    value: "Contact Info",
+  },
+  {
+    title: "Employment Information",
+    value: "Employment Information",
+  },
+  {
+    title: "Compensation",
+    value: "Compensation",
+  },
+  {
+    title: "Benefits",
+    value: "Benefits",
+  },
+  {
+    title: "Time-off",
+    value: "Time-off",
+  },
+  {
+    title: "Time & Attendance",
+    value: "Time & Attendance",
+  },
+  {
+    title: "Files",
+    value: "Files",
+  },
+];
 export const EMPLOYEE_INFO_TAB = [
   {
     title: "Employment Information",

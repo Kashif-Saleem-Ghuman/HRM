@@ -77,12 +77,12 @@
             </div>
           </div>
           <div class="row mx-0 pb-1 pt-0">
-            <custom-button
+            <bib-button
               label="Save"
-              size="custom"
-              variant="dark"
-              @click="getAllData('leftAction')"
-            ></custom-button>
+              size="lg"
+              variant="success"
+              @click="getAllData('rightAction')"
+            ></bib-button>
           </div>
         </div>
         <div class="section-mid"></div>
@@ -131,12 +131,18 @@
               </div>
               <div class="row mx-0 pb-1 pt-1">
                 <div class="col-12">
-                  <custom-button
+                  <bib-button
+                    label="Save"
+                    size="lg"
+                    variant="success"
+                    @click="getAllData('rightAction')"
+                  ></bib-button>
+                  <!-- <custom-button
                     label="Save"
                     size="custom"
                     variant="dark"
                     @click="getAllData('rightAction')"
-                  ></custom-button>
+                  ></custom-button> -->
                 </div>
               </div>
             </div>
@@ -174,7 +180,7 @@ export default {
       users: {},
       usersOptions: "",
       formOptions: {},
-      departmentOptions: '',
+      departmentOptions: "",
       teamOptions: "",
       updateForm: {},
       isFlag: false,
@@ -201,9 +207,9 @@ export default {
     await this.department();
     await this.reports();
     await this.team();
-    this.departmentOptions = this.getDepartment
-    this.usersOptions = this.getReportsList
-    this.teamOptions = this.getTeamList
+    this.departmentOptions = this.getDepartment;
+    this.usersOptions = this.getReportsList;
+    this.teamOptions = this.getTeamList;
     // this.getEmployeeDetails();
     this.form = this.getUser;
     this.loading = false;
@@ -224,7 +230,6 @@ export default {
       //   team.push({ label: key, value: key });
       //   this.teamOptions = team;
       // }
-
       // var reportTo = [{ label: "Please select", value: null }];
       // for (let i = 0; i < this.userList.length; i++) {
       //   var key = this.userList[i].firstName + " " + this.userList[i].lastName;
@@ -295,25 +300,25 @@ export default {
       //   alert("No data to Update");
       //   return true;
       // }
-      
-        if (/^\d{10}$/.test(this.updateForm.phone || this.form.phone)) {
-          this.msg["phone"] = "";
-        } else {
-          this.msg["phone"] = "Please enter a valid phone number";
-          return
-        };
-      
-        if (
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-            this.updateForm.email || this.form.email
-          )
-        ) {
-          this.msg["email"] = "";
-        } else {
-          this.msg["email"] = "Please enter a valid email address";
-          return
-        };  
-        this.loading = true;
+
+      if (/^\d{10}$/.test(this.updateForm.phone || this.form.phone)) {
+        this.msg["phone"] = "";
+      } else {
+        this.msg["phone"] = "Please enter a valid phone number";
+        return;
+      }
+
+      if (
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          this.updateForm.email || this.form.email
+        )
+      ) {
+        this.msg["email"] = "";
+      } else {
+        this.msg["email"] = "Please enter a valid email address";
+        return;
+      }
+      this.loading = true;
       this.isFlag = false;
       await this.$axios
         .$put(
@@ -334,7 +339,7 @@ export default {
           console.log("There was an issue in employees API", err);
         });
       this.loading = false;
-      
+
       // if (
       //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
       //     this.updateForm.email
@@ -351,7 +356,6 @@ export default {
       //     this.msg["phone"] = "Please enter a valid phone number";
       //     return true
       //   }
-      
     },
     sortBy() {
       alert("called");

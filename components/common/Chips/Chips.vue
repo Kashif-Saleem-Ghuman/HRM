@@ -1,10 +1,12 @@
 <template>
   <div class="d-flex gap-1">
     <div
-      :class="[
-        variant ? 'chip-wrapper' + variant : '',
-        shapeCircle ? 'chip-wrapper' + shapeCircle : ''
-        ]"
+    :class="[
+      shapeCircle ? 'chip-wrapper' + shapeCircle : '',
+      variant ? 'chip-wrapper' + variant : '',
+      className
+    ]"
+    
       class="cursor-pointer chip-wrapper"
       @click="$emit('on-click')"
     >
@@ -12,6 +14,10 @@
     </div>
   </div>
 </template>
+<!-- :class="[
+        variant ? 'chip-wrapper' + variant : '',
+        shapeCircle ? 'chip-wrapper' + shapeCircle : ''
+        ]" -->
 <script>
 export default {
   name: "Chips",
@@ -25,8 +31,12 @@ export default {
     scale: {
       type: Number,
     },
-    variant: {
-      type: String,
+    className: {
+      type: Array,
+       default:[],
+    },
+    variant:{
+      type:String
     },
     shapeCircle: {
       type: String,
@@ -49,11 +59,7 @@ export default {
   justify-content:center;
   align-items: center;
   background-color: #F2F2F5;
-  span{
-    color: #E2E2E3;
-      font-weight: 500;
-      font-size: 14px;
-  }
+  
 
   &__shape-circle{
     width: 3rem;
@@ -111,6 +117,14 @@ export default {
       font-weight: 500;
       font-size: 14px;
     }
+  }
+  &__bggray {
+    background-color: #F2F2F5;
+    span{
+    color: #E2E2E3;
+      font-weight: 500;
+      font-size: 14px;
+  }
   }
 }
 </style>

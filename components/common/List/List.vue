@@ -45,28 +45,30 @@
     </template>
     <template #cell(attendance)="data">
       <div class="justify-center text-dark">
-        <circle-text
+        <chips
         :title="data.value.attendance ==null ? 'N/A' : data.value.attendance + '%'"
-          :className="[
-            data.value.attendance >= 70 ? 'variant_green' : '',
-            data.value.attendance < 70 ? 'variant_yellow' : '',
-            data.value.attendance < 35 ? 'variant_light_pink' : '',
-            data.value.attendance < 20 ? 'variant_gray' : '',
-          ]"
-        ></circle-text>
+        shapeCircle="__shape-circle"
+        :className="[
+        data.value.attendance >= 70 ? 'chip-wrapper__bgsucess' : '' ,
+        data.value.attendance <= 70 ? 'chip-wrapper__bgabsent' : '' ,
+        data.value.attendance <= 35 ? 'chip-wrapper__bgabsentpink' : '',
+        data.value.attendance <= 20 ? 'chip-wrapper__bggray' : ''
+      ]"
+        ></chips>
       </div>
     </template>
     <template #cell(satisfaction)="data">
       <div class="justify-center text-dark">
-        <circle-text
-          :title="data.value.satisfaction == null ? 'N/A' : data.value.satisfaction + '%'"
-          :className="[
-            data.value.satisfaction >= 80 ? 'variant_green' : '',
-            data.value.satisfaction < 80 ? 'variant_yellow' : '',
-            data.value.satisfaction < 40 ? 'variant_light_pink' : '',
-            data.value.satisfaction < 10 ? 'variant_gray' : '',
-          ]"
-        ></circle-text>
+        <chips
+        shapeCircle="__shape-circle"
+        :title="data.value.satisfaction ==null ? 'N/A' : data.value.satisfaction + '%'"
+        :className="[
+        data.value.satisfaction >= 70 ? 'chip-wrapper__bgsucess' : '', 
+        data.value.satisfaction < 80 ? 'chip-wrapper__bgabsent' : '' ,
+        data.value.satisfaction <= 35 ? 'chip-wrapper__bgabsentpink' : '', 
+        data.value.satisfaction <= 20 ? 'chip-wrapper__bggray' : '',
+      ]"
+        ></chips>
       </div>
     </template>
     <template #cell(performance)="data">

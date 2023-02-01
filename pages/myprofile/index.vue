@@ -6,180 +6,252 @@
       <section-header-left
         title="Employee Profile"
         bookmark="bookmark-solid"
-        moreIcon="horizontal-dots"
         headerRight="headerRight"
       ></section-header-left>
     </div>
-    <div class="d-flex">
-      <div class="section-wrapper d-flex">
-        <div class="section-left py-2 px-2">
-          <div>
-            <tabs-title
-              title="Employee details"
-              variant="gray"
-              icon="info"
-              :scale="0.9"
-            ></tabs-title>
-            <div class="py-1">
-              <drop-zone
-              :src="form.avatar"
-              :className="form.avatar != null ? 'hide' : ''"
-              @vfileAdded="vfileAdded"
-              ></drop-zone>
-            </div>
-          </div>
-          <div class="py-1 row-custom">
-            <static-info
-            :firstname="form.firstName"
-              :lastname="form.lastName"
-              :email="form.email"
-              :mobile="form.phone"
-            ></static-info>
-            <div class="tab-wrapper">
-              <div class="row mx-0 pt-1">
-                <div class="col-12">
-                  <bib-tabs
-                    :tabs="personalTabItem"
-                    :value="activeTab"
-                    @change="handleChange_Tabs"
-                  ></bib-tabs>
-                </div>
-              </div>
-              <div class="pt-2" id="tab_info_wrapper">
-                <div v-if="activeTab == personalTabItem[0].value">
-                  <div class="row mx-0">
-                    <div class="col-12">
-                      <tabs-title
-                        :title="personalTabItem[0].title"
-                        variant="gray"
-                        icon="info"
-                        :scale="0.9"
-                        updateButton
-                      ></tabs-title>
-                    </div>
-                  </div>
-                  <div id="personal-info">
-                    <static-personal-info
-                      :date_vmodel="form.dateOfBirth"
-                      :gender_vmodel="form.gender"
-                    ></static-personal-info>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="section-wrapper custom-input px-1">
+      <div class="tab-wrapper">
+        <div class="row mx-0 pt-1">
+          <div class="col-12">
+            <bib-tabs
+              :tabs="personalTabItem"
+              :value="activeTab"
+              @change="handleChange_Tabs"
+            ></bib-tabs>
           </div>
         </div>
-        <div class="section-mid"></div>
-        <div class="section-right py-1 pl-2 pr-1 row-custom">
-          <div class="row mx-0 pt-1">
-            <div class="col-12">
-              <bib-tabs
-                :tabs="employeInfoTabItem"
-                :value="employeInfoActiveTab"
-                @change="employee_info_Tabs"
-              ></bib-tabs>
-            </div>
-          </div>
-          <div class="pt-2" id="tab_info_wrapper">
-            <div v-if="employeInfoActiveTab == employeInfoTabItem[0].value">
-              <div class="row mx-0">
-                <div class="col-12">
+        <div class="" id="tab_info_wrapper">
+          <div id="my-profile-wrapper">
+            <div v-if="activeTab == personalTabItem[0].value">
+              <div class="row mx-0 pt-2">
+                <div class="col-6">
                   <tabs-title
-                    :title="employeInfoTabItem[0].title"
+                    :title="personalTabItem[0].title"
                     variant="gray"
                     icon="info"
                     :scale="0.9"
-                    updateButton
                   ></tabs-title>
                 </div>
               </div>
-              <div id="personal-info">
-                <static-employee-info
-                  :hireDate="form.hireDate"
-                  :socialInsuranceNumber="form.sin"
-                  :employeeNumber="form.employeeNumber = null ? '': '1111'"
-                  :employeeStatus="form.status"
-                  :department="form.department"
-                  :team="this.teamOption"
-                  teamOptions="A"
-                  :title="form.title"
-                  titleOptions="Software Engineer"
-                  :reportsTo="form.reportTo"
-                  :allowWebAccess="form.allowWebAccess"
-                ></static-employee-info>
+
+              <div class="py-cus">
+                <drop-zone
+                  :src="form.avatar"
+                  :className="form.avatar != null ? 'hide' : ''"
+                  :customRemove="form.avatar == null ? 'hide' : ''"
+                  @vfileAdded="vfileAdded"
+                ></drop-zone>
+              </div>
+              <div>
+                <div class="col-6 row-custom">
+                  <div class="">
+                    <employee-profile
+                      :firstname="form.firstName"
+                      :midname="form.middleName"
+                      :lastname="form.lastName"
+                      :department="form.department"
+                      :title="form.title"
+                      :employeeStatus="form.status"
+                      disabled="disabled"
+                    ></employee-profile>
+                  </div>
+                  <div
+                    class="bg-light mt-1"
+                    :class="seprator"
+                    style="height: 1px"
+                  ></div>
+                  <div class="info-wrapper py-cus">
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <tabs-title
+                          :title="personalTabItem[2].title"
+                          variant="gray"
+                          icon="info"
+                          :scale="0.9"
+                        ></tabs-title>
+                      </div>
+                    </div>
+                    <div class="py-cus">
+                      <contact-info
+                        :email="form.email"
+                        :mobile="form.phone"
+                        disabled="disabled"
+                      ></contact-info>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="my-profile-wrapper">
+            <div v-if="activeTab == personalTabItem[1].value">
+              <div class="row mx-0 pt-2">
+                <div class="col-6">
+                  <tabs-title
+                    :title="personalTabItem[1].title"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateInfo"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="py-cus">
+                <drop-zone
+                  :src="form.avatar"
+                  :className="form.avatar != null ? 'hide' : ''"
+                  :customRemove="form.avatar == null ? 'hide' : ''"
+                  @vfileAdded="vfileAdded"
+                ></drop-zone>
+              </div>
+              <div>
+                <div class="col-6 row-custom">
+                  <div class="">
+                    <personal-information
+                      :firstname="form.firstName"
+                      :lastname="form.lastName"
+                      :dob="form.dateOfBirth"
+                      :gender="form.gender"
+                      :options="formOptions.genderOptions"
+                      :inActive="inactive"
+                      @input="handleInput"
+                    ></personal-information>
+                  </div>
+                  <div class="row mx-0 pb-2 pt-1">
+                    <div class="col-12">
+                      <bib-button
+                        label="Save"
+                        size="lg"
+                        variant="success"
+                        @click="getAllData('rightAction')"
+                        :disabled="updateButton"
+                      ></bib-button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import {
-  PERSONAL_INFO_TAB,
-  EMPLOYEE_INFO_TAB,
+  EMPLOYEE_PROFILE_TAB,
+  SELECT_OPTIONS,
 } from "../../utils/constant/Constant.js";
+import { openPopupNotification } from "../../utils/functions/functions_lib.js";
+import getJson from "../../utils/dataJson/app_wrap_data";
+const appWrapItems = getJson();
 export default {
   data() {
     return {
-      id: '',
-      personalTabItem: PERSONAL_INFO_TAB,
-      employeInfoTabItem: EMPLOYEE_INFO_TAB,
+      id: "",
+      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupMessages: [],
+      personalTabItem: EMPLOYEE_PROFILE_TAB,
+      inactive: "disabled",
+      updateButton: "disabled",
+      // employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
-      teamOption:'',
-      activeTab: "personal-information",
-      employeInfoActiveTab: "employment-information",
+      teamOption: "",
+      formOptions: {},
+      updateForm: {},
+      isFlag: false,
+      activeTab: "Employee Profile",
     };
   },
-  
+
   fetch() {
     this.$store.dispatch("users/setUserList");
   },
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
-      getUser:"users/GET_USER"
+      getUser: "users/GET_USER",
     }),
   },
   async mounted() {
-   
-    await this.users();
-    if (process.client) {
-      var userEmail = localStorage.getItem('userEmail')
-      var users = this.userList.find((user) => user.email === userEmail);
-      this.id = users.id
-      await this.user(this.id);
-      this.form = this.getUser
+    if (this.$router.history.current.fullPath == "/people") {
+      this.$router.push("/myprofile");
+      return;
     }
-    var team = this.form.teams
-    var teamOption =  team.join(',  ');
-    this.teamOption = teamOption; 
+    await this.users();
+    this.formOptions = SELECT_OPTIONS;
+    if (process.client) {
+      var userEmail = localStorage.getItem("userEmail");
+      var users = this.userList.find((user) => user.email === userEmail);
+      this.id = users.id;
+      await this.user(this.id);
+      this.form = this.getUser;
+    }
+    var team = this.form.teams;
+    var teamOption = team.join(",  ");
+    this.teamOption = teamOption;
   },
   methods: {
     ...mapActions({
       users: "users/setUserList",
       user: "users/setUser",
     }),
+    openPopupNotification,
+    updateInfo() {
+      this.inactive = null;
+      this.updateButton = null;
+    },
+    handleInput(event, name) {
+      this.updateForm[name] = event;
+      console.log(this.updateForm, "updateForm");
+      this.form[name] = event;
+      this.isFlag = true;
+    },
     async vfileAdded(file) {
       this.fileDetail = file;
       let pimg = new FormData();
       pimg.append("file", this.fileDetail);
       await this.$axios
-        .$put(
-          `${process.env.API_URL}/employees/${this.id}`,
-          pimg,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .$put(`${process.env.API_URL}/employees/${this.id}`, pimg, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res) => {
           this.openPopupNotification(0);
           this.form = res;
+        })
+        .catch((err) => {
+          console.log("There was an issue in employees API", err);
+        });
+      this.loading = false;
+    },
+    async getAllData() {
+      if (this.isFlag == false) {
+        alert("No data to Update");
+        return true;
+      }
+      this.loading = true;
+      await this.$axios
+        .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((res) => {
+          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/");
+          this.openPopupNotification(1);
+          this.form = res;
+          this.inactive = "disabled";
+          this.updateButton = "disabled";
+          this.loading = false;
+          this.isFlag = false;
         })
         .catch((err) => {
           console.log("There was an issue in employees API", err);

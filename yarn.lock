@@ -8788,6 +8788,25 @@
   "resolved" "https://registry.npmjs.org/joycon/-/joycon-3.1.1.tgz"
   "version" "3.1.1"
 
+"jquery-circle-progress@^1.2.2":
+  "integrity" "sha512-oW8qqxSttAThqCvy9x69+qrrAc0MNTGQlhUVWm+P20k7w8QICdwyYAc7z1CFeX4Gv474Vmr/wSnxk4h0s7ox/w=="
+  "resolved" "https://registry.npmjs.org/jquery-circle-progress/-/jquery-circle-progress-1.2.2.tgz"
+  "version" "1.2.2"
+  dependencies:
+    "jquery" "*"
+
+"jquery-easing@0.0.1":
+  "integrity" "sha512-ZDlfbZ5gZQWqXd52GO110wk3NIDmPFjN/5HLRRQ9KFfmipB/62kt8O3jT3Vafxeb13k01qg/BKBpdbvT0MoUKw=="
+  "resolved" "https://registry.npmjs.org/jquery-easing/-/jquery-easing-0.0.1.tgz"
+  "version" "0.0.1"
+  dependencies:
+    "jquery" "*"
+
+"jquery@*":
+  "integrity" "sha512-bZ5Sy3YzKo9Fyc8wH2iIQK4JImJ6R0GWI9kL1/k7Z91ZBNgkRXE6U0JfHIizZbort8ZunhSI3jw9I6253ahKfg=="
+  "resolved" "https://registry.npmjs.org/jquery/-/jquery-3.6.3.tgz"
+  "version" "3.6.3"
+
 "js-base64@^2.1.9":
   "integrity" "sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ=="
   "resolved" "https://registry.npmjs.org/js-base64/-/js-base64-2.6.4.tgz"
@@ -15131,6 +15150,15 @@
   dependencies:
     "@vue/compiler-sfc" "2.7.14"
     "csstype" "^3.1.0"
+
+"vue2-circle-progress@^1.2.3":
+  "integrity" "sha512-6FQT8Pn1nlSmj3AwmbP1di57iOsEhB97NBkiyZG1lxjyEGo3EkDQeeZlGoi6DXVMSdLIMWTmXcOJYxVwYk0gGA=="
+  "resolved" "https://registry.npmjs.org/vue2-circle-progress/-/vue2-circle-progress-1.2.3.tgz"
+  "version" "1.2.3"
+  dependencies:
+    "jquery-circle-progress" "^1.2.2"
+    "jquery-easing" "0.0.1"
+    "vue" "^2.0.0"
 
 "vue2-dropzone@^3.6.0":
   "integrity" "sha512-YXC1nCWIZvfa98e/i6h+EshZCkFSxFEh0Sxr9ODfThAPPDVhAzLLlz/4XIx0NGO1QeSy6htwSstte47R7vVhLQ=="

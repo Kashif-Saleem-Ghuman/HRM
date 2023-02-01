@@ -2,6 +2,8 @@ export const state = () => ({
   user: [],
   userList: [],
   departmentList: [],
+  reportList:[],
+  teamList:[],
 });
 
 export const getters = {
@@ -14,6 +16,12 @@ export const getters = {
   GET_DEPARTMENT_LIST(state) {
     return state.departmentList;
   },
+  GET_REPORTS_LIST(state) {
+    return state.reportList;
+  },
+  GET_TEAM_LIST(state) {
+    return state.teamList;
+  },
 };
 
 export const mutations = {
@@ -25,6 +33,12 @@ export const mutations = {
   },
   SET_DEPARTMENT: (state, payload) => {
     state.departmentList = payload;
+  },
+  SET_REPORTS: (state, payload) => {
+    state.reportList = payload;
+  },
+  SET_TEAM: (state, payload) => {
+    state.teamList = payload;
   },
   sortUserList(state, payload) {
     if (payload.order == "desc") {
@@ -57,12 +71,48 @@ export const actions = {
       console.log(e);
     }
   },
+  async setTeamList(ctx) {
+    try {
+      const team = await this.$axios.$get(
+        `${process.env.API_URL}/teams/select-options`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (team) {
+        ctx.commit("SET_TEAM", team);
+        return team;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async setReportsList(ctx) {
+    try {
+      const report = await this.$axios.$get(
+        `${process.env.API_URL}/employees/select-options`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      var reportsTo = report.employees
+      if (report) {
+        ctx.commit("SET_REPORTS", reportsTo);
+        return report;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
   async setDepartmentList(ctx) {
+    var businessId =localStorage.getItem("businessId")
     try {
       const department = await this.$axios.$get(
-        `${process.env.API_URL}/organizations/${localStorage.getItem(
-          "businessId"
-        )}/departements`,
+        `${process.env.API_URL}/organizations/${businessId}/departments/select-options`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

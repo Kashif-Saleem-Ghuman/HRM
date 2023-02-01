@@ -30,7 +30,7 @@
         <span>{{ data.value.department }}</span>
       </div>
     </template>
-    <template #cell(attendance)="data">
+    <template #cell(presence)="data">
       <div class="justify-center text-dark">
         <circle-text
         :title="data.value.attendance ==null ? 'N/A' : data.value.attendance + '%'"
@@ -43,17 +43,32 @@
         ></circle-text>
       </div>
     </template>
+    <template #cell(attendance)="data">
+      <div class="justify-center text-dark">
+        <chips
+        :title="data.value.attendance ==null ? 'N/A' : data.value.attendance + '%'"
+        shapeCircle="__shape-circle"
+        :className="[
+        data.value.attendance >= 70 ? 'chip-wrapper__bgsucess' : '' ,
+        data.value.attendance <= 70 ? 'chip-wrapper__bgabsent' : '' ,
+        data.value.attendance <= 35 ? 'chip-wrapper__bgabsentpink' : '',
+        data.value.attendance <= 20 ? 'chip-wrapper__bggray' : ''
+      ]"
+        ></chips>
+      </div>
+    </template>
     <template #cell(satisfaction)="data">
       <div class="justify-center text-dark">
-        <circle-text
-          :title="data.value.satisfaction == null ? 'N/A' : data.value.satisfaction + '%'"
-          :className="[
-            data.value.satisfaction >= 80 ? 'variant_green' : '',
-            data.value.satisfaction < 80 ? 'variant_yellow' : '',
-            data.value.satisfaction < 40 ? 'variant_light_pink' : '',
-            data.value.satisfaction < 10 ? 'variant_gray' : '',
-          ]"
-        ></circle-text>
+        <chips
+        shapeCircle="__shape-circle"
+        :title="data.value.satisfaction ==null ? 'N/A' : data.value.satisfaction + '%'"
+        :className="[
+        data.value.satisfaction >= 70 ? 'chip-wrapper__bgsucess' : '', 
+        data.value.satisfaction < 80 ? 'chip-wrapper__bgabsent' : '' ,
+        data.value.satisfaction <= 35 ? 'chip-wrapper__bgabsentpink' : '', 
+        data.value.satisfaction <= 20 ? 'chip-wrapper__bggray' : '',
+      ]"
+        ></chips>
       </div>
     </template>
     <template #cell(performance)="data">
@@ -78,7 +93,7 @@
 </template>
 
 <script>
-import { TABLE_FIELDS } from "../../../utils/constant/Constant.js";
+import { TABLE_FIELDS, TABLE_FIELDS_DIR } from "../../../utils/constant/Constant.js";
 import { StarRating } from "../StarRating/StarRating.vue";
 export default {
   props: {
@@ -89,10 +104,20 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_FIELDS,
+      tableFields: '',
       attendanceClass: [],
       satisfaction: "",
     };
+  },
+  created(){
+    if (this.$router.history.current.fullPath == "/people") {
+        this.tableFields = TABLE_FIELDS
+        return;
+      }
+      if (this.$router.history.current.fullPath == "/people/directory") {
+        this.tableFields = TABLE_FIELDS_DIR
+        return;
+      }
   },
   methods: {
     handleItemClick_Table($event, keyI, item) {

@@ -77,12 +77,12 @@
             </div>
           </div>
           <div class="row mx-0 pb-1 pt-0">
-            <black-button
+            <bib-button
               label="Save"
-              size="custom"
-              variant="dark"
-              @click="getAllData('leftAction')"
-            ></black-button>
+              size="lg"
+              variant="success"
+              @click="getAllData('rightAction')"
+            ></bib-button>
           </div>
         </div>
         <div class="section-mid"></div>
@@ -131,12 +131,18 @@
               </div>
               <div class="row mx-0 pb-1 pt-1">
                 <div class="col-12">
-                  <black-button
+                  <bib-button
+                    label="Save"
+                    size="lg"
+                    variant="success"
+                    @click="getAllData('rightAction')"
+                  ></bib-button>
+                  <!-- <custom-button
                     label="Save"
                     size="custom"
                     variant="dark"
                     @click="getAllData('rightAction')"
-                  ></black-button>
+                  ></custom-button> -->
                 </div>
               </div>
             </div>
@@ -188,6 +194,8 @@ export default {
       userList: "users/GET_USERS_LIST",
       getDepartment: "users/GET_DEPARTMENT_LIST",
       getUser: "users/GET_USER",
+      getReportsList: "users/GET_REPORTS_LIST",
+      getTeamList: "users/GET_TEAM_LIST",
     }),
   },
   async mounted() {
@@ -197,7 +205,12 @@ export default {
     await this.usersList();
     await this.user(this.$route.params.id);
     await this.department();
-    this.getEmployeeDetails();
+    await this.reports();
+    await this.team();
+    this.departmentOptions = this.getDepartment;
+    this.usersOptions = this.getReportsList;
+    this.teamOptions = this.getTeamList;
+    // this.getEmployeeDetails();
     this.form = this.getUser;
     this.loading = false;
   },
@@ -206,28 +219,29 @@ export default {
       usersList: "users/setUserList",
       department: "users/setDepartmentList",
       user: "users/setUser",
+      reports: "users/setReportsList",
+      team: "users/setTeamList",
     }),
 
     getEmployeeDetails() {
-      var team = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.getUser.teams.length; i++) {
-        var key = this.getUser.teams[i];
-        team.push({ label: key, value: key });
-        this.teamOptions = team;
-      }
-
-      var reportTo = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.userList.length; i++) {
-        var key = this.userList[i].firstName + " " + this.userList[i].lastName;
-        reportTo.push({ label: key, value: key });
-      }
-      this.usersOptions = reportTo;
-      var depatment = [{ label: "Please select", value: null }];
-      for (let i = 0; i < this.getDepartment.length; i++) {
-        var key = this.getDepartment[i];
-        depatment.push({ label: key, value: key });
-      }
-      this.departmentOptions = depatment;
+      // var team = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.getUser.teams.length; i++) {
+      //   var key = this.getUser.teams[i];
+      //   team.push({ label: key, value: key });
+      //   this.teamOptions = team;
+      // }
+      // var reportTo = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.userList.length; i++) {
+      //   var key = this.userList[i].firstName + " " + this.userList[i].lastName;
+      //   reportTo.push({ label: key, value: key });
+      // }
+      // this.usersOptions = reportTo;
+      // var depatment = [{ label: "Please select", value: null }];
+      // for (let i = 0; i < this.getDepartment.length; i++) {
+      //   var key = this.getDepartment[i];
+      //   depatment.push({ label: key, value: key });
+      // }
+      // this.departmentOptions = depatment;
     },
 
     openPopupNotification,
@@ -286,25 +300,25 @@ export default {
       //   alert("No data to Update");
       //   return true;
       // }
-      
-        if (/^\d{10}$/.test(this.updateForm.phone || this.form.phone)) {
-          this.msg["phone"] = "";
-        } else {
-          this.msg["phone"] = "Please enter a valid phone number";
-          return
-        };
-      
-        if (
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-            this.updateForm.email || this.form.email
-          )
-        ) {
-          this.msg["email"] = "";
-        } else {
-          this.msg["email"] = "Please enter a valid email address";
-          return
-        };  
-        this.loading = true;
+
+      if (/^\d{10}$/.test(this.updateForm.phone || this.form.phone)) {
+        this.msg["phone"] = "";
+      } else {
+        this.msg["phone"] = "Please enter a valid phone number";
+        return;
+      }
+
+      if (
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          this.updateForm.email || this.form.email
+        )
+      ) {
+        this.msg["email"] = "";
+      } else {
+        this.msg["email"] = "Please enter a valid email address";
+        return;
+      }
+      this.loading = true;
       this.isFlag = false;
       await this.$axios
         .$put(
@@ -325,7 +339,7 @@ export default {
           console.log("There was an issue in employees API", err);
         });
       this.loading = false;
-      
+
       // if (
       //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
       //     this.updateForm.email
@@ -342,7 +356,6 @@ export default {
       //     this.msg["phone"] = "Please enter a valid phone number";
       //     return true
       //   }
-      
     },
     sortBy() {
       alert("called");

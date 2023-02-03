@@ -6,7 +6,7 @@
             type="text"
             label="First Name"
             v-model="firstname"
-            placeholder="Type your name"
+            placeholder="Enter your first name"
             @change="$emit('input', $event, 'firstName')"
             :disabled="inActive"
           ></bib-input>

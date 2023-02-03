@@ -11,7 +11,10 @@ import {
   getUser,
   getBusinessId,
   openPopupNotification,
-  getEmployess
+  getEmployess,
+  vfileAdded,
+  updateAllData,
+  handleInput,
 } from "../functions/common_functions.js";
 export {
   headerHelpClick,
@@ -24,5 +27,8 @@ export {
   myProfile,
   logout,
   isThemeCheck,
-  getEmployess
+  getEmployess,
+  vfileAdded,
+  updateAllData,
+  handleInput,
 };

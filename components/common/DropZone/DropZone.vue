@@ -39,6 +39,9 @@ export default {
     customRemove: {
       type: String,
     },
+    disable:{
+      type:Boolean
+    }
   },
   name: "app",
   components: {
@@ -58,6 +61,7 @@ export default {
         addRemoveLinks: true,
         maxFilesize: 1,
         maxFiles: 1,
+        clickable:true,
         init: function () {
           this.on("maxfilesexceeded", function (file) {
             this.removeAllFiles();
@@ -68,13 +72,10 @@ export default {
     };
   },
   methods: {
-    // vfileAdded(file) {
-    //   this.thumbnail = file.dataURL
-    //   console.log(this.thumbnail, file, "asodfhalsdhlasjdlajsdlkasjdlkjaslkdjlasjdlkjasdl")
-    // },
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
     },
+    
     getTempalte: function () {
       return `
       <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">

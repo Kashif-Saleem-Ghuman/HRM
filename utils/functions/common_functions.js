@@ -44,3 +44,79 @@ export async function getBusinessId() {
 export function openPopupNotification(n) {
     this.popupMessages.push(this.popupNotificationMsgs[n])
 }
+export function handleInput(event, name) {
+  this.updateForm[name] = event;
+  console.log(this.updateForm, "updateForm");
+  this.form[name] = event;
+  this.isFlag = true;
+}
+export async function updateAllData() {
+  if (this.isFlag == false) {
+    alert("No data to Update");
+    return true;
+  }
+  this.loading = true;
+  await this.$axios
+    .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+    .then((res) => {
+      console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/");
+      this.openPopupNotification(1);
+      this.form = res;
+      this.inactive = "disabled";
+      this.updateButton = "disabled";
+      this.loading = false;
+      this.isFlag = false;
+    })
+    .catch((err) => {
+      console.log("There was an issue in employees API", err);
+    });
+  this.loading = false;
+}
+export  async function vfileAdded(file) {
+    this.fileDetail = file;
+    let pimg = new FormData();
+    pimg.append("file", this.fileDetail);
+    await this.$axios
+      .$post(
+        `https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload`,
+        pimg,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        // this.openPopupNotification(0);
+        this.avatraUrl = res;
+        // console.log(res, "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload")
+      })
+      .catch((err) => {
+        console.log("There was an issue in employees API", err);
+      });
+    await this.$axios
+      .$put(
+        `${process.env.API_URL}/employees/${this.id}`,
+        {"photo": this.avatraUrl},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        this.openPopupNotification(0);
+        this.form = res;
+        console.log(res, "asldasdhlkajhdjksahdkjahkdjhaskdhaksjdhkjashkjahsdhkjashdkjashdkjhaksd")
+      })
+      .catch((err) => {
+        console.log("There was an issue in employees API", err);
+      });
+    this.loading = false;
+  }

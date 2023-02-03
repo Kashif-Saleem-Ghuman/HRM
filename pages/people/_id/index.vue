@@ -163,10 +163,11 @@ import {
 } from "../../../utils/constant/Constant.js";
 import getJson from "../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
+import { openPopupNotification, vfileAdded } from "../../../utils/functions/functions_lib.js";
 export default {
   data() {
     return {
+      id:this.$route.params.id,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       webPortalAccess: "",
@@ -177,6 +178,7 @@ export default {
       localData: {},
       form: {},
       msg: [],
+      avatraUrl:'',
       users: {},
       usersOptions: "",
       formOptions: {},
@@ -222,56 +224,12 @@ export default {
       reports: "users/setReportsList",
       team: "users/setTeamList",
     }),
-
-    getEmployeeDetails() {
-      // var team = [{ label: "Please select", value: null }];
-      // for (let i = 0; i < this.getUser.teams.length; i++) {
-      //   var key = this.getUser.teams[i];
-      //   team.push({ label: key, value: key });
-      //   this.teamOptions = team;
-      // }
-      // var reportTo = [{ label: "Please select", value: null }];
-      // for (let i = 0; i < this.userList.length; i++) {
-      //   var key = this.userList[i].firstName + " " + this.userList[i].lastName;
-      //   reportTo.push({ label: key, value: key });
-      // }
-      // this.usersOptions = reportTo;
-      // var depatment = [{ label: "Please select", value: null }];
-      // for (let i = 0; i < this.getDepartment.length; i++) {
-      //   var key = this.getDepartment[i];
-      //   depatment.push({ label: key, value: key });
-      // }
-      // this.departmentOptions = depatment;
-    },
-
+    vfileAdded,
     openPopupNotification,
     chnage(event, name) {
       this.updateForm[name] = event;
     },
-    async vfileAdded(file) {
-      this.fileDetail = file;
-      let pimg = new FormData();
-      pimg.append("file", this.fileDetail);
-      await this.$axios
-        .$put(
-          `${process.env.API_URL}/employees/${this.$route.params.id}`,
-          pimg,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then((res) => {
-          this.openPopupNotification(0);
-          this.form = res;
-        })
-        .catch((err) => {
-          console.log("There was an issue in employees API", err);
-        });
-      this.loading = false;
-    },
+ 
     handleInput(event, name) {
       this.updateForm[name] = event;
       this.form[name] = event;
@@ -339,23 +297,6 @@ export default {
           console.log("There was an issue in employees API", err);
         });
       this.loading = false;
-
-      // if (
-      //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-      //     this.updateForm.email
-      //   )
-      // ) {
-      //   this.msg["email"] = "";
-      // } else {
-      //   this.msg["email"] = "Please enter a valid email address";
-      //   return true
-      // }
-      // if (/^\d{10}$/.test(this.updateForm.phone)) {
-      //     this.msg["phone"] = "";
-      //   } else {
-      //     this.msg["phone"] = "Please enter a valid phone number";
-      //     return true
-      //   }
     },
     sortBy() {
       alert("called");

@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       openSidebar: false,
+      currentPage: 1,
       items: [
         {
           label: "submenu Comes here",
@@ -109,6 +110,10 @@ export default {
     ...mapActions({
       usersList: "users/setUserList",
     }),
+    onPageChange(page) {
+      console.log(page)
+      this.currentPage = page;
+    },
     clickAction(event) {
       console.log(event.key);
     },

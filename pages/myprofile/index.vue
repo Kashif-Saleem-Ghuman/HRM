@@ -20,8 +20,9 @@
             ></bib-tabs>
           </div>
         </div>
-        <div class="" id="tab_info_wrapper">
-          <div id="my-profile-wrapper">
+        <!-- Employe Profile Wrapper Start Here  -->
+        <div id="employee-profile-wrapper">
+          <div class="" id="tab_info_wrapper">
             <div v-if="activeTab == personalTabItem[0].value">
               <div class="row mx-0 pt-2">
                 <div class="col-6">
@@ -60,6 +61,7 @@
                     :class="seprator"
                     style="height: 1px"
                   ></div>
+                  <!-- Contact Info Wrapper Start Here  -->
                   <div class="info-wrapper py-cus">
                     <div class="row mx-0">
                       <div class="col-6">
@@ -83,56 +85,186 @@
               </div>
             </div>
           </div>
-
-          <div id="my-profile-wrapper">
-            <div v-if="activeTab == personalTabItem[1].value">
-              <div class="row mx-0 pt-2">
-                <div class="col-6">
-                  <tabs-title
-                    :title="personalTabItem[1].title"
-                    variant="gray"
-                    icon="info"
-                    :updateButton="true"
-                    @click="updateInfo"
-                    :scale="0.9"
-                  ></tabs-title>
+        </div>
+        <div id="my-profile-wrapper">
+          <div v-if="activeTab == personalTabItem[1].value">
+            <div class="row mx-0 pt-2">
+              <div class="col-6">
+                <tabs-title
+                  :title="personalTabItem[1].title"
+                  variant="gray"
+                  icon="info"
+                  :updateButton="true"
+                  @click="updateInfo"
+                  :scale="0.9"
+                ></tabs-title>
+              </div>
+            </div>
+            <div class="py-cus">
+              <drop-zone
+                :src="form.avatar"
+                :className="form.avatar != null ? 'hide' : ''"
+                :customRemove="form.avatar == null ? 'hide' : ''"
+                @vfileAdded="vfileAdded"
+              ></drop-zone>
+            </div>
+            <div>
+              <div class="col-6 row-custom">
+                <div class="">
+                  <personal-information
+                    :firstname="form.firstName"
+                    :lastname="form.lastName"
+                    :dob="form.dateOfBirth"
+                    :gender="form.gender"
+                    :options="formOptions.genderOptions"
+                    :inActive="inactiveCommon"
+                    @input="handleInput"
+                  ></personal-information>
                 </div>
-              </div>
-              <div class="py-cus">
-                <drop-zone
-                  :src="form.avatar"
-                  :className="form.avatar != null ? 'hide' : ''"
-                  :customRemove="form.avatar == null ? 'hide' : ''"
-                  @vfileAdded="vfileAdded"
-                ></drop-zone>
-              </div>
-              <div>
-                <div class="col-6 row-custom">
-                  <div class="">
-                    <personal-information
-                      :firstname="form.firstName"
-                      :lastname="form.lastName"
-                      :dob="form.dateOfBirth"
-                      :gender="form.gender"
-                      :options="formOptions.genderOptions"
-                      :inActive="inactive"
-                      @input="handleInput"
-                    ></personal-information>
-                  </div>
-                  <div class="row mx-0 pb-2 pt-1">
-                    <div class="col-12">
-                      <bib-button
-                        label="Save"
-                        size="lg"
-                        variant="success"
-                        @click="getAllData('rightAction')"
-                        :disabled="updateButton"
-                      ></bib-button>
-                    </div>
+                <div class="row mx-0 pb-2 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      v-if="employeeUpdateButton"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                    ></bib-button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div id="my-contact-wrapper">
+          <div v-if="activeTab == personalTabItem[2].value">
+            <!-- Email Wrapper Start Here  -->
+            <div id="email-wrapper">
+              <div class="row mx-0 pt-2 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Personal email address"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateEmail"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <email
+                  :firstname="form.firstName"
+                  :lastname="form.lastName"
+                  :dob="form.dateOfBirth"
+                  :gender="form.gender"
+                  :options="formOptions.genderOptions"
+                  :inActive="inactiveEmail"
+                  @input="handleInput"
+                ></email>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="emailUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!-- Phone Wrppaer Start Here  -->
+            <div id="email-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Telephone numbers"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updatePhone"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <phone
+                  :firstname="form.firstName"
+                  :lastname="form.lastName"
+                  :dob="form.dateOfBirth"
+                  :gender="form.gender"
+                  :options="formOptions.genderOptions"
+                  :inActive="inactivePhone"
+                  @input="handleInput"
+                ></phone>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="phoneUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!-- Address Wrapper Start Here  -->
+            <div id="email-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Address"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateAddress"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <address-info
+                  :firstname="form.firstName"
+                  :lastname="form.lastName"
+                  :dob="form.dateOfBirth"
+                  :gender="form.gender"
+                  :options="formOptions.genderOptions"
+                  :inActive="inactiveAddress"
+                  @input="handleInput"
+                ></address-info>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="addressUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -154,11 +286,18 @@ export default {
   data() {
     return {
       id: "",
+      showButton: false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       personalTabItem: EMPLOYEE_PROFILE_TAB,
-      inactive: "disabled",
-      updateButton: "disabled",
+      inactiveCommon:"disabled",
+      inactiveEmail: "disabled",
+      inactivePhone: "disabled",
+      inactiveAddress: "disabled",
+      employeeUpdateButton: false,
+      emailUpdateButton: false,
+      phoneUpdateButton: false,
+      addressUpdateButton: false,
       // employeInfoTabItem: EMPLOYEE_INFO_TAB,
       form: {},
       teamOption: "",
@@ -204,7 +343,22 @@ export default {
     openPopupNotification,
     updateInfo() {
       this.inactive = null;
-      this.updateButton = null;
+      this.employeeUpdateButton = true;
+      this.emailUpdateButton = true;
+      this.phoneUpdateButton = true;
+      this.addressUpdateButton = true;
+    },
+    updateEmail() {
+      this.inactiveEmail = null;
+      this.emailUpdateButton = true;
+    },
+    updatePhone() {
+      this.inactivePhone = null;
+      this.phoneUpdateButton = true;
+    },
+    updateAddress() {
+      this.inactiveAddress = null;
+      this.addressUpdateButton = true;
     },
     handleInput(event, name) {
       this.updateForm[name] = event;

@@ -44,3 +44,47 @@ export async function getBusinessId() {
 export function openPopupNotification(n) {
     this.popupMessages.push(this.popupNotificationMsgs[n])
 }
+export  async function vfileAdded(file) {
+    this.fileDetail = file;
+    let pimg = new FormData();
+    pimg.append("file", this.fileDetail);
+    await this.$axios
+      .$post(
+        `https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload`,
+        pimg,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        this.openPopupNotification(0);
+        this.avatraUrl = res;
+        // console.log(res, "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload")
+      })
+      .catch((err) => {
+        console.log("There was an issue in employees API", err);
+      });
+    await this.$axios
+      .$put(
+        `${process.env.API_URL}/employees/${this.$route.params.id}`,
+        {"photo": this.avatraUrl},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        this.openPopupNotification(0);
+        this.form = res;
+        console.log(res, "asldasdhlkajhdjksahdkjahkdjhaskdhaksjdhkjashkjahsdhkjashdkjashdkjhaksd")
+      })
+      .catch((err) => {
+        console.log("There was an issue in employees API", err);
+      });
+    this.loading = false;
+  }

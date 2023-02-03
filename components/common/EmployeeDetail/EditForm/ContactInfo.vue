@@ -8,6 +8,7 @@
             v-model="email"
             placeholder="Enter your email"
             :disabled="disabled"
+            icon-left="mail"
           ></bib-input>
         </div>
       </div>
@@ -19,6 +20,7 @@
             v-model="mobile"
             placeholder="Enter your phone"
             :disabled="disabled"
+            icon-left="device-mobile"
           ></bib-input>
         </div>
         <div class="col-6">
@@ -28,6 +30,7 @@
             v-model="mobile"
             placeholder="Enter your extension"
             :disabled="disabled"
+            icon-left="file"
           ></bib-input>
         </div>
       </div>
@@ -39,6 +42,7 @@
             v-model="mobile"
             placeholder="Enter your phone"
             :disabled="disabled"
+            icon-left="device-mobile"
           ></bib-input>
         </div>
           </div>

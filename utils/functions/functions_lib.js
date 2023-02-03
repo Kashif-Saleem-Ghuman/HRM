@@ -12,7 +12,9 @@ import {
   getBusinessId,
   openPopupNotification,
   getEmployess,
-  vfileAdded
+  vfileAdded,
+  updateAllData,
+  handleInput,
 } from "../functions/common_functions.js";
 export {
   headerHelpClick,
@@ -26,5 +28,7 @@ export {
   logout,
   isThemeCheck,
   getEmployess,
-  vfileAdded
+  vfileAdded,
+  updateAllData,
+  handleInput,
 };

@@ -6,8 +6,9 @@
           type="text"
           label="First Name"
           v-model="firstname"
-          placeholder="Type your first name"
-          :disabled="disabled"
+          placeholder="Type your firstName"
+          @change="$emit('input', $event, 'firstName')"
+          :disabled="inActive"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -15,8 +16,9 @@
           type="text"
           label="Last Name"
           v-model="lastname"
-          placeholder="Type your last name"
-          :disabled="disabled"
+          placeholder="Type your lastName"
+          @change="$emit('input', $event, 'lastName')"
+          :disabled="inActive"
         ></bib-input>
       </div>
     </div>
@@ -27,7 +29,8 @@
           label="Title"
           v-model="title"
           placeholder="Enter title"
-          :disabled="disabled"
+          @change="$emit('input', $event, 'title')"
+          :disabled="inActive"
         ></bib-input>
       </div>
       <div class="col-6">
@@ -36,7 +39,8 @@
           label="Department"
           v-model="department"
           placeholder="Enter your department"
-          :disabled="disabled"
+          @change="$emit('input', $event, 'department')"
+          :disabled="inActive"
         ></bib-input>
       </div>
     </div>
@@ -47,16 +51,16 @@
           label="Employee Status"
           v-model="employeeStatus"
           placeholder="Please select employee status"
-          :disabled="disabled"
+          @change="$emit('input', $event, 'status')"
+          :disabled="inActive"
         ></bib-input>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { validate } from "json-schema";
 export default {
-  name: "Info",
+  name: "EmployeeProfile",
   props: {
     firstname: {
       type: String,
@@ -64,10 +68,10 @@ export default {
     lastname: {
       type: String,
     },
-    department: {
+    title: {
       type: String,
     },
-    title: {
+    department: {
       type: String,
     },
     employeeStatus: {
@@ -76,11 +80,16 @@ export default {
     disabled:{
       type:String
     },
+    input: {
+      type: Function,
+    },
+    inActive:{
+        type:String
+      },
   },
   data() {
     return {
     };
   },
-  components: { validate },
 };
 </script>

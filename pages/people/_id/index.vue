@@ -167,6 +167,7 @@ import { openPopupNotification, vfileAdded } from "../../../utils/functions/func
 export default {
   data() {
     return {
+      id:this.$route.params.id,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       webPortalAccess: "",

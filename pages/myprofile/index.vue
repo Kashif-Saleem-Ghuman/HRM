@@ -41,6 +41,7 @@
                   :className="form.avatar != null ? 'hide' : ''"
                   :customRemove="form.avatar == null ? 'hide' : ''"
                   @vfileAdded="vfileAdded"
+                  style="pointer-events: none; cursor: default;"
                 ></drop-zone>
               </div>
               <div>
@@ -53,7 +54,7 @@
                       :department="form.department"
                       :title="form.title"
                       :employeeStatus="form.status"
-                      disabled="disabled"
+                      :inActive="inactiveEmployeeProfile"
                     ></employee-profile>
                   </div>
                   <div
@@ -95,7 +96,7 @@
                   variant="gray"
                   icon="info"
                   :updateButton="true"
-                  @click="updateInfo"
+                  @click="updateEmployeeProfile"
                   :scale="0.9"
                 ></tabs-title>
               </div>
@@ -106,6 +107,7 @@
                 :className="form.avatar != null ? 'hide' : ''"
                 :customRemove="form.avatar == null ? 'hide' : ''"
                 @vfileAdded="vfileAdded"
+                :style="dropzoneDisable"
               ></drop-zone>
             </div>
             <div>
@@ -117,7 +119,7 @@
                     :dob="form.dateOfBirth"
                     :gender="form.gender"
                     :options="formOptions.genderOptions"
-                    :inActive="inactiveCommon"
+                    :inActive="inactivePersonalInfo"
                     @input="handleInput"
                   ></personal-information>
                 </div>
@@ -126,7 +128,7 @@
                     <bib-button
                       label="Save"
                       size="lg"
-                      v-if="employeeUpdateButton"
+                      v-if="personalInfoUpdateButton"
                       variant="success"
                       @click="getAllData('rightAction')"
                     ></bib-button>
@@ -279,7 +281,12 @@ import {
   EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
 } from "../../utils/constant/Constant.js";
-import { openPopupNotification } from "../../utils/functions/functions_lib.js";
+import {
+  openPopupNotification,
+  vfileAdded,
+  updateAllData,
+  handleInput,
+} from "../../utils/functions/functions_lib.js";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 export default {
@@ -290,11 +297,14 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       personalTabItem: EMPLOYEE_PROFILE_TAB,
-      inactiveCommon:"disabled",
+      inactivePersonalInfo: "disabled",
+      inactiveEmployeeProfile:"disabled",
+      inactiveCommon: "disabled",
       inactiveEmail: "disabled",
       inactivePhone: "disabled",
       inactiveAddress: "disabled",
-      employeeUpdateButton: false,
+      dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
+      personalInfoUpdateButton: false,
       emailUpdateButton: false,
       phoneUpdateButton: false,
       addressUpdateButton: false,
@@ -341,12 +351,13 @@ export default {
       user: "users/setUser",
     }),
     openPopupNotification,
-    updateInfo() {
-      this.inactive = null;
-      this.employeeUpdateButton = true;
-      this.emailUpdateButton = true;
-      this.phoneUpdateButton = true;
-      this.addressUpdateButton = true;
+    vfileAdded,
+    updateAllData,
+    handleInput,
+    updateEmployeeProfile() {
+      this.inactivePersonalInfo = null;
+      this.dropzoneDisable = "";
+      this.personalInfoUpdateButton = true;
     },
     updateEmail() {
       this.inactiveEmail = null;
@@ -360,58 +371,7 @@ export default {
       this.inactiveAddress = null;
       this.addressUpdateButton = true;
     },
-    handleInput(event, name) {
-      this.updateForm[name] = event;
-      console.log(this.updateForm, "updateForm");
-      this.form[name] = event;
-      this.isFlag = true;
-    },
-    async vfileAdded(file) {
-      this.fileDetail = file;
-      let pimg = new FormData();
-      pimg.append("file", this.fileDetail);
-      await this.$axios
-        .$put(`${process.env.API_URL}/employees/${this.id}`, pimg, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          this.openPopupNotification(0);
-          this.form = res;
-        })
-        .catch((err) => {
-          console.log("There was an issue in employees API", err);
-        });
-      this.loading = false;
-    },
-    async getAllData() {
-      if (this.isFlag == false) {
-        alert("No data to Update");
-        return true;
-      }
-      this.loading = true;
-      await this.$axios
-        .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        .then((res) => {
-          console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/");
-          this.openPopupNotification(1);
-          this.form = res;
-          this.inactive = "disabled";
-          this.updateButton = "disabled";
-          this.loading = false;
-          this.isFlag = false;
-        })
-        .catch((err) => {
-          console.log("There was an issue in employees API", err);
-        });
-      this.loading = false;
-    },
+
     sortBy() {
       alert("called");
     },

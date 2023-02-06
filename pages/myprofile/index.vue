@@ -41,7 +41,7 @@
                   :className="form.avatar != null ? 'hide' : ''"
                   :customRemove="form.avatar == null ? 'hide' : ''"
                   @vfileAdded="vfileAdded"
-                  style="pointer-events: none; cursor: default;"
+                  style="pointer-events: none; cursor: default"
                 ></drop-zone>
               </div>
               <div>
@@ -52,6 +52,7 @@
                       :midname="form.middleName"
                       :lastname="form.lastName"
                       :department="form.department"
+                      :departmentOptions="departmentOptions"
                       :title="form.title"
                       :employeeStatus="form.status"
                       :inActive="inactiveEmployeeProfile"
@@ -138,7 +139,7 @@
             </div>
           </div>
         </div>
-        <div id="my-contact-wrapper">
+        <div id="contact-info-wrapper">
           <div v-if="activeTab == personalTabItem[2].value">
             <!-- Email Wrapper Start Here  -->
             <div id="email-wrapper">
@@ -239,15 +240,21 @@
                 </div>
               </div>
               <div class="col-6 row-custom">
-                <address-info
-                  :firstname="form.firstName"
-                  :lastname="form.lastName"
-                  :dob="form.dateOfBirth"
-                  :gender="form.gender"
-                  :options="formOptions.genderOptions"
-                  :inActive="inactiveAddress"
-                  @input="handleInput"
-                ></address-info>
+                <div id="duplicater0">
+                  <address-info
+                    :firstname="form.firstName"
+                    :lastname="form.lastName"
+                    :dob="form.dateOfBirth"
+                    :gender="form.gender"
+                    :options="formOptions.genderOptions"
+                    :inActive="inactiveAddress"
+                    @input="handleInput"
+                  ></address-info>
+                </div>
+                <!-- <bib-button
+                  label="asdhgajsdgbjashgdhjsa"
+                  v-on:click="duplicate"
+                ></bib-button> -->
                 <div class="row mx-0 pt-1">
                   <div class="col-12">
                     <bib-button
@@ -256,6 +263,137 @@
                       variant="success"
                       @click="getAllData('rightAction')"
                       v-if="addressUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+        <div id="employeement-information-wrapper">
+          <div v-if="activeTab == personalTabItem[3].value">
+            <!-- Employee Information Wrapper Start Here  -->
+            <div id="employee-information">
+              <div class="row mx-0 pt-2 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Employee Information"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateEmployeeInfo"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <employee-information
+                  :hireDate="form.hireDate"
+                  :socialInsuranceNumber="form.sin"
+                  :dob="form.dateOfBirth"
+                  :gender="form.gender"
+                  :options="formOptions.genderOptions"
+                  :inActive="inActiveEmployeeInfo"
+                  @input="handleInput"
+                ></employee-information>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="employeeInfoUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!-- Employeement info Wrppaer Start Here  -->
+            <div id="employeement-info-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Employeement Information"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateEmployeementInfo"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <employeement-info
+                  :effectiveDate="form.effectiveDate"
+                  :departmentOptions="departmentOptions"
+                  :teamOptions="teamOptions"
+                  :title="form.title"
+                  :reportsToOptions="usersOptions"
+                  :inActive="inActiveEmployeementInfo"
+                  @input="handleInput"
+                ></employeement-info>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="employeementInfoUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!--  ORG Contact Info Wrapper Start Here  -->
+            <div id="contact-info-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Contact Info"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="contactInfo"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <contact-information
+                  :firstname="form.firstName"
+                  :lastname="form.lastName"
+                  :dob="form.dateOfBirth"
+                  :gender="form.gender"
+                  :options="formOptions.genderOptions"
+                  :inActive="inActiveContactInfo"
+                  @input="handleInput"
+                ></contact-information>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="contactInfoUpdateButton"
                     ></bib-button>
                   </div>
                 </div>
@@ -287,6 +425,15 @@ import {
   updateAllData,
   handleInput,
 } from "../../utils/functions/functions_lib.js";
+import {
+  updateEmployeeProfile,
+  updateEmail,
+  updatePhone,
+  updateAddress,
+  updateEmployeeInfo, 
+    updateEmployeementInfo, 
+    contactInfo
+} from "../../utils/functions/profile/index";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 export default {
@@ -297,18 +444,33 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       personalTabItem: EMPLOYEE_PROFILE_TAB,
+      usersOptions: "",
+      formOptions: {},
+      departmentOptions: "",
+      teamOptions: "",
+      // Employee profile state
+      inactiveEmployeeProfile: "disabled",
+      dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
+      // Personal Information States
       inactivePersonalInfo: "disabled",
-      inactiveEmployeeProfile:"disabled",
-      inactiveCommon: "disabled",
+      personalInfoUpdateButton: false,
+      // Contact Info States
       inactiveEmail: "disabled",
       inactivePhone: "disabled",
       inactiveAddress: "disabled",
-      dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
-      personalInfoUpdateButton: false,
       emailUpdateButton: false,
       phoneUpdateButton: false,
       addressUpdateButton: false,
-      // employeInfoTabItem: EMPLOYEE_INFO_TAB,
+
+      // Employeement Info States
+      inActiveEmployeeInfo: "disabled",
+      inActiveEmployeementInfo: "disabled",
+      inActiveContactInfo: "disabled",
+      employeeInfoUpdateButton: false,
+      employeementInfoUpdateButton: false,
+      contactInfoUpdateButton: false,
+
+      inactiveCommon: "disabled",
       form: {},
       teamOption: "",
       formOptions: {},
@@ -325,6 +487,9 @@ export default {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
       getUser: "users/GET_USER",
+      getDepartment: "users/GET_DEPARTMENT_LIST",
+      getReportsList: "users/GET_REPORTS_LIST",
+      getTeamList: "users/GET_TEAM_LIST",
     }),
   },
   async mounted() {
@@ -333,6 +498,13 @@ export default {
       return;
     }
     await this.users();
+    await this.department();
+    await this.reports();
+    await this.team();
+    this.departmentOptions = this.getDepartment;
+    console.log(this.getDepartment, "department")
+    this.usersOptions = this.getReportsList;
+    this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
     if (process.client) {
       var userEmail = localStorage.getItem("userEmail");
@@ -349,37 +521,33 @@ export default {
     ...mapActions({
       users: "users/setUserList",
       user: "users/setUser",
+      department: "users/setDepartmentList",
+      reports: "users/setReportsList",
+      team: "users/setTeamList",
     }),
+    duplicate() {
+      var i = 0;
+      var original = document.getElementById("duplicater" + i);
+      var clone = original.cloneNode(true); // "deep" clone
+      clone.id = "duplicetor" + ++i; // there can only be one element with an ID
+      original.parentNode.appendChild(clone);
+    },
     openPopupNotification,
     vfileAdded,
     updateAllData,
     handleInput,
-    updateEmployeeProfile() {
-      this.inactivePersonalInfo = null;
-      this.dropzoneDisable = "";
-      this.personalInfoUpdateButton = true;
-    },
-    updateEmail() {
-      this.inactiveEmail = null;
-      this.emailUpdateButton = true;
-    },
-    updatePhone() {
-      this.inactivePhone = null;
-      this.phoneUpdateButton = true;
-    },
-    updateAddress() {
-      this.inactiveAddress = null;
-      this.addressUpdateButton = true;
-    },
-
+    updateEmployeeProfile,
+    updateEmail,
+    updatePhone,
+    updateAddress,
+    updateEmployeeInfo, 
+    updateEmployeementInfo, 
+    contactInfo,
     sortBy() {
       alert("called");
     },
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-    },
-    employee_info_Tabs(tab) {
-      this.employeInfoActiveTab = tab.value;
     },
   },
 };

@@ -18,7 +18,7 @@
           label="Address 2"
           v-model="email"
           placeholder="Enter your Primary email"
-          :disabled="inActive"
+          disabled="disabled"
         ></bib-input>
       </div>
     </div>

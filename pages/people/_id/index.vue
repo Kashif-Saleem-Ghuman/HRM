@@ -115,7 +115,7 @@
                   :employeeNumber="form.employeeNumber"
                   :employeeStatus="form.status"
                   :esstatusOptions="formOptions.esstatusOptions"
-                  :department="form.department"
+                  :department="departmentOptions[2]"
                   :departmentOptions="departmentOptions"
                   :team="teamOptions"
                   :teamOptions="teamOptions"
@@ -194,8 +194,8 @@ export default {
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
-      getDepartment: "users/GET_DEPARTMENT_LIST",
       getUser: "users/GET_USER",
+      getDepartment: "users/GET_DEPARTMENT_LIST",
       getReportsList: "users/GET_REPORTS_LIST",
       getTeamList: "users/GET_TEAM_LIST",
     }),
@@ -219,8 +219,8 @@ export default {
   methods: {
     ...mapActions({
       usersList: "users/setUserList",
-      department: "users/setDepartmentList",
       user: "users/setUser",
+      department: "users/setDepartmentList",
       reports: "users/setReportsList",
       team: "users/setTeamList",
     }),

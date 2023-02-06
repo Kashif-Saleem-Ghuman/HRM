@@ -52,7 +52,6 @@
                       :midname="form.middleName"
                       :lastname="form.lastName"
                       :department="form.department"
-                      :departmentOptions="departmentOptions"
                       :title="form.title"
                       :employeeStatus="form.status"
                       :inActive="inactiveEmployeeProfile"

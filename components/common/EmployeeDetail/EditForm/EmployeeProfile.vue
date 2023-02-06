@@ -35,9 +35,10 @@
       </div>
       <div class="col-6">
         <bib-input
-          type="text"
+          type="select"
           label="Department"
           v-model="department"
+          :options="departmentOptions"
           placeholder="Enter your department"
           @change="$emit('input', $event, 'department')"
           :disabled="inActive"
@@ -77,8 +78,8 @@ export default {
     employeeStatus: {
       type: String,
     },
-    disabled:{
-      type:String
+    departmentOptions:{
+      type:Array
     },
     input: {
       type: Function,

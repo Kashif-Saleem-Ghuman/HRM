@@ -3,22 +3,24 @@
       <div class="row mx-0">
         <div class="col-6">
           <bib-input
-            type="email"
+            type="text"
             label="Home"
-            v-model="email"
-            placeholder="Enter your Primary email"
+            v-model="homePhone"
+            placeholder="Enter your home phone"
             :disabled="inActive"
+            @input="$emit('input', $event, 'homePhone')"
           ></bib-input>
         </div>
       </div>
       <div class="row mx-0">
         <div class="col-6">
           <bib-input
-            type="email"
+            type="text"
             label="Mobile"
-            v-model="email"
-            placeholder="Enter your Primary email"
+            v-model="mobile"
+            placeholder="Enter your mobile number"
             :disabled="inActive"
+            @input="$emit('input', $event, 'mobile')"
           ></bib-input>
         </div>
       </div>
@@ -28,7 +30,7 @@
   export default {
     name: "Phone",
     props: {
-      email: {
+      homePhone: {
         type: String,
       },
       mobile: {

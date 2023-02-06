@@ -35,7 +35,7 @@
       </div>
       <div class="col-6">
         <bib-input
-          type="select"
+          type="text"
           label="Department"
           v-model="department"
           :options="departmentOptions"

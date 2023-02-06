@@ -16,9 +16,10 @@
           <bib-input
             type="email"
             label="Additional email address"
-            v-model="email"
-            placeholder="Enter your Primary email"
+            v-model="additionalEmail"
+            placeholder="Enter Additional email address"
             :disabled="inActive"
+            @input="$emit('input', $event, 'additionalEmal')"
           ></bib-input>
         </div>
       </div>
@@ -28,10 +29,7 @@
   export default {
     name: "Email",
     props: {
-      email: {
-        type: String,
-      },
-      mobile: {
+      additionalEmail: {
         type: String,
       },
       inActive: {

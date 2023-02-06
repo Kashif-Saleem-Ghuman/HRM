@@ -30,7 +30,7 @@
             type="text"
             label="Employee number"
             v-model="employeeNumber"
-            placeholder="Enter your email"
+            placeholder="Enter your Employee number"
             @change="$emit('input', $event, 'employeNumber')"
             :disabled="inActive"
           ></bib-input>
@@ -41,7 +41,7 @@
             label="Employee Status"
             v-model="employeeStatus"
             :options="esstatusOptions"
-            placeholder="Enter your email"
+            placeholder="Select your employee status"
             @input="$emit('input', $event, 'status')"
             :disabled="inActive"
           ></bib-input>

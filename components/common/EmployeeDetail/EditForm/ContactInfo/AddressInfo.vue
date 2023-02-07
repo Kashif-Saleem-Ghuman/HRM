@@ -5,7 +5,7 @@
         <bib-input
           type="text"
           label="Address 1"
-          v-model="address1"
+          v-model="address"
           placeholder="Enter your address"
           :disabled="inActive"
           @input="$emit('input', $event, 'address1')"
@@ -74,7 +74,7 @@
 export default {
   name: "Phone",
   props: {
-    address1: {
+    address: {
       type: String,
     },
     address2: {

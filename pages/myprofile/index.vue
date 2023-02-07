@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
     >
       <section-header-left
-        title="Employee Profile"
+        :title="form.firstName + ' ' + form.lastName || 'Name comes here'"
         bookmark="bookmark-solid"
         headerRight="headerRight"
       ></section-header-left>
@@ -37,9 +37,9 @@
 
               <div class="py-cus">
                 <drop-zone
-                  :src="form.avatar"
-                  :className="form.avatar != null ? 'hide' : ''"
-                  :customRemove="form.avatar == null ? 'hide' : ''"
+                  :src="form.photo"
+                  :className="form.photo != null ? 'hide' : ''"
+                  :customRemove="form.photo == null ? 'hide' : 'hide'"
                   @vfileAdded="vfileAdded"
                   style="pointer-events: none; cursor: default"
                 ></drop-zone>
@@ -52,7 +52,7 @@
                       :midname="form.middleName"
                       :lastname="form.lastName"
                       :department="form.department"
-                      :title="form.title"
+                      :title="form.jobTitle"
                       :employeeStatus="form.status"
                       :inActive="inactiveEmployeeProfile"
                     ></employee-profile>
@@ -103,9 +103,9 @@
             </div>
             <div class="py-cus">
               <drop-zone
-                :src="form.avatar"
-                :className="form.avatar != null ? 'hide' : ''"
-                :customRemove="form.avatar == null ? 'hide' : ''"
+                :src="form.photo"
+                :className="form.photo != null ? 'hide' : ''"
+                :customRemove="form.photo == null ? 'hide' : ''"
                 @vfileAdded="vfileAdded"
                 :style="dropzoneDisable"
               ></drop-zone>
@@ -156,11 +156,8 @@
               </div>
               <div class="col-6 row-custom">
                 <email
-                  :firstname="form.firstName"
-                  :lastname="form.lastName"
-                  :dob="form.dateOfBirth"
-                  :gender="form.gender"
-                  :options="formOptions.genderOptions"
+                  :email="form.email"
+                  :additionalEmail="form.additionalEmail"
                   :inActive="inactiveEmail"
                   @input="handleInput"
                 ></email>
@@ -198,11 +195,8 @@
               </div>
               <div class="col-6 row-custom">
                 <phone
-                  :firstname="form.firstName"
-                  :lastname="form.lastName"
-                  :dob="form.dateOfBirth"
-                  :gender="form.gender"
-                  :options="formOptions.genderOptions"
+                  :homePhone="form.homePhone"
+                  :mobile="form.mobile"
                   :inActive="inactivePhone"
                   @input="handleInput"
                 ></phone>
@@ -241,11 +235,13 @@
               <div class="col-6 row-custom">
                 <div id="duplicater0">
                   <address-info
-                    :firstname="form.firstName"
-                    :lastname="form.lastName"
-                    :dob="form.dateOfBirth"
+                    :address="form.address"
+                    :address2="form.address2"
+                    :country="form.country"
                     :gender="form.gender"
-                    :options="formOptions.genderOptions"
+                    :state="form.state"
+                    :city="form.city"
+                    :postalCode="form.postalCode"
                     :inActive="inactiveAddress"
                     @input="handleInput"
                   ></address-info>
@@ -406,6 +402,180 @@
             <div></div>
           </div>
         </div>
+        <div id="compensation-wrapper">
+          <div v-if="activeTab == personalTabItem[4].value">
+            <!-- Compensation Wrapper Start Here  -->
+            <div id="employee-information">
+              <div class="row mx-0 pt-2 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Compensation Package"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateCompensationPackage"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-12 row-custom">
+                <compensation-package
+                  :compenstaionPackage="form.gender"
+                  :compenstaionPackageOption="compenstaionPackageOption"
+                  :inActive="inActiveCompenstaionPackage"
+                  @input="handleInput"
+                ></compensation-package>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="compenstaionPackageUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!-- Employeement info Wrppaer Start Here  -->
+            <div id="employeement-info-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Manual compensation entry"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateCompensationEntry"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <compensation-entry
+                  :effectiveDate="form.effectiveDate"
+                  :paySchedule="form.paySchedule"
+                  :payScheduleOptions="payScheduleOptions"
+                  :payType="form.payType"
+                  :payTypeOptions="payTypeOptions"
+                  :payRate="form.payRate"
+                  :currency="form.currency"
+                  :term="form.term"
+                  :note="form.note"
+                  :inActive="inActiveCompenstaionEntry"
+                  @input="handleInput"
+                ></compensation-entry>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="employeementInfoUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+        <div id="benifit-wrapper">
+          <div v-if="activeTab == personalTabItem[5].value">
+            <!-- Compensation Wrapper Start Here  -->
+            <div id="employee-information">
+              <div class="row mx-0 pt-2 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Benefit Package"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateBenefitsPackage"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-12 row-custom">
+                <benefits-package
+                  :benefitsPackage="form.gender"
+                  :benefitsPackageOption="benefitsPackageOption"
+                  :inActive="inActiveBenefitsPackage"
+                  @input="handleInput"
+                ></benefits-package>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="benefitsPackageUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <!-- Benefits info Wrppaer Start Here  -->
+            <div id="employeement-info-wrapper">
+              <div class="row mx-0 py-cus">
+                <div class="col-6">
+                  <tabs-title
+                    title="Benefits"
+                    variant="gray"
+                    icon="info"
+                    :updateButton="true"
+                    @click="updateBenefits"
+                    :scale="0.9"
+                  ></tabs-title>
+                </div>
+              </div>
+              <div class="col-6 row-custom">
+                <benefits
+                  :effectiveDate="form.effectiveDate"
+                  :benefitsPlanName="form.benefitsPlanName"
+                  :benefitsPlanURL="form.benefitsPlanURL"
+                  :inActive="inActiveBenefits"
+                  @input="handleInput"
+                ></benefits>
+                <div class="row mx-0 pt-1">
+                  <div class="col-12">
+                    <bib-button
+                      label="Save"
+                      size="lg"
+                      variant="success"
+                      @click="getAllData('rightAction')"
+                      v-if="benefitsUpdateButton"
+                    ></bib-button>
+                  </div>
+                </div>
+                <div
+                  class="bg-light mt-2"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
@@ -429,9 +599,13 @@ import {
   updateEmail,
   updatePhone,
   updateAddress,
-  updateEmployeeInfo, 
-    updateEmployeementInfo, 
-    contactInfo
+  updateEmployeeInfo,
+  updateEmployeementInfo,
+  contactInfo,
+  updateCompensationPackage,
+  updateCompensationEntry,
+  updateBenefitsPackage,
+  updateBenefits,
 } from "../../utils/functions/profile/index";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
@@ -469,6 +643,18 @@ export default {
       employeementInfoUpdateButton: false,
       contactInfoUpdateButton: false,
 
+      // Compenstaion package states
+      compenstaionPackageUpdateButton: false,
+      inActiveCompenstaionPackage: "disabled",
+      compenstaionEntryUpdateButton: false,
+      inActiveCompenstaionEntry: "disabled",
+
+      // Benefits package states
+      benefitsPackageUpdateButton: false,
+      benefitsUpdateButton: false,
+      inActiveBenefitsPackage: "disabled",
+      inActiveBenefits: "disabled",
+
       inactiveCommon: "disabled",
       form: {},
       teamOption: "",
@@ -501,7 +687,7 @@ export default {
     await this.reports();
     await this.team();
     this.departmentOptions = this.getDepartment;
-    console.log(this.getDepartment, "department")
+    console.log(this.getDepartment, "department");
     this.usersOptions = this.getReportsList;
     this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
@@ -511,6 +697,7 @@ export default {
       this.id = users.id;
       await this.user(this.id);
       this.form = this.getUser;
+      console.log(this.form.phone, "asdksdkasdkadjkahdkhasjdhjkahdk")
     }
     var team = this.form.teams;
     var teamOption = team.join(",  ");
@@ -539,9 +726,13 @@ export default {
     updateEmail,
     updatePhone,
     updateAddress,
-    updateEmployeeInfo, 
-    updateEmployeementInfo, 
+    updateEmployeeInfo,
+    updateEmployeementInfo,
     contactInfo,
+    updateCompensationPackage,
+    updateCompensationEntry,
+    updateBenefitsPackage,
+    updateBenefits,
     sortBy() {
       alert("called");
     },

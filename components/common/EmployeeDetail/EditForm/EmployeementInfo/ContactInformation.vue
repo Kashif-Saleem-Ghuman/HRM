@@ -6,7 +6,7 @@
             type="email"
             label="Org email address"
             v-model="email"
-            placeholder="Enter your email"
+            placeholder="Enter your Org email"
             :disabled="inActive"
             icon-left="mail"
           ></bib-input>

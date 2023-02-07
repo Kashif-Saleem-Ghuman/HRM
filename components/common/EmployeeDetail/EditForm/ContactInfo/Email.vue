@@ -29,6 +29,9 @@
   export default {
     name: "Email",
     props: {
+      email: {
+        type: String,
+      },
       additionalEmail: {
         type: String,
       },

@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
     >
       <section-header-left
-        :title="form.firstName + form.lastName || 'Name comes here'"
+        :title="form.firstName + ' ' + form.lastName || 'Name comes here'"
         bookmark="bookmark-solid"
         headerRight="headerRight"
       ></section-header-left>
@@ -156,11 +156,8 @@
               </div>
               <div class="col-6 row-custom">
                 <email
-                  :firstname="form.firstName"
-                  :lastname="form.lastName"
-                  :dob="form.dateOfBirth"
-                  :gender="form.gender"
-                  :options="formOptions.genderOptions"
+                  :email="form.email"
+                  :additionalEmail="form.additionalEmail"
                   :inActive="inactiveEmail"
                   @input="handleInput"
                 ></email>
@@ -198,11 +195,8 @@
               </div>
               <div class="col-6 row-custom">
                 <phone
-                  :firstname="form.firstName"
-                  :lastname="form.lastName"
-                  :dob="form.dateOfBirth"
-                  :gender="form.gender"
-                  :options="formOptions.genderOptions"
+                  :homePhone="form.homePhone"
+                  :mobile="form.mobile"
                   :inActive="inactivePhone"
                   @input="handleInput"
                 ></phone>
@@ -241,11 +235,13 @@
               <div class="col-6 row-custom">
                 <div id="duplicater0">
                   <address-info
-                    :firstname="form.firstName"
-                    :lastname="form.lastName"
-                    :dob="form.dateOfBirth"
+                    :address="form.address"
+                    :address2="form.address2"
+                    :country="form.country"
                     :gender="form.gender"
-                    :options="formOptions.genderOptions"
+                    :state="form.state"
+                    :city="form.city"
+                    :postalCode="form.postalCode"
                     :inActive="inactiveAddress"
                     @input="handleInput"
                   ></address-info>

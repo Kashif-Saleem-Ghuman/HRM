@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
     >
       <section-header-left
-        :title="form.firstName + ' ' + form.lastName || 'Name comes here'"
+        :title="form.firstName == undefined ? 'User Name': form.firstName + ' ' + form.lastName"
         bookmark="bookmark-solid"
         headerRight="headerRight"
       ></section-header-left>
@@ -76,6 +76,8 @@
                     <div class="py-cus">
                       <contact-info
                         :email="form.email"
+                        :personalPhone="form.personalPhone"
+                        :extension="form.extension"
                         :mobile="form.phone"
                         disabled="disabled"
                       ></contact-info>
@@ -86,7 +88,7 @@
             </div>
           </div>
         </div>
-        <div id="my-profile-wrapper">
+        <div id="personal-information-wrapper">
           <div v-if="activeTab == personalTabItem[1].value">
             <div class="row mx-0 pt-2">
               <div class="col-6">
@@ -117,7 +119,9 @@
                     :lastname="form.lastName"
                     :dob="form.dateOfBirth"
                     :gender="form.gender"
-                    :options="formOptions.genderOptions"
+                    :genderOptions="genderOptions"
+                    :maritalStatus="form.maritalStatus"
+                    :maritalOptions="maritalOption"
                     :inActive="inactivePersonalInfo"
                     @input="handleInput"
                   ></personal-information>
@@ -129,7 +133,7 @@
                       size="lg"
                       v-if="personalInfoUpdateButton"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                     ></bib-button>
                   </div>
                 </div>
@@ -139,7 +143,7 @@
         </div>
         <div id="contact-info-wrapper">
           <div v-if="activeTab == personalTabItem[2].value">
-            <!-- Email Wrapper Start Here  -->
+           <div class="scroll_wrapper">
             <div id="email-wrapper">
               <div class="row mx-0 pt-2 py-cus">
                 <div class="col-6">
@@ -166,7 +170,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="emailUpdateButton"
                     ></bib-button>
                   </div>
@@ -179,7 +183,7 @@
               </div>
             </div>
             <!-- Phone Wrppaer Start Here  -->
-            <div id="email-wrapper">
+            <div id="phone-wrapper">
               <div class="row mx-0 py-cus">
                 <div class="col-6">
                   <tabs-title
@@ -194,8 +198,8 @@
               </div>
               <div class="col-6 row-custom">
                 <phone
-                  :homePhone="form.homePhone"
-                  :mobile="form.mobile"
+                  :personalPhone="form.personalPhone"
+                  :mobile="form.phone"
                   :inActive="inactivePhone"
                   @input="handleInput"
                 ></phone>
@@ -205,7 +209,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="phoneUpdateButton"
                     ></bib-button>
                   </div>
@@ -218,7 +222,7 @@
               </div>
             </div>
             <!-- Address Wrapper Start Here  -->
-            <div id="email-wrapper">
+            <div id="address-wrapper">
               <div class="row mx-0 py-cus">
                 <div class="col-6">
                   <tabs-title
@@ -234,13 +238,13 @@
               <div class="col-6 row-custom">
                 <div id="duplicater0">
                   <address-info
-                    :address="form.address"
+                    :address="form.addresses[0].address"
                     :address2="form.address2"
                     :country="form.country"
                     :gender="form.gender"
-                    :state="form.state"
-                    :city="form.city"
-                    :postalCode="form.postalCode"
+                    :state="form.addresses[0].state"
+                    :city="form.addresses[0].city"
+                    :postalCode="form.addresses[0].postalCode"
                     :inActive="inactiveAddress"
                     @input="handleInput"
                   ></address-info>
@@ -255,7 +259,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="addressUpdateButton"
                     ></bib-button>
                   </div>
@@ -268,6 +272,7 @@
               </div>
             </div>
             <div></div>
+           </div>
           </div>
         </div>
         <div id="employeement-information-wrapper">
@@ -302,7 +307,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="employeeInfoUpdateButton"
                     ></bib-button>
                   </div>
@@ -344,7 +349,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="employeementInfoUpdateButton"
                     ></bib-button>
                   </div>
@@ -386,7 +391,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="contactInfoUpdateButton"
                     ></bib-button>
                   </div>
@@ -430,7 +435,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="compenstaionPackageUpdateButton"
                     ></bib-button>
                   </div>
@@ -476,7 +481,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="employeementInfoUpdateButton"
                     ></bib-button>
                   </div>
@@ -520,7 +525,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="benefitsPackageUpdateButton"
                     ></bib-button>
                   </div>
@@ -560,7 +565,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="benefitsUpdateButton"
                     ></bib-button>
                   </div>
@@ -609,7 +614,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="timeOffUpdateButton"
                     ></bib-button>
                   </div>
@@ -662,7 +667,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="getAllData('rightAction')"
+                      @click="updateAllData()"
                       v-if="timeAttendanceUpdateButton"
                     ></bib-button>
                   </div>
@@ -786,6 +791,8 @@ export default {
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
+      genderOptions:SELECT_OPTIONS.genderOptions,
+      maritalOption:SELECT_OPTIONS.maritalStatusOptions,
       teamOptions: "",
       // Employee profile state
       inactiveEmployeeProfile: "disabled",
@@ -851,14 +858,19 @@ export default {
       form: {},
       teamOption: "",
       formOptions: {},
-      updateForm: {},
+      updateForm: {
+        
+      },
       isFlag: false,
       activeTab: "Employee Profile",
     };
   },
 
   fetch() {
-    this.$store.dispatch("users/setUserList");
+    // this.$store.dispatch("users/setUserList");
+  },
+  async created(){
+    await this.$store.dispatch("users/setUserList");
   },
   computed: {
     ...mapGetters({
@@ -874,15 +886,11 @@ export default {
       this.$router.push("/myprofile");
       return;
     }
-    await this.users();
-    await this.department();
-    await this.reports();
-    await this.team();
+    await this.users()
     this.departmentOptions = this.getDepartment;
     this.usersOptions = this.getReportsList;
     this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
-    if (process.client) {
       var userEmail = localStorage.getItem("userEmail");
       var users = this.userList.find((user) => user.email === userEmail);
       this.id = users.id;
@@ -897,18 +905,12 @@ export default {
       this.switchLabelweekStarts = this.form.switchLabelweekStarts = null
         ? "Yes"
         : "No";
-    }
-    var team = this.form.teams;
-    var teamOption = team.join(",  ");
-    this.teamOption = teamOption;
+    
   },
   methods: {
     ...mapActions({
       users: "users/setUserList",
       user: "users/setUser",
-      department: "users/setDepartmentList",
-      reports: "users/setReportsList",
-      team: "users/setTeamList",
     }),
     change(event, name) {
       this.updateForm[name] = event;

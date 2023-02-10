@@ -16,6 +16,11 @@ $validation-star-color: #fa0f00;
   margin-top: -6px;
   animation: fadeInAnimation ease 2s
 }
+.scroll_wrapper{
+  height: 600px;
+  // overflow: hidden;
+}
+
 @keyframes fadeInAnimation {
   0% {
       opacity: 0;

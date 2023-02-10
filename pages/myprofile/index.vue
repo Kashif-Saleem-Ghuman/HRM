@@ -677,6 +677,64 @@
             <div></div>
           </div>
         </div>
+        <div id="files-wrapper">
+          <div v-if="activeTab == personalTabItem[9].value">
+            <!-- Benefits info Wrppaer Start Here  -->
+            <div id="folder-info-wrapper">
+              <div>
+                <div class="d-flex mt-1 mb-1" style="padding-left: 5px">
+                  <button-green
+                    @on-click="$emit('employee')"
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Create Folder"
+                    titleClass="button-title"
+                  ></button-green>
+                  <button-green
+                    @on-click="$emit('employee')"
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Upload"
+                    titleClass="button-title"
+                  ></button-green>
+                </div>
+                <div
+                  class="bg-light mt-1 mb-1"
+                  :class="seprator"
+                  style="height: 1px;"
+                ></div>
+                <bib-detail-collapse label="Folders" open>
+                  <template v-slot:content>
+                    <div class="flex_grid">
+                      <!-- <folders></folders> -->
+                      <template v-for="folder in folderData">
+                        <folders :folder="folder"></folders>
+                      </template>
+                    </div>
+                  </template>
+                </bib-detail-collapse>
+                <div
+                  class="bg-light mt-1 mb-1"
+                  :class="seprator"
+                  style="height: 1px"
+                ></div>
+                <bib-detail-collapse label="Files" open>
+                  <template v-slot:content>
+                    <div class="flex_grid">
+                      <!-- <folders></folders> -->
+                      <template v-for="files in filesData">
+                        <files :files="files"></files>
+                      </template>
+                    </div>
+                  </template>
+                </bib-detail-collapse>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
@@ -688,6 +746,8 @@ import { mapGetters, mapActions } from "vuex";
 import {
   EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
+  FOLDERS_DATA,
+  FILES_DATA,
 } from "../../utils/constant/Constant.js";
 import {
   openPopupNotification,
@@ -716,6 +776,8 @@ export default {
   data() {
     return {
       id: "",
+      folderData: FOLDERS_DATA,
+      filesData: FILES_DATA,
       showButton: false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],

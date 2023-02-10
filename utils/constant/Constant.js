@@ -355,6 +355,10 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "Time & Attendance",
   },
   {
+    title: "Performance",
+    value: "Performance",
+  },
+  {
     title: "Files",
     value: "Files",
   },
@@ -384,4 +388,98 @@ export const EMPLOYEE_INFO_TAB = [
     title: "Files",
     value: "files",
   },
+]
+export const FOLDERS_DATA= [
+  {
+    _id: "63d75423e882494130ec935c",
+    name: "Temp Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935b",
+    name: "Temp two Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935d",
+    name: "Share Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935c",
+    name: "Temp Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935b",
+    name: "Temp two Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935d",
+    name: "Share Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935b",
+    name: "Temp two Folder",
+    parent: null,
+  },
+  {
+    _id: "63d75423e882494130ec935d",
+    name: "Share Folder",
+    parent: null,
+  },
+]
+export const FILES_DATA = [
+        
+  {
+    _id: "63d37245283452acce1ada0a",
+    parent: null,
+    name: "Dummy Text",
+    extension: "pdf",
+    size: 64031,
+    type: "FILE",
+  },
+  {
+    _id: "63d37245283452acce1ada0a",
+    parent: null,
+    name: "Dummy Text",
+    extension: "pdf",
+    size: 64031,
+    type: "FILE",
+  },
+  {
+    _id: "63d37245283452acce1ada0b",
+    parent: null,
+    name: "Dummy Text Two",
+    extension: "docx",
+    size: 64031,
+    type: "FILE",
+  },
+  {
+    _id: "63d37245283452acce1ada0c",
+    parent: null,
+    name: "Dummy Text Three",
+    extension: "docx",
+    size: 64031,
+    type: "FILE",
+  },
+  {
+    _id: "63d37245283452acce1ada0a",
+    parent: null,
+    name: "Dummy Text",
+    extension: "pdf",
+    size: 64031,
+    type: "FILE",
+  },
+  {
+    _id: "63d37245283452acce1ada0a",
+    parent: null,
+    name: "Dummy Text",
+    extension: "pdf",
+    size: 64031,
+    type: "FILE",
+  },
+
 ]

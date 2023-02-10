@@ -17,7 +17,7 @@
           <bib-input
             type="text"
             label="Phone number"
-            v-model="mobile"
+            v-model="personalPhone"
             placeholder="Enter your phone"
             :disabled="disabled"
             icon-left="device-mobile"
@@ -27,7 +27,7 @@
           <bib-input
             type="text"
             label="Extension"
-            v-model="mobile"
+            v-model="extension"
             placeholder="Enter your extension"
             :disabled="disabled"
             icon-left="file"
@@ -57,6 +57,12 @@
       },
       mobile: {
         type: String,
+      },
+      personalPhone:{
+        type:String
+      },
+      extension:{
+        type:String
       },
       disabled: {
         type:String

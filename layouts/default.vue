@@ -93,7 +93,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY3Mjg5MjY3MzA2NiwiZXhwIjoxNjgwNjY4NjczMDY2LCJqdGkiOiIyMzk3NjMyMS1mYWNiLTQzYWQtOTFjOS0wOWQzMzU2NDQ1ZmUifQ.Vuzv8ejSvZMqshraxNek9dfHy4SonAazZJfHO2BN1bY",
+      token:"",
      };
   },
   fetch() {
@@ -116,7 +116,7 @@ export default {
       this.openSidebar = false
     })
   },
-  mounted() {
+  async mounted() {
     this.loading = true;
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
@@ -142,6 +142,7 @@ export default {
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userEmail", userEmail);
           }
+          
           // this.getEmployess();
           this.getBusinessId();
         })

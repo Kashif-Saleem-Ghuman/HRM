@@ -5,10 +5,10 @@
           <bib-input
             type="text"
             label="Home"
-            v-model="homePhone"
+            v-model="personalPhone"
             placeholder="Enter your home phone"
             :disabled="inActive"
-            @input="$emit('input', $event, 'homePhone')"
+            @input="$emit('input', $event, 'personalPhone')"
           ></bib-input>
         </div>
       </div>
@@ -30,7 +30,7 @@
   export default {
     name: "Phone",
     props: {
-      homePhone: {
+      personalPhone: {
         type: String,
       },
       mobile: {

@@ -3,11 +3,13 @@ export function updatePersonalInformation() {
   this.dropzoneDisable = "";
   this.personalInfoUpdateButton = true;
   this.infoUpdatePersonalInformation = false;
+  this.updateForm={}
 }
 export function updateEmail() {
   this.inactiveEmail = null;
   this.emailUpdateButton = true;
   this.infoUpdatePersonalEmail = false;
+  this.updateForm={}
 }
 export function updatePhone() {
   this.inactivePhone = null;

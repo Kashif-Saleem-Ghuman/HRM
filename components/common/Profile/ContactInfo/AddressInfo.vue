@@ -8,7 +8,7 @@
           v-model="address"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'address1')"
+          @input="$emit('input', $event, 'address', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -20,7 +20,7 @@
           v-model="address2"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'address2')"
+          @input="$emit('input', $event, 'address2', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -32,7 +32,7 @@
           v-model="country"
           placeholder="Please select country"
           :disabled="inActive"
-          @input="$emit('input', $event, 'country')"
+          @input="$emit('input', $event, 'country', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -42,7 +42,7 @@
           v-model="state"
           placeholder="Please select state"
           :disabled="inActive"
-          @input="$emit('input', $event, 'state')"
+          @input="$emit('input', $event, 'state', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -52,7 +52,7 @@
           v-model="city"
           placeholder="Enter your city"
           :disabled="inActive"
-          @input="$emit('input', $event, 'city')"
+          @change="$emit('input', $event, 'city', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -64,7 +64,7 @@
           v-model="postalCode"
           placeholder="Enter your postal code"
           :disabled="inActive"
-          @input="$emit('input', $event, 'postalCode')"
+          @change="$emit('input', $event, 'postalCode', 'addresses')"
         ></bib-input>
       </div>
     </div>

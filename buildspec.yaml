@@ -15,9 +15,9 @@ phases:
       - echo node version
       - node -v
       - echo installing dependencies
-      - yarn install
+      - npm install
       - echo Building the Front End distro...
-      - yarn run generate --fail-on-error
+      - npm run generate --fail-on-error
   post_build:
     commands:
       - echo Build completed on `date`

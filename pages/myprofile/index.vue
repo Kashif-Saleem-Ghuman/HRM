@@ -24,7 +24,8 @@
         <div id="employee-profile-wrapper">
           <div class="" id="tab_info_wrapper">
             <div v-if="activeTab == personalTabItem[0].value">
-              <div class="row mx-0 pt-2">
+              <div class="scroll_wrapper">
+                <div class="row mx-0 pt-2">
                 <div class="col-6">
                   <tabs-title
                     :title="personalTabItem[0].title"
@@ -84,6 +85,7 @@
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -278,7 +280,8 @@
         <div id="employeement-information-wrapper">
           <div v-if="activeTab == personalTabItem[3].value">
             <!-- Employee Information Wrapper Start Here  -->
-            <div id="employee-information">
+            <div class="scroll_wrapper">
+              <div id="employee-information">
               <div class="row mx-0 pt-2 py-cus">
                 <div class="col-6">
                   <tabs-title
@@ -404,12 +407,14 @@
               </div>
             </div>
             <div></div>
+            </div>
           </div>
         </div>
         <div id="compensation-wrapper">
           <div v-if="activeTab == personalTabItem[4].value">
             <!-- Compensation Wrapper Start Here  -->
-            <div id="employee-information">
+            <div class="scroll_wrapper">
+              <div id="employee-information">
               <div class="row mx-0 pt-2 py-cus">
                 <div class="col-6">
                   <tabs-title
@@ -494,11 +499,13 @@
               </div>
             </div>
             <div></div>
+            </div>
           </div>
         </div>
         <div id="benifit-wrapper">
           <div v-if="activeTab == personalTabItem[5].value">
             <!-- Compensation Wrapper Start Here  -->
+           <div class="scroll_wrapper">
             <div id="employee-information">
               <div class="row mx-0 pt-2 py-cus">
                 <div class="col-6">
@@ -578,6 +585,7 @@
               </div>
             </div>
             <div></div>
+           </div>
           </div>
         </div>
         <div id="time-off-wrapper">
@@ -685,7 +693,7 @@
         <div id="files-wrapper">
           <div v-if="activeTab == personalTabItem[9].value">
             <!-- Benefits info Wrppaer Start Here  -->
-            <div id="folder-info-wrapper">
+            <div id="folder-info-wrapper" class="scroll_wrapper">
               <div>
                 <div class="d-flex mt-1 mb-1" style="padding-left: 5px">
                   <button-green

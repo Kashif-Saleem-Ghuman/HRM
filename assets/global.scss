@@ -17,8 +17,11 @@ $validation-star-color: #fa0f00;
   animation: fadeInAnimation ease 2s
 }
 .scroll_wrapper{
-  height: 600px;
-  // overflow: hidden;
+  height: 650px !important;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 }
 
 @keyframes fadeInAnimation {
@@ -140,3 +143,17 @@ $validation-star-color: #fa0f00;
     width: 35rem;
   }
 }
+.tabs {
+  & button{
+    font-size: 12px !important;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .tabs {
+    // display: none !important;
+    & button{
+      font-size: 10px !important;
+    }
+  }
+}
+

@@ -21,6 +21,12 @@ export function updateAddress() {
   this.addressUpdateButton = true;
   this.infoUpdateAddress = false;
 }
+export function updateEmergencyContact() {
+  this.inactiveEmergencyContact = null;
+  this.emergencyContactUpdateButton = true;
+  this.infoUpdateEmergencyContact = false;
+  this.emContact = true
+}
 export function updateEmployeeInfo() {
   this.inActiveEmployeeInfo = null;
   this.employeeInfoUpdateButton = true;

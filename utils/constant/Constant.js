@@ -114,20 +114,19 @@ export const TABLE_SECTIONS = [
     active: false,
   },
 ];
-export const SELECT_OPTIONS = 
-  {
-    maritalStatusOptions: [
-      { label: "Please choose one", value: null },
-      { label: "single", value: "single" },
-      { label: "married", value: "married" },
-      { label: "separated", value: "separated" },
-      { label: "widowed", value: "widowed" },
-      { label: "divorced", value: "divorced" },
-    ],
-    genderOptions: [
+export const SELECT_OPTIONS = {
+  maritalStatusOptions: [
     { label: "Please choose one", value: null },
-    { label: "male", value: "male" },
-    { label: "female", value: "female" },
+    { label: "single", value: "single" },
+    { label: "married", value: "married" },
+    { label: "separated", value: "separated" },
+    { label: "widowed", value: "widowed" },
+    { label: "divorced", value: "divorced" },
+  ],
+  genderOptions: [
+    { label: "Please choose one", value: null },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ],
   esstatusOptions: [
     { label: "Please choose one", value: null },
@@ -154,8 +153,7 @@ export const SELECT_OPTIONS =
     { label: "Bruno", value: "Bruno" },
     { label: "Kelvin", value: "kelvin" },
   ],
-}
-;
+};
 
 export const PERSONAL_INFO_TAB = [
   {
@@ -238,8 +236,8 @@ export const EMPLOYEE_INFO_TAB = [
     title: "Files",
     value: "files",
   },
-]
-export const FOLDERS_DATA= [
+];
+export const FOLDERS_DATA = [
   {
     _id: "63d75423e882494130ec935c",
     name: "Temp Folder",
@@ -280,9 +278,8 @@ export const FOLDERS_DATA= [
     name: "Share Folder",
     parent: null,
   },
-]
+];
 export const FILES_DATA = [
-        
   {
     _id: "63d37245283452acce1ada0a",
     parent: null,
@@ -331,5 +328,59 @@ export const FILES_DATA = [
     size: 64031,
     type: "FILE",
   },
+];
+export const COUNTRIES = [
+  { value: "", label: "Select Country" },
+  { value: "USA", label: "USA" },
+  { value: "Canada", label: "Canada" },
+  { value: "Other", label: "Other" },
+];
+export const STATES = [
+  { value: "", label: "Select State", code: "all" },
+  {
+    label: "Alabama",
+    value: "Alabama",
+    code: "USA",
+  },
+  {
+    label: "Alaska",
+    value: "Alaska",
+    code: "USA",
+  },
+  {
+    label: "American Samoa",
+    value: "American Samoa",
+    code: "USA",
+  },
+  {
+    label: "Arizona",
+    value: "Arizona",
+    code: "USA",
+  },
 
-]
+  {
+    label: "Alberta",
+    value: "Alberta",
+    code: "Canada",
+  },
+  {
+    label: "British Columbia",
+    value: "British Columbia",
+    code: "Canada",
+  },
+  {
+    label: "Manitoba",
+    value: "Manitoba",
+    code: "Canada",
+  },
+  {
+    label: "New Brunswick",
+    value: "New Brunswick",
+    code: "Canada",
+  },
+  {
+    label: "Newfoundland and Labrador",
+    value: "Newfoundland and Labrador",
+    code: "Canada",
+  },
+];

@@ -37,11 +37,6 @@ export default {
 </script>
 
 <style lang="scss">
-.tabs {
-  button {
-    font-size: 12px !important;
-  }
-}
 .tab_title {
   h3 {
     font-size: 14px;

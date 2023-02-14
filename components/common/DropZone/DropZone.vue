@@ -6,7 +6,7 @@
       :options="dropzoneOptions"
       :use-custom-slot="true"
       @vdropzone-removed-file="openImage()"
-      @vdropzone-thumbnail="$emit('vfileAdded', $event)"
+      @vdropzone-thumbnail="$emit('vfileAdded', $event, 'photo')"
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">

@@ -8,7 +8,7 @@
           v-model="address"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'address', 'addresses')"
+          @input="$emit('input', $event, 'street', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -30,19 +30,23 @@
           type="select"
           label="Country"
           v-model="country"
+          :options="countryOptions"
+          :ref='ref' 
+          :query='query'
           placeholder="Please select country"
           :disabled="inActive"
-          @input="$emit('input', $event, 'country', 'addresses')"
+          @input="$emit('selectInput', $event, 'country', 'addresses')"
         ></bib-input>
       </div>
-      <div class="col-4">
+      <div class="col-4" v-if="stateVisible">
         <bib-input
           type="select"
           label="Province/State"
           v-model="state"
+          :options="stateOptions"
           placeholder="Please select state"
           :disabled="inActive"
-          @input="$emit('input', $event, 'state', 'addresses')"
+          @input="$emit('selectInput', $event, 'state', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4">
@@ -72,7 +76,7 @@
 </template>
 <script>
 export default {
-  name: "Phone",
+  name: "AddressInfo",
   props: {
     address: {
       type: String,
@@ -83,14 +87,29 @@ export default {
     country: {
       type: String,
     },
+    countryOptions:{
+      type:Array
+    },
+    ref: {
+      type: String,
+    },
+    query: {
+      type: String,
+    },
     state: {
       type: String,
+    },
+    stateOptions:{
+      type:Array
     },
     city: {
       type: String,
     },
     postalCode: {
       type: String,
+    },
+    stateVisible:{
+      type:Boolean
     },
     inActive: {
       type: String,

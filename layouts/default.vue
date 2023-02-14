@@ -17,7 +17,6 @@
       </template>
       <template #topbar>
         <bib-header
-          
           mainAction="Upgrade"
           @callToAction="headerActionCall()"
           @callToActions="headerActionCallll()"

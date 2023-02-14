@@ -178,7 +178,7 @@ export default {
       localData: {},
       form: {},
       msg: [],
-      avatraUrl:'',
+      avatarUrl:'',
       users: {},
       usersOptions: "",
       formOptions: {},

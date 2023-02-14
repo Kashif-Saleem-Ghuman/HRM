@@ -48,16 +48,15 @@ export function handleInput(event, name, addresses) {
   let add = {};
   this.isFlag = true;
   if (addresses == "addresses") {
-    console.log('hello')
-    add[name]=event;
-    this.updateForm[addresses]=[add];
-    console.log(this.updateForm[addresses]=[add], "update");
-    
-    // this.updateForm[addresses][name] = event;
-    // console.log(this.updateForm[addresses][name], "update");
+    add[name] = event;
+            this.updateForm.addresses=this.updateForm.addresses || [];
+            this.updateForm.addresses[0] = {...this.updateForm.addresses[0], ...add }
+            console.log(this.updateForm, "update");
   } else {
     this.updateForm[name] = event;
     this.form[name] = event;
+    console.log(this.updateForm, "update");
+
   }
 }
 export async function updateAllData() {
@@ -86,7 +85,8 @@ export async function updateAllData() {
     });
   this.loading = false;
 }
-export async function vfileAdded(file) {
+export async function vfileAdded(file, name, event) {
+  this.isFlag = true
   this.fileDetail = file;
   let pimg = new FormData();
   pimg.append("file", this.fileDetail);
@@ -103,33 +103,14 @@ export async function vfileAdded(file) {
     )
     .then((res) => {
       // this.openPopupNotification(0);
-      this.avatraUrl = res;
-      // console.log(res, "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload")
+      this.avatarUrl = res;
+      this.updateForm[name] = this.avatarUrl;
+    this.form[name] = this.avatarUrl;
+      console.log(name, this.updateForm, "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload")
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
     });
-  await this.$axios
-    .$put(
-      `${process.env.API_URL}/employees/${this.id}`,
-      { photo: this.avatraUrl },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then((res) => {
-      this.openPopupNotification(0);
-      this.form = res;
-      console.log(
-        res,
-        "asldasdhlkajhdjksahdkjahkdjhaskdhaksjdhkjashkjahsdhkjashdkjashdkjhaksd"
-      );
-    })
-    .catch((err) => {
-      console.log("There was an issue in employees API", err);
-    });
+    this.isFlag = false
   this.loading = false;
 }

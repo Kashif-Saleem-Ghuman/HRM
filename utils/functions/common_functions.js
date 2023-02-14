@@ -111,6 +111,5 @@ export async function vfileAdded(file, name, event) {
     .catch((err) => {
       console.log("There was an issue in employees API", err);
     });
-    this.isFlag = false
   this.loading = false;
 }

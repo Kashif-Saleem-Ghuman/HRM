@@ -44,7 +44,7 @@ export async function getBusinessId() {
 export function openPopupNotification(n) {
   this.popupMessages.push(this.popupNotificationMsgs[n]);
 }
-export function handleInput(event, name, addresses) {
+export function handleInput(event, name, addresses, personalEmails) {
   let add = {};
   this.isFlag = true;
   if (addresses == "addresses") {
@@ -53,6 +53,11 @@ export function handleInput(event, name, addresses) {
             this.updateForm.addresses[0] = {...this.updateForm.addresses[0], ...add }
             console.log(this.updateForm, "update");
   } 
+  // if(personalEmails == 'personalEmails'){
+  //   this.updateForm.personalEmails=this.updateForm.personalEmails || [];
+  //   this.updateForm.personalEmails[0] = {...this.updateForm.personalEmails[0], ...add }
+  //   console.log(this.updateForm, "update");
+  // }
   else {
     this.updateForm[name] = event;
     this.form[name] = event;

@@ -52,11 +52,29 @@ export function handleInput(event, name, addresses) {
             this.updateForm.addresses=this.updateForm.addresses || [];
             this.updateForm.addresses[0] = {...this.updateForm.addresses[0], ...add }
             console.log(this.updateForm, "update");
-  } else {
+  } 
+  else {
     this.updateForm[name] = event;
     this.form[name] = event;
     console.log(this.updateForm, "update");
 
+  }
+}
+export function handleInputObject(event, name, emContact) {
+  let add = {};
+  this.isFlag = true;
+  if (emContact == "emContact1") {
+    console.log("comingggggg")
+    add[name] = event;
+    this.updateForm.emergencyContacts=this.updateForm.emergencyContacts || [];
+      this.updateForm.emergencyContacts[1] = {...this.updateForm.emergencyContacts[1], ...add }
+      this.form.emergencyContacts[1] = {...this.updateForm.emergencyContacts[1], ...add }
+    }
+  else {
+    add[name] = event;
+    this.updateForm.emergencyContacts=this.updateForm.emergencyContacts || [];
+      this.updateForm.emergencyContacts[0] = {...this.updateForm.emergencyContacts[0], ...add }
+      this.form.emergencyContacts[0] = {...this.updateForm.emergencyContacts[0], ...add }
   }
 }
 export async function updateAllData() {

@@ -15,6 +15,7 @@ import {
   vfileAdded,
   updateAllData,
   handleInput,
+  handleInputObject
 } from "../functions/common_functions.js";
 export {
   headerHelpClick,
@@ -31,4 +32,5 @@ export {
   vfileAdded,
   updateAllData,
   handleInput,
+  handleInputObject,
 };

@@ -125,8 +125,8 @@ export const SELECT_OPTIONS = {
   ],
   genderOptions: [
     { label: "Please choose one", value: null },
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
+    { label: "male", value: "male" },
+    { label: "female", value: "female" },
   ],
   esstatusOptions: [
     { label: "Please choose one", value: null },

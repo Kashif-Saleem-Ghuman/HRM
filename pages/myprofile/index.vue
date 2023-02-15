@@ -297,14 +297,27 @@
                   </div>
                 </div>
                 <div class="col-6 row-custom">
-                  <div id="emergencyContact0">
+                  <div>
                     <emergency-contact
                       :fullName="form.emergencyContacts[0].name"
                       :releationships="form.emergencyContacts[0].relationship"
                       :telephone="form.emergencyContacts[0].phone"
                       :email="form.emergencyContacts[0].email"
                       :inActive="inactiveEmergencyContact"
-                      @input="handleInput"
+                      emContact="emContact"
+                      @input="handleInputObject"
+                    ></emergency-contact>
+                  </div>
+                </div>
+                <div class="col-6 row-custom" v-if="showEmergencyContact">
+                  <div>
+                    <emergency-contact
+                    :fullName="form.emergencyContacts[1] == undefined ? '': form.emergencyContacts[1].name"
+                    :releationships="form.emergencyContacts[1] == undefined ? '': form.emergencyContacts[1].relationship"
+                    :telephone="form.emergencyContacts[1] == undefined ? '': form.emergencyContacts[1].phone"
+                    :email="form.emergencyContacts[1] == undefined ? '': form.emergencyContacts[1].email"
+                      @input="handleInputObject"
+                      emContact="emContact1"
                     ></emergency-contact>
                   </div>
                 </div>
@@ -320,7 +333,7 @@
                         class="mr-1"
                       ></bib-button>
                       <button-green
-                        @on-click="duplicate"
+                        @on-click="showEmergency"
                         variant="success"
                         v-if="emContact"
                         :scale="1"
@@ -832,6 +845,7 @@ import {
   vfileAdded,
   updateAllData,
   handleInput,
+  handleInputObject
 } from "../../utils/functions/functions_lib.js";
 import {
   updatePersonalInformation,
@@ -896,6 +910,7 @@ export default {
       infoUpdateAddress: true,
       infoUpdateEmergencyContact: true,
       stateVisible: true,
+      showEmergencyContact:false,
 
       // Employeement Info States
       inActiveEmployeeInfo: "disabled",
@@ -1022,18 +1037,23 @@ export default {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");
     },
-    duplicate() {
-      var i = 0;
-      var original = document.getElementById("emergencyContact" + i);
-      var clone = original.cloneNode(true); // "deep" clone
-      clone.id = "emergencyContact" + ++i; // there can only be one element with an ID
-      original.parentNode.appendChild(clone);
+    // duplicate() {
+    //   var i = 0;
+    //   var original = document.getElementById("emergencyContact" + i);
+    //   var clone = original.cloneNode(true); // "deep" clone
+    //   clone.id = "emergencyContact" + ++i; // there can only be one element with an ID
+    //   original.parentNode.appendChild(clone);
+    //   this.emContact = false;
+    // },
+    showEmergency(){
+      this.showEmergencyContact = true
       this.emContact = false;
     },
     openPopupNotification,
     vfileAdded,
     updateAllData,
     handleInput,
+    handleInputObject,
     updatePersonalInformation,
     updateEmail,
     updatePhone,

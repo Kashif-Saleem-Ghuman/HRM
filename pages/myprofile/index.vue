@@ -82,7 +82,7 @@
                         <contact-info
                           :email="form.email"
                           :personalPhone="form.personalPhone"
-                          :extension="form.extension"
+                          :extension="form.extension == '' ? '' : 'extension'"
                           :mobile="form.phone"
                           disabled="disabled"
                         ></contact-info>
@@ -166,7 +166,7 @@
                 <div class="col-6 row-custom">
                   <email
                     :email="form.email"
-                    :additionalEmail="form.personalEmails"
+                    :personalEmail="form.personalEmails"
                     :inActive="inactiveEmail"
                     @input="handleInput"
                   ></email>

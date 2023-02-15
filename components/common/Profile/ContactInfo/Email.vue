@@ -16,10 +16,10 @@
           <bib-input
             type="email"
             label="Additional email address"
-            v-model="additionalEmail"
+            v-model="personalEmail"
             placeholder="Enter Additional email address"
             :disabled="inActive"
-            @input="$emit('input', $event, 'additionalEmal')"
+            @input="$emit('input', $event, 'personalEmails')"
           ></bib-input>
         </div>
       </div>
@@ -32,7 +32,7 @@
       email: {
         type: String,
       },
-      additionalEmail: {
+      personalEmail: {
         type: String,
       },
       inActive: {

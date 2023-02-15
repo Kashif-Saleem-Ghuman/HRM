@@ -179,8 +179,8 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "Personal Information",
   },
   {
-    title: "Contact Info",
-    value: "Contact Info",
+    title: "Contact Information",
+    value: "Contact Information",
   },
   {
     title: "Employment Information",

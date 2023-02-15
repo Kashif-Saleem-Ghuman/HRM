@@ -20,7 +20,7 @@
             v-model="mobile"
             placeholder="Enter your mobile number"
             :disabled="inActive"
-            @input="$emit('input', $event, 'mobile')"
+            @input="$emit('input', $event, 'phone')"
           ></bib-input>
         </div>
       </div>

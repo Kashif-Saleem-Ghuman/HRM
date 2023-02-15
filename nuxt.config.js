@@ -12,7 +12,7 @@ export default {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap",
       },
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
     ],
   },
 

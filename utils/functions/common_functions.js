@@ -64,7 +64,6 @@ export function handleInputObject(event, name, emContact) {
   let add = {};
   this.isFlag = true;
   if (emContact == "emContact1") {
-    console.log("comingggggg")
     add[name] = event;
     this.updateForm.emergencyContacts=this.updateForm.emergencyContacts || [];
       this.updateForm.emergencyContacts[1] = {...this.updateForm.emergencyContacts[1], ...add }

@@ -868,7 +868,7 @@ const appWrapItems = getJson();
 export default {
   data() {
     return {
-      id: "",
+      id: this.$route.params.id != undefined ? '' : this.$route.params.id,
       folderData: FOLDERS_DATA,
       filesData: FILES_DATA,
       showButton: false,

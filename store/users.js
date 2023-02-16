@@ -53,9 +53,11 @@ export const mutations = {
 };
 
 export const actions = {
-  async setUserList(ctx) {
+  async setUserList(ctx, payload) {
+    console.log(payload, "Payload console")
+
     try {
-      const employeeList = await this.$axios.$get(
+      const employeeList = await this.$axios.$get(payload==undefined ? `${process.env.API_URL}/employees?limit=${payload.limit},page=${payload.page}` : 
         `${process.env.API_URL}/employees`,
         {
           headers: {

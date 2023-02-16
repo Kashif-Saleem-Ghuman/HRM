@@ -88,6 +88,7 @@
           :padding="0"
         ></star-rating>
       </div>
+      
     </template>
   </custom-table>
 </template>
@@ -121,7 +122,7 @@ export default {
   },
   methods: {
     handleItemClick_Table($event, keyI, item) {
-      this.$router.push('/people/' + item.id)
+      this.$router.push('/myprofile/' + item.id)
     },
     handleAction_Table(data) {
       console.log(data);

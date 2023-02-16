@@ -1,139 +1,55 @@
 <template>
-    <ul class="pagination">
-      <li class="pagination-item">
-        <button
-          type="button"
-          @click="onClickFirstPage"
-          :disabled="isInFirstPage"
-        >
-          First
-        </button>
-      </li>
-  
-      <li class="pagination-item">
-        <button
-          type="button"
-          @click="onClickPreviousPage"
-          :disabled="isInFirstPage"
-        >
-          Previous
-        </button>
-      </li>
-  
-      <!-- Visible Buttons Start -->
-  
-      <li
-        v-for="page in pages"
-        :key="page.name"
-        class="pagination-item"
-      >
-        <button
-          type="button"
-          @click="onClickPage(page.name)"
-          :disabled="page.isDisabled"
-          :class="{ active: isPageActive(page.name) }"
-        >
-          {{ page.name }}
-        </button>
-      </li>
-  
-      <!-- Visible Buttons End -->
-  
-      <li class="pagination-item">
-        <button
-          type="button"
-          @click="onClickNextPage"
-          :disabled="isInLastPage"
-          
-        >
-          Next
-        </button>
-      </li>
-  
+     <nav class="text-center" aria-label="Page navigation">
+    <ul class="pagination pagination-sm">
       <li>
-        <button
-          type="button"
-          @click="onClickLastPage"
-          :disabled="isInLastPage"
-        >
-          Last
-        </button>
+        <a href="#" @click="page = 1" aria-label="First">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" v-if="page != 1" @click="page--" aria-label="Previous">
+          <span aria-hidden="true">&lsaquo;</span>
+        </a>
+      </li>
+      <li v-for="pageNumber in pages.slice(page-1, page+4)"><a href="#" @click="page = pageNumber">{{pageNumber}}</a></li>
+      <li>
+        <a href="#" @click="page++" v-if="page < pages.length" aria-label="Next">
+          <span aria-hidden="true">&rsaquo;</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" @click="page = pages.length" aria-label="Last">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
       </li>
     </ul>
+  </nav>
   </template>
   <script>
   export default {
-    props: {
-      maxVisibleButtons: {
-        type: Number,
-        required: false,
-        default: 3
-      },    
-      totalPages: {
-        type: Number,
-        required: true
-      },
-      perPage: {
-        type: Number,
-        required: true
-      },
-      currentPage: {
-        type: Number,
-        required: true
-      }
-    },
-    computed: {
-    startPage() {
-      // When on the first page
-      if (this.currentPage === 1) {
-        return 1;
-      }
-
-      // When on the last page
-      if (this.currentPage === this.totalPages) {
-        return this.totalPages - this.maxVisibleButtons;
-      }
-
-      // When inbetween
-      return this.currentPage - 1;
-    },
-    pages() {
-      const range = [];
-
-      for (
-        let i = this.startPage;
-        i <= Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPages);
-        i++
-      ) {
-        range.push({
-          name: i,
-          isDisabled: i === this.currentPage
-        });
-      }
-
-      return range;
-    },
-  },
-  methods: {
-    isPageActive(page) {
-      return this.currentPage === page;
-    },
-    onClickFirstPage() {
-      this.$emit('pagechanged', 1);
-    },
-    onClickPreviousPage() {
-      this.$emit('pagechanged', this.currentPage - 1);
-    },
-    onClickPage(page) {
-      this.$emit('pagechanged', page);
-    },
-    onClickNextPage() {
-      this.$emit('pagechanged', this.currentPage + 1);
-    },
-    onClickLastPage() {
-      this.$emit('pagechanged', this.totalPages);
+    data() {
+    return {
+      page: 1,
+        perPage: 10,
+        pages: [],
+        users:[],
     }
-  }
+    },
+    methods:{
+      setPages() {
+            var numberOfPages = Math.ceil(this.users.length / this.perPage);
+            for (var index = 1; index <= numberOfPages; index++) {
+                this.pages.push(index);
+            }
+        },
+        paginate(users) {
+            var page = this.page;
+            var perPage = this.perPage;
+            var from = (page * perPage) - perPage;
+            var to = (page * perPage);
+            return users.slice(from, to);
+        },
+    }
 
   };
   </script>

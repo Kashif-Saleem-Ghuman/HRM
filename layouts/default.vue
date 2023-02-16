@@ -141,7 +141,8 @@ export default {
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userEmail", userEmail);
           }
-          
+          this.getUser();
+
           // this.getEmployess();
           this.getBusinessId();
         })

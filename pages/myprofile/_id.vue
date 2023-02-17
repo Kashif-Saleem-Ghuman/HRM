@@ -312,7 +312,7 @@
                 <div class="col-6 row-custom" v-if="showEmergencyContact">
                   <div>
                     <emergency-contact
-                    :fullName="form.emergencyContacts[1]?.name"
+                      :fullName="form.emergencyContacts[1]?.name"
                       :releationships="form.emergencyContacts[1]?.relationship"
                       :telephone="form.emergencyContacts[1]?.phone"
                       :email="form.emergencyContacts[1]?.email"
@@ -962,15 +962,19 @@ export default {
       activeTab: "Employee Profile",
     };
   },
-
-  fetch() {
-    // this.$store.dispatch("users/setUserList");
-  },
   async created() {
-    await this.$store.dispatch("users/setUserList");
-  },
-  created() {
-    this.users();
+    await this.users();
+    if (process.env) {
+      if (this.$route.params.id) {
+        await this.user(this.$route.params.id);
+      } else {
+        var userEmail = localStorage.getItem("userID");
+        var users = this.userList.find((user) => user.userId === userEmail);
+        this.id = users.id;
+        await this.user(this.id);
+      }
+      this.form = this.getUser;
+    }
   },
   computed: {
     ...mapGetters({
@@ -987,21 +991,24 @@ export default {
       this.$router.push("/myprofile");
       return;
     }
-    await this.users();
+    // await this.users();
     this.departmentOptions = this.getDepartment;
     this.usersOptions = this.getReportsList;
     this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
-    if (this.$route.params.id) {
-      await this.user(this.$route.params.id);
-    } else {
-      var userEmail = localStorage.getItem("userID");
-      var users = this.userList.find((user) => user.userId === userEmail);
-      this.id = users.id;
-      await this.user(this.id);
-    }
+    // if (this.$route.params.id) {
+    //   await this.user(this.$route.params.id);
+    // } else {
+    //   var userEmail = localStorage.getItem("userID");
+    //   var users = this.userList.find((user) => user.userId === userEmail);
+    //   console.log(users.id, "askhdakjshdjkasdaskdhkahsdk")
+    //   this.id = users.id;
+    //   console.log(this.id, "askhdakjshdjkasdaskdhkahsdk")
 
-    this.form = this.getUser;
+    //   await this.user(this.id);
+    // }
+
+    // this.form = this.getUser;
     this.switchLabelOrgSettings = this.form.switchLabelOrgSettings = null
       ? "Yes"
       : "No";

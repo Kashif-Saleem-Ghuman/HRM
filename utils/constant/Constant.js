@@ -8,20 +8,16 @@ export const TABLE_FIELDS = [
     label: "Employee",
   },
   {
+    key: "presence",
+    label: "Presence",
+  },
+  {
     key: "department",
     label: "Department",
   },
   {
-    key: "attendance",
-    label: "Attendance",
-  },
-  {
-    key: "satisfaction",
-    label: "Satisfaction",
-  },
-  {
-    key: "performance",
-    label: "Performance",
+    key: "team",
+    label: "Team",
   },
 ];
 export const TABLE_FIELDS_DIR = [
@@ -402,3 +398,61 @@ export const PEOPLE_TAB = [
     value: "Teams",
   },
 ]
+export  const MORE_MENU = [
+    {
+      label: "Open",
+      key: "Open",
+    },
+    {
+      label: "Show Detail",
+      key: "showdetail",
+    },
+    {
+      label: "Shared with...",
+      key: "share",
+      icon: "share-arrow",
+
+    },
+    {
+      label: "Get Link",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "Upload Folder",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "Download Folder",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "submenu Comes here",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "Download Folder",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "submenu Comes here",
+      key: "dashboard",
+      icon: "file",
+
+    },
+    {
+      label: "Delete",
+      key: "dashboard",
+    },
+    // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+    // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+] 

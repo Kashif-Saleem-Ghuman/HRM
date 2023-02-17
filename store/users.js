@@ -53,12 +53,33 @@ export const mutations = {
 };
 
 export const actions = {
-  async setUserList(ctx, payload) {
-    console.log(payload, "Payload console")
+  async setUserListPayload(ctx, payload) {
+    // console.log(payload, "Payload console")
 
     try {
-      const employeeList = await this.$axios.$get(payload==undefined ? `${process.env.API_URL}/employees?limit=${payload.limit},page=${payload.page}` : 
+      const employeeList = await this.$axios.$get(
+        `${process.env.API_URL}/employees?limit=${payload.limit}&page=${payload.page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (employeeList) {
+        ctx.commit("SET_USERS", employeeList.employees);
+        return employeeList;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async setUserList(ctx, payload) {
+    // console.log(payload, "Payload console")
+
+    try {
+      const employeeList = await this.$axios.$get(
         `${process.env.API_URL}/employees`,
+        // ${process.env.API_URL}/employees?limit=${payload.limit}&page=${payload.page}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

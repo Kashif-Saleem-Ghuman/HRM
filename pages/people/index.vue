@@ -5,7 +5,6 @@
     >
       <section-header-left
         title="People"
-        bookmark="bookmark-solid"
         moreIcon="more"
         avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU"
         headerRight="headerRight"
@@ -132,7 +131,7 @@
   </div>
 </template>
 <script>
-import { PEOPLE_TAB } from "../../utils/constant/Constant.js";
+import { PEOPLE_TAB, MORE_MENU } from "../../utils/constant/Constant.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -146,49 +145,7 @@ export default {
       perPage: 10,
       pages: [],
       users: [],
-      items: [
-        {
-          label: "Open",
-          key: "Open",
-        },
-        {
-          label: "Show Detail",
-          key: "showdetail",
-        },
-        {
-          label: "Shared with...",
-          key: "dashboard",
-          icon: "file",
-
-        },
-        {
-          label: "Get Link",
-          key: "dashboard",
-          icon: "file",
-
-        },
-        {
-          label: "Upload Folder",
-          key: "dashboard",
-          icon: "file",
-
-        },
-        {
-          label: "submenu Comes here",
-          key: "dashboard",
-          icon: "file",
-
-        },
-        {
-          label: "submenu Comes here",
-          key: "dashboard",
-          icon: "file",
-
-        },
-        // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
-        // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
-      ],
-
+      items: MORE_MENU,
       orderBy: "asc",
       totalUser: "",
       userItems: [
@@ -204,8 +161,9 @@ export default {
       ],
     };
   },
-  fetch() {
-    this.$store.dispatch("users/setUserList");
+  async created() {
+    await this.usersList({ limit: 10, page: 1 });
+    this.users = this.userList;
   },
   watch: {
     users() {
@@ -221,8 +179,7 @@ export default {
     },
   },
   async mounted() {
-    await this.usersList({ limit: 10, page: 1 });
-    this.users = this.userList;
+    
     console.log(this.users);
 
     console.log(this.pages, "users");
@@ -251,7 +208,7 @@ export default {
       return users.slice(from, to);
     },
     ...mapActions({
-      usersList: "users/setUserList",
+      usersList: "users/setUserListPayload",
     }),
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;

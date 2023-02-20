@@ -35,7 +35,7 @@
           :query='query'
           placeholder="Please select country"
           :disabled="inActive"
-          @input="$emit('selectInput', $event, 'country', 'addresses')"
+          @input="$emit('input', $event, 'country', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4" v-if="stateVisible">
@@ -46,7 +46,7 @@
           :options="stateOptions"
           placeholder="Please select state"
           :disabled="inActive"
-          @input="$emit('selectInput', $event, 'state', 'addresses')"
+          @input="$emit('input', $event, 'state', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4">

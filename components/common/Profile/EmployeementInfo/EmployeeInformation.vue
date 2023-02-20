@@ -32,7 +32,7 @@
             v-model="employeeNumber"
             placeholder="Enter your Employee number"
             @change="$emit('input', $event, 'employeNumber')"
-            :disabled="inActive"
+            disabled="disabled"
           ></bib-input>
         </div>
         <div class="col-6">

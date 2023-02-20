@@ -32,7 +32,7 @@
             v-model="team"
             placeholder="Select your team"
             :options="teamOptions"
-            @input="$emit('input', $event, 'team')"
+            @change="$emit('input', $event, 'team')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -44,7 +44,7 @@
             label="Title"
             v-model="title"
             placeholder="Enter title"
-            @change="$emit('input', $event, 'title')"
+            @input="$emit('input', $event, 'title')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -54,8 +54,8 @@
             label="Reports to"
             v-model="reportsTo"
             :options="reportsToOptions"
-            placeholder="Enter your email"
-            @input="$emit('input', $event, 'reportTo')"
+            placeholder="Select youru Reporting Manager"
+            @change="$emit('input', $event, 'reportTo')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -78,6 +78,9 @@
   export default {
     name: "EmployeementInfo",
     props: {
+      effectiveDate: {
+        type: String,
+      },
       department: {
         type: String,
       },
@@ -92,9 +95,6 @@
       },
       title: {
         type: String,
-      },
-      titleOptions: {
-        type: Array,
       },
       reportsTo: {
         type: String,

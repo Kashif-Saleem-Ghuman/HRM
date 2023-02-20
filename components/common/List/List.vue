@@ -87,7 +87,6 @@ import {
   TABLE_FIELDS,
   TABLE_FIELDS_DIR,
 } from "../../../utils/constant/Constant.js";
-import { StarRating } from "../StarRating/StarRating.vue";
 export default {
   props: {
     userList: {

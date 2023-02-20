@@ -49,21 +49,37 @@ export function handleInput(event, name, addresses, personalEmails) {
   let add = {};
   this.isFlag = true;
   if (addresses == "addresses") {
+    if (event == "USA") {
+      this.cureentState = this.states.filter((item, index) => {
+        if (item.code == event || item.code == "all") {
+          this.stateVisible = true;
+          this.isFlag = true;
+          return item;
+        }
+      });
+    }
+    if (event == "Other") {
+      this.updateForm.addresses[0]["state"] = "";
+      this.stateVisible = false;
+    }
     add[name] = event;
-            this.updateForm.addresses=this.updateForm.addresses || [];
-            this.updateForm.addresses[0] = {...this.updateForm.addresses[0], ...add }
-            console.log(this.updateForm, "update");
-  } 
-  // if(personalEmails == 'personalEmails'){
-  //   this.updateForm.personalEmails=this.updateForm.personalEmails || [];
-  //   this.updateForm.personalEmails[0] = {...this.updateForm.personalEmails[0], ...add }
-  //   console.log(this.updateForm, "update");
-  // }
-  else {
+    this.form.addresses[0] = {
+      ...this.form.addresses[0],
+      ...add,
+    };
+    this.updateForm.addresses = this.updateForm.addresses || [];
+    this.updateForm.addresses[0] = {
+      ...this.updateForm.addresses[0],
+      ...add,
+    };
+    console.log(
+      this.updateForm,
+      "this.updateForm.addresses[0]this.updateForm.addresses[0]"
+    );
+  } else {
     this.updateForm[name] = event;
     this.form[name] = event;
     console.log(this.updateForm, "update");
-
   }
 }
 export function handleInputObject(event, name, emContact) {
@@ -71,15 +87,26 @@ export function handleInputObject(event, name, emContact) {
   this.isFlag = true;
   if (emContact == "emContact1") {
     add[name] = event;
-    this.updateForm.emergencyContacts=this.updateForm.emergencyContacts || [];
-      this.updateForm.emergencyContacts[1] = {...this.updateForm.emergencyContacts[1], ...add }
-      this.form.emergencyContacts[1] = {...this.updateForm.emergencyContacts[1], ...add }
-    }
-  else {
+    this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
+    this.updateForm.emergencyContacts[1] = {
+      ...this.updateForm.emergencyContacts[1],
+      ...add,
+    };
+    this.form.emergencyContacts[1] = {
+      ...this.updateForm.emergencyContacts[1],
+      ...add,
+    };
+  } else {
     add[name] = event;
-    this.updateForm.emergencyContacts=this.updateForm.emergencyContacts || [];
-      this.updateForm.emergencyContacts[0] = {...this.updateForm.emergencyContacts[0], ...add }
-      this.form.emergencyContacts[0] = {...this.updateForm.emergencyContacts[0], ...add }
+    this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
+    this.updateForm.emergencyContacts[0] = {
+      ...this.updateForm.emergencyContacts[0],
+      ...add,
+    };
+    this.form.emergencyContacts[0] = {
+      ...this.updateForm.emergencyContacts[0],
+      ...add,
+    };
   }
 }
 export async function updateAllData() {
@@ -109,7 +136,7 @@ export async function updateAllData() {
   this.loading = false;
 }
 export async function vfileAdded(file, name, event) {
-  this.isFlag = true
+  this.isFlag = true;
   this.fileDetail = file;
   let pimg = new FormData();
   pimg.append("file", this.fileDetail);
@@ -128,8 +155,12 @@ export async function vfileAdded(file, name, event) {
       // this.openPopupNotification(0);
       this.avatarUrl = res;
       this.updateForm[name] = this.avatarUrl;
-    this.form[name] = this.avatarUrl;
-      console.log(name, this.updateForm, "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload")
+      this.form[name] = this.avatarUrl;
+      console.log(
+        name,
+        this.updateForm,
+        "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload"
+      );
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);

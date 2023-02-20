@@ -257,7 +257,6 @@
                       :postalCode="form.addresses[0]?.postalCode"
                       :inActive="inactiveAddress"
                       @input="handleInput"
-                      @selectInput="selectCountry"
                     ></address-info>
                   </div>
                   <!-- <bib-button
@@ -338,7 +337,7 @@
                         variant="success"
                         v-if="emContact"
                         :scale="1"
-                        title="Add another emergency contact"
+                        :title="form.emergencyContacts[1]?.name != '' ? 'Edit another emergency contact' : 'Add another emergency contact'"
                         titleClass="button-title"
                       ></button-green>
                     </div>
@@ -376,8 +375,9 @@
                     :hireDate="form.hireDate"
                     :socialInsuranceNumber="form.sin"
                     :dob="form.dateOfBirth"
-                    :gender="form.gender"
-                    :options="formOptions.genderOptions"
+                    :employeeNumber="form.id"
+                    :employeeStatus="form.status"
+                    :esstatusOptions="statusOptions"
                     :inActive="inActiveEmployeeInfo"
                     @input="handleInput"
                   ></employee-information>
@@ -416,9 +416,12 @@
                 <div class="col-6 row-custom">
                   <employeement-info
                     :effectiveDate="form.effectiveDate"
+                    :department="form.department"
                     :departmentOptions="departmentOptions"
+                    :team="form.team"
                     :teamOptions="teamOptions"
-                    :title="form.title"
+                    :title="form.jobTitle"
+                    :reportsTo="form.reportsTo"
                     :reportsToOptions="usersOptions"
                     :inActive="inActiveEmployeementInfo"
                     @input="handleInput"
@@ -457,11 +460,10 @@
                 </div>
                 <div class="col-6 row-custom">
                   <contact-information
-                    :firstname="form.firstName"
-                    :lastname="form.lastName"
-                    :dob="form.dateOfBirth"
-                    :gender="form.gender"
-                    :options="formOptions.genderOptions"
+                    :email="form.email"
+                    :personalPhone="form.personalPhone"
+                    :phone="form.phone"
+                    :ext="form.ext"
                     :inActive="inActiveContactInfo"
                     @input="handleInput"
                   ></contact-information>
@@ -564,7 +566,7 @@
                         size="lg"
                         variant="success"
                         @click="updateAllData()"
-                        v-if="employeementInfoUpdateButton"
+                        v-if="compenstaionEntryUpdateButton"
                       ></bib-button>
                     </div>
                   </div>
@@ -732,7 +734,7 @@
               </div>
               <div class="col-6 row-custom">
                 <attendance
-                  :orgSettings="form.orgSettings"
+                  :orgSettings="form.useOrganizationSettings"
                   :trackAttendance="form.trackAttendance"
                   :weekStarts="form.weekStarts"
                   :switchLabelOrgSettings="switchLabelOrgSettings"
@@ -882,7 +884,7 @@ export default {
       departmentOptions: "",
       genderOptions: SELECT_OPTIONS.genderOptions,
       maritalOption: SELECT_OPTIONS.maritalStatusOptions,
-
+      statusOptions: SELECT_OPTIONS.esstatusOptions,
       countries: COUNTRIES,
       states: STATES,
       cureentState: [],
@@ -966,6 +968,7 @@ export default {
     await this.users();
     if (process.env) {
       if (this.$route.params.id) {
+        this.id = this.$route.params.id;
         await this.user(this.$route.params.id);
       } else {
         var userEmail = localStorage.getItem("userID");
@@ -991,6 +994,9 @@ export default {
       this.$router.push("/myprofile");
       return;
     }
+    await this.$store.dispatch("users/setReportsList")
+    await this.$store.dispatch("users/setDepartmentList")
+    await this.$store.dispatch("users/setTeamList")
     // await this.users();
     this.departmentOptions = this.getDepartment;
     this.usersOptions = this.getReportsList;
@@ -1009,7 +1015,7 @@ export default {
     // }
 
     // this.form = this.getUser;
-    this.switchLabelOrgSettings = this.form.switchLabelOrgSettings = null
+    this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"
       : "No";
     this.switchLabelAttendance = this.form.switchLabelAttendance = null
@@ -1024,40 +1030,10 @@ export default {
       users: "users/setUserList",
       user: "users/setUser",
     }),
-    selectCountry(event, name, addresses) {
-      let add = {};
-      this.cureentState = this.states.filter((item, index) => {
-        if (item.code == event || item.code == "all") {
-          this.stateVisible = true;
-          this.isFlag = true;
-          return item;
-        }
-        if (event == "Other") {
-          this.stateVisible = false;
-        }
-      });
-      if (addresses == "addresses") {
-        add[name] = event;
-        this.updateForm.addresses = this.updateForm.addresses || [];
-        this.updateForm.addresses[0] = {
-          ...this.updateForm.addresses[0],
-          ...add,
-        };
-      }
-    },
-
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");
     },
-    // duplicate() {
-    //   var i = 0;
-    //   var original = document.getElementById("emergencyContact" + i);
-    //   var clone = original.cloneNode(true); // "deep" clone
-    //   clone.id = "emergencyContact" + ++i; // there can only be one element with an ID
-    //   original.parentNode.appendChild(clone);
-    //   this.emContact = false;
-    // },
     showEmergency() {
       this.showEmergencyContact = true;
       this.emContact = false;

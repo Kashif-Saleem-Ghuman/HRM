@@ -456,3 +456,21 @@ export  const MORE_MENU = [
     // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
     // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
 ] 
+export const ACTION_MENU = [
+  {
+    label: "Name",
+    key: "name",
+  },
+  {
+    label: "Presence",
+    key: "presence",
+  },
+  {
+    label: "Department",
+    key: "department",
+  },
+  {
+    label: "Reset",
+    key: "reset",
+  },
+]

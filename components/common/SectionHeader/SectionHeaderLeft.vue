@@ -11,12 +11,11 @@
   >
     <bib-popup pop="elipsis" :scale="1">
       <template v-slot:menu>
-    <dropdown-menu v-if="moreIcon" :items="items.slice(0,2)" @click="$emit('vclick', $event)" style="margin-left: -10px;"></dropdown-menu>
+    <dropdown-menu v-if="moreIcon" onlyMenuItems="onlyMenuItems" :items="items.slice(0,2)" @click="$emit('vclick', $event)" style="margin-left: -10px;"></dropdown-menu>
+    <div class="bg-secondary-sub2"  style="height: 1px;"></div>
+    <dropdown-menu v-if="moreIcon"  onlyMenuItems="onlyMenuItems" :items="items.slice(2, 8)" @click="$emit('vclick', $event)"></dropdown-menu>
     <div class="bg-secondary-sub2" style="height: 1px;"></div>
-    <dropdown-menu v-if="moreIcon" :items="items.slice(2, 8)" @click="$emit('vclick', $event)"></dropdown-menu>
-    <div class="bg-secondary-sub2" style="height: 1px;"></div>
-    <dropdown-menu v-if="moreIcon" :items="items.slice(9)" @click="$emit('vclick', $event)"></dropdown-menu>
-
+    <dropdown-menu v-if="moreIcon"  onlyMenuItems="onlyMenuItems" :items="items.slice(9)" @click="$emit('vclick', $event)"></dropdown-menu>
     </template>
     </bib-popup>
     </div>

@@ -7,6 +7,7 @@ export async function getUser() {
         Authorization: "Bearer " + this.getAccessToken,
       },
     });
+    localStorage.setItem("userPhoto", avtar.data[0].Photo);
     this.userPhoto = avtar.data[0].Photo;
     localStorage.setItem("businessId", avtar.data[0].BusinessId);
   } catch (e) {

@@ -2,8 +2,8 @@ export const state = () => ({
   user: [],
   userList: [],
   departmentList: [],
-  reportList:[],
-  teamList:[],
+  reportList: [],
+  teamList: [],
 });
 
 export const getters = {
@@ -41,14 +41,19 @@ export const mutations = {
     state.teamList = payload;
   },
   sortUserList(state, payload) {
-    if (payload.order == "desc") {
-      console.log(state.userList, "userList");
-      state.userList.sort((a, b) => b.firstName.localeCompare(a.firstName));
-    }
-    if (payload.order == "asc") {
-      console.log(state.userList, "userList");
-      state.userList.sort((a, b) => a.firstName.localeCompare(b.firstName));
-    }
+    // var users = state.userList;
+    // if (payload.order == "desc") {
+    //   console.log(state.userList, "userList");
+    //   state.userList.sort((a, b) => b.firstName.localeCompare(a.firstName));
+    // }
+    // if (payload.order == "asc") {
+    //   console.log(state.userList, "userList");
+    //   state.userList.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    // }
+    // if (payload.sName == "reset") {
+
+    //   // state.userList.sort((a, b) => a.localeCompare(b))
+    // }
   },
 };
 
@@ -122,7 +127,7 @@ export const actions = {
           },
         }
       );
-      var reportsTo = report.employees
+      var reportsTo = report.employees;
       if (report) {
         ctx.commit("SET_REPORTS", reportsTo);
         return report;
@@ -132,7 +137,7 @@ export const actions = {
     }
   },
   async setDepartmentList(ctx) {
-    var businessId =localStorage.getItem("businessId")
+    var businessId = localStorage.getItem("businessId");
     try {
       const department = await this.$axios.$get(
         `${process.env.API_URL}/organizations/${businessId}/departments/select-options`,

@@ -23,53 +23,16 @@
           >
           </bib-avatar>
           <div :id="'id_' + data.value.id" style="" class="userCard">
-            <div class="d-flex align-center">
-              <bib-avatar
-                class="mt-auto mb-auto mr-05"
-                shape="circle"
-                :src="data.value.photo"
-                size="5rem"
-              ></bib-avatar>
-              <div>
-                <div class="user_card_detail">
-                  <label
-                    >{{ data.value.firstName }} {{ data.value.lastName }}
-                    <span>
-                      {{ data.value.jobTitle }}
-                    </span>
-                  </label>
-                  <div class="card_info">
-                    <div style="padding: 2px 0">
-                      <chips
-                        title="Punched in [online]"
-                        variant="__bgsucess"
-                      ></chips>
-                    </div>
-                    <p style="text-decoration: underline">
-                      {{ data.value.email }}
-                    </p>
-                    <p class="phone_color">{{ data.value.phone }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="d-flex pt-1">
-                <bib-button
-                  label="View Profile"
-                  variant="light"
-                  pill
-                  v-on:click="viewProfile(data.value.id)"
-                ></bib-button>
-                <bib-button
-                  label="Send Message"
-                  variant="success"
-                  class="ml-auto"
-                  pill
-                  v-on:click="sendInvite"
-                ></bib-button>
-              </div>
-            </div>
+            <user-info-card
+              :src="data.value.photo"
+              :firstName="data.value.firstName"
+              :lastName="data.value.lastName"
+              :jobTitle="data.value.jobTitle"
+              :emai="data.value.email"
+              :phone="data.value.phone"
+              @viewProfile="viewProfile(data.value.id)"
+              @sendInvite="sendInvite"
+            ></user-info-card>
           </div>
         </div>
         <div class="info_wrapper">

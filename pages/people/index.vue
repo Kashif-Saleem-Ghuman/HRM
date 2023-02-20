@@ -6,11 +6,10 @@
       <section-header-left
         title="People"
         moreIcon="more"
-        avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU"
+        :avatar="userPhoto"
         headerRight="headerRight"
         :items="items"
         :icon="items.icon"
-        :seprator="items.seprator"
         @vclick="clickAction"
       ></section-header-left>
       <div class="d-flex justify-between">
@@ -59,58 +58,22 @@
             v-on:employee="actionBY"
             v-on:import="actionBY"
             peoplePageAction="peoplePageAction"
+            @vclick="clickAction"
           ></action-left>
         </div>
-        <action-right v-on:change-sort="sortBy"></action-right>
+        <action-right
+          @vclick="clickAction"
+          :items="actionMenu"
+        ></action-right>
       </div>
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
             <div class="scroll_wrapper">
               <div>
-                <list :userList="displayedUsers"></list>
+                <list :userList="userList"></list>
               </div>
             </div>
-            <nav aria-label="Page navigation">
-              <ul class="pagination py-2 px-1">
-                <li>
-                  <a href="#" @click="page = 1" aria-label="First">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    v-if="page != 1"
-                    @click="page--"
-                    aria-label="Previous"
-                  >
-                    <span aria-hidden="true">&lsaquo;</span>
-                  </a>
-                </li>
-                <li
-                  v-for="pageNumber in pages.slice(page - 1, page + 8)"
-                  :class="{ active: page === pageNumber }"
-                >
-                  <a href="#" @click="page = pageNumber">{{ pageNumber }}</a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    @click="page++"
-                    v-if="page < pages.length"
-                    aria-label="Next"
-                  >
-                    <span aria-hidden="true">&rsaquo;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" @click="page = pages.length" aria-label="Last">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </div>
@@ -131,7 +94,7 @@
   </div>
 </template>
 <script>
-import { PEOPLE_TAB, MORE_MENU } from "../../utils/constant/Constant.js";
+import { PEOPLE_TAB, MORE_MENU, ACTION_MENU } from "../../utils/constant/Constant.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -144,31 +107,18 @@ export default {
       page: 1,
       perPage: 10,
       pages: [],
-      users: [],
+      localData: [],
       items: MORE_MENU,
+      actionMenu:ACTION_MENU,
       orderBy: "asc",
       totalUser: "",
-      userItems: [
-        {
-          avatarUrl: "1",
-        },
-        {
-          avatarUrl: "1",
-        },
-        {
-          avatarUrl: "1",
-        },
-      ],
+      userPhoto:localStorage.getItem('userPhoto')
+
     };
   },
   async created() {
-    await this.usersList({ limit: 10, page: 1 });
-    this.users = this.userList;
-  },
-  watch: {
-    users() {
-      this.setPages();
-    },
+    await this.$store.dispatch("users/setUserListPayload" , { limit: 10, page: 1 })
+    this.localData = this.userList;
   },
   computed: {
     ...mapGetters({
@@ -179,10 +129,6 @@ export default {
     },
   },
   async mounted() {
-    
-    console.log(this.users);
-
-    console.log(this.pages, "users");
     var userRole = localStorage.getItem("userRole");
     if (userRole === "USER") {
       if (this.$router.history.current.fullPath == "/people") {
@@ -200,22 +146,31 @@ export default {
         this.pages.push(index);
       }
     },
-    paginate(users) {
-      var page = this.page;
-      var perPage = this.perPage;
-      var from = page * perPage - perPage;
-      var to = page * perPage;
-      return users.slice(from, to);
-    },
-    ...mapActions({
-      usersList: "users/setUserListPayload",
-    }),
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
-
     clickAction(event) {
-      console.log(event.key);
+      if(event.key=='name'){
+        if (this.orderBy == "desc") {
+          this.orderBy = "asc";
+          this.localData.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        } else {
+          this.orderBy = "desc";
+          this.localData.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        }
+      }
+      if(event.key=='presence'){
+        if (this.orderBy == "desc") {
+          this.orderBy = "asc";
+          this.localData.sort((a, b) => b.email.localeCompare(a.email));
+        } else {
+          this.orderBy = "desc";
+          this.localData.sort((a, b) => a.email.localeCompare(b.email));
+        }
+      }
+      if(event.key=='reset'){
+        this.$store.dispatch("users/setUserList")
+      }
     },
     userId(id) {
       this.$router.push("/myprofile/" + id);
@@ -223,24 +178,6 @@ export default {
     actionBY() {
       // this.openSidebar = true
       alert("callled");
-    },
-    sortBy(event) {
-      console.log(event, "callled");
-      if (event == "sort") {
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.$store.dispatch("users/sortUserList", {
-            sName: "name",
-            order: this.orderBy,
-          });
-        } else {
-          this.orderBy = "desc";
-          this.$store.dispatch("users/sortUserList", {
-            sName: "name",
-            order: this.orderBy,
-          });
-        }
-      }
     },
   },
 };

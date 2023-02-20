@@ -28,7 +28,7 @@
               :firstName="data.value.firstName"
               :lastName="data.value.lastName"
               :jobTitle="data.value.jobTitle"
-              :emai="data.value.email"
+              :email="data.value.email"
               :phone="data.value.phone"
               @viewProfile="viewProfile(data.value.id)"
               @sendInvite="sendInvite"

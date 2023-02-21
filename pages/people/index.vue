@@ -93,7 +93,7 @@
   </div>
 </template>
 <script>
-import { PEOPLE_TAB, MORE_MENU, ACTION_MENU } from "../../utils/constant/Constant.js";
+import { PEOPLE_TAB, MORE_MENU, SORTING_MENU, } from "../../utils/constant/Constant.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -108,7 +108,7 @@ export default {
       pages: [],
       localData: [],
       items: MORE_MENU,
-      actionMenu:ACTION_MENU,
+      actionMenu:SORTING_MENU.actionMenuPeople,
       orderBy: "asc",
       totalUser: "",
       userPhoto:localStorage.getItem('userPhoto')

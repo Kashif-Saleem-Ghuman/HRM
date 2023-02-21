@@ -8,7 +8,7 @@
         moreIcon="more"
         :avatar="userPhoto"
         headerRight="headerRight"
-        :items="items"
+        :items="items.slice(-1)"
         :icon="items.icon"
         @vclick="clickAction"
       ></section-header-left>
@@ -93,7 +93,7 @@
   </div>
 </template>
 <script>
-import { TIME_ATTENDANCE_TAB, MORE_MENU, ACTION_MENU, TABLE_SECTIONS } from "../../utils/constant/Constant.js";
+import { TIME_ATTENDANCE_TAB, MORE_MENU, SORTING_MENU, TABLE_SECTIONS } from "../../utils/constant/Constant.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -105,7 +105,7 @@ export default {
       users:TABLE_SECTIONS,
       activeTab: "Attendance",
       items: MORE_MENU,
-      actionMenu:ACTION_MENU,
+      actionMenu:SORTING_MENU.actionMenuTimeAttandance,
       orderBy: "asc",
       totalUser: "",
       userPhoto:localStorage.getItem('userPhoto')

@@ -105,7 +105,7 @@ const data = () => {
       { label: "Inbox", icon: "add", key: "inbox", url:"/inbox", selected: false},
       { label: "Org Profile", icon: "add", key: "orgprofile", url:"/orgprofile", selected: false, id:""},
       { label: "People", icon: "add", key: "people", url:"/people", selected: false, id:""},
-      { label: "Time & Attendance", icon: "add", key: "Time", url:'/timesheets', selected: false},
+      { label: "Time & Attendance", icon: "add", key: "time-attendance", url:'/time-attendance', selected: false},
       { label: "Absense", icon: "add", key: "absense", url:'/absense', selected: false},
       { label: "Compensation", icon: "add", key: "compensation", url:'/compensation', selected: false},
       { label: "Benefits", icon: "add", key: "benefits", url:"/benefits", selected: false},

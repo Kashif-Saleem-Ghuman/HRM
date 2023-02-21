@@ -121,6 +121,10 @@
           return false;
         }
       },
+      className: {
+      type: Array,
+       default:[],
+    },
       headless: {
         type: Boolean,
         default() {

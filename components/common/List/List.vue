@@ -107,6 +107,7 @@ export default {
       this.tableFields = TABLE_FIELDS;
       return;
     }
+    
     if (this.$router.history.current.fullPath == "/people/directory") {
       this.tableFields = TABLE_FIELDS_DIR;
       return;
@@ -150,53 +151,5 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: $black;
-}
-
-.variant_green {
-  background: #d6f7d5;
-}
-
-.variant_yellow {
-  background: #f7f3d5;
-}
-
-.variant_light_pink {
-  background: #f6d5d5;
-}
-
-.variant_gray {
-  background: #f2f2f5;
-}
-.userCard {
-  display: none;
-  position: absolute;
-  padding: 20px 10px;
-  background-color: #fff;
-  z-index: 200000;
-  border-radius: 10px;
-  width: 350px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 24%);
-  .user_card_detail {
-    display: block;
-    label {
-      font-weight: 600;
-      color: #000;
-      display: flex;
-      flex-direction: column;
-      span {
-        font-weight: 400;
-        padding: 1px 0 3px 0;
-      }
-    }
-    .card_info {
-      .phone_color {
-        color: blue;
-      }
-      p {
-        padding: 1px 0;
-        margin: 0px;
-      }
-    }
-  }
 }
 </style>

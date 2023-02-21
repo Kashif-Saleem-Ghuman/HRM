@@ -1,3 +1,56 @@
+export const TABLE_FIELDS_TIME_ATTENDANCE = [
+  {
+    key: "",
+    label: "#",
+  },
+  {
+    key: "name",
+    label: "Employee",
+  },
+  {
+    key: "status",
+    label: "Status",
+  },
+
+  {
+    key: "in",
+    label: "In",
+  },
+  {
+    key: "out",
+    label: "Out",
+  },
+  {
+    key: "on",
+    label: "On",
+  },
+  {
+    key: "breaks",
+    label: "Breaks",
+  },
+  {
+    key: "time-work",
+    label: "Time-at-work",
+  },
+];
+export const TIME_ATTENDANCE_TAB = [
+  {
+    title: "Attendance",
+    value: "Attendance",
+  },
+  {
+    title: "Timesheets",
+    value: "Timesheets",
+  },
+  {
+    title: "Pending",
+    value: "Pending",
+  },
+  {
+    title: "Past due",
+    value: "Past due",
+  },
+];
 export const TABLE_FIELDS = [
   {
     key: "",
@@ -44,70 +97,91 @@ export const TABLE_FIELDS_DIR = [
 ];
 export const TABLE_SECTIONS = [
   {
-    id: "1",
-    name: "Charles-Augustin de Coulomb",
-    color: "#2ba026",
-    desc: "Director of Global Communication and Innovation",
-    department: "Marketing",
-    attendance: "98",
-    satisfaction: "98",
-    performance: 4.3,
-    preview: "https://loremflickr.com/640/360",
-    extension: "png",
-    __v: 0,
-    active: false,
+    id: "63b64e0b9a8c618c76610466",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "gELYqaQWQG9dnjk2",
+    role: "USER",
+    firstName: "Rajeev",
+    middleName: "Sharma",
+    lastName: "Sharma",
+    email: "rajeev.sharma@qsstechnosoft.com",
+    status: "IN",
+    date: "2023-02-21T06:20:53.864Z",
+    start: "09:20 AM",
+    end: null,
+    department: "Tech",
+    timeWork: "8",
+    photo:
+      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1674473092167.jpg",
+    useOrganizationSettings: true,
   },
   {
-    id: "2",
-    name: "Michael Faraday",
-    desc: "Database Administrator",
-    attendance: "98",
-    department: "IT",
-    satisfaction: "48",
-    performance: 3,
-    extension: "png",
-    preview: "https://loremflickr.com/640/360",
-    __v: 0,
-    active: false,
+    id: "63bf3de76bb6d8b00bb07cf3",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "wNJAPdR6RJEdGyOX",
+    role: "USER",
+    firstName: "Kelvin",
+    lastName: "Jara",
+    email: "kelvin.jara@biztree.com",
+    status: "Late",
+    date: "2023-02-21T06:20:53.864Z",
+    start: "09:20 AM",
+    end: "06:20 PM",
+    department: "Tech",
+    photo:
+      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675200061019.jpg",
   },
   {
-    id: "3",
-    name: "Marie Sklodowask-Curie",
-    desc: "UI/UX Designer",
-    department: "Product Design",
-    attendance: "38",
-    satisfaction: "38",
-    performance: 4.5,
-    extension: "png",
-    preview: "https://loremflickr.com/640/360",
-    __v: 0,
-    active: false,
+    id: "63bf9d766bb6d8b00bb07d13",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "DKgl9av2NwnaG1vz",
+    role: "USER",
+    firstName: "Vishwajeet",
+    lastName: "Mandal",
+    email: "vishwajeet.mandal@qsstechnosoft.com",
+    status: "Absent",
+    date: "2023-02-21T06:20:53.864Z",
+    start: "09:20 AM",
+    end: null,
+    department: "Tech",
+    photo:
+      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
   },
   {
-    id: "4",
-    name: "John Dalton",
-    desc: "Business Optimization Manager",
-    department: "Opreations",
-    attendance: "28",
-    satisfaction: "88",
-    performance: 2.5,
-    extension: "png",
-    preview: "https://loremflickr.com/640/360",
-    __v: 0,
-    active: false,
+    id: "63bfa19c6bb6d8b00bb07d1f",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "k61YQdJ6J7ldOGpJ",
+    role: "ADMIN",
+    firstName: "Dhruv",
+    lastName: "Sharma",
+    email: "dhruv.sharma@qsstechnosoft.com",
+    status: "Vacation",
+    date: "2023-02-21T06:20:53.864Z",
+    start: "09:20 AM",
+    end: "06:20 PM",
+    timeWork: "8",
+    department: "Tech",
+    photo:
+      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",
+    maritalStatus: "single",
   },
   {
-    id: "5",
-    name: "Georg Simon Ohm",
-    desc: "Marketing Manager",
-    department: "Marketing",
-    attendance: "",
-    satisfaction: "",
-    performance: 1,
-    extension: "png",
-    preview: "https://loremflickr.com/640/360",
-    __v: 0,
-    active: false,
+    id: "63bfcfd36bb6d8b00bb07d90",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "Py7LDdwpOq1e1YKX",
+    role: "USER",
+    firstName: "Charan",
+    middleName: "",
+    lastName: "Chauhan",
+    email: "charan.pal@qsstechnosoft.com",
+    status: "IN",
+    date: "2023-02-21T06:20:53.864Z",
+    start: "09:20 AM",
+    timeWork: "8",
+    end: null,
+    department: "Tech",
+    photo:
+      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675315647862.jpg",
   },
 ];
 export const SELECT_OPTIONS = {
@@ -397,65 +471,104 @@ export const PEOPLE_TAB = [
     title: "Teams",
     value: "Teams",
   },
-]
-export  const MORE_MENU = [
+];
+export const MORE_MENU = [
+  {
+    label: "Open",
+    key: "Open",
+  },
+  {
+    label: "Show Detail",
+    key: "showdetail",
+  },
+  {
+    label: "Shared with...",
+    key: "share",
+    icon: "share-arrow",
+  },
+  {
+    label: "Get Link",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "Upload Folder",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "Download Folder",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "submenu Comes here",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "Download Folder",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "submenu Comes here",
+    key: "dashboard",
+    icon: "file",
+  },
+  {
+    label: "Delete",
+    key: "dashboard",
+  },
+  {
+    label: "Setting",
+    key: "setting",
+  },
+  // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
+  // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
+];
+export const SORTING_MENU = {
+  actionMenuPeople: [
     {
-      label: "Open",
-      key: "Open",
+      label: "Name",
+      key: "name",
     },
     {
-      label: "Show Detail",
-      key: "showdetail",
+      label: "Presence",
+      key: "presence",
     },
     {
-      label: "Shared with...",
-      key: "share",
-      icon: "share-arrow",
-
+      label: "Department",
+      key: "department",
     },
     {
-      label: "Get Link",
-      key: "dashboard",
-      icon: "file",
-
+      label: "Reset",
+      key: "reset",
+    },
+  ],
+  actionMenuTimeAttandance: [
+    {
+      label: "Name",
+      key: "name",
     },
     {
-      label: "Upload Folder",
-      key: "dashboard",
-      icon: "file",
-
+      label: "Date Modified",
+      key: "Date Modified",
     },
     {
-      label: "Download Folder",
-      key: "dashboard",
-      icon: "file",
-
+      label: "Size",
+      key: "size",
     },
     {
-      label: "submenu Comes here",
-      key: "dashboard",
-      icon: "file",
-
+      label: "File Format",
+      key: "file-format",
     },
     {
-      label: "Download Folder",
-      key: "dashboard",
-      icon: "file",
-
+      label: "Reset",
+      key: "reset",
     },
-    {
-      label: "submenu Comes here",
-      key: "dashboard",
-      icon: "file",
-
-    },
-    {
-      label: "Delete",
-      key: "dashboard",
-    },
-    // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
-    // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
-] 
+  ],
+};
 export const ACTION_MENU = [
   {
     label: "Name",
@@ -473,4 +586,4 @@ export const ACTION_MENU = [
     label: "Reset",
     key: "reset",
   },
-]
+];

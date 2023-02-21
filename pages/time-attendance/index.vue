@@ -4,11 +4,11 @@
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
-        title="People"
+        title="Time and Attendance"
         moreIcon="more"
         :avatar="userPhoto"
         headerRight="headerRight"
-        :items="items"
+        :items="items.slice(-1)"
         :icon="items.icon"
         @vclick="clickAction"
       ></section-header-left>
@@ -71,7 +71,7 @@
           <div v-if="activeTab == peopleTabItem[0].value">
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData"></list>
+                <list-attendance :userList="users"></list-attendance>
               </div>
             </div>
           </div>
@@ -93,22 +93,19 @@
   </div>
 </template>
 <script>
-import { PEOPLE_TAB, MORE_MENU, SORTING_MENU, } from "../../utils/constant/Constant.js";
+import { TIME_ATTENDANCE_TAB, MORE_MENU, SORTING_MENU, TABLE_SECTIONS } from "../../utils/constant/Constant.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
       openSidebar: false,
-      peopleTabItem: PEOPLE_TAB,
+      peopleTabItem: TIME_ATTENDANCE_TAB,
       currentPage: 1,
-      activeTab: "Directory",
-      page: 1,
-      perPage: 10,
-      pages: [],
-      localData: [],
+      users:TABLE_SECTIONS,
+      activeTab: "Attendance",
       items: MORE_MENU,
-      actionMenu:SORTING_MENU.actionMenuPeople,
+      actionMenu:SORTING_MENU.actionMenuTimeAttandance,
       orderBy: "asc",
       totalUser: "",
       userPhoto:localStorage.getItem('userPhoto')
@@ -116,67 +113,32 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserListPayload" , { limit: 10, page: 1 })
+    await this.$store.dispatch("users/setUserList")
     this.localData = this.userList;
   },
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
     }),
-    displayedUsers() {
-      return this.paginate(this.users);
-    },
   },
   async mounted() {
-    var userRole = localStorage.getItem("userRole");
-    if (userRole === "USER") {
-      if (this.$router.history.current.fullPath == "/people") {
-        this.$router.push("/myprofile");
-        return;
-      }
-    }
+    // if (userRole === "USER") {
+    //   if (this.$router.history.current.fullPath == "/people") {
+    //     this.$router.push("/myprofile");
+    //     return;
+    //   }
+    // }
     this.totalUser = this.userList.length;
     console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },
   methods: {
-    setPages() {
-      var numberOfPages = Math.ceil(this.users.length / this.perPage);
-      for (var index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-    },
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
     clickAction(event) {
       if(event.key=='name'){
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        }
+       
       }
-      if(event.key=='presence'){
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.email.localeCompare(a.email));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.email.localeCompare(b.email));
-        }
-      }
-      if(event.key=='reset'){
-        this.$store.dispatch("users/setUserList")
-      }
-    },
-    userId(id) {
-      this.$router.push("/myprofile/" + id);
-    },
-    actionBY() {
-      // this.openSidebar = true
-      alert("callled");
     },
   },
 };

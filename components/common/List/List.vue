@@ -48,9 +48,7 @@
     <template #cell(presence)="data">
       <div class="text-dark">
         <chips
-          :title="
-            data.value.attendance == null ? 'N/A' : data.value.attendance + '%'
-          "
+          :title="data.value.attendance"
           :className="[
             data.value.attendance >= 70 ? 'chip-wrapper__bgsucess' : '',
             data.value.attendance <= 70 ? 'chip-wrapper__bgabsent' : '',
@@ -107,7 +105,7 @@ export default {
       this.tableFields = TABLE_FIELDS;
       return;
     }
-    
+
     if (this.$router.history.current.fullPath == "/people/directory") {
       this.tableFields = TABLE_FIELDS_DIR;
       return;

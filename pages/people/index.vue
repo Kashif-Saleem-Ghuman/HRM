@@ -82,7 +82,7 @@
           <div v-if="activeTab == peopleTabItem[1].value">
             <div class="scroll_wrapper">
               <div>
-                <h1>hgello world</h1>
+                <h1>Organizational Chart</h1>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@
 </template>
 <script>
 import { PEOPLE_TAB, MORE_MENU, SORTING_MENU, } from "../../utils/constant/Constant.js";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {

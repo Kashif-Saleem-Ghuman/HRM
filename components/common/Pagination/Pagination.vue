@@ -44,18 +44,25 @@
   import { mapGetters, mapActions } from "vuex";
 
   export default {
+    props:{
+      displayedUsers:{
+        type:Array
+      }
+    },
     data() {
     return {
-      page: 1,
-        perPage: 10,
-        pages: [],
-        users:[],
+      
+        // localData: [],
     }
     },
     watch: {
-    users() {
-      this.setPages();
-    },
+      localData() {
+        this.setPages();
+      }
+  },
+  async created() {
+    await this.$store.dispatch("users/setUserListPayload" , { limit: 10, page: 1 })
+    this.localData = this.userList;
   },
     computed: {
     ...mapGetters({
@@ -67,42 +74,9 @@
   },
     async mounted() {
     // await this.usersList({ limit: 10, page: 1 });
-    this.users = this.userList;
-    console.log(this.users);
+    // this.users = this.userList;
+    console.log(this.localData);
     },
-    methods:{
-      ...mapActions({
-      usersList: "users/setUserList",
-    }),
-      setPages() {
-            var numberOfPages = Math.ceil(this.users.length / this.perPage);
-            for (var index = 1; index <= numberOfPages; index++) {
-                this.pages.push(index);
-            }
-        },
-        paginate(users) {
-            var page = this.page;
-            var perPage = this.perPage;
-            var from = (page * perPage) - perPage;
-            var to = (page * perPage);
-            return users.slice(from, to);
-        },
-    }
-
   };
   </script>
-  <style>
-  .pagination {
-    list-style-type: none;
-    width: 400px;
-  }
   
-  .pagination-item {
-    display: inline-block;
-  }
-  
-  .active {
-    background-color: #4AAE9B;
-    color: #ffffff;
-  }
-  </style>

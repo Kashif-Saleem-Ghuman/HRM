@@ -137,6 +137,7 @@ $validation-star-color: #fa0f00;
 .drawer-leave-active {
   animation: slidein-right 0.2s reverse;
 }
+
 @media screen and (max-width: 1600px) {
   .side-panel {
     max-width: $sidebar-width - 160px;

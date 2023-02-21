@@ -72,8 +72,8 @@ export default {
      this.$router.push('/people')
       return;
     }
-    if (event.key == "timesheets") {
-     this.$router.push('/timesheets')
+    if (event.key == "time-attendance") {
+     this.$router.push('/time-attendance')
       return;
     }
     if (event.key == "timesheets") {

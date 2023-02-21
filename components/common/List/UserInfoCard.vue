@@ -22,7 +22,7 @@
                         variant="__bgsucess"
                       ></chips>
                     </div>
-                    <p style="text-decoration: underline">
+                    <p  class="email">
                       {{ email }}
                     </p>
                     <p class="phone_color">{{ phone }}</p>
@@ -95,19 +95,28 @@ employee() {
   box-shadow: 0 2px 8px rgb(0 0 0 / 24%);
   .user_card_detail {
     display: block;
+    font-size: 1rem;
     label {
       font-weight: 600;
       color: #000;
       display: flex;
       flex-direction: column;
+      
       span {
         font-weight: 400;
         padding: 1px 0 3px 0;
+        color: #6A6D76;
       }
     }
     .card_info {
+      font-size: 14px;
+      .email {
+      
+       text-decoration: underline
+      }
       .phone_color {
-        color: blue;
+        color: #1F42A2
+;
       }
       p {
         padding: 1px 0;

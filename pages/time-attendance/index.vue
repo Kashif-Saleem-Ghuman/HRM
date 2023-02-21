@@ -94,7 +94,7 @@
 </template>
 <script>
 import { TIME_ATTENDANCE_TAB, MORE_MENU, SORTING_MENU, TABLE_SECTIONS } from "../../utils/constant/Constant.js";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {

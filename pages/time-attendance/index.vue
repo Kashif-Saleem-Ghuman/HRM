@@ -54,12 +54,13 @@
         class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
       >
         <div class="d-flex align-center">
-          <action-left
+          <date-picker></date-picker>
+          <!-- <action-left
             v-on:employee="actionBY"
             v-on:import="actionBY"
             peoplePageAction="peoplePageAction"
             @vclick="clickAction"
-          ></action-left>
+          ></action-left> -->
         </div>
         <action-right
           @vclick="clickAction"
@@ -100,7 +101,11 @@ export default {
   data() {
     return {
       openSidebar: false,
-      peopleTabItem: TIME_ATTENDANCE_TAB,
+      endDate: null,
+                              starDate: new Date("2022-09-17"),
+                              minDate: new Date('2022-10-11'),
+                              maxDate: new Date('2022-10-21'),
+                                    peopleTabItem: TIME_ATTENDANCE_TAB,
       currentPage: 1,
       users:TABLE_SECTIONS,
       activeTab: "Attendance",
@@ -135,6 +140,10 @@ export default {
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
+    onChange(value) {
+                                            let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+                                            console.log("selected date:", date);
+                                        },
     clickAction(event) {
       if(event.key=='name'){
        

@@ -4,6 +4,7 @@
     class="border-gray4 bg-white"
     :sections="userList"
     :hide-no-column="true"
+    @item-clicked="handleItemClick_Table"
   >
     <template #cell(name)="data">
       <div

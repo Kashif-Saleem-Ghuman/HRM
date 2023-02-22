@@ -77,6 +77,7 @@
           @click="$emit('item-clicked', $event, keyI, item)"
           @dblclick="clickItem(keyI)"
           :id="keyI"
+          style="cursor: pointer;"
         >
           <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
           <td v-for="(col, key) in cols" :key="key">

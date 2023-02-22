@@ -50,26 +50,21 @@
           ></bib-tabs>
         </div>
       </div>
-      <div
+      
+      <div id="directory-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == peopleTabItem[0].value">
+            <div
         class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
       >
         <div class="d-flex align-center">
           <date-picker></date-picker>
-          <!-- <action-left
-            v-on:employee="actionBY"
-            v-on:import="actionBY"
-            peoplePageAction="peoplePageAction"
-            @vclick="clickAction"
-          ></action-left> -->
         </div>
         <action-right
           @vclick="clickAction"
           :items="actionMenu"
         ></action-right>
       </div>
-      <div id="directory-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[0].value">
             <div class="scroll_wrapper">
               <div>
                 <list-attendance :userList="users"></list-attendance>
@@ -81,9 +76,27 @@
       <div class="section-wrapper custom-input px-1" id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[1].value">
+            <div
+        class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+      >
+        <div class="d-flex align-center">
+          <date-picker></date-picker>
+        </div>
+        <div class="d-flex">
+          <button-gray @on-click="$emit('employee')" icon="eye-open" variant="gray1" :scale="0.8" title="Not submitted"
+                titleClass="button-title"></button-gray>
+                <button-gray @on-click="$emit('employee')" icon="eye-open" variant="gray1" :scale="0.8" title="Pending approval"
+                titleClass="button-title"></button-gray>
+        <action-right
+          @vclick="clickAction"
+          :items="actionMenu"
+          calander="calander"
+        ></action-right>
+        </div>
+      </div>
             <div class="scroll_wrapper">
               <div>
-                <h1>hgello world</h1>
+                <list-timesheet :userList="users"></list-timesheet>
               </div>
             </div>
           </div>

@@ -47,9 +47,10 @@
           </div>
         </div>
       </template>
-      <template #cell(status)="data">
+      <template #cell(mon)="data">
         <div
-          class="text-dark td_row_wrapper"
+          class="text-dark td_row_wrapper" style="position: relative" v-on:mouseover="timeInfotab('timesheetid_' + data.value.id)"
+            v-on:mouseleave="timeInfotab('timesheetid_' + data.value.id, true)"
           :class="[
             data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
             data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
@@ -58,10 +59,13 @@
           ]"
         >
           <span>{{ data.value.status }}</span>
+          <div :id="'timesheetid_' + data.value.id" class="tooltip-wrapper" style="z-index:100000">
+            <tooltip :show="showTooltip"></tooltip>
+          </div>
         </div>
       </template>
 
-      <template #cell(in)="data">
+      <template #cell(tue)="data">
         <div
           class="td_row_wrapper"
           :class="[
@@ -75,7 +79,7 @@
         </div>
       </template>
 
-      <template #cell(out)="data">
+      <template #cell(wed)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -88,7 +92,7 @@
           <span>{{ data.value.status }}</span>
         </div>
       </template>
-      <template #cell(on)="data">
+      <template #cell(thu)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -101,7 +105,7 @@
           <span>{{ data.value.status }}</span>
         </div>
       </template>
-      <template #cell(breaks)="data">
+      <template #cell(fri)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -114,7 +118,7 @@
           <span>{{ data.value.status }}</span>
         </div>
       </template>
-      <template #cell(time-work)="data">
+      <template #cell(sat)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -125,6 +129,63 @@
           ]"
         >
           <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(sun)="data">
+        <div
+          class="text-dark td_row_wrapper"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(total)="data">
+        <div
+          class="text-dark td_row_wrapper"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(status)="data">
+        <div class="text-dark">
+          <chips
+            :title="data.value.firstName"
+            iconShow="iconShow"
+            :icon="
+              data.value.status == 'IN'
+                ? 'check-all'
+                : '' || data.value.status == 'Late'
+                ? 'warning'
+                : '' || data.value.status == 'Absent'
+                ? 'urgent-solid'
+                : '' || data.value.status == 'Vacation'
+                ? 'help'
+                : ''
+            "
+            :variant="[
+              data.value.status == 'IN' ? 'chip-wrapper-bg-same__bgsucess' : '',
+              data.value.status == 'Late'
+                ? 'chip-wrapper-bg-same__bgabsent'
+                : '',
+              data.value.status == 'Absent'
+                ? 'chip-wrapper-bg-same__bgabsentpink'
+                : '',
+              data.value.status == 'Vacation'
+                ? 'chip-wrapper-bg-same__bgvacation'
+                : '',
+            ]"
+          ></chips>
         </div>
       </template>
     </custom-table>
@@ -132,10 +193,7 @@
 </template>
 
 <script>
-import {
-  TABLE_HEAD,
-  TABLE_FIELDS_DIR,
-} from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
 export default {
   props: {
     userList: {
@@ -145,21 +203,12 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_HEAD.tHeadAttandance,
+      showTooltip:false,
+      tableFields: TABLE_HEAD.tHeadTimesheet,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
     };
-  },
-  created() {
-    //   if (this.$router.history.current.fullPath == "/people") {
-    //     this.tableFields = TABLE_FIELDS;
-    //     return;
-    //   }
-    //   if (this.$router.history.current.fullPath == "/people/directory") {
-    //     this.tableFields = TABLE_FIELDS_DIR;
-    //     return;
-    //   }
   },
   methods: {
     handleItemClick_Table($event, keyI, item) {
@@ -168,8 +217,19 @@ export default {
     viewProfile(id) {
       this.$router.push("/myprofile/" + id);
     },
+    mouseover() {
+      this.showTooltip=true
+    },
+    mouseleave(){
+      this.showTooltip= false
+    },
     sendInvite() {
       alert("send invite api call");
+    },
+    timeInfotab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

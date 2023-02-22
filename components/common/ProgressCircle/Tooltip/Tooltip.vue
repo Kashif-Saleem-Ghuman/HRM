@@ -1,5 +1,5 @@
 <template>
-  <div class="tooltip-wrapper p-05" v-if="show">
+  <div class="p-05" >
     <header>Day 00-00-000</header>
     <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
     <div>
@@ -43,9 +43,12 @@ export default {
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
   border-radius: 6px;
   width: 140px;
+  display: none;
   position: absolute;
   background-color: #fff;
   top:50px;
+  z-index:1000;
+  color:#999 !important
 //   left: 100px;
   header {
     font-size: 1rem;
@@ -56,6 +59,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+   span{
+    color:#999 !important
+   }
   }
 }
 </style>

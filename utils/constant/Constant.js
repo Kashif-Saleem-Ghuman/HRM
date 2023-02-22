@@ -1,3 +1,106 @@
+export const TABLE_HEAD = {
+  tHeadPeople : [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "presence",
+      label: "Presence",
+    },
+    {
+      key: "department",
+      label: "Department",
+    },
+    {
+      key: "team",
+      label: "Team",
+    },
+  ],
+  tHeadAttandance:[
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  
+    {
+      key: "in",
+      label: "In",
+    },
+    {
+      key: "out",
+      label: "Out",
+    },
+    {
+      key: "on",
+      label: "On",
+    },
+    {
+      key: "breaks",
+      label: "Breaks",
+    },
+    {
+      key: "time-work",
+      label: "Time-at-work",
+    },
+  ],
+  tHeadTimesheet:[
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "mon",
+      label: "Mon",
+    },
+    {
+      key: "tue",
+      label: "Tue",
+    },
+  
+    {
+      key: "thu",
+      label: "Thu",
+    },
+    {
+      key: "fri",
+      label: "Fri",
+    },
+    {
+      key: "sat",
+      label: "Sat",
+    },
+    {
+      key: "sun",
+      label: "Sun",
+    },
+    {
+      key: "total",
+      label: "Total",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  ]
+}
+
 export const TABLE_FIELDS_TIME_ATTENDANCE = [
   {
     key: "",

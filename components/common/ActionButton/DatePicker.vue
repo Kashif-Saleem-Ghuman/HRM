@@ -1,11 +1,12 @@
 <template>
-  <div class="input_label custom-input ">
+  <div class="input_label custom-input">
     Today, Wed 00-00-0000 (Week #23 00-00-00 - 00-00-00)
-    <bib-datepicker
-      v-model="starDate"
-      format="MMMM dd, yyyy"
-      placeholder="ldsahdkhlasdhlahdlkahsldhalshdlkasdlahsklaslkdhalshlakshdlkashlkhdlkashd"
-    ></bib-datepicker>
+    <!-- <bib-datetime-picker
+      v-model="date"
+      placeholder="No due date"
+      @input="onChange"
+      label="Start Date:"
+    ></bib-datetime-picker> -->
   </div>
 </template>
 
@@ -16,6 +17,17 @@ export default {
       type: String,
     },
   },
+  data() {
+    return {
+      date: null,
+    };
+  },
+  methods:{
+    onChange(value) {
+                                            let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+                                            console.log("selected date:", date);
+                                        }
+  }
 };
 </script>
 
@@ -35,9 +47,9 @@ $validation-star-color: #fa0f00;
 }
 .custom-input {
   input {
-    background-color:#000 !important;
+    background-color: #000 !important;
     border: 1px solid $input-border-color;
-    padding: 20px !important;;
+    padding: 20px !important;
     // font-size: 11px !important;
     margin-bottom: 16px !important;
     // border-radius:$input-borderradius;

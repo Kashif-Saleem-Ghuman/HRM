@@ -965,23 +965,23 @@ export default {
     };
   },
   async created() {
-    await this.users();
+    // await this.users();
+    await this.$store.dispatch("users/setReportsList")
+    await this.$store.dispatch("users/setDepartmentList")
+    await this.$store.dispatch("users/setTeamList")
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;
-        await this.user(this.$route.params.id);
+        await this.$store.dispatch("users/setUser" , { id: this.$route.params.id})
       } else {
-        var userEmail = localStorage.getItem("userID");
-        var users = this.userList.find((user) => user.userId === userEmail);
-        this.id = users.id;
-        await this.user(this.id);
+        await this.$store.dispatch("users/setActiveUser")
       }
       this.form = this.getUser;
     }
   },
   computed: {
     ...mapGetters({
-      userList: "users/GET_USERS_LIST",
+      // userList: "users/GET_USERS_LIST",
       getUser: "users/GET_USER",
       getDepartment: "users/GET_DEPARTMENT_LIST",
       getReportsList: "users/GET_REPORTS_LIST",
@@ -990,31 +990,10 @@ export default {
   },
 
   async mounted() {
-    if (this.$router.history.current.fullPath == "/people") {
-      this.$router.push("/myprofile");
-      return;
-    }
-    await this.$store.dispatch("users/setReportsList")
-    await this.$store.dispatch("users/setDepartmentList")
-    await this.$store.dispatch("users/setTeamList")
-    // await this.users();
     this.departmentOptions = this.getDepartment;
     this.usersOptions = this.getReportsList;
     this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
-    // if (this.$route.params.id) {
-    //   await this.user(this.$route.params.id);
-    // } else {
-    //   var userEmail = localStorage.getItem("userID");
-    //   var users = this.userList.find((user) => user.userId === userEmail);
-    //   console.log(users.id, "askhdakjshdjkasdaskdhkahsdk")
-    //   this.id = users.id;
-    //   console.log(this.id, "askhdakjshdjkasdaskdhkahsdk")
-
-    //   await this.user(this.id);
-    // }
-
-    // this.form = this.getUser;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"
       : "No";
@@ -1027,7 +1006,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      users: "users/setUserList",
       user: "users/setUser",
     }),
     change(event, name) {

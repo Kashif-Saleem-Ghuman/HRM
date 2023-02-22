@@ -158,7 +158,25 @@ export const actions = {
   async setUser(ctx, payload) {
     try {
       const user = await this.$axios.$get(
-        `${process.env.API_URL}/employees/${payload}`,
+        `${process.env.API_URL}/employees/${payload.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (user) {
+        ctx.commit("SET_USER", user);
+        return user;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async setActiveUser(ctx) {
+    try {
+      const user = await this.$axios.$get(
+        `${process.env.API_URL}/my-profile`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

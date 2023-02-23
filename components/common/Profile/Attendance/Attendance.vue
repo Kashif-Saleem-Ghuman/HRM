@@ -7,7 +7,7 @@
           <bib-switch
             :checked="orgSettings"
             @change="
-              $emit('change-it', $event, 'orgSettings'),
+              $emit('change-it', $event, 'useOrganizationSettings'),
                 (orgSettings = !orgSettings)
             "
             :disabled="inActive"
@@ -34,13 +34,13 @@
     </div>
     <div class="row mx-0">
       <div class="col-12">
-        <label class="switcher_label">Week starts on</label>
+        <label class="switcher_label">Track Time</label>
         <div class="pb-075 pt-05">
           <bib-switch
-            :checked="weekStarts"
+            :checked="trackTime"
             @change="
-              $emit('change-it', $event, 'weekStarts'),
-                (weekStarts = !weekStarts)
+              $emit('change-it', $event, 'trackTime'),
+                (trackTime = !trackTime)
             "
             :disabled="inActive"
             >{{ switchLabelweekStarts }}</bib-switch
@@ -54,8 +54,9 @@
           type="select"
           label="Week start on"
           v-model="weekStart"
+          :options="weekOptions"
           placeholder="Please select week start date"
-          @change="$emit('input', $event, 'weekStart')"
+          @input="$emit('input', $event, 'startWeekDay')"
           :disabled="inActive"
         ></bib-input>
       </div>
@@ -75,10 +76,10 @@
         <bib-input
           type="select"
           label="Timesheet deadline"
-          v-model="timesheetDeadline"
+          v-model="deadlineDay"
           :options="timesheetOptions"
           placeholder="Pleae select"
-          @change="$emit('input', $event, 'timesheetDeadline')"
+          @input="$emit('input', $event, 'deadlineDay')"
           :disabled="inActive"
         ></bib-input>
       </div>
@@ -111,8 +112,14 @@ export default {
     switchLabelAttendance: {
       type: String,
     },
-    weekStarts: {
+    trackTime: {
       type: String,
+    },
+    weekOptions:{
+      type:Array
+    },
+    timesheetOptions:{
+      type:Array
     },
     switchLabelweekStarts: {
       type: String,
@@ -120,12 +127,13 @@ export default {
     weekStart: {
       type: String,
     },
+    deadlineDay: {
+      type: String,
+    },
     weekCapacity: {
       type: String,
     },
-    timesheetDeadline: {
-      type: String,
-    },
+   
     medicalAllowance: {
       type: String,
     },

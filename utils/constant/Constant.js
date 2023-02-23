@@ -691,3 +691,29 @@ export const ACTION_MENU = [
     key: "reset",
   },
 ];
+export const WEEK_DAY = [
+  {
+    label: "sunday",
+    value: "sunday",
+  },
+  {
+    label: "monday",
+    value: "monday",
+  },
+  {
+    label: "tuesday",
+    value: "tuesday",
+  },
+  {
+    label: "thursday",
+    value: "thursday",
+  },
+  {
+    label: "friday",
+    value: "friday",
+  },
+  {
+    label: "saturday",
+    value: "saturday",
+  },
+];

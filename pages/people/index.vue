@@ -116,12 +116,13 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserListPayload" , { limit: 10, page: 1 })
+    await this.$store.dispatch("users/setUserList")
     this.localData = this.userList;
   },
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
+      getAccessToken: "token/getAccessToken",
     }),
     displayedUsers() {
       return this.paginate(this.users);

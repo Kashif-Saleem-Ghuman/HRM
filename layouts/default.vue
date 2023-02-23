@@ -92,7 +92,7 @@ export default {
       userPhoto: "",
       accountType: "",
       token:'',
-      };
+    };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -103,6 +103,7 @@ export default {
     }),
   },
   created() {
+    localStorage.removeItem('userRole')
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -114,7 +115,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.getAccessToken, "getAccessTokengetAccessTokengetAccessTokengetAccessToken")
     this.loading = true;
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");

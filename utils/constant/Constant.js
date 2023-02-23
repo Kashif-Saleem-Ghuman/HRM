@@ -43,17 +43,14 @@ export const TABLE_HEAD = {
       key: "out",
       label: "Out",
     },
-    {
-      key: "on",
-      label: "On",
-    },
+    
     {
       key: "breaks",
       label: "Breaks",
     },
     {
-      key: "time-work",
-      label: "Time-at-work",
+      key: "total",
+      label: "total",
     },
   ],
   tHeadTimesheet:[
@@ -212,6 +209,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: null,
+    breaks:0.7,
     department: "Tech",
     timeWork: "8",
     photo:
@@ -230,6 +228,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: "06:20 PM",
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675200061019.jpg",
@@ -246,6 +245,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: null,
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
@@ -263,6 +263,7 @@ export const TABLE_SECTIONS = [
     start: "09:20 AM",
     end: "06:20 PM",
     timeWork: "8",
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",

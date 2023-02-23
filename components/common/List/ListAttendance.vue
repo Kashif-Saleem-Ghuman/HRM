@@ -71,7 +71,7 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value.start }}</span>
         </div>
       </template>
 
@@ -85,22 +85,10 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value.end }}</span>
         </div>
       </template>
-      <template #cell(on)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
-          ]"
-        >
-          <span>{{ data.value.status }}</span>
-        </div>
-      </template>
+     
       <template #cell(breaks)="data">
         <div
           class="text-dark td_row_wrapper"
@@ -111,10 +99,10 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value.breaks }}</span>
         </div>
       </template>
-      <template #cell(time-work)="data">
+      <template #cell(total)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -124,7 +112,7 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value.start }} - {{ data.value.end }}</span>
         </div>
       </template>
     </custom-table>

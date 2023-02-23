@@ -1,39 +1,53 @@
 <template>
-  <div class="p-05" >
+  <div class="p-05">
     <header>Day 00-00-000</header>
     <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
-    <div>
+    <div  v-for="(item, keyI) in data">
       <div class="tooltip_list">
         <span>In</span>
-        <span>00.00</span>
+        <span>{{ item.start }}</span>
       </div>
       <div class="tooltip_list">
         <span>Out</span>
-        <span>00.00</span>
+        <span>{{ item.end }}</span>
       </div>
       <div class="tooltip_list">
         <span>On</span>
-        <span>00.00</span>
+        <span>{{ item.start }}</span>
       </div>
       <div class="tooltip_list">
         <span>Off</span>
-        <span>00.00</span>
+        <span>{{ item.end }}</span>
       </div>
       <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
-      <header>More details...</header>
+      <bib-button label="More Details..." pill @click="$emit('vclick', $event)"></bib-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-    props:{
-        show:{
-            type:Boolean
-        }
+  props: {
+    show: {
+      type: Boolean,
     },
+    time: {
+      type: Boolean,
+    },
+    timeDuration: {
+      type: Boolean,
+    },
+    data: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   data() {
-    return {};
+    return {
+      
+    };
   },
 };
 </script>
@@ -46,8 +60,8 @@ export default {
   display: none;
   position: absolute;
   background-color: #fff;
-  top:50px;
-  z-index:1000;
+  top: 50px;
+  z-index: 1000;
   color:#999 !important
 //   left: 100px;
   header {
@@ -59,9 +73,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-   span{
-    color:#999 !important
-   }
+    span {
+      color: #999 !important;
+    }
   }
 }
 </style>

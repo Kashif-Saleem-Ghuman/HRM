@@ -92,8 +92,10 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      token:"",
-     };
+      token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY3Mjg5MjY3MzA2NiwiZXhwIjoxNjgwNjY4NjczMDY2LCJqdGkiOiIyMzk3NjMyMS1mYWNiLTQzYWQtOTFjOS0wOWQzMzU2NDQ1ZmUifQ.Vuzv8ejSvZMqshraxNek9dfHy4SonAazZJfHO2BN1bY",
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJVU0VSIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY3NzA2Mjc4NTgwOCwiZXhwIjoxNjg0ODM4Nzg1ODA4LCJqdGkiOiIxNDkxMTcxMi05OGY3LTRhZWEtOWYyYy1iMGUwYjdjZTU2OTEifQ.AC8sfqDv_nuiC0SVq_lM0ZohwhuSht52vs6FkpLd-Dk",
+ 
+    };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);

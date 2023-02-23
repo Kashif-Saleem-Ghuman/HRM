@@ -137,7 +137,6 @@ export default {
       }
     }
     this.totalUser = this.userList.length;
-    console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },
   methods: {
     setPages() {

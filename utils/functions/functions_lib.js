@@ -11,12 +11,17 @@ import {
   getUser,
   getBusinessId,
   openPopupNotification,
-  getEmployess,
+} from "../functions/common_functions.js";
+import {
   vfileAdded,
   updateAllData,
   handleInput,
   handleInputObject
-} from "../functions/common_functions.js";
+} from "../functions/form_update.js";
+import {
+  employeeTime,
+  updateEmployeeTime
+} from "./profile/timeapi.js";
 export {
   headerHelpClick,
   headerActionCall,
@@ -28,9 +33,10 @@ export {
   myProfile,
   logout,
   isThemeCheck,
-  getEmployess,
   vfileAdded,
   updateAllData,
   handleInput,
   handleInputObject,
+  employeeTime,
+  updateEmployeeTime
 };

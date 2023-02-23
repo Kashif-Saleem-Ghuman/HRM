@@ -4,6 +4,7 @@
     class="border-gray4 bg-white"
     :sections="userList"
     :hide-no-column="true"
+    @item-clicked="handleItemClick_Table"
   >
     <template #cell(name)="data">
       <div
@@ -82,7 +83,7 @@
 
 <script>
 import {
-  TABLE_FIELDS,
+  TABLE_HEAD,
   TABLE_FIELDS_DIR,
 } from "../../../utils/constant/Constant.js";
 export default {
@@ -94,23 +95,23 @@ export default {
   },
   data() {
     return {
-      tableFields: "",
+      tableFields: TABLE_HEAD.tHeadPeople,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
     };
   },
-  created() {
-    if (this.$router.history.current.fullPath == "/people") {
-      this.tableFields = TABLE_FIELDS;
-      return;
-    }
+  // created() {
+  //   if (this.$router.history.current.fullPath == "/people") {
+  //     this.tableFields = TABLE_HEAD.tHeadPeople;
+  //     return;
+  //   }
 
-    if (this.$router.history.current.fullPath == "/people/directory") {
-      this.tableFields = TABLE_FIELDS_DIR;
-      return;
-    }
-  },
+  //   if (this.$router.history.current.fullPath == "/people/directory") {
+  //     this.tableFields = TABLE_FIELDS_DIR;
+  //     return;
+  //   }
+  // },
   methods: {
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);

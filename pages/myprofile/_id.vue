@@ -734,15 +734,16 @@
               </div>
               <div class="col-6 row-custom">
                 <attendance
-                  :orgSettings="form.useOrganizationSettings"
-                  :trackAttendance="form.trackAttendance"
-                  :weekStarts="form.weekStarts"
+                  :orgSettings="time.useOrganizationSettings"
+                  :trackAttendance="time.trackAttendance"
+                  :trackTime="time.trackTime"
                   :switchLabelOrgSettings="switchLabelOrgSettings"
                   :switchLabelAttendance="switchLabelAttendance"
                   :switchLabelweekStarts="switchLabelweekStarts"
-                  :weekStart="form.weekStart"
-                  :weekCapacity="weekCapacity"
-                  :timesheetDeadline="timesheetDeadline"
+                  :weekOptions="weekOptions"
+                  :weekStart="time.startWeekDay"
+                  :weekCapacity="time.weekCapacity"
+                  :deadlineDay="time.deadlineDay"
                   :timesheetOptions="timesheetOptions"
                   @change-it="change"
                   :inActive="inActiveTimeAttendance"
@@ -754,7 +755,7 @@
                       label="Save"
                       size="lg"
                       variant="success"
-                      @click="updateAllData()"
+                      @click="updateEmployeeTime(id)"
                       v-if="timeAttendanceUpdateButton"
                     ></bib-button>
                   </div>
@@ -842,6 +843,7 @@ import {
   FILES_DATA,
   COUNTRIES,
   STATES,
+  WEEK_DAY
 } from "../../utils/constant/Constant.js";
 import {
   openPopupNotification,
@@ -849,6 +851,8 @@ import {
   updateAllData,
   handleInput,
   handleInputObject,
+  employeeTime,
+  updateEmployeeTime
 } from "../../utils/functions/functions_lib.js";
 import {
   updatePersonalInformation,
@@ -868,6 +872,7 @@ import {
 } from "../../utils/functions/profile/index";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
+
 export default {
   data() {
     return {
@@ -947,7 +952,9 @@ export default {
       inActiveTimeOff: "disabled",
       infoUpdateTimeOff: true,
 
-      // Time-off states
+      // Time & attandance
+      weekOptions:WEEK_DAY,
+      timesheetOptions:WEEK_DAY,
       timeAttendanceUpdateButton: false,
       inActiveTimeAttendance: "disabled",
       infoUpdateTimeAttendance: true,
@@ -957,6 +964,7 @@ export default {
 
       inactiveCommon: "disabled",
       form: {},
+      time: {},
       teamOption: "",
       formOptions: {},
       updateForm: {},
@@ -966,18 +974,20 @@ export default {
   },
   async created() {
     // await this.users();
-    await this.$store.dispatch("users/setReportsList")
-    await this.$store.dispatch("users/setDepartmentList")
-    await this.$store.dispatch("users/setTeamList")
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;
         await this.$store.dispatch("users/setUser" , { id: this.$route.params.id})
       } else {
         await this.$store.dispatch("users/setActiveUser")
+        var users = this.getUser;
+        this.id = users.id
       }
       this.form = this.getUser;
     }
+    await this.$store.dispatch("users/setReportsList")
+    await this.$store.dispatch("users/setDepartmentList")
+    await this.$store.dispatch("users/setTeamList")
   },
   computed: {
     ...mapGetters({
@@ -986,6 +996,7 @@ export default {
       getDepartment: "users/GET_DEPARTMENT_LIST",
       getReportsList: "users/GET_REPORTS_LIST",
       getTeamList: "users/GET_TEAM_LIST",
+      getAccessToken: "token/getAccessToken",
     }),
   },
 
@@ -1035,11 +1046,19 @@ export default {
     updateTimeOff,
     updateTimeAttendance,
     updateEmergencyContact,
+    employeeTime,
+    updateEmployeeTime,
     sortBy() {
       alert("called");
     },
-    handleChange_Tabs(tab) {
+    async handleChange_Tabs(tab) {
+      console.log(tab.value, "sakdhajksdhkahdkhasdhakshdkajshdk")
       this.activeTab = tab.value;
+      if(tab.value == 'Time & Attendance'){
+      await this.employeeTime(this.id)
+      console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
+
+      }
     },
   },
 };

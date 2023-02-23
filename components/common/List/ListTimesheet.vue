@@ -5,7 +5,7 @@
       class="border-gray4 bg-white"
       :sections="userList"
       :hide-no-column="true"
-      @item-clicked="handleItemClick_Table"
+      @item-clicked.prevent="handleItemClick_Table"
     >
       <template #cell(name)="data">
         <div
@@ -47,7 +47,76 @@
           </div>
         </div>
       </template>
-      <template #cell(status)="data">
+      <template #cell(mon)="data">
+        <div
+          class="text-dark td_row_wrapper"
+          style="position: relative"
+          v-on:mouseover="timeInfotab('timesheetid_' + data.value.id)"
+          v-on:mouseleave="timeInfotab('timesheetid_' + data.value.id, true)"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
+          <div
+            :id="'timesheetid_' + data.value.id"
+            class="tooltip-wrapper"
+            style="z-index: 100000"
+          >
+            <tooltip :data="timeData" @vclick="modal3Opened = true"></tooltip>
+            <bib-modal-wrapper
+              v-if="modal3Opened"
+              :title="data.value.firstName + ' '  +  data.value.lastName"
+              @close="modal3Opened = false"
+            >
+              <template slot="content">
+                <div>
+                  <bib-input
+                    type="text"
+                    placeholder="Enter file name..."
+                  ></bib-input>
+                </div>
+              </template>
+              <template slot="footer">
+                <div class="d-flex">
+                  <bib-button
+                    label="Cancel"
+                    variant="light"
+                    pill
+                    @click="modal3Opened = false"
+                  ></bib-button>
+                  <bib-button
+                    label="Create"
+                    variant="success"
+                    class="ml-auto"
+                    pill
+                    @click="modal3Opened = false"
+                  ></bib-button>
+                </div>
+              </template>
+            </bib-modal-wrapper>
+          </div>
+        </div>
+      </template>
+
+      <template #cell(tue)="data">
+        <div
+          class="td_row_wrapper"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+
+      <template #cell(wed)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -60,22 +129,7 @@
           <span>{{ data.value.status }}</span>
         </div>
       </template>
-
-      <template #cell(in)="data">
-        <div
-          class="td_row_wrapper"
-          :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
-          ]"
-        >
-          <span>{{ data.value.start }}</span>
-        </div>
-      </template>
-
-      <template #cell(out)="data">
+      <template #cell(thu)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -85,11 +139,10 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.end }}</span>
+          <span>{{ data.value.status }}</span>
         </div>
       </template>
-     
-      <template #cell(breaks)="data">
+      <template #cell(fri)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
@@ -99,7 +152,33 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.breaks }}</span>
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(sat)="data">
+        <div
+          class="text-dark td_row_wrapper"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(sun)="data">
+        <div
+          class="text-dark td_row_wrapper"
+          :class="[
+            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
+            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+          ]"
+        >
+          <span>{{ data.value.status }}</span>
         </div>
       </template>
       <template #cell(total)="data">
@@ -112,7 +191,38 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.start }} - {{ data.value.end }}</span>
+          <span>{{ data.value.status }}</span>
+        </div>
+      </template>
+      <template #cell(status)="data">
+        <div class="text-dark">
+          <chips
+            :title="data.value.firstName"
+            iconShow="iconShow"
+            :icon="
+              data.value.status == 'IN'
+                ? 'check-all'
+                : '' || data.value.status == 'Late'
+                ? 'warning'
+                : '' || data.value.status == 'Absent'
+                ? 'urgent-solid'
+                : '' || data.value.status == 'Vacation'
+                ? 'help'
+                : ''
+            "
+            :variant="[
+              data.value.status == 'IN' ? 'chip-wrapper-bg-same__bgsucess' : '',
+              data.value.status == 'Late'
+                ? 'chip-wrapper-bg-same__bgabsent'
+                : '',
+              data.value.status == 'Absent'
+                ? 'chip-wrapper-bg-same__bgabsentpink'
+                : '',
+              data.value.status == 'Vacation'
+                ? 'chip-wrapper-bg-same__bgvacation'
+                : '',
+            ]"
+          ></chips>
         </div>
       </template>
     </custom-table>
@@ -120,10 +230,7 @@
 </template>
 
 <script>
-import {
-  TABLE_HEAD,
-  TABLE_FIELDS_DIR,
-} from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
 export default {
   props: {
     userList: {
@@ -133,31 +240,51 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_HEAD.tHeadAttandance,
+      modal3Opened: false,
+      showTooltip: false,
+      tableFields: TABLE_HEAD.tHeadTimesheet,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      timeData: [
+        {
+          employeeId: "string",
+          businessId: "string",
+          date: "2023-02-22T11:32:14.374Z",
+          start: "11:32 AM",
+          end: "11:32 PM",
+          activity: "string",
+          id: "string",
+          total: 0,
+        },
+      ],
     };
   },
-  created() {
-    //   if (this.$router.history.current.fullPath == "/people") {
-    //     this.tableFields = TABLE_FIELDS;
-    //     return;
-    //   }
-    //   if (this.$router.history.current.fullPath == "/people/directory") {
-    //     this.tableFields = TABLE_FIELDS_DIR;
-    //     return;
-    //   }
-  },
   methods: {
-    handleItemClick_Table($event, keyI, item) {
+    handleItemClick_Table(event, keyI, item) {
+      event.preventDefault()
+      console.log(event, "askdnasdakjsdkjashdjkashd")
       this.$router.push("/myprofile/" + item.id);
     },
     viewProfile(id) {
       this.$router.push("/myprofile/" + id);
     },
+    vclick() {
+      alert("callled");
+    },
+    mouseover() {
+      this.showTooltip = true;
+    },
+    mouseleave() {
+      this.showTooltip = false;
+    },
     sendInvite() {
       alert("send invite api call");
+    },
+    timeInfotab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

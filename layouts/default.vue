@@ -17,7 +17,7 @@
       </template>
       <template #topbar>
         <bib-header
-          mainAction="Upgrade"
+          :mainAction="accountType"
           @callToAction="headerActionCall()"
           @callToActions="headerActionCallll()"
           @help-click="headerHelpClick()"
@@ -49,7 +49,7 @@
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
         ></app-menu>
       </template>
-       <template #content>
+      <template #content>
         <div id="main-content">
           <Nuxt />
           <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
@@ -68,7 +68,6 @@ import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
   getUser,
-  getBusinessId,
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
@@ -77,7 +76,6 @@ import {
   headerActionCall,
   openPopupNotification,
   isThemeCheck,
-  getEmployess
 } from "../utils/functions/functions_lib.js";
 export default {
   data() {
@@ -92,30 +90,31 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
-      token:"",
-     };
+      accountType: "",
+      token:'',
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
   },
   computed: {
-    ...mapGetters(["getAccessToken"]),
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+    }),
   },
   created() {
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
       this.token = jwt;
-      this.$store.dispatch("setToken", jwt);
+      this.$store.dispatch("token/setToken", jwt);
     } else {
       localStorage.setItem("accessToken", this.token);
-      this.$store.dispatch("setToken", this.token);
+      this.$store.dispatch("token/setToken", this.token);
     }
-    this.$root.$on('close-sidebar', () => {
-      this.openSidebar = false
-    })
   },
   async mounted() {
+    console.log(this.getAccessToken, "getAccessTokengetAccessTokengetAccessTokengetAccessToken")
     this.loading = true;
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
@@ -123,28 +122,22 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post(
-          "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
-          {
-            token: accessToken,
-          }
-        )
+        .post(process.env.SSO_URL, {
+          token: accessToken,
+        })
         .then((res) => {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
-            var userId = res?.data?.u?.sub;
-            var businessId = res?.data?.u?.subb
-            var userRole = res?.data?.u?.subr
-            var userEmail = res?.data?.u?.sube
-            localStorage.setItem("userID", userId);
+            var businessId = res?.data?.u?.subb;
+            var userRole = res?.data?.u?.subr;
+            this.accountType =
+              res?.data?.u?.subbs == "FREETRIAL"
+                ? "See Plans & Pricing"
+                : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            localStorage.setItem("userEmail", userEmail);
           }
           this.getUser();
-
-          // this.getEmployess();
-          this.getBusinessId();
         })
         .catch((err) => {
           this.loading = false;
@@ -160,7 +153,6 @@ export default {
   methods: {
     isThemeCheck,
     getUser,
-    getBusinessId,
     handleToggleWrapperTheme,
     openAccountPage,
     myProfile,
@@ -168,7 +160,6 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
-    getEmployess
   },
 };
 </script>

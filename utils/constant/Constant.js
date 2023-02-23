@@ -1,3 +1,103 @@
+export const TABLE_HEAD = {
+  tHeadPeople : [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "presence",
+      label: "Presence",
+    },
+    {
+      key: "department",
+      label: "Department",
+    },
+    {
+      key: "team",
+      label: "Team",
+    },
+  ],
+  tHeadAttandance:[
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  
+    {
+      key: "in",
+      label: "In",
+    },
+    {
+      key: "out",
+      label: "Out",
+    },
+    
+    {
+      key: "breaks",
+      label: "Breaks",
+    },
+    {
+      key: "total",
+      label: "total",
+    },
+  ],
+  tHeadTimesheet:[
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "mon",
+      label: "Mon",
+    },
+    {
+      key: "tue",
+      label: "Tue",
+    },
+  
+    {
+      key: "thu",
+      label: "Thu",
+    },
+    {
+      key: "fri",
+      label: "Fri",
+    },
+    {
+      key: "sat",
+      label: "Sat",
+    },
+    {
+      key: "sun",
+      label: "Sun",
+    },
+    {
+      key: "total",
+      label: "Total",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  ]
+}
+
 export const TABLE_FIELDS_TIME_ATTENDANCE = [
   {
     key: "",
@@ -109,6 +209,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: null,
+    breaks:0.7,
     department: "Tech",
     timeWork: "8",
     photo:
@@ -127,6 +228,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: "06:20 PM",
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675200061019.jpg",
@@ -143,6 +245,7 @@ export const TABLE_SECTIONS = [
     date: "2023-02-21T06:20:53.864Z",
     start: "09:20 AM",
     end: null,
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
@@ -160,6 +263,7 @@ export const TABLE_SECTIONS = [
     start: "09:20 AM",
     end: "06:20 PM",
     timeWork: "8",
+    breaks:0.7,
     department: "Tech",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",
@@ -585,5 +689,31 @@ export const ACTION_MENU = [
   {
     label: "Reset",
     key: "reset",
+  },
+];
+export const WEEK_DAY = [
+  {
+    label: "sunday",
+    value: "sunday",
+  },
+  {
+    label: "monday",
+    value: "monday",
+  },
+  {
+    label: "tuesday",
+    value: "tuesday",
+  },
+  {
+    label: "thursday",
+    value: "thursday",
+  },
+  {
+    label: "friday",
+    value: "friday",
+  },
+  {
+    label: "saturday",
+    value: "saturday",
   },
 ];

@@ -44,17 +44,17 @@
         <tooltip :show="showTooltip"></tooltip>
       </div>
       <div class="py-2 d-flex">
-        <chips title="Punched in" variant="__bgsucess"></chips>
-        <chips title="Absent" variant="__bgabsent"></chips>
-        <chips title="Vacation" variant="__bgvacation"></chips>
-        <chips title="Absent" variant="__bgabsentpink"></chips>
-        <chips title="Pending" variant="__bgpending"></chips>
+        <chips title="Punched in" variant="chip-wrapper__bgsucess"></chips>
+        <chips title="Absent" variant="chip-wrapper__bgabsent"></chips>
+        <chips title="Vacation" variant="chip-wrapper__bgvacation"></chips>
+        <chips title="Absent" variant="chip-wrapper__bgabsentpink"></chips>
+        <chips title="Pending" variant="chip-wrapper__bgpending"></chips>
       </div>
       <div class="py-2 d-flex">
-        <chips title="V" shapeCircle="__shape-circle" variant="__bgsucess"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="__bgvacation"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="__bgabsent"></chips>
-        <chips title="M" shapeCircle="__shape-circle" variant="__bgabsentpink"></chips>
+        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgsucess"></chips>
+        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgvacation"></chips>
+        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsent"></chips>
+        <chips title="M" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsentpink"></chips>
         <chips title="N/A" shapeCircle="__shape-circle"></chips>
         <!-- <chips title="M"  variant="__bgabsent"></chips>
         <chips title="A" variant="__bgvacation"></chips>

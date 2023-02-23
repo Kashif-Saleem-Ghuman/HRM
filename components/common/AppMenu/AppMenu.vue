@@ -44,7 +44,11 @@ export default {
     if(userRole === 'USER'){
       var check = document.querySelector("[title=\"People\"]");
       check.style = "display: none";
-    }}
+    }else{
+      var check = document.querySelector("[title=\"People\"]");
+      check.style = "display: grid;";
+    }
+  }
   },
   methods: {
     menuClick(event) {

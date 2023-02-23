@@ -1,14 +1,6 @@
 <template>
   <div class="d-flex">
-    <!-- <button-circle
-      icon="arrowhead-down"
-      :scale="1"
-      variant="secondary"
-      icon_bg="bg-secondary-sub3"
-      @on-click="changeViewName('sort')"
-      class="mr-05"
-    ></button-circle> -->
-    <!-- <button-circle icon="techno" :scale="1" variant="secondary" icon_bg="bg-secondary-sub3"></button-circle> -->
+    <button-circle v-if="calander" icon="calendar" :scale="1" variant="secondary" icon_bg="bg-secondary-sub3" class="mr-05"></button-circle>
           <dropdown-menu
             :items="items"
             @click="$emit('vclick', $event)"
@@ -35,6 +27,9 @@ export default {
       type: String,
       default: "",
     },
+    calander:{
+      type:String
+    }
   },
   name: "ActionRight",
 

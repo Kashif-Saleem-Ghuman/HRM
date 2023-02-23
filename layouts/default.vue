@@ -47,6 +47,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
+          :userRole="userRole === 'ADMIN' ? 'userRole' : ''"
         ></app-menu>
       </template>
       <template #content>
@@ -91,8 +92,9 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token:'',
-    };
+      userRole: '',
+      token: "",
+     };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -102,8 +104,12 @@ export default {
       getAccessToken: "token/getAccessToken",
     }),
   },
+  beforeMount() {
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userPhoto");
+  },
   created() {
-    localStorage.removeItem('userRole')
+    
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -136,6 +142,14 @@ export default {
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
+            this.userRole = userRole
+            if (userRole === "ADMIN") {
+              this.$router.push("/people");
+             
+            } if(userRole == 'USER') {
+              this.$router.push("/myprofile");
+              
+            }
           }
           this.getUser();
         })

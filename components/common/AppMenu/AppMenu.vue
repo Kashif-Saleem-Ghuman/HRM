@@ -4,7 +4,8 @@
    <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px;">
     <bib-app-navigation :items="appWrapItems.navItems.slice(2,3)" @click="menuClick($event)"></bib-app-navigation>
-    <bib-app-navigation :items="roleUser === 'USER' ? appWrapItems.navItems.slice(4,9): appWrapItems.navItems.slice(3,9)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation v-if="userRole" :items="appWrapItems.navItems.slice(3,4)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation :items="appWrapItems.navItems.slice(4,9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
     <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
@@ -22,17 +23,17 @@ export default {
     seprator: {
       type: String,
     },
-    
+    userRole:{
+      type:String
+    }
   },
   data() {
     return {
       lightThemeChecked: false,
       appWrapItems:appWrapItems,
-      roleUser:localStorage.getItem('userRole')
     }
   },
   mounted(){
-    
     if (process.client) {
       for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
         if (this.appWrapItems.navItems[i].url == this.$router.history.current.fullPath) {
@@ -41,19 +42,7 @@ export default {
         } else {
           this.appWrapItems.navItems[i].selected = false;
         }
-      }
-      var userRole = localStorage.getItem('userRole')
-    if(userRole === 'USER'){
-      if (this.$router.history.current.fullPath == "/people") {
-        this.$router.push("/myprofile");
-        return;
-      }
-      // var check = document.querySelector("[title=\"People\"]");
-      // check.style = "display: none";
-    }else{
-      // var check = document.querySelector("[title=\"People\"]");
-      // check.style = "display: grid;";
-    }
+      }    
   }
   },
   methods: {

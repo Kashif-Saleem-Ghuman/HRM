@@ -1052,8 +1052,6 @@ export default {
       this.activeTab = tab.value;
       if(tab.value == 'Time & Attendance'){
       await this.employeeTime(this.id)
-      console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
-
       }
       if(tab.value == 'Employment Information'){
         await this.$store.dispatch("users/setReportsList")

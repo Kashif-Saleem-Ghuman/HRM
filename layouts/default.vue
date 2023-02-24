@@ -47,7 +47,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          :userRole="userRole === 'ADMIN' ? 'userRole' : ''"
+          userRole="userRole"
         ></app-menu>
       </template>
       <template #content>
@@ -143,13 +143,6 @@ export default {
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             this.userRole = userRole
-            // if (userRole === "ADMIN") {
-            //   this.$router.push("/people");
-             
-            // } if(userRole == 'USER') {
-            //   this.$router.push("/myprofile");
-              
-            // }
           }
           this.getUser();
         })

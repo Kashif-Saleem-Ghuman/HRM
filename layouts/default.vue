@@ -143,13 +143,13 @@ export default {
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             this.userRole = userRole
-            if (userRole === "ADMIN") {
-              this.$router.push("/people");
+            // if (userRole === "ADMIN") {
+            //   this.$router.push("/people");
              
-            } if(userRole == 'USER') {
-              this.$router.push("/myprofile");
+            // } if(userRole == 'USER') {
+            //   this.$router.push("/myprofile");
               
-            }
+            // }
           }
           this.getUser();
         })

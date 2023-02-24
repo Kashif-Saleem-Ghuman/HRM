@@ -3,9 +3,7 @@
   <div>
    <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px;">
-    <bib-app-navigation :items="appWrapItems.navItems.slice(2,3)" @click="menuClick($event)"></bib-app-navigation>
-    <bib-app-navigation v-if="userRole" :items="appWrapItems.navItems.slice(3,4)" @click="menuClick($event)"></bib-app-navigation>
-    <bib-app-navigation :items="appWrapItems.navItems.slice(4,9)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation v-if="userRole" :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
     <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
@@ -13,6 +11,7 @@
   </div>
 </template>
 <script>
+import { assertNullLiteralTypeAnnotation } from "@babel/types";
 import getJson from "../../../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 export default {
@@ -42,7 +41,8 @@ export default {
         } else {
           this.appWrapItems.navItems[i].selected = false;
         }
-      }    
+      } 
+      localStorage.removeItem('tabSelected')   
   }
   },
   methods: {
@@ -95,8 +95,9 @@ export default {
      this.$router.push('/compensation')
       return;
     }
-    if (event.key == "files") {
-     this.$router.push('/files')
+    if (event.key == "Files") {
+      this.$router.push('/myprofile')
+      this.$store.dispatch("token/setActiveTab", event.key)
       return;
     }
   }

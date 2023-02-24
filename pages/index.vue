@@ -2,15 +2,13 @@
 <script>
 export default {
   mounted() {
-    this.$router.push("/myprofile");
-    console.log(this.$router.history.current.fullPath, "skdnakjdnaksdkasdjkasdkj")
-    // var userRole = localStorage.getItem("userRole");
-    // if (userRole === "USER") {
-    //   this.$router.push("/myprofile");
-      
-    // } else {
-    //   this.$router.push("/people");
-    // }
+    var userRole = localStorage.getItem("userRole");
+    if (userRole === "USER") {
+              if(this.$router.history.current.fullPath === '/people'){
+                this.$router.push("/myprofile");
+              }
+              this.$router.push("/myprofile");
+            }
   },
 };
 </script>

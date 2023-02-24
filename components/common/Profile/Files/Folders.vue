@@ -27,7 +27,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.folder, "josafhlasjfdlkasnflkjaslkdjl");
+    // console.log(this.folder, "josafhlasjfdlkasnflkjaslkdjl");
   },
 };
 </script>

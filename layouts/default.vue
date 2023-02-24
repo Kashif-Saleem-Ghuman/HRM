@@ -92,9 +92,9 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      userRole: "",
-      token: "",
-    };
+      userRole: '',
+      token:''
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -104,10 +104,10 @@ export default {
       getAccessToken: "token/getAccessToken",
     }),
   },
-  beforeMount() {
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userPhoto");
-  },
+  // beforeMount() {
+  //   localStorage.removeItem("userRole");
+  //   localStorage.removeItem("userPhoto");
+  // },
   created() {
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -118,6 +118,8 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
+  },
+  async mounted() {
     this.loading = true;
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
@@ -125,12 +127,9 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post(
-          "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
-          {
-            token: accessToken,
-          }
-        )
+        .post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
+          token: accessToken,
+        })
         .then((res) => {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
@@ -142,7 +141,7 @@ export default {
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            this.userRole = userRole;
+            this.userRole = userRole
             if (userRole === "USER") {
               if(this.$router.history.current.fullPath == '/people'){
                 this.$router.push("/myprofile");
@@ -164,42 +163,6 @@ export default {
     }
 
     this.loading = false;
-  },
-  async mounted() {
-    // this.loading = true;
-    // this.openPopupNotification(0);
-    // let accessToken = localStorage.getItem("accessToken");
-    // let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-    // this.isThemeCheck();
-    // if (accessToken && cookies) {
-    //   axios
-    //     .post(process.env.SSO_URL, {
-    //       token: accessToken,
-    //     })
-    //     .then((res) => {
-    //       if (res.data.code == "valid_token") {
-    //         this.token = res.data.jwt;
-    //         var businessId = res?.data?.u?.subb;
-    //         var userRole = res?.data?.u?.subr;
-    //         this.accountType =
-    //           res?.data?.u?.subbs == "FREETRIAL"
-    //             ? "See Plans & Pricing"
-    //             : "Upgrade";
-    //         localStorage.setItem("businessId", businessId);
-    //         localStorage.setItem("userRole", userRole);
-    //         this.userRole = userRole
-    //       }
-    //       this.getUser();
-    //     })
-    //     .catch((err) => {
-    //       this.loading = false;
-    //       console.log(err);
-    //     });
-    // } else {
-    //   window.location.href =
-    //     process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
-    // }
-    // this.loading = false;
   },
   methods: {
     isThemeCheck,

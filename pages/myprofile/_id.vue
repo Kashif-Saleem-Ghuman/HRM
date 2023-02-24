@@ -970,11 +970,17 @@ export default {
       formOptions: {},
       updateForm: {},
       isFlag: false,
-      activeTab: "Employee Profile",
+      // activeTab:  localStorage.getItem('tabSelected') === null ? 'Employee Profile' : localStorage.getItem('tabSelected')
     };
   },
+  // watch:{
+  //   activeTab(){
+  //     localStorage.getItem('tabSelected') === null ? 'Employee Profile' : localStorage.getItem('tabSelected')
+  //   }
+  // },
   async created() {
     // await this.users();
+    localStorage.removeItem('tabSelected')
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;
@@ -996,10 +1002,13 @@ export default {
       getReportsList: "users/GET_REPORTS_LIST",
       getTeamList: "users/GET_TEAM_LIST",
       getAccessToken: "token/getAccessToken",
+      activeTab : "token/getActiveTab"
     }),
   },
 
   async mounted() {
+    // var tabSelected = localStorage.getItem('tabSelected')
+    // this.activeTab = tabSelected == null ? 'Employee Profile' : tabSelected;
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"
@@ -1048,8 +1057,8 @@ export default {
       alert("called");
     },
     async handleChange_Tabs(tab) {
-      console.log(tab.value, "sakdhajksdhkahdkhasdhakshdkajshdk")
-      this.activeTab = tab.value;
+      // this.activeTab = tab.value;
+      this.$store.dispatch("token/setActiveTab", tab.value)
       if(tab.value == 'Time & Attendance'){
       await this.employeeTime(this.id)
       }

@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper">
+  <div id="people-action-wrapper" v-if="userRole === 'ADMIN' ? 'userRole' : ''">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -111,7 +111,8 @@ export default {
       actionMenu:SORTING_MENU.actionMenuPeople,
       orderBy: "asc",
       totalUser: "",
-      userPhoto:localStorage.getItem('userPhoto')
+      userPhoto:localStorage.getItem('userPhoto'),
+      userRole: '',
 
     };
   },
@@ -120,23 +121,19 @@ export default {
     this.localData = this.userList;
     this.totalUser =  this.localData.length
   },
+ 
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
     }),
-    displayedUsers() {
-      return this.paginate(this.users);
-    },
   },
-  
+ mounted(){
+  this.userRole = localStorage.getItem("userRole");
+  console.log(this.userRole, "userRoleuserRoleuserRoleuserRole")
+
+ },
   methods: {
-    setPages() {
-      var numberOfPages = Math.ceil(this.users.length / this.perPage);
-      for (var index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-    },
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
@@ -174,6 +171,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.fake_div {
+  position: absolute;
+  left: -100500vw;
+  top: -100500vh;
+}
 .pagination {
   display: flex;
   justify-content: flex-end;

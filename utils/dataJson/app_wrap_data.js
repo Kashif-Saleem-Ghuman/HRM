@@ -113,7 +113,7 @@ const data = () => {
       { label: "My Profile", icon: "add", key: "myprofile", url:"/myprofile", selected: false},
       { label: "Time & Attendance", icon: "add", key: "attendance", url:"/files", selected: false},
       { label: "Time-off", icon: "add", key: "timesoff", url:"/files", selected: false},
-      { label: "My Files", icon: "add", key: "myfiles", url:"/files", selected: false},
+      { label: "My Files", icon: "add", key: "Files", url:"/files", selected: false},
 
     ],
   }

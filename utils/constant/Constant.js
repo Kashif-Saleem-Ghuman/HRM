@@ -826,55 +826,6 @@ export const STATES = [
     value: "YT",
   },
 ];
-// export const STATES = [
-//   { value: "", label: "Select State", code: "all" },
-//   {
-//     label: "Alabama",
-//     value: "Alabama",
-//     code: "USA",
-//   },
-//   {
-//     label: "Alaska",
-//     value: "Alaska",
-//     code: "USA",
-//   },
-//   {
-//     label: "American Samoa",
-//     value: "American Samoa",
-//     code: "USA",
-//   },
-//   {
-//     label: "Arizona",
-//     value: "Arizona",
-//     code: "USA",
-//   },
-
-//   {
-//     label: "Alberta",
-//     value: "Alberta",
-//     code: "Canada",
-//   },
-//   {
-//     label: "British Columbia",
-//     value: "British Columbia",
-//     code: "Canada",
-//   },
-//   {
-//     label: "Manitoba",
-//     value: "Manitoba",
-//     code: "Canada",
-//   },
-//   {
-//     label: "New Brunswick",
-//     value: "New Brunswick",
-//     code: "Canada",
-//   },
-//   {
-//     label: "Newfoundland and Labrador",
-//     value: "Newfoundland and Labrador",
-//     code: "Canada",
-//   },
-// ];
 export const PEOPLE_TAB = [
   {
     title: "Directory",

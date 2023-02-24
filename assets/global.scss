@@ -137,18 +137,32 @@ $validation-star-color: #fa0f00;
 .drawer-leave-active {
   animation: slidein-right 0.2s reverse;
 }
-
+.nav_wrapper{
+  height: 3rem;
+}
+.tab-wrapper{
+  .tabs{
+    height: 3rem !important;
+    border-bottom: 0px solid var(--bib-secondary-sub2) !important;  
+    button {
+    padding: 0 !important;
+    margin-right: 1rem;
+    font-size: 14px;
+    font-weight: 500;
+  }  
+  
+  }
+  .tabs button.active{
+  font-weight: 600;
+}
+}
 @media screen and (max-width: 1600px) {
   .side-panel {
     max-width: $sidebar-width - 160px;
     width: 35rem;
   }
 }
-.tabs {
-  & button{
-    font-size: 14px !important;
-  }
-}
+
 // @media screen and (max-width: 1400px) {
 //   .tabs {
 //     // display: none !important;

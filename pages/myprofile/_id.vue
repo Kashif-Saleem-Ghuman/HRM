@@ -985,9 +985,7 @@ export default {
       }
       this.form = this.getUser;
     }
-    await this.$store.dispatch("users/setReportsList")
-    await this.$store.dispatch("users/setDepartmentList")
-    await this.$store.dispatch("users/setTeamList")
+   
   },
   computed: {
     ...mapGetters({
@@ -1001,9 +999,6 @@ export default {
   },
 
   async mounted() {
-    this.departmentOptions = this.getDepartment;
-    this.usersOptions = this.getReportsList;
-    this.teamOptions = this.getTeamList;
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"
@@ -1059,6 +1054,16 @@ export default {
       console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
 
       }
+      if(tab.value == 'Employment Information'){
+        await this.$store.dispatch("users/setReportsList")
+    await this.$store.dispatch("users/setDepartmentList")
+    await this.$store.dispatch("users/setTeamList")
+    this.departmentOptions = this.getDepartment;
+    this.usersOptions = this.getReportsList;
+    this.teamOptions = this.getTeamList;
+      // console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
+
+      }
     },
   },
 };
@@ -1096,27 +1101,6 @@ export default {
   display: inline-block;
   width: 80px;
 }
-.nav_wrapper{
-  height: 3rem;
-}
-.tab-border{
-  border-bottom: 1px solid var(--bib-secondary-sub2);
-}
-.tab-wrapper{
-  .tabs{
-    height: 3rem !important;
-    border-bottom: 0px solid var(--bib-secondary-sub2) !important;  
-    button {
-    padding: 0 !important;
-    margin-right: 1rem;
-    font-size: 14px;
-    font-weight: 500;
-  }  
-  
-  }
-  .tabs button.active{
-  font-weight: 600;
-}
-}
+
 
 </style>

@@ -2,7 +2,13 @@
 <script>
 export default {
   mounted() {
-    this.$router.push("/");
+    // var userRole = localStorage.getItem("userRole");
+    // if (userRole === "USER") {
+    //   this.$router.push("/myprofile");
+      
+    // } else {
+    //   this.$router.push("/people");
+    // }
   },
 };
 </script>

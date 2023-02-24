@@ -94,7 +94,7 @@ export default {
       accountType: "",
       userRole: '',
       token: "",
-     };
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);

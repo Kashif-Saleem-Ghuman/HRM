@@ -25,7 +25,7 @@
           </section-header-right>
         </template>
         <div
-          style="z-index: 100"
+          style="z-index: 1"
           class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
         >
           <span style="font-size: 14px; font-weight: 500">{{ totalUser }}</span>
@@ -41,8 +41,8 @@
       </div>
     </div>
     <div class="tab-wrapper">
-      <div class="row mx-0 pt-1">
-        <div class="col-12">
+      <div class="row mx-0  bottom_border_wrapper">
+        <div class="col-12 px-1">
           <bib-tabs
             :tabs="peopleTabItem"
             :value="activeTab"
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div
-        class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+        class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
       >
         <div class="d-flex align-center">
           <action-left

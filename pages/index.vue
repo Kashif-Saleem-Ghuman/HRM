@@ -2,6 +2,7 @@
 <script>
 export default {
   mounted() {
-    this.$router.push("/myprofile");}
+    // this.$router.push("/myprofile");
+  }
 };
 </script>

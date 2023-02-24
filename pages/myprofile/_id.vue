@@ -16,7 +16,7 @@
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
         <div class="row mx-0 bottom_border_wrapper">
-          <div class="col-12  px-1">
+          <div class="col-12 px-1">
             <bib-tabs
               :tabs="personalTabItem"
               :value="activeTab"
@@ -24,7 +24,8 @@
             ></bib-tabs>
           </div>
         </div>
-        <!-- Employe Profile Wrapper Start Here  -->
+        <div class="px-1 main-wrapper">
+          <!-- Employe Profile Wrapper Start Here  -->
         <div id="employee-profile-wrapper">
           <div class="" id="tab_info_wrapper">
             <div v-if="activeTab == personalTabItem[0].value">
@@ -770,12 +771,14 @@
             <div></div>
           </div>
         </div>
+      </div>
         <div id="files-wrapper">
           <div v-if="activeTab == personalTabItem[9].value">
             <!-- Benefits info Wrppaer Start Here  -->
             <div id="folder-info-wrapper" class="scroll_wrapper">
-              <div>
-                <div class="d-flex mt-1 mb-1" style="padding-left: 5px">
+              <div class="nav_wrapper bottom_border_wrapper">
+                <div class="px-1 main-wrapper">
+                <div class="d-flex py-075">
                   <button-green
                     @on-click="$emit('employee')"
                     icon="add"
@@ -793,11 +796,7 @@
                     titleClass="button-title"
                   ></button-green>
                 </div>
-                <div
-                  class="bg-light mt-1 mb-1"
-                  :class="seprator"
-                  style="height: 1px"
-                ></div>
+                
                 <bib-detail-collapse label="Folders" open>
                   <template v-slot:content>
                     <div class="flex_grid">
@@ -824,10 +823,12 @@
                   </template>
                 </bib-detail-collapse>
               </div>
+              </div>
             </div>
             <div></div>
           </div>
         </div>
+        
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>

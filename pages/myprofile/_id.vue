@@ -1,7 +1,7 @@
 <template>
   <div class="employee_wrapper">
     <div
-      class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
+      class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >
       <section-header-left
         :title="
@@ -13,10 +13,10 @@
         headerRight="headerRight"
       ></section-header-left>
     </div>
-    <div class="section-wrapper custom-input px-1">
+    <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
-        <div class="row mx-0 pt-1">
-          <div class="col-12">
+        <div class="row mx-0 tab-border">
+          <div class="col-12  px-1">
             <bib-tabs
               :tabs="personalTabItem"
               :value="activeTab"
@@ -1099,9 +1099,19 @@ export default {
     padding: 8px;
   }
 }
-
 .dropdown span {
   display: inline-block;
   width: 80px;
+}
+.nav_wrapper{
+  height: 3rem;
+}.tab-border{
+  border-bottom: 1px solid var(--bib-secondary-sub2);
+}
+.tab-wrapper{
+  .tabs{
+    height: 3rem !important;
+    border-bottom: 0px solid var(--bib-secondary-sub2) !important;
+  }
 }
 </style>

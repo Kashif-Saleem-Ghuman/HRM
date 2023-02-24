@@ -1,5 +1,5 @@
 <template>
-    <button type="button" @click="$emit('on-click')" class="cursor-pointer bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0" :class="icon_bg">
+    <button type="button" @click="$emit('on-click')" class="cursor-pointer  shape-circle icon-size d-flex justify-center align-center border-0" :class="icon_bg">
       <bib-icon :icon="icon" :scale="scale" :variant="variant"></bib-icon>
     </button>
  </template>

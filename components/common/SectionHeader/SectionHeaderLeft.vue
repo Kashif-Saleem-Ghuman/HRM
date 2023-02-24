@@ -77,7 +77,7 @@ export default {
 }
 
 .title-text {
-  font-size: 1.25rem;
+  font-size: 14px;
   font-weight: bold;
 }
 </style>

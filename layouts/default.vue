@@ -47,7 +47,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          userRole="userRole"
+          :userRole="userRole === 'ADMIN' ? 'userRole' : ''"
         ></app-menu>
       </template>
       <template #content>
@@ -93,7 +93,7 @@ export default {
       userPhoto: "",
       accountType: "",
       userRole: '',
-      token: "",
+      token:'',
       };
   },
   fetch() {
@@ -119,8 +119,6 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
-  },
-  async mounted() {
     this.loading = true;
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
@@ -128,9 +126,11 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post(process.env.SSO_URL, {
-          token: accessToken,
-        })
+      .post(
+          "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
+          {
+            token: accessToken,
+          })
         .then((res) => {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
@@ -156,6 +156,43 @@ export default {
     }
 
     this.loading = false;
+  },
+  async mounted() {
+    // this.loading = true;
+    // this.openPopupNotification(0);
+    // let accessToken = localStorage.getItem("accessToken");
+    // let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+    // this.isThemeCheck();
+    // if (accessToken && cookies) {
+    //   axios
+    //     .post(process.env.SSO_URL, {
+    //       token: accessToken,
+    //     })
+    //     .then((res) => {
+    //       if (res.data.code == "valid_token") {
+    //         this.token = res.data.jwt;
+    //         var businessId = res?.data?.u?.subb;
+    //         var userRole = res?.data?.u?.subr;
+    //         this.accountType =
+    //           res?.data?.u?.subbs == "FREETRIAL"
+    //             ? "See Plans & Pricing"
+    //             : "Upgrade";
+    //         localStorage.setItem("businessId", businessId);
+    //         localStorage.setItem("userRole", userRole);
+    //         this.userRole = userRole
+    //       }
+    //       this.getUser();
+    //     })
+    //     .catch((err) => {
+    //       this.loading = false;
+    //       console.log(err);
+    //     });
+    // } else {
+    //   window.location.href =
+    //     process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+    // }
+
+    // this.loading = false;
   },
   methods: {
     isThemeCheck,

@@ -61,6 +61,7 @@ export async function vfileAdded(file, name, event) {
     this.isFlag = true;
     if (addresses == "addresses") {
       if (event == "USA") {
+        console.log(this.states)
         this.cureentState = this.states.filter((item, index) => {
           if (item.code == event || item.code == "all") {
             this.stateVisible = true;
@@ -69,7 +70,18 @@ export async function vfileAdded(file, name, event) {
           }
         });
       }
-      if (event == "Other") {
+      if (event == "Canada") {
+        console.log(this.states)
+        this.cureentState = this.states.filter((item, index) => {
+          if (item.code == event || item.code == "all") {
+            this.stateVisible = true;
+            this.isFlag = true;
+            return item;
+          }
+        });
+      }
+      if
+       (event == "Other") {
         this.updateForm.addresses[0]["state"] = "";
         this.stateVisible = false;
       }

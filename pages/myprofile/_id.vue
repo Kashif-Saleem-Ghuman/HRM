@@ -15,7 +15,7 @@
     </div>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
-        <div class="row mx-0 tab-border">
+        <div class="row mx-0 bottom_border_wrapper">
           <div class="col-12  px-1">
             <bib-tabs
               :tabs="personalTabItem"
@@ -1081,14 +1081,7 @@ export default {
   }
 }
 
-.tabs {
-  button {
-    padding: 0 !important;
-    margin-right: 1rem;
-    font-size: 14px;
-    font-weight: 600;
-  }
-}
+
 .dropdown {
   margin: 10px 0;
   padding: 10px 0;
@@ -1105,13 +1098,25 @@ export default {
 }
 .nav_wrapper{
   height: 3rem;
-}.tab-border{
+}
+.tab-border{
   border-bottom: 1px solid var(--bib-secondary-sub2);
 }
 .tab-wrapper{
   .tabs{
     height: 3rem !important;
-    border-bottom: 0px solid var(--bib-secondary-sub2) !important;
+    border-bottom: 0px solid var(--bib-secondary-sub2) !important;  
+    button {
+    padding: 0 !important;
+    margin-right: 1rem;
+    font-size: 14px;
+    font-weight: 500;
+  }  
+  
   }
+  .tabs button.active{
+  font-weight: 600;
 }
+}
+
 </style>

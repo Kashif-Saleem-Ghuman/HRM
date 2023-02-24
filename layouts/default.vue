@@ -92,9 +92,9 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      userRole: '',
-      token:'',
-      };
+      userRole: "",
+      token: "",
+    };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -109,7 +109,6 @@ export default {
     localStorage.removeItem("userPhoto");
   },
   created() {
-    
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -126,11 +125,12 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-      .post(
+        .post(
           "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
           {
             token: accessToken,
-          })
+          }
+        )
         .then((res) => {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
@@ -142,7 +142,15 @@ export default {
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            this.userRole = userRole
+            this.userRole = userRole;
+            if (userRole === "USER") {
+              if(this.$router.history.current.fullPath == '/people'){
+                this.$router.push("/myprofile");
+              }
+              this.$router.push("/myprofile");
+            } else {
+              this.$router.push("/people");
+            }
           }
           this.getUser();
         })
@@ -191,7 +199,6 @@ export default {
     //   window.location.href =
     //     process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     // }
-
     // this.loading = false;
   },
   methods: {

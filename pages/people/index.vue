@@ -118,6 +118,7 @@ export default {
   async created() {
     await this.$store.dispatch("users/setUserList")
     this.localData = this.userList;
+    this.totalUser =  this.localData.length
   },
   computed: {
     ...mapGetters({
@@ -128,9 +129,7 @@ export default {
       return this.paginate(this.users);
     },
   },
-  async mounted() {
-    this.totalUser = this.userList.length;
-  },
+  
   methods: {
     setPages() {
       var numberOfPages = Math.ceil(this.users.length / this.perPage);

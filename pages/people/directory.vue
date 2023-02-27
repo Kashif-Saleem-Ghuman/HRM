@@ -39,11 +39,12 @@
       </div>
       <div class="d-flex justify-between py-05 px-075 bottom_border_wrapper">
         <div class="d-flex">
-          <action-left
-            v-on:employee="actionBY"
-            v-on:import="actionBY"
-            peoplePageAction="peoplePageAction"
-          ></action-left>
+          <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add Department"
+                ></button-green>
         </div>
         <action-right v-on:change-sort="sortBy"></action-right>
       </div>

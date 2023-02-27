@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper" v-if="userRole === 'ADMIN' ? 'userRole' : ''">
+  <div id="people-action-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="tab-wrapper">
-      <div class="row mx-0  bottom_border_wrapper">
+      <div class="row mx-0 bottom_border_wrapper">
         <div class="col-12 px-1">
           <bib-tabs
             :tabs="peopleTabItem"
@@ -50,25 +50,28 @@
           ></bib-tabs>
         </div>
       </div>
-      <div
-        class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-      >
-        <div class="d-flex align-center">
-          <action-left
-            v-on:employee="actionBY"
-            v-on:import="actionBY"
-            peoplePageAction="peoplePageAction"
-            @vclick="clickAction"
-          ></action-left>
-        </div>
-        <action-right
-          @vclick="clickAction"
-          :items="actionMenu"
-        ></action-right>
-      </div>
+
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
+            <div
+              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add new employee"
+                ></button-green>
+                <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Import"
+                ></button-green>
+              </div>
+            </div>
             <div class="scroll_wrapper">
               <div>
                 <list :userList="localData"></list>
@@ -88,12 +91,68 @@
           </div>
         </div>
       </div>
+      <div class="section-wrapper custom-input px-1" id="department-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == peopleTabItem[2].value">
+            <div
+              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add Department"
+                  @on-click="departmentModel = true"
+                ></button-green>
+              </div>
+            </div>
+            <div class="scroll_wrapper">
+              <div>
+                <card :items="departmentItems"></card>
+                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-wrapper custom-input px-1" id="team-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == peopleTabItem[3].value">
+            <div
+              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add Team"
+                  @on-click="departmentModel = true"
+                ></button-green>
+              </div>
+            </div>
+            <div class="scroll_wrapper">
+              <div>
+                <card :items="departmentItems"></card>
+                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
 </template>
 <script>
-import { PEOPLE_TAB, MORE_MENU, SORTING_MENU, } from "../../utils/constant/Constant.js";
+import {
+  PEOPLE_TAB,
+  MORE_MENU,
+  SORTING_MENU,
+  DEPARTMENT_ITEMS,
+  ACCESS_ITEMS
+} from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 
 export default {
@@ -108,37 +167,44 @@ export default {
       pages: [],
       localData: [],
       items: MORE_MENU,
-      actionMenu:SORTING_MENU.actionMenuPeople,
+      departmentItems: DEPARTMENT_ITEMS,
+      actionMenu: SORTING_MENU.actionMenuPeople,
       orderBy: "asc",
       totalUser: "",
-      userPhoto:localStorage.getItem('userPhoto'),
-      userRole: '',
-
+      userPhoto: localStorage.getItem("userPhoto"),
+      userRole: "",
+      departmentModel: false,
+      accessOptions: ACCESS_ITEMS
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserList")
+    await this.$store.dispatch("users/setUserList");
     this.localData = this.userList;
-    this.totalUser =  this.localData.length
+    this.totalUser = this.localData.length;
+    await this.$store.dispatch("users/setTeamList")
   },
- 
+
   computed: {
     ...mapGetters({
       userList: "users/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
     }),
   },
- mounted(){
-  this.userRole = localStorage.getItem("userRole");
-  console.log(this.userRole, "userRoleuserRoleuserRoleuserRole")
-
- },
+  mounted() {
+    this.userRole = localStorage.getItem("userRole");
+    console.log(this.userRole, "userRoleuserRoleuserRoleuserRole");
+  },
+  
   methods: {
+    close(){
+    alert("sadjlaksjdlasldkjlasjdl")
+this.departmentModel = false
+  },
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
     clickAction(event) {
-      if(event.key=='name'){
+      if (event.key == "name") {
         if (this.orderBy == "desc") {
           this.orderBy = "asc";
           this.localData.sort((a, b) => b.firstName.localeCompare(a.firstName));
@@ -147,7 +213,7 @@ export default {
           this.localData.sort((a, b) => a.firstName.localeCompare(b.firstName));
         }
       }
-      if(event.key=='presence'){
+      if (event.key == "presence") {
         if (this.orderBy == "desc") {
           this.orderBy = "asc";
           this.localData.sort((a, b) => b.email.localeCompare(a.email));
@@ -156,8 +222,8 @@ export default {
           this.localData.sort((a, b) => a.email.localeCompare(b.email));
         }
       }
-      if(event.key=='reset'){
-        this.$store.dispatch("users/setUserList")
+      if (event.key == "reset") {
+        this.$store.dispatch("users/setUserList");
       }
     },
     userId(id) {

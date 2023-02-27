@@ -1008,7 +1008,7 @@ export default {
 
   async mounted() {
     // var tabSelected = localStorage.getItem('tabSelected')
-    // this.activeTab = tabSelected == null ? 'Employee Profile' : tabSelected;
+    console.log(this.activeTab, "asjdfhakjsfhkasfhdkjshadfkjhsdkfjjk")
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"

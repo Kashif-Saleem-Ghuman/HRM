@@ -370,11 +370,11 @@ export const EMPLOYEE_PROFILE_TAB = [
   },
   {
     title: "Time-off",
-    value: "Time-off",
+    value: "time-off",
   },
   {
     title: "Time & Attendance",
-    value: "Time & Attendance",
+    value: "time-attendance",
   },
   {
     title: "Performance",
@@ -985,3 +985,52 @@ export const WEEK_DAY = [
     value: "saturday",
   },
 ];
+export const DEPARTMENT_ITEMS = [
+  {
+    label: "Operational Management",
+    hashItem: "people",
+  },
+  {
+    label: "Human Resources",
+    hashItem: "people",
+  },
+  {
+    label: "Project Management",
+    hashItem: "people",
+  },
+  {
+    label: "Product Development",
+    hashItem: "people",
+  },
+  {
+    label: "Research",
+    hashItem: "people",
+  },
+  {
+    label: "Sales",
+    hashItem: "people",
+  },
+  {
+    label: "Marketing",
+    hashItem: "people",
+  },
+  {
+    label: "Customer Service",
+    hashItem: "people",
+  },
+  {
+    label: "Finance",
+    hashItem: "people",
+  },
+];
+export const ACCESS_ITEMS = [
+  {
+    label: "Owner",
+    value: "Owner",
+  },
+  {
+    label: "User",
+    value: "User",
+  },
+];
+

@@ -152,6 +152,7 @@ export default {
               if(this.$router.history.current.fullPath == '/myprofile'){
                 this.$router.push("/people");
               }
+              this.$router.push("/people");
             }
           }
           this.getUser();

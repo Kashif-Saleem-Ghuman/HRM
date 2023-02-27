@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="section-wrapper custom-input px-1" id="directory-wrapper">
+      <div class="section-wrapper  px-1" id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[1].value">
             <div class="scroll_wrapper">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      <div class="section-wrapper custom-input px-1" id="department-wrapper">
+      <div  id="department-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[2].value">
             <div
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-      <div class="section-wrapper custom-input px-1" id="team-wrapper">
+      <div  id="team-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[3].value">
             <div

@@ -374,7 +374,7 @@ export const EMPLOYEE_PROFILE_TAB = [
   },
   {
     title: "Time & Attendance",
-    value: "time-attendance",
+    value: "timeattendance",
   },
   {
     title: "Performance",

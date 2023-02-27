@@ -93,7 +93,7 @@ export default {
       userPhoto: "",
       accountType: "",
       token: '',
-     };
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);

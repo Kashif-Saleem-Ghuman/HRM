@@ -16,6 +16,9 @@ export default {
               }
               this.$router.push("/myprofile");
             }
+    // else{
+    //   this.$router.push("/people");
+    // }
   },
 };
 </script>

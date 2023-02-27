@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-import { assertNullLiteralTypeAnnotation } from "@babel/types";
 import getJson from "../../../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 export default {
@@ -63,8 +62,9 @@ export default {
       this.$router.push('/inbox')
       return;
     }
-    if (event.key == "myprofile") {
+    if (event.key == "Employee Profile") {
      this.$router.push('/myprofile')
+     this.$store.dispatch("token/setActiveTab", event.key)
       return;
     }
     if (event.key == "people") {
@@ -72,7 +72,12 @@ export default {
       return;
     }
     if (event.key == "time-attendance") {
-     this.$router.push('/time-attendance')
+      this.$router.push('/time-attendance')
+      return;
+    }
+    if (event.key == "timeattendance") {
+      this.$router.push('/myprofile')
+      this.$store.dispatch("token/setActiveTab", event.key)
       return;
     }
     if (event.key == "timesheets") {
@@ -93,6 +98,11 @@ export default {
     }
     if (event.key == "compensation") {
      this.$router.push('/compensation')
+      return;
+    }
+    if (event.key == "time-off") {
+      this.$router.push('/myprofile')
+      this.$store.dispatch("token/setActiveTab", event.key)
       return;
     }
     if (event.key == "Files") {

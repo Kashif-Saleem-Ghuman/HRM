@@ -1,6 +1,7 @@
 export const state = () => ({
   accessToken: "",
   activeTab:'Employee Profile',
+  userRole:'',
 })
 export const getters = {
   getAccessToken(state) {
@@ -8,6 +9,9 @@ export const getters = {
   },
   getActiveTab(state){
     return state.activeTab
+  },
+  getUserRole(state){
+    return state.userRole
   }
 }
 export const mutations = {
@@ -18,6 +22,9 @@ export const mutations = {
   SET_ACTIVE_TAB(state, value) {
     state.activeTab = value
   },
+  SET_ACTIVE_USER_ROLE(state, value) {
+    state.userRole = value
+  },
 }
 
 export const actions = {
@@ -25,8 +32,9 @@ export const actions = {
     context.commit('SET_TOKEN', token)
   },
   setActiveTab(context, activetab) {
-    console.log(activetab, "activetabactivetabactivetab")
     context.commit('SET_ACTIVE_TAB', activetab)
   },
-
+  setActiveUserRole(context, activeUser) {
+    context.commit('SET_ACTIVE_USER_ROLE', activeUser)
+  },
 }

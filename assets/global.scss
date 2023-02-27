@@ -16,8 +16,9 @@ $validation-star-color: #fa0f00;
   margin-top: -6px;
   animation: fadeInAnimation ease 2s
 }
-.scroll_wrapper{
-  height: 650px !important;
+
+.scroll_wrapper_sm{
+  height: 350px !important;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none !important;

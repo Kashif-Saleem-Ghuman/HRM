@@ -41,8 +41,8 @@
       </div>
     </div>
     <div class="tab-wrapper">
-      <div class="row mx-0 pt-1">
-        <div class="col-12">
+      <div class="row mx-0 bottom_border_wrapper">
+        <div class="col-12 px-1">
           <bib-tabs
             :tabs="peopleTabItem"
             :value="activeTab"
@@ -50,21 +50,21 @@
           ></bib-tabs>
         </div>
       </div>
-      
+
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
             <div
-        class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
-      >
-        <div class="d-flex align-center">
-          <date-picker></date-picker>
-        </div>
-        <action-right
-          @vclick="clickAction"
-          :items="actionMenu"
-        ></action-right>
-      </div>
+              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <date-picker></date-picker>
+              </div>
+              <action-right
+                @vclick="clickAction"
+                :items="actionMenu"
+              ></action-right>
+            </div>
             <div class="scroll_wrapper">
               <div>
                 <list-attendance :userList="users"></list-attendance>
@@ -73,30 +73,42 @@
           </div>
         </div>
       </div>
-      <div class="section-wrapper custom-input px-1" id="directory-wrapper">
+      <div class="section-wrapper custom-input" id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[1].value">
             <div
-        class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
-      >
-        <div class="d-flex align-center">
-          <date-picker></date-picker>
-        </div>
-        <div class="d-flex">
-          <button-gray @on-click="$emit('employee')" icon="eye-open" variant="gray1" :scale="0.8" title="Not submitted"
-                titleClass="button-title"></button-gray>
-                <button-gray @on-click="$emit('employee')" icon="eye-open" variant="gray1" :scale="0.8" title="Pending approval"
-                titleClass="button-title"></button-gray>
-        <action-right
-          @vclick="clickAction"
-          :items="actionMenu"
-          calander="calander"
-        ></action-right>
-        </div>
-      </div>
+              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <date-picker></date-picker>
+              </div>
+              <div class="d-flex">
+                <!-- <button-gray
+                  @on-click="$emit('employee')"
+                  icon="eye-open"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Not submitted"
+                  titleClass="button-title"
+                ></button-gray>
+                <button-gray
+                  @on-click="$emit('employee')"
+                  icon="eye-open"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Pending approval"
+                  titleClass="button-title"
+                ></button-gray> -->
+                <action-right
+                  @vclick="clickAction"
+                  :items="actionMenu"
+                ></action-right>
+              </div>
+            </div>
             <div class="scroll_wrapper">
               <div>
-                <list-timesheet :userList="users"></list-timesheet>
+                <list-time-attendance></list-time-attendance>
+                <!-- <list-timesheet :userList="users"></list-timesheet> -->
               </div>
             </div>
           </div>
@@ -107,7 +119,12 @@
   </div>
 </template>
 <script>
-import { TIME_ATTENDANCE_TAB, MORE_MENU, SORTING_MENU, TABLE_SECTIONS } from "../../utils/constant/Constant.js";
+import {
+  TIME_ATTENDANCE_TAB,
+  MORE_MENU,
+  SORTING_MENU,
+  TABLE_SECTIONS,
+} from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 
 export default {
@@ -115,23 +132,22 @@ export default {
     return {
       openSidebar: false,
       endDate: null,
-                              starDate: new Date("2022-09-17"),
-                              minDate: new Date('2022-10-11'),
-                              maxDate: new Date('2022-10-21'),
-                                    peopleTabItem: TIME_ATTENDANCE_TAB,
+      starDate: new Date("2022-09-17"),
+      minDate: new Date("2022-10-11"),
+      maxDate: new Date("2022-10-21"),
+      peopleTabItem: TIME_ATTENDANCE_TAB,
       currentPage: 1,
-      users:TABLE_SECTIONS,
+      users: TABLE_SECTIONS,
       activeTab: "Attendance",
       items: MORE_MENU,
-      actionMenu:SORTING_MENU.actionMenuTimeAttandance,
+      actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       orderBy: "asc",
       totalUser: "",
-      userPhoto:localStorage.getItem('userPhoto')
-
+      userPhoto: localStorage.getItem("userPhoto"),
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserList")
+    await this.$store.dispatch("users/setUserList");
     this.localData = this.userList;
   },
   computed: {
@@ -154,12 +170,11 @@ export default {
       this.activeTab = tab.value;
     },
     onChange(value) {
-                                            let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-                                            console.log("selected date:", date);
-                                        },
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      console.log("selected date:", date);
+    },
     clickAction(event) {
-      if(event.key=='name'){
-       
+      if (event.key == "name") {
       }
     },
   },

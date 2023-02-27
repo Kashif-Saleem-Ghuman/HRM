@@ -24,11 +24,12 @@
     </div>
     <div class="d-flex justify-between py-05 px-075 bottom_border_wrapper">
       <div class="d-flex">
-        <action-left
-          v-on:dashboard="sortBy"
-          v-on:setting="sortBy"
-          dashButton="dashButton"
-        ></action-left>
+        <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add Department"
+                ></button-green>
       </div>
       <action-right
         icon="add"

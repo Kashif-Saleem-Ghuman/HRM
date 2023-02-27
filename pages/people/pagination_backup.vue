@@ -54,12 +54,12 @@
           class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
         >
           <div class="d-flex align-center">
-            <action-left
-              v-on:employee="actionBY"
-              v-on:import="actionBY"
-              peoplePageAction="peoplePageAction"
-              @vclick="clickAction"
-            ></action-left>
+            <button-green
+                  icon="add"
+                  variant="success"
+                  :scale="1"
+                  title="Add Department"
+                ></button-green>
           </div>
           <action-right
             @vclick="clickAction"

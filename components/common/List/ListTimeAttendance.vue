@@ -137,9 +137,13 @@
         </template>
       </custom-table>
       <div class="bg-white w-100 p-025 border-bottom-gray4 border-top-white">
-        <div
+        <!-- <div
           class="d-flex align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded w-fit gap-05"
           @click="addTask(sec_index)"
+        > -->
+        <div
+          class="d-flex align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded w-fit gap-05"
+          
         >
           <bib-icon
             icon="add"

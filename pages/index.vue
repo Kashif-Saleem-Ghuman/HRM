@@ -1,6 +1,7 @@
 <template></template>
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   computed: {
     ...mapGetters({
@@ -9,7 +10,7 @@ export default {
   },
   mounted() {
     // var userRole = localStorage.getItem("userRole");
-    if (userRole === "USER") {
+    if (this.userRole === "USER") {
               if(this.$router.history.current.fullPath === '/people'){
                 this.$router.push("/myprofile");
               }

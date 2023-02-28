@@ -93,7 +93,7 @@ export default {
       userPhoto: "",
       accountType: "",
       token: '',
-      };
+     };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -107,10 +107,6 @@ export default {
       userRole: "token/getUserRole",
     }),
   },
-  // beforeMount() {
-  //   localStorage.removeItem("userRole");
-  //   localStorage.removeItem("userPhoto");
-  // },
   created() {
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -149,11 +145,14 @@ export default {
             if (userRole === "USER") {
               if(this.$router.history.current.fullPath == '/people'){
                 this.$router.push("/myprofile");
+                return
               }
               this.$router.push("/myprofile");
+              return
             } else {
-              if(this.$router.history.current.fullPath == '/myprofile'){
-                this.$router.push("/people");
+              if(userRole == 'ADMIN' && this.$router.history.current.fullPath == '/myprofile'){
+                this.$router.push("/myprofile");
+                return
               }
               this.$router.push("/people");
             }

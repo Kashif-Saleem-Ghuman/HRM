@@ -178,15 +178,15 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserList");
+    await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     this.totalUser = this.localData.length;
-    await this.$store.dispatch("users/setTeamList")
+    await this.$store.dispatch("employee/setTeamList")
   },
 
   computed: {
     ...mapGetters({
-      userList: "users/GET_USERS_LIST",
+      userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
     }),
   },
@@ -223,7 +223,7 @@ this.departmentModel = false
         }
       }
       if (event.key == "reset") {
-        this.$store.dispatch("users/setUserList");
+        this.$store.dispatch("employee/setUserList");
       }
     },
     userId(id) {

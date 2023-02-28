@@ -894,7 +894,7 @@ export default {
       countries: COUNTRIES,
       states: STATES,
       cureentState: [],
-      teamOptions: "",
+      teamOptions: '',
       emContact: false,
       // Employee profile state
       inactiveEmployeeProfile: "disabled",
@@ -984,9 +984,9 @@ export default {
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;
-        await this.$store.dispatch("users/setUser" , { id: this.$route.params.id})
+        await this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
       } else {
-        await this.$store.dispatch("users/setActiveUser")
+        await this.$store.dispatch("employee/setActiveUser")
         var users = this.getUser;
         this.id = users.id
       }
@@ -997,10 +997,10 @@ export default {
   computed: {
     ...mapGetters({
       // userList: "users/GET_USERS_LIST",
-      getUser: "users/GET_USER",
-      getDepartment: "users/GET_DEPARTMENT_LIST",
-      getReportsList: "users/GET_REPORTS_LIST",
-      getTeamList: "users/GET_TEAM_LIST",
+      getUser: "employee/GET_USER",
+      getDepartment: "department/GET_DEPARTMENT_LIST",
+      getReportsToList: "employee/GET_REPORTS_LIST",
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getAccessToken: "token/getAccessToken",
       activeTab : "token/getActiveTab"
     }),
@@ -1021,9 +1021,6 @@ export default {
       : "No";
   },
   methods: {
-    ...mapActions({
-      user: "users/setUser",
-    }),
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");
@@ -1063,12 +1060,12 @@ export default {
       await this.employeeTime(this.id)
       }
       if(tab.value == 'Employment Information'){
-        await this.$store.dispatch("users/setReportsList")
-    await this.$store.dispatch("users/setDepartmentList")
-    await this.$store.dispatch("users/setTeamList")
+        await this.$store.dispatch("employee/setReportsToList")
+    await this.$store.dispatch("department/setDepartmentList")
+    await this.$store.dispatch("teams/setTeamListOptions")
     this.departmentOptions = this.getDepartment;
-    this.usersOptions = this.getReportsList;
-    this.teamOptions = this.getTeamList;
+    this.usersOptions = this.getReportsToList;
+    this.teamOptions = this.getTeamListOptions;
       // console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
 
       }

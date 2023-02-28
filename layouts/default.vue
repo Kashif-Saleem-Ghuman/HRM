@@ -98,6 +98,9 @@ export default {
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
   },
+  created(){
+    this.$store.dispatch('token/setActiveUserRole')
+  },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",

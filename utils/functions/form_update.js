@@ -56,11 +56,17 @@ export async function vfileAdded(file, name, event) {
       });
     this.loading = false;
   }
-  export function handleInput(event, name, addresses, personalEmails) {
+  export function handleInput(event, name, addresses, ) {
     let add = {};
     this.isFlag = true;
+    if(addresses == 'team'){
+      this.updateForm.teams = this.updateForm.teams || [];
+      this.updateForm.teams.push(event);
+      return
+    }
     if (addresses == "addresses") {
       if (event == "USA") {
+       
         console.log(this.states)
         this.cureentState = this.states.filter((item, index) => {
           if (item.code == event || item.code == "all") {
@@ -99,7 +105,9 @@ export async function vfileAdded(file, name, event) {
         this.updateForm,
         "this.updateForm.addresses[0]this.updateForm.addresses[0]"
       );
-    } else {
+    } 
+    
+    else {
       this.isFlag = true;
       this.updateForm[name] = event;
       this.form[name] = event;

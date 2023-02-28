@@ -304,8 +304,8 @@ export const SELECT_OPTIONS = {
   ],
   esstatusOptions: [
     { label: "Please choose one", value: null },
-    { label: "Active", value: "Active" },
-    { label: "In Active", value: "In Active" },
+    { label: "ACTIVE", value: "ACTIVE" },
+    { label: "IN ACTIVE", value: "IN ACTIVE" },
   ],
   departmentOptions: [
     { label: "Please choose one", value: null },

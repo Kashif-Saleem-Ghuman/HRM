@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
-        title="Time and Attendance"
+        title="Time & Attendance"
         moreIcon="more"
         :avatar="userPhoto"
         headerRight="headerRight"
@@ -50,32 +50,9 @@
           ></bib-tabs>
         </div>
       </div>
-
-      <div id="directory-wrapper">
+      <div class="section-wrapper custom-input" id="attendance-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
-            <div
-              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <date-picker></date-picker>
-              </div>
-              <action-right
-                @vclick="clickAction"
-                :items="actionMenu"
-              ></action-right>
-            </div>
-            <div class="scroll_wrapper">
-              <div>
-                <list-attendance :userList="users"></list-attendance>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-wrapper custom-input" id="directory-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[1].value">
             <div
               class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
             >
@@ -114,6 +91,29 @@
           </div>
         </div>
       </div>
+      <div id="timesheet-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == peopleTabItem[1].value">
+            <div
+              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <date-picker></date-picker>
+              </div>
+              <action-right
+                @vclick="clickAction"
+                :items="actionMenu"
+              ></action-right>
+            </div>
+            <div class="scroll_wrapper">
+              <div>
+                <list-attendance :userList="users"></list-attendance>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
@@ -147,21 +147,15 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("users/setUserList");
+    await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
   },
   computed: {
     ...mapGetters({
-      userList: "users/GET_USERS_LIST",
+      userList: "employee/GET_USERS_LIST",
     }),
   },
   async mounted() {
-    // if (userRole === "USER") {
-    //   if (this.$router.history.current.fullPath == "/people") {
-    //     this.$router.push("/myprofile");
-    //     return;
-    //   }
-    // }
     this.totalUser = this.userList.length;
     console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },

@@ -32,7 +32,7 @@
             v-model="team"
             placeholder="Select your team"
             :options="teamOptions"
-            @change="$emit('input', $event, 'team')"
+            @input="$emit('input', $event, 'teams', 'team')"
             :disabled="inActive"
           ></bib-input>
         </div>

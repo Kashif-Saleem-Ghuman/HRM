@@ -32,8 +32,9 @@ export default {
     }
   },
   mounted(){
-    if (process.client) {
+    
       for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
+
         if (this.appWrapItems.navItems[i].url == this.$router.history.current.fullPath) {
           this.appWrapItems.navItems[i].selected = true;
           console.log(this.$router.history.current.fullPath, this.appWrapItems.navItems[i].url, "asldnaljskdaksdn")
@@ -42,7 +43,7 @@ export default {
         }
       } 
       localStorage.removeItem('tabSelected')   
-  }
+  
   },
   methods: {
     menuClick(event) {

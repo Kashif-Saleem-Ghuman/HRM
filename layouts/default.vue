@@ -47,7 +47,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          :userRole="userRole === 'ADMIN' ? 'userRole' : ''"
+          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''"
         ></app-menu>
       </template>
       <template #content>
@@ -93,7 +93,7 @@ export default {
       userPhoto: "",
       accountType: "",
       token: '',
-     };
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -143,17 +143,9 @@ export default {
             // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
             if (userRole === "USER") {
-              if(this.$router.history.current.fullPath == '/people'){
-                this.$router.push("/myprofile");
-                return
-              }
               this.$router.push("/myprofile");
               return
-            } else {
-              if(userRole == 'ADMIN' && this.$router.history.current.fullPath == '/myprofile'){
-                this.$router.push("/myprofile");
-                return
-              }
+            } else if(userRole === 'ADMIN') {
               this.$router.push("/people");
             }
           }

@@ -834,6 +834,7 @@
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
   </div>
+  
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -878,6 +879,7 @@ export default {
   data() {
     return {
       id: "",
+      activeRole:this.activeUserRole === 'ADMIN'? true : false,
       folderData: FOLDERS_DATA,
       filesData: FILES_DATA,
       showButton: false,
@@ -1002,13 +1004,14 @@ export default {
       getReportsToList: "employee/GET_REPORTS_LIST",
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getAccessToken: "token/getAccessToken",
-      activeTab : "token/getActiveTab"
+      activeTab : "token/getActiveTab",
+      activeUserRole : "token/getUserRole"
     }),
   },
 
   async mounted() {
     // var tabSelected = localStorage.getItem('tabSelected')
-    console.log(this.activeTab, "asjdfhakjsfhkasfhdkjshadfkjhsdkfjjk")
+    console.log(this.activeUserRole, "asjdfhakjsfhkasfhdkjshadfkjhsdkfjjk")
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"

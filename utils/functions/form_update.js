@@ -38,10 +38,11 @@ export async function updateAllData() {
   this.loading = true;
   var data = JSON.stringify(this.updateForm);
   await this.$axios
-    .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
+    .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
+
     })
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");

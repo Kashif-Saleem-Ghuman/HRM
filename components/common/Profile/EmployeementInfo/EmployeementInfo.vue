@@ -55,7 +55,7 @@
             v-model="reportsTo"
             :options="reportsToOptions"
             placeholder="Select youru Reporting Manager"
-            @change="$emit('input', $event, 'reportTo')"
+            @input="$emit('input', $event, 'reportTo')"
             :disabled="inActive"
           ></bib-input>
         </div>

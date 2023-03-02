@@ -338,7 +338,7 @@
                         variant="success"
                         v-if="emContact"
                         :scale="1"
-                        :title="form?.emergencyContacts[1]?.name != '' ? 'Edit another emergency contact' : 'Add another emergency contact'"
+                        title="Add another emergency contact"
                         titleClass="button-title"
                       ></button-green>
                     </div>

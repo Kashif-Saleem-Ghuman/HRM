@@ -338,7 +338,7 @@
                         variant="success"
                         v-if="emContact"
                         :scale="1"
-                        title="Add another emergency contact"
+                        :title="this.form.emergencyContacts.length >= 2 ? 'Edit another emergency contact' : ' Add another emergency contact'"
                         titleClass="button-title"
                       ></button-green>
                     </div>
@@ -995,6 +995,7 @@ export default {
       await this.$store.dispatch("department/setDepartmentList")
       this.departmentOptions = this.getDepartment;
       this.form = this.getUser;
+      console.log(this.form, this.form.emergencyContacts.length, "this.form.emergencyContact.length")
     }
    
   },

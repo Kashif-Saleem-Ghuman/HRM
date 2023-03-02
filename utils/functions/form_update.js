@@ -36,9 +36,9 @@ export async function updateAllData() {
     return true;
   }
   this.loading = true;
-  var data = JSON.stringify(this.updateForm);
+  // var data = JSON.stringify(this.updateForm);
   await this.$axios
-    .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
+    .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
@@ -48,12 +48,13 @@ export async function updateAllData() {
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       this.openPopupNotification(1);
-      this.form = res;
+      // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
+      this.form = res
+      console.log(res, "callled")
       this.inactive = "disabled";
       this.updateButton = "disabled";
       this.loading = false;
       this.isFlag = false;
-      this.updateForm={}
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
@@ -112,7 +113,7 @@ export function handleInput(event, name, addresses) {
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;
-    this.form[name] = event;
+    // this.form[name] = event;
     console.log(this.updateForm, "update");
   }
 }

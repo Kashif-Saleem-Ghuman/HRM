@@ -382,7 +382,7 @@ export const EMPLOYEE_PROFILE_TAB = [
   },
   {
     title: "Files",
-    value: "Files",
+    value: "files",
   },
 ];
 export const EMPLOYEE_INFO_TAB = [

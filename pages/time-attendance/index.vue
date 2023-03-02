@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper">
+  <div id="people-action-wrapper" v-if="activeUserRole === 'ADMIN'">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -117,6 +117,9 @@
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
+  <div v-else="">
+    <notfound></notfound>
+  </div>
 </template>
 <script>
 import {
@@ -147,12 +150,14 @@ export default {
     };
   },
   async created() {
+    await this.$store.dispatch("setActiveUserRole", {userRole: this.activeUserRole});
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
   },
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
+      activeUserRole : "token/getUserRole"
     }),
   },
   async mounted() {

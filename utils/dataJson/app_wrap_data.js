@@ -110,10 +110,10 @@ const data = () => {
       { label: "Compensation", icon: "add", key: "compensation", url:'/compensation', selected: false},
       { label: "Benefits", icon: "add", key: "benefits", url:"/benefits", selected: false},
       { label: "Files", icon: "add", key: "files", url:"/files", selected: false},
-      { label: "My Profile", icon: "add", key: "Employee Profile", url:"/myprofile", selected: false},
+      { label: "My Profile", icon: "add", key: "myprofile", url:"/myprofile", selected: false},
       { label: "Time & Attendance", icon: "add", key: "timeattendance", url:"/files", selected: false},
       { label: "Time-off", icon: "add", key: "time-off", url:"/files", selected: false},
-      { label: "My Files", icon: "add", key: "Files", url:"/files", selected: false},
+      { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
 
     ],
   }

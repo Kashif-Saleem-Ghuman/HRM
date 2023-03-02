@@ -245,17 +245,16 @@
                 <div class="col-6 row-custom">
                   <div>
                     <address-info
-                      :address="form.addresses[0]?.street"
-                      :address2="form.address2"
-                      :country="form.country"
+                      :address="form?.addresses[0]?.street"
+                      :address2="form?.address2"
+                      :country="form?.country"
                       :countryOptions="countries"
-                      :query="Query1"
-                      :gender="form.gender"
-                      :state="form.addresses[0]?.state"
+                      :gender="form?.gender"
+                      :state="form?.addresses[0]?.state"
                       :stateOptions="cureentState"
                       :stateVisible="stateVisible"
-                      :city="form.addresses[0]?.city"
-                      :postalCode="form.addresses[0]?.postalCode"
+                      :city="form?.addresses[0]?.city"
+                      :postalCode="form?.addresses[0]?.postalCode"
                       :inActive="inactiveAddress"
                       @input="handleInput"
                     ></address-info>
@@ -338,7 +337,7 @@
                         variant="success"
                         v-if="emContact"
                         :scale="1"
-                        :title="form.emergencyContacts[1]?.name != '' ? 'Edit another emergency contact' : 'Add another emergency contact'"
+                        :title="form?.emergencyContacts[1]?.name != '' ? 'Edit another emergency contact' : 'Add another emergency contact'"
                         titleClass="button-title"
                       ></button-green>
                     </div>
@@ -982,7 +981,6 @@ export default {
   // },
   async created() {
     // await this.users();
-    localStorage.removeItem('tabSelected')
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;

@@ -44,7 +44,7 @@
             label="Title"
             v-model="title"
             placeholder="Enter title"
-            @input="$emit('input', $event, 'title')"
+            @input="$emit('input', $event, 'jobTitle')"
             :disabled="inActive"
           ></bib-input>
         </div>

@@ -38,7 +38,7 @@ export async function updateAllData() {
   this.loading = true;
   var data = JSON.stringify(this.updateForm);
   await this.$axios
-    .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
+    .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },

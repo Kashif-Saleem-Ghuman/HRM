@@ -41,7 +41,9 @@ export async function updateAllData() {
     .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
       },
+
     })
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
@@ -51,6 +53,7 @@ export async function updateAllData() {
       this.updateButton = "disabled";
       this.loading = false;
       this.isFlag = false;
+      this.updateForm={}
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
@@ -114,28 +117,26 @@ export function handleInput(event, name, addresses) {
   }
 }
 export function handleInputObject(event, name, emContact) {
+  console.log(event, name, emContact, "callled")
   let add = {};
   this.isFlag = true;
   if (emContact == "emContact1") {
     add[name] = event;
+
     this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
+    this.updateForm.emergencyContacts[0]= {...this.form.emergencyContacts[0]}
     this.updateForm.emergencyContacts[1] = {
-      ...this.form.emergencyContacts[0],
       ...this.updateForm.emergencyContacts[1],
+      ...this.form.emergencyContacts[1],
       ...add,
     };
-    this.form.emergencyContacts[1] = {
-      ...this.updateForm.emergencyContacts[1],
-      ...add,
-    };
+    console.log(this.updateForm.emergencyContacts[1], "aslkdnalsdjlk")
   } else {
     add[name] = event;
     this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
+    this.updateForm.emergencyContacts[1]= {...this.form.emergencyContacts[1]}
     this.updateForm.emergencyContacts[0] = {
-      ...this.updateForm.emergencyContacts[0],
-      ...add,
-    };
-    this.form.emergencyContacts[0] = {
+      ...this.form.emergencyContacts[1],
       ...this.updateForm.emergencyContacts[0],
       ...add,
     };

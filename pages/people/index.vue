@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper" v-if="userRole === 'ADMIN'">
+  <div id="people-action-wrapper" v-if="activeUserRole === 'ADMIN'">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -175,13 +175,13 @@ export default {
       orderBy: "asc",
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
-      userRole: "",
       departmentModel: false,
       accessOptions: ACCESS_ITEMS
     };
   },
   async created() {
-    this.userRole = localStorage.getItem("userRole");
+    await this.$store.dispatch("setActiveUserRole", {userRole: this.activeUserRole});
+    console.log(this.userRole, "this.userRolethis.userRolethis.userRole")
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     this.totalUser = this.localData.length;
@@ -192,6 +192,7 @@ export default {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
+      activeUserRole : "token/getUserRole"
     }),
   },
  

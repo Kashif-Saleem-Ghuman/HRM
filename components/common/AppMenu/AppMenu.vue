@@ -10,8 +10,8 @@
   </div>
   <div v-else="">
    <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event)"></bib-app-navigation>
-   <!-- <div class="mt-05 mb-05" :class="seprator" style="height: 1px;"></div>
-    <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
+   <div class="mt-05 mb-05" :class="seprator" style="height: 1px;"></div>
+    <!-- <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div> -->
     <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
@@ -78,20 +78,23 @@ export default {
      this.$router.push('/people')
       return;
     }
-    if (event.key == "timesheets") {
-     this.$router.push('/timesheets')
+    if (event.key == "time-attendance") {
+     this.$router.push('/time-attendance')
       return;
     }
-    if (event.key == "timesheets") {
-     this.$router.push('/timesheets')
+    if (event.key == "timeattendance") {
+      this.$store.dispatch("token/setActiveTab", event.key)
+     this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "timetracker") {
-     this.$router.push('/timetracker')
+    if (event.key == "time-off") {
+      this.$store.dispatch("token/setActiveTab", event.key)
+     this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "absense") {
-     this.$router.push('/absense')
+    if (event.key == "files") {
+      this.$store.dispatch("token/setActiveTab", event.key)
+     this.$router.push('/myprofile')
       return;
     }
     if (event.key == "performance") {
@@ -100,10 +103,6 @@ export default {
     }
     if (event.key == "compensation") {
      this.$router.push('/compensation')
-      return;
-    }
-    if (event.key == "files") {
-     this.$router.push('/files')
       return;
     }
   }

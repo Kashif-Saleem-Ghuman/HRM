@@ -57,6 +57,7 @@
                         :midname="form.middleName"
                         :lastname="form.lastName"
                         :department="form.department"
+                        :departmentOptions="departmentOptions"
                         :title="form.jobTitle"
                         :employeeStatus="form.status"
                         :inActive="inactiveEmployeeProfile"
@@ -991,6 +992,8 @@ export default {
         var users = this.getUser;
         this.id = users.id
       }
+      await this.$store.dispatch("department/setDepartmentList")
+      this.departmentOptions = this.getDepartment;
       this.form = this.getUser;
     }
    
@@ -1063,9 +1066,7 @@ export default {
       }
       if(tab.value == 'Employment Information'){
         await this.$store.dispatch("employee/setReportsToList")
-    await this.$store.dispatch("department/setDepartmentList")
     await this.$store.dispatch("teams/setTeamListOptions")
-    this.departmentOptions = this.getDepartment;
     this.usersOptions = this.getReportsToList;
     this.teamOptions = this.getTeamListOptions;
       // console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")

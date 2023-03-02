@@ -981,6 +981,7 @@ export default {
   // },
   async created() {
     // await this.users();
+    this.$store.dispatch("token/setActiveTab", "Employee Profile")
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;

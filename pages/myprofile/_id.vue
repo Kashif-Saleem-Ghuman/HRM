@@ -245,7 +245,7 @@
                 </div>
                 <div class="col-6 row-custom">
                   <div>
-                    <!-- <address-info
+                    <address-info
                       :address="form?.addresses[0]?.street"
                       :address2="form?.address2"
                       :country="form?.country"
@@ -258,7 +258,7 @@
                       :postalCode="form?.addresses[0]?.postalCode"
                       :inActive="inactiveAddress"
                       @input="handleInput"
-                    ></address-info> -->
+                    ></address-info>
                   </div>
                   <!-- <bib-button
                   label="asdhgajsdgbjashgdhjsa"
@@ -298,7 +298,7 @@
                 </div>
                 <div class="col-6 row-custom">
                   <div>
-                    <!-- <emergency-contact
+                    <emergency-contact
                       :fullName="form.emergencyContacts[0]?.name"
                       :releationships="form.emergencyContacts[0]?.relationship"
                       :telephone="form.emergencyContacts[0]?.phone"
@@ -306,12 +306,12 @@
                       :inActive="inactiveEmergencyContact"
                       emContact="emContact"
                       @input="handleInputObject"
-                    ></emergency-contact> -->
+                    ></emergency-contact>
                   </div>
                 </div>
                 <div class="col-6 row-custom" v-if="showEmergencyContact">
                   <div>
-                    <!-- <emergency-contact
+                    <emergency-contact
                       :fullName="form.emergencyContacts[1]?.name"
                       :releationships="form.emergencyContacts[1]?.relationship"
                       :telephone="form.emergencyContacts[1]?.phone"
@@ -319,7 +319,7 @@
                       :inActive="inactiveEmergencyContact"
                       @input="handleInputObject"
                       emContact="emContact1"
-                    ></emergency-contact> -->
+                    ></emergency-contact>
                   </div>
                 </div>
                 <div class="row mx-0 pt-1">
@@ -981,23 +981,21 @@ export default {
   //   }
   // },
   async created() {
-  console.log("route Param")
-
     // await this.users();
-    // this.$store.dispatch("token/setActiveTab", "Employee Profile")
-    //   if (this.$route.params.id) {
-    //     this.id = this.$route.params.id;
-    //     await this.$store.dispatch("employee/setUser", this.id)
-    //   } else {
-    //     await this.$store.dispatch("employee/setActiveUser")
-    //     var users = this.getUser;
-    //     this.id = users.id
-    //     console.log(users.id, "Users")
-    //   }
-    //   console.log(this.$route.params.id, "route Param")
-    //   await this.$store.dispatch("department/setDepartmentList")
-    //   this.departmentOptions = this.getDepartment;
-    //   this.form = this.getUser;
+    this.$store.dispatch("token/setActiveTab", "Employee Profile")
+      if (this.$route.params.id) {
+        this.id = this.$route.params.id;
+        await this.$store.dispatch("employee/setUser", this.id)
+      } else {
+        await this.$store.dispatch("employee/setActiveUser")
+        var users = this.getUser;
+        this.id = users.id
+        console.log(users.id, "Users")
+      }
+      console.log(this.$route.params.id, "route Param")
+      await this.$store.dispatch("department/setDepartmentList")
+      this.departmentOptions = this.getDepartment;
+      this.form = this.getUser;
     
    
   },

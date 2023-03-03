@@ -153,6 +153,10 @@ export default {
                 this.$router.push("/dashboard");
                 return
               }
+              if(pagePath === 'myprofile'){
+                this.$router.push("/myprofile");
+                return
+              }
               // else(this.$router.push("/people"));
             }
           }

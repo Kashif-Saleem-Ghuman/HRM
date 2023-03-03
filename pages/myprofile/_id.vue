@@ -980,25 +980,27 @@ export default {
   //     localStorage.getItem('tabSelected') === null ? 'Employee Profile' : localStorage.getItem('tabSelected')
   //   }
   // },
-  // async created() {
-  //   // await this.users();
-  //   this.$store.dispatch("token/setActiveTab", "Employee Profile")
-  //     if (this.$route.params.id) {
-  //       this.id = this.$route.params.id;
-  //       await this.$store.dispatch("employee/setUser", this.id)
-  //     } else {
-  //       await this.$store.dispatch("employee/setActiveUser")
-  //       var users = this.getUser;
-  //       this.id = users.id
-  //       console.log(users.id, "Users")
-  //     }
-  //     console.log(this.$route.params.id, "route Param")
-  //     await this.$store.dispatch("department/setDepartmentList")
-  //     this.departmentOptions = this.getDepartment;
-  //     this.form = this.getUser;
+  async created() {
+  console.log("route Param")
+
+    // await this.users();
+    // this.$store.dispatch("token/setActiveTab", "Employee Profile")
+    //   if (this.$route.params.id) {
+    //     this.id = this.$route.params.id;
+    //     await this.$store.dispatch("employee/setUser", this.id)
+    //   } else {
+    //     await this.$store.dispatch("employee/setActiveUser")
+    //     var users = this.getUser;
+    //     this.id = users.id
+    //     console.log(users.id, "Users")
+    //   }
+    //   console.log(this.$route.params.id, "route Param")
+    //   await this.$store.dispatch("department/setDepartmentList")
+    //   this.departmentOptions = this.getDepartment;
+    //   this.form = this.getUser;
     
    
-  // },
+  },
   computed: {
     ...mapGetters({
       // userList: "users/GET_USERS_LIST",

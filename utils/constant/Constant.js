@@ -290,7 +290,6 @@ export const TABLE_SECTIONS = [
 ];
 export const SELECT_OPTIONS = {
   maritalStatusOptions: [
-    { label: "Please choose one", value: null },
     { label: "Single", value: "single" },
     { label: "Married", value: "married" },
     { label: "Separated", value: "separated" },

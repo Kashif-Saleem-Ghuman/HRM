@@ -101,7 +101,7 @@ export const actions = {
   async setUser(ctx, payload) {
     try {
       const user = await this.$axios.$get(
-        `${process.env.API_URL}/employees/${payload.id}`,
+        `${process.env.API_URL}/employees/${payload}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -180,8 +180,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("setActiveUserRole", {userRole: this.activeUserRole});
-    console.log(this.userRole, "this.userRolethis.userRolethis.userRole")
+    // await this.$store.dispatch("setActiveUserRole");
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     this.totalUser = this.localData.length;
@@ -195,7 +194,10 @@ export default {
       activeUserRole : "token/getUserRole"
     }),
   },
- 
+ mounted(){
+  console.log(this.activeUserRole, "askdnakjsdkjasdkjaskdj")
+
+ },
   
   methods: {
     close(){

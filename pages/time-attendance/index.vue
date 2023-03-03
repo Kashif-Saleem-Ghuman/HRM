@@ -168,6 +168,9 @@ export default {
     handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
+    userId(id) {
+      this.$router.push("/myprofile/" + id);
+    },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
       console.log("selected date:", date);

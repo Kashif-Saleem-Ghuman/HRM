@@ -991,6 +991,7 @@ export default {
         await this.$store.dispatch("employee/setActiveUser")
         var users = this.getUser;
         this.id = users.id
+        console.log(users.id, "Users")
       }
       await this.$store.dispatch("department/setDepartmentList")
       this.departmentOptions = this.getDepartment;
@@ -1013,6 +1014,7 @@ export default {
 
   async mounted() {
     // var tabSelected = localStorage.getItem('tabSelected')
+    await setActiveUser();
     console.log(this.activeUserRole, "asjdfhakjsfhkasfhdkjshadfkjhsdkfjjk")
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
@@ -1026,6 +1028,9 @@ export default {
       : "No";
   },
   methods: {
+    ...mapActions({
+      setActiveUser: "users/setActiveUser",
+    }),
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");

@@ -986,7 +986,7 @@ export default {
     if (process.env) {
       if (this.$route.params.id) {
         this.id = this.$route.params.id;
-        await this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
+        await this.$store.dispatch("employee/setUser", this.id)
       } else {
         await this.$store.dispatch("employee/setActiveUser")
         var users = this.getUser;
@@ -995,7 +995,6 @@ export default {
       await this.$store.dispatch("department/setDepartmentList")
       this.departmentOptions = this.getDepartment;
       this.form = this.getUser;
-      console.log(this.form, this.form.emergencyContacts.length, "this.form.emergencyContact.length")
     }
    
   },
@@ -1062,9 +1061,9 @@ export default {
     async handleChange_Tabs(tab) {
       // this.activeTab = tab.value;
       this.$store.dispatch("token/setActiveTab", tab.value)
-      if(tab.value == 'Time & Attendance'){
-      await this.employeeTime(this.id)
-      }
+      // if(tab.value == 'Time & Attendance'){
+      // await this.employeeTime(this.id)
+      // }
       if(tab.value == 'Employment Information'){
         await this.$store.dispatch("employee/setReportsToList")
     await this.$store.dispatch("teams/setTeamListOptions")

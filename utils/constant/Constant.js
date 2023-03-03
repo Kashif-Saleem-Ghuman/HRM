@@ -291,19 +291,17 @@ export const TABLE_SECTIONS = [
 export const SELECT_OPTIONS = {
   maritalStatusOptions: [
     { label: "Please choose one", value: null },
-    { label: "single", value: "single" },
-    { label: "married", value: "married" },
-    { label: "separated", value: "separated" },
-    { label: "widowed", value: "widowed" },
-    { label: "divorced", value: "divorced" },
+    { label: "Single", value: "single" },
+    { label: "Married", value: "married" },
+    { label: "Separated", value: "separated" },
+    { label: "Widowed", value: "widowed" },
+    { label: "Divorced", value: "divorced" },
   ],
   genderOptions: [
-    { label: "Please choose one", value: null },
-    { label: "male", value: "male" },
-    { label: "female", value: "female" },
+    { "label":"Male","value": "male" },
+    { "label": "Female","value": "female" },
   ],
   esstatusOptions: [
-    { label: "Please choose one", value: null },
     { label: "ACTIVE", value: "ACTIVE" },
     { label: "IN ACTIVE", value: "IN ACTIVE" },
   ],

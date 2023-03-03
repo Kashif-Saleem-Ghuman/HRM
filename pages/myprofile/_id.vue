@@ -981,25 +981,23 @@ export default {
   //   }
   // },
   async created() {
+  console.log("route Param")
+
     // await this.users();
-    this.$store.dispatch("token/setActiveTab", "Employee Profile")
-      if (this.$route.params.id) {
-        this.id = this.$route.params.id;
-        await this.$store.dispatch("employee/setUser", this.id)
-      } else {
-        await this.$store.dispatch("employee/setActiveUser")
-        var users = this.getUser;
-        this.id = users.id
-        console.log(users.id, "Users")
-      }
-      console.log(this.$route.params.id, "route Param")
-      await this.$store.dispatch("employee/setActiveUser")
-        var users = this.getUser;
-        this.id = users.id
-        console.log(users.id, "Users")
-      await this.$store.dispatch("department/setDepartmentList")
-      this.departmentOptions = this.getDepartment;
-      this.form = this.getUser;
+    // this.$store.dispatch("token/setActiveTab", "Employee Profile")
+    //   if (this.$route.params.id) {
+    //     this.id = this.$route.params.id;
+    //     await this.$store.dispatch("employee/setUser", this.id)
+    //   } else {
+    //     await this.$store.dispatch("employee/setActiveUser")
+    //     var users = this.getUser;
+    //     this.id = users.id
+    //     console.log(users.id, "Users")
+    //   }
+    //   console.log(this.$route.params.id, "route Param")
+    //   await this.$store.dispatch("department/setDepartmentList")
+    //   this.departmentOptions = this.getDepartment;
+    //   this.form = this.getUser;
     
    
   },
@@ -1018,7 +1016,7 @@ export default {
 
   async mounted() {
     // var tabSelected = localStorage.getItem('tabSelected')
-    console.log(this.activeUserRole, "asjdfhakjsfhkasfhdkjshadfkjhsdkfjjk")
+    console.log("asjdfhakjsfhkasfhdkjshadaskjdashkdjhaksjdhkashdkjhkfkjhsdkfjjk")
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"

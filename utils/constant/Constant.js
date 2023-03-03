@@ -297,8 +297,8 @@ export const SELECT_OPTIONS = {
     { label: "Divorced", value: "divorced" },
   ],
   genderOptions: [
-    { "label":"Male","value": "123" },
-    { "label": "Female","value": "321" },
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
   ],
   esstatusOptions: [
     { label: "ACTIVE", value: "ACTIVE" },
@@ -1030,4 +1030,3 @@ export const ACCESS_ITEMS = [
     value: "User",
   },
 ];
-

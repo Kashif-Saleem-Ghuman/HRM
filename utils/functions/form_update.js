@@ -41,7 +41,7 @@ export async function updateAllData() {
     .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
 
     })
@@ -55,6 +55,7 @@ export async function updateAllData() {
       this.updateButton = "disabled";
       this.loading = false;
       this.isFlag = false;
+      this.updateForm={}
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);

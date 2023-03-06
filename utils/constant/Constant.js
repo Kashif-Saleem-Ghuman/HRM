@@ -371,7 +371,7 @@ export const EMPLOYEE_PROFILE_TAB = [
   },
   {
     title: "Benefits",
-    value: "Benefits",
+    value: "benefits",
   },
   {
     title: "Time-off",

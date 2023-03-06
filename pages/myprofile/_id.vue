@@ -967,6 +967,8 @@ export default {
 
       inactiveCommon: "disabled",
       form: {},
+      benefits:{},
+      timeoff:{},
       time: {},
       teamOption: "",
       formOptions: {},
@@ -987,8 +989,10 @@ export default {
         this.id = users.id
       }
       await this.$store.dispatch("department/setDepartmentList")
+
       this.departmentOptions = this.getDepartment;
       this.form = this.getUser;
+      
     
    
   },
@@ -1000,7 +1004,9 @@ export default {
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getAccessToken: "token/getAccessToken",
       activeTab : "token/getActiveTab",
-      activeUserRole : "token/getUserRole"
+      activeUserRole : "token/getUserRole",
+      getTimeOff:'timeoff/GET_TIMEOFF_LIST',
+      getBenefits:'timeoff/GET_BENEFITS_LIST',
     }),
   },
 
@@ -1053,16 +1059,22 @@ export default {
     async handleChange_Tabs(tab) {
       // this.activeTab = tab.value;
       this.$store.dispatch("token/setActiveTab", tab.value)
-      // if(tab.value == 'Time & Attendance'){
-      // await this.employeeTime(this.id)
-      // }
+      if(tab.value == 'time-off'){
+        await this.$store.dispatch("timeoff/gettimeOff", {id: this.id})
+        this.timeoff = this.getTimeOff;
+        console.log(this.timeoff, "sadnflkasfjahfkjhskjka")
+      }
+      if(tab.value == 'benefits'){
+        alert("called")
+       await  this.$store.dispatch("benefits/getBenefits", {id: this.id})
+        this.benefits = this.getBenefits;
+        console.log(this.benefits, "sadnflkasfjahfkjhskjka")
+      }
       if(tab.value == 'Employment Information'){
         await this.$store.dispatch("employee/setReportsToList")
     await this.$store.dispatch("teams/setTeamListOptions")
     this.usersOptions = this.getReportsToList;
     this.teamOptions = this.getTeamListOptions;
-      // console.log(this.time.businessId, "employeeTimeemployeeTimeemployeeTimeemployeeTime")
-
       }
     },
   },

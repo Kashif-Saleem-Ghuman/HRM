@@ -972,14 +972,9 @@ export default {
       formOptions: {},
       updateForm: {},
       isFlag: false,
-      // activeTab:  localStorage.getItem('tabSelected') === null ? 'Employee Profile' : localStorage.getItem('tabSelected')
     };
   },
-  // watch:{
-  //   activeTab(){
-  //     localStorage.getItem('tabSelected') === null ? 'Employee Profile' : localStorage.getItem('tabSelected')
-  //   }
-  // },
+  
   async created() {
     // await this.users();
     this.$store.dispatch("token/setActiveTab", "Employee Profile")
@@ -990,9 +985,7 @@ export default {
         await this.$store.dispatch("employee/setActiveUser")
         var users = this.getUser;
         this.id = users.id
-        console.log(users.id, "Users")
       }
-      console.log(this.$route.params.id, "route Param")
       await this.$store.dispatch("department/setDepartmentList")
       this.departmentOptions = this.getDepartment;
       this.form = this.getUser;
@@ -1001,7 +994,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // userList: "users/GET_USERS_LIST",
       getUser: "employee/GET_USER",
       getDepartment: "department/GET_DEPARTMENT_LIST",
       getReportsToList: "employee/GET_REPORTS_LIST",
@@ -1013,8 +1005,6 @@ export default {
   },
 
   async mounted() {
-    // var tabSelected = localStorage.getItem('tabSelected')
-    console.log("asjdfhakjsfhkasfhdkjshadaskjdashkdjhaksjdhkashdkjhkfkjhsdkfjjk")
     this.formOptions = SELECT_OPTIONS;
     this.switchLabelOrgSettings = this.form.useOrganizationSettings != null
       ? "Yes"

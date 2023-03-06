@@ -297,8 +297,16 @@ export const SELECT_OPTIONS = {
     { label: "Divorced", value: "divorced" },
   ],
   genderOptions: [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    {
+      label: "Male",
+      value: "male",
+    },
+    {
+      label: "Female",
+      value: "female",
+    },
+    // { label: "Male", value: "male" },
+    // { label: "Female", value: "female" },
   ],
   esstatusOptions: [
     { label: "ACTIVE", value: "ACTIVE" },

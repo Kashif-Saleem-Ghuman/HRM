@@ -18,7 +18,7 @@ export const actions = {
   async addtimeOff(ctx, payload) {
     try {
       const timeOff = await this.$axios.$post(
-        `${process.env.API_URL}/${payload.id}/time-off`,
+        `${process.env.API_URL}/employees/${payload.id}/time-off`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -35,8 +35,8 @@ export const actions = {
   },
   async gettimeOff(ctx, payload) {
     try {
-      const timeOff = await this.$axios.$post(
-        `${process.env.API_URL}/${payload.id}/time-off`,
+      const timeOff = await this.$axios.$get(
+        `${process.env.API_URL}/employees/${payload.id}/time-off`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

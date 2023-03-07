@@ -5,8 +5,8 @@
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px;"></div>
     <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-    <!-- <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
-   <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div> -->
+    <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
+   <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
   </div>
   <div v-else="">
    <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event)"></bib-app-navigation>

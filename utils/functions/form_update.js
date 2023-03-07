@@ -72,11 +72,10 @@ export function handleInput(event, name, addresses) {
     console.log(event, name, "calllled");
     return;
   }
-  if (addresses == "addresses") {
+  if (addresses === "addresses") {
     if (event == "USA") {
-      console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
-        if (item.code == event || item.code == "all") {
+        if (item.code == event) {
           this.stateVisible = true;
           this.isFlag = true;
           return item;
@@ -86,7 +85,7 @@ export function handleInput(event, name, addresses) {
     if (event == "Canada") {
       console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
-        if (item.code == event || item.code == "all") {
+        if (item.code == event) {
           this.stateVisible = true;
           this.isFlag = true;
           return item;
@@ -94,23 +93,16 @@ export function handleInput(event, name, addresses) {
       });
     }
     if (event == "Other") {
-      this.updateForm.addresses[0]["state"] = "";
+      // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
     }
     add[name] = event;
-    this.form.addresses[0] = {
-      ...this.form.addresses[0],
-      ...add,
-    };
     this.updateForm.addresses = this.updateForm.addresses || [];
     this.updateForm.addresses[0] = {
       ...this.updateForm.addresses[0],
       ...add,
     };
-    console.log(
-      this.updateForm,
-      "this.updateForm.addresses[0]this.updateForm.addresses[0]"
-    );
+   
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;

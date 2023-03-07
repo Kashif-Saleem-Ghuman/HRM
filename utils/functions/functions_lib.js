@@ -20,7 +20,6 @@ import {
 } from "../functions/form_update.js";
 import {
   employeeTime,
-  updateEmployeeTime
 } from "./profile/timeapi.js";
 export {
   headerHelpClick,
@@ -38,5 +37,5 @@ export {
   handleInput,
   handleInputObject,
   employeeTime,
-  updateEmployeeTime
+  
 };

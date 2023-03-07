@@ -9,6 +9,7 @@ export default {
     }),
   },
   mounted() {
+    this.$router.push("/myprofile");
     // var userRole = localStorage.getItem("userRole");
     // if (this.userRole === "USER") {
     //           if(this.$router.history.current.fullPath === '/people'){

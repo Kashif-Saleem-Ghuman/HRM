@@ -619,7 +619,7 @@
                           label="Save"
                           size="lg"
                           variant="success"
-                          @click="updateAllData()"
+                          @click="updateBenefitsData()"
                           v-if="benefitsPackageUpdateButton"
                         ></bib-button>
                       </div>
@@ -647,9 +647,9 @@
                   </div>
                   <div class="col-6 row-custom">
                     <benefits
-                      :effectiveDate="form.effectiveDate"
-                      :benefitsPlanName="form.benefitsPlanName"
-                      :benefitsPlanURL="form.benefitsPlanURL"
+                      :effectiveDate="benefits.effectiveDate"
+                      :benefitsPlanName="benefits.name"
+                      :benefitsPlanURL="benefits.url"
                       :inActive="inActiveBenefits"
                       @input="handleInput"
                     ></benefits>
@@ -659,7 +659,7 @@
                           label="Save"
                           size="lg"
                           variant="success"
-                          @click="updateAllData()"
+                          @click="updateBenefitsData()"
                           v-if="benefitsUpdateButton"
                         ></bib-button>
                       </div>
@@ -780,7 +780,7 @@
           </div>
         </div>
         <div id="files-wrapper">
-          <div v-if="activeTab == personalTabItem[9].value">
+          <div v-if="activeTab == personalTabItem[8].value">
             <!-- Benefits info Wrppaer Start Here  -->
             <div id="folder-info-wrapper" class="scroll_wrapper">
               <div class="nav_wrapper bottom_border_wrapper">
@@ -843,6 +843,8 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
+
 import {
   EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
@@ -859,6 +861,7 @@ import {
   handleInput,
   handleInputObject,
   employeeTime,
+  updateBenefitsData,
 } from "../../utils/functions/functions_lib.js";
 import {
   updatePersonalInformation,
@@ -1018,7 +1021,6 @@ export default {
       activeTab: "token/getActiveTab",
       activeUserRole: "token/getUserRole",
       getTimeOff: "timeoff/GET_TIMEOFF_LIST",
-      getBenefits: "timeoff/GET_BENEFITS_LIST",
     }),
   },
 
@@ -1062,6 +1064,7 @@ export default {
     updateTimeAttendance,
     updateEmergencyContact,
     employeeTime,
+    updateBenefitsData,
     sortBy() {
       alert("called");
     },
@@ -1074,10 +1077,19 @@ export default {
         console.log(this.timeoff, "sadnflkasfjahfkjhskjka");
       }
       if (tab.value == "benefits") {
-        alert("called");
-        await this.$store.dispatch("benefits/getBenefits", { id: this.id });
-        this.benefits = this.getBenefits;
-        console.log(this.benefits, "sadnflkasfjahfkjhskjka");
+        try {
+          const benefits = await axios.get(
+            process.env.API_URL + "/employees/" + this.id + "/benefits",
+            {
+              headers: {
+                Authorization: "Bearer " + this.getAccessToken,
+              },
+            }
+          );
+          this.benefits = benefits.data;
+        } catch (e) {
+          alert(e);
+        }
       }
       if (tab.value == "Employment Information") {
         await this.$store.dispatch("employee/setReportsToList");

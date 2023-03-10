@@ -21,6 +21,9 @@ import {
 import {
   employeeTime,
 } from "./profile/timeapi.js";
+import {
+  updateBenefitsData
+} from "./profile/benefits.js";
 export {
   headerHelpClick,
   headerActionCall,
@@ -37,5 +40,5 @@ export {
   handleInput,
   handleInputObject,
   employeeTime,
-  
+  updateBenefitsData
 };

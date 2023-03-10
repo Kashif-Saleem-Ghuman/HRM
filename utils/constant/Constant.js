@@ -366,8 +366,8 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "Employment Information",
   },
   {
-    title: "Compensation",
-    value: "Compensation",
+    title: "Pay",
+    value: "Pay",
   },
   {
     title: "Benefits",
@@ -380,10 +380,6 @@ export const EMPLOYEE_PROFILE_TAB = [
   {
     title: "Time & Attendance",
     value: "timeattendance",
-  },
-  {
-    title: "Performance",
-    value: "Performance",
   },
   {
     title: "Files",

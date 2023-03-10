@@ -8,6 +8,7 @@
           v-model="address"
           placeholder="Enter your address"
           :disabled="inActive"
+          indicator
           @input="$emit('input', $event, 'street', 'addresses')"
         ></bib-input>
       </div>

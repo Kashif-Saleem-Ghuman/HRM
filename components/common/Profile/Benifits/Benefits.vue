@@ -20,7 +20,7 @@
             label="Benefits plan name"
             v-model="benefitsPlanName"
             placeholder="Please enter benefits plan name"
-            @input="$emit('input', $event, 'benefitsPlanName')"
+            @input="$emit('input', $event, 'name')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -32,7 +32,7 @@
             label="Benefits plan URL"
             v-model="benefitsPlanURL"
             placeholder="Enter benefits plan URL"
-            @input="$emit('input', $event, 'benefitsPlanURL')"
+            @input="$emit('input', $event, 'url')"
             :disabled="inActive"
           ></bib-input>
         </div>

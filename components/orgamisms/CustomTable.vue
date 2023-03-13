@@ -18,6 +18,7 @@
             <bib-checkbox  size="md" style="margin: 0; padding: 0px; margin-top: 10px;"></bib-checkbox>
           </div>
         </th>
+       
         <th
           v-for="(field, key) in fields.slice(1)"
           @click="clickColumnHeader($event, key)"
@@ -53,7 +54,11 @@
             </template>
           </div>
         </th>
-        
+        <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
+          <div class="d-flex  align-center">
+            <bib-icon icon="trash" :scale="1.1"></bib-icon>
+          </div>
+        </th>
       </tr>
     </template>
     <tr :style="{ width: '0rem' }" v-if="collapseObj">
@@ -101,7 +106,13 @@
             </slot>
           </div>
         </td>
-        
+        <td v-if="$scopedSlots.cell_action_right" style="width: 50px">
+          <slot
+            name="cell_action_right"
+            v-bind:keyI="keyI"
+            v-bind:value="sections[keyI]"
+          ></slot>
+        </td>
       </tr>
     </template>
   </table>

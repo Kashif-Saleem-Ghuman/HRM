@@ -132,7 +132,6 @@
             data.value.total === null ? "..." : data.value.total
           }}</span>
         </template>
-        
       </custom-table>
       <div class="bg-white w-100 p-025 border-bottom-gray4 border-top-white">
         <!-- <div

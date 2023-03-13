@@ -74,7 +74,7 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData"></list>
+                <list :userList="localData.slice(0,5)"></list>
               </div>
             </div>
           </div>

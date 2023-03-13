@@ -6,6 +6,9 @@
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
   >
+    <template #cell_action="data">
+      <bib-checkbox size="md"></bib-checkbox>
+    </template>
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
@@ -59,13 +62,11 @@
         ></chips>
       </div>
     </template>
-
     <template #cell(department)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.department }}</span>
       </div>
     </template>
-
     <template #cell(team)="data">
       <div class="d-flex text-dark">
         <div v-for="teams in data.value.teams.slice(0, 1)" class="mr-05">
@@ -77,6 +78,9 @@
             : "+" + "" + data.value.teams.length
         }}
       </div>
+    </template>
+    <template #cell_action_right="data">
+      <bib-icon icon="trash" :scale="1.1"></bib-icon>
     </template>
   </custom-table>
 </template>

@@ -18,14 +18,12 @@
           label: tableData.title,
           variant: 'black',
         }"
-                  checkBox="checkBox"
-
         @item-clicked="handleTaskItemClick"
         hide-no-column
         :headless="sec_index > 0"
         class="bg-white border-top-gray4"
       >
-      <template #cell(check)="data">
+        <template #cell(check)="data">
           <div class="d-flex gap-05 align-center">
             <bib-icon
               icon="check-circle"
@@ -63,8 +61,7 @@
           </div>
         </template>
         <template #cell_action="data">
-          <bib-checkbox  size="md"></bib-checkbox>
-
+          <bib-checkbox size="md"></bib-checkbox>
         </template>
         <template #cell(name)="data">
           <div class="d-flex gap-05 align-center">
@@ -135,6 +132,7 @@
             data.value.total === null ? "..." : data.value.total
           }}</span>
         </template>
+        
       </custom-table>
       <div class="bg-white w-100 p-025 border-bottom-gray4 border-top-white">
         <!-- <div
@@ -143,7 +141,6 @@
         > -->
         <div
           class="d-flex align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded w-fit gap-05"
-          
         >
           <bib-icon
             icon="add"
@@ -186,7 +183,7 @@ export default {
           key: "",
           label: "#",
         },
-        
+
         {
           key: "name",
           label: "Name",
@@ -395,8 +392,6 @@ export default {
 
 <style lang="scss">
 .time-wrapper {
-
-
 }
 .info_wrapper {
   color: $black;

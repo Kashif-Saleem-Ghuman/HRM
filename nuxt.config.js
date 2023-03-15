@@ -34,6 +34,7 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/dotenv",
     "@nuxtjs/style-resources",
+    "dayjs",
   ],
   axios: {
     // proxy: true,

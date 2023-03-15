@@ -96,6 +96,17 @@ export const TABLE_HEAD = {
       label: "Status",
     },
   ],
+  tHeadDepartment: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Department Name",
+    },
+    
+  ],
 };
 
 export const TABLE_FIELDS_TIME_ATTENDANCE = [

@@ -109,7 +109,8 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <card :items="departmentItems"></card>
+                <list-department :tableFields="tableFields" :userList="departmentOptions.slice(0,5)"></list-department>
+                <!-- <card :items="departmentItems"></card> -->
                 <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department>
               </div>
             </div>
@@ -134,8 +135,9 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <card :items="departmentItems"></card>
-                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department>
+                <list-department :tableFields="tableFields" :userList="teamOptions.slice(0,5)"></list-department>
+                <!-- <card :items="departmentItems"></card> -->
+                <!-- <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department> -->
               </div>
             </div>
           </div>
@@ -151,7 +153,8 @@ import {
   MORE_MENU,
   SORTING_MENU,
   DEPARTMENT_ITEMS,
-  ACCESS_ITEMS
+  ACCESS_ITEMS,
+  TABLE_HEAD
 } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 
@@ -159,6 +162,7 @@ export default {
   data() {
     return {
       openSidebar: false,
+      tableFields: TABLE_HEAD.tHeadDepartment,
       peopleTabItem: PEOPLE_TAB,
       currentPage: 1,
       activeTab: "Directory",
@@ -173,7 +177,9 @@ export default {
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
       departmentModel: false,
-      accessOptions: ACCESS_ITEMS
+      accessOptions: ACCESS_ITEMS,
+      teamOptions: "",
+      departmentOptions: "",
     };
   },
   async created() {
@@ -188,7 +194,10 @@ export default {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
-      activeUserRole : "token/getUserRole"
+      activeUserRole : "token/getUserRole",
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+      getDepartment: "department/GET_DEPARTMENT_LIST",
+
     }),
   },
  mounted(){
@@ -201,8 +210,16 @@ export default {
     alert("sadjlaksjdlasldkjlasjdl")
 this.departmentModel = false
   },
-    handleChange_Tabs(tab) {
+    async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
+      if (tab.value == "Departments") {
+        await this.$store.dispatch("department/setDepartmentList");
+        this.departmentOptions = this.getDepartment;
+      }
+      if (tab.value == "Teams") {
+        await this.$store.dispatch("teams/setTeamListOptions");
+        this.teamOptions = this.getTeamListOptions;
+      }
     },
     clickAction(event) {
       if (event.key == "name") {

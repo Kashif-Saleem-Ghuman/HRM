@@ -647,7 +647,7 @@
                   </div>
                   <div class="col-6 row-custom">
                     <benefits
-                      :effectiveDate="benefits.effectiveDate"
+                      :effectiveDate="benefitsEffectiveDate"
                       :benefitsPlanName="benefits.name"
                       :benefitsPlanURL="benefits.url"
                       :inActive="inActiveBenefits"
@@ -844,7 +844,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
-
+import dayjs from "dayjs";
 import {
   EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
@@ -975,6 +975,7 @@ export default {
       inactiveCommon: "disabled",
       form: {},
       benefits: {},
+      benefitsEffectiveDate: "",
       timeoff: {},
       time: {},
       teamOption: "",
@@ -1086,6 +1087,10 @@ export default {
               },
             }
           );
+          var dateFormat = dayjs(benefits.data.effectiveDate).format(
+            "YYYY-MM-DD"
+          );
+          this.benefitsEffectiveDate = dateFormat;
           this.benefits = benefits.data;
         } catch (e) {
           alert(e);

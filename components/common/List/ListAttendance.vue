@@ -166,7 +166,6 @@ export default {
     },
 
     handleAction_Table(data) {
-      console.log(data);
     },
   },
 };

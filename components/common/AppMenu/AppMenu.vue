@@ -44,7 +44,6 @@ export default {
       for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
         if (this.appWrapItems.navItems[i].url == this.$router.history.current.fullPath) {
           this.appWrapItems.navItems[i].selected = true;
-          console.log(this.$router.history.current.fullPath, this.appWrapItems.navItems[i].url, "asldnaljskdaksdn")
         } else {
           this.appWrapItems.navItems[i].selected = false;
         }

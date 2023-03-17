@@ -42,10 +42,6 @@ export default {
       // alert($event)
       this.$emit("change-sort", $event);
     },
-    //     employe(){
-    //     this.TABLE_FIELDS.sort();
-    //     console.log(TABLE_FIELDS, "called")
-    //   }
   },
 };
 </script>

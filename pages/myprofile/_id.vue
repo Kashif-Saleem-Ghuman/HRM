@@ -609,7 +609,7 @@
                   <div class="col-12 row-custom">
                     <benefits-package
                       :benefitsPackage="form.gender"
-                      :benefitsPackageOption="benefitsPackageOption"
+                      :benefitsPackageOption="benefitsPackage"
                       :inActive="inActiveBenefitsPackage"
                       @input="handleInput"
                     ></benefits-package>
@@ -860,9 +860,14 @@ import {
   updateAllData,
   handleInput,
   handleInputObject,
-  employeeTime,
-  updateBenefitsData,
 } from "../../utils/functions/functions_lib.js";
+import {
+  employeeTime,
+  addBenefitsData,
+  updateBenefitsData,
+  getBenefitsData,
+  deleteBenefitsData,
+} from "../../utils/functions/functions_lib_api.js";
 import {
   updatePersonalInformation,
   updateEmail,
@@ -975,6 +980,7 @@ export default {
       inactiveCommon: "disabled",
       form: {},
       benefits: {},
+      benefitsPackage:"",
       benefitsEffectiveDate: "",
       timeoff: {},
       time: {},
@@ -1075,12 +1081,14 @@ export default {
       if (tab.value == "time-off") {
         await this.$store.dispatch("timeoff/gettimeOff", { id: this.id });
         this.timeoff = this.getTimeOff;
-        console.log(this.timeoff, "sadnflkasfjahfkjhskjka");
       }
       if (tab.value == "benefits") {
         try {
           const benefits = await axios.get(
-            process.env.API_URL + "/employees/" + this.id + "/benefits",
+            process.env.API_URL +
+              "/employees/" +
+              this.id +
+              "/benefits/benefit-plan",
             {
               headers: {
                 Authorization: "Bearer " + this.getAccessToken,
@@ -1095,6 +1103,16 @@ export default {
         } catch (e) {
           alert(e);
         }
+        try {
+    const benefits = await axios.get(process.env.API_URL + "/benefit-packages", {
+      headers: {
+        Authorization: "Bearer " + this.getAccessToken,
+      },
+    });
+    this.benefitsPackage = benefits.data
+  } catch (e) {
+    alert(e);
+  }
       }
       if (tab.value == "Employment Information") {
         await this.$store.dispatch("employee/setReportsToList");

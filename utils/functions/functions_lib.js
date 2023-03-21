@@ -18,12 +18,7 @@ import {
   handleInput,
   handleInputObject
 } from "../functions/form_update.js";
-import {
-  employeeTime,
-} from "./profile/timeapi.js";
-import {
-  updateBenefitsData
-} from "./profile/benefits.js";
+
 export {
   headerHelpClick,
   headerActionCall,
@@ -39,6 +34,4 @@ export {
   updateAllData,
   handleInput,
   handleInputObject,
-  employeeTime,
-  updateBenefitsData
 };

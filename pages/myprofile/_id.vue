@@ -1104,7 +1104,7 @@ export default {
           alert(e);
         }
         try {
-    const benefits = await axios.get(process.env.API_URL + "/benefit-packages", {
+    const benefits = await axios.get(process.env.API_URL + "/benefit-packages?select-options=true", {
       headers: {
         Authorization: "Bearer " + this.getAccessToken,
       },

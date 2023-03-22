@@ -16,9 +16,10 @@
       <div class="row mx-0">
         <div class="col-12">
           <bib-input
-            type="text"
+            type="select"
             label="Benefits plan name"
             v-model="benefitsPlanName"
+            :options="benefitsPlanNameOptions"
             placeholder="Please enter benefits plan name"
             @input="$emit('input', $event, 'name')"
             :disabled="inActive"
@@ -49,9 +50,13 @@
       benefitsPlanName: {
         type: String,
       },
+      benefitsPlanNameOptions:{
+        type:Array
+      },
       benefitsPlanURL: {
         type: String,
       },
+
       inActive:{
         type:String
       }

@@ -609,7 +609,7 @@
                   <div class="col-12 row-custom">
                     <benefits-package
                       :benefitsPackage="form.gender"
-                      :benefitsPackageOption="benefitsPackage"
+                      :benefitsPackageOption="benefitsPackageOptions"
                       :inActive="inActiveBenefitsPackage"
                       @input="handleInput"
                     ></benefits-package>
@@ -649,6 +649,7 @@
                     <benefits
                       :effectiveDate="benefitsEffectiveDate"
                       :benefitsPlanName="benefits.name"
+                      :benefitsPlanNameOptions="benefitsNameOptions"
                       :benefitsPlanURL="benefits.url"
                       :inActive="inActiveBenefits"
                       @input="handleInput"
@@ -862,12 +863,12 @@ import {
   handleInputObject,
 } from "../../utils/functions/functions_lib.js";
 import {
-  employeeTime,
-  addBenefitsData,
-  updateBenefitsData,
   getBenefitsData,
-  deleteBenefitsData,
-} from "../../utils/functions/functions_lib_api.js";
+  updateBenefitsData,
+} from "../../utils/functions/profile/benefits/benefits";
+import {
+  getBenefitsPacakge,
+} from "../../utils/functions/profile/benefits/benefitspacakge";
 import {
   updatePersonalInformation,
   updateEmail,
@@ -980,7 +981,8 @@ export default {
       inactiveCommon: "disabled",
       form: {},
       benefits: {},
-      benefitsPackage:"",
+      benefitsPackageOptions: "",
+      benefitsNameOptions:"",
       benefitsEffectiveDate: "",
       timeoff: {},
       time: {},
@@ -1070,8 +1072,9 @@ export default {
     updateTimeOff,
     updateTimeAttendance,
     updateEmergencyContact,
-    employeeTime,
     updateBenefitsData,
+    getBenefitsData,
+    getBenefitsPacakge,
     sortBy() {
       alert("called");
     },
@@ -1083,36 +1086,8 @@ export default {
         this.timeoff = this.getTimeOff;
       }
       if (tab.value == "benefits") {
-        try {
-          const benefits = await axios.get(
-            process.env.API_URL +
-              "/employees/" +
-              this.id +
-              "/benefits/benefit-plan",
-            {
-              headers: {
-                Authorization: "Bearer " + this.getAccessToken,
-              },
-            }
-          );
-          var dateFormat = dayjs(benefits.data.effectiveDate).format(
-            "YYYY-MM-DD"
-          );
-          this.benefitsEffectiveDate = dateFormat;
-          this.benefits = benefits.data;
-        } catch (e) {
-          alert(e);
-        }
-        try {
-    const benefits = await axios.get(process.env.API_URL + "/benefit-packages?select-options=true", {
-      headers: {
-        Authorization: "Bearer " + this.getAccessToken,
-      },
-    });
-    this.benefitsPackage = benefits.data
-  } catch (e) {
-    alert(e);
-  }
+        this.getBenefitsData();
+        this.getBenefitsPacakge();
       }
       if (tab.value == "Employment Information") {
         await this.$store.dispatch("employee/setReportsToList");

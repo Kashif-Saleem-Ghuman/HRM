@@ -2,7 +2,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 export async function addBenefitsData() {
   try {
-    const benefits = await this.$axios.$post(
+    const benefits = await axios.post(
       process.env.API_URL + "/employees/" + this.id + "/benefits/benefit-plan",
       {
         headers: {
@@ -19,23 +19,25 @@ export async function addBenefitsData() {
   }
 }
 export async function getBenefitsData() {
-  alert("callled")
   try {
-    const benefits = await axios.get(
-      process.env.API_URL + "/employees/" + this.id + "/benefits/benefit-plan",
-      {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-        },
-      }
-    );
-    var dateFormat = dayjs(benefits.data.effectiveDate).format('YYYY-MM-DD')
-    this.benefitsEffectiveDate = dateFormat
-    this.benefits = benefits.data;
-    
-  } catch (e) {
-    alert(e);
-  }
+          const benefits = await axios.get(
+            process.env.API_URL + "/employees/" + this.id + "/benefits/benefit-plan",
+            {
+              headers: {
+                Authorization: "Bearer " + this.getAccessToken,
+              },
+            }
+          );
+          var dateFormat = dayjs(benefits.data.effectiveDate).format(
+            "YYYY-MM-DD"
+          );
+          this.benefitsEffectiveDate = dateFormat;
+          this.benefits = benefits.data;
+          // this.benefitsPackageOptions = benefits.data.benefitPackage.options;
+          // this.benefitsNameOptions = benefits.data.benefitPlan.options
+        } catch (e) {
+          alert(e);
+        }
 }
 export async function updateBenefitsData() {
     try {
@@ -53,9 +55,9 @@ export async function updateBenefitsData() {
       alert(e);
     }
   }
-  export async function deleteBenefitsData() {
+  export async function deleteBenefits() {
     try {
-      const benefits = await this.$axios.$delete(
+      const benefits = await axios.delete(
         process.env.API_URL + "/employees/" + this.id + "/benefits/benefit-plan",
         {
           headers: {

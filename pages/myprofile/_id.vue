@@ -753,7 +753,7 @@
                     :weekStart="time.startWeekDay"
                     :weekCapacity="time.weekCapacity"
                     :deadlineDay="time.deadlineDay"
-                    :timesheetOptions="timesheetOptions"
+                    :timesheetOptions="weekOptions"
                     @change-it="change"
                     :inActive="inActiveTimeAttendance"
                     @input="handleInput"
@@ -764,7 +764,7 @@
                         label="Save"
                         size="lg"
                         variant="success"
-                        @click=""
+                        @click="updateTimeAttandance"
                         v-if="timeAttendanceUpdateButton"
                       ></bib-button>
                     </div>
@@ -865,10 +865,14 @@ import {
 import {
   getBenefitsData,
   updateBenefitsData,
-} from "../../utils/functions/profile/benefits/benefits";
+} from "../../utils/functions/api_call/benefits/benefits";
 import {
   getBenefitsPacakge,
-} from "../../utils/functions/profile/benefits/benefitspacakge";
+} from "../../utils/functions/api_call/benefits/benefitspacakge";
+import {
+  getTime,
+  updateTimeAttandance
+} from "../../utils/functions/api_call/timeattandance/time";
 import {
   updatePersonalInformation,
   updateEmail,
@@ -884,7 +888,7 @@ import {
   updateTimeOff,
   updateTimeAttendance,
   updateEmergencyContact,
-} from "../../utils/functions/profile/index";
+} from "../../utils/functions/api_call/index";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 
@@ -970,7 +974,6 @@ export default {
 
       // Time & attandance
       weekOptions: WEEK_DAY,
-      timesheetOptions: WEEK_DAY,
       timeAttendanceUpdateButton: false,
       inActiveTimeAttendance: "disabled",
       infoUpdateTimeAttendance: true,
@@ -1007,17 +1010,22 @@ export default {
     await this.$store.dispatch("department/setDepartmentList");
     this.departmentOptions = this.getDepartment;
     this.form = this.getUser;
+    if (!this.form.address?.country) {
+      this.cureentState = this.states.filter((item, index) => {
+        return item;
+      });
+    }
     if (this.form.address?.country === "Canada") {
-      console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
         return item;
       });
     }
     if (this.form.address?.country === "USA") {
-      console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
         return item;
       });
+    }else{
+
     }
   },
   computed: {
@@ -1075,12 +1083,18 @@ export default {
     updateBenefitsData,
     getBenefitsData,
     getBenefitsPacakge,
+    getTime,
+    updateTimeAttandance,
     sortBy() {
       alert("called");
     },
     async handleChange_Tabs(tab) {
       // this.activeTab = tab.value;
       this.$store.dispatch("token/setActiveTab", tab.value);
+      if (tab.value == "timeattendance") {
+        console.log(this.time, "this.time")
+        this.getTime();
+      }
       if (tab.value == "time-off") {
         await this.$store.dispatch("timeoff/gettimeOff", { id: this.id });
         this.timeoff = this.getTimeOff;

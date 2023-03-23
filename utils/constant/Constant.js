@@ -972,27 +972,27 @@ export const ACTION_MENU = [
 ];
 export const WEEK_DAY = [
   {
-    label: "sunday",
+    label: "Sunday",
     value: "sunday",
   },
   {
-    label: "monday",
+    label: "Monday",
     value: "monday",
   },
   {
-    label: "tuesday",
+    label: "Tuesday",
     value: "tuesday",
   },
   {
-    label: "thursday",
+    label: "Thursday",
     value: "thursday",
   },
   {
-    label: "friday",
+    label: "Friday",
     value: "friday",
   },
   {
-    label: "saturday",
+    label: "Saturday",
     value: "saturday",
   },
 ];

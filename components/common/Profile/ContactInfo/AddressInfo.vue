@@ -9,7 +9,7 @@
           placeholder="Enter your address"
           :disabled="inActive"
           indicator
-          @input="$emit('input', $event, 'street', 'addresses')"
+          @input="$emit('input', $event, 'addressLine1', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -21,7 +21,7 @@
           v-model="address2"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'address2', 'addresses')"
+          @input="$emit('input', $event, 'addressLine2', 'addresses')"
         ></bib-input>
       </div>
     </div>

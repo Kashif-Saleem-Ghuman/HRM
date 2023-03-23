@@ -246,15 +246,15 @@
                   <div class="col-6 row-custom">
                     <div>
                       <address-info
-                        :address="form?.addresses[0]?.street"
-                        :address2="form?.address2"
-                        :country="form.addresses[0]?.country"
+                        :address="form?.address?.addressLine1"
+                        :address2="form?.address?.addressLine2"
+                        :country="form.address?.country"
                         :countryOptions="countries"
-                        :state="form.addresses[0]?.state"
+                        :state="form.address?.state"
                         :stateOptions="cureentState"
                         :stateVisible="stateVisible"
-                        :city="form?.addresses[0]?.city"
-                        :postalCode="form?.addresses[0]?.postalCode"
+                        :city="form?.address?.city"
+                        :postalCode="form?.address?.postalCode"
                         :inActive="inactiveAddress"
                         @input="handleInput"
                       ></address-info>
@@ -1007,13 +1007,13 @@ export default {
     await this.$store.dispatch("department/setDepartmentList");
     this.departmentOptions = this.getDepartment;
     this.form = this.getUser;
-    if (this.form.addresses[0]?.country === "Canada") {
+    if (this.form.address?.country === "Canada") {
       console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
         return item;
       });
     }
-    if (this.form.addresses[0]?.country === "USA") {
+    if (this.form.address?.country === "USA") {
       console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
         return item;

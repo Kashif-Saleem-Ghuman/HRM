@@ -97,12 +97,12 @@ export function handleInput(event, name, addresses) {
       this.stateVisible = false;
     }
     add[name] = event;
-    this.updateForm.addresses = this.updateForm.addresses || [];
-    this.updateForm.addresses[0] = {
-      ...this.updateForm.addresses[0],
+    this.updateForm.address = this.updateForm.address || [];
+    this.updateForm.address = {
+      ...this.updateForm.address,
       ...add,
     };
-   
+    console.log(this.updateForm, "update");
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;

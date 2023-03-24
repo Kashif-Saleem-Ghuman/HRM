@@ -732,11 +732,11 @@
                 <div class="row mx-0 py-cus">
                   <div class="col-6">
                     <tabs-title
-                      title="Time-off"
+                      title="Attandance"
                       variant="gray"
                       icon="info"
                       :updateButton="infoUpdateTimeAttendance"
-                      @click="updateTimeAttendance"
+                      @click="checkTimeAttandance"
                       :scale="0.9"
                     ></tabs-title>
                   </div>
@@ -754,7 +754,9 @@
                     :weekCapacity="time.weekCapacity"
                     :deadlineDay="time.deadlineDay"
                     :timesheetOptions="weekOptions"
+                    :note="time.note"
                     @change-it="change"
+                    :inActiveOrganizationSettings="inActiveOrganizationSettings"
                     :inActive="inActiveTimeAttendance"
                     @input="handleInput"
                   ></attendance>
@@ -866,12 +868,10 @@ import {
   getBenefitsData,
   updateBenefitsData,
 } from "../../utils/functions/api_call/benefits/benefits";
-import {
-  getBenefitsPacakge,
-} from "../../utils/functions/api_call/benefits/benefitspacakge";
+import { getBenefitsPacakge } from "../../utils/functions/api_call/benefits/benefitspacakge";
 import {
   getTime,
-  updateTimeAttandance
+  updateTimeAttandance,
 } from "../../utils/functions/api_call/timeattandance/time";
 import {
   updatePersonalInformation,
@@ -886,8 +886,9 @@ import {
   updateBenefitsPackage,
   updateBenefits,
   updateTimeOff,
-  updateTimeAttendance,
   updateEmergencyContact,
+  updateTimeAttendanceSettings,
+  updateTimeAttendanceOrgSetting,
 } from "../../utils/functions/api_call/index";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
@@ -976,6 +977,7 @@ export default {
       weekOptions: WEEK_DAY,
       timeAttendanceUpdateButton: false,
       inActiveTimeAttendance: "disabled",
+      inActiveOrganizationSettings: "disabled",
       infoUpdateTimeAttendance: true,
       switchLabelOrgSettings: "",
       switchLabelAttendance: "",
@@ -985,7 +987,7 @@ export default {
       form: {},
       benefits: {},
       benefitsPackageOptions: "",
-      benefitsNameOptions:"",
+      benefitsNameOptions: "",
       benefitsEffectiveDate: "",
       timeoff: {},
       time: {},
@@ -1024,8 +1026,7 @@ export default {
       this.cureentState = this.states.filter((item, index) => {
         return item;
       });
-    }else{
-
+    } else {
     }
   },
   computed: {
@@ -1078,21 +1079,27 @@ export default {
     updateBenefitsPackage,
     updateBenefits,
     updateTimeOff,
-    updateTimeAttendance,
     updateEmergencyContact,
     updateBenefitsData,
     getBenefitsData,
     getBenefitsPacakge,
     getTime,
-    updateTimeAttandance,
+    updateTimeAttendanceSettings,
+    updateTimeAttendanceOrgSetting,
     sortBy() {
       alert("called");
+    },
+    checkTimeAttandance() {
+      console.log("test", this.time.useOrganizationSettings);
+      this.time.useOrganizationSettings == true
+        ? this.updateTimeAttendanceOrgSetting()
+        : this.updateTimeAttendanceSettings();
     },
     async handleChange_Tabs(tab) {
       // this.activeTab = tab.value;
       this.$store.dispatch("token/setActiveTab", tab.value);
       if (tab.value == "timeattendance") {
-        console.log(this.time, "this.time")
+        console.log(this.time, "this.time");
         this.getTime();
       }
       if (tab.value == "time-off") {

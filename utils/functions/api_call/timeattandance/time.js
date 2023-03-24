@@ -24,6 +24,7 @@ export async function updateTimeAttandance() {
           Authorization: "Bearer " + this.getAccessToken,
         },
       });
+      this.openPopupNotification(1);
       this.time = timeData.data;
     } catch (e) {
       alert(e);

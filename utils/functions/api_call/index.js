@@ -23,7 +23,7 @@ export function updateEmergencyContact() {
   this.inactiveEmergencyContact = null;
   this.emergencyContactUpdateButton = true;
   this.infoUpdateEmergencyContact = false;
-  this.emContact = true
+  this.emContact = true;
 }
 export function updateEmployeeInfo() {
   this.inActiveEmployeeInfo = null;
@@ -66,8 +66,14 @@ export function updateTimeOff() {
   this.timeOffUpdateButton = true;
   this.infoUpdateTimeOff = false;
 }
-export function updateTimeAttendance() {
+export function updateTimeAttendanceSettings() {
   this.inActiveTimeAttendance = null;
+  this.timeAttendanceUpdateButton = true;
+  this.infoUpdateTimeAttendance = false;
+}
+
+export function updateTimeAttendanceOrgSetting() {
+  this.inActiveOrganizationSettings = null;
   this.timeAttendanceUpdateButton = true;
   this.infoUpdateTimeAttendance = false;
 }

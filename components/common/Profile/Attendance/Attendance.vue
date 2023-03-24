@@ -10,7 +10,7 @@
               $emit('change-it', $event, 'useOrganizationSettings'),
                 (orgSettings = !orgSettings)
             "
-            :disabled="inActive"
+            :disabled="inActiveOrganizationSettings"
             >{{ switchLabelOrgSettings }}</bib-switch
           >
         </div>
@@ -83,14 +83,25 @@
           :disabled="inActive"
         ></bib-input>
       </div>
-      <div class="col-3">
+      <div class="col-3" style="display: flex;  align-items: flex-end;">
         <bib-input
           type="text"
-          label="Medical Allowance"
           v-model="medicalAllowance"
-          placeholder="Medical Allowance"
+          placeholder="00:00:00"
           @change="$emit('input', $event, 'medicalAllowance')"
           :disabled="inActive"
+        ></bib-input>
+      </div>
+    </div>
+    <div class="row mx-0">
+      <div class="col-12">
+        <bib-input
+          type="textarea"
+          v-model="note"
+          placeholder="Type about yourself"
+          label="Note"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'note')"
         ></bib-input>
       </div>
     </div>
@@ -133,13 +144,15 @@ export default {
     weekCapacity: {
       type: String,
     },
-   
-    medicalAllowance: {
+    note: {
       type: String,
     },
     inActive: {
       type: String,
     },
+    inActiveOrganizationSettings:{
+      type: String,
+    }
   },
 };
 </script>

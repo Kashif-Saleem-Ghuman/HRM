@@ -18,7 +18,7 @@ export async function addBenefitsPacakge() {
 }
 export async function getBenefitsPacakge() {
   try {
-    const benefits = await axios.get(process.env.API_URL + "/benefit-packages?select-options=true", {
+    const benefits = await axios.get(process.env.API_URL + '/employees/' + this.id + "/benefits", {
       headers: {
         Authorization: "Bearer " + this.getAccessToken,
       },
@@ -28,6 +28,9 @@ export async function getBenefitsPacakge() {
     );
     this.benefitsEffectiveDate = dateFormat;
     this.benefits = benefits.data
+    this.benefitsPackageOptions = benefits.data.benefitPackage.options;
+    console.log(benefits.data, "benefits.data.benefitPackage.options")
+          // this.benefitsNameOptions = benefits.data.benefitPlan.options
   } catch (e) {
     alert(e);
   }

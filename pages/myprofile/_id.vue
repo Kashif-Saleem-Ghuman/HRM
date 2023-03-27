@@ -1107,7 +1107,6 @@ export default {
         this.timeoff = this.getTimeOff;
       }
       if (tab.value == "benefits") {
-        this.getBenefitsData();
         this.getBenefitsPacakge();
       }
       if (tab.value == "Employment Information") {

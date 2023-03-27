@@ -52,13 +52,14 @@
     <template #cell(presence)="data">
       <div class="text-dark">
         <chips
-          :title="data.value.attendance"
+          :title="data.value.presence == null ? '---' : data.value.presence "
           :className="[
-            data.value.attendance >= 70 ? 'chip-wrapper__bgsucess' : '',
-            data.value.attendance <= 70 ? 'chip-wrapper__bgabsent' : '',
-            data.value.attendance <= 35 ? 'chip-wrapper__bgabsentpink' : '',
-            data.value.attendance <= 20 ? 'chip-wrapper__bggray' : '',
+            data.value.presence >= 70 ? 'chip-wrapper__bgsucess' : '',
+            data.value.presence <= 70 ? 'chip-wrapper__bgabsent' : '',
+            data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
+            data.value.presence == null ? 'chip-wrapper__bggray' : '',
           ]"
+          
         ></chips>
       </div>
     </template>
@@ -69,14 +70,22 @@
     </template>
     <template #cell(team)="data">
       <div class="d-flex text-dark">
-        <div v-for="teams in data.value.teams.slice(0, 1)" class="mr-05">
-          {{ teams }}
+        <!-- {{ getTeamListOptions }} -->
+        <div v-for="(item, index) in data.value.teams" class="mr-05">
+          <chips
+          :title="test(item)"
+          class="chip-wrapper__bggray"
+        ></chips>
+          <!-- {{ item }} -->
         </div>
-        {{
-          data.value.teams.length == "0"
-            ? ""
-            : "+" + "" + data.value.teams.length
-        }}
+      </div>
+    </template>
+    <template #cell(role)="data">
+      <div class="justify-between text-dark">
+        <chips
+          :title="data.value.role"
+          class="chip-wrapper__bggray"
+        ></chips>
       </div>
     </template>
     <template #cell_action_right="data">
@@ -86,6 +95,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import {
   TABLE_HEAD,
   TABLE_FIELDS_DIR,
@@ -105,6 +116,9 @@ export default {
       userPhotoClick: false,
     };
   },
+  created(){
+    this.$store.dispatch("teams/setTeamListOptions");
+  },
   // created() {
   //   if (this.$router.history.current.fullPath == "/people") {
   //     this.tableFields = TABLE_HEAD.tHeadPeople;
@@ -116,7 +130,30 @@ export default {
   //     return;
   //   }
   // },
+  computed: {
+    ...mapGetters({
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+
+    }),
+  },
+  mounted(){
+  console.log(this.getTeamListOptions, "Team List")
+  
+
+ },
   methods: {
+    test(item){
+      // console.log(item, this.getTeamListOptions, "data.value.teams")
+      var teamNames = ""
+      this.getTeamListOptions.forEach(element => {
+        if(element.value == item){
+          console.log(element.label, "element")
+          teamNames = element.label
+          // return t
+        }
+      });
+      return teamNames
+    },
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);
     },

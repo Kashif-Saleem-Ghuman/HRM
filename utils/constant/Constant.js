@@ -20,6 +20,10 @@ export const TABLE_HEAD = {
       key: "team",
       label: "Team",
     },
+    {
+      key: "role",
+      label: "Role",
+    },
   ],
   tHeadAttandance: [
     {

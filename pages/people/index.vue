@@ -74,13 +74,13 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData.slice(0,5)"></list>
+                <list :userList="localData.slice(0, 5)"></list>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="section-wrapper  px-1" id="directory-wrapper">
+      <div class="section-wrapper px-1" id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[1].value">
             <div class="scroll_wrapper">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      <div  id="department-wrapper">
+      <div id="department-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[2].value">
             <div
@@ -109,15 +109,23 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list-department :tableFields="tableFields" :userList="departmentOptions.slice(0,5)"></list-department>
+                <list-department
+                  :tableFields="tableFields"
+                  :userList="departmentOptions.slice(0, 5)"
+                ></list-department>
                 <!-- <card :items="departmentItems"></card> -->
-                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department>
+                <add-department
+                  @close="departmentModel = false"
+                  :accessOptions="accessOptions"
+                  :departmentModel="departmentModel"
+                  :items="localData"
+                ></add-department>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div  id="team-wrapper">
+      <div id="team-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[3].value">
             <div
@@ -135,7 +143,10 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list-department :tableFields="tableFields" :userList="teamOptions.slice(0,5)"></list-department>
+                <list-department
+                  :tableFields="tableFields"
+                  :userList="teamOptions.slice(0, 5)"
+                ></list-department>
                 <!-- <card :items="departmentItems"></card> -->
                 <!-- <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department> -->
               </div>
@@ -154,7 +165,7 @@ import {
   SORTING_MENU,
   DEPARTMENT_ITEMS,
   ACCESS_ITEMS,
-  TABLE_HEAD
+  TABLE_HEAD,
 } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 
@@ -187,29 +198,28 @@ export default {
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     this.totalUser = this.localData.length;
-    await this.$store.dispatch("employee/setTeamList")
+    await this.$store.dispatch("employee/setTeamList");
+    this.$store.dispatch("teams/setTeamListOptions");
   },
 
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
-      activeUserRole : "token/getUserRole",
+      activeUserRole: "token/getUserRole",
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getDepartment: "department/GET_DEPARTMENT_LIST",
-
     }),
   },
- mounted(){
-  console.log(this.activeUserRole, "askdnakjsdkjasdkjaskdj")
-
- },
-  
-  methods: {
-    close(){
-    alert("sadjlaksjdlasldkjlasjdl")
-this.departmentModel = false
+  mounted() {
+    console.log(this.getTeamListOptions, "askdnakjsdkjasdkjaskdj");
   },
+
+  methods: {
+    close() {
+      alert("sadjlaksjdlasldkjlasjdl");
+      this.departmentModel = false;
+    },
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (tab.value == "Departments") {

@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper" v-if="activeUserRole === 'ADMIN'">
+  <div id="people-action-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >

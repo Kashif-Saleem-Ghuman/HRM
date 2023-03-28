@@ -52,56 +52,55 @@ export default {
     }
   },
   methods: {
-    menuClick(event) {
-
+    menuClick(item) {
     for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
-      if (this.appWrapItems.navItems[i].key == event.key) {
+      if (this.appWrapItems.navItems[i].key == item.key) {
         this.appWrapItems.navItems[i].selected = true;
       } else {
         this.appWrapItems.navItems[i].selected = false;
       }
     }
     if (process.client) {
-    if (event.key == "dashboard") {
+    if (item.key == "dashboard") {
      this.$router.push('/dashboard')
       return;
     }
-    if (event.key == "inbox") {
+    if (item.key == "inbox") {
       this.$router.push('/inbox')
       return;
     }
-    if (event.key == "myprofile") {
+    if (item.key == "myprofile") {
      this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "people") {
+    if (item.key == "people") {
      this.$router.push('/people')
       return;
     }
-    if (event.key == "time-attendance") {
+    if (item.key == "time-attendance") {
      this.$router.push('/time-attendance')
       return;
     }
-    if (event.key == "timeattendance") {
-      this.$store.dispatch("token/setActiveTab", event.key)
+    if (item.key == "timeattendance") {
+      this.$store.dispatch("token/setActiveTab", item.key)
      this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "time-off") {
-      this.$store.dispatch("token/setActiveTab", event.key)
+    if (item.key == "time-off") {
+      this.$store.dispatch("token/setActiveTab", item.key)
      this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "files") {
-      this.$store.dispatch("token/setActiveTab", event.key)
+    if (item.key == "files") {
+      this.$store.dispatch("token/setActiveTab", item.key)
      this.$router.push('/myprofile')
       return;
     }
-    if (event.key == "performance") {
+    if (item.key == "performance") {
      this.$router.push('/performance')
       return;
     }
-    if (event.key == "compensation") {
+    if (item.key == "compensation") {
      this.$router.push('/compensation')
       return;
     }

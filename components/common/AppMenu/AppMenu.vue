@@ -1,19 +1,19 @@
 
 <template>
   <div v-if="adminMenu">
-   <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event, item)"></bib-app-navigation>
+   <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="($event, item) =>{menuClick(item)}"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px;"></div>
-    <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="($event, item) =>{menuClick(item)}"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-    <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="($event, item) =>{menuClick(item)}"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
   </div>
   <div v-else="">
-   <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="menuClick($event)"></bib-app-navigation>
+   <bib-app-navigation :items="appWrapItems.navItems.slice(0,2)" @click="($event, item) =>{menuClick(item)}"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px;"></div>
     <!-- <bib-app-navigation :items="appWrapItems.navItems.slice(2,9)" @click="menuClick($event)"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div> -->
-    <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="menuClick($event)"></bib-app-navigation>
+    <bib-app-navigation :items="appWrapItems.navItems.slice(9)" @click="($event, item) =>{menuClick(item)}"></bib-app-navigation>
    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
   </div>
 </template>
@@ -52,8 +52,8 @@ export default {
     }
   },
   methods: {
-    menuClick(event, item) {
-      console.log(event, item, "event")
+    menuClick(event) {
+
     for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
       if (this.appWrapItems.navItems[i].key == event.key) {
         this.appWrapItems.navItems[i].selected = true;

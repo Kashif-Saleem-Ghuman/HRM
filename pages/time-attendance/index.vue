@@ -44,7 +44,7 @@
       <div class="row mx-0 bottom_border_wrapper">
         <div class="col-12 px-1">
           <bib-tabs
-            :tabs="peopleTabItem"
+            :tabs="timeAttendanceTab"
             :value="activeTab"
             @change="handleChange_Tabs"
           ></bib-tabs>
@@ -52,7 +52,7 @@
       </div>
       <div class="section-wrapper custom-input" id="attendance-wrapper">
         <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[0].value">
+          <div v-if="activeTab == timeAttendanceTab[0].value">
             <div
               class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
             >
@@ -60,7 +60,7 @@
                 <date-picker></date-picker>
               </div>
               <div class="d-flex">
-                <!-- <button-gray
+                <button-gray
                   @on-click="$emit('employee')"
                   icon="eye-open"
                   variant="gray1"
@@ -75,7 +75,7 @@
                   :scale="0.8"
                   title="Pending approval"
                   titleClass="button-title"
-                ></button-gray> -->
+                ></button-gray>
                 <action-right
                   @vclick="clickAction"
                   :items="actionMenu"
@@ -93,71 +93,152 @@
       </div>
       <div id="timesheet-wrapper">
         <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[1].value">
+          <div v-if="activeTab == timeAttendanceTab[1].value">
             <div
               class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
                 <date-picker></date-picker>
               </div>
-              <action-right
-                @vclick="clickAction"
-                :items="actionMenu"
-              ></action-right>
+              <div class="d-flex">
+                <button-gray
+                  @on-click="$emit('employee')"
+                  icon="eye-open"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Not submitted"
+                  titleClass="button-title"
+                ></button-gray>
+                <button-gray
+                  @on-click="$emit('employee')"
+                  icon="eye-open"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Pending approval"
+                  titleClass="button-title"
+                ></button-gray>
+                <action-right
+                  @vclick="clickAction"
+                  :items="actionMenu"
+                ></action-right>
+              </div>
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list-attendance :userList="users"></list-attendance>
+                <list-timesheet :userList="timesheetData"></list-timesheet>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div id="setting-wrapper" class="custom-input">
+        <div class="col-12 px-1">
+
+        <div id="attendance-wrapper">
+            <div v-if="activeTab == timeAttendanceTab[4].value">
+              <!-- Benefits info Wrppaer Start Here  -->
+              <div id="employeement-info-wrapper">
+                <div class="row mx-0 py-cus">
+                  <div class="col-6">
+                    <tabs-title
+                      title="Attandance"
+                      variant="gray"
+                      icon="info"
+                      :updateButton="infoUpdateTimeAttendance"
+                      @click="checkTimeAttandance"
+                      :scale="0.9"
+                    ></tabs-title>
+                  </div>
+                </div>
+                <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == timeAttendanceTab[4].value">
+            <div class="scroll_wrapper">
+              <div class="col-6 row-custom">
+                <attendance
+                    :orgSettings="time.useOrganizationSettings"
+                    :trackAttendance="time.trackAttendance"
+                    :trackTime="time.trackTime"
+                    :switchLabelOrgSettings="switchLabelOrgSettings"
+                    :switchLabelAttendance="switchLabelAttendance"
+                    :switchLabelweekStarts="switchLabelweekStarts"
+                    :weekOptions="weekOptions"
+                    :weekStart="time.startWeekDay"
+                    :weekCapacity="time.weekCapacity"
+                    :deadlineDay="time.deadlineDay"
+                    :timesheetOptions="weekOptions"
+                    :note="time.note"
+                    @change-it="change"
+                    :inActiveOrganizationSettings="inActiveOrganizationSettings"
+                    :inActive="inActiveTimeAttendance"
+                    @input="handleInput"
+                  ></attendance>
+              </div>
+            </div>
+          </div>
+        </div>
+              </div>
+              <div></div>
+            </div>
+          </div>
+          </div>
+      </div>
       
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
-  <div v-else="">
-    <notfound></notfound>
-  </div>
+ 
 </template>
 <script>
 import {
   TIME_ATTENDANCE_TAB,
   MORE_MENU,
   SORTING_MENU,
-  TABLE_SECTIONS,
 } from "../../utils/constant/Constant.js";
+import {
+  TIMESHEET_DATA,
+} from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
-
+import {
+  getTime,
+  updateTimeAttandance,
+} from "../../utils/functions/api_call/timeattandance/time";
 export default {
   data() {
     return {
+      id:'',
       openSidebar: false,
       endDate: null,
       starDate: new Date("2022-09-17"),
       minDate: new Date("2022-10-11"),
       maxDate: new Date("2022-10-21"),
-      peopleTabItem: TIME_ATTENDANCE_TAB,
+      timeAttendanceTab: TIME_ATTENDANCE_TAB,
       currentPage: 1,
-      users: TABLE_SECTIONS,
+      timesheetData: TIMESHEET_DATA,
       activeTab: "Attendance",
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       orderBy: "asc",
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
+      time: {},
     };
   },
   async created() {
     await this.$store.dispatch("setActiveUserRole", {userRole: this.activeUserRole});
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
+    await this.$store.dispatch("employee/setActiveUser");
+      var users = this.getUser;
+      this.id = users.id;
   },
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
-      activeUserRole : "token/getUserRole"
+      activeUserRole : "token/getUserRole",
+      getUser: "employee/GET_USER",
+      getAccessToken: "token/getAccessToken",
+
     }),
   },
   async mounted() {
@@ -165,8 +246,14 @@ export default {
     console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },
   methods: {
-    handleChange_Tabs(tab) {
+    getTime,
+    updateTimeAttandance,
+    async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
+      if (tab.value == "Setting") {
+        console.log(this.time, "this.time");
+        this.getTime();
+      }
     },
     userId(id) {
       this.$router.push("/myprofile/" + id);

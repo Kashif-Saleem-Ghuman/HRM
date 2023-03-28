@@ -5,9 +5,14 @@
     :sections="userList"
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
+    classTypeHead="table__hrow__custom"
+      classTypeBody="table__hrow__custom__irow"
   >
     <template #cell_action="data">
-      <bib-checkbox size="md"></bib-checkbox>
+      <div class="d-flex justify-center align-center">
+        <bib-checkbox size="md"></bib-checkbox>
+      </div>
+      
     </template>
     <template #cell(name)="data">
       <div

@@ -74,7 +74,10 @@ export const TABLE_HEAD = {
       key: "tue",
       label: "Tue",
     },
-
+    {
+      key: "wed",
+      label: "Wed",
+    },
     {
       key: "thu",
       label: "Thu",
@@ -98,6 +101,29 @@ export const TABLE_HEAD = {
     {
       key: "status",
       label: "Status",
+    },
+  ],
+  tHeadTimesheetModal:[
+    {
+      key: "",
+      label: "#",
+    },
+
+    {
+      key: "activity",
+      label: "Activity",
+    },
+    {
+      key: "start",
+      label: "Start",
+    },
+    {
+      key: "end",
+      label: "End",
+    },
+    {
+      key: "total",
+      label: "Total",
     },
   ],
   tHeadDepartment: [
@@ -165,6 +191,10 @@ export const TIME_ATTENDANCE_TAB = [
     title: "Past due",
     value: "Past due",
   },
+  {
+    title: "Setting",
+    value: "Setting",
+  },
 ];
 export const TABLE_FIELDS = [
   {
@@ -210,99 +240,7 @@ export const TABLE_FIELDS_DIR = [
     label: "Team",
   },
 ];
-export const TABLE_SECTIONS = [
-  {
-    id: "63b64e0b9a8c618c76610466",
-    businessId: "O3GWpmbk5ezJn4KR",
-    userId: "gELYqaQWQG9dnjk2",
-    role: "USER",
-    firstName: "Rajeev",
-    middleName: "Sharma",
-    lastName: "Sharma",
-    email: "rajeev.sharma@qsstechnosoft.com",
-    status: "IN",
-    date: "2023-02-21T06:20:53.864Z",
-    start: "09:20 AM",
-    end: null,
-    breaks: 0.7,
-    department: "Tech",
-    timeWork: "8",
-    photo:
-      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1674473092167.jpg",
-    useOrganizationSettings: true,
-  },
-  {
-    id: "63bf3de76bb6d8b00bb07cf3",
-    businessId: "O3GWpmbk5ezJn4KR",
-    userId: "wNJAPdR6RJEdGyOX",
-    role: "USER",
-    firstName: "Kelvin",
-    lastName: "Jara",
-    email: "kelvin.jara@biztree.com",
-    status: "Late",
-    date: "2023-02-21T06:20:53.864Z",
-    start: "09:20 AM",
-    end: "06:20 PM",
-    breaks: 0.7,
-    department: "Tech",
-    photo:
-      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675200061019.jpg",
-  },
-  {
-    id: "63bf9d766bb6d8b00bb07d13",
-    businessId: "O3GWpmbk5ezJn4KR",
-    userId: "DKgl9av2NwnaG1vz",
-    role: "USER",
-    firstName: "Vishwajeet",
-    lastName: "Mandal",
-    email: "vishwajeet.mandal@qsstechnosoft.com",
-    status: "Absent",
-    date: "2023-02-21T06:20:53.864Z",
-    start: "09:20 AM",
-    end: null,
-    breaks: 0.7,
-    department: "Tech",
-    photo:
-      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
-  },
-  {
-    id: "63bfa19c6bb6d8b00bb07d1f",
-    businessId: "O3GWpmbk5ezJn4KR",
-    userId: "k61YQdJ6J7ldOGpJ",
-    role: "ADMIN",
-    firstName: "Dhruv",
-    lastName: "Sharma",
-    email: "dhruv.sharma@qsstechnosoft.com",
-    status: "Vacation",
-    date: "2023-02-21T06:20:53.864Z",
-    start: "09:20 AM",
-    end: "06:20 PM",
-    timeWork: "8",
-    breaks: 0.7,
-    department: "Tech",
-    photo:
-      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",
-    maritalStatus: "single",
-  },
-  {
-    id: "63bfcfd36bb6d8b00bb07d90",
-    businessId: "O3GWpmbk5ezJn4KR",
-    userId: "Py7LDdwpOq1e1YKX",
-    role: "USER",
-    firstName: "Charan",
-    middleName: "",
-    lastName: "Chauhan",
-    email: "charan.pal@qsstechnosoft.com",
-    status: "IN",
-    date: "2023-02-21T06:20:53.864Z",
-    start: "09:20 AM",
-    timeWork: "8",
-    end: null,
-    department: "Tech",
-    photo:
-      "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675315647862.jpg",
-  },
-];
+
 export const SELECT_OPTIONS = {
   maritalStatusOptions: [
     { label: "Single", value: "single" },

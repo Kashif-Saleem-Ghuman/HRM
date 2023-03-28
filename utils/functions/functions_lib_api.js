@@ -1,12 +1,12 @@
 import {
     employeeTime,
-  } from "./profile/timeapi.js";
+  } from "./api_call/timeapi";
   import {
     addBenefitsData,
     updateBenefitsData,
     getBenefitsData,
     deleteBenefitsData
-  } from "./profile/benefits/benefits.js";
+  } from "./api_call/benefits/benefits.js";
   export {
     employeeTime,
     addBenefitsData,

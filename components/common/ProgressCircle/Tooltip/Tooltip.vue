@@ -1,11 +1,11 @@
 <template>
   <div class="p-05">
-    <header>Day 00-00-000</header>
+    <header>Day 10-03-000</header>
     <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
     <div  v-for="(item, keyI) in data">
       <div class="tooltip_list">
         <span>In</span>
-        <span>{{ item.start }}</span>
+        <span>{{ item.in }}</span>
       </div>
       <div class="tooltip_list">
         <span>Out</span>
@@ -62,7 +62,7 @@ export default {
   background-color: #fff;
   top: 50px;
   z-index: 1000;
-  color:#999 !important
+  color:#999 !important;
 //   left: 100px;
   header {
     font-size: 1rem;

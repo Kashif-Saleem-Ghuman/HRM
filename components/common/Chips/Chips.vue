@@ -56,7 +56,7 @@ export default {
 <style lang="scss">
 
 .chip-wrapper-bg-same {
-  border-radius: rem;
+  border-radius: 1rem;
   padding: 4px 8px;
   margin-right: 10px;
   display: flex;
@@ -81,7 +81,6 @@ export default {
       font-size: 14px;
     }
   }
-
   &__bgabsent {
     // background-color: rgba(255, 171, 0, 0.16);
     svg{
@@ -184,11 +183,17 @@ export default {
   }
   &__bggray {
     background-color: #f2f2f5;
+    border-radius: 0.5rem;
     span {
-      color: #e2e2e3;
-      font-weight: 500;
+      color: #000;
+      text-transform:lowercase;
+      // font-weight: 500;
       font-size: 14px;
     }
+    span:first-letter{
+      text-transform: uppercase
+    }
+    
   }
 }
 </style>

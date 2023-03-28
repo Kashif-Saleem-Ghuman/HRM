@@ -741,8 +741,11 @@
                     ></tabs-title>
                   </div>
                 </div>
-                <div class="col-6 row-custom">
-                  <attendance
+                <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == personalTabItem[4].value">
+            <div class="scroll_wrapper">
+              <div class="col-6 row-custom">
+                <attendance
                     :orgSettings="time.useOrganizationSettings"
                     :trackAttendance="time.trackAttendance"
                     :trackTime="time.trackTime"
@@ -760,23 +763,10 @@
                     :inActive="inActiveTimeAttendance"
                     @input="handleInput"
                   ></attendance>
-                  <div class="row mx-0 pt-1">
-                    <div class="col-12">
-                      <bib-button
-                        label="Save"
-                        size="lg"
-                        variant="success"
-                        @click="updateTimeAttandance"
-                        v-if="timeAttendanceUpdateButton"
-                      ></bib-button>
-                    </div>
-                  </div>
-                  <div
-                    class="bg-light mt-2"
-                    :class="seprator"
-                    style="height: 1px"
-                  ></div>
-                </div>
+              </div>
+            </div>
+          </div>
+        </div>
               </div>
               <div></div>
             </div>
@@ -1107,7 +1097,6 @@ export default {
         this.timeoff = this.getTimeOff;
       }
       if (tab.value == "benefits") {
-        this.getBenefitsData();
         this.getBenefitsPacakge();
       }
       if (tab.value == "Employment Information") {

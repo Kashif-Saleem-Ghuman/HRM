@@ -5,7 +5,6 @@
       class="border-gray4 bg-white"
       :sections="userList"
       :hide-no-column="true"
-      @item-clicked.prevent="handleItemClick_Table"
     >
       <template #cell(name)="data">
         <div
@@ -54,65 +53,46 @@
           v-on:mouseover="timeInfotab('timesheetid_' + data.value.id)"
           v-on:mouseleave="timeInfotab('timesheetid_' + data.value.id, true)"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value?.weekData?.mon?.totalHours >= '8'
+              ? 'td_row_wrapper__sucess'
+              : '',
+            data.value?.weekData?.mon?.totalHours <= '7'
+              ? 'td_row_wrapper__absent'
+              : '',
+            data.value.test == '00:00' ? 'td_row_wrapper__absentpink' : '',
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.mon?.totalHours }}</span>
           <div
             :id="'timesheetid_' + data.value.id"
             class="tooltip-wrapper"
             style="z-index: 100000"
           >
-            <tooltip :data="timeData" @vclick="modal3Opened = true"></tooltip>
-            <bib-modal-wrapper
-              v-if="modal3Opened"
-              :title="data.value.firstName + ' '  +  data.value.lastName"
-              @close="modal3Opened = false"
-            >
-              <template slot="content">
-                <div>
-                  <bib-input
-                    type="text"
-                    placeholder="Enter file name..."
-                  ></bib-input>
-                </div>
-              </template>
-              <template slot="footer">
-                <div class="d-flex">
-                  <bib-button
-                    label="Cancel"
-                    variant="light"
-                    pill
-                    @click="modal3Opened = false"
-                  ></bib-button>
-                  <bib-button
-                    label="Create"
-                    variant="success"
-                    class="ml-auto"
-                    pill
-                    @click="modal3Opened = false"
-                  ></bib-button>
-                </div>
-              </template>
-            </bib-modal-wrapper>
+            <div v-if="data.value?.weekData?.mon?.timeData">
+              <tooltip
+                :data="data.value?.weekData?.mon?.timeData"
+                @vclick="itemCliked(data.value.id)"
+              ></tooltip>
+            </div>
           </div>
         </div>
       </template>
 
       <template #cell(tue)="data">
         <div
-          class="td_row_wrapper"
+          class="text-dark td_row_wrapper"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
+            data.value?.weekData?.tue?.totalHours >= '8'
+              ? 'td_row_wrapper__sucess'
+              : '',
+            data.value?.weekData?.tue?.totalHours <= '7'
+              ? 'td_row_wrapper__absent'
+              : '',
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.tue?.totalHours }}</span>
         </div>
       </template>
 
@@ -120,39 +100,51 @@
         <div
           class="text-dark td_row_wrapper"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value?.weekData?.wed?.totalHours >= '8'
+              ? 'td_row_wrapper__sucess'
+              : '',
+            data.value?.weekData?.wed?.totalHours <= '7'
+              ? 'td_row_wrapper__absent'
+              : '',
             data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.wed?.totalHours }}</span>
         </div>
       </template>
       <template #cell(thu)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value?.weekData?.thu?.totalHours >= '8'
+              ? 'td_row_wrapper__sucess'
+              : '',
+            data.value?.weekData?.thu?.totalHours <= '7'
+              ? 'td_row_wrapper__absent'
+              : '',
             data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.thu?.totalHours }}</span>
         </div>
       </template>
       <template #cell(fri)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
+            data.value?.weekData?.fri?.totalHours >= '8'
+              ? 'td_row_wrapper__sucess'
+              : '',
+            data.value?.weekData?.fri?.totalHours <= '7'
+              ? 'td_row_wrapper__absent'
+              : '',
             data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.fri?.totalHours }}</span>
         </div>
       </template>
       <template #cell(sat)="data">
@@ -165,57 +157,58 @@
             data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.sat?.totalHours }}</span>
         </div>
       </template>
       <template #cell(sun)="data">
         <div
           class="text-dark td_row_wrapper"
-          :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
-          ]"
+          :class="[data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '']"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value?.weekData?.sat?.totalHours }}</span>
         </div>
       </template>
       <template #cell(total)="data">
         <div
           class="text-dark td_row_wrapper"
           :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+            data.value.totalHour >= '40' ? 'td_row_wrapper__sucess' : '',
+            data.value.totalHour <= '35' && data.value.totalHour >= '31'
+              ? 'td_row_wrapper__absent'
+              : '',
+            data.value.totalHour <= '30' && data.value.totalHour >= '15'
+              ? 'td_row_wrapper__absentpink'
+              : '',
+            data.value.totalHour <= '0' ? 'test' : '',
           ]"
         >
-          <span>{{ data.value.status }}</span>
+          <span>{{ data.value.totalHour }}</span>
         </div>
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
           <chips
-            :title="data.value.firstName"
+            :title="data.value.status"
             iconShow="iconShow"
             :icon="
-              data.value.status == 'IN'
+              data.value.status == 'Approve'
                 ? 'check-all'
-                : '' || data.value.status == 'Late'
+                : '' || data.value.status == 'Approve'
                 ? 'warning'
-                : '' || data.value.status == 'Absent'
+                : '' || data.value.status == 'Pending'
                 ? 'urgent-solid'
-                : '' || data.value.status == 'Vacation'
+                : '' || data.value.status == 'Past due'
                 ? 'help'
                 : ''
             "
             :variant="[
-              data.value.status == 'IN' ? 'chip-wrapper-bg-same__bgsucess' : '',
-              data.value.status == 'Late'
+              data.value.status == 'Approve'
+                ? 'chip-wrapper-bg-same__bgsucess'
+                : '',
+              data.value.status == 'Pending'
                 ? 'chip-wrapper-bg-same__bgabsent'
                 : '',
-              data.value.status == 'Absent'
+              data.value.status == 'Past due'
                 ? 'chip-wrapper-bg-same__bgabsentpink'
                 : '',
               data.value.status == 'Vacation'
@@ -226,11 +219,20 @@
         </div>
       </template>
     </custom-table>
+    <time-sheet-modal
+      @close="timesheetModal = false"
+      :timesheetModal="timesheetModal"
+      :items="filteredData"
+    ></time-sheet-modal>
   </div>
 </template>
 
 <script>
-import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
+import { mapGetters } from "vuex";
+import {
+  TIMESHEET_DATA,
+} from "../../../../utils/constant/TimesheetData";
 export default {
   props: {
     userList: {
@@ -246,24 +248,33 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
-      timeData: [
-        {
-          employeeId: "string",
-          businessId: "string",
-          date: "2023-02-22T11:32:14.374Z",
-          start: "11:32 AM",
-          end: "11:32 PM",
-          activity: "string",
-          id: "string",
-          total: 0,
-        },
-      ],
+      timesheetModal: false,
+      localData:TIMESHEET_DATA,
+      filteredData: '',
     };
   },
+  // async craeted(){
+  //   await this.$store.dispatch("employee/setUserList");
+  //   this.localData = this.userList;
+  // },
+  // computed: {
+  //   ...mapGetters({
+  //     userList: "employee/GET_USERS_LIST"
+  //   }),
+  // },
   methods: {
+    close() {
+      alert("sadjlaksjdlasldkjlasjdl");
+      this.timesheetModal = false;
+    },
+    itemCliked(item){
+      this.timesheetModal = true
+      var users = this.localData.find((items) => items.id === item);
+      this.filteredData = users
+    },
     handleItemClick_Table(event, keyI, item) {
-      event.preventDefault()
-      console.log(event, "askdnasdakjsdkjashdjkashd")
+      event.preventDefault();
+      console.log(event, "askdnasdakjsdkjashdjkashd");
       this.$router.push("/myprofile/" + item.id);
     },
     viewProfile(id) {

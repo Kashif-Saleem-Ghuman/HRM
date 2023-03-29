@@ -268,6 +268,7 @@ export default {
       this.timesheetModal = false;
     },
     itemCliked(item){
+      document.querySelector("#timesheetid_" + item).style = "display:none";
       this.timesheetModal = true
       var users = this.localData.find((items) => items.id === item);
       this.filteredData = users

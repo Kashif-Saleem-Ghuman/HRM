@@ -19,9 +19,12 @@
         <span>Off</span>
         <span>{{ item.end }}</span>
       </div>
-      <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
-      <bib-button label="More Details..." pill @click="$emit('vclick', $event)"></bib-button>
+     
     </div>
+    <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
+      <div style="text-align: left; width: 10px;" class="custom-button">
+        <bib-button label="More Details..." pill @click="$emit('vclick', $event)" style="padding: 0px;"></bib-button>
+      </div>
   </div>
 </template>
 
@@ -56,13 +59,13 @@ export default {
 .tooltip-wrapper {
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
   border-radius: 6px;
-  width: 140px;
+  width: 150px;
   display: none;
   position: absolute;
   background-color: #fff;
   top: 50px;
-  z-index: 1000;
-  color:#999 !important;
+  color:#1D1D20 !important;
+  z-index: 9;
 //   left: 100px;
   header {
     font-size: 1rem;
@@ -74,7 +77,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     span {
-      color: #999 !important;
+      color:#1D1D20
+    }
+  }
+  .custom-button{
+    button{
+      padding: 0px !important;
     }
   }
 }

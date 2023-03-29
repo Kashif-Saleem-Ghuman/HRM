@@ -1,6 +1,6 @@
 <template>
   <div class="modal-wrapper">
-    <bib-modal-wrapper v-if="timesheetModal" @close="$emit('close')" size="lg">
+    <bib-modal-wrapper v-if="timesheetModal" @close="$emit('close')" size="xl">
       <template slot="content">
         <div class="timesheet-wrapper">
           <div class="list-item">
@@ -58,8 +58,8 @@
           </div>
         </div>
         <div class="mb-1 mt-1 bg-light" style="height: 1px"></div>
-        <div class="px-1">
-          <list-timesheet-modal :userListTimesheet="timesheetModalData"></list-timesheet-modal>
+        <div class="px-1 pb-3">
+          <list-timesheet-modal :userListTimesheet="timesheetModalData.slice(0,3)"></list-timesheet-modal>
         </div>
       </template>
     </bib-modal-wrapper>

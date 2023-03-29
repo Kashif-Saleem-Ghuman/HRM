@@ -134,8 +134,7 @@
 
       <div id="setting-wrapper" class="custom-input">
         <div class="col-12 px-1">
-
-        <div id="attendance-wrapper">
+          <div id="attendance-wrapper">
             <div v-if="activeTab == timeAttendanceTab[4].value">
               <!-- Benefits info Wrppaer Start Here  -->
               <div id="employeement-info-wrapper">
@@ -152,42 +151,42 @@
                   </div>
                 </div>
                 <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == timeAttendanceTab[4].value">
-            <div class="scroll_wrapper">
-              <div class="col-6 row-custom">
-                <attendance
-                    :orgSettings="time.useOrganizationSettings"
-                    :trackAttendance="time.trackAttendance"
-                    :trackTime="time.trackTime"
-                    :switchLabelOrgSettings="switchLabelOrgSettings"
-                    :switchLabelAttendance="switchLabelAttendance"
-                    :switchLabelweekStarts="switchLabelweekStarts"
-                    :weekOptions="weekOptions"
-                    :weekStart="time.startWeekDay"
-                    :weekCapacity="time.weekCapacity"
-                    :deadlineDay="time.deadlineDay"
-                    :timesheetOptions="weekOptions"
-                    :note="time.note"
-                    @change-it="change"
-                    :inActiveOrganizationSettings="inActiveOrganizationSettings"
-                    :inActive="inActiveTimeAttendance"
-                    @input="handleInput"
-                  ></attendance>
-              </div>
-            </div>
-          </div>
-        </div>
+                  <div v-if="activeTab == timeAttendanceTab[4].value">
+                    <div class="scroll_wrapper">
+                      <div class="col-6 row-custom">
+                        <attendance
+                          :orgSettings="time.useOrganizationSettings"
+                          :trackAttendance="time.trackAttendance"
+                          :trackTime="time.trackTime"
+                          :switchLabelOrgSettings="switchLabelOrgSettings"
+                          :switchLabelAttendance="switchLabelAttendance"
+                          :switchLabelweekStarts="switchLabelweekStarts"
+                          :weekOptions="weekOptions"
+                          :weekStart="time.startWeekDay"
+                          :weekCapacity="time.weekCapacity"
+                          :deadlineDay="time.deadlineDay"
+                          :timesheetOptions="weekOptions"
+                          :note="time.note"
+                          @change-it="change"
+                          :inActiveOrganizationSettings="
+                            inActiveOrganizationSettings
+                          "
+                          :inActive="inActiveTimeAttendance"
+                          @input="handleInput"
+                        ></attendance>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div></div>
             </div>
           </div>
-          </div>
+        </div>
       </div>
-      
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
- 
 </template>
 <script>
 import {
@@ -195,9 +194,7 @@ import {
   MORE_MENU,
   SORTING_MENU,
 } from "../../utils/constant/Constant.js";
-import {
-  TIMESHEET_DATA,
-} from "../../utils/constant/TimesheetData.js";
+import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
 import {
   getTime,
@@ -206,7 +203,7 @@ import {
 export default {
   data() {
     return {
-      id:'',
+      id: "",
       openSidebar: false,
       endDate: null,
       starDate: new Date("2022-09-17"),
@@ -225,20 +222,21 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("setActiveUserRole", {userRole: this.activeUserRole});
+    await this.$store.dispatch("setActiveUserRole", {
+      userRole: this.activeUserRole,
+    });
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     await this.$store.dispatch("employee/setActiveUser");
-      var users = this.getUser;
-      this.id = users.id;
+    var users = this.getUser;
+    this.id = users.id;
   },
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
-      activeUserRole : "token/getUserRole",
+      activeUserRole: "token/getUserRole",
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
-
     }),
   },
   async mounted() {

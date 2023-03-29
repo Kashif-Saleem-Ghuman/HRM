@@ -1,5 +1,6 @@
 <template>
-  <custom-timesheet-table
+  <div>
+    <custom-timesheet-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="userListTimesheet"
@@ -56,6 +57,7 @@
       </div>
     </template>
   </custom-timesheet-table>
+  </div>
 </template>
 
 <script>

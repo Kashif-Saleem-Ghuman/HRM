@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper" style="z-index: 1000000 !important;">
     <bib-modal-wrapper v-if="timesheetModal" @close="$emit('close')" size="xl">
       <template slot="content">
         <div class="timesheet-wrapper">

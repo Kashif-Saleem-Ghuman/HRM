@@ -124,7 +124,7 @@
               </div>
             </div>
             <div class="scroll_wrapper">
-              <div>
+              <div style="z-index: 1;">
                 <list-timesheet :userList="timesheetData"></list-timesheet>
               </div>
             </div>

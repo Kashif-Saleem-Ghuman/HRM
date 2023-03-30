@@ -167,7 +167,7 @@
                   </div>
                   <div class="col-6 row-custom">
                     <email
-                      :email="form.email"
+                      :email="form.personalEmails"
                       :personalEmail="form.personalEmails"
                       :inActive="inactiveEmail"
                       @input="handleInput"

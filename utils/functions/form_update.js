@@ -102,6 +102,10 @@ export function handleInput(event, name, addresses) {
       ...this.updateForm.address,
       ...add,
     };
+    this.form.address = {
+      ...this.form.address,
+      ...add,
+    };
     console.log(this.updateForm, "update");
   } else {
     this.isFlag = true;

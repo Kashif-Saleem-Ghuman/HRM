@@ -15,7 +15,7 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-checkbox  size="md" style="margin: 0; padding: 0px; margin-top: 10px;"></bib-checkbox>
+            <bib-checkbox  size="sm"></bib-checkbox>
           </div>
         </th>
        
@@ -55,8 +55,8 @@
           </div>
         </th>
         <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
-          <div class="d-flex  align-center">
-            <bib-icon icon="trash" :scale="1.1"></bib-icon>
+          <div class="d-flex justify-center align-center">
+            <bib-icon icon="trash" :scale="0.9"></bib-icon>
           </div>
         </th>
       </tr>

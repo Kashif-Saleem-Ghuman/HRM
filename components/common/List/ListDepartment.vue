@@ -7,25 +7,25 @@
       @item-clicked="handleItemClick_Table"
     >
       <template #cell_action="data">
-        <bib-checkbox size="md"></bib-checkbox>
+        <div class="d-flex justify-center align-center">
+        <bib-checkbox size="sm"></bib-checkbox>
+        </div>
       </template>
       
       <template #cell(name)="data">
-        <div class="d-flex text-dark">
-          {{ data.value.label }}
+        <div class="d-flex align-center text-dark" style="color: #000; font-weight: 600;">
+         <span class="first_letter">{{ data.value.label.slice(0,1) }}</span> {{ data.value.label }}
           </div>
       </template>
       <template #cell_action_right="data">
-        <bib-icon icon="trash" :scale="1.1"></bib-icon>
+        <div class="d-flex justify-center align-center">
+        <bib-icon icon="trash" :scale="0.9"></bib-icon>
+        </div>
       </template>
     </custom-table>
   </template>
   
   <script>
-  import {
-    TABLE_HEAD,
-    TABLE_FIELDS_DIR,
-  } from "../../../utils/constant/Constant.js";
   export default {
     props: {
       tableFields:{
@@ -83,7 +83,12 @@
     color: $black;
     font-weight: normal;
   }
-  
+  .first_letter{
+    padding: 10px 12px; 
+    background-color: #F2F2F5; 
+    border-radius: 8px; 
+    margin-right: 8px;
+  }
   .title {
     font-size: 14px;
     font-weight: 600;

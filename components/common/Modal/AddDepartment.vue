@@ -16,7 +16,7 @@
             ></bib-input>
           </div>
           <div id="team-list">
-            <div class="wrapper-with-bg">
+            <div class="wrapper-bg-two mt-05">
               <bib-input
                 type="select"
                 label="Select a person or a team to invite"
@@ -38,7 +38,7 @@
             <div class="content-wrapper">
               <div id="user-list">
                 <div class="section-title">People who have access</div>
-                <div class="people-list-wrapper scroll_wrapper_sm" >
+                <div class="people-list-wrapper scroll_wrapper_sm">
                   <div class="list-item" v-for="(item, index) in items">
                     <div class="d-flex align-center">
                       <bib-avatar
@@ -62,11 +62,15 @@
                   </div>
                 </div>
               </div>
-              <div id="access-type">
+              <div
+                id="access-type"
+                v-on:mouseover="changePubtToPri()"
+                v-on:mouseleave="leaveChangePubtToPri()"
+              >
                 <div class="section-title">Access type</div>
-                <div class="people-list-wrapper people-list-wrapper_bg-gray">
-                  <div class="list-item">
-                    <div class="d-flex align-center">
+                <div class="wrapper-bg">
+                  <div class="list-item inner-wrapper">
+                    <div :class="'d-flex align-center ' + textColor">
                       <div
                         class="d-flex align-center cursor-pointer text-gray1 bg-light bg-hover-gray2 p-075 shape-circle mr-05 font-md"
                         @click="$emit('on-click')"
@@ -79,7 +83,15 @@
                         ></bib-icon>
                       </div>
                       <div>
-                        <div class="em-title">Private</div>
+                        <div class="em-title">
+                          Private
+                          <span
+                            class="change_link"
+                            v-if="changePublic"
+                            v-on:click="chnagePunPri()"
+                            >Change to Public</span
+                          >
+                        </div>
                         <div class="em-desc">
                           Only invited users can access team information
                         </div>
@@ -116,25 +128,41 @@ export default {
     departmentModel: {
       type: String,
     },
-    accessOptions:{
-      type:Array
-    }
+    accessOptions: {
+      type: Array,
+    },
+    className: {
+      type: String,
+    },
   },
   data() {
     return {
       // modal3Opened: false,
+      changePublic: false,
+      textColor: "",
     };
+  },
+  methods: {
+    changePubtToPri() {
+      this.changePublic = true;
+    },
+    leaveChangePubtToPri() {
+      this.changePublic = false;
+    },
+    chnagePunPri() {
+      console.log(this.textColor, "jksahdkjash");
+      if (this.textColor == "color") {
+        this.textColor = "";
+      } else {
+        this.textColor = "color";
+      }
+    },
   },
 };
 </script>
 <style lang="scss">
-.modal-wrapper{
-  .modal__wrapper__content{
-    padding-bottom: 0px !important;
-  }
-}
 .content-wrapper {
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   font-size: 14px;
   color: #86868a;
 
@@ -168,12 +196,43 @@ export default {
     }
   }
 }
-.wrapper-with-bg {
+
+.wrapper-bg-two {
   display: flex;
   align-items: center;
-  padding: 16px;
-
   background: #f8f8f9;
   border-radius: 6px;
+  padding: 1rem;
+}
+.wrapper-bg {
+  border: 1px solid #e6e6e8;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background: #f8f8f9;
+
+  .inner-wrapper {
+    background-color: #f8f8f9;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    .color {
+      color: green;
+      padding: 0px;
+      margin: 0px;
+      svg {
+        fill: green;
+      }
+    }
+    &:hover {
+      background-color: #fff;
+      border-radius: 0.5rem;
+    }
+    .change_link {
+      color: rgba(0, 0, 255, 0.87);
+      text-decoration: underline;
+      font-weight: normal;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
 }
 </style>

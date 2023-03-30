@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row mx-0">
+    <div class="row mx-0" v-if="orgSetting">
       <div class="col-12">
         <label class="switcher_label">Same as org setting</label>
         <div class="pb-075 pt-05">
@@ -131,6 +131,9 @@ export default {
     },
     timesheetOptions:{
       type:Array
+    },
+    orgSetting:{
+      type:String
     },
     switchLabelweekStarts: {
       type: String,

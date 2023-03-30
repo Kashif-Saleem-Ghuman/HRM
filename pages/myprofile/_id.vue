@@ -742,11 +742,12 @@
                   </div>
                 </div>
                 <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == personalTabItem[4].value">
+          <div v-if="activeTab == personalTabItem[7].value">
             <div class="scroll_wrapper">
               <div class="col-6 row-custom">
                 <attendance
                     :orgSettings="time.useOrganizationSettings"
+                    orgSetting="orgSetting"
                     :trackAttendance="time.trackAttendance"
                     :trackTime="time.trackTime"
                     :switchLabelOrgSettings="switchLabelOrgSettings"
@@ -763,6 +764,17 @@
                     :inActive="inActiveTimeAttendance"
                     @input="handleInput"
                   ></attendance>
+                  <div class="row mx-0 pt-1">
+                    <div class="col-12">
+                      <bib-button
+                        label="Save"
+                        size="lg"
+                        variant="success"
+                        @click="updateTimeAttandance"
+                        v-if="timeAttendanceUpdateButton"
+                      ></bib-button>
+                    </div>
+                    </div>
               </div>
             </div>
           </div>
@@ -835,9 +847,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
-import axios from "axios";
-import dayjs from "dayjs";
+import { mapGetters } from "vuex";
 import {
   EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
@@ -1076,6 +1086,7 @@ export default {
     getTime,
     updateTimeAttendanceSettings,
     updateTimeAttendanceOrgSetting,
+    updateTimeAttandance,
     sortBy() {
       alert("called");
     },

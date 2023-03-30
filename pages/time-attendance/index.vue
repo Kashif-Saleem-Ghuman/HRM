@@ -124,7 +124,7 @@
               </div>
             </div>
             <div class="scroll_wrapper">
-              <div style="z-index: 1;">
+              <div style="z-index: 1">
                 <list-timesheet :userList="timesheetData"></list-timesheet>
               </div>
             </div>
@@ -145,7 +145,7 @@
                       variant="gray"
                       icon="info"
                       :updateButton="infoUpdateTimeAttendance"
-                      @click="checkTimeAttandance"
+                      @click="updateTimeAttendanceSettings"
                       :scale="0.9"
                     ></tabs-title>
                   </div>
@@ -168,12 +168,21 @@
                           :timesheetOptions="weekOptions"
                           :note="time.note"
                           @change-it="change"
-                          :inActiveOrganizationSettings="
-                            inActiveOrganizationSettings
-                          "
+                          :inActiveOrganizationSettings="inActiveOrganizationSettings"
                           :inActive="inActiveTimeAttendance"
                           @input="handleInput"
                         ></attendance>
+                        <div class="row mx-0 pt-1">
+                    <div class="col-12">
+                      <bib-button
+                        label="Save"
+                        size="lg"
+                        variant="success"
+                        @click="updateTimeAttandance"
+                        v-if="timeAttendanceUpdateButton"
+                      ></bib-button>
+                    </div>
+                    </div>
                       </div>
                     </div>
                   </div>
@@ -185,6 +194,7 @@
         </div>
       </div>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
 </template>
@@ -193,13 +203,23 @@ import {
   TIME_ATTENDANCE_TAB,
   MORE_MENU,
   SORTING_MENU,
+  WEEK_DAY,
 } from "../../utils/constant/Constant.js";
+import {
+  openPopupNotification,
+  handleInput,
+} from "../../utils/functions/functions_lib.js";
+import {
+  updateTimeAttendanceSettings,
+} from "../../utils/functions/api_call/index";
 import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
 import {
   getTime,
   updateTimeAttandance,
 } from "../../utils/functions/api_call/timeattandance/time";
+import getJson from "../../utils/dataJson/app_wrap_data";
+const appWrapItems = getJson();
 export default {
   data() {
     return {
@@ -210,6 +230,8 @@ export default {
       minDate: new Date("2022-10-11"),
       maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
+      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupMessages: [],
       currentPage: 1,
       timesheetData: TIMESHEET_DATA,
       activeTab: "Attendance",
@@ -218,7 +240,18 @@ export default {
       orderBy: "asc",
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
+      updateForm: {},
+      isFlag: false,
       time: {},
+      // Time & attandance
+      weekOptions: WEEK_DAY,
+      timeAttendanceUpdateButton: false,
+      inActiveTimeAttendance: "disabled",
+      inActiveOrganizationSettings: "disabled",
+      infoUpdateTimeAttendance: true,
+      switchLabelOrgSettings: "",
+      switchLabelAttendance: "",
+      switchLabelweekStarts: "",
     };
   },
   async created() {
@@ -246,6 +279,13 @@ export default {
   methods: {
     getTime,
     updateTimeAttandance,
+    updateTimeAttendanceSettings,
+    handleInput,
+    openPopupNotification,
+    change(event, name) {
+      this.updateForm[name] = event;
+      console.log(this.updateForm, "switchLabelweekStarts");
+    },
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (tab.value == "Setting") {

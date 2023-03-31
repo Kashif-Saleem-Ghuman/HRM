@@ -5,8 +5,12 @@
     :sections="userList"
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
-    classTypeHead="table__hrow__custom"
-      classTypeBody="table__hrow__custom__irow"
+    :collapseObj="{
+          collapsed: false,
+          label: 'Section Name',
+          variant: 'black',
+        }"
+
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -57,12 +61,9 @@
     <template #cell(presence)="data">
       <div class="text-dark">
         <chips
-          :title="data.value.presence == null ? '---' : data.value.presence "
+          :title="dummyData[0].punchin"
           :className="[
-            data.value.presence >= 70 ? 'chip-wrapper__bgsucess' : '',
-            data.value.presence <= 70 ? 'chip-wrapper__bgabsent' : '',
-            data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
-            data.value.presence == null ? 'chip-wrapper__bggray' : '',
+            dummyData[0].punchin == 'Punched-in (Busy)' ? 'chip-wrapper__bgsucess' : '',
           ]"
           
         ></chips>
@@ -94,7 +95,7 @@
       </div>
     </template>
     <template #cell_action_right="data">
-      <bib-icon icon="trash" :scale="1.1"></bib-icon>
+      <bib-icon icon="trash" :scale="0.9"></bib-icon>
     </template>
   </custom-table>
 </template>
@@ -119,6 +120,12 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      dummyData:[
+        {punchin: "Punched-in (Busy)"},
+        {OnBreak: "punchin"},
+        {absent: "punchin"},
+        {vacation: "punchin"},
+      ]
     };
   },
   created(){

@@ -88,7 +88,7 @@ export default {
     }
     if (item.key == "time-off") {
       this.$store.dispatch("token/setActiveTab", item.key)
-     this.$router.push('/myprofile')
+     this.$router.push('/timeoff')
       return;
     }
     if (item.key == "files") {

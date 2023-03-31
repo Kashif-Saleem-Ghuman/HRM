@@ -15,7 +15,7 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-checkbox  size="sm"></bib-checkbox>
+            <bib-checkbox  size="md"></bib-checkbox>
           </div>
         </th>
        

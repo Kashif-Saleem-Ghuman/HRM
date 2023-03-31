@@ -361,3 +361,83 @@ export const TIMESHEET_DATA = [
         "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675315647862.jpg",
     },
   ];
+  export const TIMEOFF_DATA = [
+    {
+      id: "63b64e0b9a8c618c76610466",
+      type: "Vacations",
+      allowance: "00",
+      used: "00",
+      available: "00",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      type: "Medical",
+      allowance: "00",
+      used: "00",
+      available: "00",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      type: "Personal",
+      allowance: "00",
+      used: "00",
+      available: "00",
+    },
+  ];
+  export const TIMEOFF_REQUEST_DATA = [
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    {
+      id: "63b64e0b9a8c618c76610466",
+      submitted: "00:00:00 - 00-00-0000",
+      type: "Absence",
+      from: "00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason: "Reason",
+      status: "Pending",
+    },
+    
+  ];

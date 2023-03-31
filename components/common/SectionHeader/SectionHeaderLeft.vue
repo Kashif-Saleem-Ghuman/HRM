@@ -7,7 +7,7 @@
     </button-circle>
     <!-- <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle> -->
     <div
-    class="shape-circle bg-gray3 width-2 height-2 d-flex justify-center align-center"
+    class="shape-circle bg-gray3 width-2 height-2 d-flex justify-center align-center" v-if="moreIcon"
   >
     <bib-popup pop="elipsis" :scale="1">
       <template v-slot:menu>

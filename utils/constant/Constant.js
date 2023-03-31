@@ -137,6 +137,58 @@ export const TABLE_HEAD = {
     },
     
   ],
+  tHeadTimeoffDashboard: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "type",
+      label: "Type",
+    },
+    {
+      key: "allowance",
+      label: "Allowance",
+    },
+    {
+      key: "used",
+      label: "Used",
+    },
+    {
+      key: "available",
+      label: "Available",
+    },
+  ],
+  tHeadTimeoffRequest: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "submitted",
+      label: "Submitted on",
+    },
+    {
+      key: "type",
+      label: "type",
+    },
+    {
+      key: "from",
+      label: "From",
+    },
+    {
+      key: "to",
+      label: "To",
+    },
+    {
+      key: "reason",
+      label: "Reason",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  ],
 };
 
 export const TABLE_FIELDS_TIME_ATTENDANCE = [
@@ -172,6 +224,16 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
   {
     key: "time-work",
     label: "Time-at-work",
+  },
+];
+export const TIME_OFF_TAB = [
+  {
+    title: "Dashborad",
+    value: "Dashborad",
+  },
+  {
+    title: "Request",
+    value: "Request",
   },
 ];
 export const TIME_ATTENDANCE_TAB = [

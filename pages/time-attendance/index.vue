@@ -1,9 +1,6 @@
 <template>
   <div id="people-action-wrapper">
-    <div>
-                <list-day-view :dayWiseDataTimesheet="dayWiseDataTimesheet"></list-day-view>
-                <!-- <list-timesheet :userList="users"></list-timesheet> -->
-              </div>
+    
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >

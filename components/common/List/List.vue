@@ -63,8 +63,8 @@
         <chips
           :title="data.value.presence == null ? '---' : data.value.presence"
           :className="[
-            data.value.presence >= 70 ? 'chip-wrapper__bgsucess' : '',
-            data.value.presence == 'out' ? 'chip-wrapper__bgabsent' : '',
+            data.value.presence === 'in' ? 'chip-wrapper__bgsucess' : '',
+            data.value.presence === 'out' ? 'chip-wrapper__bgabsent' : '',
             data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
             data.value.presence == null ? 'chip-wrapper__bggray' : '',
           ]"
@@ -98,7 +98,9 @@
       </div>
     </template>
     <template #cell_action_right="data">
+      <div class="d-flex justify-center align-center">
       <bib-icon icon="trash" :scale="0.9"></bib-icon>
+      </div>
     </template>
   </custom-table>
 </template>

@@ -55,7 +55,7 @@
           </div>
         </th>
         <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
-          <div class="d-flex align-center">
+          <div class="d-flex justify-center align-center">
             <bib-icon icon="trash" :scale="0.9"></bib-icon>
           </div>
         </th>

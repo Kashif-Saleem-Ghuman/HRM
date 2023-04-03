@@ -1,6 +1,10 @@
 <template>
   <div id="people-action-wrapper">
-    
+    <!-- <div>
+      <list-day-view
+        :dayWiseDataTimesheet="dayWiseDataTimesheet"
+      ></list-day-view>
+    </div> -->
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -25,7 +29,7 @@
           >
           </section-header-right>
         </template>
-       
+
         <div
           style="z-index: 100"
           class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
@@ -52,7 +56,7 @@
           ></bib-tabs>
         </div>
       </div>
-     
+
       <div class="section-wrapper custom-input" id="attendance-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == timeAttendanceTab[0].value">
@@ -249,7 +253,7 @@ export default {
       minDate: new Date("2022-10-11"),
       maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
-      dayWiseDataTimesheet:TIMESHEET_DATA,
+      dayWiseDataTimesheet: TIMESHEET_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       currentPage: 1,

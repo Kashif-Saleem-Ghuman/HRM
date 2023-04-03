@@ -58,7 +58,7 @@
     },
     data() {
       return {
-        tableFields: TABLE_HEAD.tHeadTimeoffRequest,
+        tableFields: TABLE_HEAD.tHeadMyTimeoffRequest,
         attendanceClass: [],
         satisfaction: "",
         userPhotoClick: false,

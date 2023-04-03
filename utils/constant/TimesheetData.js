@@ -385,7 +385,7 @@ export const TIMESHEET_DATA = [
         "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675315647862.jpg",
     },
   ];
-  export const TIMEOFF_DATA = [
+  export const MY_TIMEOFF_DATA = [
     {
       id: "63b64e0b9a8c618c76610466",
       type: "Vacations",

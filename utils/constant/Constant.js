@@ -933,6 +933,20 @@ export const SORTING_MENU = {
       key: "reset",
     },
   ],
+  actionMenuTimesheet: [
+    {
+      label: "Name",
+      key: "name",
+    },
+    {
+      label: "Week",
+      key: "week",
+    },
+    {
+      label: "Day",
+      key: "day",
+    },
+  ],
   actionMenuTimeAttandance: [
     {
       label: "Name",

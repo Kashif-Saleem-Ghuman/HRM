@@ -61,9 +61,12 @@
     <template #cell(presence)="data">
       <div class="text-dark">
         <chips
-          :title="dummyData[0].punchin"
+          :title="data.value.presence == null ? '---' : data.value.presence"
           :className="[
-            dummyData[0].punchin == 'Punched-in (Busy)' ? 'chip-wrapper__bgsucess' : '',
+            data.value.presence >= 70 ? 'chip-wrapper__bgsucess' : '',
+            data.value.presence == 'out' ? 'chip-wrapper__bgabsent' : '',
+            data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
+            data.value.presence == null ? 'chip-wrapper__bggray' : '',
           ]"
           
         ></chips>
@@ -120,12 +123,6 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
-      dummyData:[
-        {punchin: "Punched-in (Busy)"},
-        {OnBreak: "punchin"},
-        {absent: "punchin"},
-        {vacation: "punchin"},
-      ]
     };
   },
   created(){

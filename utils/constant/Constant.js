@@ -159,7 +159,7 @@ export const TABLE_HEAD = {
       label: "Available",
     },
   ],
-  tHeadTimeoffRequest: [
+  tHeadMyTimeoffRequest: [
     {
       key: "",
       label: "#",
@@ -171,6 +171,66 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "type",
+    },
+    {
+      key: "from",
+      label: "From",
+    },
+    {
+      key: "to",
+      label: "To",
+    },
+    {
+      key: "reason",
+      label: "Reason",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+  ],
+  tHeadTimeoffRequestDashboard: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "allowance",
+      label: "Allowance",
+    },
+    {
+      key: "paid",
+      label: "Paid",
+    },
+    {
+      key: "notpaid",
+      label: "Not paid",
+    },
+    {
+      key: "requests",
+      label: "Requests",
+    },
+  ],
+  tHeadTimeoffRequestPendingRequest: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "from",
+      label: "From",
+    },
+    {
+      key: "received",
+      label: "Received",
+    },
+    {
+      key: "type",
+      label: "Type",
     },
     {
       key: "from",
@@ -226,7 +286,7 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
     label: "Time-at-work",
   },
 ];
-export const TIME_OFF_TAB = [
+export const MY_TIME_OFF_TAB = [
   {
     title: "Dashborad",
     value: "Dashborad",
@@ -234,6 +294,20 @@ export const TIME_OFF_TAB = [
   {
     title: "Request",
     value: "Request",
+  },
+];
+export const TIME_OFF_TAB = [
+  {
+    title: "Dashborad",
+    value: "Dashborad",
+  },
+  {
+    title: "Pending Requests",
+    value: "Pending Requests",
+  },
+  {
+    title: "Absence Notifications",
+    value: "Absence Notifications",
   },
 ];
 export const TIME_ATTENDANCE_TAB = [

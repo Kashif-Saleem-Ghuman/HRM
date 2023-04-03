@@ -1,5 +1,6 @@
 <template>
   <div id="people-action-wrapper">
+    
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -24,6 +25,7 @@
           >
           </section-header-right>
         </template>
+       
         <div
           style="z-index: 100"
           class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
@@ -50,6 +52,7 @@
           ></bib-tabs>
         </div>
       </div>
+     
       <div class="section-wrapper custom-input" id="attendance-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == timeAttendanceTab[0].value">
@@ -117,6 +120,22 @@
                   title="Pending approval"
                   titleClass="button-title"
                 ></button-gray>
+                <div class="d-flex">
+                  <button-circle
+                    v-if="calander"
+                    :scale="1"
+                    variant="secondary"
+                    icon_bg="bg-secondary-sub3"
+                    class="mr-05"
+                  ></button-circle>
+                  <dropdown-menu
+                    :items="actionMenuTimesheet"
+                    @click="clickAction"
+                    style="margin-left: -10px"
+                    dropDowmMenu="dropDowmMenu"
+                    popIcon="calendar"
+                  ></dropdown-menu>
+                </div>
                 <action-right
                   @vclick="clickAction"
                   :items="actionMenu"
@@ -168,21 +187,23 @@
                           :timesheetOptions="weekOptions"
                           :note="time.note"
                           @change-it="change"
-                          :inActiveOrganizationSettings="inActiveOrganizationSettings"
+                          :inActiveOrganizationSettings="
+                            inActiveOrganizationSettings
+                          "
                           :inActive="inActiveTimeAttendance"
                           @input="handleInput"
                         ></attendance>
                         <div class="row mx-0 pt-1">
-                    <div class="col-12">
-                      <bib-button
-                        label="Save"
-                        size="lg"
-                        variant="success"
-                        @click="updateTimeAttandance"
-                        v-if="timeAttendanceUpdateButton"
-                      ></bib-button>
-                    </div>
-                    </div>
+                          <div class="col-12">
+                            <bib-button
+                              label="Save"
+                              size="lg"
+                              variant="success"
+                              @click="updateTimeAttandance"
+                              v-if="timeAttendanceUpdateButton"
+                            ></bib-button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -209,9 +230,7 @@ import {
   openPopupNotification,
   handleInput,
 } from "../../utils/functions/functions_lib.js";
-import {
-  updateTimeAttendanceSettings,
-} from "../../utils/functions/api_call/index";
+import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
 import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
 import {
@@ -230,6 +249,7 @@ export default {
       minDate: new Date("2022-10-11"),
       maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
+      dayWiseDataTimesheet:TIMESHEET_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       currentPage: 1,
@@ -237,6 +257,7 @@ export default {
       activeTab: "Attendance",
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
+      actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
       orderBy: "asc",
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),

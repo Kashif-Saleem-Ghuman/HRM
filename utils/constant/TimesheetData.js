@@ -13,7 +13,7 @@ export const TIMESHEET_DATA = [
       date: "2023-02-21T06:20:53.864Z",
       breaks: 0.7,
       totalHour: "42:00",
-      activity:"General work",
+      activity:"HRM",
       start:"00:00:00",
       end:"00:00:00",
       weekData:{
@@ -30,7 +30,7 @@ export const TIMESHEET_DATA = [
               activity: "string",
               id: "string",
               total: 0,
-            },
+            }
           ],
         },
         tue : {
@@ -98,7 +98,7 @@ export const TIMESHEET_DATA = [
       email: "kelvin.jara@biztree.com",
       status: "Approve",
       date: "2023-02-21T06:20:53.864Z",
-      activity:"HRM",
+      activity:"Custom",
       start:"00:00:00",
       end:"00:00:00",
       breaks: 0.7,
@@ -106,7 +106,6 @@ export const TIMESHEET_DATA = [
       department: "Tech",
       weekData:{
         mon : {
-          in:"test",
           totalHours:"8.9",
           timeData: [
             {
@@ -115,7 +114,27 @@ export const TIMESHEET_DATA = [
               date: "2023-02-22T11:32:14.374Z",
               start: "11:32 AM",
               end: "11:32 PM",
-              activity: "string",
+              activity: "Activity",
+              id: "string",
+              total: 0,
+            },
+            {
+              employeeId: "string",
+              businessId: "string",
+              date: "2023-02-22T11:32:14.374Z",
+              start: "11:32 AM",
+              end: "11:32 PM",
+              activity: "Activity",
+              id: "string",
+              total: 0,
+            },
+            {
+              employeeId: "string",
+              businessId: "string",
+              date: "2023-02-22T11:32:14.374Z",
+              start: "11:32 AM",
+              end: "11:32 PM",
+              activity: "Activity",
               id: "string",
               total: 0,
             },
@@ -237,6 +256,9 @@ export const TIMESHEET_DATA = [
       role: "ADMIN",
       firstName: "Dhruv",
       lastName: "Sharma",
+      activity:"HRM APP",
+      start:"00:00:00",
+      end:"00:00:00",
       email: "dhruv.sharma@qsstechnosoft.com",
       status: "Pending",
       breaks: 0.7,
@@ -301,11 +323,13 @@ export const TIMESHEET_DATA = [
       role: "USER",
       firstName: "Charan",
       middleName: "",
+      activity:"Drive",
+      start:"00:00:00",
+      end:"00:00:00",
       lastName: "Chauhan",
       email: "charan.pal@qsstechnosoft.com",
       status: "Approve",
       date: "2023-02-21T06:20:53.864Z",
-     
       totalHour: "00:00",
       weekData:{
         mon : {

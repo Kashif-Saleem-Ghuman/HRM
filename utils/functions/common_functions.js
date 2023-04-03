@@ -24,8 +24,9 @@ export async function getBusinessId() {
           Authorization: "Bearer " + this.getAccessToken,
         },
       });
-      console.log(businessid.data, "Org Object Called");
-
+      // console.log(businessid.data, "Org Object Called");
+      this.org = businessid.data[0]
+      console.log(this.org, "Org Object Called");
   } catch (e) {
     alert(e);
   }

@@ -49,7 +49,6 @@
         <tr v-if="customTitle" :class="classTypeHead">
           <th
             colspan="6"
-            v-if="$scopedSlots.cell_action"
             class="cell_action_header"
           >
            <div class="d-flex justify-between align-center py-05">
@@ -79,6 +78,7 @@
           :id="keyI"
           style="cursor: pointer"
         >
+
           <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
           <td v-if="$scopedSlots.cell_title" colspan="2" style="width: 50px">
             <slot

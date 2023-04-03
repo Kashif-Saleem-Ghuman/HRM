@@ -75,6 +75,7 @@ import {
   headerActionCall,
   openPopupNotification,
   isThemeCheck,
+  getBusinessId,
 } from "../utils/functions/functions_lib.js";
 export default {
   data() {
@@ -161,6 +162,7 @@ export default {
             // }
           }
           this.getUser();
+          this.getBusinessId();
         })
         .catch((err) => {
           this.loading = false;
@@ -176,6 +178,7 @@ export default {
   methods: {
     isThemeCheck,
     getUser,
+    getBusinessId,
     handleToggleWrapperTheme,
     openAccountPage,
     myProfile,

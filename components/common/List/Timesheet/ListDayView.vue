@@ -16,7 +16,7 @@
       </template>
       <template #cell(activity)="data">
         <div class="justify-between text-dark px-05" style="width:200px">
-          <span>{{ data.value.activity }}</span>
+          <span>{{ data.value.weekData.mon.timeData.activity }}</span>
         </div>
       </template>
       <template #cell(start)="data">

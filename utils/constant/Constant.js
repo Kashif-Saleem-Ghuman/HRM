@@ -279,6 +279,28 @@ export const TABLE_HEAD = {
       label: "Currency",
     },
   ],
+  tHeadBenefits: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "package",
+      label: "Package",
+    },
+    {
+      key: "effectivedate",
+      label: "Effective date",
+    },
+    {
+      key: "enrolmentstatus",
+      label: "Enrolment status",
+    },
+  ],
 };
 
 export const TABLE_FIELDS_TIME_ATTENDANCE = [

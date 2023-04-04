@@ -4,7 +4,7 @@
         class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
       >
         <section-header-left
-          title="Pay"
+          title="Benefit"
           :avatar="userPhoto"
           headerRight="headerRight"
           :items="items.slice(-1)"
@@ -59,7 +59,7 @@
                   :items="actionMenu"
                 ></action-right>
                 </div>
-              <list-pay :payData="payData"></list-pay>
+              <list-benefits :payData="payData"></list-benefits>
             </div>
           </div>
         </div>

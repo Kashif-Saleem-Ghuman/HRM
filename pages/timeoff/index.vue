@@ -70,26 +70,39 @@
                     icon="add"
                     variant="success"
                     :scale="1"
-                    title="Request time-off"
-                    @on-click="timeOffModal = true"
+                    title="Approve"
                   ></button-green>
+                  <button-warning
+                    icon="add"
+                    :scale="1"
+                    title="Deny"
+                  ></button-warning>
+                </div>
+                <action-right
+                  @vclick="clickAction"
+                  :items="actionMenu"
+                ></action-right>
+              </div>
+              <list-pending-my-timeoff :timeoffData="timeoffPendingData"></list-pending-my-timeoff>
+            </div>
+            <div v-if="activeTab == timeOffTab[2].value">
+              <div
+                class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+              >
+                <div class="d-flex align-center">
                   <button-green
                     icon="add"
                     variant="success"
                     :scale="1"
-                    title="Absence Notification"
-                    @on-click="timeOffModal = true"
+                    title="Approve"
                   ></button-green>
                 </div>
-              </div>
-              <div class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper">
-                  <date-picker></date-picker>
-                  <action-right
+                <action-right
                   @vclick="clickAction"
                   :items="actionMenu"
                 ></action-right>
-                </div>
-              <!-- <list-request :timeoffData="timeoffRequestData"></list-request> -->
+              </div>
+              <list-absence-mytimeoff :timeoffAbsenceData="timeoffPendingData"></list-absence-mytimeoff>
             </div>
           </div>
         </div>
@@ -107,7 +120,7 @@
     SORTING_MENU,
     WEEK_DAY,
   } from "../../utils/constant/Constant";
-  import { TIMEOFF_DATA } from "../../utils/constant/TimeoffData";
+  import { TIMEOFF_DATA, TIMEOFF_PENDING_DATA } from "../../utils/constant/TimeoffData";
   import { mapGetters } from "vuex";
   export default {
     data() {
@@ -115,10 +128,11 @@
         id: "",
         timeOffTab: TIME_OFF_TAB,
         timeoffData: TIMEOFF_DATA,
+        timeoffPendingData:TIMEOFF_PENDING_DATA,
         // timeoffRequestData:TIMEOFF_REQUEST_DATA,
         activeTab: "Dashborad",
         items: MORE_MENU,
-        actionMenu: SORTING_MENU.actionMenuTimeAttandance,
+        actionMenu: SORTING_MENU.actionMenuTimeoff,
         orderBy: "asc",
         totalUser: "",
         userPhoto: localStorage.getItem("userPhoto"),

@@ -1043,6 +1043,16 @@ export const SORTING_MENU = {
       key: "reset",
     },
   ],
+  actionMenuTimeoff: [
+    {
+      label: "Date",
+      key: "date",
+    },
+    {
+      label: "Week",
+      key: "week",
+    },
+  ],
 };
 export const ACTION_MENU = [
   {

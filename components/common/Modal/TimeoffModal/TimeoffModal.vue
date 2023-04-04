@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper custom-input">
     <bib-modal-wrapper
       v-if="timeOffModal"
       @close="$emit('close')"

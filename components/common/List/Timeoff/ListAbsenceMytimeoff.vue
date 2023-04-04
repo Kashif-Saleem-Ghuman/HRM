@@ -1,8 +1,8 @@
 <template>
   <custom-table
-    :fields="tableFields.slice(0,7)"
+    :fields="tableFields"
     class="border-gray4 bg-white"
-    :sections="timeoffData"
+    :sections="timeoffAbsenceData"
     :hide-no-column="true"
     classTypeHead="table__hrow__custom"
       classTypeBody="table__hrow__custom__irow"
@@ -42,6 +42,11 @@
         <span>{{ data.value.reason }}</span>
       </div>
     </template>
+    <template #cell(status)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.pending }}</span>
+      </div>
+    </template>
   </custom-table>
 </template>
 
@@ -51,7 +56,7 @@ import {
 } from "../../../../utils/constant/Constant";
 export default {
   props: {
-    timeoffData: {
+    timeoffAbsenceData: {
       type: Array,
       default: "",
     },

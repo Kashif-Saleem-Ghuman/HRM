@@ -249,6 +249,58 @@ export const TABLE_HEAD = {
       label: "Status",
     },
   ],
+  tHeadPay: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "paytype",
+      label: "Pay Type",
+    },
+    {
+      key: "payrate",
+      label: "Pary Rate",
+    },
+    {
+      key: "payterm",
+      label: "Pay Term",
+    },
+    {
+      key: "payschedule",
+      label: "Pay Schedule",
+    },
+    {
+      key: "currency",
+      label: "Currency",
+    },
+  ],
+  tHeadBenefits: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "package",
+      label: "Package",
+    },
+    {
+      key: "effectivedate",
+      label: "Effective date",
+    },
+    {
+      key: "enrolmentstatus",
+      label: "Enrolment status",
+    },
+  ],
 };
 
 export const TABLE_FIELDS_TIME_ATTENDANCE = [
@@ -309,6 +361,20 @@ export const TIME_OFF_TAB = [
     title: "Absence Notifications",
     value: "Absence Notifications",
   },
+];
+export const PAY_TAB = [
+  {
+    title: "Dashborad",
+    value: "Dashborad",
+  },
+  // {
+  //   title: "Pending Requests",
+  //   value: "Pending Requests",
+  // },
+  // {
+  //   title: "Absence Notifications",
+  //   value: "Absence Notifications",
+  // },
 ];
 export const TIME_ATTENDANCE_TAB = [
   {
@@ -1144,5 +1210,23 @@ export const ACCESS_ITEMS = [
   {
     label: "User",
     value: "User",
+  },
+];
+export const PAY_ACTION_MENU = [
+  {
+    label: "Name",
+    key: "name",
+  },
+  {
+    label: "Date Modified",
+    key: "datemodified",
+  },
+  {
+    label: "Size",
+    key: "size",
+  },
+  {
+    label: "File Format",
+    key: "fileformat",
   },
 ];

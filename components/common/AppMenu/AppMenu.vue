@@ -90,6 +90,10 @@ export default {
      this.$router.push('/mytimeoff')
       return;
     }
+    if (item.key == "pay") {
+     this.$router.push('/pay')
+      return;
+    }
     if (item.key == "files") {
       this.$store.dispatch("token/setActiveTab", item.key)
      this.$router.push('/myprofile')

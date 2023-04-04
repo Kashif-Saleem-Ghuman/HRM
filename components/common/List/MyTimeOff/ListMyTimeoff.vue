@@ -7,6 +7,7 @@
       classTypeHead="table__hrow__custom"
         classTypeBody="table__hrow__custom__irow"
     >
+    
     <template #cell(type)="data">
         <div class="justify-between text-dark">
           <span>{{ data.value.type }}</span>

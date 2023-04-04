@@ -117,3 +117,55 @@ export const TIMEOFF_DATA = [
       requests:"00",
     },
   ];
+  export const TIMEOFF_PENDING_DATA = [
+    {
+      from:"00:00:00 - 00-00-0000",
+      received:"00:00:00 - 00-00-0000",
+      type:"Absence",
+      from2:"00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason:"Reason",
+      pending:"Pending",
+      status:"Status"
+    },
+    {
+      from:"00:00:00 - 00-00-0000",
+      received:"00:00:00 - 00-00-0000",
+      type:"Absence",
+      from2:"00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason:"Reason",
+      pending:"Pending",
+      status:"Status"
+    },
+    {
+      from:"00:00:00 - 00-00-0000",
+      received:"00:00:00 - 00-00-0000",
+      type:"Absence",
+      from2:"00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason:"Reason",
+      pending:"Pending",
+      status:"Status"
+    },
+    {
+      from:"00:00:00 - 00-00-0000",
+      received:"00:00:00 - 00-00-0000",
+      type:"Absence",
+      from2:"00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason:"Reason",
+      pending:"Pending",
+      status:"Status"
+    },
+    {
+      from:"00:00:00 - 00-00-0000",
+      received:"00:00:00 - 00-00-0000",
+      type:"Absence",
+      from2:"00:00:00 - 00-00-0000",
+      to:"00:00:00 - 00-00-0000",
+      reason:"Reason",
+      pending:"Pending",
+      status:"Status"
+    },
+  ]; 

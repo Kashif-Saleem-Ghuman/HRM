@@ -99,8 +99,8 @@ export default {
       return;
     }
     if (item.key == "files") {
-      this.$store.dispatch("token/setActiveTab", item.key)
-     this.$router.push('/myprofile')
+      // this.$store.dispatch("token/setActiveTab", item.key)
+     this.$router.push('/files')
       return;
     }
     if (item.key == "performance") {

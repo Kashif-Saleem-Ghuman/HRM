@@ -528,14 +528,14 @@ export const EMPLOYEE_PROFILE_TAB = [
     title: "Benefits",
     value: "benefits",
   },
-  {
-    title: "Time-off",
-    value: "time-off",
-  },
-  {
-    title: "Time & Attendance",
-    value: "timeattendance",
-  },
+  // {
+  //   title: "Time-off",
+  //   value: "time-off",
+  // },
+  // {
+  //   title: "Time & Attendance",
+  //   value: "timeattendance",
+  // },
   {
     title: "Files",
     value: "files",

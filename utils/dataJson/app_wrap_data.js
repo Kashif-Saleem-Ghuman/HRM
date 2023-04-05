@@ -116,7 +116,7 @@ const data = () => {
       { label: "Time-off", icon: "add", key: "time-off", url:'/absense', selected: false},
       { label: "Pay", icon: "add", key: "pay", url:'/compensation', selected: false},
       { label: "Benefits", icon: "add", key: "benefits", url:"/benefits", selected: false},
-      { label: "Files", icon: "add", key: "benefits", url:"/benefits", selected: false},
+      { label: "Files", icon: "add", key: "files", url:"/benefits", selected: false},
     ],
   }
   

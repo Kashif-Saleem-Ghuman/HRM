@@ -1,104 +1,236 @@
 <template>
   <div id="people-action-wrapper">
+    <!-- <div>
+      <list-day-view
+        :dayWiseDataTimesheet="dayWiseDataTimesheet"
+      ></list-day-view>
+    </div> -->
     <div
-      class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
+      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
         title="Dashboard"
-        :bookmark="bookmark"
-        :moreIcon="moreIcon"
+        moreIcon="more"
+        :avatar="userPhoto"
         headerRight="headerRight"
+        :items="items.slice(-1)"
+        :icon="items.icon"
+        @vclick="clickAction"
       ></section-header-left>
-      <div class="d-flex justify-between mr-1">
-        <template>
-          <button-circle
-            icon="user-add"
-            :scale="1"
-            @click="addUser()"
-            variant="success"
-            showLight="true"
-            class="ml-05"
-          ></button-circle>
+      <div class="d-flex justify-between">
+        <template v-for="user in userList.slice(0, 4)">
+          <section-header-right
+            @click="userId(user.id)"
+            :avatar="
+              user.photo == null
+                ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png'
+                : user.photo
+            "
+          >
+          </section-header-right>
         </template>
+
+        <div
+          style="z-index: 100"
+          class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
+        >
+          <span style="font-size: 14px; font-weight: 500">{{ totalUser }}</span>
+        </div>
+        <button-circle
+          icon="user-add"
+          :scale="1"
+          @click="addUser()"
+          variant="success"
+          class="ml-05"
+          icon_bg="light-green"
+        ></button-circle>
       </div>
     </div>
-    <div class="d-flex justify-between py-05 px-075 bottom_border_wrapper">
-      <div class="d-flex">
+    <div
+      class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+    >
+      <div class="d-flex align-center">
         <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Add Department"
-                ></button-green>
+          icon="add"
+          variant="success"
+          :scale="1"
+          title="New employee"
+        ></button-green>
+        <button-green
+          icon="add"
+          :scale="1"
+          variant="success"
+          title="New job posting"
+        ></button-green>
+        <button-green
+          icon="add"
+          :scale="1"
+          variant="success"
+          title="New message"
+        ></button-green>
       </div>
-      <action-right
-        icon="add"
-        variant="success"
-        title="Import"
-        titleClass="button-title"
-        v-on:change-sort="sortBy"
-      ></action-right>
+      <action-right @vclick="clickAction" :items="actionMenu"></action-right>
     </div>
-    <div class="py-2 px-2">
-      <div class="d-flex"  style="position: relative;">
-        <progress-circle :progressCount="70" :fill="fill" emptyfill="#D5E8D4" variant="__bg-green" @mouseover="mouseover" @mouseleave="mouseleave"></progress-circle>
-        <tooltip :show="showTooltip"></tooltip>
-      </div>
-      <div class="py-2 d-flex">
-        <chips title="Punched in" variant="chip-wrapper__bgsucess"></chips>
-        <chips title="Absent" variant="chip-wrapper__bgabsent"></chips>
-        <chips title="Vacation" variant="chip-wrapper__bgvacation"></chips>
-        <chips title="Absent" variant="chip-wrapper__bgabsentpink"></chips>
-        <chips title="Pending" variant="chip-wrapper__bgpending"></chips>
-      </div>
-      <div class="py-2 d-flex">
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgsucess"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgvacation"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsent"></chips>
-        <chips title="M" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsentpink"></chips>
-        <chips title="N/A" shapeCircle="__shape-circle"></chips>
-        <!-- <chips title="M"  variant="__bgabsent"></chips>
-        <chips title="A" variant="__bgvacation"></chips>
-        <chips title="Absent" variant="__bgabsentpink"></chips>
-        <chips title="Pending" variant="__bgdefault"></chips> -->
+    <div class="tab-wrapper">
+      <div id="timesheet-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div
+            class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+          >
+            <div class="d-flex align-center">
+              <date-picker></date-picker>
+            </div>
+          </div>
+          <div class="scroll_wrapper">
+            <div style="z-index: 1">
+              <list-dashboard :userList="timesheetData"></list-dashboard>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <!-- <modal-wrapper></modal-wrapper> -->
-    <!-- <action-button v-on:new-employee-action="sortBy" v-on:import-action="sortBy"></action-button> -->
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
 </template>
 <script>
+import {
+  TIME_ATTENDANCE_TAB,
+  MORE_MENU,
+  SORTING_MENU,
+  WEEK_DAY,
+} from "../../utils/constant/Constant.js";
+import {
+  openPopupNotification,
+} from "../../utils/functions/functions_lib.js";
+import { DASHBOARD_DATA } from "../../utils/constant/DashboardData";
+import { mapGetters } from "vuex";
+
+import getJson from "../../utils/dataJson/app_wrap_data";
+const appWrapItems = getJson();
 export default {
   data() {
     return {
-      switchChecked1: true,
-      switchChecked2: false,
-      showTooltip:false,
-      fill:"#2BA026" ,
-      userItems: [
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-      ],
+      id: "",
+      openSidebar: false,
+      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupMessages: [],
+      timesheetData: DASHBOARD_DATA,
+      items: MORE_MENU,
+      actionMenu: SORTING_MENU.actionMenuTimeAttandance,
+      actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
+      totalUser: "",
+      userPhoto: localStorage.getItem("userPhoto"),
     };
   },
+  async created() {
+    await this.$store.dispatch("setActiveUserRole", {
+      userRole: this.activeUserRole,
+    });
+    await this.$store.dispatch("employee/setUserList");
+    this.localData = this.userList;
+    await this.$store.dispatch("employee/setActiveUser");
+    var users = this.getUser;
+    this.id = users.id;
+  },
+  computed: {
+    ...mapGetters({
+      userList: "employee/GET_USERS_LIST",
+      activeUserRole: "token/getUserRole",
+      getUser: "employee/GET_USER",
+      getAccessToken: "token/getAccessToken",
+    }),
+  },
+  async mounted() {
+    this.totalUser = this.userList.length;
+  },
   methods: {
-    mouseover() {
-      this.showTooltip=true
+   
+    openPopupNotification,
+    change(event, name) {
+      this.updateForm[name] = event;
+      console.log(this.updateForm, "switchLabelweekStarts");
     },
-    mouseleave(){
-      this.showTooltip= false
-    }
+    async handleChange_Tabs(tab) {
+      this.activeTab = tab.value;
+      if (tab.value == "Setting") {
+        console.log(this.time, "this.time");
+        this.getTime();
+      }
+    },
+    userId(id) {
+      this.$router.push("/myprofile/" + id);
+    },
+    onChange(value) {
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      console.log("selected date:", date);
+    },
+    clickAction(event) {
+      if (event.key == "name") {
+      }
+    },
   },
 };
 </script>
+<style lang="scss">
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 5px;
+  > li {
+    display: inline; // Remove list-style and block-level defaults
+    > a,
+    > span {
+      position: relative;
+      float: left; // Collapse white-space
+      padding: 5px 10px;
+      line-height: 30px;
+      text-decoration: none;
+      color: #000;
+      background-color: #d5e8d4;
+      border: 1px solid #8dd488;
+      margin-left: -1px;
+    }
+    &:first-child {
+      > a,
+      > span {
+        margin-left: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+  > li > a,
+  > li > span {
+    &:hover {
+      z-index: 2;
+      color: #31a22c;
+      background-color: #f2f5f1;
+      // border-color: @pagination-hover-border;
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      z-index: 3;
+      color: #fff;
+      background-color: #31a22c;
+      // border-color: @pagination-active-border;
+      cursor: default;
+    }
+  }
+}
+</style>

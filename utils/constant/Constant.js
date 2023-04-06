@@ -1,4 +1,50 @@
 export const TABLE_HEAD = {
+  tHeadDashboard: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+    },
+    {
+      key: "status",
+      label: "Status",
+    },
+    {
+      key: "mon",
+      label: "Mon",
+    },
+    {
+      key: "tue",
+      label: "Tue",
+    },
+    {
+      key: "wed",
+      label: "Wed",
+    },
+    {
+      key: "thu",
+      label: "Thu",
+    },
+    {
+      key: "fri",
+      label: "Fri",
+    },
+    {
+      key: "sat",
+      label: "Sat",
+    },
+    {
+      key: "sun",
+      label: "Sun",
+    },
+    {
+      key: "total",
+      label: "Total hours",
+    },
+  ],
   tHeadPeople: [
     {
       key: "",

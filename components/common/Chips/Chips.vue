@@ -3,6 +3,7 @@
     <div
       :class="[
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
+        shapeRound ? 'chip-wrapper' + shapeRound : '',
         variant,
         className,
       ]"
@@ -44,6 +45,9 @@ export default {
     shapeCircle: {
       type: String,
     },
+    shapeRound: {
+      type: String,
+    },
     titleClass: {
       type: String,
     },
@@ -68,6 +72,11 @@ export default {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
+  }
+  &__shape-round {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 5px;
   }
 
   &__bgsucess {
@@ -129,12 +138,18 @@ export default {
     height: 3rem;
     border-radius: 50%;
   }
+  &__shape-round {
+    width: 3rem;
+    height: 3rem;
+    padding: 6px;
+    border-radius: 1px;
+  }
 
   &__bgsucess {
     background-color: #d5e8d4;
     span {
       color: #2ba026;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -143,15 +158,15 @@ export default {
     background-color: rgba(255, 171, 0, 0.16);
     span {
       color: #ffab00;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
   &__bgvacation {
-    background-color: rgba(31, 66, 162, 0.16);
+    background-color:rgba(31, 66, 162, 0.16);
     span {
       color: #1f42a2;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -159,7 +174,7 @@ export default {
     background-color: rgba(230, 0, 14, 0.16);
     span {
       color: #e6000e;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -168,7 +183,7 @@ export default {
     border: 1px solid #e1e0e0;
     span {
       color: #b1b1b4;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -177,7 +192,7 @@ export default {
     border: 1px solid #e1e0e0;
     span {
       color: #b1b1b4;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -185,14 +200,27 @@ export default {
     background-color: #f2f2f5;
     border-radius: 0.5rem;
     span {
-      color: #000;
-      text-transform:lowercase;
-      // font-weight: 500;
+      color: #E2E2E3;
+      font-weight: 600;
       font-size: 14px;
     }
     span:first-letter{
       text-transform: uppercase
     }
+    
+  }
+  &__bgwhite {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    color: #eee;
+    span {
+      color: #E2E2E3;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    // span:first-letter{
+    //   text-transform: uppercase
+    // }
     
   }
 }

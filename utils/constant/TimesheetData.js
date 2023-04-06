@@ -10,6 +10,8 @@ export const TIMESHEET_DATA = [
       jobTitle:"Technical",
       email: "rajeev.sharma@qsstechnosoft.com",
       status: "Approve",
+      activeStatus:"Punched in",
+      totalWeekHour:"42",
       date: "2023-02-21T06:20:53.864Z",
       breaks: 0.7,
       totalHour: "42:00",
@@ -20,6 +22,7 @@ export const TIMESHEET_DATA = [
         mon : {
           in:"test",
           totalHours:"3",
+          hourStatus:"8",
           timeData: [
             {
               employeeId: "string",
@@ -36,6 +39,7 @@ export const TIMESHEET_DATA = [
         tue : {
           in:"test",
           totalHours:"8",
+          hourStatus:"3",
           timeData: [
             {
               employeeId: "string",
@@ -52,6 +56,7 @@ export const TIMESHEET_DATA = [
         wed : {
           in:"test",
           totalHours:"8",
+          hourStatus:"6.5",
           timeData: [
             {
               employeeId: "string",
@@ -68,6 +73,7 @@ export const TIMESHEET_DATA = [
         thu : {
           in:"test",
           totalHours:"7",
+          hourStatus:"2",
           timeData: [
             {
               employeeId: "string",
@@ -97,6 +103,7 @@ export const TIMESHEET_DATA = [
       jobTitle:"Technical Leader",
       email: "kelvin.jara@biztree.com",
       status: "Approve",
+      activeStatus:"Absent",
       date: "2023-02-21T06:20:53.864Z",
       activity:"Custom",
       start:"00:00:00",
@@ -106,7 +113,9 @@ export const TIMESHEET_DATA = [
       department: "Tech",
       weekData:{
         mon : {
-          totalHours:"8.9",
+          in:"test",
+          totalHours:"8",
+          hourStatus:"5",
           timeData: [
             {
               employeeId: "string",
@@ -114,35 +123,16 @@ export const TIMESHEET_DATA = [
               date: "2023-02-22T11:32:14.374Z",
               start: "11:32 AM",
               end: "11:32 PM",
-              activity: "Activity",
+              activity: "string",
               id: "string",
               total: 0,
-            },
-            {
-              employeeId: "string",
-              businessId: "string",
-              date: "2023-02-22T11:32:14.374Z",
-              start: "11:32 AM",
-              end: "11:32 PM",
-              activity: "Activity",
-              id: "string",
-              total: 0,
-            },
-            {
-              employeeId: "string",
-              businessId: "string",
-              date: "2023-02-22T11:32:14.374Z",
-              start: "11:32 AM",
-              end: "11:32 PM",
-              activity: "Activity",
-              id: "string",
-              total: 0,
-            },
+            }
           ],
         },
         tue : {
           in:"test",
           totalHours:"8",
+          hourStatus:"8",
           timeData: [
             {
               employeeId: "string",
@@ -158,7 +148,25 @@ export const TIMESHEET_DATA = [
         },
         wed : {
           in:"test",
+          totalHours:"8",
+          hourStatus:"8",
+          timeData: [
+            {
+              employeeId: "string",
+              businessId: "string",
+              date: "2023-02-22T11:32:14.374Z",
+              start: "11:32 AM",
+              end: "11:32 PM",
+              activity: "string",
+              id: "string",
+              total: 0,
+            },
+          ],
+        },
+        thu : {
+          in:"test",
           totalHours:"7",
+          hourStatus:"7",
           timeData: [
             {
               employeeId: "string",
@@ -188,6 +196,8 @@ export const TIMESHEET_DATA = [
       jobTitle:"Department Lead",
       email: "vishwajeet.mandal@qsstechnosoft.com",
       status: "Past due",
+      activeStatus:"Vacation",
+      totalWeekHour:"00",
       date: "2023-02-21T06:20:53.864Z",
       activity:"Break",
       start:"00:00:00",
@@ -199,6 +209,7 @@ export const TIMESHEET_DATA = [
         mon : {
           in:"test",
           totalHours:"8",
+          hourStatus:"V",
           timeData: [
             {
               employeeId: "string",
@@ -215,6 +226,7 @@ export const TIMESHEET_DATA = [
         tue : {
           in:"test",
           totalHours:"9",
+          hourStatus:"V",
           timeData: [
             {
               employeeId: "string",
@@ -231,6 +243,7 @@ export const TIMESHEET_DATA = [
         wed : {
           in:"test",
           totalHours:"3",
+          hourStatus:"V",
           timeData: [
             {
               employeeId: "string",
@@ -261,12 +274,15 @@ export const TIMESHEET_DATA = [
       end:"00:00:00",
       email: "dhruv.sharma@qsstechnosoft.com",
       status: "Pending",
+      activeStatus:"Absent",
+      totalWeekHour:"22",
       breaks: 0.7,
       totalHour: "00:00",
       weekData:{
         mon : {
           in:"test",
           totalHours:"8",
+          hourStatus:"7",
           timeData: [
             {
               employeeId: "string",
@@ -299,6 +315,7 @@ export const TIMESHEET_DATA = [
         wed : {
           in:"test",
           totalHours:"8",
+          hourStatus:"9",
           timeData: [
             {
               employeeId: "string",
@@ -329,12 +346,15 @@ export const TIMESHEET_DATA = [
       lastName: "Chauhan",
       email: "charan.pal@qsstechnosoft.com",
       status: "Approve",
+      activeStatus:"Pending",
+      totalWeekHour:"10",
       date: "2023-02-21T06:20:53.864Z",
       totalHour: "00:00",
       weekData:{
         mon : {
           in:"test",
           totalHours:"8",
+          hourStatus:"A",
           timeData: [
             {
               employeeId: "string",
@@ -351,6 +371,7 @@ export const TIMESHEET_DATA = [
         tue : {
           in:"test",
           totalHours:"6.5",
+          hourStatus:"7",
           timeData: [
             {
               employeeId: "string",
@@ -367,6 +388,7 @@ export const TIMESHEET_DATA = [
         wed : {
           in:"test",
           totalHours:"8",
+          hourStatus:"7",
           timeData: [
             {
               employeeId: "string",

@@ -337,7 +337,6 @@ export default {
   // },
   methods: {
     close() {
-      alert("sadjlaksjdlasldkjlasjdl");
       this.timesheetModal = false;
     },
     itemCliked(item) {

@@ -487,3 +487,29 @@ export const TIMESHEET_DATA = [
     },
     
   ];
+  export const MY_TIMESHEET_DATA= [
+    {
+      activity: "Activity",
+      start: "00:00",
+      end: "00:00",
+      total: "00:00",
+    },
+    {
+      activity: "Activity",
+      start: "00:00",
+      end: "00:00",
+      total: "00:00",
+    },
+    {
+      activity: "Activity",
+      start: "00:00",
+      end: "00:00",
+      total: "00:00",
+    },
+    {
+      activity: "Activity",
+      start: "00:00",
+      end: "00:00",
+      total: "00:00",
+    },
+  ];

@@ -78,8 +78,7 @@ export default {
       return;
     }
     if (item.key == "timeattendance") {
-      this.$store.dispatch("token/setActiveTab", item.key)
-     this.$router.push('/myprofile')
+     this.$router.push('/mytimeattendance')
       return;
     }
     if (item.key == "time-off") {

@@ -253,13 +253,16 @@ export default {
     color: $gray5;
     font-size: 12px;
     font-weight: 600;
-   
+    text-transform: uppercase !important;
+
    
     th {
       border: $gray3 1px solid;
       border-top: none;
       text-align: left;
       height: 48px !important;
+      text-transform: uppercase !important;
+
       &:first-child {
         border-left: none;
       }

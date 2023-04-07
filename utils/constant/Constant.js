@@ -205,6 +205,28 @@ export const TABLE_HEAD = {
       label: "Available",
     },
   ],
+  tHeadMyTimeAttendance: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "activity",
+      label: "Activity",
+    },
+    {
+      key: "start",
+      label: "Start",
+    },
+    {
+      key: "end",
+      label: "End",
+    },
+    {
+      key: "total",
+      label: "Total",
+    },
+  ],
   tHeadMyTimeoffRequest: [
     {
       key: "",
@@ -392,6 +414,16 @@ export const MY_TIME_OFF_TAB = [
   {
     title: "Request",
     value: "Request",
+  },
+];
+export const MY_TIME_ATTENDANCE = [
+  {
+    title: "Dashborad",
+    value: "Dashborad",
+  },
+  {
+    title: "Pending",
+    value: "Pending",
   },
 ];
 export const TIME_OFF_TAB = [

@@ -91,6 +91,7 @@
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
+    </div>
   </div>
 </template>
 <script>
@@ -102,10 +103,15 @@ import {
 } from "../../utils/constant/Constant.js";
 import {
   openPopupNotification,
+  handleInput,
 } from "../../utils/functions/functions_lib.js";
+import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
 import { DASHBOARD_DATA } from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
-
+import {
+  getTime,
+  updateTimeAttandance,
+} from "../../utils/functions/api_call/timeattandance/time";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 export default {
@@ -113,6 +119,7 @@ export default {
     return {
       id: "",
       openSidebar: false,
+      timeAttendanceTab: TIME_ATTENDANCE_TAB,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       timesheetData: DASHBOARD_DATA,
@@ -143,9 +150,13 @@ export default {
   },
   async mounted() {
     this.totalUser = this.userList.length;
+    console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },
   methods: {
-   
+    getTime,
+    updateTimeAttandance,
+    updateTimeAttendanceSettings,
+    handleInput,
     openPopupNotification,
     change(event, name) {
       this.updateForm[name] = event;

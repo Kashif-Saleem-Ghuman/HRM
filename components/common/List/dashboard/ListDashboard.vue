@@ -1,6 +1,6 @@
 <template>
   <div class="remove-pad">
-    <custom-table-dashboard
+    <custom-table
       :fields="tableFields"
       class="border-gray4 bg-white"
       :sections="userList"
@@ -9,12 +9,13 @@
       <template #cell(name)="data">
         <div
           class="d-flex align-center text-left gap-05"
-          style="position: relative"
+          style="position: relative;"
         >
           <div
             style="cursor: pointer"
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            class="ml-05"
           >
             <bib-avatar
               class="mt-auto mb-auto"
@@ -292,7 +293,7 @@
           ]"
         ></chips>
       </template>
-    </custom-table-dashboard>
+    </custom-table>
     <time-sheet-modal
       @close="timesheetModal = false"
       :timesheetModal="timesheetModal"
@@ -304,7 +305,7 @@
 <script>
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
-import { DASHBOARD_DATA } from "../../../../utils/constant/TimesheetData";
+import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 export default {
   props: {
     userList: {
@@ -321,7 +322,7 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       timesheetModal: false,
-      // localData: TIMESHEET_DATA,
+      localData: DASHBOARD_DATA,
       filteredData: "",
     };
   },
@@ -343,6 +344,7 @@ export default {
       document.querySelector("#timesheetid_" + item).style = "display:none";
       this.timesheetModal = true;
       var users = this.localData.find((items) => items.id === item);
+      console.log(users.id, item, "asdkskahkdhshadakdhaskhk")
       this.filteredData = users;
     },
     handleItemClick_Table(event, keyI, item) {

@@ -19,7 +19,7 @@
       <bib-popup :pop="popIcon" :scale="1">
         <template v-slot:menu>
           <div class="list">
-          <span class="list__item" v-for="(item, index) in items" @click="$emit('click', item)">
+          <span class="list__item" v-for="(item, index) in items"  @click="$emit('click', item)">
             <div class="d-flex align-center mb-1 mt-1">
               <bib-icon
                 variant="success"

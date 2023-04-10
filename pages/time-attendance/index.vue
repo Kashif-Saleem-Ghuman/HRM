@@ -1,10 +1,5 @@
 <template>
   <div id="people-action-wrapper">
-    <!-- <div>
-      <list-day-view
-        :dayWiseDataTimesheet="dayWiseDataTimesheet"
-      ></list-day-view>
-    </div> -->
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -134,7 +129,7 @@
                   ></button-circle>
                   <dropdown-menu
                     :items="actionMenuTimesheet"
-                    @click="clickAction"
+                    @click="clickActionTimesheet"
                     style="margin-left: -10px"
                     dropDowmMenu="dropDowmMenu"
                     popIcon="calendar"
@@ -147,8 +142,14 @@
               </div>
             </div>
             <div class="scroll_wrapper">
+              <div class="pb-3">
+                <list-day-view
+                  :dayWiseDataTimesheet="dayWiseDataTimesheet"
+                  v-if="listDayWise"
+                ></list-day-view>
+              </div>
               <div style="z-index: 1">
-                <list-timesheet :userList="timesheetData"></list-timesheet>
+                <list-timesheet :userList="timesheetData" v-if="listWeekWise"></list-timesheet>
               </div>
             </div>
           </div>
@@ -254,6 +255,8 @@ export default {
       maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       dayWiseDataTimesheet: TIMESHEET_DATA,
+      listWeekWise:true,
+      listDayWise:false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       currentPage: 1,
@@ -325,8 +328,14 @@ export default {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
       console.log("selected date:", date);
     },
-    clickAction(event) {
-      if (event.key == "name") {
+    clickActionTimesheet(item) {
+      if (item.key == "week") {
+        this.listWeekWise = true
+        this.listDayWise = false
+      }
+      if (item.key == "day") {
+        this.listWeekWise = false
+        this.listDayWise = true
       }
     },
   },

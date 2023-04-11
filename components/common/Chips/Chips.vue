@@ -200,7 +200,7 @@ export default {
     background-color: #f2f2f5;
     border-radius: 0.5rem;
     span {
-      color: #E2E2E3;
+      color: #000;
       font-weight: 600;
       font-size: 14px;
     }

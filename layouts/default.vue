@@ -91,7 +91,7 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token: '',
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY4MDY3NDA0MjQ1OSwiZXhwIjoxNjg4NDUwMDQyNDU5LCJqdGkiOiIxNWE4YzdjNS1jNzNmLTRmMWMtYjRlMS00NmQ4NWI5OGJmMDAifQ.ko4EnWzxUP3GfXCaRbPdOLXf-0MlmymbKwYb3SqAKL0',
      };
   },
   fetch() {

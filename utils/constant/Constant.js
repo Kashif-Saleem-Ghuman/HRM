@@ -183,6 +183,17 @@ export const TABLE_HEAD = {
     },
     
   ],
+  tHeadTeam: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Team Name",
+    },
+    
+  ],
   tHeadTimeoffDashboard: [
     {
       key: "",

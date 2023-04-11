@@ -67,7 +67,6 @@ export function updateTimeOff() {
   this.infoUpdateTimeOff = false;
 }
 export function updateTimeAttendanceSettings() {
-  alert("callllled")
   this.inActiveTimeAttendance = null;
   this.timeAttendanceUpdateButton = true;
   this.infoUpdateTimeAttendance = false;

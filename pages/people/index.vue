@@ -144,7 +144,7 @@
             <div class="scroll_wrapper">
               <div>
                 <list-department
-                  :tableFields="tableFields"
+                  :tableFields="tableFieldsTeam"
                   :userList="teamOptions.slice(0, 5)"
                 ></list-department>
                 <!-- <card :items="departmentItems"></card> -->
@@ -174,6 +174,7 @@ export default {
     return {
       openSidebar: false,
       tableFields: TABLE_HEAD.tHeadDepartment,
+      tableFieldsTeam:TABLE_HEAD.tHeadTeam,
       peopleTabItem: PEOPLE_TAB,
       currentPage: 1,
       activeTab: "Directory",

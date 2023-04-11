@@ -1,5 +1,5 @@
 <template>
-    <bib-button pop="arrowhead-right" :scale="1.3" style="transform: translateX(12px); z-index: 10;">
+    <bib-button pop="arrowhead-right" :scale="1.3" style="transform: translateX(12px); z-index: 100000;">
         <template v-slot:menu>
             <div class="list">
                 <!-- <span class="list__item" @click="$emit('openAccountPage')">

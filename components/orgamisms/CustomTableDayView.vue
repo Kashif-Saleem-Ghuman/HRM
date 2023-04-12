@@ -91,7 +91,7 @@
                 </div>
               </div>
             </div>
-            <div class="time-list">
+            <div class="time-list pr-1">
               <ul class="time-list-item">
                 <li>In <label>00:00</label></li>
                 <li>Out <label>00:00</label></li>
@@ -149,6 +149,9 @@
           ></slot>
         </td>
       </tr>
+      <tr> <td colspan="6">
+        <div style="border-bottom: 1px solid #eee; padding: 1rem;"></div>
+      </td></tr>
     </template>
   </table>
 </template>
@@ -282,6 +285,7 @@ export default {
 
 <style lang="scss">
 .time-list {
+  padding-right: 1rem;
   ul {
     margin: 0px;
     padding: 0;

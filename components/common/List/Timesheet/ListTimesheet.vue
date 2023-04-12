@@ -15,6 +15,7 @@
             style="cursor: pointer"
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            class="ml-05"
           >
             <bib-avatar
               class="mt-auto mb-auto"

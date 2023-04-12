@@ -130,7 +130,7 @@
                   <dropdown-menu
                     :items="actionMenuTimesheet"
                     @click="clickActionTimesheet"
-                    style="margin-left: -10px"
+                    class="mr-05"
                     dropDowmMenu="dropDowmMenu"
                     popIcon="calendar"
                   ></dropdown-menu>
@@ -142,14 +142,13 @@
               </div>
             </div>
             <div class="scroll_wrapper">
-              <div class="pb-3">
+              <div class="pb-3" v-if="listDayWise">
                 <list-day-view
                   :dayWiseDataTimesheet="dayWiseDataTimesheet"
-                  v-if="listDayWise"
                 ></list-day-view>
               </div>
-              <div style="z-index: 1">
-                <list-timesheet :userList="timesheetData" v-if="listWeekWise"></list-timesheet>
+              <div style="z-index: 1" v-if="listWeekWise">
+                <list-timesheet :userList="timesheetData"></list-timesheet>
               </div>
             </div>
           </div>

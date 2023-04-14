@@ -106,7 +106,7 @@ const data = () => {
       { label: "My Profile", icon: "add", key: "myprofile", url:"/myprofile", selected: false},
       { label: "Time & Attendance", icon: "add", key: "timeattendance", url:"/files", selected: false},
       { label: "My Time-off", icon: "add", key: "my-time-off", url:"/files", selected: false},
-      { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
+      // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
 
     ],
     navItemsAdmin: [

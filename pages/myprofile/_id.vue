@@ -1,5 +1,5 @@
 <template>
-  <div class="employee_wrapper">
+  <div class="my-profile-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >
@@ -1030,7 +1030,6 @@ export default {
     width: 50%;
   }
 }
-
 .dropdown {
   margin: 10px 0;
   padding: 10px 0;

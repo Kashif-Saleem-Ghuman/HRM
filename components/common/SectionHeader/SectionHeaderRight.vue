@@ -5,29 +5,24 @@
 </template>
 <script>
 export default {
-  name: 'SectionHeaderRight',
+  name: "SectionHeaderRight",
   props: {
     avatar: {
       type: String,
-      default: ""
+      default: "",
     },
-    items:{
-      type:Array
-    }
-
+    items: {
+      type: Array,
+    },
   },
 
   data() {
-    return {
-
-    }
+    return {};
   },
-}
-
+};
 </script>
 <style lang="css" scoped>
 .avtar_margin {
-  margin-right:-7px;
+  margin-right: -7px;
 }
 </style>
-  

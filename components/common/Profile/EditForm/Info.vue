@@ -94,12 +94,12 @@ export default {
     ValidatePhone: {
       type: Array,
     },
-    phoneValidation:{
-      type:String
+    phoneValidation: {
+      type: String,
     },
-    emailValidation:{
-      type:String
-    }
+    emailValidation: {
+      type: String,
+    },
   },
   data() {
     return {

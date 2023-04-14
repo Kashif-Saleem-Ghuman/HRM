@@ -1,13 +1,13 @@
 <template>
   <custom-table
-    :fields="tableFields.slice(0,7)"
+    :fields="tableFields.slice(0, 7)"
     class="border-gray4 bg-white"
     :sections="timeoffData"
     :hide-no-column="true"
     classTypeHead="table__hrow__custom"
-      classTypeBody="table__hrow__custom__irow"
+    classTypeBody="table__hrow__custom__irow"
   >
-  <template #cell_action="data">
+    <template #cell_action="data">
       <div class="d-flex justify-center align-center">
         <bib-checkbox size="md"></bib-checkbox>
       </div>
@@ -45,10 +45,8 @@
   </custom-table>
 </template>
 
-<script>  
-import {
-  TABLE_HEAD,
-} from "../../../../utils/constant/Constant";
+<script>
+import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 export default {
   props: {
     timeoffData: {
@@ -64,13 +62,13 @@ export default {
       userPhotoClick: false,
     };
   },
-  
+
   methods: {
     profiletab(name, isLeave) {
-    document.querySelector("#" + name).style.display = isLeave
-      ? "none"
-      : "block";
-  },
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
 
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);

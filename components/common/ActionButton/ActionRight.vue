@@ -1,13 +1,20 @@
 <template>
   <div class="d-flex">
-    <button-circle v-if="calander" icon="calendar" :scale="1" variant="secondary" icon_bg="bg-secondary-sub3" class="mr-05"></button-circle>
-          <dropdown-menu
-            :items="items"
-            @click="$emit('vclick', $event)"
-            style="margin-left: -10px"
-            dropDowmMenu="dropDowmMenu"
-            popIcon="arrowhead-down"
-          ></dropdown-menu>
+    <button-circle
+      v-if="calander"
+      icon="calendar"
+      :scale="1"
+      variant="secondary"
+      icon_bg="bg-secondary-sub3"
+      class="mr-05"
+    ></button-circle>
+    <dropdown-menu
+      :items="items"
+      @click="$emit('vclick', $event)"
+      style="margin-left: -10px"
+      dropDowmMenu="dropDowmMenu"
+      popIcon="arrowhead-down"
+    ></dropdown-menu>
   </div>
 </template>
 
@@ -27,9 +34,9 @@ export default {
       type: String,
       default: "",
     },
-    calander:{
-      type:String
-    }
+    calander: {
+      type: String,
+    },
   },
   name: "ActionRight",
 

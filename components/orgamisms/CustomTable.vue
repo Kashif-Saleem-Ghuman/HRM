@@ -7,7 +7,7 @@
   >
     <template>
       <tr
-        class="table__hrow__custom "
+        class="table__hrow__custom"
         :class="fixHeader ? 'table__hrow__custom-fixed' : ''"
       >
         <th v-if="!hideNoColumn" class="table__hrow__custom__no">
@@ -15,10 +15,10 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-checkbox  size="md"></bib-checkbox>
+            <bib-checkbox size="md"></bib-checkbox>
           </div>
         </th>
-       
+
         <th
           v-for="(field, key) in fields.slice(1)"
           @click="clickColumnHeader($event, key)"
@@ -84,7 +84,6 @@
         :id="keyI"
         style="cursor: pointer"
       >
-        
         <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
         <td v-if="$scopedSlots.cell_action" style="width: 50px">
           <slot
@@ -138,8 +137,8 @@ export default {
         return false;
       },
     },
-    checkBox:{
-      type:String
+    checkBox: {
+      type: String,
     },
     className: {
       type: Array,
@@ -231,12 +230,12 @@ export default {
 </script>
 
 <style lang="scss">
-.colapse{
-.detail-collapse__content{
-  height: unset !important;
+.colapse {
+  .detail-collapse__content {
+    height: unset !important;
+  }
 }
-}
-    
+
 .table {
   width: 100%;
   height: max-content;
@@ -255,7 +254,6 @@ export default {
     font-weight: 600;
     text-transform: uppercase !important;
 
-   
     th {
       border: $gray3 1px solid;
       border-top: none;

@@ -39,8 +39,7 @@
           <bib-switch
             :checked="trackTime"
             @change="
-              $emit('change-it', $event, 'trackTime'),
-                (trackTime = !trackTime)
+              $emit('change-it', $event, 'trackTime'), (trackTime = !trackTime)
             "
             :disabled="inActive"
             >{{ switchLabelweekStarts }}</bib-switch
@@ -83,7 +82,7 @@
           :disabled="inActive"
         ></bib-input>
       </div>
-      <div class="col-3" style="display: flex;  align-items: flex-end;">
+      <div class="col-3" style="display: flex; align-items: flex-end">
         <bib-input
           type="text"
           v-model="medicalAllowance"
@@ -126,14 +125,14 @@ export default {
     trackTime: {
       type: String,
     },
-    weekOptions:{
-      type:Array
+    weekOptions: {
+      type: Array,
     },
-    timesheetOptions:{
-      type:Array
+    timesheetOptions: {
+      type: Array,
     },
-    orgSetting:{
-      type:String
+    orgSetting: {
+      type: String,
     },
     switchLabelweekStarts: {
       type: String,
@@ -153,9 +152,9 @@ export default {
     inActive: {
       type: String,
     },
-    inActiveOrganizationSettings:{
+    inActiveOrganizationSettings: {
       type: String,
-    }
+    },
   },
 };
 </script>

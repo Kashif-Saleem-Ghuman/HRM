@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper-custom" style="z-index: 1000000 !important;">
+  <div class="modal-wrapper-custom" style="z-index: 1000000 !important">
     <bib-modal-wrapper v-if="timesheetModal" @close="$emit('close')" size="xl">
       <template slot="content">
         <div class="timesheet-wrapper">
@@ -59,16 +59,16 @@
         </div>
         <div class="mb-1 mt-1 bg-light" style="height: 1px"></div>
         <div class="px-1 pb-3">
-          <list-timesheet-modal :userListTimesheet="timesheetModalData.slice(0,3)"></list-timesheet-modal>
+          <list-timesheet-modal
+            :userListTimesheet="timesheetModalData.slice(0, 3)"
+          ></list-timesheet-modal>
         </div>
       </template>
     </bib-modal-wrapper>
   </div>
 </template>
 <script>
-import {
-  TIMESHEET_DATA,
-} from "../../../utils/constant/TimesheetData.js";
+import { TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
 export default {
   name: "TimeSheetModal",
   props: {
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       // modal3Opened: false,
-      timesheetModalData:TIMESHEET_DATA
+      timesheetModalData: TIMESHEET_DATA,
     };
   },
 };
@@ -93,15 +93,15 @@ export default {
     padding: 0rem !important;
   }
 }
-.input-mand{
+.input-mand {
   display: flex;
   align-items: center;
   font-weight: 600;
-  label{
+  label {
     font-size: 12px;
   }
-  span{
-    color: #FA0F00;
+  span {
+    color: #fa0f00;
     margin-left: 2px;
   }
 }

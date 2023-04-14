@@ -10,7 +10,12 @@
       class="cursor-pointer chip-wrapper ml-05"
       @click="$emit('on-click')"
     >
-    <bib-icon v-if="iconShow" :icon="icon" :scale="0.8" style="margin-right:5px"></bib-icon>
+      <bib-icon
+        v-if="iconShow"
+        :icon="icon"
+        :scale="0.8"
+        style="margin-right: 5px"
+      ></bib-icon>
       <span>{{ title }}</span>
     </div>
   </div>
@@ -58,7 +63,6 @@ export default {
 };
 </script>
 <style lang="scss">
-
 .chip-wrapper-bg-same {
   border-radius: 1rem;
   padding: 4px 8px;
@@ -81,8 +85,8 @@ export default {
 
   &__bgsucess {
     // background-color: #d5e8d4;
-    svg{
-      fill:#2ba026 !important
+    svg {
+      fill: #2ba026 !important;
     }
     span {
       color: #2ba026;
@@ -92,8 +96,8 @@ export default {
   }
   &__bgabsent {
     // background-color: rgba(255, 171, 0, 0.16);
-    svg{
-      fill:#ffab00 !important
+    svg {
+      fill: #ffab00 !important;
     }
     span {
       color: #ffab00;
@@ -103,8 +107,8 @@ export default {
   }
   &__bgvacation {
     // background-color: rgba(31, 66, 162, 0.16);
-    svg{
-      fill:#1f42a2 !important
+    svg {
+      fill: #1f42a2 !important;
     }
     span {
       color: #1f42a2;
@@ -114,8 +118,8 @@ export default {
   }
   &__bgabsentpink {
     // background-color: rgba(230, 0, 14, 0.16);
-    svg{
-      fill:#e6000e !important
+    svg {
+      fill: #e6000e !important;
     }
     span {
       color: #e6000e;
@@ -163,7 +167,7 @@ export default {
     }
   }
   &__bgvacation {
-    background-color:rgba(31, 66, 162, 0.16);
+    background-color: rgba(31, 66, 162, 0.16);
     span {
       color: #1f42a2;
       font-weight: 600;
@@ -204,24 +208,22 @@ export default {
       font-weight: 600;
       font-size: 14px;
     }
-    span:first-letter{
-      text-transform: uppercase
+    span:first-letter {
+      text-transform: uppercase;
     }
-    
   }
   &__bgwhite {
     background-color: #fff;
     border-radius: 0.5rem;
     color: #eee;
     span {
-      color: #E2E2E3;
+      color: #e2e2e3;
       font-weight: 600;
       font-size: 14px;
     }
     // span:first-letter{
     //   text-transform: uppercase
     // }
-    
   }
 }
 </style>

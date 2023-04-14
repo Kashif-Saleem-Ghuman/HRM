@@ -32,8 +32,8 @@
           label="Country"
           v-model="country"
           :options="countryOptions"
-          :ref='ref' 
-          :query='query'
+          :ref="ref"
+          :query="query"
           placeholder="Please select country"
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
@@ -88,8 +88,8 @@ export default {
     country: {
       type: String,
     },
-    countryOptions:{
-      type:Array
+    countryOptions: {
+      type: Array,
     },
     ref: {
       type: String,
@@ -100,8 +100,8 @@ export default {
     state: {
       type: String,
     },
-    stateOptions:{
-      type:Array
+    stateOptions: {
+      type: Array,
     },
     city: {
       type: String,
@@ -109,8 +109,8 @@ export default {
     postalCode: {
       type: String,
     },
-    stateVisible:{
-      type:Boolean
+    stateVisible: {
+      type: Boolean,
     },
     inActive: {
       type: String,

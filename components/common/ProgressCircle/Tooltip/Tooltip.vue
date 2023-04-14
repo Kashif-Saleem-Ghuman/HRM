@@ -2,7 +2,7 @@
   <div class="p-05">
     <header>Day 10-03-000</header>
     <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
-    <div  v-for="(item, keyI) in data">
+    <div v-for="(item, keyI) in data">
       <div class="tooltip_list">
         <span>In</span>
         <span>{{ item.in }}</span>
@@ -19,12 +19,16 @@
         <span>Off</span>
         <span>{{ item.end }}</span>
       </div>
-     
     </div>
     <div class="mt-05 mb-05 bg-light" style="height: 1px"></div>
-      <div style="text-align: left; width: 10px;" class="custom-button">
-        <bib-button label="More Details..." pill @click="$emit('vclick', $event)" style="padding: 0px;"></bib-button>
-      </div>
+    <div style="text-align: left; width: 10px" class="custom-button">
+      <bib-button
+        label="More Details..."
+        pill
+        @click="$emit('vclick', $event)"
+        style="padding: 0px"
+      ></bib-button>
+    </div>
   </div>
 </template>
 
@@ -48,9 +52,7 @@ export default {
     },
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
 };
 </script>
@@ -64,9 +66,9 @@ export default {
   position: absolute;
   background-color: #fff;
   top: 50px;
-  color:#1D1D20 !important;
+  color: #1d1d20 !important;
   z-index: 9;
-//   left: 100px;
+  //   left: 100px;
   header {
     font-size: 1rem;
     padding: 4px 0;
@@ -77,11 +79,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     span {
-      color:#1D1D20
+      color: #1d1d20;
     }
   }
-  .custom-button{
-    button{
+  .custom-button {
+    button {
       padding: 0px !important;
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper">
+  <div id="files-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="tab-wrapper">
-      <div id="directory-wrapper">
+      <div id="files-inner-wrapper">
         <div class="" id="tab_info_wrapper">
           <div>
             <div id="folder-info-wrapper" class="scroll_wrapper">
@@ -68,7 +68,7 @@
                       :items="actionMenu"
                     ></action-right>
                   </div>
-                  <div class="px-1">
+                  <div class="px-1" id="folder-wrraper">
                     <bib-detail-collapse label="Folders" open>
                       <template v-slot:content>
                         <div class="flex_grid">
@@ -84,16 +84,18 @@
                       :class="seprator"
                       style="height: 1px"
                     ></div>
-                    <bib-detail-collapse label="Files" open>
-                      <template v-slot:content>
-                        <div class="flex_grid">
-                          <!-- <folders></folders> -->
-                          <template v-for="files in filesData">
-                            <files :files="files"></files>
-                          </template>
-                        </div>
-                      </template>
-                    </bib-detail-collapse>
+                    <div id="files-wrapper">
+                      <bib-detail-collapse label="Files" open>
+                        <template v-slot:content>
+                          <div class="flex_grid">
+                            <!-- <folders></folders> -->
+                            <template v-for="files in filesData">
+                              <files :files="files"></files>
+                            </template>
+                          </div>
+                        </template>
+                      </bib-detail-collapse>
+                    </div>
                   </div>
                 </div>
               </div>

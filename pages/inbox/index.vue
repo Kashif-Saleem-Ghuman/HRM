@@ -1,5 +1,5 @@
 <template>
-  <div id="people-action-wrapper">
+  <div id="inbox-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
     >
@@ -25,11 +25,11 @@
     <div class="d-flex justify-between py-05 px-075 bottom_border_wrapper">
       <div class="d-flex">
         <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Add Department"
-                ></button-green>
+          icon="add"
+          variant="success"
+          :scale="1"
+          title="Add Department"
+        ></button-green>
       </div>
       <action-right
         icon="add"
@@ -40,8 +40,15 @@
       ></action-right>
     </div>
     <div class="py-2 px-2">
-      <div class="d-flex"  style="position: relative;">
-        <progress-circle :progressCount="70" :fill="fill" emptyfill="#D5E8D4" variant="__bg-green" @mouseover="mouseover" @mouseleave="mouseleave"></progress-circle>
+      <div class="d-flex" style="position: relative">
+        <progress-circle
+          :progressCount="70"
+          :fill="fill"
+          emptyfill="#D5E8D4"
+          variant="__bg-green"
+          @mouseover="mouseover"
+          @mouseleave="mouseleave"
+        ></progress-circle>
         <tooltip :show="showTooltip"></tooltip>
       </div>
       <div class="py-2 d-flex">
@@ -52,17 +59,40 @@
         <chips title="Pending" variant="chip-wrapper__bgpending"></chips>
       </div>
       <div class="py-2 d-flex">
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgsucess"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgvacation"></chips>
-        <chips title="V" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsent"></chips>
-        <chips title="M" shapeCircle="__shape-circle" variant="chip-wrapper__bgabsentpink"></chips>
+        <chips
+          title="V"
+          shapeCircle="__shape-circle"
+          variant="chip-wrapper__bgsucess"
+        ></chips>
+        <chips
+          title="V"
+          shapeCircle="__shape-circle"
+          variant="chip-wrapper__bgvacation"
+        ></chips>
+        <chips
+          title="V"
+          shapeCircle="__shape-circle"
+          variant="chip-wrapper__bgabsent"
+        ></chips>
+        <chips
+          title="M"
+          shapeCircle="__shape-circle"
+          variant="chip-wrapper__bgabsentpink"
+        ></chips>
         <chips title="N/A" shapeCircle="__shape-circle"></chips>
-        <chips title="M"  shapeRound="__shape-round" variant="chip-wrapper__bgsucess"></chips>
-        <chips title="N/A"  shapeRound="__shape-round" variant="chip-wrapper__bgwhite"></chips>
-
+        <chips
+          title="M"
+          shapeRound="__shape-round"
+          variant="chip-wrapper__bgsucess"
+        ></chips>
+        <chips
+          title="N/A"
+          shapeRound="__shape-round"
+          variant="chip-wrapper__bgwhite"
+        ></chips>
       </div>
     </div>
-    
+
     <!-- <modal-wrapper></modal-wrapper> -->
     <!-- <action-button v-on:new-employee-action="sortBy" v-on:import-action="sortBy"></action-button> -->
   </div>
@@ -73,8 +103,8 @@ export default {
     return {
       switchChecked1: true,
       switchChecked2: false,
-      showTooltip:false,
-      fill:"#2BA026" ,
+      showTooltip: false,
+      fill: "#2BA026",
       userItems: [
         {
           avatarUrl:
@@ -93,11 +123,11 @@ export default {
   },
   methods: {
     mouseover() {
-      this.showTooltip=true
+      this.showTooltip = true;
     },
-    mouseleave(){
-      this.showTooltip= false
-    }
+    mouseleave() {
+      this.showTooltip = false;
+    },
   },
 };
 </script>

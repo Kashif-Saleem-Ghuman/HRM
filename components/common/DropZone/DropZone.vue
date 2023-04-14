@@ -39,9 +39,9 @@ export default {
     customRemove: {
       type: String,
     },
-    disable:{
-      type:Boolean
-    }
+    disable: {
+      type: Boolean,
+    },
   },
   name: "app",
   components: {
@@ -61,7 +61,7 @@ export default {
         addRemoveLinks: true,
         maxFilesize: 1,
         maxFiles: 1,
-        clickable:true,
+        clickable: true,
         init: function () {
           this.on("maxfilesexceeded", function (file) {
             this.removeAllFiles();
@@ -75,7 +75,7 @@ export default {
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
     },
-    
+
     getTempalte: function () {
       return `
       <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
@@ -89,7 +89,6 @@ export default {
         <div class="dz-error-mark"><i class="fa fa-close"></i></div>
       </div>`;
     },
-    
   },
 };
 </script>
@@ -181,10 +180,10 @@ export default {
 .dz-error-mark {
   display: none;
 }
-.vue-dropzone > .dz-preview .dz-progress{
+.vue-dropzone > .dz-preview .dz-progress {
   display: none;
 }
-.vue-dropzone > .dz-preview .dz-sucess{
+.vue-dropzone > .dz-preview .dz-sucess {
   display: block !important;
 }
 .vue-dropzone > .dz-preview .dz-remove {

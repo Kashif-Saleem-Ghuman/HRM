@@ -22,11 +22,11 @@ export default {
       date: null,
     };
   },
-  methods:{
+  methods: {
     onChange(value) {
-                                            let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-                                        }
-  }
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+    },
+  },
 };
 </script>
 

@@ -1,62 +1,62 @@
 <template>
   <div>
     <custom-timesheet-table
-    :fields="tableFields"
-    class="border-gray4 bg-white"
-    :sections="userListTimesheet"
-    :hide-no-column="true"
-    classTypeHead="table__hrow__default"
-    classTypeBody="table__hrow__default__irow"
-    customTitle="custom-title"
-  >
-    <template #cell_action="data">
-      <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md"></bib-checkbox>
-      </div>
-    </template>
-    <template #cell(activity)="data">
-      <div class="justify-between text-dark px-05" style="width:200px">
-        <span>{{ data.value.activity }}</span>
-      </div>
-    </template>
-    <template #cell(start)="data">
-      <div class="justify-end text-dark">
-        <bib-input
-          type="text"
-          v-model=" data.value.start"
-          name="name"
-          placeholder="Type your name"
-        ></bib-input>
-      </div>
-    </template>
-    <template #cell(end)="data">
-      <div class="d-flex justify-end text-dark">
-        <!-- {{ getTeamListOptions }} -->
-        <bib-input
-          type="text"
-          v-model=" data.value.end"
-          name="name"
-          placeholder="Type your name"
-        ></bib-input>
-      </div>
-    </template>
-    <template #cell(total)="data">
-      <div class="d-flex justify-end text-dark">
-        <!-- <span>{{ data.value.totalHour }}</span> -->
-        <bib-input
-          type="text"
-          v-model=" data.value.totalHour"
-          name="name"
-          placeholder="Type your name"
-        ></bib-input>
-      </div>
-    </template>
-    <template #cell_action_right="data">
-      <div class="d-flex justify-center align-center">
-        <bib-icon icon="trash" :scale="0.9"></bib-icon>
-      </div>
-    </template>
-  </custom-timesheet-table>
+      :fields="tableFields"
+      class="border-gray4 bg-white"
+      :sections="userListTimesheet"
+      :hide-no-column="true"
+      classTypeHead="table__hrow__default"
+      classTypeBody="table__hrow__default__irow"
+      customTitle="custom-title"
+    >
+      <template #cell_action="data">
+        <div class="d-flex justify-center align-center">
+          <bib-checkbox size="md"></bib-checkbox>
+        </div>
+      </template>
+      <template #cell(activity)="data">
+        <div class="justify-between text-dark px-05" style="width: 200px">
+          <span>{{ data.value.activity }}</span>
+        </div>
+      </template>
+      <template #cell(start)="data">
+        <div class="justify-end text-dark">
+          <bib-input
+            type="text"
+            v-model="data.value.start"
+            name="name"
+            placeholder="Type your name"
+          ></bib-input>
+        </div>
+      </template>
+      <template #cell(end)="data">
+        <div class="d-flex justify-end text-dark">
+          <!-- {{ getTeamListOptions }} -->
+          <bib-input
+            type="text"
+            v-model="data.value.end"
+            name="name"
+            placeholder="Type your name"
+          ></bib-input>
+        </div>
+      </template>
+      <template #cell(total)="data">
+        <div class="d-flex justify-end text-dark">
+          <!-- <span>{{ data.value.totalHour }}</span> -->
+          <bib-input
+            type="text"
+            v-model="data.value.totalHour"
+            name="name"
+            placeholder="Type your name"
+          ></bib-input>
+        </div>
+      </template>
+      <template #cell_action_right="data">
+        <div class="d-flex justify-center align-center">
+          <bib-icon icon="trash" :scale="0.9"></bib-icon>
+        </div>
+      </template>
+    </custom-timesheet-table>
   </div>
 </template>
 

@@ -90,20 +90,25 @@
           </div>
         </div>
         <div class="row mx-0">
-        <div class="col-12">
-          <bib-input
-            type="textarea"
-            v-model="note"
-            placeholder="Type Note/Reason"
-            label="Note/Reason"
-            @change="$emit('input', $event, 'note')"
-          ></bib-input>
+          <div class="col-12">
+            <bib-input
+              type="textarea"
+              v-model="note"
+              placeholder="Type Note/Reason"
+              label="Note/Reason"
+              @change="$emit('input', $event, 'note')"
+            ></bib-input>
+          </div>
         </div>
-      </div>
       </template>
       <template slot="footer">
-        <div class="align-right" style="text-align: right;">
-          <bib-button label="Cancel" variant="success" size="xl" pill></bib-button>
+        <div class="align-right" style="text-align: right">
+          <bib-button
+            label="Cancel"
+            variant="success"
+            size="xl"
+            pill
+          ></bib-button>
           <bib-button
             label="Done"
             variant="success"
@@ -125,10 +130,10 @@ export default {
     },
   },
   data() {
-      return {
-    // modal3Opened: false,
-        // timesheetModalData:TIMESHEET_DATA
-      };
+    return {
+      // modal3Opened: false,
+      // timesheetModalData:TIMESHEET_DATA
+    };
   },
 };
 </script>

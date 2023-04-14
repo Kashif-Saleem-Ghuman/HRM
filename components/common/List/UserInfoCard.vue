@@ -1,86 +1,83 @@
 <template>
-    <div>
-        <div class="d-flex align-center">
-              <bib-avatar
-                class="mt-auto mb-auto mr-05"
-                shape="circle"
-                :src="src"
-                size="5rem"
-              ></bib-avatar>
-              <div>
-                <div class="user_card_detail">
-                  <label
-                    >{{ firstName }} {{ lastName }}
-                    <span>
-                      {{ jobTitle }}
-                    </span>
-                  </label>
-                  <div class="card_info">
-                    <div style="padding: 2px 0">
-                      <chips
-                        title="Punched in [online]"
-                        variant="__bgsucess"
-                      ></chips>
-                    </div>
-                    <p  class="email">
-                      {{ email }}
-                    </p>
-                    <p class="phone_color">{{ phone }}</p>
-                  </div>
-                </div>
-              </div>
+  <div>
+    <div class="d-flex align-center">
+      <bib-avatar
+        class="mt-auto mb-auto mr-05"
+        shape="circle"
+        :src="src"
+        size="5rem"
+      ></bib-avatar>
+      <div>
+        <div class="user_card_detail">
+          <label
+            >{{ firstName }} {{ lastName }}
+            <span>
+              {{ jobTitle }}
+            </span>
+          </label>
+          <div class="card_info">
+            <div style="padding: 2px 0">
+              <chips title="Punched in [online]" variant="__bgsucess"></chips>
             </div>
-            <div>
-              <div class="d-flex pt-1">
-                <bib-button
-                  label="View Profile"
-                  variant="light"
-                  pill
-                  v-on:click="$emit('viewProfile')"
-                ></bib-button>
-                <bib-button
-                  label="Send Message"
-                  variant="success"
-                  class="ml-auto"
-                  pill
-                  v-on:click="$emit('sendInvite')"
-                ></bib-button>
-              </div>
-            </div>
+            <p class="email">
+              {{ email }}
+            </p>
+            <p class="phone_color">{{ phone }}</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </template>
+    <div>
+      <div class="d-flex pt-1">
+        <bib-button
+          label="View Profile"
+          variant="light"
+          pill
+          v-on:click="$emit('viewProfile')"
+        ></bib-button>
+        <bib-button
+          label="Send Message"
+          variant="success"
+          class="ml-auto"
+          pill
+          v-on:click="$emit('sendInvite')"
+        ></bib-button>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
-name: "UserCardInfo",
-props: {
-src: {
-  type: String,
-},
-firstName: {
-  type: String,
-},
-lastName: {
-  type: String,
-},
-jobTitle: {
-  type: String,
-},
-email: {
-  type: String,
-},
-phone: {
-  type: String,
-},
-},
-methods: {
-employeModal() {
-  alert("employe called");
-},
-employee() {
-  alert("import called");
-},
-},
+  name: "UserCardInfo",
+  props: {
+    src: {
+      type: String,
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    jobTitle: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+  },
+  methods: {
+    employeModal() {
+      alert("employe called");
+    },
+    employee() {
+      alert("import called");
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -101,22 +98,20 @@ employee() {
       color: #000;
       display: flex;
       flex-direction: column;
-      
+
       span {
         font-weight: 400;
         padding: 1px 0 3px 0;
-        color: #6A6D76;
+        color: #6a6d76;
       }
     }
     .card_info {
       font-size: 14px;
       .email {
-      
-       text-decoration: underline
+        text-decoration: underline;
       }
       .phone_color {
-        color: #1F42A2
-;
+        color: #1f42a2;
       }
       p {
         padding: 1px 0;

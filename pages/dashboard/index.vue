@@ -1,10 +1,5 @@
 <template>
-  <div id="people-action-wrapper">
-    <!-- <div>
-      <list-day-view
-        :dayWiseDataTimesheet="dayWiseDataTimesheet"
-      ></list-day-view>
-    </div> -->
+  <div id="dashborad-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
@@ -72,7 +67,7 @@
       <action-right @vclick="clickAction" :items="actionMenu"></action-right>
     </div>
     <div class="tab-wrapper">
-      <div id="timesheet-wrapper">
+      <div id="dashboard-inner-wrapper">
         <div class="" id="tab_info_wrapper">
           <div
             class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
@@ -90,8 +85,6 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
-    </div>
   </div>
 </template>
 <script>
@@ -99,7 +92,6 @@ import {
   TIME_ATTENDANCE_TAB,
   MORE_MENU,
   SORTING_MENU,
-  WEEK_DAY,
 } from "../../utils/constant/Constant.js";
 import {
   openPopupNotification,
@@ -183,65 +175,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 5px;
-  > li {
-    display: inline; // Remove list-style and block-level defaults
-    > a,
-    > span {
-      position: relative;
-      float: left; // Collapse white-space
-      padding: 5px 10px;
-      line-height: 30px;
-      text-decoration: none;
-      color: #000;
-      background-color: #d5e8d4;
-      border: 1px solid #8dd488;
-      margin-left: -1px;
-    }
-    &:first-child {
-      > a,
-      > span {
-        margin-left: 0;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-      }
-    }
-    &:last-child {
-      > a,
-      > span {
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-      }
-    }
-  }
-  > li > a,
-  > li > span {
-    &:hover {
-      z-index: 2;
-      color: #31a22c;
-      background-color: #f2f5f1;
-      // border-color: @pagination-hover-border;
-    }
-  }
-
-  > .active > a,
-  > .active > span {
-    &,
-    &:hover,
-    &:focus {
-      z-index: 3;
-      color: #fff;
-      background-color: #31a22c;
-      // border-color: @pagination-active-border;
-      cursor: default;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

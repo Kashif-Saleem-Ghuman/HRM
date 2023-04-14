@@ -304,8 +304,8 @@ export default {
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">

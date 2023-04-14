@@ -1,6 +1,6 @@
 <template>
-    <div class="cutom-input">
-      <custom-table-day-view
+  <div class="cutom-input">
+    <custom-table-day-view
       :fields="tableFields"
       class="border-gray4 bg-white"
       :sections="dayWiseDataTimesheet"
@@ -9,16 +9,16 @@
       classTypeBody="table__hrow__default__irow"
       customTitle="custom-title"
     >
-    <template #cell_action="data">
+      <template #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox size="md"></bib-checkbox>
         </div>
       </template>
       <template #cell(activity)="data">
-        <div class="justify-between text-dark px-05" style="width:130px">
+        <div class="justify-between text-dark px-05" style="width: 130px">
           <span>{{ data.value.activity }}</span>
         </div>
-      </template> 
+      </template>
       <template #cell(start)="data">
         <div class="justify-between text-dark">
           <!-- <span>{{ data.value.start}}</span> -->
@@ -29,9 +29,9 @@
             placeholder="Type your name"
           ></bib-input>
         </div>
-      </template> 
+      </template>
       <template #cell(end)="data">
-        <div class="justify-between text-dark" >
+        <div class="justify-between text-dark">
           <!-- <span>{{ data.value.end}}</span> -->
           <bib-input
             type="text"
@@ -40,7 +40,7 @@
             placeholder="Type your name"
           ></bib-input>
         </div>
-      </template> 
+      </template>
       <template #cell(total)="data">
         <div class="justify-between text-dark">
           <!-- <span>{{ data.value.totalHour}}</span> -->
@@ -51,107 +51,106 @@
             placeholder="Type your name"
           ></bib-input>
         </div>
-      </template> 
+      </template>
       <template #cell_action_right="data">
         <div class="d-flex justify-center align-center">
           <bib-icon icon="trash" :scale="0.9"></bib-icon>
         </div>
       </template>
     </custom-table-day-view>
-    </div>
-  </template>
-  
-  <script>
-  import { mapGetters } from "vuex";
-  
-  import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
-  export default {
-    props: {
-        dayWiseDataTimesheet: {
-        type: Array,
-        default: "",
-      },
+  </div>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+
+import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
+export default {
+  props: {
+    dayWiseDataTimesheet: {
+      type: Array,
+      default: "",
     },
-    data() {
-      return {
-        tableFields: TABLE_HEAD.tHeadTimesheetModal,
-        attendanceClass: [],
-        satisfaction: "",
-        userPhotoClick: false,
-      };
+  },
+  data() {
+    return {
+      tableFields: TABLE_HEAD.tHeadTimesheetModal,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+    };
+  },
+  created() {
+    this.$store.dispatch("teams/setTeamListOptions");
+  },
+  // created() {
+  //   if (this.$router.history.current.fullPath == "/people") {
+  //     this.tableFields = TABLE_HEAD.tHeadPeople;
+  //     return;
+  //   }
+
+  //   if (this.$router.history.current.fullPath == "/people/directory") {
+  //     this.tableFields = TABLE_FIELDS_DIR;
+  //     return;
+  //   }
+  // },
+  computed: {
+    ...mapGetters({
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+    }),
+  },
+  mounted() {
+    console.log(this.getTeamListOptions, "Team List");
+  },
+  methods: {
+    test(item) {
+      // console.log(item, this.getTeamListOptions, "data.value.teams")
+      var teamNames = "";
+      this.getTeamListOptions.forEach((element) => {
+        if (element.value == item) {
+          console.log(element.label, "element");
+          teamNames = element.label;
+          // return t
+        }
+      });
+      return teamNames;
     },
-    created() {
-      this.$store.dispatch("teams/setTeamListOptions");
+    handleItemClick_Table($event, keyI, item) {
+      this.$router.push("/myprofile/" + item.id);
     },
-    // created() {
-    //   if (this.$router.history.current.fullPath == "/people") {
-    //     this.tableFields = TABLE_HEAD.tHeadPeople;
-    //     return;
-    //   }
-  
-    //   if (this.$router.history.current.fullPath == "/people/directory") {
-    //     this.tableFields = TABLE_FIELDS_DIR;
-    //     return;
-    //   }
-    // },
-    computed: {
-      ...mapGetters({
-        getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-      }),
+    viewProfile(id) {
+      this.$router.push("/myprofile/" + id);
     },
-    mounted() {
-      console.log(this.getTeamListOptions, "Team List");
+    sendInvite() {
+      alert("send invite api call");
     },
-    methods: {
-      test(item) {
-        // console.log(item, this.getTeamListOptions, "data.value.teams")
-        var teamNames = "";
-        this.getTeamListOptions.forEach((element) => {
-          if (element.value == item) {
-            console.log(element.label, "element");
-            teamNames = element.label;
-            // return t
-          }
-        });
-        return teamNames;
-      },
-      handleItemClick_Table($event, keyI, item) {
-        this.$router.push("/myprofile/" + item.id);
-      },
-      viewProfile(id) {
-        this.$router.push("/myprofile/" + id);
-      },
-      sendInvite() {
-        alert("send invite api call");
-      },
-      profiletab(name, isLeave) {
-        document.querySelector("#" + name).style.display = isLeave
-          ? "none"
-          : "block";
-      },
-  
-      handleAction_Table(data) {
-        console.log(data);
-      },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
     },
-  };
-  </script>
-  
-  <style lang="scss">
-  .info_wrapper {
-    color: $black;
-    font-weight: normal;
-  }
-  
-  .title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .description {
-    font-size: 14px;
-    font-weight: normal;
-    color: $black;
-  }
-  </style>
-  
+
+    handleAction_Table(data) {
+      console.log(data);
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.info_wrapper {
+  color: $black;
+  font-weight: normal;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: normal;
+  color: $black;
+}
+</style>

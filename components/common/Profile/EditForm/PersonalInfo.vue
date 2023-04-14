@@ -1,5 +1,5 @@
 <template>
-  <div class="row mx-0" style="padding-top: 25px;">
+  <div class="row mx-0" style="padding-top: 25px">
     <div class="col-6">
       <bib-input
         type="date"

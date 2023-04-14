@@ -88,7 +88,7 @@
           <span>{{ data.value.end }}</span>
         </div>
       </template>
-     
+
       <template #cell(breaks)="data">
         <div
           class="text-dark td_row_wrapper"
@@ -165,8 +165,7 @@ export default {
         : "block";
     },
 
-    handleAction_Table(data) {
-    },
+    handleAction_Table(data) {},
   },
 };
 </script>

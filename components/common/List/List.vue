@@ -6,17 +6,15 @@
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
     :collapseObj="{
-          collapsed: false,
-          label: 'Section Name',
-          variant: 'black',
-        }"
-
+      collapsed: false,
+      label: 'Section Name',
+      variant: 'black',
+    }"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
         <bib-checkbox size="md"></bib-checkbox>
       </div>
-      
     </template>
     <template #cell(name)="data">
       <div
@@ -68,7 +66,6 @@
             data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
             data.value.presence == null ? 'chip-wrapper__bggray' : '',
           ]"
-          
         ></chips>
       </div>
     </template>
@@ -81,25 +78,19 @@
       <div class="d-flex text-dark">
         <!-- {{ getTeamListOptions }} -->
         <div v-for="(item, index) in data.value.teams" class="mr-05">
-          <chips
-          :title="test(item)"
-          class="chip-wrapper__bggray"
-        ></chips>
+          <chips :title="test(item)" class="chip-wrapper__bggray"></chips>
           <!-- {{ item }} -->
         </div>
       </div>
     </template>
     <template #cell(role)="data">
       <div class="justify-between text-dark">
-        <chips
-          :title="data.value.role"
-          class="chip-wrapper__bggray"
-        ></chips>
+        <chips :title="data.value.role" class="chip-wrapper__bggray"></chips>
       </div>
     </template>
     <template #cell_action_right="data">
       <div class="d-flex justify-center align-center">
-      <bib-icon icon="trash" :scale="0.9"></bib-icon>
+        <bib-icon icon="trash" :scale="0.9"></bib-icon>
       </div>
     </template>
   </custom-table>
@@ -127,7 +118,7 @@ export default {
       userPhotoClick: false,
     };
   },
-  created(){
+  created() {
     this.$store.dispatch("teams/setTeamListOptions");
   },
   // created() {
@@ -144,26 +135,17 @@ export default {
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-
     }),
   },
-  mounted(){
-  console.log(this.getTeamListOptions, "Team List")
-  
-
- },
   methods: {
-    test(item){
-      // console.log(item, this.getTeamListOptions, "data.value.teams")
-      var teamNames = ""
-      this.getTeamListOptions.forEach(element => {
-        if(element.value == item){
-          console.log(element.label, "element")
-          teamNames = element.label
-          // return t
+    test(item) {
+      var teamNames = "";
+      this.getTeamListOptions.forEach((element) => {
+        if (element.value == item) {
+          teamNames = element.label;
         }
       });
-      return teamNames
+      return teamNames;
     },
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);

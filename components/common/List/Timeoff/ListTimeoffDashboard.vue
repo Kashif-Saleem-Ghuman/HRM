@@ -1,12 +1,12 @@
 <template>
-    <custom-table
-      :fields="tableFields"
-      class="border-gray4 bg-white"
-      :sections="timeoffData"
-      :hide-no-column="true"
-      classTypeHead="table__hrow__custom"
-        classTypeBody="table__hrow__custom__irow"
-    >
+  <custom-table
+    :fields="tableFields"
+    class="border-gray4 bg-white"
+    :sections="timeoffData"
+    :hide-no-column="true"
+    classTypeHead="table__hrow__custom"
+    classTypeBody="table__hrow__custom__irow"
+  >
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
@@ -47,81 +47,78 @@
         </div>
       </div>
     </template>
-      <template #cell(allowance)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.allowance }}</span>
-        </div>
-      </template>
-      <template #cell(paid)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.paid }}</span>
-        </div>
-      </template>
-      <template #cell(notpaid)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.notPaid }}</span>
-        </div>
-      </template>
-      <template #cell(requests)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.requests }}</span>
-        </div>
-      </template>
-    </custom-table>
-  </template>
-  
-  <script>  
-  import {
-    TABLE_HEAD,
-  } from "../../../../utils/constant/Constant";
-  export default {
-    props: {
-      timeoffData: {
-        type: Array,
-        default: "",
-      },
+    <template #cell(allowance)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.allowance }}</span>
+      </div>
+    </template>
+    <template #cell(paid)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.paid }}</span>
+      </div>
+    </template>
+    <template #cell(notpaid)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.notPaid }}</span>
+      </div>
+    </template>
+    <template #cell(requests)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.requests }}</span>
+      </div>
+    </template>
+  </custom-table>
+</template>
+
+<script>
+import { TABLE_HEAD } from "../../../../utils/constant/Constant";
+export default {
+  props: {
+    timeoffData: {
+      type: Array,
+      default: "",
     },
-    data() {
-      return {
-        tableFields: TABLE_HEAD.tHeadTimeoffRequestDashboard,
-        attendanceClass: [],
-        satisfaction: "",
-        userPhotoClick: false,
-      };
-    },
-    
-    methods: {
-      profiletab(name, isLeave) {
+  },
+  data() {
+    return {
+      tableFields: TABLE_HEAD.tHeadTimeoffRequestDashboard,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+    };
+  },
+
+  methods: {
+    profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"
         : "block";
     },
 
-      handleItemClick_Table($event, keyI, item) {
-        this.$router.push("/myprofile/" + item.id);
-      },
-      handleAction_Table(data) {
-        console.log(data);
-      },
+    handleItemClick_Table($event, keyI, item) {
+      this.$router.push("/myprofile/" + item.id);
     },
-  };
-  </script>
-  
-  <style lang="scss">
-  .info_wrapper {
-    color: $black;
-    font-weight: normal;
-  }
-  
-  .title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .description {
-    font-size: 14px;
-    font-weight: normal;
-    color: $black;
-  }
-  </style>
-  
+    handleAction_Table(data) {
+      console.log(data);
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.info_wrapper {
+  color: $black;
+  font-weight: normal;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: normal;
+  color: $black;
+}
+</style>

@@ -231,9 +231,7 @@
 <script>
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
-import {
-  TIMESHEET_DATA,
-} from "../../../../utils/constant/TimesheetData";
+import { TIMESHEET_DATA } from "../../../../utils/constant/TimesheetData";
 export default {
   props: {
     userList: {
@@ -250,8 +248,8 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       timesheetModal: false,
-      localData:TIMESHEET_DATA,
-      filteredData: '',
+      localData: TIMESHEET_DATA,
+      filteredData: "",
     };
   },
   // async craeted(){
@@ -268,11 +266,11 @@ export default {
       alert("sadjlaksjdlasldkjlasjdl");
       this.timesheetModal = false;
     },
-    itemCliked(item){
+    itemCliked(item) {
       document.querySelector("#timesheetid_" + item).style = "display:none";
-      this.timesheetModal = true
+      this.timesheetModal = true;
       var users = this.localData.find((items) => items.id === item);
-      this.filteredData = users
+      this.filteredData = users;
     },
     handleItemClick_Table(event, keyI, item) {
       event.preventDefault();

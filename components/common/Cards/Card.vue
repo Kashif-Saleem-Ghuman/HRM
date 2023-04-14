@@ -6,10 +6,9 @@
         <div class="card-shadow-box-two"></div>
         <div class="card-shadow-box-three"></div>
       </div>
-      <div class="card-items-title">{{item.label}}</div>
+      <div class="card-items-title">{{ item.label }}</div>
       <div class="card-footer-item"># {{ item.hashItem }}</div>
     </div>
-    
   </div>
 </template>
 <!-- :class="[
@@ -26,9 +25,9 @@ export default {
     hashItem: {
       type: String,
     },
-    items:{
-        type:Array
-    }
+    items: {
+      type: Array,
+    },
   },
   data() {
     return {};
@@ -77,7 +76,7 @@ export default {
   }
   .card-items-title {
     font-weight: 500;
-   padding: 28px 0;
+    padding: 28px 0;
     display: flex;
     align-items: center;
   }

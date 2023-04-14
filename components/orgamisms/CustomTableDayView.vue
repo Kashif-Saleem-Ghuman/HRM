@@ -138,7 +138,6 @@
               v-bind:value="items"
             >
             </slot>
-            
           </div>
         </td>
         <td v-if="$scopedSlots.cell_action_right">
@@ -149,9 +148,11 @@
           ></slot>
         </td>
       </tr>
-      <tr> <td colspan="6">
-        <div style="border-bottom: 1px solid #eee; padding: 1rem;"></div>
-      </td></tr>
+      <tr>
+        <td colspan="6">
+          <div style="border-bottom: 1px solid #eee; padding: 1rem"></div>
+        </td>
+      </tr>
     </template>
   </table>
 </template>

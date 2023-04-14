@@ -93,7 +93,13 @@
           >Allow web portal access</span
         >
         <div style="padding-bottom: 24px; padding-top: 5px">
-          <bib-switch :checked="webPortalAccess" @change="$emit('change-it', $event, 'allowWebAccess'), webPortalAccess= !webPortalAccess"></bib-switch>
+          <bib-switch
+            :checked="webPortalAccess"
+            @change="
+              $emit('change-it', $event, 'allowWebAccess'),
+                (webPortalAccess = !webPortalAccess)
+            "
+          ></bib-switch>
         </div>
       </div>
     </div>
@@ -156,10 +162,9 @@ export default {
     note: {
       type: String,
     },
-    webPortalAccess:{
-      type:String
+    webPortalAccess: {
+      type: String,
     },
-    
   },
 };
 </script>

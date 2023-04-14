@@ -78,19 +78,18 @@ export default {
     employeeStatus: {
       type: String,
     },
-    departmentOptions:{
-      type:Array
+    departmentOptions: {
+      type: Array,
     },
     input: {
       type: Function,
     },
-    inActive:{
-        type:String
-      },
+    inActive: {
+      type: String,
+    },
   },
   data() {
-    return {
-    };
+    return {};
   },
 };
 </script>

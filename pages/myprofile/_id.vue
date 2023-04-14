@@ -1,5 +1,5 @@
 <template>
-  <div class="employee_wrapper">
+  <div class="my-profile-wrapper">
     <div
       class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >

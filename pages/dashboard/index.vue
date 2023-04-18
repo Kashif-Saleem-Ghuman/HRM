@@ -49,19 +49,20 @@
           icon="add"
           variant="success"
           :scale="1"
-          title="New employee"
+          title="Schedule event"
         ></button-green>
         <button-green
           icon="add"
           :scale="1"
           variant="success"
-          title="New job posting"
+          title="Schedule leave"
+          @on-click="actionBY()"
         ></button-green>
         <button-green
           icon="add"
           :scale="1"
           variant="success"
-          title="New message"
+          title="Add employee"
         ></button-green>
       </div>
       <action-right @vclick="clickAction" :items="actionMenu"></action-right>
@@ -85,6 +86,20 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <action-sidebar
+      v-show="openSidebar"
+      @close-sidebar="closeSidebar"
+      :className="slideClass"
+      heading="Section Title"
+    >
+      <template v-slot:sidebar-body>
+        <p>content goes here</p>
+      </template>
+      <template v-slot:sidebar-footer>
+        <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
+        <bib-button label="Free" variant="success" size="lg"></bib-button>
+      </template>
+    </action-sidebar>
   </div>
 </template>
 <script>
@@ -110,7 +125,6 @@ export default {
   data() {
     return {
       id: "",
-      openSidebar: false,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
@@ -120,6 +134,8 @@ export default {
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
+      openSidebar: false,
+      slideClass: "slide-in",
     };
   },
   async created() {
@@ -163,6 +179,16 @@ export default {
     },
     userId(id) {
       this.$router.push("/myprofile/" + id);
+    },
+    actionBY() {
+      this.openSidebar = true;
+      this.slideClass = "slide-in";
+    },
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+      }, 700);
     },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;

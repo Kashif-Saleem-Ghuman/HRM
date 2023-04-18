@@ -1,34 +1,26 @@
 <template>
-  <div id="side-panel" class="side-panel">
-    <h1 class="p-2">Hello World</h1>
-    <bib-icon icon="folder" :scale="1.25"></bib-icon>
-    <div
-      class="of-scroll-x"
-      style="height: 400px; width: 100%; background-color: #eee"
-    >
-      <bib-file :property="property" icon="heart-like"></bib-file>
-      <bib-file :property="property">
-        <template slot="tags">
-          <bib-button label="New" variant="primary" size="sm"></bib-button>
-          <bib-button label="Free" variant="success" size="sm"></bib-button>
-        </template>
-      </bib-file>
-      <bib-file
-        :property="property"
-        :favorite="isFileFavorite"
-        @favorite-file="handleFileFavorite"
-      >
-        <template slot="tags">
-          <bib-button label="New" variant="primary" size="sm"></bib-button>
-          <bib-button label="Free" variant="success" size="sm"></bib-button>
-        </template>
-      </bib-file>
-      <bib-icon
-        icon="file"
-        variant="warnning"
-        scale="2"
-        v-on:click="closeSidebar"
-      ></bib-icon>
+  <div
+    id="side-panel"
+    :class="'side-panel ' + 'side-panel__' + className"
+    v-click-outside="closeSidebar"
+  >
+    <div class="d-flex p-1 justify-between align-center sidebar-header">
+      <div class="d-flex justify-between align-center">
+        <bib-icon icon="add" style="margin-right: 4px;" :scale="0.9" @click="$emit('close')"></bib-icon>
+        <label> {{ heading }}</label>
+      </div>
+     
+      <bib-icon icon="close" :scale="1.25" @click="$emit('close')"></bib-icon>
+    </div>
+    <div style="height: 1px; background-color: #eee"></div>
+    <div class="sidebar-body">
+      <div class="of-scroll-x p-1">
+        <slot name="sidebar-body"></slot>
+      </div>
+      <div style="height: 1px; background-color: #eee"></div>
+      <div class="sidebar-footer p-1">
+        <slot name="sidebar-footer"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +28,14 @@
 <script>
 export default {
   name: "ActionSidebar",
+  props: {
+    className: {
+      type: String,
+    },
+    heading: {
+      type: String,
+    },
+  },
   data() {
     return {
       property: {
@@ -49,13 +49,55 @@ export default {
     };
   },
   methods: {
-    handleFileFavorite(value) {
-      console.log(value);
-      this.isFileFavorite = value;
-    },
     closeSidebar() {
-      this.$nuxt.$emit("close-sidebar");
+      console.log("close");
+      this.$emit("close-sidebar");
     },
   },
 };
 </script>
+<style lang="scss">
+@import "@/assets/variable.scss";
+@keyframes slidein-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideout {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@media screen and (max-width: 1600px) {
+  .side-panel {
+    max-width: $sidebar-width - 160px;
+    width: 35rem;
+  }
+}
+.side-panel {
+  position: fixed;
+  z-index: 1000;
+  width: $sidebar-width;
+  top: 65px;
+  bottom: 0;
+  background-color: $white;
+  right: 0px;
+  border-left: 1px solid #f2f2f5;
+  // box-shadow: 5px 2px 15px $gray6;
+  &__slide-in {
+    animation: slidein-right 0.8s;
+  }
+  &__slide-out {
+    animation: slideout 0.8s;
+  }
+  &__header__actions {
+    padding: 0.75rem 1.5rem;
+  }
+}
+</style>

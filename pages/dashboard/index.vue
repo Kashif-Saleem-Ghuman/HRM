@@ -50,13 +50,14 @@
           variant="success"
           :scale="1"
           title="Schedule event"
+          @on-click="actionBY('schedule-event')"
         ></button-green>
         <button-green
           icon="add"
           :scale="1"
           variant="success"
           title="Schedule leave"
-          @on-click="actionBY()"
+          @on-click="actionBY('schedule-leave')"
         ></button-green>
         <button-green
           icon="add"
@@ -86,20 +87,42 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <action-sidebar
-      v-show="openSidebar"
+    <template >
+      <action-sidebar
       @close-sidebar="closeSidebar"
+      @close="closeSidebar"
       :className="slideClass"
       heading="Section Title"
+      id="scedule-event"
+      v-show="sceduleEvent"
     >
       <template v-slot:sidebar-body>
-        <p>content goes here</p>
+        <p><personal-information></personal-information></p>
       </template>
       <template v-slot:sidebar-footer>
         <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
         <bib-button label="Free" variant="success" size="lg"></bib-button>
       </template>
     </action-sidebar>
+    </template>
+    <template >
+      <action-sidebar
+      @close-sidebar="closeSidebar"
+      @close="closeSidebar"
+      :className="slideClass"
+      heading="Section Title"
+      id="scedule-leave"
+      v-show="sceduleLeave"
+    >
+      <template v-slot:sidebar-body>
+        <p>Content Goes Here</p>
+      </template>
+      <template v-slot:sidebar-footer>
+        <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
+        <bib-button label="Free" variant="success" size="lg"></bib-button>
+      </template>
+    </action-sidebar>
+    </template>
   </div>
 </template>
 <script>
@@ -136,6 +159,8 @@ export default {
       userPhoto: localStorage.getItem("userPhoto"),
       openSidebar: false,
       slideClass: "slide-in",
+      sceduleLeave:false,
+      sceduleEvent:false,
     };
   },
   async created() {
@@ -180,14 +205,23 @@ export default {
     userId(id) {
       this.$router.push("/myprofile/" + id);
     },
-    actionBY() {
-      this.openSidebar = true;
+    actionBY(event) {
+      console.log(event, "event")
+      if(event === 'schedule-event'){
+        this.sceduleEvent = true;
+        this.sceduleLeave = false;
+      }
+      if(event === 'schedule-leave'){
+        this.sceduleEvent = false;
+        this.sceduleLeave = true;
+      }
       this.slideClass = "slide-in";
     },
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {
-        this.openSidebar = false;
+        this.sceduleEvent = false;
+        this.sceduleLeave = false;
       }, 700);
     },
     onChange(value) {

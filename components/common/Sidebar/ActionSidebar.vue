@@ -6,11 +6,15 @@
   >
     <div class="d-flex p-1 justify-between align-center sidebar-header">
       <div class="d-flex justify-between align-center">
-        <bib-icon icon="add" style="margin-right: 4px;" :scale="0.9" @click="$emit('close')"></bib-icon>
+        <bib-icon
+          icon="add"
+          style="margin-right: 4px;"
+          :scale="0.9"
+          @click="$emit('close')"
+        ></bib-icon>
         <label> {{ heading }}</label>
       </div>
-     
-      <bib-icon icon="close" :scale="1.25" @click="$emit('close')"></bib-icon>
+      <bib-icon icon="close" :scale="1.25" @click="$emit('close')" style="cursor: pointer;"></bib-icon>
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
@@ -24,7 +28,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "ActionSidebar",

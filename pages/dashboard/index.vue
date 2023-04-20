@@ -87,41 +87,53 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <template >
+    <template>
       <action-sidebar
-      @close-sidebar="closeSidebar"
-      @close="closeSidebar"
-      :className="slideClass"
-      heading="Section Title"
-      id="scedule-event"
-      v-show="sceduleEvent"
-    >
-      <template v-slot:sidebar-body>
-        <p><personal-information></personal-information></p>
-      </template>
-      <template v-slot:sidebar-footer>
-        <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
-        <bib-button label="Free" variant="success" size="lg"></bib-button>
-      </template>
-    </action-sidebar>
+        @close-sidebar="closeSidebar"
+        @close="closeSidebar"
+        :className="slideClass"
+        heading="Section Title"
+        id="scedule-event"
+        v-show="sceduleEvent"
+      >
+        <template v-slot:sidebar-body>
+          <p><personal-information></personal-information></p>
+        </template>
+        <template v-slot:sidebar-footer>
+          <div class="d-flex justify-between align-center">
+            <div class="d-flex align-center">
+              <bib-icon icon="attachment" :scale="0.8" variant="success" style="margin-right: 5px;"></bib-icon>
+              <span style="color: #2BA026; font-size: 14px;">Copy Link</span>
+            </div>
+            <div>
+              <bib-button
+                label="Cancle"
+                variant="gray"
+                size="lg"
+              ></bib-button>
+              <bib-button label="Save" variant="success" size="lg"></bib-button>
+            </div>
+          </div>
+        </template>
+      </action-sidebar>
     </template>
-    <template >
+    <template>
       <action-sidebar
-      @close-sidebar="closeSidebar"
-      @close="closeSidebar"
-      :className="slideClass"
-      heading="Section Title"
-      id="scedule-leave"
-      v-show="sceduleLeave"
-    >
-      <template v-slot:sidebar-body>
-        <p>Content Goes Here</p>
-      </template>
-      <template v-slot:sidebar-footer>
-        <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
-        <bib-button label="Free" variant="success" size="lg"></bib-button>
-      </template>
-    </action-sidebar>
+        @close-sidebar="closeSidebar"
+        @close="closeSidebar"
+        :className="slideClass"
+        heading="Section Title"
+        id="scedule-leave"
+        v-show="sceduleLeave"
+      >
+        <template v-slot:sidebar-body>
+          <p>Content Goes Here</p>
+        </template>
+        <template v-slot:sidebar-footer>
+          <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
+          <bib-button label="Free" variant="success" size="lg"></bib-button>
+        </template>
+      </action-sidebar>
     </template>
   </div>
 </template>
@@ -159,8 +171,8 @@ export default {
       userPhoto: localStorage.getItem("userPhoto"),
       openSidebar: false,
       slideClass: "slide-in",
-      sceduleLeave:false,
-      sceduleEvent:false,
+      sceduleLeave: false,
+      sceduleEvent: false,
     };
   },
   async created() {
@@ -206,12 +218,12 @@ export default {
       this.$router.push("/myprofile/" + id);
     },
     actionBY(event) {
-      console.log(event, "event")
-      if(event === 'schedule-event'){
+      console.log(event, "event");
+      if (event === "schedule-event") {
         this.sceduleEvent = true;
         this.sceduleLeave = false;
       }
-      if(event === 'schedule-leave'){
+      if (event === "schedule-leave") {
         this.sceduleEvent = false;
         this.sceduleLeave = true;
       }

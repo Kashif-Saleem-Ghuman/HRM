@@ -1,14 +1,18 @@
 <template>
-    <bib-popup-notification-wrapper>
-      <template #wrapper>
-        <bib-popup-notification v-for="(msg, index) in popupMessages" :key="index" :message="msg.text"
-          :variant="msg.variant">
-        </bib-popup-notification>
-      </template>
-    </bib-popup-notification-wrapper>
+  <bib-popup-notification-wrapper>
+    <template #wrapper>
+      <bib-popup-notification
+        v-for="(msg, index) in popupMessages"
+        :key="index"
+        :message="msg.text"
+        :variant="msg.variant"
+      >
+      </bib-popup-notification>
+    </template>
+  </bib-popup-notification-wrapper>
 </template>
 <script>
- import {openPopupNotification} from '../../../utils/functions/functions_lib.js'
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 export default {
   props: {
     popupMessages: {
@@ -16,11 +20,10 @@ export default {
     },
   },
   data() {
-    return {
-    }
+    return {};
   },
   methods: {
-    openPopupNotification
-  }
-}
+    openPopupNotification,
+  },
+};
 </script>

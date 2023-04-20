@@ -113,29 +113,6 @@ $validation-star-color: #fa0f00;
   background-color: #f0f9ef;
 }
 
-@keyframes slidein-right {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.side-panel {
-  position: fixed;
-  z-index: 11;
-  width: $sidebar-width;
-  top: 65px;
-  bottom: 0;
-  right: 1px;
-  background-color: $white;
-  box-shadow: 5px 2px 15px $gray6;
-  transition: transform 0.2s;
-  &__header__actions {
-    padding: 0.75rem 1.5rem;
-  }
-}
 .nav-section{
   border: 0px !important;
 }
@@ -165,12 +142,7 @@ $validation-star-color: #fa0f00;
   font-weight: 600;
 }
 }
-@media screen and (max-width: 1600px) {
-  .side-panel {
-    max-width: $sidebar-width - 160px;
-    width: 35rem;
-  }
-}
+
 
 // @media screen and (max-width: 1400px) {
 //   .tabs {

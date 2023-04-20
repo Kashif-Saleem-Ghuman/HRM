@@ -52,12 +52,10 @@
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == myTimeAttendanceTab[0].value">
-            
             <div
               class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
-               
                 <!-- <div class="mr-05" style="font-size: 12px; display: flex; align-items: center;">
                     <bib-icon icon="file" :scale="0.8" class="mr-05"></bib-icon>
                     <span>00:</span>
@@ -148,7 +146,6 @@
   </div>
 </template>
 <script>
-
 import {
   MY_TIME_ATTENDANCE,
   MORE_MENU,

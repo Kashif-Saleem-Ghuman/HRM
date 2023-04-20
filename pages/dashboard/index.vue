@@ -49,19 +49,21 @@
           icon="add"
           variant="success"
           :scale="1"
-          title="New employee"
+          title="Schedule event"
+          @on-click="actionBY('schedule-event')"
         ></button-green>
         <button-green
           icon="add"
           :scale="1"
           variant="success"
-          title="New job posting"
+          title="Schedule leave"
+          @on-click="actionBY('schedule-leave')"
         ></button-green>
         <button-green
           icon="add"
           :scale="1"
           variant="success"
-          title="New message"
+          title="Add employee"
         ></button-green>
       </div>
       <action-right @vclick="clickAction" :items="actionMenu"></action-right>
@@ -85,6 +87,55 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <template>
+      <action-sidebar
+        @close-sidebar="closeSidebar"
+        @close="closeSidebar"
+        :className="slideClass"
+        heading="Section Title"
+        id="scedule-event"
+        v-show="sceduleEvent"
+      >
+        <template v-slot:sidebar-body>
+          <p><personal-information></personal-information></p>
+        </template>
+        <template v-slot:sidebar-footer>
+          <div class="d-flex justify-between align-center">
+            <div class="d-flex align-center">
+              <bib-icon
+                icon="attachment"
+                :scale="0.8"
+                variant="success"
+                style="margin-right: 5px"
+              ></bib-icon>
+              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
+            </div>
+            <div>
+              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
+              <bib-button label="Save" variant="success" size="lg"></bib-button>
+            </div>
+          </div>
+        </template>
+      </action-sidebar>
+    </template>
+    <template>
+      <action-sidebar
+        @close-sidebar="closeSidebar"
+        @close="closeSidebar"
+        :className="slideClass"
+        heading="Section Title"
+        id="scedule-leave"
+        v-show="sceduleLeave"
+      >
+        <template v-slot:sidebar-body>
+          <p>Content Goes Here</p>
+        </template>
+        <template v-slot:sidebar-footer>
+          <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
+          <bib-button label="Free" variant="success" size="lg"></bib-button>
+        </template>
+      </action-sidebar>
+    </template>
   </div>
 </template>
 <script>
@@ -110,7 +161,6 @@ export default {
   data() {
     return {
       id: "",
-      openSidebar: false,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
@@ -120,6 +170,10 @@ export default {
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
+      openSidebar: false,
+      slideClass: "slide-in",
+      sceduleLeave: false,
+      sceduleEvent: false,
     };
   },
   async created() {
@@ -163,6 +217,25 @@ export default {
     },
     userId(id) {
       this.$router.push("/myprofile/" + id);
+    },
+    actionBY(event) {
+      console.log(event, "event");
+      if (event === "schedule-event") {
+        this.sceduleEvent = true;
+        this.sceduleLeave = false;
+      }
+      if (event === "schedule-leave") {
+        this.sceduleEvent = false;
+        this.sceduleLeave = true;
+      }
+      this.slideClass = "slide-in";
+    },
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.sceduleEvent = false;
+        this.sceduleLeave = false;
+      }, 700);
     },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;

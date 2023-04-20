@@ -20,7 +20,6 @@
 
 <script>
 import { TABLE_FIELDS } from "../../../utils/constant/Constant.js";
-
 export default {
   props: {
     moreIcon: {
@@ -39,7 +38,6 @@ export default {
     },
   },
   name: "ActionRight",
-
   return: {
     TABLE_FIELDS: TABLE_FIELDS,
     key: "sort",
@@ -52,7 +50,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 .button-title {
   font-size: 0.8rem;

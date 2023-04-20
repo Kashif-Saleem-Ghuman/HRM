@@ -2,7 +2,7 @@
   <div class="d-flex gap-1">
     <div
       class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-rounded pl-05 pt-025 pb-025 pr-075 mr-05 font-md"
-      @click="$emit('on-click')"
+      @click.stop="$emit('on-click')"
     >
       <bib-icon
         v-if="icon"

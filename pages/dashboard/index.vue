@@ -102,15 +102,16 @@
         <template v-slot:sidebar-footer>
           <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">
-              <bib-icon icon="attachment" :scale="0.8" variant="success" style="margin-right: 5px;"></bib-icon>
-              <span style="color: #2BA026; font-size: 14px;">Copy Link</span>
+              <bib-icon
+                icon="attachment"
+                :scale="0.8"
+                variant="success"
+                style="margin-right: 5px"
+              ></bib-icon>
+              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
             </div>
             <div>
-              <bib-button
-                label="Cancle"
-                variant="gray"
-                size="lg"
-              ></bib-button>
+              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
               <bib-button label="Save" variant="success" size="lg"></bib-button>
             </div>
           </div>

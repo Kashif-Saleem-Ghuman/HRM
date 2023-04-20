@@ -54,7 +54,6 @@
         <div id="main-content">
           <Nuxt />
           <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
-          
         </div>
       </template>
     </bib-app-wrapper>

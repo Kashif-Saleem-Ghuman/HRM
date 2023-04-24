@@ -49,7 +49,8 @@ export default {
       "~/node_modules/@bizinbox/bib-ui-lib/dist/utilities.scss",
     ],
   },
-  // serverMiddleware: ["~/middleware/redirects"],
+  
+  // serverMiddleware: ["~/middleware/routes.client"],
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     postcss: null,

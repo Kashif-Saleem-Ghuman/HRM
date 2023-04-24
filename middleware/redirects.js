@@ -1,4 +1,6 @@
-export default function (req, res, next) {
+export default function (req, res, next, context) {
+  console.log(context, "redirectsssssssssssssss")
+
   const redirects = [
     {
       from: "/",

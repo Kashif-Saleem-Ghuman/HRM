@@ -64,6 +64,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
+import routesCheck from '../middleware/routes.client'
 import {
   getUser,
   handleToggleWrapperTheme,
@@ -106,6 +107,9 @@ export default {
     }),
   },
   created() {
+    
+    var pagePath = this.$router.history.current.fullPath
+            this.routesCheck(pagePath);
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -124,7 +128,7 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
+        .post(process.env.SSO_URL, {
           token: accessToken,
         })
         .then((res) => {
@@ -138,9 +142,10 @@ export default {
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            // this.userRole = userRole
+            this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            // var pagePath = this.$router.history.current.fullPath
+            console.log(userRole, "Role is Role")
+            
             // if (userRole === "USER") {
             //   this.$router.push("/myprofile/");
             //   return
@@ -185,6 +190,7 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
+    routesCheck,
   },
 };
 </script>

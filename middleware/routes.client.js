@@ -5,13 +5,13 @@ export default function routesCheck() {
     var pathPath = this.$router.history.current.fullPath;
     // Admin Role Routes
     if (userRole === "ADMIN") {
-      if (pathPath === "/myprofile") {
-        return notFound;
-      }
-      if (pathPath === "/dashboard") {
-        this.$router.push(notFound);
-        console.log(pagePath, "page path");
-      }
+      // if (pathPath === "/myprofile") {
+      //   return notFound;
+      // }
+      // if (pathPath === "/dashboard") {
+      //   this.$router.push(notFound);
+      //   console.log(pagePath, "page path");
+      // }
     } 
     // Super Admin based Routes Check
     else if(userRole=='SUPERADMIN'){

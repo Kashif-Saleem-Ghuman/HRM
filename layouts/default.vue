@@ -19,7 +19,6 @@
         <bib-header
           :mainAction="accountType"
           @callToAction="headerActionCall()"
-          @callToActions="headerActionCallll()"
           @help-click="headerHelpClick()"
           :avatarLink="userPhoto"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
@@ -140,6 +139,25 @@ export default {
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
+            // var pagePath = this.$router.history.current.fullPath
+            // if (userRole === "USER") {
+            //   this.$router.push("/myprofile/");
+            //   return
+            // } else if(userRole === 'ADMIN') {
+            //   if(pagePath==='/'){
+            //     this.$router.push("/people")
+            //     return
+            //   }
+            //   if(pagePath === 'dashboard'){
+            //     this.$router.push("/dashboard");
+            //     return
+            //   }
+            //   if(pagePath === 'myprofile'){
+            //     this.$router.push("/myprofile");
+            //     return
+            //   }
+            //   // else(this.$router.push("/people"));
+            // }
           }
           this.getUser();
           this.getBusinessId();

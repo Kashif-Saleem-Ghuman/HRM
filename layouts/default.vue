@@ -64,7 +64,6 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
-import routesCheck from '../middleware/routes.client'
 import {
   getUser,
   handleToggleWrapperTheme,
@@ -107,9 +106,6 @@ export default {
     }),
   },
   created() {
-    
-    var pagePath = this.$router.history.current.fullPath
-            this.routesCheck(pagePath);
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -128,7 +124,7 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post(process.env.SSO_URL, {
+        .post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
           token: accessToken,
         })
         .then((res) => {
@@ -142,28 +138,8 @@ export default {
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            this.userRole = userRole
+            // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            console.log(userRole, "Role is Role")
-            
-            // if (userRole === "USER") {
-            //   this.$router.push("/myprofile/");
-            //   return
-            // } else if(userRole === 'ADMIN') {
-            //   if(pagePath==='/'){
-            //     this.$router.push("/people")
-            //     return
-            //   }
-            //   if(pagePath === 'dashboard'){
-            //     this.$router.push("/dashboard");
-            //     return
-            //   }
-            //   if(pagePath === 'myprofile'){
-            //     this.$router.push("/myprofile");
-            //     return
-            //   }
-            //   // else(this.$router.push("/people"));
-            // }
           }
           this.getUser();
           this.getBusinessId();
@@ -190,7 +166,6 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
-    routesCheck,
   },
 };
 </script>

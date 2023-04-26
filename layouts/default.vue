@@ -25,13 +25,13 @@
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
         >
-          <template #avatar_menu>
+          <!-- <template #avatar_menu>
             <avatar-sub-menu
               @logout="logout"
               @openAccountPage="openAccountPage"
               @myProfile="myProfile"
             ></avatar-sub-menu>
-          </template>
+          </template> -->
         </bib-header>
       </template>
       <template #switcher>

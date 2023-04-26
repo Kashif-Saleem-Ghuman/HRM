@@ -75,6 +75,7 @@ import {
   isThemeCheck,
   getBusinessId,
 } from "../utils/functions/functions_lib.js";
+import routesCheck from '../middleware/routes.client'
 export default {
   data() {
     return {
@@ -105,6 +106,7 @@ export default {
     }),
   },
   created() {
+    this.routesCheck();
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -184,6 +186,7 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
+    routesCheck,
   },
 };
 </script>

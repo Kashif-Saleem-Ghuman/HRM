@@ -5,6 +5,7 @@ export default function routesCheck() {
     var pathPath = this.$router.history.current.fullPath;
     // Admin Role Routes
     if (userRole === "ADMIN") {
+      this.$router.push('/dashboard');
       // if (pathPath === "/myprofile") {
       //   return notFound;
       // }

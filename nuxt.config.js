@@ -1,3 +1,5 @@
+import i18n from "./config/i18n";
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -35,6 +37,28 @@ export default {
     "@nuxtjs/dotenv",
     "@nuxtjs/style-resources",
     "dayjs",
+    [
+      "nuxt-i18n",
+      {
+        vueI18nLoader: true,
+        defaultLocale: "en",
+        locales: [
+          {
+            code: "en",
+            name: "English",
+            file: "en.json"
+          },
+          {
+            code: "fr",
+            name: "Français",
+            file: "fr.json"
+          }
+        ],
+        globalInjection: true,
+        vueI18n: i18n,
+        langDir: "~/node_modules/@bizinbox/bib-ui-lib/dist/lang"
+      }
+    ],
   ],
   axios: {
     // proxy: true,

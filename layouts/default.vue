@@ -19,7 +19,6 @@
         <bib-header
           :mainAction="accountType"
           @callToAction="headerActionCall()"
-          @callToActions="headerActionCallll()"
           @help-click="headerHelpClick()"
           :avatarLink="userPhoto"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
@@ -27,12 +26,38 @@
           noResultText="No result"
         >
           <template #avatar_menu>
+            <transition name="slide_right" mode="out-in">
+              <div class="list" v-show="showUserMenu">
+                <div class="p-1 d-flex">
+                  <bib-avatar size="3.2rem"></bib-avatar>
+                  <div class="ml-05 position-relative">
+                    <div class="font-w-700">
+                      <div>Bruno</div>
+                      <div>Goulet</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="border-top-light"></div>
+                <span class="list__item"> My Profile </span>
+                <div class="border-top-light"></div>
+                <span class="list__item"> Team Members </span>
+                <div class="border-top-light"></div>
+                <span class="list__item"> Organization </span>
+                <div class="border-top-light"></div>
+                <span class="list__item"> Plan & Billing </span>
+                <div class="border-top-light"></div>
+                <span class="list__item"> Sign-out </span>
+              </div>
+            </transition>
+          </template>
+
+          <!-- <template #avatar_menu>
             <avatar-sub-menu
               @logout="logout"
               @openAccountPage="openAccountPage"
               @myProfile="myProfile"
             ></avatar-sub-menu>
-          </template>
+          </template> -->
         </bib-header>
       </template>
       <template #switcher>
@@ -76,6 +101,7 @@ import {
   isThemeCheck,
   getBusinessId,
 } from "../utils/functions/functions_lib.js";
+import routesCheck from "../middleware/routes.client";
 export default {
   data() {
     return {
@@ -90,14 +116,14 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token: '',
-     };
+      token: "",
+    };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
   },
-  created(){
-    this.$store.dispatch('token/setActiveUserRole')
+  created() {
+    this.$store.dispatch("token/setActiveUserRole");
   },
   computed: {
     ...mapGetters({
@@ -106,6 +132,7 @@ export default {
     }),
   },
   created() {
+    this.routesCheck();
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -124,9 +151,12 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post("https://dev-account-api.business-in-a-box.com/v1/user/sso/verify", {
-          token: accessToken,
-        })
+        .post(
+          "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
+          {
+            token: accessToken,
+          }
+        )
         .then((res) => {
           if (res.data.code == "valid_token") {
             this.token = res.data.jwt;
@@ -140,6 +170,25 @@ export default {
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
+            // var pagePath = this.$router.history.current.fullPath
+            // if (userRole === "USER") {
+            //   this.$router.push("/myprofile/");
+            //   return
+            // } else if(userRole === 'ADMIN') {
+            //   if(pagePath==='/'){
+            //     this.$router.push("/people")
+            //     return
+            //   }
+            //   if(pagePath === 'dashboard'){
+            //     this.$router.push("/dashboard");
+            //     return
+            //   }
+            //   if(pagePath === 'myprofile'){
+            //     this.$router.push("/myprofile");
+            //     return
+            //   }
+            //   // else(this.$router.push("/people"));
+            // }
           }
           this.getUser();
           this.getBusinessId();
@@ -166,6 +215,7 @@ export default {
     headerHelpClick,
     headerActionCall,
     openPopupNotification,
+    routesCheck,
   },
 };
 </script>

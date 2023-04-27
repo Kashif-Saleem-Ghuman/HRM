@@ -123,6 +123,7 @@ export default {
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
+    console.log(process.env.USER_AUTH_API_ENDPOINT, "auth api callled")
     if (accessToken && cookies) {
       axios
         .post(

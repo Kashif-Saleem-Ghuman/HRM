@@ -7,9 +7,9 @@ export async function getUser() {
         Authorization: "Bearer " + this.getAccessToken,
       },
     });
-    localStorage.setItem("userPhoto", avtar.data[0].Photo);
-    this.userPhoto = avtar.data[0].Photo;
-    localStorage.setItem("businessId", avtar.data[0].BusinessId);
+    localStorage.setItem("userPhoto", avtar.data.Photo);
+    this.userPhoto = avtar.data.Photo;
+    localStorage.setItem("businessId", avtar.data.BusinessId);
   } catch (e) {
     alert(e);
   }
@@ -25,8 +25,7 @@ export async function getBusinessId() {
         },
       });
       // console.log(businessid.data, "Org Object Called");
-      this.org = businessid.data[0]
-      console.log(this.org, "Org Object Called");
+      this.org = businessid.data
   } catch (e) {
     alert(e);
   }

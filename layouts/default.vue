@@ -25,31 +25,6 @@
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
         >
-          <template #avatar_menu>
-            <transition name="slide_right" mode="out-in">
-              <div class="list" v-show="showUserMenu">
-                <div class="p-1 d-flex">
-                  <bib-avatar size="3.2rem"></bib-avatar>
-                  <div class="ml-05 position-relative">
-                    <div class="font-w-700">
-                      <div>Bruno</div>
-                      <div>Goulet</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="border-top-light"></div>
-                <span class="list__item"> My Profile </span>
-                <div class="border-top-light"></div>
-                <span class="list__item"> Team Members </span>
-                <div class="border-top-light"></div>
-                <span class="list__item"> Organization </span>
-                <div class="border-top-light"></div>
-                <span class="list__item"> Plan & Billing </span>
-                <div class="border-top-light"></div>
-                <span class="list__item"> Sign-out </span>
-              </div>
-            </transition>
-          </template>
           <!-- <template #avatar_menu>
             <avatar-sub-menu
               @logout="logout"
@@ -151,20 +126,20 @@ export default {
     if (accessToken && cookies) {
       axios
         .post(
-          "https://dev-account-api.business-in-a-box.com/v1/user/sso/verify",
+          process.env.SSO_URL,
           {
-            token: accessToken,
+            ssojwt: accessToken,
           }
         )
         .then((res) => {
-          if (res.data.code == "valid_token") {
+          if (res) {
             this.token = res.data.jwt;
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
-            this.accountType =
-              res?.data?.u?.subbs == "FREETRIAL"
+            this.accountType = 
+               res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"
-                : "Upgrade";
+                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole

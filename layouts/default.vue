@@ -127,7 +127,7 @@ export default {
     if (accessToken && cookies) {
       axios
         .post(
-          process.env.SSO_URL,
+          process.env.USER_AUTH_API,
           {
             ssojwt: accessToken,
           }

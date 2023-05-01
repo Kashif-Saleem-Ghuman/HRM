@@ -123,7 +123,6 @@ export default {
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
-    console.log(USER_AUTH_API_ENDPOINT, "auth api callled")
     if (accessToken && cookies) {
       axios
         .post(
@@ -145,7 +144,6 @@ export default {
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            // var pagePath = this.$router.history.current.fullPath
           }
           this.getUser();
           this.getBusinessId();

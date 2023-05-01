@@ -2,7 +2,6 @@
   <div
     id="side-panel"
     :class="'side-panel ' + 'side-panel__' + className"
-    v-click-outside="closeSidebar"
   >
     <div class="d-flex p-1 justify-between align-center sidebar-header">
       <div class="d-flex justify-between align-center">

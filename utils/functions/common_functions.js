@@ -2,7 +2,7 @@ import axios from "axios";
 export async function getUser() {
   let userID = localStorage.getItem("userID");
   try {
-    const avtar = await axios.get(process.env.USER_API_URL + "/" + userID, {
+    const avtar = await axios.get(process.env.USER_API_ENDPOINT + "/" + userID, {
       headers: {
         Authorization: "Bearer " + this.getAccessToken,
       },
@@ -18,7 +18,7 @@ export async function getBusinessId() {
   let businessId = localStorage.getItem("businessId");
   try {
     const businessid = await axios.get(
-      process.env.ORG_API_URL + "/" + businessId,
+      process.env.ORG_API_ENDPOINT + "/" + businessId,
       {
         headers: {
           Authorization: "Bearer " + this.getAccessToken,

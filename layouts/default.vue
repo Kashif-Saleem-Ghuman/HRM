@@ -144,7 +144,6 @@ export default {
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            // var pagePath = this.$router.history.current.fullPath
           }
           this.getUser();
           this.getBusinessId();

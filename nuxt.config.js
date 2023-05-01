@@ -34,7 +34,7 @@ export default {
     // Simple usage
     "cookie-universal-nuxt",
     "@nuxtjs/axios",
-    "@nuxtjs/dotenv",
+    '@nuxtjs/dotenv',
     "@nuxtjs/style-resources",
     "dayjs",
     [

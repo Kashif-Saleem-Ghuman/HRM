@@ -52,7 +52,7 @@
       <template #content>
         <div id="main-content">
           <Nuxt />
-          <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
+          <loader v-bind:showloader="loading"></loader>
         </div>
       </template>
     </bib-app-wrapper>
@@ -95,9 +95,6 @@ export default {
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-  },
-  created() {
-    this.$store.dispatch("token/setActiveUserRole");
   },
   computed: {
     ...mapGetters({
@@ -143,7 +140,6 @@ export default {
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             // this.userRole = userRole
-            this.$store.dispatch("token/setActiveUserRole", userRole);
           }
           this.getUser();
           this.getBusinessId();

@@ -348,7 +348,7 @@ export default {
       userPhotoClick: false,
       timesheetModal: false,
       // localData: TIMESHEET_DATA,
-      filteredData: "",
+      filteredData: [],
     };
   },
   // async craeted(){

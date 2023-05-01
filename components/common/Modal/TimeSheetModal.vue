@@ -74,9 +74,12 @@ export default {
   props: {
     items: {
       type: Array,
+      default() {
+        return null;
+      },
     },
     timesheetModal: {
-      type: String,
+      type: Boolean,
     },
   },
   data() {

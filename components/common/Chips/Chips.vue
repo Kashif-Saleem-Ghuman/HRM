@@ -42,7 +42,9 @@ export default {
     },
     className: {
       type: Array,
-      default: [],
+      default() {
+        return null;
+      },
     },
     variant: {
       type: String,

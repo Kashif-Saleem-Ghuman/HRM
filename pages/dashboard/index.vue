@@ -177,9 +177,6 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("setActiveUserRole", {
-      userRole: this.activeUserRole,
-    });
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     await this.$store.dispatch("employee/setActiveUser");
@@ -189,7 +186,6 @@ export default {
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
-      activeUserRole: "token/getUserRole",
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
     }),

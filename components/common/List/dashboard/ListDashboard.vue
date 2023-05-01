@@ -349,7 +349,7 @@ export default {
       userPhotoClick: false,
       timesheetModal: false,
       localData: DASHBOARD_DATA,
-      filteredData: "",
+      filteredData: [],
     };
   },
   // async craeted(){

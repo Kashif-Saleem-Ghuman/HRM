@@ -142,7 +142,9 @@ export default {
     },
     className: {
       type: Array,
-      default: [],
+      default() {
+        return null;
+      },
     },
     headless: {
       type: Boolean,

@@ -195,7 +195,6 @@ export default {
     };
   },
   async created() {
-    // await this.$store.dispatch("setActiveUserRole");
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     this.totalUser = this.localData.length;

@@ -19,11 +19,14 @@
         <bib-header
           :mainAction="accountType"
           @callToAction="headerActionCall()"
-          @help-click="headerHelpClick()"
+          @support-link="headerHelpClick()"
+          @my-account-link="myProfile"
           :avatarLink="userPhoto"
+          @logout="logout"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
+          
         >
           <!-- <template #avatar_menu>
             <avatar-sub-menu
@@ -46,7 +49,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : 'adminMenu'"
+          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : 'userMenu'"
         ></app-menu>
       </template>
       <template #content>

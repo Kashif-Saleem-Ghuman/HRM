@@ -1,32 +1,61 @@
 <template>
-  <div v-if="adminMenu">
-    <bib-app-navigation
-      :items="appWrapItems.navItemsUser.slice(0, 2)"
-      @click="
-        ($event, item) => {
-          menuClick(item);
-        }
-      "
-    ></bib-app-navigation>
-    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-    <bib-app-navigation
-      :items="appWrapItems.navItemsAdmin"
-      @click="
-        ($event, item) => {
-          menuClick(item);
-        }
-      "
-    ></bib-app-navigation>
-    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-    <bib-app-navigation
-      :items="appWrapItems.navItemsUser.slice(2)"
-      @click="
-        ($event, item) => {
-          menuClick(item);
-        }
-      "
-    ></bib-app-navigation>
-    <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+  <div>
+    <div v-if="userMenu" class="mt-1">
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUser"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+    </div>
+    <div v-if="userMenu" class="mt-05">
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUserSwitch"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+        style="border: solid 5px #000; font-size: 30px !important"
+      ></bib-app-navigation>
+      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+    </div>
+
+    <!-- Admin Menu  -->
+    <div v-if="adminMenu" class="mt-1">
+      <div class="menu-icon-less bg-light">
+        <span>Organization admin</span>
+      </div>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsAdmin.slice(0, 1)"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsAdmin.slice(1)"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUserSwitch"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -134,3 +163,17 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.menu-icon-less{
+  // background-color: black;
+  line-height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 8px;
+  border-radius: 4px;
+  span{
+    // font-size: 30px;
+    margin: 16px;
+  }
+}
+</style>

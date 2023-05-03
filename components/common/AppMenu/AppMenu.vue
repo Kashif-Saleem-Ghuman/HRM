@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-if="userMenu" class="mt-1">
+      <div class="menu-icon-less bg-light">
+        <span>My account</span>
+      </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
         @click="
@@ -10,10 +13,8 @@
         "
       ></bib-app-navigation>
       <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-    </div>
-    <div v-if="userMenu" class="mt-05">
       <bib-app-navigation
-        :items="appWrapItems.navItemsUserSwitch"
+        :items="appWrapItems.navItemsAdminSwitch"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -23,7 +24,6 @@
       ></bib-app-navigation>
       <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
     </div>
-
     <!-- Admin Menu  -->
     <div v-if="adminMenu" class="mt-1">
       <div class="menu-icon-less bg-light">
@@ -70,6 +70,9 @@ export default {
       type: String,
     },
     adminMenu: {
+      type: String,
+    },
+    userMenu: {
       type: String,
     },
   },

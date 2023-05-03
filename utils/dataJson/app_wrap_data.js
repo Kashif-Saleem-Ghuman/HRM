@@ -101,7 +101,6 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      { label: "My account", icon: "add", key: "my-account", selected: true, id:""},
       { label: "Inbox", icon: "add", key: "inbox", url:"/inbox", selected: false},
       { label: "My Profile", icon: "add", key: "myprofile", url:"/myprofile", selected: false},
       { label: "My Time & Attendance", icon: "add", key: "mytimeattendance", url:"/files", selected: false},
@@ -109,7 +108,7 @@ const data = () => {
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsAdminSwitch: [
-      { label: "Organization admin", key: "organization-admin", selected: false, id:""},
+      { label: "Organization admin", icon: "add", key: "organization-admin", selected: false, id:""},
     ],
     navItemsAdmin: [
       { label: "Organization profile", icon: "add", key: "orgprofile", url:"/orgprofile", selected: false, id:""},

@@ -49,7 +49,7 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : 'userMenu'"
+          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''" :userMenu="userRole === 'USER' ? 'userMenu' : ''"
         ></app-menu>
       </template>
       <template #content>
@@ -94,6 +94,7 @@ export default {
       userPhoto: "",
       accountType: "",
       token: "",
+      userRole:'',
     };
   },
   fetch() {
@@ -102,7 +103,6 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
-      userRole: "token/getUserRole",
     }),
   },
   created() {
@@ -142,7 +142,7 @@ export default {
                  : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
-            // this.userRole = userRole
+            this.userRole = userRole
           }
           this.getUser();
           this.getBusinessId();

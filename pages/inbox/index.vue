@@ -39,9 +39,12 @@
         v-on:change-sort="sortBy"
       ></action-right>
     </div>
-    <div class="py-2 px-2">
-      <div class="d-flex" style="position: relative">
+    <div class="py-2 px-1">
+      <!-- <div class="d-flex" style="position: relative">
         <tooltip :show="showTooltip"></tooltip>
+      </div> -->
+      <div>
+        <info-card :items="infoCardData" :avtarPhoto="infoCardData"></info-card>
       </div>
       <div class="py-2 d-flex">
         <chips title="Punched in" variant="chip-wrapper__bgsucess"></chips>
@@ -90,6 +93,7 @@
   </div>
 </template>
 <script>
+import {INFO_CARD_DATA} from '../../utils/constant/DashboardData'
 export default {
   data() {
     return {
@@ -97,6 +101,7 @@ export default {
       switchChecked2: false,
       showTooltip: false,
       fill: "#2BA026",
+      infoCardData: INFO_CARD_DATA,
       userItems: [
         {
           avatarUrl:

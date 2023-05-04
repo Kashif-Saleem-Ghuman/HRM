@@ -4,8 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
-        title="Dashboard"
-        moreIcon="more"
+        title="Welcome to your HR dashboard, Shweta!"
         :avatar="userPhoto"
         headerRight="headerRight"
         :items="items.slice(-1)"
@@ -78,6 +77,9 @@
               <date-picker></date-picker>
             </div>
           </div>
+          <div class="px-1 py-1">
+            <info-card :items="infoCardData" :avtarPhoto="infoCardData"></info-card>
+          </div>
           <div class="scroll_wrapper">
             <div style="z-index: 1">
               <list-dashboard :userList="timesheetData"></list-dashboard>
@@ -149,7 +151,7 @@ import {
   handleInput,
 } from "../../utils/functions/functions_lib.js";
 import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
-import { DASHBOARD_DATA } from "../../utils/constant/DashboardData";
+import { DASHBOARD_DATA, INFO_CARD_DATA } from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
 import {
   getTime,
@@ -162,6 +164,7 @@ export default {
     return {
       id: "",
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
+      infoCardData: INFO_CARD_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       timesheetData: DASHBOARD_DATA,

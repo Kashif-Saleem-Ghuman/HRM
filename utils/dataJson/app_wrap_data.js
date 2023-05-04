@@ -111,6 +111,7 @@ const data = () => {
       { label: "Organization admin", icon: "add", key: "organization-admin", selected: false, id:""},
     ],
     navItemsAdmin: [
+      { label: "Inbox", icon: "add", key: "inbox", url:"/inbox", selected: false},
       { label: "Organization profile", icon: "add", key: "orgprofile", url:"/orgprofile", selected: false, id:""},
       { label: "People", icon: "add", key: "people", url:"/people", selected: false, id:""},
       { label: "Time & Attendance", icon: "add", key: "time-attendance", url:'/time-attendance', selected: false},

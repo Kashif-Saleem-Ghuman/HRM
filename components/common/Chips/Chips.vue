@@ -7,6 +7,7 @@
         variant,
         className,
       ]"
+      style="width: 100%;"
       class="cursor-pointer chip-wrapper ml-05"
       @click="$emit('on-click')"
     >
@@ -131,17 +132,19 @@ export default {
   }
 }
 .chip-wrapper {
-  border-radius: 1rem;
+  border-radius: 6px;
   padding: 4px 8px;
   margin-right: 10px;
   display: flex;
-  justify-content: center;
+  height: 3rem;
+  // justify-content: center;
   align-items: center;
   background-color: #f2f2f5;
 
   &__shape-circle {
     width: 3rem;
     height: 3rem;
+    padding: 6px;
     border-radius: 50%;
   }
   &__shape-round {

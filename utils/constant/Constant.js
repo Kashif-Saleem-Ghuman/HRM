@@ -13,32 +13,16 @@ export const TABLE_HEAD = {
       label: "Status",
     },
     {
-      key: "mon",
-      label: "Mon",
+      key: "in",
+      label: "In",
     },
     {
-      key: "tue",
-      label: "Tue",
+      key: "out",
+      label: "Out",
     },
     {
-      key: "wed",
-      label: "Wed",
-    },
-    {
-      key: "thu",
-      label: "Thu",
-    },
-    {
-      key: "fri",
-      label: "Fri",
-    },
-    {
-      key: "sat",
-      label: "Sat",
-    },
-    {
-      key: "sun",
-      label: "Sun",
+      key: "breaks",
+      label: "Breaks",
     },
     {
       key: "total",

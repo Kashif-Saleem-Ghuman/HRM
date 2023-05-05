@@ -11,7 +11,7 @@
         :icon="items.icon"
         @vclick="clickAction"
       ></section-header-left>
-      <div class="d-flex justify-between">
+      <!-- <div class="d-flex justify-between">
         <template v-for="user in userList.slice(0, 4)">
           <section-header-right
             @click="userId(user.id)"
@@ -23,7 +23,6 @@
           >
           </section-header-right>
         </template>
-
         <div
           style="z-index: 100"
           class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
@@ -38,9 +37,9 @@
           class="ml-05"
           icon_bg="light-green"
         ></button-circle>
-      </div>
+      </div> -->
     </div>
-    <div
+    <!-- <div
       class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
     >
       <div class="d-flex align-center">
@@ -66,23 +65,27 @@
         ></button-green>
       </div>
       <action-right @vclick="clickAction" :items="actionMenu"></action-right>
-    </div>
+    </div> -->
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div class="" id="tab_info_wrapper">
           <div
-            class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
           >
             <div class="d-flex align-center">
               <date-picker></date-picker>
             </div>
+            <action-right @vclick="clickAction" :items="actionMenu"></action-right>
           </div>
           <div class="px-1 py-1">
-            <info-card :items="infoCardData" :avtarPhoto="infoCardData"></info-card>
+            <info-card
+              :items="infoCardData"
+              :avtarPhoto="infoCardData"
+            ></info-card>
           </div>
           <div class="scroll_wrapper">
             <div style="z-index: 1">
-              <list-dashboard :userList="timesheetData"></list-dashboard>
+              <list-dashboard :userList="dashboardData"></list-dashboard>
             </div>
           </div>
         </div>
@@ -151,7 +154,10 @@ import {
   handleInput,
 } from "../../utils/functions/functions_lib.js";
 import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
-import { DASHBOARD_DATA, INFO_CARD_DATA } from "../../utils/constant/DashboardData";
+import {
+  DASHBOARD_DATA,
+  INFO_CARD_DATA,
+} from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
 import {
   getTime,
@@ -167,7 +173,7 @@ export default {
       infoCardData: INFO_CARD_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
-      timesheetData: DASHBOARD_DATA,
+      dashboardData: DASHBOARD_DATA,
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,

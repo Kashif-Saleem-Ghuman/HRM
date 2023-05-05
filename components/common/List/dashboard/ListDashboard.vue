@@ -13,7 +13,7 @@
         >
           <div
             style="cursor: pointer"
-            v-on:mouseover="profiletab('id_' + data.value.id)"
+            v-on:click="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
             class="ml-05"
           >
@@ -50,272 +50,80 @@
       <template #cell(status)="data">
         <div class="text-dark">
           <chips
-            :title="
-              data.value.activeStatus == null ? '---' : data.value.activeStatus
-            "
+            :title="data.value.status == null ? '---' : data.value.status"
+            iconShow="iconShow"
+            icon="add"
             :className="[
-              data.value.activeStatus === 'Punched in'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value.activeStatus === 'Absent'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-              data.value.activeStatus === 'Vacation'
+              data.value.status >= '5' ? 'chip-wrapper__bgsucess' : '',
+              data.value.status === 'Absent' ? 'chip-wrapper__bgabsent' : '',
+              data.value.status === 'Vacation'
+             
                 ? 'chip-wrapper__bgvacation'
                 : '',
-              data.value.activeStatus == 'Pending'
-                ? 'chip-wrapper__bgdefault'
-                : '',
+              data.value.status == 'Pending' ? 'chip-wrapper__bgdefault' : '',
             ]"
           ></chips>
         </div>
       </template>
-      <template #cell(mon)="data">
-        <div
-          v-on:mouseover="timeInfotab('timesheetid_' + data.value.id)"
-          v-on:mouseleave="timeInfotab('timesheetid_' + data.value.id, true)"
-          style="position: relative"
-        >
+      <template #cell(in)="data">
+        <div>
           <chips
-            :title="data.value?.weekData?.mon?.hourStatus"
-            shapeCircle="__shape-round"
+            :title="data.value?.in"
+
             :className="[
-              data.value?.weekData?.mon?.hourStatus >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.mon?.hourStatus <= '7' &&
-              data.value?.weekData?.mon?.hourStatus >= '5'
+              data.value?.in >= '8' ? 'chip-wrapper__bgsucess' : '',
+              data.value?.in <= '7' && data.value?.in >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-              data.value?.weekData?.mon?.hourStatus === 'V'
-                ? 'chip-wrapper__bgvacation'
-                : '',
-              data.value?.weekData?.mon?.hourStatus === 'A'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value?.weekData?.mon?.hourStatus == null
-                ? 'chip-wrapper__bggray'
-                : '',
+              data.value?.in === 'V' ? 'chip-wrapper__bgvacation' : '',
+              data.value?.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+              data.value?.in == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
-          <div
-            :id="'timesheetid_' + data.value.id"
-            class="tooltip-wrapper"
-            style="z-index: 100000"
-          >
-            <div v-if="data.value?.weekData?.mon?.timeData">
-              <tooltip
-                :data="data.value?.weekData?.mon?.timeData"
-                @vclick="itemCliked(data.value.id)"
-              ></tooltip>
-            </div>
-          </div>
         </div>
       </template>
-      <template #cell(tue)="data">
+      <template #cell(out)="data">
         <chips
-          :title="
-            data.value?.weekData?.tue?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.tue?.hourStatus
-          "
-          shapeCircle="__shape-round"
+          :title="data.value?.out == null ? 'N/A' : data.value?.out"
           :className="[
-            data.value?.weekData?.tue?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.tue?.hourStatus <= '7' &&
-            data.value?.weekData?.tue?.hourStatus >= '5'
+            data.value?.out >= '8' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.out <= '7' && data.value?.out >= '5'
               ? 'chip-wrapper__bgabsent'
               : '',
-            data.value?.weekData?.tue?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.tue?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.tue?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.tue?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
+            data.value?.out <= '3' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.out === 'V' ? 'chip-wrapper__bgvacation' : '',
+            data.value?.out === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.out == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
       </template>
-      <template #cell(wed)="data">
+      <template #cell(breaks)="data">
         <chips
-          :title="
-            data.value?.weekData?.wed?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.wed?.hourStatus
-          "
-          shapeCircle="__shape-round"
+          :title="data.value?.breaks == null ? 'N/A' : data.value?.breaks"
           :className="[
-            data.value?.weekData?.wed?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.wed?.hourStatus <= '7' &&
-            data.value?.weekData?.wed?.hourStatus >= '5'
+            data.value?.breaks >= '8' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.breaks <= '7' && data.value?.breaks >= '5'
               ? 'chip-wrapper__bgabsent'
               : '',
-            data.value?.weekData?.wed?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.wed?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.wed?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.wed?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
-          ]"
-        ></chips>
-      </template>
-      <template #cell(thu)="data">
-        <chips
-          :title="
-            data.value?.weekData?.thu?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.thu?.hourStatus
-          "
-          shapeCircle="__shape-round"
-          :className="[
-            data.value?.weekData?.thu?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.thu?.hourStatus <= '7' &&
-            data.value?.weekData?.thu?.hourStatus >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.weekData?.thu?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.thu?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.thu?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.thu?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
-          ]"
-        ></chips>
-      </template>
-      <template #cell(fri)="data">
-        <chips
-          :title="
-            data.value?.weekData?.fri?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.fri?.hourStatus
-          "
-          shapeCircle="__shape-round"
-          :className="[
-            data.value?.weekData?.fri?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.fri?.hourStatus <= '7' &&
-            data.value?.weekData?.fri?.hourStatus >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.weekData?.fri?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.fri?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.fri?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.fri?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
-          ]"
-        ></chips>
-      </template>
-      <template #cell(sat)="data">
-        <chips
-          :title="
-            data.value?.weekData?.sat?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.sat?.hourStatus
-          "
-          shapeCircle="__shape-circle"
-          :className="[
-            data.value?.weekData?.sat?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.sat?.hourStatus <= '7' &&
-            data.value?.weekData?.sat?.hourStatus >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.weekData?.sat?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.sat?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.sat?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.sat?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
-          ]"
-        ></chips>
-      </template>
-      <template #cell(sun)="data">
-        <chips
-          :title="
-            data.value?.weekData?.sun?.hourStatus == null
-              ? 'N/A'
-              : data.value?.weekData?.sun?.hourStatus
-          "
-          shapeCircle="__shape-circle"
-          :className="[
-            data.value?.weekData?.sun?.hourStatus >= '8'
-              ? 'chip-wrapper__bgsucess'
-              : '',
-            data.value?.weekData?.sun?.hourStatus <= '7' &&
-            data.value?.weekData?.sun?.hourStatus >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.weekData?.sun?.hourStatus <= '3'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.sun?.hourStatus === 'V'
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value?.weekData?.sun?.hourStatus === 'A'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.weekData?.sun?.hourStatus == null
-              ? 'chip-wrapper__bgwhite'
-              : '',
+            data.value?.breaks <= '3' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.breaks === 'V' ? 'chip-wrapper__bgvacation' : '',
+            data.value?.breaks === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.breaks == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
       </template>
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.totalWeekHour == null
-              ? 'N/A'
-              : data.value?.totalWeekHour
+            data.value?.totalHours == null ? 'N/A' : data.value?.totalHours
           "
-          shapeCircle="__shape-circle"
           :className="[
-            data.value?.totalWeekHour >= '40' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.totalWeekHour <= '30' &&
-            data.value?.totalWeekHour >= '20'
+            data.value?.totalHours >= '40' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.totalHours <= '30' && data.value?.totalHours >= '20'
               ? 'chip-wrapper__bgabsent'
               : '',
-            data.value?.totalWeekHour <= '20'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.totalWeekHour == null ? 'chip-wrapper__bgwhite' : '',
+            data.value?.totalHours <= '20' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.totalHours == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
       </template>

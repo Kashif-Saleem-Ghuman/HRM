@@ -258,7 +258,7 @@ export default {
 
     th {
       border: $gray3 1px solid;
-      border-top: none;
+      // border-top: none;
       text-align: left;
       height: 48px !important;
       text-transform: uppercase !important;

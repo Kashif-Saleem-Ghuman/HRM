@@ -54,13 +54,13 @@
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.status >= '5' ? 'chip-wrapper__bgsucess' : '',
-              data.value.status === 'Absent' ? 'chip-wrapper__bgabsent' : '',
+              data.value.status >= '8' ? 'chip-wrapper__bgsucess' : '',
+              data.value.status === 'Break' ? 'chip-wrapper__bggray' : '',
               data.value.status === 'Vacation'
              
                 ? 'chip-wrapper__bgvacation'
                 : '',
-              data.value.status == 'Pending' ? 'chip-wrapper__bgdefault' : '',
+              data.value.status == 'Absent' ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
         </div>
@@ -71,8 +71,8 @@
             :title="data.value?.in"
 
             :className="[
-              data.value?.in >= '8' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.in <= '7' && data.value?.in >= '5'
+              data.value?.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',
+              data.value?.in >= '09:00'
                 ? 'chip-wrapper__bgabsent'
                 : '',
               data.value?.in === 'V' ? 'chip-wrapper__bgvacation' : '',
@@ -86,13 +86,7 @@
         <chips
           :title="data.value?.out == null ? 'N/A' : data.value?.out"
           :className="[
-            data.value?.out >= '8' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.out <= '7' && data.value?.out >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.out <= '3' ? 'chip-wrapper__bgabsentpink' : '',
-            data.value?.out === 'V' ? 'chip-wrapper__bgvacation' : '',
-            data.value?.out === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+            data.value?.out === '09:30' ? 'chip-wrapper__bgabsent' : '',
             data.value?.out == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
@@ -101,14 +95,7 @@
         <chips
           :title="data.value?.breaks == null ? 'N/A' : data.value?.breaks"
           :className="[
-            data.value?.breaks >= '8' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.breaks <= '7' && data.value?.breaks >= '5'
-              ? 'chip-wrapper__bgabsent'
-              : '',
-            data.value?.breaks <= '3' ? 'chip-wrapper__bgabsentpink' : '',
-            data.value?.breaks === 'V' ? 'chip-wrapper__bgvacation' : '',
-            data.value?.breaks === 'A' ? 'chip-wrapper__bgabsentpink' : '',
-            data.value?.breaks == null ? 'chip-wrapper__bgwhite' : '',
+            data.value?.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>
@@ -118,12 +105,10 @@
             data.value?.totalHours == null ? 'N/A' : data.value?.totalHours
           "
           :className="[
-            data.value?.totalHours >= '40' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.totalHours <= '30' && data.value?.totalHours >= '20'
+            data.value?.totalHours >= '08' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.totalHours <= '08' && data.value?.totalHours >= '05'
               ? 'chip-wrapper__bgabsent'
               : '',
-            data.value?.totalHours <= '20' ? 'chip-wrapper__bgabsentpink' : '',
-            data.value?.totalHours == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
       </template>

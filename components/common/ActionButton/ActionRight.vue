@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex align-center">
+    <div style="font-size: 14px;" class="mr-05">Show:</div>
     <button-circle
       v-if="calander"
       icon="calendar"

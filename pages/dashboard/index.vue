@@ -75,7 +75,18 @@
             <div class="d-flex align-center">
               <date-picker></date-picker>
             </div>
-            <action-right @vclick="clickAction" :items="actionMenu"></action-right>
+            <!-- <action-right @vclick="clickAction" :items="actionMenu"></action-right> -->
+            <div class="d-flex align-center">
+            <div style="font-size: 14px;" class="mr-05">Show:</div>
+            <button
+              type="button"
+              @click="$emit('on-click')"
+              class="cursor-pointer shape-circle icon-size d-flex align-center border-0"
+              :class="icon_bg"
+            >
+              All
+            </button>
+           </div>
           </div>
           <div class="px-1 py-1">
             <info-card

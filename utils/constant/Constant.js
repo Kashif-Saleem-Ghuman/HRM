@@ -29,6 +29,28 @@ export const TABLE_HEAD = {
       label: "Total hours",
     },
   ],
+  tHeadInbox: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "From",
+    },
+    {
+      key: "type",
+      label: "Type",
+    },
+    {
+      key: "subject",
+      label: "Subject",
+    },
+    {
+      key: "received",
+      label: "Received",
+    },
+  ],
   tHeadPeople: [
     {
       key: "",

@@ -1,130 +1,116 @@
 <template>
-  <div id="inbox-wrapper">
+  <div id="dashborad-wrapper">
     <div
-      class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
+      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
-        title="Dashboard"
-        :bookmark="bookmark"
-        :moreIcon="moreIcon"
+        title="Welcome to your HR dashboard, Shweta!"
+        :avatar="userPhoto"
         headerRight="headerRight"
+        :items="items.slice(-1)"
+        :icon="items.icon"
+        @vclick="clickAction"
       ></section-header-left>
-      <div class="d-flex justify-between mr-1">
-        <template>
-          <button-circle
-            icon="user-add"
-            :scale="1"
-            @click="addUser()"
-            variant="success"
-            showLight="true"
-            class="ml-05"
-          ></button-circle>
-        </template>
-      </div>
+     
     </div>
-    <div class="d-flex justify-between py-05 px-075 bottom_border_wrapper">
-      <div class="d-flex">
+     <div
+      class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+    >
+      <div class="d-flex align-center">
         <button-green
           icon="add"
           variant="success"
           :scale="1"
-          title="Add Department"
+          title="New Message"
+          @on-click="actionBY('schedule-event')"
         ></button-green>
       </div>
-      <action-right
-        icon="add"
-        variant="success"
-        title="Import"
-        titleClass="button-title"
-        v-on:change-sort="sortBy"
-      ></action-right>
     </div>
-    <div class="py-2 px-1">
-      <!-- <div class="d-flex" style="position: relative">
-        <tooltip :show="showTooltip"></tooltip>
-      </div> -->
-      <div>
-        <info-card :items="infoCardData" :avtarPhoto="infoCardData"></info-card>
-      </div>
-      <div class="py-2 d-flex">
-        <chips title="Punched in" variant="chip-wrapper__bgsucess"></chips>
-        <chips title="Absent" variant="chip-wrapper__bgabsent"></chips>
-        <chips title="Vacation" variant="chip-wrapper__bgvacation"></chips>
-        <chips title="Absent" variant="chip-wrapper__bgabsentpink"></chips>
-        <chips title="Pending" variant="chip-wrapper__bgpending"></chips>
-      </div>
-      <div class="py-2 d-flex">
-        <chips
-          title="V"
-          shapeCircle="__shape-circle"
-          variant="chip-wrapper__bgsucess"
-        ></chips>
-        <chips
-          title="V"
-          shapeCircle="__shape-circle"
-          variant="chip-wrapper__bgvacation"
-        ></chips>
-        <chips
-          title="V"
-          shapeCircle="__shape-circle"
-          variant="chip-wrapper__bgabsent"
-        ></chips>
-        <chips
-          title="M"
-          shapeCircle="__shape-circle"
-          variant="chip-wrapper__bgabsentpink"
-        ></chips>
-        <chips title="N/A" shapeCircle="__shape-circle"></chips>
-        <chips
-          title="M"
-          shapeRound="__shape-round"
-          variant="chip-wrapper__bgsucess"
-        ></chips>
-        <chips
-          title="N/A"
-          shapeRound="__shape-round"
-          variant="chip-wrapper__bgwhite"
-        ></chips>
-      </div>
+      <div id="inbox-wrapper">
+        <div class="">
+          <div
+            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+          >
+            <div class="d-flex align-center">
+              <date-picker></date-picker>
+            </div>
+            <!-- <action-right @vclick="clickAction" :items="actionMenu"></action-right> -->
+            <div class="d-flex align-center">
+            <div style="font-size: 14px;" class="mr-05">Search:</div>
+            <button
+              type="button"
+              @click="$emit('on-click')"
+              class="cursor-pointer shape-circle icon-size d-flex align-center justify-between border-0"
+            >
+              All
+            </button>
+           </div>
+          </div>
+          <div class="px-1 py-1">
+            <info-card
+              :items="infoCardData"
+              :avtarPhoto="infoCardData"
+            ></info-card>
+          </div>
+          <div class="scroll_wrapper">
+            <div style="z-index: 1">
+              <list-inbox :userList="inboxData"></list-inbox>
+            </div>
+          </div>
+        </div>
     </div>
-
-    <!-- <modal-wrapper></modal-wrapper> -->
-    <!-- <action-button v-on:new-employee-action="sortBy" v-on:import-action="sortBy"></action-button> -->
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 <script>
-import {INFO_CARD_DATA} from '../../utils/constant/DashboardData'
+import {
+  TIME_ATTENDANCE_TAB,
+  MORE_MENU,
+  SORTING_MENU,
+} from "../../utils/constant/Constant.js";
+import {
+  INBOX_DATA,
+  INBOX_CARD_DATA,
+} from "../../utils/constant/DashboardData";
+import { mapGetters } from "vuex";
+import getJson from "../../utils/dataJson/app_wrap_data";
+const appWrapItems = getJson();
 export default {
   data() {
     return {
-      switchChecked1: true,
-      switchChecked2: false,
-      showTooltip: false,
-      fill: "#2BA026",
-      infoCardData: INFO_CARD_DATA,
-      userItems: [
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-        {
-          avatarUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-        },
-      ],
+      id: "",
+      infoCardData: INBOX_CARD_DATA,
+      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupMessages: [],
+      inboxData: INBOX_DATA,
+      items: MORE_MENU,
+      userPhoto: localStorage.getItem("userPhoto"),
     };
   },
+  async created() {
+    await this.$store.dispatch("employee/setUserList");
+    this.localData = this.userList;
+    await this.$store.dispatch("employee/setActiveUser");
+    var users = this.getUser;
+    this.id = users.id;
+  },
+  computed: {
+    ...mapGetters({
+      userList: "employee/GET_USERS_LIST",
+      getUser: "employee/GET_USER",
+      getAccessToken: "token/getAccessToken",
+    }),
+  },
+  async mounted() {
+    this.totalUser = this.userList.length;
+    console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
+  },
   methods: {
-    mouseover() {
-      this.showTooltip = true;
-    },
-    mouseleave() {
-      this.showTooltip = false;
+    onChange(value) {
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      console.log("selected date:", date);
     },
   },
 };
 </script>
+<style lang="scss"></style>

@@ -76,25 +76,68 @@ export const DASHBOARD_DATA = [
     useOrganizationSettings: true,
   },
 ];
-
+export const INBOX_DATA = [
+  {
+    id: "63b64e0b9a8c618c76610466",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "gELYqaQWQG9dnjk2",
+    role: "USER",
+    firstName: "Rajeev",
+    middleName: "Sharma", 
+    lastName: "Sharma",
+    jobTitle:"Technical",
+    email: "rajeev.sharma@qsstechnosoft.com",
+    type: "Absence",
+    subject:"Subject",
+    received:"00:00:00 - 00-00-0000",
+  },
+  {
+    id: "63b64e0b9a8c618c76610466",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "gELYqaQWQG9dnjk2",
+    role: "USER",
+    firstName: "Rajeev",
+    middleName: "Sharma", 
+    lastName: "Sharma",
+    jobTitle:"Technical",
+    email: "rajeev.sharma@qsstechnosoft.com",
+    type: "Absence",
+    subject:"Subject",
+    received:"00:00:00 - 00-00-0000",
+  },
+  {
+    id: "63b64e0b9a8c618c76610466",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "gELYqaQWQG9dnjk2",
+    role: "USER",
+    firstName: "Rajeev",
+    middleName: "Sharma", 
+    lastName: "Sharma",
+    jobTitle:"Technical",
+    email: "rajeev.sharma@qsstechnosoft.com",
+    type: "Absence",
+    subject:"Subject",
+    received:"00:00:00 - 00-00-0000",
+  },
+  {
+    id: "63b64e0b9a8c618c76610466",
+    businessId: "O3GWpmbk5ezJn4KR",
+    userId: "gELYqaQWQG9dnjk2",
+    role: "USER",
+    firstName: "Rajeev",
+    middleName: "Sharma", 
+    lastName: "Sharma",
+    jobTitle:"Technical",
+    email: "rajeev.sharma@qsstechnosoft.com",
+    type: "Absence",
+    subject:"Subject",
+    received:"00:00:00 - 00-00-0000",
+  },
+];
 export const INFO_CARD_DATA = [
   {
     title: "Absent Today",
     numberData:"2",
-    photo:[
-      {
-        avatarUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-      },
-      {
-        avatarUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-      },
-      {
-        avatarUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4_dVtB2PPMJ5B1ZKtZ8eKxteEzC0vUdVeQ&usqp=CAU",
-      },
-    ],
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
@@ -130,6 +173,28 @@ export const INFO_CARD_DATA = [
   {
     title: "Attendance",
     numberData:"95%",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+];
+export const INBOX_CARD_DATA = [
+  {
+    title: "New messages",
+    numberData:"2",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+  {
+    title: "Absence notifications",
+    numberData:"1",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+  {
+    title: "Leave requests",
+    numberData:"3",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+  {
+    title: "Vacation requests",
+    numberData:"2",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
 ]

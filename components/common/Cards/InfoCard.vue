@@ -13,7 +13,6 @@
           <label>{{ item.numberData }}</label>
         </div>
       </div>
-      <div class="info-card-items_desc">{{ item.desc }}</div>
     </div>
   </div>
 </template>
@@ -38,7 +37,7 @@ export default {
 </script>
 <style lang="scss">
 .info-card-wrapper {
-  padding: 12px;
+  padding: 12px 12px 0px 12px;
   font-size: 14px;
   background: #fff;
   border-radius: 12px;

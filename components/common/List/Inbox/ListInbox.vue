@@ -6,6 +6,11 @@
         :sections="userList"
         :hide-no-column="true"
       >
+      <template #cell_action="data">
+      <div class="d-flex justify-center align-center">
+        <bib-checkbox size="md"></bib-checkbox>
+      </div>
+    </template>
         <template #cell(name)="data">
           <div
             class="d-flex align-center text-left gap-05"

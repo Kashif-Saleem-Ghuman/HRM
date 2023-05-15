@@ -27,7 +27,7 @@
     <!-- Admin Menu  -->
     <div v-if="adminMenu" class="mt-1">
       <div class="menu-icon-less bg-light">
-        <span>Organization admin</span>
+        <span v-on:click="changeDashboard()" style="cursor: pointer;">Organization admin</span>
       </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
@@ -95,6 +95,9 @@ export default {
     // }
   },
   methods: {
+    changeDashboard(){
+      this.$router.push("/dashboard")
+    },
     menuClick(item) {
       // for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
       //   if (this.appWrapItems.navItems[i].key == item.key) {

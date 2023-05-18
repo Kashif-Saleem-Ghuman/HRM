@@ -12,7 +12,7 @@
         ></bib-input>
       </div>
     </div>
-    <div class="row mx-0">
+    <!-- <div class="row mx-0">
       <div class="col-6">
         <label class="text-gray6 d-flex align-center"
           >Email address <span class="text-danger">*</span></label
@@ -43,16 +43,48 @@
           {{ ValidatePhone }}
         </div>
       </div>
+    </div> -->
+    <div class="row mx-0">
+      <div class="col-6">
+        <bib-input
+          type="text"
+          label="Organization type"
+          v-model="orgType"
+          placeholder="Type your name"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'firstName')"
+        ></bib-input>
+      </div>
+      <div class="col-6">
+        <bib-input
+          type="text"
+          label="Establishment date"
+          v-model="estDate"
+          placeholder="Type your name"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'firstName')"
+        ></bib-input>
+      </div>
     </div>
     <div class="row mx-0">
       <div class="col-6">
         <bib-input
           type="text"
-          label="Extension"
-          v-model="extension"
+          label="Business category"
+          v-model="businessCategory"
           placeholder="Type your name"
           :disabled="inActive"
-          @change="$emit('input', $event, 'firstName')"
+          @change="$emit('input', $event, 'businessCategory')"
+        ></bib-input>
+      </div>
+      <div class="col-6">
+        <bib-input
+          type="text"
+          label="Location"
+          v-model="location"
+          placeholder="Type your name"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'location')"
         ></bib-input>
       </div>
     </div>
@@ -66,16 +98,16 @@ export default {
     companyName: {
       type: String,
     },
-    midname: {
+    businessCategory: {
       type: String,
     },
-    contactEmail: {
+    location: {
       type: String,
     },
-    contactPhone: {
+    orgType: {
       type: String,
     },
-    extension: {
+    estDate: {
       type: String,
     },
     input: {

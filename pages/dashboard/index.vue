@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
       <section-header-left
-        title="Welcome to your HR dashboard, Shweta!"
+        :title="`Welcome to your HR dashboard ` + activeUserName"
         :avatar="userPhoto"
         headerRight="headerRight"
         :items="items.slice(-1)"
@@ -77,21 +77,21 @@
             </div>
             <!-- <action-right @vclick="clickAction" :items="actionMenu"></action-right> -->
             <div class="d-flex align-center">
-            <div style="font-size: 14px;" class="mr-05">Show:</div>
-            <button
-              type="button"
-              @click="$emit('on-click')"
-              class="cursor-pointer shape-circle icon-size d-flex align-center border-0"
-              :class="icon_bg"
-            >
-              All
-            </button>
-           </div>
+              <div style="font-size: 14px" class="mr-05">Show:</div>
+              <button
+                type="button"
+                @click="$emit('on-click')"
+                class="cursor-pointer shape-circle icon-size d-flex align-center border-0"
+              >
+                All
+              </button>
+            </div>
           </div>
           <div class="px-1 py-1">
             <info-card
               :items="infoCardData"
               :avtarPhoto="infoCardData"
+              profilePic="profilePic"
             ></info-card>
           </div>
           <div class="scroll_wrapper">
@@ -180,6 +180,7 @@ export default {
   data() {
     return {
       id: "",
+      activeUserName: "",
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       infoCardData: INFO_CARD_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
@@ -202,6 +203,7 @@ export default {
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
     this.id = users.id;
+    this.activeUserName = users.firstName + users.lastName;
   },
   computed: {
     ...mapGetters({

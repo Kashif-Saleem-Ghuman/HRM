@@ -35,8 +35,10 @@
               <div class="col-6 row-custom">
                 <org-info
                   :companyName="org.CompanyName"
-                  :contactPhone="org.ContactPhone"
-                  :contactEmail="org.ContactEmail"
+                  :orgType="org.BizStage"
+                  :estDate="org.SourceQParam"
+                  :businessCategory="org.BizStage"
+                  :location="org.City"
                   :inActive="inActive"
                 ></org-info>
               </div>
@@ -47,19 +49,41 @@
           <div class="row mx-0 pt-1">
             <div class="col-6">
               <tabs-title
-                title="Address"
+                title="Contact"
                 variant="gray"
                 :scale="0.9"
               ></tabs-title>
             </div>
           </div>
-
+          <div class="main-wrapper custom-input pt-1">
+            <div class="row mx-0">
+              <div class="col-6 row-custom">
+                <company-contact-info
+                  :website="org.Website"
+                  :contactEmail="org.ContactEmail"
+                  :contactPhone="org.ContactPhone"
+                  :inActive="inActive"
+                ></company-contact-info>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="info-wrapper">
+          <div class="row mx-0 pt-1">
+            <div class="col-6">
+              <tabs-title
+                title="Contact"
+                variant="gray"
+                :scale="0.9"
+              ></tabs-title>
+            </div>
+          </div>
           <div class="main-wrapper custom-input pt-1">
             <div class="row mx-0">
               <div class="col-6 row-custom">
                 <org-address
                   :address1="org.AddressL1"
-                  :address2="org.AddressL2"
+                  :address2="org.AddressL2 == null ? 'Null' : org.AddressL2"
                   :country="org.Country"
                   :state="org.StateProvince"
                   :city="org.City"

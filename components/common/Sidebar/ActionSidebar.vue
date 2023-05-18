@@ -1,19 +1,21 @@
 <template>
-  <div
-    id="side-panel"
-    :class="'side-panel ' + 'side-panel__' + className"
-  >
+  <div id="side-panel" :class="'side-panel ' + 'side-panel__' + className">
     <div class="d-flex p-1 justify-between align-center sidebar-header">
       <div class="d-flex justify-between align-center">
         <bib-icon
           icon="add"
-          style="margin-right: 4px;"
+          style="margin-right: 4px"
           :scale="0.9"
           @click="$emit('close')"
         ></bib-icon>
         <label> {{ heading }}</label>
       </div>
-      <bib-icon icon="close" :scale="1.25" @click="$emit('close')" style="cursor: pointer;"></bib-icon>
+      <bib-icon
+        icon="close"
+        :scale="1.25"
+        @click="$emit('close')"
+        style="cursor: pointer"
+      ></bib-icon>
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
@@ -91,6 +93,10 @@ export default {
   background-color: $white;
   right: 0px;
   border-left: 1px solid #f2f2f5;
+  label{
+    font-size: 14px;
+    font-weight: 600;
+  }
   // box-shadow: 5px 2px 15px $gray6;
   &__slide-in {
     animation: slidein-right 0.8s;

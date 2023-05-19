@@ -5,11 +5,7 @@
     :sections="userList"
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
-    :collapseObj="{
-      collapsed: false,
-      label: 'Section Name',
-      variant: 'black',
-    }"
+   
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -56,43 +52,37 @@
         </div>
       </div>
     </template>
-    <template #cell(presence)="data">
+    <template #cell(email)="data">
       <div class="text-dark">
-        <chips
-          :title="data.value.presence == null ? '---' : data.value.presence"
-          :className="[
-            data.value.presence === 'in' ? 'chip-wrapper__bgsucess' : '',
-            data.value.presence === 'out' ? 'chip-wrapper__bgabsent' : '',
-            data.value.presence <= 35 ? 'chip-wrapper__bgabsentpink' : '',
-            data.value.presence == null ? 'chip-wrapper__bggray' : '',
-          ]"
-        ></chips>
+        <div class="justify-between text-dark">
+        <span>{{ data.value.email }}</span>
+      </div>
+      </div>
+    </template>
+    <template #cell(telephone)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.phone }}</span>
       </div>
     </template>
     <template #cell(department)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.department }}</span>
+        <span>{{ data.value.department == null ? 'Null' : data.value.department }}</span>
       </div>
     </template>
-    <template #cell(team)="data">
+    <template #cell(hiredate)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.hireDate == null ? 'Null' : data.value.hireDate }}</span>
+      </div>
+    </template>
+    <!-- <template #cell(department)="data">
       <div class="d-flex text-dark">
-        <!-- {{ getTeamListOptions }} -->
+        {{ getTeamListOptions }}
         <div v-for="(item, index) in data.value.teams" class="mr-05">
           <chips :title="test(item)" class="chip-wrapper__bggray"></chips>
-          <!-- {{ item }} -->
+           {{ item }} 
         </div>
       </div>
-    </template>
-    <template #cell(role)="data">
-      <div class="justify-between text-dark">
-        <chips :title="data.value.role" class="chip-wrapper__bggray"></chips>
-      </div>
-    </template>
-    <template #cell_action_right="data">
-      <div class="d-flex justify-center align-center">
-        <bib-icon icon="trash" :scale="0.9"></bib-icon>
-      </div>
-    </template>
+    </template> -->
   </custom-table>
 </template>
 
@@ -101,7 +91,6 @@ import { mapGetters } from "vuex";
 
 import {
   TABLE_HEAD,
-  TABLE_FIELDS_DIR,
 } from "../../../utils/constant/Constant.js";
 export default {
   props: {

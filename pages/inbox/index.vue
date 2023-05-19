@@ -69,8 +69,8 @@
       >
         <template v-slot:sidebar-body>
           <info-card-v2
-            :items="infoCardData"
-            :avtarPhoto="infoCardData"
+            :items="infoCardV2Data"
+            :avtarPhoto="infoCardV2Data"
           ></info-card-v2>
           <div class="pt-2">
             <div class="row">
@@ -136,6 +136,7 @@ import { MORE_MENU } from "../../utils/constant/Constant.js";
 import {
   INBOX_DATA,
   INBOX_CARD_DATA,
+  INBOX_CARD_NEW_MESSAGE_DATA,
 } from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
 import getJson from "../../utils/dataJson/app_wrap_data";
@@ -145,6 +146,7 @@ export default {
     return {
       id: "",
       infoCardData: INBOX_CARD_DATA,
+      infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       inboxData: INBOX_DATA,
@@ -177,8 +179,15 @@ export default {
       console.log("selected date:", date);
     },
     actionBY() {
-      this.newMessageSidebar = true;
-      this.slideClass = "slide-in";
+      if (this.newMessageSidebar == true) {
+        this.slideClass = "slide-out";
+        setTimeout(() => {
+          this.newMessageSidebar = false;
+        }, 700);
+      } else {
+        this.newMessageSidebar = true;
+        this.slideClass = "slide-in";
+      }
     },
     closeSidebar() {
       this.slideClass = "slide-out";

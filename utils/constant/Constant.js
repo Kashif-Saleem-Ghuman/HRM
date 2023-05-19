@@ -61,20 +61,20 @@ export const TABLE_HEAD = {
       label: "Employee",
     },
     {
-      key: "presence",
-      label: "Presence",
+      key: "email",
+      label: "Email",
+    },
+    {
+      key: "telephone",
+      label: "Telephone",
     },
     {
       key: "department",
       label: "Department",
     },
     {
-      key: "team",
-      label: "Team",
-    },
-    {
-      key: "role",
-      label: "Role",
+      key: "hiredate",
+      label: "Hire Date",
     },
   ],
   tHeadAttandance: [

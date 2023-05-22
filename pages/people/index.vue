@@ -62,25 +62,21 @@
                   icon="add"
                   variant="success"
                   :scale="1"
-                  title="Add new employee"
-                ></button-green>
-                <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Import"
+                  title="Add employee"
+                  @on-click="actionBY()"
                 ></button-green>
               </div>
             </div>
             <div class="scroll_wrapper">
               <div>
+                <progress-circle :progressCount="70" :fill="fill" emptyfill="#D5E8D4" ></progress-circle>
                 <list :userList="localData.slice(0, 5)"></list>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="section-wrapper px-1" id="directory-wrapper">
+      <!-- <div class="section-wrapper px-1" id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[1].value">
             <div class="scroll_wrapper">
@@ -113,7 +109,7 @@
                   :tableFields="tableFields"
                   :userList="departmentOptions.slice(0, 5)"
                 ></list-department>
-                <!-- <card :items="departmentItems"></card> -->
+                 <card :items="departmentItems"></card> 
                 <add-department
                   @close="departmentModel = false"
                   :accessOptions="accessOptions"
@@ -147,15 +143,79 @@
                   :tableFields="tableFieldsTeam"
                   :userList="teamOptions.slice(0, 5)"
                 ></list-department>
-                <!-- <card :items="departmentItems"></card> -->
-                <!-- <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department> -->
+                 <card :items="departmentItems"></card> 
+                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department> 
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
+    <template>
+      <action-sidebar
+        @close-sidebar="closeSidebar"
+        @close="closeSidebar"
+        :className="slideClass"
+        heading="Schedule vacation"
+        v-show="newMessageSidebar"
+      >
+        <template v-slot:sidebar-body>
+          <info-card-v2
+            :items="infoCardV2Data"
+            :avtarPhoto="infoCardV2Data"
+          ></info-card-v2>
+          <div class="pt-2">
+            <div class="row">
+              <div class="col-6">
+                <bib-input
+                  type="text"
+                  label="First Name"
+                  placeholder="Enter your first name"
+                  @change="$emit('input', $event, 'firstName')"
+                ></bib-input>
+              </div>
+              <div class="col-6">
+                <bib-input
+                  type="text"
+                  label="Last Name"
+                  placeholder="Type your last name"
+                  @change="$emit('input', $event, 'lastName')"
+                ></bib-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <bib-input
+                  type="textarea"
+                  label="Note"
+                  placeholder="Enter your first name"
+                  @change="$emit('input', $event, 'firstName')"
+                ></bib-input>
+              </div>
+            </div>
+          </div>
+          <info-card-success></info-card-success>
+        </template>
+        <template v-slot:sidebar-footer>
+          <div class="d-flex justify-between align-center">
+            <div class="d-flex align-center">
+              <bib-icon
+                icon="attachment"
+                :scale="0.8"
+                variant="success"
+                style="margin-right: 5px"
+              ></bib-icon>
+              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
+            </div>
+            <div>
+              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
+              <bib-button label="Save" variant="success" size="lg"></bib-button>
+            </div>
+          </div>
+        </template>
+      </action-sidebar>
+    </template>
   </div>
 </template>
 <script>
@@ -168,19 +228,22 @@ import {
   TABLE_HEAD,
 } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
-
+import {
+  INBOX_DATA,
+  INBOX_CARD_DATA,
+  INBOX_CARD_NEW_MESSAGE_DATA,
+} from "../../utils/constant/DashboardData";
 export default {
   data() {
     return {
+      infoCardData: INBOX_CARD_DATA,
+      infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
       openSidebar: false,
       tableFields: TABLE_HEAD.tHeadDepartment,
       tableFieldsTeam:TABLE_HEAD.tHeadTeam,
       peopleTabItem: PEOPLE_TAB,
       currentPage: 1,
       activeTab: "Directory",
-      page: 1,
-      perPage: 10,
-      pages: [],
       localData: [],
       items: MORE_MENU,
       departmentItems: DEPARTMENT_ITEMS,
@@ -192,13 +255,17 @@ export default {
       accessOptions: ACCESS_ITEMS,
       teamOptions: "",
       departmentOptions: "",
+      newMessageSidebar: false,
+      slideClass: "slide-in",
+
     };
   },
   async created() {
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
+    console.log(this.localData, "userList")
     this.totalUser = this.localData.length;
-    await this.$store.dispatch("employee/setTeamList");
+    // await this.$store.dispatch("employee/setTeamList");
     this.$store.dispatch("teams/setTeamListOptions");
   },
 
@@ -207,15 +274,31 @@ export default {
       userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
       activeUserRole: "token/getUserRole",
-      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+      // getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getDepartment: "department/GET_DEPARTMENT_LIST",
     }),
   },
   mounted() {
-    console.log(this.getTeamListOptions, "askdnakjsdkjasdkjaskdj");
   },
 
   methods: {
+    actionBY() {
+      if (this.newMessageSidebar == true) {
+        this.slideClass = "slide-out";
+        setTimeout(() => {
+          this.newMessageSidebar = false;
+        }, 700);
+      } else {
+        this.newMessageSidebar = true;
+        this.slideClass = "slide-in";
+      }
+    },
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.newMessageSidebar = false;
+      }, 700);
+    },
     close() {
       alert("sadjlaksjdlasldkjlasjdl");
       this.departmentModel = false;
@@ -227,8 +310,8 @@ export default {
         this.departmentOptions = this.getDepartment;
       }
       if (tab.value == "Teams") {
-        await this.$store.dispatch("teams/setTeamListOptions");
-        this.teamOptions = this.getTeamListOptions;
+        // await this.$store.dispatch("teams/setTeamListOptions");
+        // this.teamOptions = this.getTeamListOptions;
       }
     },
     clickAction(event) {
@@ -256,10 +339,6 @@ export default {
     },
     userId(id) {
       this.$router.push("/myprofile/" + id);
-    },
-    actionBY() {
-      // this.openSidebar = true
-      alert("callled");
     },
   },
 };

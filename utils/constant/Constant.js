@@ -1081,18 +1081,18 @@ export const PEOPLE_TAB = [
     title: "Directory",
     value: "Directory",
   },
-  {
-    title: "Organizational Chart",
-    value: "Organizational Chart",
-  },
-  {
-    title: "Departments",
-    value: "Departments",
-  },
-  {
-    title: "Teams",
-    value: "Teams",
-  },
+  // {
+  //   title: "Organizational Chart",
+  //   value: "Organizational Chart",
+  // },
+  // {
+  //   title: "Departments",
+  //   value: "Departments",
+  // },
+  // {
+  //   title: "Teams",
+  //   value: "Teams",
+  // },
 ];
 export const MORE_MENU = [
   {

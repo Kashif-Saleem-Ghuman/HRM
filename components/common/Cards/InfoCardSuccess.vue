@@ -11,7 +11,7 @@
       <bib-icon
         icon="tick"
         variant="success"
-        scale="1"
+        :scale="1"
       ></bib-icon>
     </div>
       <div>

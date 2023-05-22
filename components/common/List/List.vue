@@ -61,7 +61,7 @@
     </template>
     <template #cell(telephone)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.phone }}</span>
+        <span>{{ data.value.phone == "" ? '---' : data.value.phone }}</span>
       </div>
     </template>
     <template #cell(department)="data">

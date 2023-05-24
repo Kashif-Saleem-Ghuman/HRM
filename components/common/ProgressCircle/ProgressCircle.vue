@@ -8,7 +8,7 @@
     >
       <vue-circle
         :progress="progressCount"
-        :size="50"
+        :size="60"
         :reverse="false"
         :fill="fill"
         :empty-fill="emptyfill"
@@ -17,7 +17,7 @@
         :thickness="5"
         :show-percent="false"
       >
-      <p>8</p>
+      <p style="font-weight: 600;">68%</p>
       </vue-circle>
     </div>
   </template>
@@ -44,7 +44,7 @@
   },
     data() {
       return {
-        //   fill : { gradient: ["red", "green", "blue"] },
+          // fill : { gradient: ["red", "green", "blue"] },
         
       };
     },

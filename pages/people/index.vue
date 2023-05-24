@@ -68,8 +68,13 @@
               </div>
             </div>
             <div class="scroll_wrapper">
+              <div class="px-1 py-1">
+                <info-card-leave-vacation
+                  :items="infoCardData"
+                  :avtarPhoto="infoCardData"
+                ></info-card-leave-vacation>
+              </div>
               <div>
-                <progress-circle :progressCount="70" :fill="fill" emptyfill="#D5E8D4" ></progress-circle>
                 <list :userList="localData.slice(0, 5)"></list>
               </div>
             </div>
@@ -240,7 +245,7 @@ export default {
       infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
       openSidebar: false,
       tableFields: TABLE_HEAD.tHeadDepartment,
-      tableFieldsTeam:TABLE_HEAD.tHeadTeam,
+      tableFieldsTeam: TABLE_HEAD.tHeadTeam,
       peopleTabItem: PEOPLE_TAB,
       currentPage: 1,
       activeTab: "Directory",
@@ -257,13 +262,12 @@ export default {
       departmentOptions: "",
       newMessageSidebar: false,
       slideClass: "slide-in",
-
     };
   },
   async created() {
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
-    console.log(this.localData, "userList")
+    console.log(this.localData, "userList");
     this.totalUser = this.localData.length;
     // await this.$store.dispatch("employee/setTeamList");
     this.$store.dispatch("teams/setTeamListOptions");
@@ -278,8 +282,7 @@ export default {
       getDepartment: "department/GET_DEPARTMENT_LIST",
     }),
   },
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     actionBY() {

@@ -207,3 +207,29 @@ export const INBOX_CARD_NEW_MESSAGE_DATA = [
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
 ]
+export const LEAVE_CARD_DATA = [
+  {
+    title: "Vacations",
+    numberData:"Available",
+    totalDays:"23",
+    daysDesc:"Days",
+    allowance:"31",
+    used:"4",
+  },
+  {
+    title: "Medical/Sick",
+    numberData:"Available",
+    totalDays:"04",
+    daysDesc:"Days",
+    allowance:"31",
+    used:"4",
+  },
+  {
+    title: "Other",
+    numberData:"Available",
+    totalDays:"00",
+    daysDesc:"Days",
+    allowance:"31",
+    used:"4",
+  },
+]

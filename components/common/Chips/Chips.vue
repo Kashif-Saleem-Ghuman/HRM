@@ -156,6 +156,9 @@ export default {
 
   &__bgsucess {
     background-color: #d5e8d4;
+    svg {
+      fill: #2ba026 !important;
+    }
     span {
       color: #2ba026;
       font-weight: 600;
@@ -165,6 +168,9 @@ export default {
 
   &__bgabsent {
     background-color: rgba(255, 171, 0, 0.16);
+    svg {
+      fill: #ffab00 !important;
+    }
     span {
       color: #ffab00;
       font-weight: 600;
@@ -173,6 +179,9 @@ export default {
   }
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
+    svg {
+      fill: #1f42a2 !important;
+    }
     span {
       color: #1f42a2;
       font-weight: 600;
@@ -181,6 +190,9 @@ export default {
   }
   &__bgabsentpink {
     background-color: rgba(230, 0, 14, 0.16);
+    svg {
+      fill: #e6000e !important;
+    }
     span {
       color: #e6000e;
       font-weight: 600;
@@ -190,6 +202,9 @@ export default {
   &__bgpending {
     background-color: #ffffff;
     border: 1px solid #e1e0e0;
+    svg {
+      fill: #b1b1b4 !important;
+    }
     span {
       color: #b1b1b4;
       font-weight: 600;
@@ -199,6 +214,9 @@ export default {
   &__bgdefault {
     background-color: #ffffff;
     border: 1px solid #e1e0e0;
+    svg {
+      fill: #b1b1b4 !important;
+    }
     span {
       color: #b1b1b4;
       font-weight: 600;
@@ -208,6 +226,9 @@ export default {
   &__bggray {
     background-color: #f2f2f5;
     border-radius: 0.5rem;
+    svg {
+      fill: #000 !important;
+    }
     span {
       color: #000;
       font-weight: 600;

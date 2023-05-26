@@ -70,8 +70,7 @@
             <div class="scroll_wrapper">
               <div class="px-1 py-1">
                 <info-card-leave-vacation
-                  :items="infoCardData"
-                  :avtarPhoto="infoCardData"
+                  :items="infoCardData.slice(0,3)"
                 ></info-card-leave-vacation>
               </div>
               <div>
@@ -235,13 +234,13 @@ import {
 import { mapGetters } from "vuex";
 import {
   INBOX_DATA,
-  INBOX_CARD_DATA,
+  LEAVE_CARD_DATA,
   INBOX_CARD_NEW_MESSAGE_DATA,
 } from "../../utils/constant/DashboardData";
 export default {
   data() {
     return {
-      infoCardData: INBOX_CARD_DATA,
+      infoCardData: LEAVE_CARD_DATA,
       infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
       openSidebar: false,
       tableFields: TABLE_HEAD.tHeadDepartment,

@@ -21,7 +21,7 @@
   <style lang="scss">
   .help-wrapper {
     padding: 24px;
-    background-color: #1d1d20;
+    background-color: #6bbf68;
     border-radius: 24px;
     width: 100%;
     height: 100%;

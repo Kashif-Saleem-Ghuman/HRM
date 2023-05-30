@@ -1,6 +1,5 @@
 <template>
   <div class="d-flex">
-    
     <div class="d-flex gap-1" style="width: 75%">
       <div
         class="info-card-leave-wrapper"
@@ -38,24 +37,19 @@
           </div>
         </div>
         <div style="width: 100%">
-          <bib-button
-            label="Button"
-            :variant="[
-              item.title == 'Other'
-                ? 'warning'
-                : 'success' && item.title == 'Medical/Sick'
-                ? 'danger'
-                : 'success',
-            ]"
-            class="mb-1"
-            style="width: 100%"
-          ></bib-button>
+          <div
+            class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
+            @click.stop="$emit('on-click')"
+            style="text-align: center"
+          >
+            <bib-icon icon="add" variant="dark" :scale="scale"></bib-icon>
+            <span class="pl-025">{{ item.title }}</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="" style="height: auto;">
-    <info-card-help></info-card-help>
-   
+    <div class="" style="height: auto">
+      <info-card-help></info-card-help>
     </div>
   </div>
 </template>

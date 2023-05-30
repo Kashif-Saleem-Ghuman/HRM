@@ -139,7 +139,7 @@ export default {
   height: 3rem;
   // justify-content: center;
   align-items: center;
-  background-color: #f2f2f5;
+  // background-color: #f2f2f5;
 
   &__shape-circle {
     width: 3rem;
@@ -250,6 +250,71 @@ export default {
     // span:first-letter{
     //   text-transform: uppercase
     // }
+  }
+}
+.chip-wrapper-without-bg {
+  border-radius: 1rem;
+  padding: 4px 8px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+
+  &__shape-circle {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  &__shape-round {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 5px;
+  }
+
+  &__bgsucess {
+    // background-color: #d5e8d4;
+    svg {
+      fill: #2ba026 !important;
+    }
+    span {
+      color: #2ba026;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__bgabsent {
+    // background-color: rgba(255, 171, 0, 0.16);
+    svg {
+      fill: #ffab00 !important;
+    }
+    span {
+      color: #ffab00;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__bgvacation {
+    // background-color: rgba(31, 66, 162, 0.16);
+    svg {
+      fill: #1f42a2 !important;
+    }
+    span {
+      color: #1f42a2;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__bgabsentpink {
+    // background-color: rgba(230, 0, 14, 0.16);
+    svg {
+      fill: #e6000e !important;
+    }
+    span {
+      color: #e6000e;
+      font-weight: 500;
+      font-size: 14px;
+    }
   }
 }
 </style>

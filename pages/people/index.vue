@@ -64,6 +64,7 @@
                   :scale="1"
                   title="Add employee"
                   @on-click="actionBY()"
+                  v-click-outside="handleClickOutside"
                 ></button-green>
               </div>
             </div>
@@ -92,6 +93,32 @@
                   iconShow="iconShow"
                   icon="bib-logo"
                   :className="['chip-wrapper__bggray']"
+                ></chips>
+              </div>
+              <div class="d-flex mt-1">
+                <chips
+                  title="Button Green"
+                  iconShow="iconShow"
+                  icon="bib-logo"
+                  :className="['chip-wrapper-without-bg__bgsucess']"
+                ></chips>
+                <chips
+                  title="Button Yellow"
+                  iconShow="iconShow"
+                  icon="bib-logo"
+                  :className="['chip-wrapper-without-bg__bgabsent']"
+                ></chips>
+                <chips
+                  title="Button Red"
+                  iconShow="iconShow"
+                  icon="bib-logo"
+                  :className="['chip-wrapper-without-bg__bgabsentpink']"
+                ></chips>
+                <chips
+                  title="Button Gray"
+                  iconShow="iconShow"
+                  icon="bib-logo"
+                  :className="['chip-wrapper-without-bg__bggray']"
                 ></chips>
               </div>
               <div class="px-1 py-1">
@@ -310,6 +337,12 @@ export default {
   mounted() {},
 
   methods: {
+    handleClickOutside(){
+      this.slideClass = "slide-out";
+        setTimeout(() => {
+          this.newMessageSidebar = false;
+        }, 700);
+    },
     actionBY() {
       if (this.newMessageSidebar == true) {
         this.slideClass = "slide-out";

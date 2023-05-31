@@ -26,7 +26,6 @@ export default {
     return {};
   },
   mounted() {
-    // console.log(this.folder, "josafhlasjfdlkasnflkjaslkdjl");
   },
 };
 </script>

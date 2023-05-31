@@ -50,7 +50,6 @@
     },
     methods: {
       progress(event, progress, stepValue) {
-        console.log(stepValue);
       },
       progress_end(event) {
         console.log("Circle progress end");

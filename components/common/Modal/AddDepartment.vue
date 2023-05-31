@@ -150,7 +150,6 @@ export default {
       this.changePublic = false;
     },
     chnagePunPri() {
-      console.log(this.textColor, "jksahdkjash");
       if (this.textColor == "color") {
         this.textColor = "";
       } else {

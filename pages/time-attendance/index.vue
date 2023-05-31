@@ -321,7 +321,6 @@ export default {
     },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      console.log("selected date:", date);
     },
     clickActionTimesheet(item) {
       if (item.key == "week") {

@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     bookmarkButton() {
-      console.log(this.users, "calllled");
+      // console.log(this.users, "calllled");
     },
     backRouter() {
       this.$router.back();

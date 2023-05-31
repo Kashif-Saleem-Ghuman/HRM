@@ -104,7 +104,7 @@ export default {
       this.$router.push("/myprofile/" + item.id);
     },
     handleAction_Table(data) {
-      console.log(data);
+      // console.log(data);
     },
   },
 };

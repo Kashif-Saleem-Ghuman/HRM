@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     closeSidebar() {
-      console.log("close");
       this.$emit("close-sidebar");
     },
   },

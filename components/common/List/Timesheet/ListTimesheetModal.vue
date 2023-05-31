@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     test(item) {
-      // console.log(item, this.getTeamListOptions, "data.value.teams")
       var teamNames = "";
       this.getTeamListOptions.forEach((element) => {
         if (element.value == item) {

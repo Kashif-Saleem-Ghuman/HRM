@@ -15,15 +15,16 @@ export async function vfileAdded(file, name, event) {
       }
     )
     .then((res) => {
+      console.log(res)
       // this.openPopupNotification(0);
       this.avatarUrl = res;
       this.updateForm[name] = this.avatarUrl;
-      this.form[name] = this.avatarUrl;
-      console.log(
-        name,
-        this.updateForm,
-        "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload"
-      );
+      // this.form[name] = this.avatarUrl;
+      // console.log(
+      //   name,
+      //   this.updateForm,
+      //   "https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload"
+      // );
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);

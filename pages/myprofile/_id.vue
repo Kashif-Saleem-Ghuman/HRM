@@ -63,11 +63,7 @@
                           :inActive="inactiveEmployeeProfile"
                         ></employee-profile>
                       </div>
-                      <div
-                        class="bg-light mt-1"
-                        :class="seprator"
-                        style="height: 1px"
-                      ></div>
+                      <div class="bg-light mt-1" style="height: 1px"></div>
                       <!-- Contact Info Wrapper Start Here  -->
                       <div class="info-wrapper py-cus">
                         <div class="row mx-0">
@@ -183,11 +179,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Phone Wrppaer Start Here  -->
@@ -222,11 +214,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Address Wrapper Start Here  -->
@@ -274,11 +262,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Emergency Contact Wrppaer Start Here  -->
@@ -351,11 +335,7 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="bg-light mt-2"
-                    :class="seprator"
-                    style="height: 1px"
-                  ></div>
+                  <div class="bg-light mt-2" style="height: 1px"></div>
                 </div>
                 <div></div>
               </div>
@@ -400,11 +380,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Employeement info Wrppaer Start Here  -->
@@ -445,11 +421,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!--  ORG Contact Info Wrapper Start Here  -->
@@ -486,11 +458,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <div></div>
@@ -532,11 +500,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Compensation entry info Wrppaer Start Here  -->
@@ -578,11 +542,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <div></div>
@@ -624,11 +584,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <!-- Benefits info Wrppaer Start Here  -->
@@ -665,11 +621,7 @@
                         ></bib-button>
                       </div>
                     </div>
-                    <div
-                      class="bg-light mt-2"
-                      :class="seprator"
-                      style="height: 1px"
-                    ></div>
+                    <div class="bg-light mt-2" style="height: 1px"></div>
                   </div>
                 </div>
                 <div></div>
@@ -712,11 +664,7 @@
                       </div>
                     </template>
                   </bib-detail-collapse>
-                  <div
-                    class="bg-light mt-1 mb-1"
-                    :class="seprator"
-                    style="height: 1px"
-                  ></div>
+                  <div class="bg-light mt-1 mb-1" style="height: 1px"></div>
                   <bib-detail-collapse label="Files" open>
                     <template v-slot:content>
                       <div class="flex_grid">
@@ -736,7 +684,7 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <loader v-bind:showloader="loading" :text="loaderMessage"></loader>
+    <!-- <loader v-bind:showloader="loading"></loader> -->
   </div>
 </template>
 <script>
@@ -902,7 +850,7 @@ export default {
       var users = this.getUser;
       this.id = users.id;
     }
-    await this.$store.dispatch("department/setDepartmentList");
+    // await this.$store.dispatch("department/setDepartmentList");
     this.departmentOptions = this.getDepartment;
     this.form = this.getUser;
     if (!this.form.address?.country) {

@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex">
-    <div class="d-flex gap-1" style="width: 75%">
+    <div class="d-grid d-flex gap-1" style="grid-template-columns: repeat(2, 1fr); width: 67%;">
       <div
         class="info-card-leave-wrapper"
-        v-for="(item, index) in items"
+        v-for="(item, index) in items.slice(0,2)"
         style="width: 100%"
       >
         <div>
@@ -48,8 +48,8 @@
         </div>
       </div>
     </div>
-    <div class="" style="height: auto">
-      <info-card-help></info-card-help>
+    <div style="width:33%" class="pr-1">
+      <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
     </div>
   </div>
 </template>

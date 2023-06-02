@@ -1,5 +1,5 @@
 <template>
-      <div class="ml-1 help-wrapper">
+      <div class="ml-1 help-wrapper" :class="custumBg">
         <label>Help?</label>
         <ul>
           <li>How to request a vacation?</li>
@@ -11,6 +11,11 @@
   <script>
   export default {
     name: "Help",
+    props:{
+      custumBg:{
+        type:String
+      }
+    },
     data() {
       return {
         // fill: { gradient: ["#ffb700", "#47b801"] },
@@ -21,11 +26,16 @@
   <style lang="scss">
   .help-wrapper {
     padding: 24px;
-    background-color: #6bbf68;
     border-radius: 24px;
     width: 100%;
     height: 100%;
     color: #fff;
+    &__bg-green{
+      background-color: #6bbf68;
+    }
+    &__bg-black{
+      background-color: #000;
+    }
     ul {
       padding: 24px 0 0 0;
       margin: 0;

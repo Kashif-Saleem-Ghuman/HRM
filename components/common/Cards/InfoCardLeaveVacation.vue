@@ -1,9 +1,12 @@
 <template>
   <div class="d-flex">
-    <div class="d-grid d-flex gap-1" style="grid-template-columns: repeat(2, 1fr); width: 67%;">
+    <div
+      class="d-grid d-flex gap-1"
+      style="grid-template-columns: repeat(4, 1fr); width: 100%"
+    >
       <div
         class="info-card-leave-wrapper"
-        v-for="(item, index) in items.slice(0,2)"
+        v-for="(item, index) in items.slice(0, 4)"
         style="width: 100%"
       >
         <div>
@@ -11,46 +14,78 @@
         </div>
         <div class="info-card-items mt-05">
           <div>
-            <div class="subheading">{{ item.available }}</div>
-            <!-- <label>{{ item.numberData }}</label> -->
-            <span>{{ item.totalDays }}</span>
+            <div class="subheading">{{ item.numLabel }}</div>
+            <span>{{ item.numberData }}</span>
 
             <div class="subheading_footer">{{ item.daysDesc }}</div>
-            <!-- <bib-avatar src="https://placekitten.com/300/300"></bib-avatar> -->
           </div>
           <div>
             <progress-circle
-              :progressCount="70"
+              :progressCount="item?.progress"
+              :progressTitle="item?.progreesTitle"
+              :progressPercentage="item?.progress + '%'"
               :fill="fill"
+              v-show="item.progress == null ? '' : item.progress + '%'"
               emptyfill="#f1f1f1"
             ></progress-circle>
+          </div>
+          <div v-show="item.photo == null ? '' : item.photo">
+            <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
           </div>
         </div>
         <div class="footer-item d-flex">
           <div class="items">
-            <label>Allowance</label>
-            <span>{{ item.allowance }}</span>
+            <label>{{ item.figureLabel }}</label>
+            <span>{{ item.figureLabelData }}</span>
           </div>
           <div class="items">
-            <label>Used</label>
-            <span>{{ item.used }}</span>
+            <label>{{ item.figureLabelTwo }}</label>
+            <span>{{ item.figureLabelTwoData }}</span>
           </div>
         </div>
         <div style="width: 100%">
           <div
             class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
+            @click="buttonAction()"
+            style="text-align: center"
+            v-show="item.title == 'Attendance'"
+          >
+            <bib-icon icon="table" variant="dark" :scale="0.8"></bib-icon>
+            <span class="pl-025">View Attendance</span>
+          </div>
+          <div
+            class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
             @click.stop="$emit('on-click')"
             style="text-align: center"
+            v-show="item.title == 'Timesheets'"
           >
-            <bib-icon icon="add" variant="dark" :scale="scale"></bib-icon>
-            <span class="pl-025">{{ item.title }}</span>
+            <bib-icon icon="table" variant="dark" :scale="0.8"></bib-icon>
+            <span class="pl-025">View Timesheets</span>
+          </div>
+          <div
+            class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
+            @click.stop="$emit('on-click')"
+            style="text-align: center"
+            v-show="item.title == 'Notifications'"
+          >
+            <bib-icon icon="mail-new" variant="dark" :scale="0.8"></bib-icon>
+            <span class="pl-025">Open Inbox</span>
+          </div>
+          <div
+            class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
+            @click.stop="$emit('on-click')"
+            style="text-align: center"
+            v-show="item.title == 'Birthdays & Work anniversaries'"
+          >
+            <bib-icon icon="setting" variant="dark" :scale="0.8"></bib-icon>
+            <span class="pl-025">Send Message</span>
           </div>
         </div>
       </div>
     </div>
-    <div style="width:33%" class="pr-1">
+    <!-- <div style="width:33%" class="pr-1">
       <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -71,6 +106,11 @@ export default {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
     };
+  },
+  methods: {
+    buttonAction(item) {
+      alert("Called", item);
+    },
   },
 };
 </script>

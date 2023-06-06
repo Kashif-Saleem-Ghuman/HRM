@@ -11,61 +11,7 @@
         :icon="items.icon"
         @vclick="clickAction"
       ></section-header-left>
-      <!-- <div class="d-flex justify-between">
-        <template v-for="user in userList.slice(0, 4)">
-          <section-header-right
-            @click="userId(user.id)"
-            :avatar="
-              user.photo == null
-                ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png'
-                : user.photo
-            "
-          >
-          </section-header-right>
-        </template>
-        <div
-          style="z-index: 100"
-          class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
-        >
-          <span style="font-size: 14px; font-weight: 500">{{ totalUser }}</span>
-        </div>
-        <button-circle
-          icon="user-add"
-          :scale="1"
-          @click="addUser()"
-          variant="success"
-          class="ml-05"
-          icon_bg="light-green"
-        ></button-circle>
-      </div> -->
     </div>
-    <!-- <div
-      class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-    >
-      <div class="d-flex align-center">
-        <button-green
-          icon="add"
-          variant="success"
-          :scale="1"
-          title="Schedule event"
-          @on-click="actionBY('schedule-event')"
-        ></button-green>
-        <button-green
-          icon="add"
-          :scale="1"
-          variant="success"
-          title="Schedule leave"
-          @on-click="actionBY('schedule-leave')"
-        ></button-green>
-        <button-green
-          icon="add"
-          :scale="1"
-          variant="success"
-          title="Add employee"
-        ></button-green>
-      </div>
-      <action-right @vclick="clickAction" :items="actionMenu"></action-right>
-    </div> -->
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div class="" id="tab_info_wrapper">
@@ -77,22 +23,32 @@
             </div>
             <!-- <action-right @vclick="clickAction" :items="actionMenu"></action-right> -->
             <div class="d-flex align-center">
-              <div style="font-size: 14px" class="mr-05">Show:</div>
-              <button
-                type="button"
-                @click="$emit('on-click')"
-                class="cursor-pointer shape-circle icon-size d-flex align-center border-0"
-              >
-                All
-              </button>
+              <div class="d-flex align-center mr-05">
+                <span class="mr-05">Search:</span>
+                <bib-input
+                  size="sm"
+                  type="text"
+                  test_id="srchInput01"
+                >
+                </bib-input>
+              </div>
+              <div class="d-flex align-center">
+                <div style="font-size: 14px" class="mr-05">Show:</div>
+                <button
+                  type="button"
+                  @click="$emit('on-click')"
+                  class="cursor-pointer shape-circle icon-size d-flex align-center border-0"
+                >
+                  All
+                </button>
+              </div>
             </div>
           </div>
-          <div class="px-1 py-1">
-            <info-card
+          <div class="pl-1 py-1">
+            <info-card-leave-vacation
               :items="infoCardData"
-              :avtarPhoto="infoCardData"
               profilePic="profilePic"
-            ></info-card>
+            ></info-card-leave-vacation>
           </div>
           <div class="scroll_wrapper">
             <div style="z-index: 1">

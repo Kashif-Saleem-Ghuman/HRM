@@ -136,36 +136,46 @@ export const INBOX_DATA = [
 ];
 export const INFO_CARD_DATA = [
   {
-    title: "Absent Today",
-    numberData:"2",
-  },
-  {
-    title: "Absence notifications",
-    numberData:"1",
-  },
-  {
-    title: "Present",
-    numberData:"42",
-  },
-  {
-    title: "On vacation",
-    numberData:"2",
-  },
-  {
-    title: "On leave",
-    numberData:"2",
-  },
-  {
-    title: "Past due timesheets",
-    numberData:"2",
-  },
-  {
-    title: "Pending timesheets",
-    numberData:"2",
-  },
-  {
     title: "Attendance",
-    numberData:"95%",
+    numLabel:"Present",
+    numberData:"53",
+    progreesTitle:"Atten",
+    progress:68,
+    figureLabel:"Absent",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+  },
+  {
+    title: "Timesheets",
+    numLabel:"Past due",
+    numberData:"2",
+    progreesTitle:"Comp",
+    progress:98,
+    figureLabel:"Absent",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+  },
+  {
+    title: "Notifications",
+    numLabel:"Absence notification ",
+    numberData:"1",
+    
+    figureLabel:"Vacation req.",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+  },
+  {
+    title: "Birthdays & Work anniversaries",
+    numLabel:"Wooohooo!",
+    numberData:"2",
+    photo:"1.jpg",
+    figureLabel:"Brithdays",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
   },
 ];
 export const INBOX_CARD_DATA = [

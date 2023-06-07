@@ -49,20 +49,15 @@
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
-          <chips
+          <chips-list
             :title="data.value.status == null ? '---' : data.value.status"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.status >= '8' ? 'chip-wrapper__bgsucess' : '',
-              data.value.status === 'Break' ? 'chip-wrapper__bggray' : '',
-              data.value.status === 'Vacation'
-             
-                ? 'chip-wrapper__bgvacation'
-                : '',
-              data.value.status == 'Absent' ? 'chip-wrapper__bggray' : '',
+              data.value.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
+              data.value.status == 'Absent' ? 'chip-list-wrapper__light' : '',
             ]"
-          ></chips>
+          ></chips-list>
         </div>
       </template>
       <template #cell(in)="data">
@@ -105,10 +100,8 @@
             data.value?.totalHours == null ? 'N/A' : data.value?.totalHours
           "
           :className="[
-            data.value?.totalHours >= '08' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.totalHours <= '08' && data.value?.totalHours >= '05'
-              ? 'chip-wrapper__bgabsent'
-              : '',
+            'chip-wrapper__bgwhite'
+           
           ]"
         ></chips>
       </template>

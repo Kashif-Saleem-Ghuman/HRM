@@ -39,7 +39,7 @@
             <button
               type="button"
               @click="$emit('on-click')"
-              class="cursor-pointer shape-circle icon-size d-flex align-center justify-between border-0"
+              class="cursor-pointer shape-rounded d-flex align-center justify-between border-0 px-1 py-025"
             >
               All
             </button>

@@ -30,23 +30,24 @@
           }"
         >
           <div
-            class="align-center"
+            class="align-center border-0"
             :class="{ 'cursor-pointer': $listeners['column-header-clicked'] }"
             :id="field.label + '_action'"
           >
-            <span> {{ field.label }} </span>
+            <span class="flex-grow-1"> {{ field.label }} </span>
             <template v-if="field.header_icon">
               <div
                 v-if="field.header_icon.icon"
-                class="ml-05 shape-rounded bg-hover-black width-105 height-105 d-flex justify-center align-center cursor-pointer"
+                class="ml-05 shape-circle bg-white border-0 bg-hover-gray2 width-105 height-105 d-flex justify-center align-center cursor-pointer""
                 :class="{ 'bg-black': field.header_icon.isActive }"
                 @click="
                   field.header_icon.event && $emit(field.header_icon.event)
                 "
+                style="border: 0;"
               >
                 <bib-icon
                   :icon="field.header_icon.icon"
-                  :scale="1.1"
+                  :scale="0.9"
                   variant="gray5"
                   hoverVariant="white"
                 ></bib-icon>
@@ -281,7 +282,7 @@ export default {
     }
 
     &__active {
-      border-bottom-color: $dark-sub1 !important;
+      // border-bottom-color: $dark-sub1 !important;
       span {
         color: $dark-sub1 !important;
       }
@@ -304,6 +305,7 @@ export default {
     height: 4rem !important;
     font-weight: 400;
     line-height: 2.5rem;
+    background-color: #F8F8F9;
     font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;

@@ -7,10 +7,20 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'file-name-sort',
+        isActive: true
+      },
     },
     {
       key: "status",
       label: "Status",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'file-name-sort',
+        isActive: true
+      },
     },
     {
       key: "in",
@@ -41,6 +51,7 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Type",
+      
     },
     {
       key: "subject",

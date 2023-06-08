@@ -63,7 +63,7 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.in"
+            :title="data.value?.in == null ? 'N/A' : data.value.in"
 
             :className="[
               data.value?.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',

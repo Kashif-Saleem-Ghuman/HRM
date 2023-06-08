@@ -53,7 +53,7 @@
         </div>
         <div class="scroll_wrapper">
           <div style="z-index: 1">
-            <list-inbox :userList="inboxData"></list-inbox>
+            <list-inbox :userList="localData"></list-inbox>
           </div>
         </div>
       </div>
@@ -151,6 +151,7 @@ export default {
       popupMessages: [],
       inboxData: INBOX_DATA,
       items: MORE_MENU,
+      localData:'',
       userPhoto: localStorage.getItem("userPhoto"),
       newMessageSidebar: false,
       slideClass: "slide-in",

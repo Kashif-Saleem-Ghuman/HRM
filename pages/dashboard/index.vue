@@ -52,7 +52,7 @@
           </div>
           <div class="scroll_wrapper">
             <div style="z-index: 1">
-              <list-dashboard :userList="dashboardData"></list-dashboard>
+              <list-dashboard :userList="localData"></list-dashboard>
             </div>
           </div>
         </div>
@@ -142,6 +142,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       dashboardData: DASHBOARD_DATA,
+      localData:'',
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,

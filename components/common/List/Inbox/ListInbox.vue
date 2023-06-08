@@ -54,17 +54,17 @@
         </template>
         <template #cell(type)="data">
           <div class="text-dark px-05">
-            <span>{{ data.value.type }}</span>
+            <span>{{ data.value.type == null ? 'N/A' : data.vaue.type }}</span>
           </div>
         </template>
         <template #cell(subject)="data">
           <div class="text-dark px-05">
-            <span>{{ data.value.subject }}</span>
+            <span>{{ data.value.subject == null ? 'N/A' : data.vaue.subject }}</span>
           </div>
         </template>
         <template #cell(received)="data">
           <div class="text-dark px-05" style="text-align: right;">
-            <span>{{ data.value.received }}</span>
+            <span>{{ data.value.received == null ? 'N/A' : data.vaue.received }}</span>
           </div>
         </template>
       </custom-table>

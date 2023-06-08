@@ -6,13 +6,14 @@
       </div>
       <div class="info-card-items">
         <div>
-          <bib-avatar src="https://placekitten.com/300/300" size="2rem"></bib-avatar>
-          <!-- <bib-avatar src="https://placekitten.com/300/300"></bib-avatar> -->
-        </div>
-        <div>
           <label>{{ item.numberData }}</label>
         </div>
       </div>
+      <div style="margin-left: -2px;" class="mt-05">
+          <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" size="2rem"></bib-avatar>
+          <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"></bib-avatar>
+          <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" size="2rem"></bib-avatar>
+        </div>
     </div>
   </div>
 </template>

@@ -106,11 +106,6 @@
         ></chips>
       </template>
     </custom-table>
-    <time-sheet-modal
-      @close="timesheetModal = false"
-      :timesheetModal="timesheetModal"
-      :items="filteredData"
-    ></time-sheet-modal>
   </div>
 </template>
 

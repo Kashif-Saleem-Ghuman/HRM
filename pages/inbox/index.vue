@@ -64,68 +64,15 @@
         @close-sidebar="closeSidebar"
         @close="closeSidebar"
         :className="slideClass"
-        heading="Schedule vacation"
+        heading="Send Message"
         v-show="newMessageSidebar"
+        v-click-outside="closeSidebar"
       >
         <template v-slot:sidebar-body>
-          <info-card-v2
-            :items="infoCardV2Data"
-            :avtarPhoto="infoCardV2Data"
-          ></info-card-v2>
-          <div class="pt-2">
-            <div class="row">
-              <div class="col-6">
-                <bib-input
-                  type="text"
-                  label="First Name"
-                  v-model="firstname"
-                  placeholder="Enter your first name"
-                  @change="$emit('input', $event, 'firstName')"
-                  :disabled="inActive"
-                ></bib-input>
-              </div>
-              <div class="col-6">
-                <bib-input
-                  type="text"
-                  label="Last Name"
-                  v-model="lastname"
-                  placeholder="Type your last name"
-                  @change="$emit('input', $event, 'lastName')"
-                  :disabled="inActive"
-                ></bib-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <bib-input
-                  type="textarea"
-                  label="Note"
-                  v-model="firstname"
-                  placeholder="Enter your first name"
-                  @change="$emit('input', $event, 'firstName')"
-                  :disabled="inActive"
-                ></bib-input>
-              </div>
-            </div>
-          </div>
-          <info-card-success></info-card-success>
+          <inbox-sidebar></inbox-sidebar>
         </template>
         <template v-slot:sidebar-footer>
-          <div class="d-flex justify-between align-center">
-            <div class="d-flex align-center">
-              <bib-icon
-                icon="attachment"
-                :scale="0.8"
-                variant="success"
-                style="margin-right: 5px"
-              ></bib-icon>
-              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
-            </div>
-            <div>
-              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
-              <bib-button label="Save" variant="success" size="lg"></bib-button>
-            </div>
-          </div>
+          
         </template>
       </action-sidebar>
     </template>

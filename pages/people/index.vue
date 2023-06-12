@@ -69,63 +69,6 @@
               </div>
             </div>
             <div class="scroll_wrapper">
-              <div class="d-flex mt-1">
-                <chips
-                  title="Button Green"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper__bgsucess']"
-                ></chips>
-                <chips
-                  title="Button Yellow"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper__bgabsent']"
-                ></chips>
-                <chips
-                  title="Button Red"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper__bgabsentpink']"
-                ></chips>
-                <chips
-                  title="Button Gray"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper__bggray']"
-                ></chips>
-              </div>
-              <div class="d-flex mt-1">
-                <chips
-                  title="Button Green"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper-without-bg__bgsucess']"
-                ></chips>
-                <chips
-                  title="Button Yellow"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper-without-bg__bgabsent']"
-                ></chips>
-                <chips
-                  title="Button Red"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper-without-bg__bgabsentpink']"
-                ></chips>
-                <chips
-                  title="Button Gray"
-                  iconShow="iconShow"
-                  icon="bib-logo"
-                  :className="['chip-wrapper-without-bg__bggray']"
-                ></chips>
-              </div>
-              <div class="px-1 py-1">
-                <info-card-leave-vacation
-                  :items="infoCardData.slice(0, 3)"
-                ></info-card-leave-vacation>
-              </div>
               <div>
                 <list :userList="localData.slice(0, 5)"></list>
               </div>

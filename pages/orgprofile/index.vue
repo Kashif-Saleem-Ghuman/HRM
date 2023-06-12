@@ -92,7 +92,7 @@
                 ></org-address>
               </div>
             </div>
-            <div class="row mx-0 pb-2 pt-05 pl-05">
+            <!-- <div class="row mx-0 pb-2 pt-05 pl-05">
               <div class="d-flex">
                       <bib-button
                         label="Cancle"
@@ -108,7 +108,7 @@
                         @click="updateAllData()"
                       ></bib-button>
                     </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

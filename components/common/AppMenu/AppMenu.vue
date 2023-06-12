@@ -46,7 +46,7 @@
         "
       ></bib-app-navigation>
       <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-      <bib-app-navigation
+      <!-- <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch"
         @click="
           ($event, item) => {
@@ -54,7 +54,7 @@
           }
         "
       ></bib-app-navigation>
-      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div> -->
     </div>
   </div>
 </template>

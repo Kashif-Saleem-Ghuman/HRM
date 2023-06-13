@@ -647,6 +647,20 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "files",
   },
 ];
+export const ADD_EMPLOYEE_TAB = [
+  {
+    title: "Employee Profile",
+    value: "Employee Profile",
+  },
+  {
+    title: "Employment Information",
+    value: "Employment Information",
+  },
+  {
+    title: "Files",
+    value: "files",
+  },
+];
 export const EMPLOYEE_INFO_TAB = [
   {
     title: "Employment Information",

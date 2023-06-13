@@ -1,8 +1,9 @@
 import axios from "axios";
 export async function getUser() {
-  let userID = localStorage.getItem("userID");
+  let userId = localStorage.getItem("userId");
+  console.log(userId, "oasjdlkjaslkdjsalkjaslkdj")
   try {
-    const avtar = await axios.get(process.env.USER_API_ENDPOINT + "/" + userID, {
+    const avtar = await axios.get(process.env.USER_API_ENDPOINT + "/" + userId, {
       headers: {
         Authorization: "Bearer " + this.getAccessToken,
       },

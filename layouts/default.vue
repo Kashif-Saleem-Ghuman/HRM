@@ -136,12 +136,14 @@ export default {
             this.token = res.data.jwt;
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
+            var userId = res?.data?.u?.sub;
             this.accountType = 
                res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"
                  : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
+            localStorage.setItem("userId", userId);
             this.userRole = userRole
           }
           this.getUser();

@@ -5,14 +5,13 @@
     >
       <section-header-left
         title="People"
-        moreIcon="more"
         :avatar="userPhoto"
         headerRight="headerRight"
         :items="items"
         :icon="items.icon"
         @vclick="clickAction"
       ></section-header-left>
-      <div class="d-flex justify-between">
+      <!-- <div class="d-flex justify-between">
         <template v-for="user in userList.slice(0, 4)">
           <section-header-right
             @click="userId(user.id)"
@@ -38,10 +37,10 @@
           class="ml-05"
           icon_bg="light-green"
         ></button-circle>
-      </div>
+      </div> -->
     </div>
     <div class="tab-wrapper">
-      <div class="row mx-0 bottom_border_wrapper">
+      <div class="row mx-0">
         <div class="col-12 px-1">
           <bib-tabs
             :tabs="peopleTabItem"
@@ -64,7 +63,6 @@
                   :scale="1"
                   title="Add employee"
                   @on-click="actionBY()"
-                  v-click-outside="handleClickOutside"
                 ></button-green>
               </div>
             </div>
@@ -76,80 +74,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="section-wrapper px-1" id="directory-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[1].value">
-            <div class="scroll_wrapper">
-              <div>
-                <h1>Organizational Chart</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="department-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[2].value">
-            <div
-              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Add Department"
-                  @on-click="departmentModel = true"
-                ></button-green>
-              </div>
-            </div>
-            <div class="scroll_wrapper">
-              <div>
-                <list-department
-                  :tableFields="tableFields"
-                  :userList="departmentOptions.slice(0, 5)"
-                ></list-department>
-                 <card :items="departmentItems"></card> 
-                <add-department
-                  @close="departmentModel = false"
-                  :accessOptions="accessOptions"
-                  :departmentModel="departmentModel"
-                  :items="localData"
-                ></add-department>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="team-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[3].value">
-            <div
-              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Add Team"
-                  @on-click="departmentModel = true"
-                ></button-green>
-              </div>
-            </div>
-            <div class="scroll_wrapper">
-              <div>
-                <list-department
-                  :tableFields="tableFieldsTeam"
-                  :userList="teamOptions.slice(0, 5)"
-                ></list-department>
-                 <card :items="departmentItems"></card> 
-                <add-department @close="departmentModel = false" :accessOptions="accessOptions" :departmentModel="departmentModel" :items="localData"></add-department> 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
     <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
     <template>
@@ -157,61 +81,103 @@
         @close-sidebar="closeSidebar"
         @close="closeSidebar"
         :className="slideClass"
-        heading="Schedule vacation"
+        heading="Add Employee"
         v-show="newMessageSidebar"
       >
         <template v-slot:sidebar-body>
-          <info-card-v2
-            :items="infoCardV2Data"
-            :avtarPhoto="infoCardV2Data"
-          ></info-card-v2>
-          <div class="pt-2">
-            <div class="row">
-              <div class="col-6">
-                <bib-input
-                  type="text"
-                  label="First Name"
-                  placeholder="Enter your first name"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
-              </div>
-              <div class="col-6">
-                <bib-input
-                  type="text"
-                  label="Last Name"
-                  placeholder="Type your last name"
-                  @change="$emit('input', $event, 'lastName')"
-                ></bib-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <bib-input
-                  type="textarea"
-                  label="Note"
-                  placeholder="Enter your first name"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
+          <div class="row mx-0">
+            <div class="col-12 custom-tabs">
+              <div class="py-cus">
+                <drop-zone
+                  :src="form.photo"
+                  :className="form.photo != null ? 'hide' : ''"
+                  :customRemove="form.photo == null ? 'hide' : 'hide'"
+                  @vfileAdded="vfileAdded"
+                ></drop-zone>
               </div>
             </div>
           </div>
-          <info-card-success></info-card-success>
+          <div class="row mx-0">
+            <div class="col-12 custom-tabs pb-1">
+              <bib-tabs
+                :tabs="personalTabItem"
+                :value="activeTabSidebar"
+                @change="handleChange_Tabs"
+              ></bib-tabs>
+            </div>
+          </div>
+          <div class="row mx-0">
+            <div class="col-12 custom-tabs pb-1">
+              <div class="d-flex pb-1">
+                <button-gray
+                  @on-click="$emit('employee')"
+                  icon="mail-new"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Send Message"
+                  titleClass="button-title"
+                ></button-gray>
+                <button-gray
+                  @on-click="$emit('employee')"
+                  icon="device-mobile"
+                  variant="gray1"
+                  :scale="0.8"
+                  title="Make a call"
+                  titleClass="button-title"
+                ></button-gray>
+              </div>
+            </div>
+          </div>
+          <div id="employee-profile-wrapper">
+            <div class="" id="tab_info_wrapper">
+              <div v-if="activeTabSidebar == personalTabItem[0].value">
+                <div class="scroll_wrapper">
+                  <div>
+                    <div class="col-12 row-custom">
+                      <div class="">
+                        <employee-profile
+                          :firstname="form.firstName"
+                          :midname="form.middleName"
+                          :lastname="form.lastName"
+                          :department="form.department"
+                          :departmentOptions="departmentOptions"
+                          :title="form.jobTitle"
+                          :employeeStatus="form.status"
+                        ></employee-profile>
+                      </div>
+                      <div class="bg-light mt-1" style="height: 1px"></div>
+                      <!-- Contact Info Wrapper Start Here  -->
+                      <div class="info-wrapper py-cus">
+                        <div class="row mx-0">
+                          <div class="col-6">
+                            <tabs-title
+                              :title="personalTabItem[2].title"
+                              variant="gray"
+                              icon="info"
+                              :scale="0.9"
+                            ></tabs-title>
+                          </div>
+                        </div>
+                        <div class="py-cus">
+                          <contact-info
+                            :email="form.email"
+                            :personalPhone="form.personalPhone"
+                            :extension="form.extension == '' ? '' : 'extension'"
+                            :mobile="form.phone"
+                          ></contact-info>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </template>
         <template v-slot:sidebar-footer>
           <div class="d-flex justify-between align-center">
-            <div class="d-flex align-center">
-              <bib-icon
-                icon="attachment"
-                :scale="0.8"
-                variant="success"
-                style="margin-right: 5px"
-              ></bib-icon>
-              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
-            </div>
-            <div>
-              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
-              <bib-button label="Save" variant="success" size="lg"></bib-button>
-            </div>
+              <bib-button label="Cancle" variant="gray" size="lg" style="width:50%" class="mr-1"></bib-button>
+              <bib-button label="Save" variant="success" size="lg" style="width:50%"></bib-button>
           </div>
         </template>
       </action-sidebar>
@@ -233,6 +199,13 @@ import {
   LEAVE_CARD_DATA,
   INBOX_CARD_NEW_MESSAGE_DATA,
 } from "../../utils/constant/DashboardData";
+import {
+  vfileAdded,
+  updateAllData,
+  handleInput,
+  handleInputObject,
+} from "../../utils/functions/functions_lib.js";
+import { ADD_EMPLOYEE_TAB } from "../../utils/constant/Constant.js";
 export default {
   data() {
     return {
@@ -242,8 +215,6 @@ export default {
       tableFields: TABLE_HEAD.tHeadDepartment,
       tableFieldsTeam: TABLE_HEAD.tHeadTeam,
       peopleTabItem: PEOPLE_TAB,
-      currentPage: 1,
-      activeTab: "Directory",
       localData: [],
       items: MORE_MENU,
       departmentItems: DEPARTMENT_ITEMS,
@@ -257,6 +228,11 @@ export default {
       departmentOptions: "",
       newMessageSidebar: false,
       slideClass: "slide-in",
+      personalTabItem: ADD_EMPLOYEE_TAB,
+      form: {},
+      activeTab: "Directory",
+      dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
+      departmentOptions: [],
     };
   },
   async created() {
@@ -273,6 +249,7 @@ export default {
       userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
       activeUserRole: "token/getUserRole",
+      activeTabSidebar: "token/getActiveTab",
       // getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getDepartment: "department/GET_DEPARTMENT_LIST",
     }),
@@ -280,11 +257,12 @@ export default {
   mounted() {},
 
   methods: {
-    handleClickOutside(){
+    vfileAdded,
+    handleClickOutside() {
       this.slideClass = "slide-out";
-        setTimeout(() => {
-          this.newMessageSidebar = false;
-        }, 700);
+      setTimeout(() => {
+        this.newMessageSidebar = false;
+      }, 700);
     },
     actionBY() {
       if (this.newMessageSidebar == true) {
@@ -308,7 +286,8 @@ export default {
       this.departmentModel = false;
     },
     async handleChange_Tabs(tab) {
-      this.activeTab = tab.value;
+      this.$store.dispatch("token/setActiveTab", tab.value);
+
       if (tab.value == "Departments") {
         await this.$store.dispatch("department/setDepartmentList");
         this.departmentOptions = this.getDepartment;
@@ -348,68 +327,18 @@ export default {
 };
 </script>
 <style lang="scss">
-.fake_div {
-  position: absolute;
-  left: -100500vw;
-  top: -100500vh;
-}
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 5px;
-  > li {
-    display: inline; // Remove list-style and block-level defaults
-    > a,
-    > span {
-      position: relative;
-      float: left; // Collapse white-space
-      padding: 5px 10px;
-      line-height: 30px;
-      text-decoration: none;
-      color: #000;
-      background-color: #d5e8d4;
-      border: 1px solid #8dd488;
-      margin-left: -1px;
+.custom-tabs {
+  .tabs {
+    border: none !important;
+    button {
+      margin-right: 10px;
+      border: none !important;
+      border-radius: 6px;
+      background-color: #eee !important;
     }
-    &:first-child {
-      > a,
-      > span {
-        margin-left: 0;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-      }
-    }
-    &:last-child {
-      > a,
-      > span {
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-      }
-    }
-  }
-  > li > a,
-  > li > span {
-    &:hover {
-      z-index: 2;
-      color: #31a22c;
-      background-color: #f2f5f1;
-      // border-color: @pagination-hover-border;
-    }
-  }
-
-  > .active > a,
-  > .active > span {
-    &,
-    &:hover,
-    &:focus {
-      z-index: 3;
-      color: #fff;
-      background-color: #31a22c;
-      // border-color: @pagination-active-border;
-      cursor: default;
+    .active {
+      color: #fff !important;
+      background-color: #000 !important;
     }
   }
 }

@@ -132,52 +132,75 @@
             <div class="" id="tab_info_wrapper">
               <div v-if="activeTabSidebar == personalTabItem[0].value">
                 <div class="scroll_wrapper">
-                  <div>
-                    <div class="col-12 row-custom">
-                      <div class="">
-                        <employee-profile
-                          :firstname="form.firstName"
-                          :midname="form.middleName"
-                          :lastname="form.lastName"
-                          :department="form.department"
-                          :departmentOptions="departmentOptions"
-                          :title="form.jobTitle"
-                          :employeeStatus="form.status"
-                        ></employee-profile>
+                  <div class="">
+                    <employee-profile
+                      :firstname="form.firstName"
+                      :midname="form.middleName"
+                      :lastname="form.lastName"
+                      :gender="form.gender"
+                      :genderOptions="genderOptions"
+                      :dob="form.dateOfBirth"
+                      :maritalStatus="maritalStatus"
+                      :maritalOptions="maritalOptions"
+                    ></employee-profile>
+                  </div>
+                  <div class="bg-light mt-1" style="height: 1px"></div>
+                  <!-- Contact Info Wrapper Start Here  -->
+                  <div class="contact-info-wrapper py-1">
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <tabs-title
+                          title="Contacts"
+                          variant="gray"
+                          :scale="0.9"
+                        ></tabs-title>
                       </div>
-                      <div class="bg-light mt-1" style="height: 1px"></div>
-                      <!-- Contact Info Wrapper Start Here  -->
-                      <div class="info-wrapper py-cus">
-                        <div class="row mx-0">
-                          <div class="col-6">
-                            <tabs-title
-                              :title="personalTabItem[2].title"
-                              variant="gray"
-                              icon="info"
-                              :scale="0.9"
-                            ></tabs-title>
-                          </div>
-                        </div>
-                        <div class="py-cus">
-                          <contact-info
-                            :email="form.email"
-                            :personalPhone="form.personalPhone"
-                            :extension="form.extension == '' ? '' : 'extension'"
-                            :mobile="form.phone"
-                          ></contact-info>
-                        </div>
+                    </div>
+                    <div class="pt-1">
+                      <contact-info></contact-info>
+                    </div>
+                  </div>
+                  <div class="bg-light" style="height: 1px"></div>
+                  <!-- Contact Info Wrapper Start Here  -->
+                  <div class="address-info-wrapper py-cus">
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <tabs-title
+                          title="Address"
+                          variant="gray"
+                          :scale="0.9"
+                        ></tabs-title>
                       </div>
+                    </div>
+                    <div class="py-1">
+                      <address-detail
+                      :countryOptions="countries"
+                      :stateOptions="cureentState"
+                      @input="handleInput"
+                      ></address-detail>
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
         </template>
         <template v-slot:sidebar-footer>
           <div class="d-flex justify-between align-center">
-              <bib-button label="Cancle" variant="gray" size="lg" style="width:50%" class="mr-1"></bib-button>
-              <bib-button label="Save" variant="success" size="lg" style="width:50%"></bib-button>
+            <bib-button
+              label="Cancle"
+              variant="gray"
+              size="lg"
+              style="width: 50%"
+              class="mr-1"
+            ></bib-button>
+            <bib-button
+              label="Save"
+              variant="success"
+              size="lg"
+              style="width: 50%"
+            ></bib-button>
           </div>
         </template>
       </action-sidebar>
@@ -192,6 +215,9 @@ import {
   DEPARTMENT_ITEMS,
   ACCESS_ITEMS,
   TABLE_HEAD,
+  SELECT_OPTIONS,
+  COUNTRIES,
+  STATES,
 } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 import {
@@ -232,7 +258,11 @@ export default {
       form: {},
       activeTab: "Directory",
       dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
-      departmentOptions: [],
+      genderOptions: SELECT_OPTIONS.genderOptions,
+      maritalOptions: SELECT_OPTIONS.maritalStatusOptions,
+      countries: COUNTRIES,
+      states: STATES,
+      cureentState: [],
     };
   },
   async created() {
@@ -258,6 +288,7 @@ export default {
 
   methods: {
     vfileAdded,
+    handleInput,
     handleClickOutside() {
       this.slideClass = "slide-out";
       setTimeout(() => {

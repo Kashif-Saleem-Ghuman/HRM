@@ -4,33 +4,21 @@
       <div class="col-6">
         <bib-input
           type="email"
-          label="Email address"
+          label="Primary email"
           v-model="email"
-          placeholder="Enter your email"
+          placeholder="Enter your primary email"
           :disabled="disabled"
-          icon-left="mail"
+          @change="$emit('input', $event, 'primaryEmail')"
         ></bib-input>
       </div>
-    </div>
-    <div class="row mx-0">
       <div class="col-6">
         <bib-input
-          type="text"
-          label="Phone number"
+          type="email"
+          label="Secondary email"
           v-model="personalPhone"
-          placeholder="Enter your phone"
-          :disabled="disabled"
-          icon-left="device-mobile"
-        ></bib-input>
-      </div>
-      <div class="col-6">
-        <bib-input
-          type="text"
-          label="Extension"
-          v-model="extension"
-          placeholder="Enter your extension"
-          :disabled="disabled"
-          icon-left="file"
+          placeholder="Enter your secondary mail"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'seondaryEmail')"
         ></bib-input>
       </div>
     </div>
@@ -38,11 +26,19 @@
       <div class="col-6">
         <bib-input
           type="text"
-          label="Mobile number"
-          v-model="mobile"
+          label="Home phone"
+          placeholder="Enter your home phone"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'homePhone')"
+        ></bib-input>
+      </div>
+      <div class="col-6">
+        <bib-input
+          type="text"
+          label="Cell nphone"
           placeholder="Enter your phone"
-          :disabled="disabled"
-          icon-left="device-mobile"
+          :disabled="inActive"
+          @change="$emit('input', $event, 'cellPhone')"
         ></bib-input>
       </div>
     </div>
@@ -50,21 +46,9 @@
 </template>
 <script>
 export default {
-  name: "PersonalInfo",
+  name: "ContactInfo",
   props: {
-    email: {
-      type: String,
-    },
-    mobile: {
-      type: String,
-    },
-    personalPhone: {
-      type: String,
-    },
-    extension: {
-      type: String,
-    },
-    disabled: {
+    inActive: {
       type: String,
     },
   },

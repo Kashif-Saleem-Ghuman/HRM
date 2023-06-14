@@ -64,6 +64,7 @@ export async function updateAllData() {
   this.loading = false;
 }
 export function handleInput(event, name, addresses) {
+  console.log(addresses)
   let add = {};
   this.isFlag = true;
   if (addresses == "team") {
@@ -75,16 +76,16 @@ export function handleInput(event, name, addresses) {
   }
   if (addresses === "addresses") {
     if (event == "USA") {
+      alert("callled")
       this.cureentState = this.states.filter((item, index) => {
         if (item.code == event) {
-          this.stateVisible = true;
+          // this.stateVisible = true;
           this.isFlag = true;
           return item;
         }
       });
     }
     if (event == "Canada") {
-      console.log(this.states);
       this.cureentState = this.states.filter((item, index) => {
         if (item.code == event) {
           this.stateVisible = true;
@@ -97,17 +98,17 @@ export function handleInput(event, name, addresses) {
       // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
     }
-    add[name] = event;
-    this.updateForm.address = this.updateForm.address || [];
-    this.updateForm.address = {
-      ...this.updateForm.address,
-      ...add,
-    };
-    this.form.address = {
-      ...this.form.address,
-      ...add,
-    };
-    console.log(this.updateForm, "update");
+    // add[name] = event;
+    // this.updateForm.address = this.updateForm.address || [];
+    // this.updateForm.address = {
+    //   ...this.updateForm.address,
+    //   ...add,
+    // };
+    // this.form.address = {
+    //   ...this.form.address,
+    //   ...add,
+    // };
+    // console.log(this.updateForm, "update");
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;

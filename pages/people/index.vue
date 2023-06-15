@@ -87,7 +87,7 @@
         <template v-slot:sidebar-body>
           <div class="row mx-0">
             <div class="col-12 custom-tabs">
-              <div class="py-cus">
+              <div>
                 <drop-zone
                   :src="form.photo"
                   :className="form.photo != null ? 'hide' : ''"
@@ -97,8 +97,8 @@
               </div>
             </div>
           </div>
-          <div class="row mx-0">
-            <div class="col-12 custom-tabs pb-1">
+          <div class="row py-1">
+            <div class="col-12 custom-tabs">
               <bib-tabs
                 :tabs="personalTabItem"
                 :value="activeTabSidebar"
@@ -107,8 +107,8 @@
             </div>
           </div>
           <div class="row mx-0">
-            <div class="col-12 custom-tabs pb-1">
-              <div class="d-flex pb-1">
+            <div class="col-12 custom-tabs">
+              <div class="d-flex">
                 <button-gray
                   @on-click="$emit('employee')"
                   icon="mail-new"
@@ -128,60 +128,76 @@
               </div>
             </div>
           </div>
-          <div id="employee-profile-wrapper">
+          <div id="employee-profile-wrapper py-cus">
             <div class="" id="tab_info_wrapper">
               <div v-if="activeTabSidebar == personalTabItem[0].value">
                 <div class="scroll_wrapper">
-                  <div class="">
+                  <div class="py-cus row-custom">
                     <employee-profile
-                      :firstname="form.firstName"
-                      :midname="form.middleName"
-                      :lastname="form.lastName"
-                      :gender="form.gender"
-                      :genderOptions="genderOptions"
-                      :dob="form.dateOfBirth"
-                      :maritalStatus="maritalStatus"
+                    :genderOptions="genderOptions"
                       :maritalOptions="maritalOptions"
+                    @input="handleInput"
                     ></employee-profile>
                   </div>
-                  <div class="bg-light mt-1" style="height: 1px"></div>
                   <!-- Contact Info Wrapper Start Here  -->
-                  <div class="contact-info-wrapper py-1">
-                    <div class="row mx-0">
-                      <div class="col-6">
-                        <tabs-title
-                          title="Contacts"
-                          variant="gray"
-                          :scale="0.9"
-                        ></tabs-title>
+                  <div class="border-wrapper">
+                    <div class="contact-info-wrapper">
+                      <div class="row mx-0">
+                        <div class="col-6">
+                          <tabs-title
+                            title="Contacts"
+                            variant="gray"
+                            :scale="0.9"
+                            class="py-1"
+                          ></tabs-title>
+                        </div>
                       </div>
-                    </div>
-                    <div class="pt-1">
-                      <contact-info></contact-info>
+                      <div>
+                        <contact-info></contact-info>
+                      </div>
                     </div>
                   </div>
-                  <div class="bg-light" style="height: 1px"></div>
-                  <!-- Contact Info Wrapper Start Here  -->
-                  <div class="address-info-wrapper py-cus">
-                    <div class="row mx-0">
-                      <div class="col-6">
-                        <tabs-title
-                          title="Address"
-                          variant="gray"
-                          :scale="0.9"
-                        ></tabs-title>
+                  <!-- Address Info Wrapper Start Here  -->
+                  <div class="border-wrapper">
+                    <div class="address-info-wrapper">
+                      <div class="row mx-0">
+                        <div class="col-6">
+                          <tabs-title
+                            title="Address"
+                            variant="gray"
+                            :scale="0.9"
+                            class="py-1"
+                          ></tabs-title>
+                        </div>
+                      </div>
+                      <div>
+                        <address-detail
+                          :countryOptions="countries"
+                          :stateOptions="cureentState"
+                          @input="handleInput"
+                        ></address-detail>
                       </div>
                     </div>
-                    <div class="py-1">
-                      <address-detail
-                      :countryOptions="countries"
-                      :stateOptions="cureentState"
-                      @input="handleInput"
-                      ></address-detail>
+                  </div>
+                  <!-- Emergency Contact Wrapper -->
+                  <div class="border-wrapper">
+                    <div class="address-info-wrapper">
+                      <div class="row mx-0">
+                        <div class="col-6">
+                          <tabs-title
+                            title="Emergency Contact"
+                            variant="gray"
+                            :scale="0.9"
+                            class="py-1"
+                          ></tabs-title>
+                        </div>
+                      </div>
+                      <div>
+                        <emergency-conta></emergency-conta>
+                      </div>
                     </div>
                   </div>
                 </div>
-                
               </div>
             </div>
           </div>
@@ -263,6 +279,8 @@ export default {
       countries: COUNTRIES,
       states: STATES,
       cureentState: [],
+      updateForm: {},
+      isFlag: false,
     };
   },
   async created() {
@@ -358,6 +376,12 @@ export default {
 };
 </script>
 <style lang="scss">
+.border-wrapper {
+  border: solid 1px $light;
+  border-radius: 5px;
+  padding: 0px 10px 1rem 10px;
+  margin-bottom: 16px;
+}
 .custom-tabs {
   .tabs {
     border: none !important;

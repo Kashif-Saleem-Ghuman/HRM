@@ -5,9 +5,8 @@
         <bib-input
           type="email"
           label="Primary email"
-          v-model="email"
           placeholder="Enter your primary email"
-          :disabled="disabled"
+          :disabled="inActive"
           @change="$emit('input', $event, 'primaryEmail')"
         ></bib-input>
       </div>
@@ -15,7 +14,6 @@
         <bib-input
           type="email"
           label="Secondary email"
-          v-model="personalPhone"
           placeholder="Enter your secondary mail"
           :disabled="inActive"
           @change="$emit('input', $event, 'seondaryEmail')"

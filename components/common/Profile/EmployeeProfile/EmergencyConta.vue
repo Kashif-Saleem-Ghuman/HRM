@@ -4,7 +4,7 @@
         <div class="col-12">
           <bib-input
             type="text"
-            label="Full name"
+            label="Contact name"
             v-model="fullName"
             placeholder="Enter your full name"
             :disabled="inActive"

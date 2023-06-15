@@ -33,7 +33,7 @@
       <div class="col-6">
         <bib-input
           type="text"
-          label="Cell nphone"
+          label="Cell phone"
           placeholder="Enter your phone"
           :disabled="inActive"
           @change="$emit('input', $event, 'cellPhone')"

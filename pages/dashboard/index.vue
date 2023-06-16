@@ -142,7 +142,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       dashboardData: DASHBOARD_DATA,
-      localData:'',
+      localData:[],
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,

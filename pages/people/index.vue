@@ -134,9 +134,9 @@
                 <div class="scroll_wrapper">
                   <div class="py-cus row-custom">
                     <employee-profile
-                    :genderOptions="genderOptions"
+                      :genderOptions="genderOptions"
                       :maritalOptions="maritalOptions"
-                    @input="handleInput"
+                      @input="handleInput"
                     ></employee-profile>
                   </div>
                   <!-- Contact Info Wrapper Start Here  -->
@@ -196,6 +196,63 @@
                         <emergency-conta></emergency-conta>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Employment information start here -->
+          <div id="employee-information-wrapper py-cus">
+            <div class="" id="tab_info_wrapper">
+              <div v-if="activeTabSidebar == personalTabItem[1].value">
+                <div class="scroll_wrapper">
+                  <div class="py-cus row-custom">
+                    <add-employement-info
+                      :esstatusOptions="statusOptions"
+                      @input="handleInput"
+                    ></add-employement-info>
+                  </div>
+                  <!-- Contact Info Wrapper Start Here  -->
+                  <div class="border-wrapper">
+                    <div class="contact-info-wrapper">
+                      <div class="row mx-0">
+                        <div class="col-6">
+                          <tabs-title
+                            title="Placement"
+                            variant="gray"
+                            :scale="0.9"
+                            class="py-1"
+                          ></tabs-title>
+                        </div>
+                      </div>
+                      <div>
+                        <placement></placement>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- File Wrapper start here -->
+          <div id="employee-information-wrapper py-cus">
+            <div class="" id="tab_info_wrapper">
+              <div v-if="activeTabSidebar == personalTabItem[2].value">
+                <div class="scroll_wrapper">
+                  <div class="py-cus row-custom">
+                    <template>
+                      <bib-input
+                        type="file"
+                        ref="filesUploaded"
+                        class=""
+                        @files-dropped="handleChange__FileInput"
+                        variant="accepted"
+                        iconLeft="upload"
+                        placeholder="Drop file here or click to upload"
+                      ></bib-input>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -281,6 +338,7 @@ export default {
       cureentState: [],
       updateForm: {},
       isFlag: false,
+      statusOptions: SELECT_OPTIONS.esstatusOptions,
     };
   },
   async created() {
@@ -307,6 +365,9 @@ export default {
   methods: {
     vfileAdded,
     handleInput,
+    handleChange__FileInput(files) {
+      console.log(files);
+    },
     handleClickOutside() {
       this.slideClass = "slide-out";
       setTimeout(() => {

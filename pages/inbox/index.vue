@@ -9,7 +9,6 @@
         headerRight="headerRight"
         :items="items.slice(-1)"
         :icon="items.icon"
-        @vclick="clickAction"
       ></section-header-left>
     </div>
     <div
@@ -98,7 +97,7 @@ export default {
       popupMessages: [],
       inboxData: INBOX_DATA,
       items: MORE_MENU,
-      localData:'',
+      localData:[],
       userPhoto: localStorage.getItem("userPhoto"),
       newMessageSidebar: false,
       slideClass: "slide-in",

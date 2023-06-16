@@ -40,7 +40,7 @@ export default {
       type: Number,
     },
     progressPercentage: {
-      type: Number,
+      type: String,
     },
     progressTitle: {
       type: String,

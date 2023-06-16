@@ -83,6 +83,7 @@ export default {
     };
   },
   mounted() {
+    console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
     // if (process.client) {
     //   for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
     //     if (this.appWrapItems.navItems[i].url == this.$router.history.current.fullPath) {
@@ -99,7 +100,7 @@ export default {
       this.$router.push("/dashboard")
     },
     menuClick(item) {
-      // for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
+      // for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
       //   if (this.appWrapItems.navItems[i].key == item.key) {
       //     this.appWrapItems.navItems[i].selected = true;
       //   } else {

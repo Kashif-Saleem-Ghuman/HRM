@@ -6,9 +6,8 @@
                 <bib-input
                   type="text"
                   label="To"
-                  v-model="firstname"
                   icon-left="user"
-                  placeholder="Enter your first name"
+                  placeholder="Enter email"
                   @change="$emit('input', $event, 'firstName')"
                   :disabled="inActive"
                 ></bib-input>
@@ -19,8 +18,7 @@
                 <bib-input
                   type="text"
                   label="Subject"
-                  v-model="lastname"
-                  placeholder="Type your last name"
+                  placeholder="Type your subject"
                   @change="$emit('input', $event, 'lastName')"
                   :disabled="inActive"
                 ></bib-input>
@@ -31,8 +29,7 @@
                 <bib-input
                   type="textarea"
                   label="Message"
-                  v-model="firstname"
-                  placeholder="Enter your first name"
+                  placeholder="Enter message"
                   @change="$emit('input', $event, 'firstName')"
                   :disabled="inActive"
                 ></bib-input>

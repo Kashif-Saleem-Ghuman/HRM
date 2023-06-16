@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex gap-1">
     <div
-      :class="[variant, className]"
+      :class="[className]"
       style="width: 100%"
       class="cursor-pointer chip-wrapper ml-05"
       @click="$emit('on-click')"

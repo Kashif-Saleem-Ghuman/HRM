@@ -56,37 +56,44 @@
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == timeAttendanceTab[0].value">
             <div
-              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
                 <date-picker></date-picker>
               </div>
-              <div class="d-flex">
-                <button-gray
-                  @on-click="$emit('employee')"
-                  icon="eye-open"
-                  variant="gray1"
-                  :scale="0.8"
-                  title="Not submitted"
-                  titleClass="button-title"
-                ></button-gray>
-                <button-gray
-                  @on-click="$emit('employee')"
-                  icon="eye-open"
-                  variant="gray1"
-                  :scale="0.8"
-                  title="Pending approval"
-                  titleClass="button-title"
-                ></button-gray>
-                <action-right
-                  @vclick="clickAction"
-                  :items="actionMenu"
-                ></action-right>
+
+              <div class="d-flex align-center">
+                <div class="d-flex align-center mr-05">
+                  <span class="mr-05">Search:</span>
+                  <bib-input size="sm" type="text" test_id="srchInput01">
+                  </bib-input>
+                </div>
+                <div class="d-flex align-center">
+                  <div style="font-size: 14px" class="mr-05">Show:</div>
+                  <button
+                    type="button"
+                    @click="$emit('on-click')"
+                    class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
+                  >
+                    All
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex space-between">
+              <div class="pl-1 pb-1 pt-1" style="width: 70%;">
+              <info-card-time
+                :items="infoCardData"
+                profilePic="profilePic"
+              ></info-card-time>
+            </div>
+              <div style="width:30%; height: auto;" class="pr-1 pb-1 pt-1 mr-1">
+                <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
               </div>
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list-time-attendance></list-time-attendance>
+                <list-dashboard :userList="localData"></list-dashboard>
                 <!-- <list-timesheet :userList="users"></list-timesheet> -->
               </div>
             </div>
@@ -97,48 +104,28 @@
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == timeAttendanceTab[1].value">
             <div
-              class="d-flex justify-between align-center py-05 px-075 bottom_border_wrapper"
+              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
                 <date-picker></date-picker>
               </div>
-              <div class="d-flex">
-                <button-gray
-                  @on-click="$emit('employee')"
-                  icon="eye-open"
-                  variant="gray1"
-                  :scale="0.8"
-                  title="Not submitted"
-                  titleClass="button-title"
-                ></button-gray>
-                <button-gray
-                  @on-click="$emit('employee')"
-                  icon="eye-open"
-                  variant="gray1"
-                  :scale="0.8"
-                  title="Pending approval"
-                  titleClass="button-title"
-                ></button-gray>
-                <div class="d-flex">
-                  <button-circle
-                    v-if="calander"
-                    :scale="1"
-                    variant="secondary"
-                    icon_bg="bg-secondary-sub3"
-                    class="mr-05"
-                  ></button-circle>
-                  <dropdown-menu
-                    :items="actionMenuTimesheet"
-                    @click="clickActionTimesheet"
-                    class="mr-05"
-                    dropDowmMenu="dropDowmMenu"
-                    popIcon="calendar"
-                  ></dropdown-menu>
+
+              <div class="d-flex align-center">
+                <div class="d-flex align-center mr-05">
+                  <span class="mr-05">Search:</span>
+                  <bib-input size="sm" type="text" test_id="srchInput01">
+                  </bib-input>
                 </div>
-                <action-right
-                  @vclick="clickAction"
-                  :items="actionMenu"
-                ></action-right>
+                <div class="d-flex align-center">
+                  <div style="font-size: 14px" class="mr-05">Show:</div>
+                  <button
+                    type="button"
+                    @click="$emit('on-click')"
+                    class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
+                  >
+                    All
+                  </button>
+                </div>
               </div>
             </div>
             <div class="scroll_wrapper">
@@ -230,6 +217,7 @@ import {
   SORTING_MENU,
   WEEK_DAY,
 } from "../../utils/constant/Constant.js";
+import { INFO_CARD_DATA } from "../../utils/constant/DashboardData";
 import {
   openPopupNotification,
   handleInput,
@@ -254,8 +242,8 @@ export default {
       maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       dayWiseDataTimesheet: TIMESHEET_DATA,
-      listWeekWise:true,
-      listDayWise:false,
+      listWeekWise: true,
+      listDayWise: false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       currentPage: 1,
@@ -279,6 +267,8 @@ export default {
       switchLabelOrgSettings: "",
       switchLabelAttendance: "",
       switchLabelweekStarts: "",
+      infoCardData: INFO_CARD_DATA,
+      localData:[],
     };
   },
   async created() {
@@ -325,12 +315,12 @@ export default {
     },
     clickActionTimesheet(item) {
       if (item.key == "week") {
-        this.listWeekWise = true
-        this.listDayWise = false
+        this.listWeekWise = true;
+        this.listDayWise = false;
       }
       if (item.key == "day") {
-        this.listWeekWise = false
-        this.listDayWise = true
+        this.listWeekWise = false;
+        this.listDayWise = true;
       }
     },
   },

@@ -1,171 +1,118 @@
 <template>
-  <div class="time-wrapper">
-    <div class="d-flex gap-05">
-      <!-- <div
-        class="d-flex gap-05 align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded"
-        @click="addSection"
-      >
-        <bib-icon icon="add" variant="success" :scale="1.4"></bib-icon>
-        <span class="text-dark"> New Section </span>
-      </div> -->
-    </div>
-    <div v-for="(tableData, sec_index) in tableSectionsArray" :key="sec_index">
-      <custom-table
-        :fields="tableTaskFields"
-        :sections="tableData.tasks"
-        :collapseObj="{
-          collapsed: false,
-          label: tableData.title,
-          variant: 'black',
-        }"
-        @item-clicked="handleTaskItemClick"
-        hide-no-column
-        :headless="sec_index > 0"
-        class="bg-white border-top-gray4"
-      >
-        <template #cell(check)="data">
-          <div class="d-flex gap-05 align-center">
-            <bib-icon
-              icon="check-circle"
-              :scale="1.5"
-              :variant="
-                data.value.status === 'completed' ? 'success' : 'secondary-sub1'
-              "
-              class="cursor-pointer"
-              @click="handleTaskStatus(sec_index, data)"
-            ></bib-icon>
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
-              :src="data.value.photo"
-              size="3rem"
-            ></bib-avatar>
-            <div class="info_wrapper text-left">
-              <div class="title">
-                {{ data.value.firstName }} {{ data.value.lastName }}
-              </div>
-              <div class="description">
-                {{ data.value.jobTitle }}
-              </div>
-            </div>
-          </div>
-          <div v-if="data.value.new_task" class="d-flex gap-05 align-center">
-            <bib-input
-              type="text"
-              v-model="data.value.name"
-              name="name"
-              placeholder="Untitled Name"
-              required
-              @blur="pushTask(sec_index, data.keyI, data.value.name)"
-            ></bib-input>
-          </div>
-        </template>
-        <template #cell_action="data">
-          <bib-checkbox size="md"></bib-checkbox>
-        </template>
-        <template #cell(name)="data">
-          <div class="d-flex gap-05 align-center">
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
-              :src="data.value.photo"
-              size="3rem"
-            ></bib-avatar>
-            <div class="info_wrapper text-left">
-              <div class="title">
-                {{ data.value.firstName }} {{ data.value.lastName }}
-              </div>
-              <div class="description">
-                {{ data.value.jobTitle }}
-              </div>
-            </div>
-          </div>
-          <div v-if="data.value.new_task" class="d-flex gap-05 align-center">
-            <bib-input
-              type="text"
-              v-model="data.value.name"
-              name="name"
-              placeholder="Untitled Name"
-              required
-              @blur="pushTask(sec_index, data.keyI, data.value.name)"
-            ></bib-input>
-          </div>
-        </template>
-        <template #cell(presence)="data">
-          <div class="d-flex gap-05 align-center" v-if="data.value.presence">
-            <span class="text-dark">{{ data.value.presence }}</span>
-          </div>
-        </template>
-        <template #cell(in)="data">
-          <div class="d-flex gap-05 align-center">
-            <bib-icon
-              icon="time"
-              :scale="0.8"
-              :variant="
-                data.value.status === 'completed' ? 'success' : 'secondary-sub1'
-              "
-              class="cursor-pointer"
-              @click="handleTaskStatus(sec_index, data)"
-            ></bib-icon>
-            <span class="text-dark">{{ data.value.in }}</span>
-          </div>
-        </template>
-        <template #cell(offbreak)="data">
-          <span class="text-dark">{{
-            data.value.offbreaks === null ? "..." : data.value.offbreaks
-          }}</span>
-        </template>
-        <template #cell(out)="data">
-          <bib-icon
-            icon="time"
-            :scale="0.8"
-            :variant="
-              data.value.status === 'completed' ? 'success' : 'secondary-sub1'
-            "
-            class="cursor-pointer"
-            @click="handleTaskStatus(sec_index, data)"
-          ></bib-icon>
-          <span class="text-dark">{{ data.value.out }}</span>
-        </template>
-        <template #cell(total)="data">
-          <span class="text-dark">{{
-            data.value.total === null ? "..." : data.value.total
-          }}</span>
-        </template>
-      </custom-table>
-      <div class="bg-white w-100 p-025 border-bottom-gray4 border-top-white">
-        <!-- <div
-          class="d-flex align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded w-fit gap-05"
-          @click="addTask(sec_index)"
-        > -->
+  <div class="remove-pad">
+    <custom-table
+      :fields="tableFields"
+      class="border-gray4 bg-white"
+      :sections="userList"
+      :hide-no-column="true"
+    >
+      <template #cell(name)="data">
         <div
-          class="d-flex align-center p-025 cursor-pointer bg-hover-gray2 shape-rounded w-fit gap-05"
+          class="d-flex align-center text-left gap-05"
+          style="position: relative"
         >
-          <bib-icon
-            icon="add"
-            variant="secondry"
-            :scale="1.2"
-            style="margin-left: 2px"
-          ></bib-icon>
-          <!-- <span class="text-dark"> New Task </span> -->
+          <div
+            style="cursor: pointer"
+            v-on:click="profiletab('id_' + data.value.id)"
+            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            class="ml-05"
+          >
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
+              :src="data.value.photo"
+              size="3rem"
+            >
+            </bib-avatar>
+            <div :id="'id_' + data.value.id" style="" class="userCard">
+              <user-info-card
+                :src="data.value.photo"
+                :firstName="data.value.firstName"
+                :lastName="data.value.lastName"
+                :jobTitle="data.value.jobTitle"
+                :email="data.value.email"
+                :phone="data.value.phone"
+                @viewProfile="viewProfile(data.value.id)"
+                @sendInvite="sendInvite"
+              ></user-info-card>
+            </div>
+          </div>
+          <div class="info_wrapper">
+            <div class="title">
+              {{ data.value.firstName }} {{ data.value.lastName }}
+            </div>
+            <div class="description">
+              {{ data.value.jobTitle }}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div v-if="isNewSectionInput" class="d-flex gap-05 align-center">
-      <bib-input
-        type="text"
-        v-model="newSectionName"
-        name="section-name"
-        placeholder="Untitled Section"
-        required
-        input_id="new_sec_input"
-        @blur="pushSection()"
-      ></bib-input>
-    </div>
+      </template>
+      <template #cell(status)="data">
+        <div class="text-dark">
+          <chips-list
+            :title="data.value.status == null ? '---' : data.value.status"
+            iconShow="iconShow"
+            icon="add"
+            :className="[
+              data.value.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
+              data.value.status == 'Absent' ? 'chip-list-wrapper__light' : '',
+            ]"
+          ></chips-list>
+        </div>
+      </template>
+      <template #cell(in)="data">
+        <div>
+          <chips
+            :title="data.value?.in == null ? 'N/A' : data.value.in"
+
+            :className="[
+              data.value?.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',
+              data.value?.in >= '09:00'
+                ? 'chip-wrapper__bgabsent'
+                : '',
+              data.value?.in === 'V' ? 'chip-wrapper__bgvacation' : '',
+              data.value?.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+              data.value?.in == null ? 'chip-wrapper__bggray' : '',
+            ]"
+          ></chips>
+        </div>
+      </template>
+      <template #cell(out)="data">
+        <chips
+          :title="data.value?.out == null ? 'N/A' : data.value?.out"
+          :className="[
+            data.value?.out === '09:30' ? 'chip-wrapper__bgabsent' : '',
+            data.value?.out == null ? 'chip-wrapper__bgwhite' : '',
+          ]"
+        ></chips>
+      </template>
+      <template #cell(breaks)="data">
+        <chips
+          :title="data.value?.breaks == null ? 'N/A' : data.value?.breaks"
+          :className="[
+            data.value?.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
+          ]"
+        ></chips>
+      </template>
+      <template #cell(total)="data">
+        <chips
+          :title="
+            data.value?.totalHours == null ? 'N/A' : data.value?.totalHours
+          "
+          :className="[
+            'chip-wrapper__bgwhite'
+           
+          ]"
+        ></chips>
+      </template>
+    </custom-table>
   </div>
 </template>
 
 <script>
+import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
+import { mapGetters } from "vuex";
+import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 export default {
   props: {
     userList: {
@@ -175,141 +122,125 @@ export default {
   },
   data() {
     return {
-      isNewSectionInput: false,
-      newSectionName: "",
-      tableTaskFields: [
-        {
-          key: "",
-          label: "#",
-        },
-
-        {
-          key: "name",
-          label: "Name",
-        },
-        {
-          key: "presence",
-          label: "Presence",
-        },
-        {
-          key: "in",
-          label: "In",
-        },
-        {
-          key: "offbreak",
-          label: "off / breaks",
-        },
-        {
-          key: "out",
-          label: "Out",
-        },
-        {
-          key: "total",
-          label: "Total",
-        },
-      ],
-      tableSectionsArray: [
-        {
-          title: "New Section",
-          tasks: [
-            {
-              id: "63b64e0b9a8c618c76610466",
-              businessId: "O3GWpmbk5ezJn4KR",
-              userId: "gELYqaQWQG9dnjk2",
-              firstName: "Rajeev",
-              middleName: "Sharma",
-              lastName: "Sharma",
-              email: "rajeev.sharma@qsstechnosoft.com",
-              jobTitle: "Frontend Developer",
-              presence: "Punched in",
-              in: "10:00",
-              offbreaks: "00:30",
-              out: "06:00",
-              total: "8.2",
-              photo:
-                "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1674473092167.jpg",
-            },
-            {
-              id: "63b64e0b9a8c618c76610466",
-              businessId: "O3GWpmbk5ezJn4KR",
-              userId: "gELYqaQWQG9dnjk2",
-              firstName: "Rajeev",
-              middleName: "Sharma",
-              lastName: "Sharma",
-              email: "rajeev.sharma@qsstechnosoft.com",
-              jobTitle: "Frontend Developer",
-              presence: "Punched in",
-              in: "10:00",
-              offbreaks: "00:30",
-              out: "06:00",
-              total: "8.2",
-              photo:
-                "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1674473092167.jpg",
-            },
-            {
-              id: "63bf3de76bb6d8b00bb07cf3",
-              businessId: "O3GWpmbk5ezJn4KR",
-              userId: "wNJAPdR6RJEdGyOX",
-              role: "USER",
-              firstName: "Kelvin",
-              lastName: "Jara",
-              jobTitle: "Technical Architect",
-              presence: "Punched in",
-              in: "08:00",
-              offbreaks: "00:30",
-              out: "06:00",
-              total: "8.2",
-              photo:
-                "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675200061019.jpg",
-            },
-            {
-              id: "63bf9d766bb6d8b00bb07d13",
-              businessId: "O3GWpmbk5ezJn4KR",
-              userId: "DKgl9av2NwnaG1vz",
-              role: "USER",
-              firstName: "Vishwajeet",
-              lastName: "Mandal",
-              jobTitle: "Frontend Developer",
-              offbreaks: null,
-              presence: "Punched in",
-              in: "08:30",
-              out: "06:00",
-              total: "8.2",
-              photo:
-                "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
-            },
-            {
-              id: "63bfa19c6bb6d8b00bb07d1f",
-              businessId: "O3GWpmbk5ezJn4KR",
-              userId: "k61YQdJ6J7ldOGpJ",
-              role: "ADMIN",
-              firstName: "Dhruv",
-              lastName: "Sharma",
-              jobTitle: "Software Developer",
-              presence: "Punched in",
-              in: "09:00",
-              offbreaks: "00:30",
-              out: "06:00",
-              total: null,
-              photo:
-                "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",
-            },
-          ],
-        },
-      ],
+      modal3Opened: false,
+      showTooltip: false,
+      tableFields: TABLE_HEAD.tHeadDashboard,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+      timesheetModal: false,
+      localData: DASHBOARD_DATA,
+      filteredData: [],
     };
   },
-
+  // async craeted(){
+  //   await this.$store.dispatch("employee/setUserList");
+  //   this.localData = this.userList;
+  // },
+  // computed: {
+  //   ...mapGetters({
+  //     userList: "employee/GET_USERS_LIST"
+  //   }),
+  // },
   methods: {
-    handleItemClick_Table($event, keyI, item) {
+    close() {
+      this.timesheetModal = false;
+    },
+    itemCliked(item) {
+      document.querySelector("#timesheetid_" + item).style = "display:none";
+      this.timesheetModal = true;
+      var users = this.localData.find((items) => items.id === item);
+      console.log(users.id, item, "asdkskahkdhshadakdhaskhk");
+      this.filteredData = users;
+    },
+    handleItemClick_Table(event, keyI, item) {
+      event.preventDefault();
       this.$router.push("/myprofile/" + item.id);
+    },
+    viewProfile(id) {
+      this.$router.push("/myprofile/" + id);
+    },
+    vclick() {
+      alert("callled");
+    },
+    mouseover() {
+      this.showTooltip = true;
+    },
+    mouseleave() {
+      this.showTooltip = false;
+    },
+    sendInvite() {
+      alert("send invite api call");
+    },
+    timeInfotab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
+
+    handleAction_Table(data) {
+      console.log(data);
     },
   },
 };
 </script>
 
 <style lang="scss">
-.time-wrapper {
+.td_row_wrapper {
+  padding: 4px 8px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  height: 65px !important;
+  width: 100%;
+  margin: -3px -5px 0 0px;
+
+  &__sucess {
+    background-color: #d5e8d4;
+    span {
+      color: #2ba026;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+
+  &__absent {
+    background-color: rgba(255, 171, 0, 0.16);
+    span {
+      color: #ffab00;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__vacation {
+    background-color: rgba(31, 66, 162, 0.16);
+    span {
+      color: #1f42a2;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__absentpink {
+    background-color: rgba(230, 0, 14, 0.16);
+    span {
+      color: #e6000e;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  &__default {
+    background-color: #ffffff;
+    span {
+      color: #000;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
 }
 .info_wrapper {
   color: $black;
@@ -325,5 +256,17 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: $black;
+}
+.remove-pad {
+  table {
+    tr {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+    td {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+  }
 }
 </style>

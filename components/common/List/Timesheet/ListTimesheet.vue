@@ -48,118 +48,144 @@
         </div>
       </template>
       <template #cell(mon)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          style="position: relative"
-          v-on:mouseover="timeInfotab('timesheetid_' + data.value.id)"
-          v-on:mouseleave="timeInfotab('timesheetid_' + data.value.id, true)"
-          :class="[
+        <chips
+          :title="
+            data.value?.weekData?.mon?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.mon?.totalHours
+          "
+          :className="[
             data.value?.weekData?.mon?.totalHours >= '8'
-              ? 'td_row_wrapper__sucess'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value?.weekData?.mon?.totalHours <= '7'
-              ? 'td_row_wrapper__absent'
+            data.value?.weekData?.mon?.totalHours <= '7' &&
+            data.value?.weekData?.mon?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.test == '00:00' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+              data.value?.weekData?.mon?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.mon?.totalHours }}</span>
-          <div
-            :id="'timesheetid_' + data.value.id"
-            class="tooltip-wrapper"
-            style="z-index: 100000"
-          >
-            <div v-if="data.value?.weekData?.mon?.timeData">
-              <tooltip
-                :data="data.value?.weekData?.mon?.timeData"
-                @vclick="itemCliked(data.value.id)"
-              ></tooltip>
-            </div>
-          </div>
-        </div>
+        ></chips>
       </template>
 
       <template #cell(tue)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
+        <chips
+          :title="
+            data.value?.weekData?.tue?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.tue?.totalHours
+          "
+          :className="[
             data.value?.weekData?.tue?.totalHours >= '8'
-              ? 'td_row_wrapper__sucess'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value?.weekData?.tue?.totalHours <= '7'
-              ? 'td_row_wrapper__absent'
+            data.value?.weekData?.tue?.totalHours <= '7' &&
+            data.value?.weekData?.tue?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+              data.value?.weekData?.tue?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.tue?.totalHours }}</span>
-        </div>
+        ></chips>
       </template>
 
       <template #cell(wed)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
+        <chips
+          :title="
+            data.value?.weekData?.wed?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.wed?.totalHours
+          "
+          :className="[
             data.value?.weekData?.wed?.totalHours >= '8'
-              ? 'td_row_wrapper__sucess'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value?.weekData?.wed?.totalHours <= '7'
-              ? 'td_row_wrapper__absent'
+            data.value?.weekData?.wed?.totalHours <= '7' &&
+            data.value?.weekData?.wed?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+              data.value?.weekData?.wed?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.wed?.totalHours }}</span>
-        </div>
+        ></chips>
       </template>
       <template #cell(thu)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
+        <chips
+          :title="
+            data.value?.weekData?.thu?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.thu?.totalHours
+          "
+          :className="[
             data.value?.weekData?.thu?.totalHours >= '8'
-              ? 'td_row_wrapper__sucess'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value?.weekData?.thu?.totalHours <= '7'
-              ? 'td_row_wrapper__absent'
+            data.value?.weekData?.thu?.totalHours <= '7' &&
+            data.value?.weekData?.thu?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+              data.value?.weekData?.thu?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.thu?.totalHours }}</span>
-        </div>
+        ></chips>
       </template>
       <template #cell(fri)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
+        <chips
+          :title="
+            data.value?.weekData?.fri?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.fri?.totalHours
+          "
+          :className="[
             data.value?.weekData?.fri?.totalHours >= '8'
-              ? 'td_row_wrapper__sucess'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value?.weekData?.fri?.totalHours <= '7'
-              ? 'td_row_wrapper__absent'
+            data.value?.weekData?.fri?.totalHours <= '7' &&
+            data.value?.weekData?.fri?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+              data.value?.weekData?.fri?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.fri?.totalHours }}</span>
-        </div>
+        ></chips>
       </template>
       <template #cell(sat)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
-            data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '',
-            data.value.status == 'Late' ? 'td_row_wrapper__absent' : '',
-            data.value.status == 'Absent' ? 'td_row_wrapper__absentpink' : '',
-            data.value.status == 'Vacation' ? 'td_row_wrapper__vacation' : '',
+        <chips
+          :title="
+            data.value?.weekData?.sat?.totalHours == null
+              ? 'N/A'
+              : data.value?.weekData?.sat?.totalHours
+          "
+          :className="[
+            data.value?.weekData?.sat?.totalHours >= '8'
+              ? 'chip-wrapper__bgsucess'
+              : '',
+            data.value?.weekData?.sat?.totalHours <= '7' &&
+            data.value?.weekData?.sat?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
+              : '',
+              data.value?.weekData?.sat?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value?.weekData?.sat?.totalHours }}</span>
-        </div>
+        ></chips>
       </template>
       <template #cell(sun)="data">
         <div
@@ -170,21 +196,47 @@
         </div>
       </template>
       <template #cell(total)="data">
-        <div
-          class="text-dark td_row_wrapper"
-          :class="[
-            data.value.totalHour >= '40' ? 'td_row_wrapper__sucess' : '',
-            data.value.totalHour <= '35' && data.value.totalHour >= '31'
-              ? 'td_row_wrapper__absent'
+        <chips
+          :title="
+            data.value.totalHour == null
+              ? 'N/A'
+              : data.value.totalHour
+          "
+          :className="[
+            data.value.totalHour >= '40'
+              ? 'chip-wrapper__bgsucess'
               : '',
-            data.value.totalHour <= '30' && data.value.totalHour >= '15'
-              ? 'td_row_wrapper__absentpink'
+              data.value.totalHour <= '35'
+              ? 'chip-wrapper__bgabsent'
               : '',
-            data.value.totalHour <= '0' ? 'test' : '',
+              data.value.totalHour <= '10'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
-        >
-          <span>{{ data.value.totalHour }}</span>
-        </div>
+        ></chips>
+        <!-- <chips
+          :title="
+            data.value.totalHour == null
+              ? 'N/A'
+              : data.value?.totalHours
+          "
+          :className="[
+            data.value?.totalHours >= '8'
+              ? 'chip-wrapper__bgsucess'
+              : '',
+            data.value?.totalHours <= '7' &&
+            data.value?.totalHours >= '5'
+              ? 'chip-wrapper__bgabsent'
+              : '',
+              data.value?.totalHours <= '3'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
+            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
+          ]"
+        ></chips> -->
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
@@ -204,16 +256,16 @@
             "
             :variant="[
               data.value.status == 'Approve'
-                ? 'chip-wrapper-bg-same__bgsucess'
+                ? 'chip-wrapper__bgsucess'
                 : '',
               data.value.status == 'Pending'
-                ? 'chip-wrapper-bg-same__bgabsent'
+                ? 'chip-wrapper__bgabsent'
                 : '',
               data.value.status == 'Past due'
-                ? 'chip-wrapper-bg-same__bgabsentpink'
+                ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation'
-                ? 'chip-wrapper-bg-same__bgvacation'
+                ? 'chip-wrapper__bgvacation'
                 : '',
             ]"
           ></chips>

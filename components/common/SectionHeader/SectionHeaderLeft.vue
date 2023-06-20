@@ -28,7 +28,7 @@
           <dropdown-menu
             v-if="moreIcon"
             onlyMenuItems="onlyMenuItems"
-            :items="items.slice(0, 2)"
+            :items="items"
             @click="$emit('vclick', $event)"
             style="margin-left: -10px"
           ></dropdown-menu>

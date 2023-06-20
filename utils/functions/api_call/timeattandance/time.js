@@ -1,5 +1,36 @@
 import axios from "axios";
 
+export async function getTimeAttandance() {
+  try {
+          const timeAttandance = await axios.get(
+            process.env.API_URL + "/timesheets/admin/attendance?date=" + this.getCurrentDate,
+            {
+              headers: {
+                Authorization: "Bearer " + this.getAccessToken,
+              },
+            }
+          );
+          this.localData = timeAttandance.data;
+        } catch (e) {
+          alert(e);
+        }
+}
+export async function getTimesheet() {
+  try {
+          const timesheetData = await axios.get(
+            process.env.API_URL + "/timesheets?from=2023-06-19&to=2023-06-20",
+            {
+              headers: {
+                Authorization: "Bearer " + this.getAccessToken,
+              },
+            }
+          );
+          this.timesheetData = timesheetData.data;
+        } catch (e) {
+          alert(e);
+        }
+}
+
 export async function getTime() {
   try {
           const time = await axios.get(

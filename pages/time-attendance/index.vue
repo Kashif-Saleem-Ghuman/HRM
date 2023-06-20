@@ -5,41 +5,10 @@
     >
       <section-header-left
         title="Time & Attendance"
-        moreIcon="more"
         :avatar="userPhoto"
         headerRight="headerRight"
-        :items="items.slice(-1)"
         :icon="items.icon"
-        @vclick="clickAction"
       ></section-header-left>
-      <div class="d-flex justify-between">
-        <template v-for="user in userList.slice(0, 4)">
-          <section-header-right
-            @click="userId(user.id)"
-            :avatar="
-              user.photo == null
-                ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png'
-                : user.photo
-            "
-          >
-          </section-header-right>
-        </template>
-
-        <div
-          style="z-index: 100"
-          class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
-        >
-          <span style="font-size: 14px; font-weight: 500">{{ totalUser }}</span>
-        </div>
-        <button-circle
-          icon="user-add"
-          :scale="1"
-          @click="addUser()"
-          variant="success"
-          class="ml-05"
-          icon_bg="light-green"
-        ></button-circle>
-      </div>
     </div>
     <div class="tab-wrapper">
       <div class="row mx-0 bottom_border_wrapper">
@@ -81,14 +50,16 @@
               </div>
             </div>
             <div class="d-flex space-between">
-              <div class="pl-1 pb-1 pt-1" style="width: 70%;">
-              <info-card-time
-                :items="infoCardData"
-                profilePic="profilePic"
-              ></info-card-time>
-            </div>
-              <div style="width:30%; height: auto;" class="pr-1 pb-1 pt-1 mr-1">
-                <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
+              <div class="pl-1 pb-1 pt-1" style="width: 70%">
+                <info-card-time
+                  :items="infoCardData"
+                  profilePic="profilePic"
+                ></info-card-time>
+              </div>
+              <div style="width: 30%; height: auto" class="pr-1 pb-1 pt-1 mr-1">
+                <info-card-help
+                  custumBg="help-wrapper__bg-black"
+                ></info-card-help>
               </div>
             </div>
             <div class="scroll_wrapper">
@@ -207,10 +178,10 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
   </div>
 </template>
 <script>
+import dayjs from "dayjs";
 import {
   TIME_ATTENDANCE_TAB,
   MORE_MENU,
@@ -225,9 +196,12 @@ import {
 import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
 import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
+
 import {
   getTime,
   updateTimeAttandance,
+  getTimeAttandance,
+  getTimesheet,
 } from "../../utils/functions/api_call/timeattandance/time";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
@@ -237,9 +211,6 @@ export default {
       id: "",
       openSidebar: false,
       endDate: null,
-      starDate: new Date("2022-09-17"),
-      minDate: new Date("2022-10-11"),
-      maxDate: new Date("2022-10-21"),
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       dayWiseDataTimesheet: TIMESHEET_DATA,
       listWeekWise: true,
@@ -268,33 +239,42 @@ export default {
       switchLabelAttendance: "",
       switchLabelweekStarts: "",
       infoCardData: INFO_CARD_DATA,
-      localData:[],
+      localData: [],
+      getCurrentDate:'',
+      timesheetData:'',
     };
   },
   async created() {
-    await this.$store.dispatch("employee/setUserList");
-    this.localData = this.userList;
+    await this.currentDate();
+    await this.getTimeAttandance();
+    await this.getTimesheet();
+console.log(this.getCurrentDate, "getCurrentDategetCurrentDate")
+
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
     this.id = users.id;
   },
   computed: {
     ...mapGetters({
-      userList: "employee/GET_USERS_LIST",
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
     }),
   },
-  async mounted() {
-    this.totalUser = this.userList.length;
-    console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
-  },
+  async mounted() {},
   methods: {
     getTime,
     updateTimeAttandance,
+    getTimesheet,
     updateTimeAttendanceSettings,
     handleInput,
+    getTimeAttandance,
     openPopupNotification,
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      var changeDate = dayjs(date).format('YYYY-MM-DD')
+      this.getCurrentDate = changeDate
+    },
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");
@@ -312,16 +292,6 @@ export default {
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
       console.log("selected date:", date);
-    },
-    clickActionTimesheet(item) {
-      if (item.key == "week") {
-        this.listWeekWise = true;
-        this.listDayWise = false;
-      }
-      if (item.key == "day") {
-        this.listWeekWise = false;
-        this.listDayWise = true;
-      }
     },
   },
 };

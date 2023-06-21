@@ -101,17 +101,22 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      { label: "Inbox", icon: "add", key: "inbox", url:"/inbox", selected: false},
-      { label: "My Profile", icon: "add", key: "myprofile", url:"/myprofile", selected: false},
-      { label: "My Time & Attendance", icon: "add", key: "mytimeattendance", url:"/files", selected: false},
-      { label: "My leave & vacations", icon: "add", key: "my-leave-vacations", url:"/files", selected: false},
+      { label: "Time & Attandance", icon: "add", key: "usertimeattandance", selected: false},
+      { label: "Leave & Vacations", icon: "add", key: "userleavevacations",  selected: false},
+      { label: "My Profile", icon: "add", key: "userprofile",  selected: false},
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
+    ],
+    navItemsUserShortcuts: [
+      { label: "Clock in", icon: "time", key: "usertimeattandance", selected: false},
+      { label: "Send Notification", icon: "mail", key: "userleavevacations",  selected: false},
+      { label: "Request Vacation", icon: "start", key: "userprofile",  selected: false},
+      { label: "Request Leave", icon: "exit-to-app", key: "files", url:"/files", selected: false},
     ],
     navItemsAdminSwitch: [
       { label: "Organization admin", icon: "add", key: "organization-admin", selected: false, id:""},
     ],
     navItemsAdmin: [
-      { label: "Inbox", icon: "add", key: "inbox", url:"/inbox", selected: false},
+      { label: "Inbox", icon: "add", key: "inbox", selected: false},
       { label: "Organization profile", icon: "add", key: "orgprofile", url:"/orgprofile", selected: false, id:""},
       { label: "People", icon: "add", key: "people", url:"/people", selected: false, id:""},
       { label: "Time & Attendance", icon: "add", key: "time-attendance", url:'/time-attendance', selected: false},

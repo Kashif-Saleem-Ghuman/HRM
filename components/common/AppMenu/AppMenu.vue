@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="userMenu" class="mt-1">
+    <div  class="mt-1" v-if="userMenu">
       <div class="menu-icon-less bg-light">
-        <span>My account</span>
+        <span>Home</span>
       </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
@@ -12,22 +12,25 @@
           }
         "
       ></bib-app-navigation>
-      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+      <div class="menu-icon-less">
+        <span style="cursor: pointer; color: #86868a;">Shortcuts</span>
+      </div>
+      <div class="custom-menu">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdminSwitch"
+        :items="appWrapItems.navItemsUserShortcuts"
+        style="color: red;"
         @click="
           ($event, item) => {
             menuClick(item);
           }
         "
-        style="border: solid 5px #000; font-size: 30px !important"
       ></bib-app-navigation>
-      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
+    </div>
     </div>
     <!-- Admin Menu  -->
     <div v-if="adminMenu" class="mt-1">
       <div class="menu-icon-less bg-light">
-        <span v-on:click="changeDashboard()" style="cursor: pointer;">Organization admin</span>
+        <span v-on:click="changeDashboard()" style="cursor: pointer; ">Organization admin</span>
       </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
@@ -45,16 +48,6 @@
           }
         "
       ></bib-app-navigation>
-      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div>
-      <!-- <bib-app-navigation
-        :items="appWrapItems.navItemsUserSwitch"
-        @click="
-          ($event, item) => {
-            menuClick(item);
-          }
-        "
-      ></bib-app-navigation>
-      <div class="mt-05 mb-05" :class="seprator" style="height: 1px"></div> -->
     </div>
   </div>
 </template>
@@ -181,6 +174,13 @@ export default {
   span{
     // font-size: 30px;
     margin: 16px;
+  }
+}
+.custom-menu{
+  .nav-item__label{
+    color: #1F42A2  !important;
+    span{
+    }
   }
 }
 </style>

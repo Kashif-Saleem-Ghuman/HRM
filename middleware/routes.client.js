@@ -8,6 +8,9 @@ export default function routesCheck() {
       if (pathPath === "/") {
         this.$router.push('/dashboard');
       }
+      if (pathPath === "/myprofile") {
+        this.$router.push('/notFound');
+      }
       // if (pathPath === "/dashboard") {
       //   this.$router.push(notFound);
       //   console.log(pagePath, "page path");

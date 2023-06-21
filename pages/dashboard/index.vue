@@ -111,6 +111,7 @@
   </div>
 </template>
 <script>
+import dayjs from "dayjs";
 import {
   TIME_ATTENDANCE_TAB,
   MORE_MENU,
@@ -129,6 +130,7 @@ import { mapGetters } from "vuex";
 import {
   getTime,
   updateTimeAttandance,
+  getTimeAttandance,
 } from "../../utils/functions/api_call/timeattandance/time";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
@@ -152,11 +154,14 @@ export default {
       slideClass: "slide-in",
       sceduleLeave: false,
       sceduleEvent: false,
+      getCurrentDate:'',
     };
   },
   async created() {
-    await this.$store.dispatch("employee/setUserList");
-    this.localData = this.userList;
+    await this.currentDate();
+    // await this.$store.dispatch("employee/setUserList");
+    await this.getTimeAttandance();
+    // this.localData = this.userList;
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
     this.id = users.id;
@@ -178,7 +183,14 @@ export default {
     updateTimeAttandance,
     updateTimeAttendanceSettings,
     handleInput,
+    getTimeAttandance,
     openPopupNotification,
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      var changeDate = dayjs(date).format('YYYY-MM-DD')
+      this.getCurrentDate = changeDate
+    },
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");

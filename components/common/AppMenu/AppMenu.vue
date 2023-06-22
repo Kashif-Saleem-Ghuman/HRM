@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  class="mt-1" v-if="userMenu">
+    <div  class="mt-1">
       <div class="menu-icon-less bg-light">
         <span>Home</span>
       </div>
@@ -101,6 +101,7 @@ export default {
       //   }
       // }
       if (process.client) {
+        // admin menu actions
         if (item.key == "dashboard") {
           this.$router.push("/dashboard");
           return;
@@ -109,8 +110,8 @@ export default {
           this.$router.push("/inbox");
           return;
         }
-        if (item.key == "myprofile") {
-          this.$router.push("/myprofile");
+        if (item.key == "orgprofile") {
+          this.$router.push("/orgprofile");
           return;
         }
         if (item.key == "people") {
@@ -121,41 +122,25 @@ export default {
           this.$router.push("/time-attendance");
           return;
         }
-        if (item.key == "orgprofile") {
-          this.$router.push("/orgprofile");
+        if (item.key == "leave-vacations") {
+          this.$router.push("/leave-vacations");
           return;
         }
-        if (item.key == "timeattendance") {
-          this.$router.push("/mytimeattendance");
+        if (item.key == "settings") {
+          this.$router.push("/settings");
           return;
         }
-        if (item.key == "time-off") {
-          this.$router.push("/timeoff");
+        // user menu actions
+        if (item.key == "my-time-attandance") {
+          this.$router.push("/my-time-attandance");
           return;
         }
-        if (item.key == "my-time-off") {
-          this.$router.push("/mytimeoff");
+        if (item.key == "my-leave-vacations") {
+          this.$router.push("/my-leave-vacations");
           return;
         }
-        if (item.key == "pay") {
-          this.$router.push("/pay");
-          return;
-        }
-        if (item.key == "benefits") {
-          this.$router.push("/benefit");
-          return;
-        }
-        if (item.key == "files") {
-          // this.$store.dispatch("token/setActiveTab", item.key)
-          this.$router.push("/files");
-          return;
-        }
-        if (item.key == "performance") {
-          this.$router.push("/performance");
-          return;
-        }
-        if (item.key == "compensation") {
-          this.$router.push("/compensation");
+        if (item.key == "myprofile") {
+          this.$router.push("/myprofile");
           return;
         }
       }

@@ -49,19 +49,26 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex space-between">
-              <div class="pl-1 pb-1 pt-1" style="width: 70%">
+              <div class="d-grid d-flex gap-1 py-1 px-1"
+              style="grid-template-columns: repeat(3, 1fr)">
                 <info-card-time
-                  :items="infoCardData"
-                  profilePic="profilePic"
-                ></info-card-time>
-              </div>
-              <div style="width: 30%; height: auto" class="pr-1 pb-1 pt-1 mr-1">
-                <info-card-help
+                :item="infoCardData[0]"
+                buttonLable="Clock in"
+                icon="table"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-time>
+              <info-card-time
+                :item="infoCardData[1]"
+                buttonLable="Clock in"
+                icon="table"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-time>
+              <info-card-help
                   custumBg="help-wrapper__bg-black"
                 ></info-card-help>
               </div>
-            </div>
             <div class="scroll_wrapper">
               <div>
                 <list-dashboard :userList="localData"></list-dashboard>

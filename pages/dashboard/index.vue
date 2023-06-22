@@ -25,11 +25,7 @@
             <div class="d-flex align-center">
               <div class="d-flex align-center mr-05">
                 <span class="mr-05">Search:</span>
-                <bib-input
-                  size="sm"
-                  type="text"
-                  test_id="srchInput01"
-                >
+                <bib-input size="sm" type="text" test_id="srchInput01">
                 </bib-input>
               </div>
               <div class="d-flex align-center">
@@ -45,10 +41,39 @@
             </div>
           </div>
           <div class="pl-1 py-1">
-            <info-card-leave-vacation
-              :items="infoCardData"
-              profilePic="profilePic"
-            ></info-card-leave-vacation>
+            <div
+              class="d-grid d-flex gap-1"
+              style="grid-template-columns: repeat(4, 1fr)"
+            >
+              <info-card-one
+                :item="infoCardData[0]"
+                buttonLable="View Attendance"
+                icon="table"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-one>
+              <info-card-one
+                :item="infoCardData[1]"
+                buttonLable="Timesheet"
+                icon="table"
+                buttonVariant="light"
+                profilePic="profilePic"
+              ></info-card-one>
+              <info-card-one
+                :item="infoCardData[2]"
+                buttonLable="Open inbox"
+                icon="mail-new"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-one>
+              <info-card-one
+                :item="infoCardData[3]"
+                buttonLable="Send Message"
+                icon="setting"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-one>
+            </div>
           </div>
           <div class="scroll_wrapper">
             <div style="z-index: 1">
@@ -144,7 +169,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       dashboardData: DASHBOARD_DATA,
-      localData:[],
+      localData: [],
       items: MORE_MENU,
       actionMenu: SORTING_MENU.actionMenuTimeAttandance,
       actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
@@ -154,7 +179,7 @@ export default {
       slideClass: "slide-in",
       sceduleLeave: false,
       sceduleEvent: false,
-      getCurrentDate:'',
+      getCurrentDate: "",
     };
   },
   async created() {
@@ -187,9 +212,11 @@ export default {
     openPopupNotification,
     currentDate() {
       const current = new Date();
-      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
-      var changeDate = dayjs(date).format('YYYY-MM-DD')
-      this.getCurrentDate = changeDate
+      const date = `${current.getFullYear()}-${
+        current.getMonth() + 1
+      }-${current.getDate()}`;
+      var changeDate = dayjs(date).format("YYYY-MM-DD");
+      this.getCurrentDate = changeDate;
     },
     change(event, name) {
       this.updateForm[name] = event;

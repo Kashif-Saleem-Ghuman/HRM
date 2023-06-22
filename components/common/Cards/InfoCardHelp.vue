@@ -1,5 +1,5 @@
 <template>
-      <div class="ml-1 help-wrapper" :class="custumBg">
+      <div class="help-wrapper" :class="custumBg">
         <label>Help?</label>
         <ul>
           <li>How to request a vacation?</li>
@@ -30,6 +30,10 @@
     width: 100%;
     height: 100%;
     color: #fff;
+    & label{
+      font-size: 14px !important;
+      color: #fff;
+    }
     &__bg-green{
       background-color: #6bbf68;
     }

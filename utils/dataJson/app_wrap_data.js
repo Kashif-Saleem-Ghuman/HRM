@@ -101,9 +101,9 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      { label: "Time & Attandance", icon: "add", key: "usertimeattandance", selected: false},
-      { label: "Leave & Vacations", icon: "add", key: "userleavevacations",  selected: false},
-      { label: "My Profile", icon: "add", key: "userprofile",  selected: false},
+      { label: "Time & Attandance", icon: "add", key: "my-time-attandance", selected: false},
+      { label: "Leave & Vacations", icon: "add", key: "my-leave-vacations",  selected: false},
+      { label: "My Profile", icon: "add", key: "myprofile",  selected: false},
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [

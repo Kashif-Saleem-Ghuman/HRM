@@ -1,12 +1,7 @@
 <template>
     <div class="d-flex">
-      <div
-        class="d-grid d-flex gap-1"
-        style="grid-template-columns: repeat(2, 1fr); width: 100%"
-      >
         <div
           class="info-card-leave-wrapper"
-          v-for="(item, index) in items.slice(0, 2)"
           style="width: 100%"
         >
           <div>
@@ -43,50 +38,20 @@
               <span>{{ item.figureLabelTwoData }}</span>
             </div>
           </div>
-          <div style="width: 100%">
-            <div
-              class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
-              @click="buttonAction()"
-              style="text-align: center"
-              v-show="item.title == 'Attendance'"
-            >
-              <bib-icon icon="table" variant="dark" :scale="0.8"></bib-icon>
-              <span class="pl-025">View Attendance</span>
-            </div>
-            <div
-              class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
-              @click.stop="$emit('on-click')"
-              style="text-align: center"
-              v-show="item.title == 'Timesheets'"
-            >
-              <bib-icon icon="table" variant="dark" :scale="0.8"></bib-icon>
-              <span class="pl-025">View Timesheets</span>
-            </div>
-            <div
-              class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
-              @click.stop="$emit('on-click')"
-              style="text-align: center"
-              v-show="item.title == 'Notifications'"
-            >
-              <bib-icon icon="mail-new" variant="dark" :scale="0.8"></bib-icon>
-              <span class="pl-025">Open Inbox</span>
-            </div>
-            <div
-              class="d-flex align-center justify-center cursor-pointer text-dark bg-light bg-hover-secondary-sub2 p-05 mb-1 shape-rounded"
-              @click.stop="$emit('on-click')"
-              style="text-align: center"
-              v-show="item.title == 'Birthdays & Work anniversaries'"
-            >
-              <bib-icon icon="setting" variant="dark" :scale="0.8"></bib-icon>
-              <span class="pl-025">Send Message</span>
-            </div>
+            <div style="width: 100%">
+        <bib-button
+          :label="buttonLable"
+          size="lg"
+          :variant="buttonVariant"
+          pill
+          class="w-100 mb-1"
+        ></bib-button>
+      </div>
           </div>
         </div>
-      </div>
       <!-- <div style="width:33%" class="pr-1">
         <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
       </div> -->
-    </div>
   </template>
   <script>
   export default {
@@ -98,9 +63,18 @@
       hashItem: {
         type: String,
       },
-      items: {
+      item: {
         type: Array,
       },
+      buttonLable: {
+      type: String,
+    },
+    icon: {
+      type: String,
+    },
+    buttonVariant: {
+      type: String,
+    },
     },
     data() {
       return {

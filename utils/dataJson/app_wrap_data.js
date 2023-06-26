@@ -101,6 +101,7 @@ const data = () => {
       },
     ],
     navItemsUser: [
+      { label: "Home", icon: "add", key: "home", selected: false, id:""},
       { label: "Time & Attandance", icon: "add", key: "my-time-attandance", selected: false},
       { label: "Leave & Vacations", icon: "add", key: "my-leave-vacations",  selected: false},
       { label: "My Profile", icon: "add", key: "myprofile",  selected: false},
@@ -116,7 +117,8 @@ const data = () => {
       { label: "Organization admin", icon: "add", key: "organization-admin", selected: false, id:""},
     ],
     navItemsAdmin: [
-      { label: "Inbox", icon: "add", key: "inbox", selected: false},
+      { label: "Organization admin", icon: "user", key: "dashboard",  url:"/dashboard", selected: false, id:""},
+      { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox", selected: false},
       { label: "Organization profile", icon: "add", key: "orgprofile", url:"/orgprofile", selected: false, id:""},
       { label: "People", icon: "add", key: "people", url:"/people", selected: false, id:""},
       { label: "Time & Attendance", icon: "add", key: "time-attendance", url:'/time-attendance', selected: false},

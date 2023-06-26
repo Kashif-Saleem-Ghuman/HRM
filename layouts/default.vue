@@ -49,6 +49,8 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
+          :className="lightThemeChecked ? 'custom-menu' : 'custom-menu-light'"
+          :sectionHead="lightThemeChecked ? 'section-head_light' : 'section-head_dark'"
           :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''" :userMenu="userRole === 'USER' ? 'userMenu' : ''"
         ></app-menu>
       </template>
@@ -93,7 +95,7 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token: "",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s",
       userRole:'',
     };
   },

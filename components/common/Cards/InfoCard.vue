@@ -9,7 +9,7 @@
           <label>{{ item.numberData }}</label>
         </div>
       </div>
-      <div style="margin-left: -2px;" class="mt-05">
+      <div style="margin-left: -2px;" class="mt-05 mb-1">
           <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" size="2rem"></bib-avatar>
           <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"></bib-avatar>
           <bib-avatar src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" size="2rem"></bib-avatar>

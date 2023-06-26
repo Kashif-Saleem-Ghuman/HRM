@@ -49,6 +49,8 @@
       <template #navigation>
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
+          :className="lightThemeChecked ? 'custom-menu' : 'custom-menu-light'"
+          :sectionHead="lightThemeChecked ? 'section-head_light' : 'section-head_dark'"
           :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''" :userMenu="userRole === 'USER' ? 'userMenu' : ''"
         ></app-menu>
       </template>

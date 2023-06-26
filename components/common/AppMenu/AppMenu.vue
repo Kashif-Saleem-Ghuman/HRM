@@ -1,37 +1,10 @@
 <template>
   <div>
-    <div  class="mt-1">
-      <div class="menu-icon-less bg-light">
-        <span>Home</span>
-      </div>
-      <bib-app-navigation
-        :items="appWrapItems.navItemsUser"
-        @click="
-          ($event, item) => {
-            menuClick(item);
-          }
-        "
-      ></bib-app-navigation>
-      <div class="menu-icon-less">
-        <span style="cursor: pointer; color: #86868a;">Shortcuts</span>
-      </div>
-      <div class="custom-menu">
-      <bib-app-navigation
-        :items="appWrapItems.navItemsUserShortcuts"
-        style="color: red;"
-        @click="
-          ($event, item) => {
-            menuClick(item);
-          }
-        "
-      ></bib-app-navigation>
-    </div>
-    </div>
-    <!-- Admin Menu  -->
-    <div v-if="adminMenu" class="mt-1">
-      <div class="menu-icon-less bg-light">
+     <!-- Admin Menu  -->
+     <div v-if="adminMenu" class="mt-1">
+      <!-- <div :class="sectionHead" class="section-head">
         <span v-on:click="changeDashboard()" style="cursor: pointer; ">Organization admin</span>
-      </div>
+      </div> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
         @click="
@@ -49,6 +22,35 @@
         "
       ></bib-app-navigation>
     </div>
+
+    <!-- User Menu  -->
+    <!-- <div  class="mt-1">
+      <div :class="sectionHead" class="section-head">
+        <span>Home</span>
+      </div>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUser"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+      <div class="section-head">
+        <span style="cursor: pointer; color: #86868a;">Shortcuts</span>
+      </div>
+      <div :class="className">
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUserShortcuts"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+      ></bib-app-navigation>
+    </div>
+    </div> -->
+   
   </div>
 </template>
 <script>
@@ -68,6 +70,12 @@ export default {
     userMenu: {
       type: String,
     },
+    className:{
+      type:String
+    },
+    sectionHead:{
+      type:String
+    }
   },
   data() {
     return {
@@ -76,30 +84,32 @@ export default {
     };
   },
   mounted() {
-    console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
-    // if (process.client) {
-    //   for (let i = 0; i < this.appWrapItems.navItems.length; i++) {
-    //     if (this.appWrapItems.navItems[i].url == this.$router.history.current.fullPath) {
-    //       this.appWrapItems.navItems[i].selected = true;
-    //     } else {
-    //       this.appWrapItems.navItems[i].selected = false;
-    //     }
-    //   }
-    //   var userRole = localStorage.getItem('userRole')
-    // }
+    
+    // console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
+    if (process.client) {
+      
+      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
+        if (this.appWrapItems.navItemsAdmin[i].url == this.$router.history.current.fullPath) {
+          this.appWrapItems.navItemsAdmin[i].selected = true;
+        } else {
+          this.appWrapItems.navItemsAdmin[i].selected = false;
+        }
+      }
+    }
   },
   methods: {
     changeDashboard(){
       this.$router.push("/dashboard")
     },
     menuClick(item) {
-      // for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
-      //   if (this.appWrapItems.navItems[i].key == item.key) {
-      //     this.appWrapItems.navItems[i].selected = true;
-      //   } else {
-      //     this.appWrapItems.navItems[i].selected = false;
-      //   }
-      // }
+      console.log(this.$router.history.current.fullPath, "this.$router.history.current.fullPath")
+      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
+        if (this.appWrapItems.navItemsAdmin[i].key == item.key) {
+          this.appWrapItems.navItemsAdmin[i].selected = true;
+        } else {
+          this.appWrapItems.navItemsAdmin[i].selected = false;
+        }
+      }
       if (process.client) {
         // admin menu actions
         if (item.key == "dashboard") {
@@ -149,7 +159,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.menu-icon-less{
+.section-head{
   // background-color: black;
   line-height: 36px;
   font-size: 14px;
@@ -160,12 +170,27 @@ export default {
     // font-size: 30px;
     margin: 16px;
   }
+  &_light{
+    background-color: #f2f2f5;
+    span{
+      color: #6d7278;
+    }
+  }
+  &_dark{
+    background-color: #2E2F31;
+    span{
+      color: #86868a;
+    }
+  }
 }
 .custom-menu{
   .nav-item__label{
     color: #1F42A2  !important;
-    span{
-    }
   }
+ .custom-menu-light{
+  .nav-item__label{
+    color: #fff  !important;
+  }
+ } 
 }
 </style>

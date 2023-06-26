@@ -9,7 +9,6 @@
                   icon-left="user"
                   placeholder="Enter email"
                   @change="$emit('input', $event, 'firstName')"
-                  :disabled="inActive"
                 ></bib-input>
               </div>
               </div>
@@ -20,7 +19,6 @@
                   label="Subject"
                   placeholder="Type your subject"
                   @change="$emit('input', $event, 'lastName')"
-                  :disabled="inActive"
                 ></bib-input>
               </div>
             </div>
@@ -31,7 +29,6 @@
                   label="Message"
                   placeholder="Enter message"
                   @change="$emit('input', $event, 'firstName')"
-                  :disabled="inActive"
                 ></bib-input>
               </div>
             </div>

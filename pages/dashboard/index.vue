@@ -183,14 +183,14 @@ export default {
     };
   },
   async created() {
-    await this.currentDate();
-    // await this.$store.dispatch("employee/setUserList");
-    await this.getTimeAttandance();
-    // this.localData = this.userList;
+    // await this.currentDate();
+    await this.$store.dispatch("employee/setUserList");
+    // await this.getTimeAttandance();
+    this.localData = this.userList;
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
     this.id = users.id;
-    this.activeUserName = users.firstName + users.lastName;
+    this.activeUserName = users.firstName + ' ' + users.lastName;
   },
   computed: {
     ...mapGetters({

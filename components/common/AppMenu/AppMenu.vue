@@ -113,31 +113,31 @@ export default {
       if (process.client) {
         // admin menu actions
         if (item.key == "dashboard") {
-          this.$router.push("/dashboard");
+          this.$router.push("/dashboard/");
           return;
         }
         if (item.key == "inbox") {
-          this.$router.push("/inbox");
+          this.$router.push("/inbox/");
           return;
         }
         if (item.key == "orgprofile") {
-          this.$router.push("/orgprofile");
+          this.$router.push("/orgprofile/");
           return;
         }
         if (item.key == "people") {
-          this.$router.push("/people");
+          this.$router.push("/people/");
           return;
         }
         if (item.key == "time-attendance") {
-          this.$router.push("/time-attendance");
+          this.$router.push("/time-attendance/");
           return;
         }
         if (item.key == "leave-vacations") {
-          this.$router.push("/leave-vacations");
+          this.$router.push("/leave-vacations/");
           return;
         }
         if (item.key == "settings") {
-          this.$router.push("/settings");
+          this.$router.push("/settings/");
           return;
         }
         // user menu actions

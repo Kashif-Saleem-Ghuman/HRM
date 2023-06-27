@@ -50,12 +50,12 @@
       <template #cell(status)="data">
         <div class="text-dark">
           <chips-list
-            :title="data.value.status == null ? '---' : data.value.status"
+            :title="data.value.attendance.status == null ? '---' : data.value.attendance.status"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
-              data.value.status == 'Absent' ? 'chip-list-wrapper__light' : '',
+              data.value.attendance.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
+              data.value.attendance.status == 'Absent' ? 'chip-list-wrapper__light' : '',
             ]"
           ></chips-list>
         </div>
@@ -63,41 +63,41 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.in == null ? 'N/A' : data.value.in"
+            :title="data.value?.attendance.in == null ? 'N/A' : data.value.attendance.in"
 
             :className="[
-              data.value?.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.in >= '09:00'
+              data.value?.attendance.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',
+              data.value?.attendance.in >= '09:00'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-              data.value?.in === 'V' ? 'chip-wrapper__bgvacation' : '',
-              data.value?.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.in == null ? 'chip-wrapper__bggray' : '',
+              data.value?.attendance.in === 'V' ? 'chip-wrapper__bgvacation' : '',
+              data.value?.attendance.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+              data.value?.attendance.in == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
         </div>
       </template>
       <template #cell(out)="data">
         <chips
-          :title="data.value?.out == null ? 'N/A' : data.value?.out"
+          :title="data.value?.attendance.out == null ? 'N/A' : data.value?.attendance.out"
           :className="[
-            data.value?.out === '09:30' ? 'chip-wrapper__bgabsent' : '',
-            data.value?.out == null ? 'chip-wrapper__bgwhite' : '',
+            data.value?.attendance.out === '09:30' ? 'chip-wrapper__bgabsent' : '',
+            data.value?.attendance.out == null ? 'chip-wrapper__bgwhite' : '',
           ]"
         ></chips>
       </template>
       <template #cell(breaks)="data">
         <chips
-          :title="data.value?.breaks == null ? 'N/A' : data.value?.breaks"
+          :title="data.value?.attendance.breaks == null ? 'N/A' : data.value?.attendance.breaks"
           :className="[
-            data.value?.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.attendance.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.total == null ? 'N/A' : data.value?.total
+            data.value?.attendance.total == null ? 'N/A' : data.value?.attendance.total
           "
           :className="[
             'chip-wrapper__bgwhite'

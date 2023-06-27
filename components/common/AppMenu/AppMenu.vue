@@ -168,16 +168,16 @@ export default {
   border-radius: 4px;
   span{
     // font-size: 30px;
-    margin: 16px;
+    margin: 0px;
   }
   &_light{
-    background-color: #f2f2f5;
+    // background-color: #f2f2f5;
     span{
       color: #6d7278;
     }
   }
   &_dark{
-    background-color: #2E2F31;
+    // background-color: #2E2F31;
     span{
       color: #86868a;
     }

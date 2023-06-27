@@ -183,10 +183,10 @@ export default {
     };
   },
   async created() {
-    // await this.currentDate();
+    await this.currentDate();
     await this.$store.dispatch("employee/setUserList");
-    // await this.getTimeAttandance();
-    this.localData = this.userList;
+    await this.getTimeAttandance();
+    // this.localData = this.userList;
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
     this.id = users.id;
@@ -201,7 +201,7 @@ export default {
   },
   async mounted() {
     this.totalUser = this.userList.length;
-    console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
+    // console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
   },
   methods: {
     getTime,

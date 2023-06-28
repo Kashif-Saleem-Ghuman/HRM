@@ -11,6 +11,7 @@ import {
   getUser,
   getBusinessId,
   openPopupNotification,
+  dateCheck,
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -23,6 +24,7 @@ export {
   headerHelpClick,
   headerActionCall,
   getUser,
+  dateCheck,
   getBusinessId,
   handleToggleWrapperTheme,
   openPopupNotification,

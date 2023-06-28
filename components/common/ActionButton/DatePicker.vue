@@ -4,7 +4,9 @@
     <bib-datetime-picker
       v-model="date2"
       :format="format"
-      placeholder="Thursday, April 11, 2023"
+      :parseDate="parseDate"
+      :formatDate="formatDate"
+      @input="onChange"
       class="custom_date_picker"
     ></bib-datetime-picker>
   </div>
@@ -12,7 +14,8 @@
 
 <script>
 import fecha, { format } from "fecha";
-
+import {mapGetters} from 'vuex';
+import {getTimeAttandance} from '../../../utils/functions/api_call/timeattandance/time'
 export default {
   props: {
     label: {
@@ -23,12 +26,29 @@ export default {
     return {
       date: null,
       format: "MMM D, YYYY",
-      date2: fecha.format(new Date("2023-01-25"), "MMM D, YYYY"),
+      date2: fecha.format(new Date(), "MMM D, YYYY"),
     };
   },
+  computed:{
+    ...mapGetters({
+      activeDate: "date/getActiveDate",
+    })
+  },
+  created(){
+    var formatDate = format(new Date(this.date2), "YYYY-MM-DD")
+    this.$store.dispatch("date/setActiveDate", formatDate);
+  },
   methods: {
+    getTimeAttandance,
+    parseDate(dateString, format) {
+      return fecha.parse(dateString, format);
+    },
+    formatDate(dateObj, format) {
+      return fecha.format(dateObj, format);
+    },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      this.$store.dispatch("date/setActiveDate", date);
     },
   },
 };

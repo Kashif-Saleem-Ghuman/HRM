@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export async function getTimeAttandance() {
+  this.loading = true
   try {
           const timeAttandance = await axios.get(
             process.env.API_URL + "/timesheets/admin/attendance?date=" + this.getCurrentDate,
@@ -14,6 +15,7 @@ export async function getTimeAttandance() {
         } catch (e) {
           alert(e);
         }
+        this.loading = false
 }
 export async function getTimesheet() {
   try {

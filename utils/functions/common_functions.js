@@ -1,4 +1,5 @@
 import axios from "axios";
+import dayjs from "dayjs";
 export async function getUser() {
   let userId = localStorage.getItem("userId");
   console.log(userId, "oasjdlkjaslkdjsalkjaslkdj")
@@ -34,4 +35,6 @@ export async function getBusinessId() {
 export function openPopupNotification(n) {
   this.popupMessages.push(this.popupNotificationMsgs[n]);
 }
-
+export function dateCheck(dateTime){
+  return (dayjs(dateTime).format("HH:mm") || 'N/A')
+}

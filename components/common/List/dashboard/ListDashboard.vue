@@ -63,13 +63,9 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.attendance.in == null ? 'N/A' : data.value.attendance.in"
-
+            :title="data.value?.attendance.in == null ? 'N/A' : dateCheck(data.value.attendance.in)"
             :className="[
-              data.value?.attendance.in >= '08:00' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.attendance.in >= '09:00'
-                ? 'chip-wrapper__bgabsent'
-                : '',
+              data.value?.attendance.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
               data.value?.attendance.in === 'V' ? 'chip-wrapper__bgvacation' : '',
               data.value?.attendance.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
               data.value?.attendance.in == null ? 'chip-wrapper__bggray' : '',
@@ -79,10 +75,9 @@
       </template>
       <template #cell(out)="data">
         <chips
-          :title="data.value?.attendance.out == null ? 'N/A' : data.value?.attendance.out"
+          :title="data.value?.attendance.out == null ? 'N/A' : dateCheck(data.value?.attendance.out)"
           :className="[
-            data.value?.attendance.out === '09:30' ? 'chip-wrapper__bgabsent' : '',
-            data.value?.attendance.out == null ? 'chip-wrapper__bgwhite' : '',
+            data.value?.attendance.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>
@@ -99,10 +94,7 @@
           :title="
             data.value?.attendance.total == null ? 'N/A' : data.value?.attendance.total
           "
-          :className="[
-            'chip-wrapper__bgwhite'
-           
-          ]"
+           style="background-color: #fff; height: auto; color: #000;"
         ></chips>
       </template>
     </custom-table>
@@ -112,6 +104,8 @@
 <script>
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
+import{dateCheck} from '../../../../utils/functions/functions_lib'
+import dayjs from "dayjs";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 export default {
   props: {
@@ -133,16 +127,9 @@ export default {
       filteredData: [],
     };
   },
-  // async craeted(){
-  //   await this.$store.dispatch("employee/setUserList");
-  //   this.localData = this.userList;
-  // },
-  // computed: {
-  //   ...mapGetters({
-  //     userList: "employee/GET_USERS_LIST"
-  //   }),
-  // },
+  
   methods: {
+    dateCheck,
     close() {
       this.timesheetModal = false;
     },

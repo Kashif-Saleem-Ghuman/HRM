@@ -5,11 +5,8 @@
     >
       <section-header-left
         :title="`Welcome to your HR dashboard ` + activeUserName"
-        :avatar="userPhoto"
+        :avatar="getUser.photo"
         headerRight="headerRight"
-        :items="items.slice(-1)"
-        :icon="items.icon"
-        @vclick="clickAction"
       ></section-header-left>
     </div>
     <div class="tab-wrapper">
@@ -19,9 +16,18 @@
             class="d-flex justify-between align-center px-075 bottom_border_wrapper"
           >
             <div class="d-flex align-center">
-              <date-picker></date-picker>
+              <div class="custom_date_picker">
+                <div class="mr-05">Date:</div>
+                <bib-datetime-picker
+                  v-model="date2"
+                  :format="format"
+                  :parseDate="parseDate"
+                  :formatDate="formatDate"
+                  @input="onChange"
+                  class="custom_date_picker"
+                ></bib-datetime-picker>
+              </div>
             </div>
-            <!-- <action-right @vclick="clickAction" :items="actionMenu"></action-right> -->
             <div class="d-flex align-center">
               <div class="d-flex align-center mr-05">
                 <span class="mr-05">Search:</span>
@@ -78,188 +84,92 @@
           <div class="scroll_wrapper">
             <div style="z-index: 1">
               <list-dashboard :userList="localData"></list-dashboard>
+              <loader v-bind:showloader="loading"></loader>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <template>
-      <action-sidebar
-        @close-sidebar="closeSidebar"
-        @close="closeSidebar"
-        :className="slideClass"
-        heading="Section Title"
-        id="scedule-event"
-        v-show="sceduleEvent"
-      >
-        <template v-slot:sidebar-body>
-          <p><personal-information></personal-information></p>
-        </template>
-        <template v-slot:sidebar-footer>
-          <div class="d-flex justify-between align-center">
-            <div class="d-flex align-center">
-              <bib-icon
-                icon="attachment"
-                :scale="0.8"
-                variant="success"
-                style="margin-right: 5px"
-              ></bib-icon>
-              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
-            </div>
-            <div>
-              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
-              <bib-button label="Save" variant="success" size="lg"></bib-button>
-            </div>
-          </div>
-        </template>
-      </action-sidebar>
-    </template>
-    <template>
-      <action-sidebar
-        @close-sidebar="closeSidebar"
-        @close="closeSidebar"
-        :className="slideClass"
-        heading="Section Title"
-        id="scedule-leave"
-        v-show="sceduleLeave"
-      >
-        <template v-slot:sidebar-body>
-          <p>Content Goes Here</p>
-        </template>
-        <template v-slot:sidebar-footer>
-          <bib-button label="New Plus" variant="primary" size="lg"></bib-button>
-          <bib-button label="Free" variant="success" size="lg"></bib-button>
-        </template>
-      </action-sidebar>
-    </template>
+    
   </div>
 </template>
 <script>
 import dayjs from "dayjs";
 import {
-  TIME_ATTENDANCE_TAB,
-  MORE_MENU,
-  SORTING_MENU,
-} from "../../utils/constant/Constant.js";
-import {
-  openPopupNotification,
-  handleInput,
-} from "../../utils/functions/functions_lib.js";
-import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
-import {
   DASHBOARD_DATA,
   INFO_CARD_DATA,
 } from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
-import {
-  getTime,
-  updateTimeAttandance,
-  getTimeAttandance,
-} from "../../utils/functions/api_call/timeattandance/time";
+import { getTimeAttandance } from "../../utils/functions/api_call/timeattandance/time";
 import getJson from "../../utils/dataJson/app_wrap_data";
+import fecha, { format } from "fecha";
+
 const appWrapItems = getJson();
 export default {
   data() {
     return {
       id: "",
       activeUserName: "",
-      timeAttendanceTab: TIME_ATTENDANCE_TAB,
       infoCardData: INFO_CARD_DATA,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
-      popupMessages: [],
       dashboardData: DASHBOARD_DATA,
+      loading:false,
       localData: [],
-      items: MORE_MENU,
-      actionMenu: SORTING_MENU.actionMenuTimeAttandance,
-      actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
-      totalUser: "",
-      userPhoto: localStorage.getItem("userPhoto"),
-      openSidebar: false,
-      slideClass: "slide-in",
-      sceduleLeave: false,
-      sceduleEvent: false,
       getCurrentDate: "",
+      date: null,
+      format: "MMM D, YYYY",
+      date2: fecha.format(new Date(), "YYYY-MM-DD"),
     };
   },
-  async created() {
-    await this.currentDate();
-    await this.$store.dispatch("employee/setUserList");
-    await this.getTimeAttandance();
-    // this.localData = this.userList;
-    await this.$store.dispatch("employee/setActiveUser");
-    var users = this.getUser;
-    this.id = users.id;
-    this.activeUserName = users.firstName + ' ' + users.lastName;
-  },
+
   computed: {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
+      activeDate: "date/getActiveDate",
     }),
   },
-  async mounted() {
-    this.totalUser = this.userList.length;
-    // console.log(this.userList.length, "uasdasdasdasdasasdasdserList");
+  async created() {
+    this.getCurrentDate = this.date2;
+    console.log(this.getCurrentDate, "activeDate");
+    await this.$store.dispatch("employee/setUserList");
+    await this.getTimeAttandance();
+    await this.$store.dispatch("employee/setActiveUser");
+    var users = this.getUser;
+    this.id = users.id;
+    this.activeUserName = users.firstName + " " + users.lastName;
   },
+
   methods: {
-    getTime,
-    updateTimeAttandance,
-    updateTimeAttendanceSettings,
-    handleInput,
     getTimeAttandance,
-    openPopupNotification,
-    currentDate() {
-      const current = new Date();
-      const date = `${current.getFullYear()}-${
-        current.getMonth() + 1
-      }-${current.getDate()}`;
-      var changeDate = dayjs(date).format("YYYY-MM-DD");
-      this.getCurrentDate = changeDate;
+    parseDate(dateString, format) {
+      return fecha.parse(dateString, format);
     },
-    change(event, name) {
-      this.updateForm[name] = event;
-      console.log(this.updateForm, "switchLabelweekStarts");
-    },
-    async handleChange_Tabs(tab) {
-      this.activeTab = tab.value;
-      if (tab.value == "Setting") {
-        console.log(this.time, "this.time");
-        this.getTime();
-      }
-    },
-    userId(id) {
-      this.$router.push("/myprofile/" + id);
-    },
-    actionBY(event) {
-      console.log(event, "event");
-      if (event === "schedule-event") {
-        this.sceduleEvent = true;
-        this.sceduleLeave = false;
-      }
-      if (event === "schedule-leave") {
-        this.sceduleEvent = false;
-        this.sceduleLeave = true;
-      }
-      this.slideClass = "slide-in";
-    },
-    closeSidebar() {
-      this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.sceduleEvent = false;
-        this.sceduleLeave = false;
-      }, 700);
+    formatDate(dateObj, format) {
+      return fecha.format(dateObj, format);
     },
     onChange(value) {
       let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      console.log("selected date:", date);
-    },
-    clickAction(event) {
-      if (event.key == "name") {
-      }
+      this.$store.dispatch("date/setActiveDate", date);
+      this.getCurrentDate = date;
+      this.getTimeAttandance();
     },
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.custom_date_picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  input {
+    border: none !important;
+    background-color: $light;
+    border-radius: 6px;
+    font-size: 14px;
+
+    // margin: 0 1rem;
+  }
+}
+</style>

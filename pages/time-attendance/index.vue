@@ -120,69 +120,6 @@
         </div>
       </div>
 
-      <div id="setting-wrapper" class="custom-input">
-        <div class="col-12 px-1">
-          <div id="attendance-wrapper">
-            <div v-if="activeTab == timeAttendanceTab[4].value">
-              <!-- Benefits info Wrppaer Start Here  -->
-              <div id="employeement-info-wrapper">
-                <div class="row mx-0 py-cus">
-                  <div class="col-6">
-                    <tabs-title
-                      title="Attandance"
-                      variant="gray"
-                      icon="info"
-                      :updateButton="infoUpdateTimeAttendance"
-                      @click="updateTimeAttendanceSettings"
-                      :scale="0.9"
-                    ></tabs-title>
-                  </div>
-                </div>
-                <div class="" id="tab_info_wrapper">
-                  <div v-if="activeTab == timeAttendanceTab[4].value">
-                    <div class="scroll_wrapper">
-                      <div class="col-6 row-custom">
-                        <attendance
-                          :orgSettings="time.useOrganizationSettings"
-                          :trackAttendance="time.trackAttendance"
-                          :trackTime="time.trackTime"
-                          :switchLabelOrgSettings="switchLabelOrgSettings"
-                          :switchLabelAttendance="switchLabelAttendance"
-                          :switchLabelweekStarts="switchLabelweekStarts"
-                          :weekOptions="weekOptions"
-                          :weekStart="time.startWeekDay"
-                          :weekCapacity="time.weekCapacity"
-                          :deadlineDay="time.deadlineDay"
-                          :timesheetOptions="weekOptions"
-                          :note="time.note"
-                          @change-it="change"
-                          :inActiveOrganizationSettings="
-                            inActiveOrganizationSettings
-                          "
-                          :inActive="inActiveTimeAttendance"
-                          @input="handleInput"
-                        ></attendance>
-                        <div class="row mx-0 pt-1">
-                          <div class="col-12">
-                            <bib-button
-                              label="Save"
-                              size="lg"
-                              variant="success"
-                              @click="updateTimeAttandance"
-                              v-if="timeAttendanceUpdateButton"
-                            ></bib-button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>

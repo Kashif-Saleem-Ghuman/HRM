@@ -499,10 +499,10 @@ export const TIME_ATTENDANCE_TAB = [
     title: "Past due",
     value: "Past due",
   },
-  {
-    title: "Setting",
-    value: "Setting",
-  },
+  // {
+  //   title: "Setting",
+  //   value: "Setting",
+  // },
 ];
 export const TABLE_FIELDS = [
   {

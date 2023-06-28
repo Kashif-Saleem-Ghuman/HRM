@@ -66,7 +66,7 @@
     </template>
     <template #cell(department)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.department == null ? 'Null' : data.value.department }}</span>
+        <span>{{ data.value.department == null ? 'HRM' : data.value.department }}</span>
       </div>
     </template>
     <template #cell(hiredate)="data">

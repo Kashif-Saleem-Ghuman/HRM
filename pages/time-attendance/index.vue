@@ -5,9 +5,8 @@
     >
       <section-header-left
         title="Time & Attendance"
-        :avatar="userPhoto"
+        :avatar="getUser.photo"
         headerRight="headerRight"
-        :icon="items.icon"
       ></section-header-left>
     </div>
     <div class="tab-wrapper">
@@ -28,7 +27,17 @@
               class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
-                <date-picker></date-picker>
+                <div class="custom_date_picker">
+                  <div class="mr-05">Date:</div>
+                  <bib-datetime-picker
+                    v-model="date2"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    @input="onChange"
+                    class="custom_date_picker"
+                  ></bib-datetime-picker>
+                </div>
               </div>
 
               <div class="d-flex align-center">
@@ -49,9 +58,11 @@
                 </div>
               </div>
             </div>
-              <div class="d-grid d-flex gap-1 py-1 px-1"
-              style="grid-template-columns: repeat(3, 1fr)">
-                <info-card-time
+            <div
+              class="d-grid d-flex gap-1 py-1 px-1"
+              style="grid-template-columns: repeat(3, 1fr)"
+            >
+              <info-card-time
                 :item="infoCardData[0]"
                 buttonLable="Clock in"
                 icon="table"
@@ -66,12 +77,13 @@
                 buttonVariant="light"
               ></info-card-time>
               <info-card-help
-                  custumBg="help-wrapper__bg-black"
-                ></info-card-help>
-              </div>
+                custumBg="help-wrapper__bg-black"
+              ></info-card-help>
+            </div>
             <div class="scroll_wrapper">
               <div>
                 <list-dashboard :userList="localData"></list-dashboard>
+                <loader v-bind:showloader="loading"></loader>
                 <!-- <list-timesheet :userList="users"></list-timesheet> -->
               </div>
             </div>
@@ -119,7 +131,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
@@ -133,66 +144,39 @@ import {
   WEEK_DAY,
 } from "../../utils/constant/Constant.js";
 import { INFO_CARD_DATA } from "../../utils/constant/DashboardData";
-import {
-  openPopupNotification,
-  handleInput,
-} from "../../utils/functions/functions_lib.js";
-import { updateTimeAttendanceSettings } from "../../utils/functions/api_call/index";
+
 import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
 
-import {
-  getTime,
-  updateTimeAttandance,
-  getTimeAttandance,
-  getTimesheet,
-} from "../../utils/functions/api_call/timeattandance/time";
+import { getTimeAttandance } from "../../utils/functions/api_call/timeattandance/time";
+import fecha, { format } from "fecha";
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 export default {
   data() {
     return {
-      id: "",
-      openSidebar: false,
       endDate: null,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
-      dayWiseDataTimesheet: TIMESHEET_DATA,
-      listWeekWise: true,
-      listDayWise: false,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
-      popupMessages: [],
-      currentPage: 1,
       timesheetData: TIMESHEET_DATA,
       activeTab: "Attendance",
-      items: MORE_MENU,
-      actionMenu: SORTING_MENU.actionMenuTimeAttandance,
-      actionMenuTimesheet: SORTING_MENU.actionMenuTimesheet,
-      orderBy: "asc",
-      totalUser: "",
-      userPhoto: localStorage.getItem("userPhoto"),
       updateForm: {},
       isFlag: false,
       time: {},
+      loading:false,
       // Time & attandance
-      weekOptions: WEEK_DAY,
-      timeAttendanceUpdateButton: false,
-      inActiveTimeAttendance: "disabled",
-      inActiveOrganizationSettings: "disabled",
-      infoUpdateTimeAttendance: true,
-      switchLabelOrgSettings: "",
-      switchLabelAttendance: "",
-      switchLabelweekStarts: "",
       infoCardData: INFO_CARD_DATA,
       localData: [],
-      getCurrentDate:'',
-      timesheetData:'',
+      getCurrentDate: "",
+      timesheetData: "",
+      date: null,
+      format: "MMM D, YYYY",
+      date2: fecha.format(new Date(), "YYYY-MM-DD"),
     };
   },
   async created() {
-    await this.currentDate();
+    this.getCurrentDate = this.date2;
     await this.getTimeAttandance();
-    await this.getTimesheet();
-console.log(this.getCurrentDate, "getCurrentDategetCurrentDate")
+    console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
 
     await this.$store.dispatch("employee/setActiveUser");
     var users = this.getUser;
@@ -202,26 +186,30 @@ console.log(this.getCurrentDate, "getCurrentDategetCurrentDate")
     ...mapGetters({
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
+      activeDate: "date/getActiveDate",
     }),
   },
   async mounted() {},
   methods: {
-    getTime,
-    updateTimeAttandance,
-    getTimesheet,
-    updateTimeAttendanceSettings,
-    handleInput,
     getTimeAttandance,
-    openPopupNotification,
-    currentDate() {
-      const current = new Date();
-      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
-      var changeDate = dayjs(date).format('YYYY-MM-DD')
-      this.getCurrentDate = changeDate
-    },
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");
+    },
+    userId(id) {
+      this.$router.push("/myprofile/" + id);
+    },
+    parseDate(dateString, format) {
+      return fecha.parse(dateString, format);
+    },
+    formatDate(dateObj, format) {
+      return fecha.format(dateObj, format);
+    },
+    onChange(value) {
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      this.$store.dispatch("date/setActiveDate", date);
+      this.getCurrentDate = date;
+      this.getTimeAttandance();
     },
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
@@ -229,13 +217,6 @@ console.log(this.getCurrentDate, "getCurrentDategetCurrentDate")
         console.log(this.time, "this.time");
         this.getTime();
       }
-    },
-    userId(id) {
-      this.$router.push("/myprofile/" + id);
-    },
-    onChange(value) {
-      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      console.log("selected date:", date);
     },
   },
 };

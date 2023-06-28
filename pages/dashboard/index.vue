@@ -131,7 +131,6 @@ export default {
   },
   async created() {
     this.getCurrentDate = this.date2;
-    console.log(this.getCurrentDate, "activeDate");
     await this.$store.dispatch("employee/setUserList");
     await this.getTimeAttandance();
     await this.$store.dispatch("employee/setActiveUser");

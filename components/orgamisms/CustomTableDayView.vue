@@ -57,8 +57,6 @@
               >
                 <div
                   style="cursor: pointer"
-                  v-on:mouseover="profiletab('id_' + item.id)"
-                  v-on:mouseleave="profiletab('id_' + item.id, true)"
                   class="px-05"
                 >
                   <bib-avatar
@@ -68,18 +66,6 @@
                     size="3rem"
                   >
                   </bib-avatar>
-                  <div :id="'id_' + item.id" style="" class="userCard">
-                    <user-info-card
-                      :src="item.photo"
-                      :firstName="item.firstName"
-                      :lastName="item.lastName"
-                      :jobTitle="item.jobTitle"
-                      :email="item.email"
-                      :phone="item.phone"
-                      @viewProfile="viewProfile(item.id)"
-                      @sendInvite="sendInvite"
-                    ></user-info-card>
-                  </div>
                 </div>
                 <div class="info_wrapper">
                   <div class="title">
@@ -91,14 +77,14 @@
                 </div>
               </div>
             </div>
-            <div class="time-list pr-1">
+            <!-- <div class="time-list pr-1">
               <ul class="time-list-item">
                 <li>In <label>00:00</label></li>
                 <li>Out <label>00:00</label></li>
                 <li>Break <label>00:00</label></li>
                 <li>Total <label>00:00</label></li>
               </ul>
-            </div>
+            </div> -->
           </div>
         </td>
       </tr>
@@ -112,8 +98,8 @@
         style="cursor: pointer"
         v-for="(items, keyI) in sections[keyI]?.activityData"
       >
-        <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
-        <td v-if="$scopedSlots.cell_title" colspan="2" style="width: 50px">
+        <td v-if="!hideNoColumn" class="table__irow-count p-1">{{ keyI + 1 }}</td>
+        <td v-if="$scopedSlots.cell_title" colspan="1" style="width: 50px">
           <slot
             name="cell_action"
             v-bind:keyI="keyI"
@@ -148,11 +134,11 @@
           ></slot>
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td colspan="6">
           <div style="border-bottom: 1px solid #eee; padding: 1rem"></div>
         </td>
-      </tr>
+      </tr> -->
     </template>
   </table>
 </template>

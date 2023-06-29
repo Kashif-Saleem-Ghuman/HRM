@@ -248,7 +248,7 @@
                 ? 'check-all'
                 : '' || data.value.status == 'Approve'
                 ? 'warning'
-                : '' || data.value.status == 'Pending'
+                : '' || data.value.status == 'pending'
                 ? 'urgent-solid'
                 : '' || data.value.status == 'Past due'
                 ? 'help'

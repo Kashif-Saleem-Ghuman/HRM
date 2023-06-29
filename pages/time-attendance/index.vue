@@ -97,7 +97,87 @@
               class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
-                <date-picker></date-picker>
+                <div class="custom_date_picker">
+                  <div class="mr-05">Date:</div>
+                  <bib-datetime-picker
+                    v-model="date2"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    @input="onChange"
+                    class="custom_date_picker"
+                  ></bib-datetime-picker>
+                </div>
+              </div>
+
+              <div class="d-flex align-center">
+                <div class="d-flex align-center mr-05">
+                  <span class="mr-05">Search:</span>
+                  <bib-input size="sm" type="text" test_id="srchInput01">
+                  </bib-input>
+                </div>
+                <div class="d-flex align-center">
+                  <div style="font-size: 14px" class="mr-05">Show:</div>
+                  <button
+                    type="button"
+                    @click="$emit('on-click')"
+                    class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
+                  >
+                    All
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-grid d-flex gap-1 py-1 px-1"
+              style="grid-template-columns: repeat(3, 1fr)"
+            >
+              <info-card-time
+                :item="infoCardData[0]"
+                buttonLable="Clock in"
+                icon="table"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-time>
+              <info-card-time
+                :item="infoCardData[1]"
+                buttonLable="Clock in"
+                icon="table"
+                profilePic="profilePic"
+                buttonVariant="light"
+              ></info-card-time>
+              <info-card-help
+                custumBg="help-wrapper__bg-black"
+              ></info-card-help>
+            </div>
+            <div class="scroll_wrapper">
+              <div>
+                <list-timesheet :userList="dayWiseDataTimesheet"></list-timesheet>
+                <loader v-bind:showloader="loading"></loader>
+                <!-- <list-timesheet :userList="users"></list-timesheet> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pending-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == timeAttendanceTab[2].value">
+            <div
+              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <div class="custom_date_picker">
+                  <div class="mr-05">Date:</div>
+                  <bib-datetime-picker
+                    v-model="date2"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    @input="onChange"
+                    class="custom_date_picker"
+                  ></bib-datetime-picker>
+                </div>
               </div>
 
               <div class="d-flex align-center">
@@ -119,13 +199,58 @@
               </div>
             </div>
             <div class="scroll_wrapper">
-              <div class="pb-3" v-if="listDayWise">
+              <div>
                 <list-day-view
-                  :dayWiseDataTimesheet="dayWiseDataTimesheet"
+                  :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,3)"
                 ></list-day-view>
               </div>
-              <div style="z-index: 1" v-if="listWeekWise">
-                <list-timesheet :userList="timesheetData"></list-timesheet>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="past-due-wrapper">
+        <div class="" id="tab_info_wrapper">
+          <div v-if="activeTab == timeAttendanceTab[3].value">
+            <div
+              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <div class="custom_date_picker">
+                  <div class="mr-05">Date:</div>
+                  <bib-datetime-picker
+                    v-model="date2"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    @input="onChange"
+                    class="custom_date_picker"
+                  ></bib-datetime-picker>
+                </div>
+              </div>
+
+              <div class="d-flex align-center">
+                <div class="d-flex align-center mr-05">
+                  <span class="mr-05">Search:</span>
+                  <bib-input size="sm" type="text" test_id="srchInput01">
+                  </bib-input>
+                </div>
+                <div class="d-flex align-center">
+                  <div style="font-size: 14px" class="mr-05">Show:</div>
+                  <button
+                    type="button"
+                    @click="$emit('on-click')"
+                    class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
+                  >
+                    All
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="scroll_wrapper">
+              <div>
+                <list-day-view
+                  :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,2)"
+                ></list-day-view>
               </div>
             </div>
           </div>
@@ -139,13 +264,10 @@
 import dayjs from "dayjs";
 import {
   TIME_ATTENDANCE_TAB,
-  MORE_MENU,
-  SORTING_MENU,
-  WEEK_DAY,
 } from "../../utils/constant/Constant.js";
 import { INFO_CARD_DATA } from "../../utils/constant/DashboardData";
 
-import { TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
+import { TIMESHEET_DATA, MY_TIMESHEET_DATA } from "../../utils/constant/TimesheetData.js";
 import { mapGetters } from "vuex";
 
 import { getTimeAttandance } from "../../utils/functions/api_call/timeattandance/time";
@@ -157,7 +279,8 @@ export default {
     return {
       endDate: null,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
-      timesheetData: TIMESHEET_DATA,
+      timesheetData: MY_TIMESHEET_DATA,
+      dayWiseDataTimesheet: TIMESHEET_DATA,
       activeTab: "Attendance",
       updateForm: {},
       isFlag: false,
@@ -167,7 +290,6 @@ export default {
       infoCardData: INFO_CARD_DATA,
       localData: [],
       getCurrentDate: "",
-      timesheetData: "",
       date: null,
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),

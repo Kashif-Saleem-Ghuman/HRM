@@ -16,9 +16,6 @@ export default {
       },
       { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
     ],
-    script: [
-      { src: 'https://code.jquery.com/jquery-1.7.2.min.js', type: "text/javascript" },
-    ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -69,7 +66,8 @@ export default {
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [],
+  modules: [
+  ],
   styleResources: {
     scss: [
       // '../bib-shared/css/global.scss',

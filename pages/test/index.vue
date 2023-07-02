@@ -4,13 +4,15 @@
       <h1>Hello Calender</h1>
       <FullCalendar :options="calendarOptions">
         <template v-slot:eventContent='arg'>
+           <div class="author-display d-flex">
             <bib-avatar
-                  src="avatarImg.jpg"
-                  size="4rem"
-                  indicator="warning"
-                  indicator-offset-top="0.3rem"
-                  indicator-offset-right="0.35rem"
+                  src="https://placekitten.com/300/300"
+                  size="2rem"
+                  
                 ></bib-avatar>
+                <div class="list-item pl-05"><label>Author Name</label><span>author desciption</span></div>
+
+           </div>
         </template>
     </FullCalendar>
     </div>
@@ -35,8 +37,14 @@ export default {
           // timeGridPlugin,
           interactionPlugin
         ],
+        customButtons: {
+                myLink: {
+                    text: "Take me to your leader",
+                    click: () => this.$router.push({name: "yourLeader"}) // assuming you use Vue Router
+                }
+            },
         headerToolbar: {
-          left: 'prev,next today',
+          left: 'myLink,dayGridMonth,dayGridWeek,dayGridDay',
           center: 'title',
           right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
@@ -52,10 +60,10 @@ export default {
         dayMaxEvents: false,
         weekends: true,
         // style related
-        eventColor: '#f3f',
-        eventBackgroundColor: '#999',
+        eventColor: '#000',
+        eventBackgroundColor: '#fff',
         eventTextColor: 'black',
-        eventBorderColor: '#ccc',
+        eventBorderColor: '#fff',
         // event handling
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
@@ -81,4 +89,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.author-display{
+  border-radius: 0.5rem;
+  background-color: #cdf784;
+  color: black;
+  padding: 0.5rem;
+  label{
+    font-weight: bold;
+    display: block;
+  }
+}
+</style>

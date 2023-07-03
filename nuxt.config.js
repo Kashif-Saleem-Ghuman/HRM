@@ -67,6 +67,11 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    // { path: "~/modules/fullcalendar/vue", pathPrefix: false },
+    // '~/modules/@fullcalendar/vue',
+    // '~/modules/@fullcalendar/daygrid',
+    // '~/modules/@fullcalendar/interaction',
+
   ],
   styleResources: {
     scss: [

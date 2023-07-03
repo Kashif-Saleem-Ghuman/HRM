@@ -1,20 +1,25 @@
 <template>
+  <div>
   <client-only>
     <div class="p-2">
       <h1>Hello Calender</h1>
+    </div>
       <FullCalendar :options="calendarOptions">
         <template v-slot:eventContent='arg'>
+           <div class="author-display d-flex">
             <bib-avatar
-                  src="avatarImg.jpg"
-                  size="4rem"
-                  indicator="warning"
-                  indicator-offset-top="0.3rem"
-                  indicator-offset-right="0.35rem"
+                  src="https://placekitten.com/300/300"
+                  size="2rem"
+                  
                 ></bib-avatar>
+                <div class="list-item pl-05"><label>Author Name</label><span>author desciption</span></div>
+
+           </div>
         </template>
     </FullCalendar>
-    </div>
+   
   </client-only>
+</div>
 </template>
 
 <script>
@@ -35,10 +40,16 @@ export default {
           // timeGridPlugin,
           interactionPlugin
         ],
+        customButtons: {
+                myLink: {
+                    text: "Take me to your leader",
+                    click: () => this.$router.push({name: "yourLeader"}) // assuming you use Vue Router
+                }
+            },
         headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,dayGridWeek,dayGridDay'
+          left: 'myLink,dayGridMonth,dayGridWeek,dayGridDay',
+          // center: 'title',
+          right: 'myLink'
         },
         views: {
           // we can specify particular view for particular layout here
@@ -52,10 +63,10 @@ export default {
         dayMaxEvents: false,
         weekends: true,
         // style related
-        eventColor: '#f3f',
-        eventBackgroundColor: '#999',
+        eventColor: '#000',
+        eventBackgroundColor: '#fff',
         eventTextColor: 'black',
-        eventBorderColor: '#ccc',
+        eventBorderColor: '#fff',
         // event handling
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
@@ -81,4 +92,38 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+$--fc-border-color:#000 !important;
+.author-display{
+  border-radius: 0.5rem;
+  background-color: #cdf784;
+  color: black;
+  padding: 0.5rem;
+  label{
+    font-weight: bold;
+    display: block;
+  }
+  
+}
+.fc-header-toolbar{
+  padding: 0 10px !important;
+}
+.fc-scrollgrid{
+border-left: none !important;
+}
+.fc-scrollgrid-section-liquid{
+  background-color: #f8f8f9;
+}
+.fc-theme-standard {
+    th{
+      background-color: #fff !important;
+      // padding: 5px 0;
+      border-right:0px;
+      border-left: 0px;
+      .fc-scrollgrid-sync-inner{
+        padding: 0.5rem;
+      }
+    }
+  }
+  // .fc .fc-button-primary { color: #FFFFFF; background-color: #3485FF !important; border-color: #FFFFFF !important; }
+</style>

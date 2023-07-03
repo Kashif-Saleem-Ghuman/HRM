@@ -1,48 +1,36 @@
 {
-  "_from": "@fullcalendar/vue",
-  "_id": "@fullcalendar/vue@5.10.1",
-  "_inBundle": false,
-  "_integrity": "sha512-fzWa76ztn4w6pWUHDGQnedrWeHaBUQ3uTuGT3nM7jr3NOKdufAfzh8y4UHRFN2P2pIWpcEV3wji6DZcHmqhyYw==",
-  "_location": "/@fullcalendar/vue",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "@fullcalendar/vue",
-    "name": "@fullcalendar/vue",
-    "escapedName": "@fullcalendar%2fvue",
-    "scope": "@fullcalendar",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
+  "name": "@fullcalendar/vue",
+  "version": "6.1.8",
+  "title": "FullCalendar Vue 2 Component",
+  "description": "The official Vue 2 component for FullCalendar",
+  "keywords": [
+    "calendar",
+    "event",
+    "full-sized",
+    "fullcalendar",
+    "vue",
+    "vue2"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-5.10.1.tgz",
-  "_shasum": "900ffa55b9f57a3b35c6860e8028737b927d3374",
-  "_spec": "@fullcalendar/vue",
-  "_where": "C:\\Users\\QSS\\Desktop\\project-management\\bib-pm-front-app",
-  "bugs": {
-    "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
+  "homepage": "https://fullcalendar.io/docs/vue",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar-vue2.git"
   },
-  "bundleDependencies": false,
-  "dependencies": {
-    "@fullcalendar/core": "~5.10.1",
-    "tslib": "^2.1.0"
+  "peerDependencies": {
+    "@fullcalendar/core": "~6.1.8",
+    "vue": "^2.6.12"
   },
-  "deprecated": false,
-  "description": "An official FullCalendar component for Vue 2",
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/preset-env": "^7.8.4",
     "@babel/runtime": "^7.12.1",
-    "@fullcalendar/daygrid": "~5.10.1",
-    "@rollup/plugin-node-resolve": "^8.4.0",
-    "@types/estree": "^0.0.45",
-    "@types/node": "14.10.0",
+    "@fullcalendar/core": "~6.1.8",
+    "@fullcalendar/daygrid": "~6.1.8",
+    "@fullcalendar/interaction": "~6.1.8",
+    "@fullcalendar/resource": "~6.1.8",
+    "@fullcalendar/resource-timeline": "~6.1.8",
     "@vue/test-utils": "^1.0.3",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.3.0",
@@ -55,48 +43,46 @@
     "rollup": "^2.21.0",
     "source-map-loader": "^1.1.1",
     "style-loader": "^2.0.0",
-    "terser": "^4.8.0",
+    "terser": "^5.4.0",
     "typescript": "^4.0.5",
-    "vue": "^2.6.12",
-    "vue-loader": "^15.9.5",
-    "vue-template-compiler": "^2.6.12",
+    "vue": "^2.7.14",
+    "vue-loader": "^15.10.1",
+    "vue-template-compiler": "^2.7.14",
     "webpack": "^5.7.0",
     "webpack-cli": "^4.1.0"
   },
-  "docs": "https://fullcalendar.io/docs/vue",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/index.global.min.js",
+  "jsdelivr": "dist/index.global.min.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
     "dist",
     "src"
   ],
-  "homepage": "https://github.com/fullcalendar/fullcalendar-vue#readme",
-  "jsdelivr": "dist/main.global.min.js",
-  "keywords": [
-    "vue",
-    "calendar",
-    "fullcalendar"
-  ],
-  "license": "MIT",
-  "main": "dist/main.cjs.js",
-  "module": "dist/main.js",
-  "name": "@fullcalendar/vue",
-  "peerDependencies": {
-    "vue": "^2.6.12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-vue.git"
-  },
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.json && rollup -c && npm run minify",
-    "ci": "./scripts/ci.sh",
-    "clean": "rm -rf dist tmp",
-    "minify": "terser --compress --mangle --comments false --output dist/main.global.min.js -- dist/main.global.js",
-    "test": "concurrently 'webpack --watch' 'karma start karma.config.js'",
-    "test:ci": "webpack && karma start karma.config.js --browsers ChromeHeadless --single-run --no-auto-watch",
-    "tsc": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json --watch"
-  },
-  "title": "FullCalendar Vue 2 Component",
-  "types": "dist/main.d.ts",
-  "version": "5.10.1"
+    "build": "pnpm run tsc && pnpm run rollup && pnpm run webpack && pnpm run minify",
+    "dev": "pnpm run tsc && concurrently 'npm:tsc:dev' 'npm:rollup:dev' 'npm:webpack:dev'",
+    "clean": "rm -rf dist tests/dist",
+    "tsc": "tsc -p .",
+    "tsc:dev": "tsc -p . --watch --preserveWatchOutput --pretty",
+    "rollup": "rollup -c",
+    "rollup:dev": "rollup -c --watch",
+    "webpack": "webpack",
+    "webpack:dev": "webpack --watch",
+    "test": "karma start karma.config.cjs --browsers ChromeHeadless --single-run --no-auto-watch",
+    "test:dev": "karma start karma.config.cjs",
+    "minify": "terser --compress --mangle --comments false --output dist/index.global.min.js -- dist/index.global.js",
+    "ci": "pnpm run clean && pnpm run build && pnpm run test"
+  }
 }

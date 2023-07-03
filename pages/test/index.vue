@@ -1,7 +1,9 @@
 <template>
+  <div>
   <client-only>
     <div class="p-2">
       <h1>Hello Calender</h1>
+    </div>
       <FullCalendar :options="calendarOptions">
         <template v-slot:eventContent='arg'>
            <div class="author-display d-flex">
@@ -15,8 +17,9 @@
            </div>
         </template>
     </FullCalendar>
-    </div>
+   
   </client-only>
+</div>
 </template>
 
 <script>
@@ -45,8 +48,8 @@ export default {
             },
         headerToolbar: {
           left: 'myLink,dayGridMonth,dayGridWeek,dayGridDay',
-          center: 'title',
-          right: 'dayGridMonth,dayGridWeek,dayGridDay'
+          // center: 'title',
+          right: 'myLink'
         },
         views: {
           // we can specify particular view for particular layout here
@@ -89,7 +92,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+$--fc-border-color:#000 !important;
 .author-display{
   border-radius: 0.5rem;
   background-color: #cdf784;
@@ -99,5 +103,27 @@ export default {
     font-weight: bold;
     display: block;
   }
+  
 }
+.fc-header-toolbar{
+  padding: 0 10px !important;
+}
+.fc-scrollgrid{
+border-left: none !important;
+}
+.fc-scrollgrid-section-liquid{
+  background-color: #f8f8f9;
+}
+.fc-theme-standard {
+    th{
+      background-color: #fff !important;
+      // padding: 5px 0;
+      border-right:0px;
+      border-left: 0px;
+      .fc-scrollgrid-sync-inner{
+        padding: 0.5rem;
+      }
+    }
+  }
+  // .fc .fc-button-primary { color: #FFFFFF; background-color: #3485FF !important; border-color: #FFFFFF !important; }
 </style>

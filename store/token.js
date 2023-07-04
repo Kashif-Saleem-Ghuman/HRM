@@ -17,7 +17,7 @@ export const getters = {
 export const mutations = {
   SET_TOKEN(state, value) {
     state.accessToken = value
-    // this.$cookies.set("b_ssojwt", value)
+    this.$cookies.set("b_ssojwt", value)
   },
   SET_ACTIVE_TAB(state, value) {
     state.activeTab = value

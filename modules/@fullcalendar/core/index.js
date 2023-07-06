@@ -13,7 +13,7 @@ const MINIMAL_RAW_EN_LOCALE = {
     },
     direction: 'ltr',
     buttonText: {
-        prev: 'prev',
+        prev: 'prevasdasd',
         next: 'next',
         prevYear: 'prev year',
         nextYear: 'next year',

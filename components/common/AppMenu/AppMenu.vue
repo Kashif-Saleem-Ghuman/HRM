@@ -133,7 +133,7 @@ export default {
           return;
         }
         if (item.key == "leave-vacations") {
-          this.$router.push("/leave-vacations/");
+          this.$router.push("/leaves-and-vacations/");
           return;
         }
         if (item.key == "settings") {

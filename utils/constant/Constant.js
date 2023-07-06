@@ -1119,6 +1119,17 @@ export const PEOPLE_TAB = [
   //   value: "Teams",
   // },
 ];
+export const LEAVEVACATION_TAB = [
+  {
+    title: "Dashboard",
+    value: "Dashboard",
+  },
+  {
+    title: "Pending Requests",
+    value: "Prnding Requests",
+  },
+  // },
+];
 export const MORE_MENU = [
   {
     label: "Open",
@@ -1174,6 +1185,7 @@ export const MORE_MENU = [
   // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
   // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
 ];
+
 export const SORTING_MENU = {
   actionMenuPeople: [
     {

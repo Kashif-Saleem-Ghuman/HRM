@@ -11,6 +11,17 @@ import {
     getBenefitsData,
     deleteBenefitsData
   } from "./api_call/benefits/benefits.js";
+  import {
+    getLeaveVacationsAdmin,
+    getPendingLeaveVacationsAdmin,
+    getApproveLeaveVacationsAdmin,
+    getRejectLeaveVacationsAdmin
+  } from "./api_call/leavesvacations/requestadmin";
+  import {
+    getLeaveVacations,
+    getAllowanceDays,
+    addLeaveVacations
+  } from "./api_call/leavesvacations/requestuser";
   export {
     employeeTime,
     getTimeAttandance,
@@ -18,5 +29,17 @@ import {
     addBenefitsData,
     updateBenefitsData,
     getBenefitsData,
-    deleteBenefitsData
+    deleteBenefitsData,
+
+    // leave vacations admin functions
+    getLeaveVacationsAdmin,
+    getPendingLeaveVacationsAdmin,
+    getApproveLeaveVacationsAdmin,
+    getRejectLeaveVacationsAdmin,
+
+    // leave vacations user functions
+    getLeaveVacations,
+    getAllowanceDays,
+    addLeaveVacations
+
   };

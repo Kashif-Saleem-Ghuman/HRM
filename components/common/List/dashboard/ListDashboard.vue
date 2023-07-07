@@ -50,12 +50,12 @@
       <template #cell(status)="data">
         <div class="text-dark">
           <chips-list
-            :title="data.value.attendance.status == null ? '---' : data.value.attendance.status"
+            :title="data.value.activityReport.status == null ? '---' : data.value.activityReport.status"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.attendance.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
-              data.value.attendance.status == 'Absent' ? 'chip-list-wrapper__light' : '',
+              data.value.activityReport.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
+              data.value.activityReport.status == 'Absent' ? 'chip-list-wrapper__light' : '',
             ]"
           ></chips-list>
         </div>
@@ -63,36 +63,36 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.attendance.in == null ? 'N/A' : dateCheck(data.value.attendance.in)"
+            :title="data.value?.activityReport.in == null ? 'N/A' : dateCheck(data.value.activityReport.in)"
             :className="[
-              data.value?.attendance.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.attendance.in === 'V' ? 'chip-wrapper__bgvacation' : '',
-              data.value?.attendance.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.attendance.in == null ? 'chip-wrapper__bggray' : '',
+              data.value?.activityReport.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
+              data.value?.activityReport.in === 'V' ? 'chip-wrapper__bgvacation' : '',
+              data.value?.activityReport.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+              data.value?.activityReport.in == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
         </div>
       </template>
       <template #cell(out)="data">
         <chips
-          :title="data.value?.attendance.out == null ? 'N/A' : dateCheck(data.value?.attendance.out)"
+          :title="data.value?.activityReport.out == null ? 'N/A' : dateCheck(data.value?.activityReport.out)"
           :className="[
-            data.value?.attendance.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>
       <template #cell(breaks)="data">
         <chips
-          :title="data.value?.attendance.breaks == null ? 'N/A' : data.value?.attendance.breaks"
+          :title="data.value?.activityReport.breaks == null ? 'N/A' : data.value?.activityReport.breaks"
           :className="[
-            data.value?.attendance.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.attendance.total == null ? 'N/A' : data.value?.attendance.total
+            data.value?.activityReport.total == null ? 'N/A' : data.value?.activityReport.total
           "
            style="background-color: #fff; height: auto; color: #000;"
         ></chips>
@@ -119,7 +119,7 @@ export default {
       modal3Opened: false,
       showTooltip: false,
       tableFields: TABLE_HEAD.tHeadDashboard,
-      attendanceClass: [],
+      activityReportClass: [],
       satisfaction: "",
       userPhotoClick: false,
       timesheetModal: false,

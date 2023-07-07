@@ -64,7 +64,6 @@ export async function updateAllData() {
   this.loading = false;
 }
 export function handleInput(event, name, addresses) {
-  console.log(addresses)
   let add = {};
   this.isFlag = true;
   if (addresses == "team") {

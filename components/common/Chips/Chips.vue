@@ -30,7 +30,7 @@ export default {
   name: "Chips",
   props: {
     title: {
-      type:String,
+      type:[String,Number],
     },
     icon: {
       type: String,

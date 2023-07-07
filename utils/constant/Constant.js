@@ -593,6 +593,13 @@ export const SELECT_OPTIONS = {
     { label: "Bruno", value: "Bruno" },
     { label: "Kelvin", value: "kelvin" },
   ],
+  leaveType:[
+    { label: "Please Select Leave Type", value: null },
+    { label: "Vacation", value: "vacation" },
+    { label: "Leave", value: "leave" },
+    { label: "Medical/sick", value: "medical" },
+    { label: "Absent", value: "absent" },
+  ]
 };
 
 export const PERSONAL_INFO_TAB = [

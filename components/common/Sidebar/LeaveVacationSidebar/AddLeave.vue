@@ -1,59 +1,115 @@
 <template>
-    <div>
-        <div class="pt-2">
-            <div class="row">
-              <div class="col-12">
-                <bib-input
-                  type="text"
-                  label="Employee"
-                  icon-left="user"
-                  placeholder="Employee"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
-              </div>
-              </div>
-              <div class="row">
-              <div class="col-12">
-                <bib-input
-                  type="select"
-                  label="Leave type"
-                  placeholder="Select your Leave type"
-                  @change="$emit('input', $event, 'leaveType')"
-                ></bib-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-4">
-                <bib-input
-                  type="text"
-                  label="Message"
-                  placeholder="Enter message"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
-              </div>
-              <div class="col-4">
-                <bib-input
-                  type="text"
-                  label="Message"
-                  placeholder="Enter message"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
-              </div>
-              <div class="col-4">
-                <bib-input
-                  type="text"
-                  label="Message"
-                  placeholder="Enter message"
-                  @change="$emit('input', $event, 'firstName')"
-                ></bib-input>
-              </div>
-            </div>
+  <div>
+    <div class="pt-1">
+      <div class="row">
+        <div class="col-12">
+          <bib-input
+            type="text"
+            label="Employee"
+            icon-left="user"
+            placeholder="Employee"
+            @change="$emit('input', $event, 'employeeId')"
+          ></bib-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <bib-input
+            type="select"
+            label="Leave type"
+            :options="leaveTypeOptions"
+            placeholder="Select your Leave type"
+            @input="$emit('input', $event, 'type')"
+          ></bib-input>
+        </div>
+      </div>
+      <div class="row pt-075 pb-075">
+        <div class="col-4">
+          <div class="d-flex input-display-wrapper">
+            <span>Allowance</span>
+            <span>31</span>
           </div>
+        </div>
+        <div class="col-4">
+          <div class="d-flex input-display-wrapper">
+            <span>Used</span>
+            <span>4</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="d-flex input-display-wrapper">
+            <span>Available</span>
+            <span>23</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <bib-input
+            type="date"
+            label="Start date"
+            placeholder="Select your start date"
+            @change="$emit('input', $event, 'start')"
+          ></bib-input>
+        </div>
+        <div class="col-6">
+          <bib-input
+            type="date"
+            label="End date"
+            placeholder="Select your end date"
+            @change="$emit('input', $event, 'end')"
+          ></bib-input>
+        </div>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <bib-input
+          type="textarea"
+          label="Reason"
+          placeholder="Enter text"
+          @change="$emit('input', $event, 'note')"
+        ></bib-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <info-card-success></info-card-success>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+
+export default {
+  props: {
+    leaveType: {
+      type: String,
+    },
+    leaveTypeOptions: {
+      type: Array,
+    },
+    team: {
+      type: String,
+    },
+    teamOptions: {
+      type: Array,
+    },
+  }
+};
 </script>
+<style lang="scss">
+.input-display-wrapper {
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: solid 1px var(--bib-gray4);
+  display: block;
+  justify-content: space-between;
+  span {
+    display: block;
+    font-size: 14px;
+    color: #999;
+  }
+}
+</style>

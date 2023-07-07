@@ -10,7 +10,7 @@
         ></section-header-left>
       </div>
       <div class="tab-wrapper">
-        <div class="row mx-0">
+        <div class="row mx-0 bottom_border_wrapper">
           <div class="col-12 px-1">
             <bib-tabs
               :tabs="leaveVacation"
@@ -94,7 +94,11 @@
         v-show="addLeaveSidebar"
       >
         <template v-slot:sidebar-body>
-          <add-leave></add-leave>
+          <add-leave
+          :leaveTypeOptions="leaveTypeOptions"
+          @input="handleInput"
+          @change="handleInput"
+          ></add-leave>
         </template>
       </action-sidebar>
     </template>
@@ -107,7 +111,9 @@
         v-show="addVacationSidebar"
       >
         <template v-slot:sidebar-body>
-          <add-leave></add-leave>
+          <add-leave
+          :leaveTypeOptions="leaveTypeOptions"
+          ></add-leave>
         </template>
       </action-sidebar>
     </template>
@@ -115,7 +121,11 @@
   </div>
 </template>
 <script>
-import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
+import {
+  handleInput,
+  handleInputObject,
+} from "../../utils/functions/functions_lib.js";
+import { LEAVEVACATION_TAB, SELECT_OPTIONS } from "../../utils/constant/Constant";
 export default {
   data() {
     return {
@@ -124,13 +134,20 @@ export default {
       addLeaveSidebar: false,
       addVacationSidebar: false,
       slideClass: "slide-in",
+      leaveTypeOptions:SELECT_OPTIONS.leaveType,
+      updateForm:{},
+      leaveVacationAdminData:[],
+      pendingLeaveVacationAdminData:[],
     };
   },
-
+mounted(){
+  console.log(this.leaveTypeOptions, "leaveTypeOptions")
+},
   methods: {
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
+    handleInput,
     actionBY(event) {
       if(event=='leave'){
         if (this.addLeaveSidebar == true) {

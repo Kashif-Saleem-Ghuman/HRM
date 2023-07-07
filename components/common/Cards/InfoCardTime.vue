@@ -46,7 +46,7 @@ export default {
       type: String,
     },
     item: {
-      type: Array,
+      type: Object,
     },
     buttonLable: {
       type: String,

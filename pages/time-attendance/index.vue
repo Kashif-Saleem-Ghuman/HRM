@@ -257,7 +257,6 @@
         </div>
       </div>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 <script>

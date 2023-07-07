@@ -65,8 +65,6 @@
               data.value?.weekData?.mon?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
           ]"
         ></chips>
       </template>
@@ -89,9 +87,7 @@
               data.value?.weekData?.tue?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
       </template>
 
@@ -113,9 +109,7 @@
               data.value?.weekData?.wed?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
       </template>
       <template #cell(thu)="data">
@@ -136,9 +130,7 @@
               data.value?.weekData?.thu?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
       </template>
       <template #cell(fri)="data">
@@ -159,9 +151,7 @@
               data.value?.weekData?.fri?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
       </template>
       <template #cell(sat)="data">
@@ -182,9 +172,7 @@
               data.value?.weekData?.sat?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
       </template>
       <template #cell(sun)="data">
@@ -212,9 +200,7 @@
               data.value.totalHour <= '10'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips>
         <!-- <chips
           :title="
@@ -233,9 +219,7 @@
               data.value?.totalHours <= '3'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-            data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
+             ]"
         ></chips> -->
       </template>
       <template #cell(status)="data">

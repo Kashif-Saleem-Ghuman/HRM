@@ -121,6 +121,8 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    let userRoles = ["ADMIN", "USER"];
+    localStorage.setItem('userRoles', JSON.stringify(userRoles))
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);

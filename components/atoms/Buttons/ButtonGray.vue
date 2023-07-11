@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex gap-1">
     <div
-      class="d-flex align-center cursor-pointer text-gray1 bg-light bg-hover-gray2 shape-rounded pl-05 pt-025 pb-025 pr-075 mr-05 font-md"
+      class="d-flex align-center cursor-pointer text-gray1 bg-light bg-hover-gray2 pl-05 pt-05 pb-05 pr-05 font-md" style="border-radius: 10px;"
       @click="$emit('on-click')"
     >
       <bib-icon
@@ -11,7 +11,7 @@
         :scale="scale"
         :class="className"
       ></bib-icon>
-      <span :class="titleClass" class="pl-025">{{ title }}</span>
+      <span :class="titleClass" class="p-025">{{ title }}</span>
     </div>
   </div>
 </template>

@@ -6,8 +6,10 @@
           <bib-input
             type="text"
             label="Employee"
+            v-model="employeeName"
             icon-left="user"
             placeholder="Employee"
+            disabled
             @change="$emit('input', $event, 'employeeId')"
           ></bib-input>
         </div>
@@ -90,7 +92,7 @@ export default {
     leaveTypeOptions: {
       type: Array,
     },
-    team: {
+    employeeName: {
       type: String,
     },
     teamOptions: {

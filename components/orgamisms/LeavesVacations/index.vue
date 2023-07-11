@@ -10,7 +10,7 @@
                 icon="close"
                 variant="light"
                 :scale="1"
-                title="View"
+                :title="ViewTitle"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
               ></button-black>
@@ -19,7 +19,7 @@
                   <li class="d-flex align-center">
                     <span
                       class="ml-05"
-                      @click="monthView()"
+                      @click="monthView('Month')"
                       style="cursor: pointer"
                       >Month</span
                     >
@@ -27,7 +27,7 @@
                   <li class="d-flex align-center">
                     <span
                       class="ml-05"
-                      @click="weekView()"
+                      @click="weekView('Week')"
                       style="cursor: pointer"
                       >Week</span
                     >
@@ -52,7 +52,7 @@
                 </option>
               </select>
             </div>
-            <div class="button-items pl-05">
+            <div class="button-items pl-05 pr-05">
               <label>Year:</label>
               <select
                 id="select_year"
@@ -68,6 +68,15 @@
                 </option>
               </select>
             </div>
+            <div class="button-items pr-05">
+              <button-black
+                icon="close"
+                variant="light"
+                :scale="1"
+                :title="todayDate"
+                @on-click="show = !show"
+                v-click-outside="clickOutside"
+              ></button-black></div>
           </div>
         </div>
         <div class="rtl-wrapper d-flex align-center">
@@ -84,10 +93,10 @@
           <div class="serach-item pr-05">
             <label>Show:</label>
             <button-gray
-            variant="light"
-            title="All"
-            @on-click="weekData()"
-          ></button-gray>
+              variant="light"
+              title="All"
+              @on-click="weekData()"
+            ></button-gray>
           </div>
           <button-gray
             variant="light"
@@ -167,6 +176,7 @@ export default {
       show: false,
       monthList: MONTH_LIST,
       yearList: YEAR_LIST,
+      ViewTitle: "Month",
       calendarOptions: {
         plugins: [dayGridPlugin, timeGridPlugin],
         customButtons: {
@@ -198,7 +208,7 @@ export default {
         views: {
           // we can specify particular view for particular layout here
         },
-        initialView: 'dayGridMonth',
+        initialView: "dayGridMonth",
         windowResizeDelay: 200,
         initialEvents: SAMPLE_EVENTS,
         editable: false,
@@ -225,22 +235,14 @@ export default {
       currentDate: fecha.format(new Date(), "DD"),
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
+      todayDate:'Today,' + ' ' + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
       selectedMonth: "",
       selectedYear: "",
     };
   },
   mounted() {},
   methods: {
-    change(event) {
-      $("#my-select").click(function (e) {
-        alert("called");
-        $("#calendar").fullCalendar(
-          "changeView",
-          this.options[e.target.selectedIndex].text
-        );
-        console.log(this.options[e.target.selectedIndex].text);
-      });
-    },
+    change(event) {},
     changeMonthView() {
       var year;
       this.selectedMonth = this.$refs.myInput.value;
@@ -272,12 +274,14 @@ export default {
         );
     },
     monthView() {
-      this.calendarOptions.initialView ="dayGridMonth"
+      this.ViewTitle = "Month";
+      this.calendarOptions.initialView = "dayGridMonth";
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridMonth");
     },
     weekView() {
-      this.calendarOptions.initialView ="dayGridWeek"
+      this.ViewTitle = "Week";
+      this.calendarOptions.initialView = "dayGridWeek";
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridWeek");
     },
@@ -313,26 +317,26 @@ export default {
     .ltr-wrapper-items {
       position: absolute;
       display: flex;
-      
       ul {
         margin: 0;
         padding: 0;
-        border: 1px solid #d3d1d1;
-        margin-top:1px;
-        border-radius: 10px;
+        border: var(--bib-gray3) solid 1px;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
+        background: var(--bib-white);
         li {
           padding: 5px 0;
-          margin: 0;
+
+          font-size: 13px;
         }
       }
       .menu-items {
         background-color: #fff;
-        // padding: 0 0.8rem;
-        width: 130px;
+        width: 97px;
         border-radius: 10px;
         position: absolute;
-        left: 20px;
-        top: 37px;
+        left: 37px;
+        top: 2px;
       }
       .button-items {
         display: flex;
@@ -340,7 +344,7 @@ export default {
 
         label {
           padding-right: 5px;
-          font-size: 13px;
+          font-size: 14px;
         }
       }
     }
@@ -366,9 +370,9 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-input{
-  margin: 0px !important;
-}
+      input {
+        margin: 0px !important;
+      }
       label {
         padding-right: 5px;
         font-size: 13px;

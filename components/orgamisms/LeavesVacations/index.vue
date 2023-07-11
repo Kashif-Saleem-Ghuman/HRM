@@ -252,7 +252,7 @@ export default {
       this.$refs.fullCalendar
         .getApi()
         .changeView(
-          this.initialView,
+          this.calendarOptions.initialView,
           year + this.$refs.myInput.value + this.currentDate
         );
     },
@@ -267,17 +267,17 @@ export default {
       this.$refs.fullCalendar
         .getApi()
         .changeView(
-          this.initialView,
+          this.calendarOptions.initialView,
           this.$refs.myInputYear.value + month + this.currentDate
         );
     },
     monthView() {
-      this.initialView ="dayGridMonth"
+      this.calendarOptions.initialView ="dayGridMonth"
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridMonth");
     },
     weekView() {
-      this.initialView ="dayGridWeek"
+      this.calendarOptions.initialView ="dayGridWeek"
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridWeek");
     },

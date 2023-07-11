@@ -4,11 +4,15 @@ export async function getLeaveVacations() {
   this.loading = true
   try {
           const leaveVacations = await axios.get(
-            process.env.API_URL + "/requests/", this.addLeave,
+           "https://dev-hrm-api.business-in-a-box.com/v1/requests",
             {
               headers: {
                 Authorization: "Bearer " + this.getAccessToken,
               },
+              params: {
+                from: this.fromDate, // This is the body part
+                to:this.toDate
+              }
             }
           );
           this.leaveVacationData = leaveVacations.data;

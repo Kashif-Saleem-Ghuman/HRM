@@ -3,6 +3,7 @@
     <div
       class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
     >
+    
       <section-header-left
         :title="`Welcome to your HR dashboard ` + activeUserName"
         :avatar="getUser.photo"

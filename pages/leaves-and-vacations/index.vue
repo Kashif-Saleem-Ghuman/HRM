@@ -95,9 +95,11 @@
       >
         <template v-slot:sidebar-body>
           <add-leave
+          :employeeName="employeeName"
           :leaveTypeOptions="leaveTypeOptions"
           @input="handleInput"
           @change="handleInput"
+          style="z-index: 100000;"
           ></add-leave>
         </template>
       </action-sidebar>
@@ -112,6 +114,7 @@
       >
         <template v-slot:sidebar-body>
           <add-leave
+          :employeeName="employeeName"
           :leaveTypeOptions="leaveTypeOptions"
           ></add-leave>
         </template>
@@ -125,6 +128,8 @@ import {
   handleInput,
   handleInputObject,
 } from "../../utils/functions/functions_lib.js";
+import { mapGetters } from 'vuex'
+import {getLeaveVacations} from '../../utils/functions/api_call/leavesvacations/requestuser'
 import { LEAVEVACATION_TAB, SELECT_OPTIONS } from "../../utils/constant/Constant";
 export default {
   data() {
@@ -138,15 +143,35 @@ export default {
       updateForm:{},
       leaveVacationAdminData:[],
       pendingLeaveVacationAdminData:[],
+      fromDate:"2023-06-06T01:04:18.528Z",
+      toDate:"2023-07-08T10:04:18.528Z",
+      getRequest:{},
+      employeeName:'',
     };
   },
+  computed:{
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+      getUser: "employee/GET_USER",
+
+    })
+  },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser");
+    var users = this.getUser;
+    this.employeeName = users.firstName + " " + users.lastName;
+  },
 mounted(){
+  this.getRequest = this.fromDate + this.toDate;
+  console.log(this.getRequest, "2023-07-08T10:04:18.528Z")
+  this.getLeaveVacations();
   console.log(this.leaveTypeOptions, "leaveTypeOptions")
 },
   methods: {
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
+    getLeaveVacations,
     handleInput,
     actionBY(event) {
       if(event=='leave'){

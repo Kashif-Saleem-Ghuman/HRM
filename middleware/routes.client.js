@@ -1,8 +1,12 @@
-import notFound from "../layouts/error.vue";
+// import notFound from "../layouts/error.vue";
 export default function routesCheck() {
   if (process.client) {
-    var userRole = localStorage.getItem("userRole");
-    var pathPath = this.$router.history.current.fullPath;
+    // var userRole = localStorage.getItem("userRole");
+    var pagePath = this.$router.history.current.fullPath;
+    console.log(pagePath, "pagePath")
+    if (pagePath === "/") {
+          this.$router.push('/dashboard/');
+        }
     // Admin Role Routes
     // this.$router.push('/dashboard/');
     // if (userRole === "ADMIN") {

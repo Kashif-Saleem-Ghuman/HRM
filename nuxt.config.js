@@ -84,7 +84,7 @@ export default {
     ],
   },
   
-  // serverMiddleware: ["~/middleware/routes.client"],
+  // serverMiddleware: ["~/middleware/redirects"],
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     postcss: null,

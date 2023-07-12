@@ -1,10 +1,9 @@
-export default function (req, res, next, context) {
-  console.log(context, "redirectsssssssssssssss")
-
+export default function (req, res, next) {
   const redirects = [
     {
       from: "/",
-      to: "/myprofile",
+      to: "/dashboard",
+      // to: "/inbox",
     },
   ];
   const redirect = redirects.find((r) => r.from === req.url);

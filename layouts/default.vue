@@ -105,6 +105,7 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
+      getUserRole:"token/getUserRole",
     }),
   },
   created() {
@@ -121,8 +122,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    let userRoles = ["ADMIN", "USER"];
-    localStorage.setItem('userRoles', JSON.stringify(userRoles))
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -149,6 +148,9 @@ export default {
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userId", userId);
             this.userRole = userRole
+            this.$store.dispatch("token/setActiveUserRole", userRole);
+            console.log(this.getUserRole, "getUserRole")
+
           }
           this.getUser();
           this.getBusinessId();

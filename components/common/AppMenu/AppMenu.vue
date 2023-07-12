@@ -1,7 +1,7 @@
 <template>
   <div>
      <!-- Admin Menu  -->
-     <div v-if="adminMenu" class="mt-1">
+     <div class="mt-1">
       <!-- <div :class="sectionHead" class="section-head">
         <span v-on:click="changeDashboard()" style="cursor: pointer; ">Organization admin</span>
       </div> -->
@@ -24,7 +24,7 @@
     </div>
 
     <!-- User Menu  -->
-    <!-- <div  class="mt-1">
+    <div  class="mt-1">
       <div :class="sectionHead" class="section-head">
         <span>Home</span>
       </div>
@@ -49,7 +49,7 @@
         "
       ></bib-app-navigation>
     </div>
-    </div> -->
+    </div>
    
   </div>
 </template>

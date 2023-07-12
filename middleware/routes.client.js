@@ -4,7 +4,7 @@ export default function routesCheck() {
     var userRole = localStorage.getItem("userRole");
     var pathPath = this.$router.history.current.fullPath;
     // Admin Role Routes
-    this.$router.push('/dashboard/');
+    // this.$router.push('/dashboard/');
     // if (userRole === "ADMIN") {
     //   if (pathPath === "/") {
     //     this.$router.push('/dashboard/');

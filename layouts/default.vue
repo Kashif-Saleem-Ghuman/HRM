@@ -95,7 +95,7 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token: "",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       userRole:'',
     };
   },
@@ -105,10 +105,11 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
+      getUserRole:"token/getUserRole",
     }),
   },
   created() {
-    this.routesCheck();
+    // this.routesCheck();
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -121,8 +122,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    let userRoles = ["ADMIN", "USER"];
-    localStorage.setItem('userRoles', JSON.stringify(userRoles))
     this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -149,6 +148,9 @@ export default {
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userId", userId);
             this.userRole = userRole
+            this.$store.dispatch("token/setActiveUserRole", userRole);
+            console.log(this.getUserRole, "getUserRole")
+
           }
           this.getUser();
           this.getBusinessId();

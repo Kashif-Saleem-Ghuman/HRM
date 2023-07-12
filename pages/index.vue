@@ -1,8 +1,11 @@
 <template></template>
 <script>
 export default {
-  mounted() {
-    // this.$router.push("/myprofile");
+  async mounted() {
+    // this.$router.push("/dashboard");
+     if(this.$router.history.current.fullPath === '/'){
+      await this.$router.push("/dashboard");
+              }
     // var userRole = localStorage.getItem("userRole");
     // if (this.userRole === "USER") {
     //           if(this.$router.history.current.fullPath === '/people'){

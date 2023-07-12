@@ -24,9 +24,9 @@
     </div>
 
     <!-- User Menu  -->
-    <!-- <div  class="mt-1">
+    <div v-if="userMenu" class="mt-1">
       <div :class="sectionHead" class="section-head">
-        <span>Home</span>
+        <span v-on:click="changeDashboard" style="cursor: pointer; color: #86868a;">Home</span>
       </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
@@ -49,7 +49,7 @@
         "
       ></bib-app-navigation>
     </div>
-    </div> -->
+    </div>
    
   </div>
 </template>

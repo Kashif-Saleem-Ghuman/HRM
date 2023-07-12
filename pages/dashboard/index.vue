@@ -1,175 +1,27 @@
+!
 <template>
-  <div id="dashborad-wrapper">
-    <div
-      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
-    >
-    
-      <section-header-left
-        :title="`Welcome to your HR dashboard ` + activeUserName"
-        :avatar="getUser.photo"
-        headerRight="headerRight"
-      ></section-header-left>
-    </div>
-    <div class="tab-wrapper">
-      <div id="dashboard-inner-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div
-            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-          >
-            <div class="d-flex align-center">
-              <div class="custom_date_picker">
-                <div class="mr-05">Date:</div>
-                <bib-datetime-picker
-                  v-model="date2"
-                  :format="format"
-                  :parseDate="parseDate"
-                  :formatDate="formatDate"
-                  @input="onChange"
-                  class="custom_date_picker"
-                ></bib-datetime-picker>
-              </div>
-            </div>
-            <div class="d-flex align-center">
-              <div class="d-flex align-center mr-05">
-                <span class="mr-05">Search:</span>
-                <bib-input size="sm" type="text" test_id="srchInput01">
-                </bib-input>
-              </div>
-              <div class="d-flex align-center">
-                <div style="font-size: 14px" class="mr-05">Show:</div>
-                <button
-                  type="button"
-                  @click="$emit('on-click')"
-                  class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
-                >
-                  All
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="pl-1 py-1">
-            <div
-              class="d-grid d-flex gap-1"
-              style="grid-template-columns: repeat(4, 1fr)"
-            >
-              <info-card-one
-                :item="infoCardData[0]"
-                buttonLable="View Attendance"
-                icon="table"
-                profilePic="profilePic"
-                buttonVariant="light"
-              ></info-card-one>
-              <info-card-one
-                :item="infoCardData[1]"
-                buttonLable="Timesheet"
-                icon="table"
-                buttonVariant="light"
-                profilePic="profilePic"
-              ></info-card-one>
-              <info-card-one
-                :item="infoCardData[2]"
-                buttonLable="Open inbox"
-                icon="mail-new"
-                profilePic="profilePic"
-                buttonVariant="light"
-              ></info-card-one>
-              <info-card-one
-                :item="infoCardData[3]"
-                buttonLable="Send Message"
-                icon="setting"
-                profilePic="profilePic"
-                buttonVariant="light"
-              ></info-card-one>
-            </div>
-          </div>
-          <div class="scroll_wrapper">
-            <div style="z-index: 1">
-              <list-dashboard :userList="localData"></list-dashboard>
-              <loader v-bind:showloader="loading"></loader>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+  <div>
+    <template v-if="getUserRole === 'ADMIN'">
+      <dashboard-admin></dashboard-admin>
+    </template>
+    <template v-if="getUserRole === 'USER'">
+      <dashboard-user></dashboard-user>
+    </template>
   </div>
 </template>
 <script>
-import dayjs from "dayjs";
-import {
-  DASHBOARD_DATA,
-  INFO_CARD_DATA,
-} from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
-import { getTimeAttandance } from "../../utils/functions/api_call/timeattandance/time";
-import getJson from "../../utils/dataJson/app_wrap_data";
-import fecha, { format } from "fecha";
-
-const appWrapItems = getJson();
 export default {
   data() {
     return {
-      id: "",
-      activeUserName: "",
-      infoCardData: INFO_CARD_DATA,
-      dashboardData: DASHBOARD_DATA,
-      loading:false,
-      localData: [],
-      getCurrentDate: "",
-      date: null,
-      format: "MMM D, YYYY",
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
     };
   },
-
   computed: {
     ...mapGetters({
-      userList: "employee/GET_USERS_LIST",
-      getUser: "employee/GET_USER",
-      getAccessToken: "token/getAccessToken",
-      activeDate: "date/getActiveDate",
+      getUserRole: "token/getUserRole",
     }),
-  },
-  async created() {
-    this.getCurrentDate = this.date2;
-    await this.$store.dispatch("employee/setUserList");
-    await this.getTimeAttandance();
-    await this.$store.dispatch("employee/setActiveUser");
-    var users = this.getUser;
-    this.id = users.id;
-    this.activeUserName = users.firstName + " " + users.lastName;
-  },
-
-  methods: {
-    getTimeAttandance,
-    parseDate(dateString, format) {
-      return fecha.parse(dateString, format);
-    },
-    formatDate(dateObj, format) {
-      return fecha.format(dateObj, format);
-    },
-    onChange(value) {
-      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      this.$store.dispatch("date/setActiveDate", date);
-      this.getCurrentDate = date;
-      this.getTimeAttandance();
-    },
   },
 };
 </script>
-<style lang="scss">
-.custom_date_picker {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  input {
-    border: none !important;
-    background-color: $light;
-    border-radius: 6px;
-    font-size: 14px;
 
-    // margin: 0 1rem;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

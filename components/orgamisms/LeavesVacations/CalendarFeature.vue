@@ -76,7 +76,8 @@
                 :title="todayDate"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
-              ></button-black></div>
+              ></button-black>
+            </div>
           </div>
         </div>
         <div class="rtl-wrapper d-flex align-center">
@@ -106,30 +107,32 @@
           ></button-gray>
         </div>
       </div>
-
       <div class="">
         <FullCalendar
           :options="calendarOptions"
           ref="fullCalendar"
           id="fullCalendar"
         >
-          <template v-slot:eventContent="arg">
-            <div
+          <template
+            v-slot:eventContent="arg"
+            style="background-color: #fff !important"
+          >
+            <a
               class="author-display d-flex"
               :class="[
-                arg.event.extendedProps.type === 'Holiday'
+                arg.event.extendedProps.type === 'holiday'
                   ? 'event_wrapper__bghoilday'
                   : '',
-                arg.event.extendedProps.type === 'Vacation'
-                  ? 'event_wrapper__bgvacation'
+                arg.event.extendedProps.type === 'vacation'
+                  ? 'event_wrapper__bgholiday'
                   : '',
-                arg.event.extendedProps.type === 'On Leave'
+                arg.event.extendedProps.type === 'leave'
                   ? 'event_wrapper__bgonleave'
                   : '',
                 arg.event.extendedProps.type == 'Absent'
                   ? 'event_wrapper__bgabsent'
                   : '',
-                arg.event.extendedProps.type == 'Event'
+                arg.event.extendedProps.type == 'medical'
                   ? 'event_wrapper__bgabsent'
                   : '',
               ]"
@@ -139,14 +142,10 @@
                 size="2rem"
               ></bib-avatar>
               <div class="list-item pl-05">
-                <label>{{
-                  arg.event.extendedProps.firstName +
-                  " " +
-                  arg.event.extendedProps.lastName
-                }}</label
-                ><span>{{ arg.event.extendedProps.type }}</span>
+                <label>{{ arg.event.extendedProps.start }}</label>
+                <span>{{ arg.event.extendedProps.type }}</span>
               </div>
-            </div>
+            </a>
           </template>
         </FullCalendar>
       </div>
@@ -158,15 +157,16 @@
 import FullCalendar from "../../../modules/@fullcalendar/vue";
 import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
 // import interactionPlugin from "../../../modules/@fullcalendar/interaction";
-import timeGridPlugin from "../../../modules/@fullcalendar/timegrid";
+// import timeGridPlugin from "../../../modules/@fullcalendar/timegrid";
 import {
   SAMPLE_EVENTS,
   MONTH_LIST,
   YEAR_LIST,
 } from "../../../utils/constant/Calander";
-import $ from "jquery";
-import fecha, { format } from "fecha";
+import { getLeaveVacationsAdmin } from "../../../utils/functions/api_call/leavesvacations/requestadmin";
 
+import fecha, { format } from "fecha";
+import { mapGetters } from "vuex";
 export default {
   components: {
     FullCalendar,
@@ -178,7 +178,7 @@ export default {
       yearList: YEAR_LIST,
       ViewTitle: "Month",
       calendarOptions: {
-        plugins: [dayGridPlugin, timeGridPlugin],
+        plugins: [dayGridPlugin],
         customButtons: {
           myLink: {
             text: "+ Add",
@@ -210,24 +210,22 @@ export default {
         },
         initialView: "dayGridMonth",
         windowResizeDelay: 200,
-        initialEvents: SAMPLE_EVENTS,
+        events: [],
         editable: false,
         selectable: false,
-        selectMirror: false,
+        selectMirror: SVGComponentTransferFunctionElement,
+        selectHelper: false,
         dayMaxEvents: false,
         weekends: true,
+        eventColor: "green",
         // style related
         // eventColor: "#FFFFFF",
         eventBackgroundColor: "#fff",
-        // eventTextColor: "black",
-        // eventBorderColor: "#fff",
-        // event handling
+        eventTextColor: "black",
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
-        // eventDrop: this.handleEventDrop,
-        // eventResize: this.handleEventResize,
-        // Events that can be used after API is hit -------
+
         eventAdd: this.handleEventAdd,
         eventChange: this.handleEventChange,
         eventRemove: this.handleEventRemove,
@@ -235,14 +233,36 @@ export default {
       currentDate: fecha.format(new Date(), "DD"),
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
-      todayDate:'Today,' + ' ' + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
+      todayDate:
+        "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
       selectedMonth: "",
-      selectedYear: "",
+      selectedYear: "2023",
+      fromDate: "",
+      toDate: "",
     };
   },
-  mounted() {},
+  computed: {
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+    }),
+  },
+  async beforeMount() {},
+  mounted() {
+    this.selectedMonth = this.currentMonth;
+    this.getCurrentDateMonth();
+    this.getLeaveVacationsAdmin();
+  },
   methods: {
+    getLeaveVacationsAdmin,
     change(event) {},
+    getCurrentDateMonth() {
+      var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
+      let date = new Date(cuDate);
+      let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+      let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
+      this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
+    },
     changeMonthView() {
       var year;
       this.selectedMonth = this.$refs.myInput.value;
@@ -257,6 +277,9 @@ export default {
           this.calendarOptions.initialView,
           year + this.$refs.myInput.value + this.currentDate
         );
+      console.log(this.selectedMonth, this.selectedYear, "selectedMonth");
+      this.getCurrentDateMonth();
+      this.getLeaveVacationsAdmin();
     },
     changeYearView() {
       var month;
@@ -272,6 +295,8 @@ export default {
           this.calendarOptions.initialView,
           this.$refs.myInputYear.value + month + this.currentDate
         );
+      this.getCurrentDateMonth();
+      this.getLeaveVacationsAdmin();
     },
     monthView() {
       this.ViewTitle = "Month";
@@ -424,46 +449,7 @@ export default {
     border: none !important;
   }
 }
-.fc-button-primary {
-  color: #ffffff;
-  background-color: #000 !important;
-  border-color: #ffffff !important;
-  border-radius: 6px;
-  padding-right: 10px;
-}
-.fc .fc-button-primary:not(:disabled).fc-button-active:focus,
-.fc .fc-button-primary:not(:disabled):active:focus {
-  box-shadow: none !important;
-}
-.fc .fc-button-primary:focus {
-  box-shadow: none !important;
-}
-.fc-button-group {
-  .fc-button {
-    border-radius: 10px !important;
-  }
-  .fc-button:not(:last-child) {
-    border-bottom-right-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-  }
-  .fc-button:not(:first-child) {
-    border-bottom-left-radius: 10px !important;
-    border-top-left-radius: 10px !important;
-    margin-left: 5px !important;
-  }
-}
-.fc-icon-chevrons-left {
-  margin-top: -10px;
-}
-.fc-icon-chevrons-right {
-  margin-top: -10px;
-}
-.fc-icon-chevron-left {
-  margin-top: -10px;
-}
-.fc-icon-chevron-right {
-  margin-top: -10px;
-}
+
 .fc-icon-chevrons-left::before {
   font-family: "fcicons" !important;
 }
@@ -478,6 +464,16 @@ export default {
 .fc-icon-chevron-right::before {
   font-family: "fcicons" !important;
 }
+.fc-h-event {
+  background-color: #fff !important;
+  border: none !important;
+}
+.fc-event-selected {
+  box-shadow: none !important;
+}
+.fc-event:focus {
+  box-shadow: none !important;
+}
 .event_wrapper {
   border-radius: 6px;
   padding: 4px 8px;
@@ -485,31 +481,20 @@ export default {
   margin-right: 10px;
   display: flex;
   height: 3rem;
+  background-color: #fff !important;
   // justify-content: center;
   align-items: center;
   // background-color: #f2f2f5;
 
-  &__shape-circle {
-    width: 3rem;
-    height: 3rem;
-    padding: 6px;
-    border-radius: 50%;
-  }
-  &__shape-round {
-    width: 3rem;
-    height: 3rem;
-    padding: 6px;
-    border-radius: 1px;
-  }
   &__bgevent {
     background-color: #d5e8d4;
   }
   &__bgonleave {
-    background-color: #f7e9ce;
+    background-color: #f7e9ce !important;
   }
 
   &__bghoilday {
-    background-color: #1f42a2;
+    background-color: #1f42a2 !important;
     color: #fff;
   }
   &__bgvacation {

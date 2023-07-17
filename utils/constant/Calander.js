@@ -5,11 +5,11 @@ let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of to
 
 export const SAMPLE_EVENTS = [
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Event 123",
     dueDate: "Nov 30, 2021",
     completed: false,
-    start: "2023-06-29",
+    start: "2023-07-29",
     photo:
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1678188456408.jpg",
     firstName: "Rajeev",
@@ -18,7 +18,7 @@ export const SAMPLE_EVENTS = [
     // end: '2021-11-22'
   },
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Event 123",
     dueDate: "Nov 30, 2021",
     completed: false,
@@ -30,7 +30,7 @@ export const SAMPLE_EVENTS = [
     // end: '2021-11-22'
   },
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Event 123",
     dueDate: "Nov 30, 2021",
     completed: false,
@@ -42,7 +42,7 @@ export const SAMPLE_EVENTS = [
     // end: '2021-11-22'
   },
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Timed 12",
     dueDate: "Nov 30, 2021",
     completed: true,
@@ -53,7 +53,7 @@ export const SAMPLE_EVENTS = [
     type: "Absent",
   },
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Timed c",
     dueDate: "Nov 30, 2021",
     completed: true,
@@ -64,7 +64,7 @@ export const SAMPLE_EVENTS = [
     type: "Absent",
   },
   {
-    id: createEventId(),
+    id: 'createEventId()',
     title: "Demo Timed d",
     dueDate: "Nov 30, 2021",
     completed: true,
@@ -77,9 +77,9 @@ export const SAMPLE_EVENTS = [
   },
 ];
 
-export function createEventId() {
-  return String(eventGuid++);
-}
+// export function 'createEventId()' {
+//   return String(eventGuid++);
+// }
 export const MONTH_LIST = [
   { label: "Jan", key: "01", selected: false },
   { label: "Feb", key: "02", selected: false },

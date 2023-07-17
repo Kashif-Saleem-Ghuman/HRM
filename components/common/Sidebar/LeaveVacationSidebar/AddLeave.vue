@@ -29,13 +29,13 @@
         <div class="col-4">
           <div class="d-flex input-display-wrapper">
             <span>Allowance</span>
-            <span>31</span>
+            <span>{{allowanceDays}}</span>
           </div>
         </div>
         <div class="col-4">
           <div class="d-flex input-display-wrapper">
             <span>Used</span>
-            <span>4</span>
+            <span>{{ usedDays }}</span>
           </div>
         </div>
         <div class="col-4">
@@ -97,6 +97,12 @@ export default {
     },
     teamOptions: {
       type: Array,
+    },
+    allowanceDays:{
+      type:Number
+    },
+    usedDays:{
+      type:Number
     },
   }
 };

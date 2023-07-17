@@ -17,11 +17,13 @@ import {
   vfileAdded,
   updateAllData,
   handleInput,
+  addHandleInput,
   handleInputObject
 } from "../functions/form_update.js";
 
 export {
   headerHelpClick,
+  addHandleInput,
   headerActionCall,
   getUser,
   dateCheck,

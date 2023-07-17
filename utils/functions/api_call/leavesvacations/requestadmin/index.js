@@ -3,19 +3,22 @@ import axios from "axios";
 export async function getLeaveVacationsAdmin() {
   this.loading = true
   try {
-          const leaveVacationsAdmin = await axios.get(
-            process.env.API_URL + "/requests/admin?from=2023-06-06T01%3A04%3A18.528Z&to=2023-07-06T10%3A04%3A18.528Z&type=vacation&status=approved",
-            {
-              headers: {
-                Authorization: "Bearer " + this.getAccessToken,
-              },
-            }
-          );
-          this.leaveVacationAdminData = leaveVacationsAdmin.data;
-        } catch (e) {
-          alert(e);
-        }
-        this.loading = false
+    const leaveVacations = await axios.get(
+      process.env.API_URL + "/requests/admin",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          from: this.fromDate, // This is the body part
+          to: this.toDate,
+        },
+      }
+    );
+    this.calendarOptions.events = leaveVacations.data.requests;
+  } catch (e) {
+    alert(e);
+  }
 }
 
 export async function getPendingLeaveVacationsAdmin() {

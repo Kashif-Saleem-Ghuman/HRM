@@ -1,10 +1,10 @@
 !
 <template>
   <div>
-    <div v-if="userRole == 'ADMIN'">
+    <div v-if="getUserRole == 'ADMIN'">
       <time-attendance-admin></time-attendance-admin>
     </div>
-    <div v-if="userRole == 'USER'">
+    <div v-if="getUserRole == 'USER'">
       <time-attendance-user>
         
       </time-attendance-user>
@@ -17,7 +17,6 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      userRole: '',
     };
   },
   computed: {
@@ -25,10 +24,7 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
-  created() {
-    this.userRole = this.getUserRole;
-    console.log(this.userRole)
-  },
+  
 };
 </script>
 

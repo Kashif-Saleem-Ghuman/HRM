@@ -25,8 +25,7 @@
       <div style="height: 1px; background-color: #eee"></div>
       <div class="sidebar-footer p-1">
         <slot name="sidebar-footer">
-          <div class="">
-            <div class="d-flex align-center" v-if="copyLink">
+          <!-- <div class="d-flex align-center" v-if="copyLink">
               <bib-icon
                 icon="attachment"
                 :scale="0.8"
@@ -34,12 +33,7 @@
                 style="margin-right: 5px"
               ></bib-icon>
               <span style="color: #2ba026; font-size: 14px">Copy Link</span>
-            </div>
-            <div style="text-align: right;">
-              <bib-button label="Cancle" variant="gray" size="lg"></bib-button>
-              <bib-button label="Save" variant="success" size="lg"></bib-button>
-            </div>
-          </div>
+            </div> -->
         </slot>
       </div>
     </div>

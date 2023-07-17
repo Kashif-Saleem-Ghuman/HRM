@@ -141,3 +141,9 @@ export function handleInputObject(event, name, emContact) {
     };
   }
 }
+export function addHandleInput(event, name, addresses) {
+  this.isFlag = true;
+    this.addForm[name] = event;
+    // this.form[name] = event;
+    console.log(this.addForm, "update");
+}

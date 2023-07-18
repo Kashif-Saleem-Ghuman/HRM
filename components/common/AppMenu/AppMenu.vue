@@ -140,9 +140,14 @@ export default {
           this.$router.push("/settings/");
           return;
         }
+
         // user menu actions
-        if (item.key == "my-time-attandance") {
-          this.$router.push("/my-time-attandance");
+        if (item.key == "requestVacation") {
+          this.$nuxt.$emit("open-sidebar", 'requestVacation')
+          return;
+        }
+        if (item.key == "requestLeave") {
+          this.$nuxt.$emit("open-sidebar", 'requestLeave')
           return;
         }
         if (item.key == "my-leave-vacations") {

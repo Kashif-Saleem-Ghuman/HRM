@@ -151,6 +151,7 @@ export const INFO_CARD_DATA = [
     numLabel:"Past due",
     numberData:"2",
     progreesTitle:"Comp",
+    daysDesc:"Days",
     progress:98,
     figureLabel:"Absent",
     figureLabelData:"6",

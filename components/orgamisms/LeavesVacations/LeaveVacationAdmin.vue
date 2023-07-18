@@ -65,14 +65,14 @@
                     variant="success"
                     :scale="1"
                     title="Add leave"
-                    @on-click="actionBY()"
+                    @on-click="actionBY('leave')"
                   ></button-green>
                   <button-green
                     icon="add"
                     variant="success"
                     :scale="1"
                     title="Add vacation"
-                    @on-click="actionBY()"
+                    @on-click="actionBY('vacation')"
                   ></button-green>
                 </div>
               </div>
@@ -85,76 +85,13 @@
           </div>
         </div>
       </div>
-      <template>
-        <action-sidebar
-          @close-sidebar="closeSidebar"
-          @close="closeSidebar"
-          :className="slideClass"
-          heading="Schedule event"
-          v-show="addLeaveSidebar"
-        >
-          <template v-slot:sidebar-body>
-            <add-leave
-              :employeeName="employeeName"
-              :leaveTypeOptions="leaveTypeOptions"
-              @input="addHandleInput"
-              @change="addHandleInput"
-              style="z-index: 100000"
-              :allowanceDays="data.daysAllowed"
-              :usedDays="data.daysUsed"
-            ></add-leave>
-          </template>
-          <template v-slot:sidebar-footer>
-            <div class="">
-              <div style="text-align: right">
-                <bib-button
-                  label="Cancle"
-                  variant="gray"
-                  size="lg"
-                ></bib-button>
-                <bib-button
-                  label="Save"
-                  variant="success"
-                  size="lg"
-                  v-on:click="addLeaveVacations()"
-                ></bib-button>
-              </div>
-            </div>
-          </template>
-        </action-sidebar>
-      </template>
-      <template>
-        <action-sidebar
-          @close-sidebar="closeSidebar"
-          @close="closeSidebar"
-          :className="slideClass"
-          heading="Schedule vacation"
-          v-show="addVacationSidebar"
-        >
-          <template v-slot:sidebar-body>
-            <add-leave
-              :employeeName="employeeName"
-              :leaveTypeOptions="leaveTypeOptions"
-            ></add-leave>
-          </template>
-        </action-sidebar>
-      </template>
     </div>
   </div>
 </template>
 <script>
-import {
-  addHandleInput,
-  handleInputObject,
-} from "../../../utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import {
-  addLeaveVacations,
-} from "../../../utils/functions/api_call/leavesvacations/requestuser";
-import {getAllowanceDays } from "../../../utils/functions/api_call/leavesvacations/requestuser/index";
-import {
   LEAVEVACATION_TAB,
-  SELECT_OPTIONS,
 } from "../../../utils/constant/Constant";
 export default {
   data() {
@@ -165,82 +102,26 @@ export default {
       addLeaveSidebar: false,
       addVacationSidebar: false,
       slideClass: "slide-in",
-      leaveTypeOptions: SELECT_OPTIONS.leaveType,
-      addForm: {},
       leaveVacationAdminData: [],
       pendingLeaveVacationAdminData: [],
       fromDate: "2023-06-06T01:04:18.528Z",
       toDate: "2023-07-30T10:04:18.528Z",
-      getRequest: {},
-      employeeName: "",
-      fromDate: "2023-06-06T01:04:18.528Z",
-      toDate: "2023-07-30T10:04:18.528Z",
-      data:'',
-      vacationType:'vacation',
+      getRequest: {},      
     };
   },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
-      getUser: "employee/GET_USER",
     }),
-  },
-  async created() {
-    await this.$store.dispatch("employee/setActiveUser");
-    var users = this.getUser;
-    this.employeeName = users.firstName + " " + users.lastName;
-  },
-  beforeMount() {
-    // this.getAllowanceDays();
-  },
-  mounted(){
-    this.getAllowanceDays().then((result)=>{
-      console.log(result, "results")
-      this.data = result;
-      // this.temKey += 1;
-      console.log(this.data, "leaveTypeOptions");
-    });
   },
   methods: {
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
     },
-    getAllowanceDays,
-    addHandleInput,
-    addLeaveVacations,
-    actionBY(event) {
-      if (event == "leave") {
-        if (this.addLeaveSidebar == true) {
-          this.slideClass = "slide-out";
-          setTimeout(() => {
-            this.addLeaveSidebar = false;
-          }, 700);
-        } else {
-          this.addVacationSidebar = false;
-          this.addLeaveSidebar = true;
-          this.slideClass = "slide-in";
-        }
-      } else if (event == "vacation") {
-        if (this.addVacationSidebar == true) {
-          this.slideClass = "slide-out";
-          setTimeout(() => {
-            this.addVacationSidebar = false;
-          }, 700);
-        } else {
-          this.addLeaveSidebar = false;
-          this.addVacationSidebar = true;
-          this.slideClass = "slide-in";
-        }
-      }
+    actionBY($event) {
+      this.$nuxt.$emit("open-sidebar", $event)
     },
-    closeSidebar() {
-      this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.addLeaveSidebar = false;
-        this.addVacationSidebar = false;
-      }, 700);
-    },
-  },
+  }
 };
 </script>
 

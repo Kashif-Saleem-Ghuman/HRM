@@ -2,7 +2,7 @@
   <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
-    :sections="timeoffAbsenceData"
+    :sections="timeoffData"
     :hide-no-column="true"
     classTypeHead="table__hrow__custom"
     classTypeBody="table__hrow__custom__irow"
@@ -12,14 +12,9 @@
         <bib-checkbox size="md"></bib-checkbox>
       </div>
     </template>
-    <template #cell(from)="data">
+    <template #cell(submitted)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.from }}</span>
-      </div>
-    </template>
-    <template #cell(received)="data">
-      <div class="justify-between text-dark">
-        <span>{{ data.value.received }}</span>
+        <span>{{ data.value.submitted }}</span>
       </div>
     </template>
     <template #cell(type)="data">
@@ -27,9 +22,9 @@
         <span>{{ data.value.type }}</span>
       </div>
     </template>
-    <template #cell(from2)="data">
+    <template #cell(from)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.from2 }}</span>
+        <span>{{ data.value.from }}</span>
       </div>
     </template>
     <template #cell(to)="data">
@@ -44,37 +39,30 @@
     </template>
     <template #cell(status)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.pending }}</span>
+        <span>{{ data.value.status }}</span>
       </div>
     </template>
   </custom-table>
 </template>
 
 <script>
-import { TABLE_HEAD } from "../../../../utils/constant/Constant";
+import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
 export default {
   props: {
-    timeoffAbsenceData: {
+    timeoffData: {
       type: Array,
       default: "",
     },
   },
   data() {
     return {
-      tableFields: TABLE_HEAD.tHeadTimeoffRequestPendingRequest,
+      tableFields: TABLE_HEAD.tHeadMyTimeoffRequest,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
     };
   },
-
   methods: {
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
-
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);
     },

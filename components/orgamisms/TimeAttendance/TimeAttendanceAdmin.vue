@@ -215,7 +215,7 @@
                 class="d-flex justify-between align-center px-075 bottom_border_wrapper"
               >
                 <div class="d-flex align-center">
-                  <div class="custom_date_picker">
+                  <div class="custom_date_picker d-flex">
                     <div class="mr-05">Date:</div>
                     <bib-datetime-picker
                       v-model="date2"

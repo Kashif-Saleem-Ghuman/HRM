@@ -32,7 +32,7 @@ export async function getPendingLeaveVacationsAdmin() {
               },
             }
           );
-          this.pendingLeaveVacationAdminData = pendingLeaveVacationsAdmin.data;
+          this.requestListData = pendingLeaveVacationsAdmin.data.requests;
         } catch (e) {
           alert(e);
         }
@@ -49,7 +49,7 @@ export async function getApproveLeaveVacationsAdmin() {
               },
             }
           );
-          this.approveLeaveVacationsAdminData = approveLeaveVacationsAdmin.data;
+          this.requestListData = approveLeaveVacationsAdmin.data;
         } catch (e) {
           alert(e);
         }

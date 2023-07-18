@@ -109,8 +109,8 @@ const data = () => {
     navItemsUserShortcuts: [
       { label: "Clock in", icon: "time", key: "usertimeattandance", selected: false},
       { label: "Send Notification", icon: "mail", key: "userleavevacations",  selected: false},
-      { label: "Request Vacation", icon: "start", key: "userprofile",  selected: false},
-      { label: "Request Leave", icon: "exit-to-app", key: "files", url:"/files", selected: false},
+      { label: "Request Vacation", icon: "start", key: "requestVacation",  selected: false},
+      { label: "Request Leave", icon: "exit-to-app", key: "requestLeave", url:"/files", selected: false},
     ],
     navItemsAdminSwitch: [
       { label: "Organization admin", icon: "add", key: "organization-admin", selected: false, id:""},

@@ -66,9 +66,7 @@ export default {
     };
   },
   methods: {
-    closeSidebar() {
-      this.$emit("close-sidebar");
-    },
+   
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-1">
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-12">
           <bib-input
             type="text"
@@ -13,7 +13,7 @@
             @change="$emit('input', $event, 'employeeId')"
           ></bib-input>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-12">
           <bib-input

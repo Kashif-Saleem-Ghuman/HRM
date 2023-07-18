@@ -36,6 +36,7 @@ export async function getAllowanceDays() {
         },
       }
     );
+    this.loading = false;
     return allowanceDays.data;
     // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {

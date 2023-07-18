@@ -35,10 +35,11 @@
           <span>{{ item.figureLabelTwoData }}</span>
         </div>
       </div>
-      <div style="width: 100%">
+      <div style="width: 100%" v-show="icon">
         <bib-button
           :label="buttonLable"
           size="lg"
+          :icon="icon"
           :variant="buttonVariant"
           pill
           class="w-100 mb-1"

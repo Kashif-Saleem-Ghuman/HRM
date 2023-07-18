@@ -26,7 +26,6 @@
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
-          
         >
           <!-- <template #avatar_menu>
             <avatar-sub-menu
@@ -50,14 +49,52 @@
         <app-menu
           :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
           :className="lightThemeChecked ? 'custom-menu' : 'custom-menu-light'"
-          :sectionHead="lightThemeChecked ? 'section-head_light' : 'section-head_dark'"
-          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''" :userMenu="userRole === 'USER' ? 'userMenu' : ''"
+          :sectionHead="
+            lightThemeChecked ? 'section-head_light' : 'section-head_dark'
+          "
+          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''"
+          :userMenu="userRole === 'USER' ? 'userMenu' : ''"
         ></app-menu>
       </template>
       <template #content>
         <div id="main-content">
           <Nuxt />
           <loader v-bind:showloader="loading"></loader>
+          <action-sidebar
+            @close="closeSidebar"
+            :className="slideClass"
+            :heading="sidebarHeading"
+            v-show="openSidebar"
+          >
+            <template v-slot:sidebar-body>
+              <add-leave
+                :employeeName="employeeName"
+                :leaveTypeOptions="leaveTypeOptions"
+                @input="addHandleInput"
+                @change="addHandleInput"
+                style="z-index: 100000"
+                :allowanceDays="allowanceData.daysAllowed"
+                :usedDays="allowanceData.daysUsed"
+              ></add-leave>
+            </template>
+            <template v-slot:sidebar-footer>
+              <div class="">
+                <div style="text-align: right">
+                  <bib-button
+                    label="Cancle"
+                    variant="gray"
+                    size="lg"
+                  ></bib-button>
+                  <bib-button
+                    label="Save"
+                    variant="success"
+                    size="lg"
+                    v-on:click="addLeaveVacations()"
+                  ></bib-button>
+                </div>
+              </div>
+            </template>
+          </action-sidebar>
         </div>
       </template>
     </bib-app-wrapper>
@@ -66,6 +103,12 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import {
+  addLeaveVacations,
+  getAllowanceDays,
+} from "../utils/functions/functions_lib_api";
+import { addHandleInput } from "../utils/functions/functions_lib";
+import { SELECT_OPTIONS } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
@@ -85,6 +128,7 @@ export default {
   data() {
     return {
       openSidebar: false,
+      openSidebar2: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
       lightThemeChecked: this.$cookies.get("isLightTheme") || false,
@@ -96,7 +140,15 @@ export default {
       userPhoto: "",
       accountType: "",
       token: "",
-      userRole:'',
+      userRole: "",
+      addVacationSidebar: true,
+      slideClass: "slide-in",
+      allowanceData: "",
+      vacationType: "vacation",
+      employeeName: "",
+      leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      addForm: {},
+      sidebarHeading: "",
     };
   },
   fetch() {
@@ -105,11 +157,43 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
-      getUserRole:"token/getUserRole",
+      getUserRole: "token/getUserRole",
     }),
   },
-  created() {
+  async created() {
     // this.routesCheck();
+    this.$root.$on("open-sidebar", (payload) => {
+      console.log("openSidebar => ", payload);
+      this.slideClass = "slide-in";
+      this.getAllowanceDays().then((result) => {
+          console.log(result, "results");
+          this.allowanceData = result;
+          // this.temKey += 1;
+        });
+      if (payload == "leave") {
+        this.sidebarHeading = "Schedule leave";
+        this.openSidebar = true;
+      }
+      if (payload == "vacation") {
+        this.sidebarHeading = "Schedule vacation";
+        this.openSidebar = true;
+      }
+      if (payload == "requestVacation") {
+        this.sidebarHeading = "Request vacation";
+        this.openSidebar = true;
+      }
+      if (payload == "requestLeave") {
+        this.sidebarHeading = "Request leave";
+        this.openSidebar = true;
+      }
+    });
+    this.$root.$on("close-sidebar", () => {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+        this.openSidebar2 = false;
+      }, 700);
+    });
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -128,29 +212,25 @@ export default {
     this.isThemeCheck();
     if (accessToken && cookies) {
       axios
-        .post(
-          process.env.USER_AUTH_API_ENDPOINT,
-          {
-            ssojwt: accessToken,
-          }
-        )
+        .post(process.env.USER_AUTH_API_ENDPOINT, {
+          ssojwt: accessToken,
+        })
         .then((res) => {
           if (res) {
             this.token = res.data.jwt;
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
-            this.accountType = 
-               res?.data?.u?.subbs == "FREETRAIL"
+            this.accountType =
+              res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"
-                 : "Upgrade";
+                : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userId", userId);
-            this.userRole = userRole
+            this.userRole = userRole;
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            console.log(this.getUserRole, "getUserRole")
-
+            console.log(this.getUserRole, "getUserRole");
           }
           this.getUser();
           this.getBusinessId();
@@ -171,6 +251,9 @@ export default {
     getUser,
     getBusinessId,
     handleToggleWrapperTheme,
+    getAllowanceDays,
+    addLeaveVacations,
+    addHandleInput,
     openAccountPage,
     myProfile,
     logout,
@@ -178,6 +261,13 @@ export default {
     headerActionCall,
     openPopupNotification,
     routesCheck,
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+        this.openSidebar2 = false;
+      }, 700);
+    },
   },
 };
 </script>

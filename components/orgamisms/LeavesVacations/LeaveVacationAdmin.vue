@@ -64,21 +64,21 @@
                     icon="add"
                     variant="success"
                     :scale="1"
-                    title="Add leave"
-                    @on-click="actionBY('leave')"
+                    title="Approved"
+                    @on-click="pendingApproveRequest('approve')"
                   ></button-green>
-                  <button-green
+                  <button-warning
                     icon="add"
                     variant="success"
                     :scale="1"
-                    title="Add vacation"
-                    @on-click="actionBY('vacation')"
-                  ></button-green>
+                    title="Pending"
+                    @on-click="pendingApproveRequest('pending')"
+                  ></button-warning>
                 </div>
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <h1>Heloo World</h1>
+                  <list-pending :listPending="requestListData"></list-pending>
                 </div>
               </div>
             </div>
@@ -90,13 +90,12 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import {
-  LEAVEVACATION_TAB,
-} from "../../../utils/constant/Constant";
+import { LEAVEVACATION_TAB } from "../../../utils/constant/Constant";
+import { getPendingLeaveVacationsAdmin, getApproveLeaveVacationsAdmin } from "../../../utils/functions/functions_lib_api";
 export default {
   data() {
     return {
-      temKey:0,
+      temKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: "Dashboard",
       addLeaveSidebar: false,
@@ -106,7 +105,8 @@ export default {
       pendingLeaveVacationAdminData: [],
       fromDate: "2023-06-06T01:04:18.528Z",
       toDate: "2023-07-30T10:04:18.528Z",
-      getRequest: {},      
+      getRequest: {},
+      requestListData: {},
     };
   },
   computed: {
@@ -114,14 +114,31 @@ export default {
       getAccessToken: "token/getAccessToken",
     }),
   },
+  mounted() {
+    // this.getPendingLeaveVacationsAdmin();
+
+  },
   methods: {
+    getPendingLeaveVacationsAdmin,
+    getApproveLeaveVacationsAdmin,
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
+      if(tab.value == 'Pending Requests'){
+        this.getPendingLeaveVacationsAdmin();
+      }
     },
     actionBY($event) {
-      this.$nuxt.$emit("open-sidebar", $event)
+      this.$nuxt.$emit("open-sidebar", $event);
     },
-  }
+    pendingApproveRequest(event) {
+      console.log(event, "pendingApproveRequest");
+      if (event == "approve") {
+        this.getApproveLeaveVacationsAdmin();
+      }else if(event == 'pending'){
+        this.getPendingLeaveVacationsAdmin();
+      }
+    },
+  },
 };
 </script>
 

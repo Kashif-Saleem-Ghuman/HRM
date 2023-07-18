@@ -255,18 +255,22 @@ export const TABLE_HEAD = {
       label: "Total",
     },
   ],
-  tHeadMyTimeoffRequest: [
+  tHeadLeaveVacationPending: [
     {
       key: "",
       label: "#",
     },
     {
-      key: "submitted",
-      label: "Submitted on",
+      key: "from",
+      label: "From",
+    },
+    {
+      key: "recived",
+      label: "Recived",
     },
     {
       key: "type",
-      label: "type",
+      label: "Type",
     },
     {
       key: "from",
@@ -1133,7 +1137,7 @@ export const LEAVEVACATION_TAB = [
   },
   {
     title: "Pending Requests",
-    value: "Prnding Requests",
+    value: "Pending Requests",
   },
   // },
 ];

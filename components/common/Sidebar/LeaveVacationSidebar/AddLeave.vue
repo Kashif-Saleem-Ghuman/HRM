@@ -21,8 +21,10 @@
             label="Leave type"
             :options="leaveTypeOptions"
             placeholder="Select your Leave type"
+            required
             @input="$emit('input', $event, 'type')"
-          ></bib-input>
+          ></bib-input>  
+          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgSelect">Please select leave type</small>
         </div>
       </div>
       <div class="row pt-075 pb-075">
@@ -41,7 +43,7 @@
         <div class="col-4">
           <div class="d-flex input-display-wrapper">
             <span>Available</span>
-            <span>23</span>
+            <span>{{allowanceDays - usedDays}}</span>
           </div>
         </div>
       </div>
@@ -53,6 +55,7 @@
             placeholder="Select your start date"
             @change="$emit('input', $event, 'start')"
           ></bib-input>
+          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgStartDate">Please select start date</small>
         </div>
         <div class="col-6">
           <bib-input
@@ -61,6 +64,7 @@
             placeholder="Select your end date"
             @change="$emit('input', $event, 'end')"
           ></bib-input>
+          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgEndDate">Please select end date</small>
         </div>
       </div>
     </div>
@@ -104,6 +108,15 @@ export default {
     usedDays:{
       type:Number
     },
+    errorMsgSelect:{
+      type:Boolean
+    },
+    errorMsgStartDate:{
+      type:Boolean
+    },
+    errorMsgEndDate:{
+      type:Boolean
+    }
   }
 };
 </script>

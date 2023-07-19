@@ -1,155 +1,154 @@
 <template>
   <div>
-    <client-only>
-      <div class="custom-header px-1 py-1">
-        <div class="ltr-wrapper">
-          <div class="ltr-wrapper-items">
-            <div class="button-items pr-05">
-              <label>View:</label>
-              <button-black
-                icon="close"
-                variant="light"
-                :scale="1"
-                :title="ViewTitle"
-                @on-click="show = !show"
-                v-click-outside="clickOutside"
-              ></button-black>
-              <div class="menu-items">
-                <ul v-if="show">
-                  <li class="d-flex align-center">
-                    <span
-                      class="ml-05"
-                      @click="monthView('Month')"
-                      style="cursor: pointer"
-                      >Month</span
-                    >
-                  </li>
-                  <li class="d-flex align-center">
-                    <span
-                      class="ml-05"
-                      @click="weekView('Week')"
-                      style="cursor: pointer"
-                      >Week</span
-                    >
-                  </li>
-                </ul>
-              </div>
+    <div class="custom-header px-1 py-1">
+      <div class="ltr-wrapper">
+        <div class="ltr-wrapper-items">
+          <div class="button-items pr-05">
+            <label>View:</label>
+            <button-black
+              icon="close"
+              variant="light"
+              :scale="1"
+              :title="ViewTitle"
+              @on-click="show = !show"
+              v-click-outside="clickOutside"
+            ></button-black>
+            <div class="menu-items">
+              <ul v-if="show">
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="monthView('Month')"
+                    style="cursor: pointer"
+                    >Month</span
+                  >
+                </li>
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="weekView('Week')"
+                    style="cursor: pointer"
+                    >Week</span
+                  >
+                </li>
+              </ul>
             </div>
-            <div class="button-items">
-              <label>Month:</label>
-              <select
-                class="select_month"
-                id="my-select"
-                ref="myInput"
-                @change="changeMonthView()"
+          </div>
+          <div class="button-items">
+            <label>Month:</label>
+            <select
+              class="select_month"
+              id="my-select"
+              ref="myInput"
+              @change="changeMonthView()"
+            >
+              <option
+                v-for="i in monthList"
+                :value="i.key"
+                :selected="i.key === currentMonth ? true : false"
               >
-                <option
-                  v-for="i in monthList"
-                  :value="i.key"
-                  :selected="i.key === currentMonth ? true : false"
-                >
-                  {{ i.label }}
-                </option>
-              </select>
-            </div>
-            <div class="button-items pl-05 pr-05">
-              <label>Year:</label>
-              <select
-                id="select_year"
-                ref="myInputYear"
-                @change="changeYearView()"
+                {{ i.label }}
+              </option>
+            </select>
+          </div>
+          <div class="button-items pl-05 pr-05">
+            <label>Year:</label>
+            <select
+              id="select_year"
+              ref="myInputYear"
+              @change="changeYearView()"
+            >
+              <option
+                v-for="i in yearList"
+                :value="i.key"
+                :selected="i.key === currentYear ? true : false"
               >
-                <option
-                  v-for="i in yearList"
-                  :value="i.key"
-                  :selected="i.key === currentYear ? true : false"
-                >
-                  {{ i.label }}
-                </option>
-              </select>
-            </div>
-            <div class="button-items pr-05">
-              <button-black
-                icon="close"
-                variant="light"
-                :scale="1"
-                :title="todayDate"
-                @on-click="show = !show"
-                v-click-outside="clickOutside"
-              ></button-black>
-            </div>
+                {{ i.label }}
+              </option>
+            </select>
+          </div>
+          <div class="button-items pr-05">
+            <button-black
+              icon="close"
+              variant="light"
+              :scale="1"
+              :title="todayDate"
+              @on-click="show = !show"
+              v-click-outside="clickOutside"
+            ></button-black>
           </div>
         </div>
-        <div class="rtl-wrapper d-flex align-center">
-          <div class="serach-item pr-05">
-            <label>Serach:</label>
-            <template>
-              <bib-input
-                type="text"
-                name="name"
-                placeholder="Type your name"
-              ></bib-input>
-            </template>
-          </div>
-          <div class="serach-item pr-05">
-            <label>Show:</label>
-            <button-gray
-              variant="light"
-              title="All"
-              @on-click="weekData()"
-            ></button-gray>
-          </div>
+      </div>
+      <div class="rtl-wrapper d-flex align-center">
+        <div class="serach-item pr-05">
+          <label>Serach:</label>
+          <template>
+            <bib-input
+              type="text"
+              name="name"
+              placeholder="Type your name"
+            ></bib-input>
+          </template>
+        </div>
+        <div class="serach-item pr-05">
+          <label>Show:</label>
           <button-gray
             variant="light"
-            :scale="1"
-            title="Weekends"
+            title="All"
             @on-click="weekData()"
           ></button-gray>
         </div>
+        <button-gray
+          variant="light"
+          :scale="1"
+          title="Weekends"
+          @on-click="weekData()"
+        ></button-gray>
       </div>
-      <div class="">
-        <FullCalendar
-          :options="calendarOptions"
-          ref="fullCalendar"
-          id="fullCalendar"
+    </div>
+    <div class="">
+      <FullCalendar
+        :options="calendarOptions"
+        ref="fullCalendar"
+        id="fullCalendar"
+        :reloadData="reloadData"
+      >
+        <template
+          v-slot:eventContent="arg"
+          style="background-color: #fff !important"
         >
-          <template
-            v-slot:eventContent="arg"
-            style="background-color: #fff !important"
+          <a
+            class="author-display d-flex"
+            :class="[
+              arg.event.extendedProps.type === 'holiday'
+                ? 'event_wrapper__bghoilday'
+                : '',
+              arg.event.extendedProps.type === 'vacation'
+                ? 'event_wrapper__bgholiday'
+                : '',
+              arg.event.extendedProps.type === 'leave'
+                ? 'event_wrapper__bgonleave'
+                : '',
+              arg.event.extendedProps.type == 'Absent'
+                ? 'event_wrapper__bgabsent'
+                : '',
+              arg.event.extendedProps.type == 'medical'
+                ? 'event_wrapper__bgabsent'
+                : '',
+            ]"
           >
-            <a
-              class="author-display d-flex"
-              :class="[
-                arg.event.extendedProps.type === 'holiday'
-                  ? 'event_wrapper__bghoilday'
-                  : '',
-                arg.event.extendedProps.type === 'vacation'
-                  ? 'event_wrapper__bgholiday'
-                  : '',
-                arg.event.extendedProps.type === 'leave'
-                  ? 'event_wrapper__bgonleave'
-                  : '',
-                arg.event.extendedProps.type == 'Absent'
-                  ? 'event_wrapper__bgabsent'
-                  : '',
-                arg.event.extendedProps.type == 'medical'
-                  ? 'event_wrapper__bgabsent'
-                  : '',
-              ]"
-            >
-              <bib-avatar
-                :src="arg.event.extendedProps.photo"
-                size="2rem"
-              ></bib-avatar>
-              <div class="list-item pl-05">
-                <label>{{ arg.event.extendedProps.start }}</label>
-                <span>{{ arg.event.extendedProps.type }}</span>
-              </div>
-            </a>
-          </template>
-        </FullCalendar>
-      </div>
-    </client-only>
+            <bib-avatar
+              :src="arg.event.extendedProps.photo"
+              size="2rem"
+            ></bib-avatar>
+            <div class="list-item pl-05">
+              <label>{{ arg.event.extendedProps.start }}</label>
+              <span>{{ arg.event.extendedProps.type }}</span>
+            </div>
+          </a>
+        </template>
+      </FullCalendar>
+    </div>
   </div>
 </template>
 
@@ -174,6 +173,7 @@ export default {
   data() {
     return {
       show: false,
+      reloadData: 1,
       monthList: MONTH_LIST,
       yearList: YEAR_LIST,
       ViewTitle: "Month",
@@ -231,6 +231,7 @@ export default {
         eventRemove: this.handleEventRemove,
       },
       currentDate: fecha.format(new Date(), "DD"),
+      // currentMonth:'08',
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
@@ -244,13 +245,27 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
+      getLeaveVacation: "leavevacation/getLeaveVacation",
+      getformToDate: "leavevacation/getformToDate",
     }),
   },
-  async beforeMount() {},
+
   mounted() {
     this.selectedMonth = this.currentMonth;
     this.getCurrentDateMonth();
-    this.getLeaveVacationsAdmin();
+    this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+
+    this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+    }, 1000);
+    console.log(this.calendarOptions.events, "this.calendarOptions.events");
   },
   methods: {
     getLeaveVacationsAdmin,

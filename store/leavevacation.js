@@ -1,11 +1,15 @@
 import axios from "axios";
 export const state = () => ({
   leaveVacationList: [],
+  formToDAte:{},
 });
 
 export const getters = {
     getLeaveVacation(state) {
       return state.leaveVacationList
+    },
+    getformToDate(state) {
+      return state.formToDAte
     },
     getActiveTab(state){
       return state.activeTab
@@ -18,6 +22,9 @@ export const mutations = {
   SET_LEAVEVACATION_LIST: (state, payload) => {
     state.leaveVacationList = payload;
   },
+  SET_FROMTODATE_LIST: (state, payload) => {
+    state.formToDAte = payload;
+  },
 };
 
 export const  actions = {
@@ -25,7 +32,7 @@ export const  actions = {
     this.loading = true;
     try {
       const leaveVacations = await axios.get(
-        "https://dev-hrm-api.business-in-a-box.com/v1/requests",
+        "https://dev-hrm-api.business-in-a-box.com/v1/requests/admin",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -36,11 +43,14 @@ export const  actions = {
           },
         }
       );
-      console.log(leaveVacations.data.requests, "leaveVacationsleaveVacations")
       ctx.commit("SET_LEAVEVACATION_LIST", leaveVacations.data.requests);
+      return leaveVacations.data.requests
     } catch (e) {
       alert(e);
     }
     this.loading = false;
-  }
+  },
+  setActiveFromToDate(context, payload) {
+    context.commit('SET_FROMTODATE_LIST', payload)
+  },
 }

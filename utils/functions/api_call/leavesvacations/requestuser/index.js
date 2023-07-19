@@ -45,6 +45,21 @@ export async function getAllowanceDays() {
   this.loading = false;
 }
 export async function addLeaveVacations() {
+  if(this.addForm.type == ''){
+    this.errorMsgSelect = true;
+    return true
+  }
+  this.errorMsgSelect = false;
+  if(this.addForm.start == ''){
+    this.errorMsgStartDate = true;
+    return true
+  }
+  this.errorMsgStartDate = false;
+  if(this.addForm.end == ''){
+    this.errorMsgEndDate = true;
+    return true
+  }
+  this.errorMsgEndDate = false;
   this.loading = true;
   var data = this.addForm
   var startDate = fecha.format(new Date(data.start), 'isoDate'); // '2015-11-20'data.start.toISOString();
@@ -63,6 +78,16 @@ export async function addLeaveVacations() {
       }
     );
     this.leaveVacationData = addLeaveVacations.data;
+    this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    }).then((result)=>{
+      this.$nuxt.$emit("update-key");
+    });
+    this.slideClass = "slide-out";
+    setTimeout(() => {
+      this.openSidebar = false;
+    }, 700);
   } catch (e) {
     alert(e);
   }

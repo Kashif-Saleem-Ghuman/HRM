@@ -73,8 +73,12 @@
                 @input="addHandleInput"
                 @change="addHandleInput"
                 style="z-index: 100000"
-                :allowanceDays="allowanceData.daysAllowed"
-                :usedDays="allowanceData.daysUsed"
+                :allowanceDays="allowanceData?.daysAllowed"
+                :usedDays="allowanceData?.daysUsed"
+                :key="addLeaveKey"
+                :errorMsgSelect="errorMsgSelect"
+                :errorMsgStartDate="errorMsgStartDate"
+                :errorMsgEndDate="errorMsgEndDate"
               ></add-leave>
             </template>
             <template v-slot:sidebar-footer>
@@ -123,6 +127,7 @@ import {
   isThemeCheck,
   getBusinessId,
 } from "../utils/functions/functions_lib.js";
+
 import routesCheck from "../middleware/routes.client";
 export default {
   data() {
@@ -139,7 +144,6 @@ export default {
       popupMessages: [],
       userPhoto: "",
       accountType: "",
-      token: "",
       userRole: "",
       addVacationSidebar: true,
       slideClass: "slide-in",
@@ -147,8 +151,17 @@ export default {
       vacationType: "vacation",
       employeeName: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
-      addForm: {},
+      addForm: {
+        type:'',
+        start:'',
+        end:'',
+      },
       sidebarHeading: "",
+      addLeaveKey:0,
+      errorMsgSelect:false,
+      errorMsgStartDate:false,
+      errorMsgEndDate:false,
+      token: "",
     };
   },
   fetch() {
@@ -158,18 +171,15 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
+      getformToDate:"leavevacation/getformToDate"
     }),
   },
   async created() {
     // this.routesCheck();
+   
     this.$root.$on("open-sidebar", (payload) => {
-      console.log("openSidebar => ", payload);
       this.slideClass = "slide-in";
-      this.getAllowanceDays().then((result) => {
-          console.log(result, "results");
-          this.allowanceData = result;
-          // this.temKey += 1;
-        });
+     
       if (payload == "leave") {
         this.sidebarHeading = "Schedule leave";
         this.openSidebar = true;
@@ -191,8 +201,11 @@ export default {
       this.slideClass = "slide-out";
       setTimeout(() => {
         this.openSidebar = false;
-        this.openSidebar2 = false;
       }, 700);
+    });
+    this.$root.$on("add-leave", () => {
+      this.addLeaveKey +=1;
+      console.log(this.addLeaveKey, "this.addLeaveKey")
     });
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -230,7 +243,6 @@ export default {
             localStorage.setItem("userId", userId);
             this.userRole = userRole;
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            console.log(this.getUserRole, "getUserRole");
           }
           this.getUser();
           this.getBusinessId();
@@ -243,7 +255,10 @@ export default {
       window.location.href =
         process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
-
+    this.getAllowanceDays().then((result) => {
+          this.allowanceData = result;
+          // this.temKey += 1;
+        });
     this.loading = false;
   },
   methods: {

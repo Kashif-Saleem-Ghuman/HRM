@@ -45,9 +45,7 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <client-only>
-                    <calendar-feature></calendar-feature>
-                  </client-only>
+                    <calendar-feature :key="componentKey"></calendar-feature>
                 </div>
               </div>
             </div>
@@ -95,7 +93,7 @@ import { getPendingLeaveVacationsAdmin, getApproveLeaveVacationsAdmin } from "..
 export default {
   data() {
     return {
-      temKey: 0,
+      componentKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: "Dashboard",
       addLeaveSidebar: false,
@@ -112,11 +110,17 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
+      getformToDate:"leavevacation/getformToDate"
     }),
+  },
+  created(){
+    this.$root.$on("update-key", () => {
+      this.componentKey += 1;
+    });
   },
   mounted() {
     // this.getPendingLeaveVacationsAdmin();
-
+    console.log(this.getformToDate, "getformToDate")
   },
   methods: {
     getPendingLeaveVacationsAdmin,
@@ -129,9 +133,9 @@ export default {
     },
     actionBY($event) {
       this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("add-leave");
     },
     pendingApproveRequest(event) {
-      console.log(event, "pendingApproveRequest");
       if (event == "approve") {
         this.getApproveLeaveVacationsAdmin();
       }else if(event == 'pending'){

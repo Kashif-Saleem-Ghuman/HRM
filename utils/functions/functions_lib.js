@@ -18,12 +18,14 @@ import {
   updateAllData,
   handleInput,
   addHandleInput,
+  editHandleInput,
   handleInputObject
 } from "../functions/form_update.js";
 
 export {
   headerHelpClick,
   addHandleInput,
+  editHandleInput,
   headerActionCall,
   getUser,
   dateCheck,

@@ -19,6 +19,7 @@
           <bib-input
             type="select"
             label="Leave type"
+            v-model="ltype"
             :options="leaveTypeOptions"
             placeholder="Select your Leave type"
             required
@@ -52,6 +53,7 @@
           <bib-input
             type="date"
             label="Start date"
+            v-model="dateStart"
             placeholder="Select your start date"
             @change="$emit('input', $event, 'start')"
           ></bib-input>
@@ -63,6 +65,7 @@
             label="End date"
             placeholder="Select your end date"
             @change="$emit('input', $event, 'end')"
+            v-model="dateEnd"
           ></bib-input>
           <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgEndDate">Please select end date</small>
         </div>
@@ -74,6 +77,7 @@
           type="textarea"
           label="Reason"
           placeholder="Enter text"
+          v-model="reason"
           @change="$emit('input', $event, 'note')"
         ></bib-input>
       </div>
@@ -87,9 +91,9 @@
 </template>
 
 <script>
-
 export default {
   props: {
+    
     leaveType: {
       type: String,
     },
@@ -98,9 +102,6 @@ export default {
     },
     employeeName: {
       type: String,
-    },
-    teamOptions: {
-      type: Array,
     },
     allowanceDays:{
       type:Number
@@ -116,8 +117,28 @@ export default {
     },
     errorMsgEndDate:{
       type:Boolean
+    },
+    startDate:{
+      type:String
+    },
+    endDate:{
+      type:String
+    },
+    note:{
+      type:String
+    },
+  },
+  data(){
+    return {
+      ltype : this.leaveType,
+      dateStart:this.startDate,
+      dateEnd: this.endDate,
+      reason:this.note,
     }
-  }
+  },
+  computed:{
+      
+    }
 };
 </script>
 <style lang="scss">

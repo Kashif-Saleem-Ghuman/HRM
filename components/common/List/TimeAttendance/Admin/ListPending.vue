@@ -6,10 +6,11 @@
     :hide-no-column="true"
     classTypeHead="table__hrow__custom"
     classTypeBody="table__hrow__custom__irow"
+    @input="($emit('selectAllItems'))"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md"></bib-checkbox>
+        <bib-checkbox size="md" @change="$emit('input', data.value.id)" :checked="checked"></bib-checkbox>
       </div>
     </template>
     <!-- <template #cell(from)="data">
@@ -19,7 +20,7 @@
     </template> -->
     <template #cell(recived)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.employeeId }}</span>
+        <span>{{ data.value.id }}</span>
       </div>
     </template>
     <template #cell(type)="data">
@@ -71,9 +72,12 @@ import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
 export default {
   props: {
     listPending: {
-      type: Array,
+      type: [Array, Object],
       default: "",
     },
+    checked:{
+      type:Boolean
+    }
   },
   data() {
     return {
@@ -86,6 +90,9 @@ export default {
   methods: {
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);
+    },
+    handleAction($event){
+      this.$emit("get-id", $event);
     },
     handleAction_Table(data) {
       console.log(data);

@@ -4,7 +4,24 @@
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="button-items pr-05">
+            <div class="d-flex align-center">
+                  <button-green
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Add leave"
+                    @on-click="actionBY('leave')"
+                  ></button-green>
+                  <button-green
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Add vacation"
+                    @on-click="actionBY('vacation')"
+                  ></button-green>
+                </div>
             <label>View:</label>
+           <div style="position: relative;">
             <button-black
               icon="close"
               variant="light"
@@ -33,6 +50,7 @@
                 </li>
               </ul>
             </div>
+           </div>
           </div>
           <div class="button-items">
             <label>Month:</label>
@@ -87,6 +105,7 @@
               type="text"
               name="name"
               placeholder="Type your name"
+              @change="searchLeavesType($event)"
             ></bib-input>
           </template>
         </div>
@@ -95,7 +114,7 @@
           <button-gray
             variant="light"
             title="All"
-            @on-click="weekData()"
+            @on-click="fullData()"
           ></button-gray>
         </div>
         <button-gray
@@ -111,11 +130,10 @@
         :options="calendarOptions"
         ref="fullCalendar"
         id="fullCalendar"
-        :reloadData="reloadData"
+        :key="reloadData"
       >
         <template
           v-slot:eventContent="arg"
-          style="background-color: #fff !important"
         >
           <a
             class="author-display d-flex"
@@ -124,7 +142,7 @@
                 ? 'event_wrapper__bghoilday'
                 : '',
               arg.event.extendedProps.type === 'vacation'
-                ? 'event_wrapper__bgholiday'
+                ? 'event_wrapper__bgvacation'
                 : '',
               arg.event.extendedProps.type === 'leave'
                 ? 'event_wrapper__bgonleave'
@@ -138,17 +156,60 @@
             ]"
           >
             <bib-avatar
-              :src="arg.event.extendedProps.photo"
+              :src="arg.event.extendedProps.employee.photo"
               size="2rem"
             ></bib-avatar>
             <div class="list-item pl-05">
-              <label>{{ arg.event.extendedProps.start }}</label>
-              <span>{{ arg.event.extendedProps.type }}</span>
+              <label>{{ arg.event.extendedProps.employee.firstName + ' ' +  arg.event.extendedProps.employee.lastName}}</label>
+              <span>{{ arg.event.extendedProps.employee.jobTitle }}</span>
             </div>
           </a>
         </template>
       </FullCalendar>
     </div>
+    <action-sidebar
+      @close="closeSidebar"
+      :className="slideClass"
+      heading="Leave details"
+      v-show="openSidebar"
+    >
+      <template v-slot:sidebar-body>
+        <add-leave
+          :leaveTypeOptions="leaveTypeOptions"
+          @input="addHandleInput"
+          @change="addHandleInput"
+          style="z-index: 100000"
+          :allowanceDays="allowanceData?.daysAllowed"
+          :usedDays="allowanceData?.daysUsed"
+          :key="addLeaveKey"
+          :errorMsgSelect="errorMsgSelect"
+          :errorMsgStartDate="errorMsgStartDate"
+          :errorMsgEndDate="errorMsgEndDate"
+          :leaveType="form.type"
+          :startDate="startDate"
+          :endDate="endDate"
+          :note="form.note"
+        ></add-leave>
+      </template>
+      <template v-slot:sidebar-footer>
+        <div class="">
+          <div style="text-align: right">
+            <bib-button
+              label="Cancle"
+              variant="gray"
+              size="lg"
+              v-on:click="closeSidebar()"
+            ></bib-button>
+            <bib-button
+              label="Save"
+              variant="success"
+              size="lg"
+              v-on:click="addLeaveVacations()"
+            ></bib-button>
+          </div>
+        </div>
+      </template>
+    </action-sidebar>
   </div>
 </template>
 
@@ -162,7 +223,13 @@ import {
   MONTH_LIST,
   YEAR_LIST,
 } from "../../../utils/constant/Calander";
-import { getLeaveVacationsAdmin } from "../../../utils/functions/api_call/leavesvacations/requestadmin";
+import { addHandleInput } from "../../../utils/functions/functions_lib";
+
+import {
+  addLeaveVacations,
+  getAllowanceDays,
+} from "../../../utils/functions/functions_lib_api";
+import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
@@ -174,9 +241,26 @@ export default {
     return {
       show: false,
       reloadData: 1,
+      openSidebar: false,
+      leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      errorMsgSelect: false,
+      errorMsgStartDate: false,
+      errorMsgEndDate: false,
+      allowanceData: "",
+      startDate:"",
+      endDate:"",
+      form:{},
+      vacationType: "vacation",
+      addLeaveKey:0,
       monthList: MONTH_LIST,
       yearList: YEAR_LIST,
       ViewTitle: "Month",
+      getSearchKey:'',
+      addForm: {
+        type:'',
+        start:'',
+        end:'',
+      },
       calendarOptions: {
         plugins: [dayGridPlugin],
         customButtons: {
@@ -193,7 +277,6 @@ export default {
             text: "hello",
             type: "HTML",
             click: () => {
-              console.log("eventNext");
               let calendarApi = this.$refs.fullCalendar.getApi();
               calendarApi.next();
             },
@@ -217,11 +300,12 @@ export default {
         selectHelper: false,
         dayMaxEvents: false,
         weekends: true,
-        eventColor: "green",
+        // eventColor: "green",
         // style related
         // eventColor: "#FFFFFF",
-        eventBackgroundColor: "#fff",
-        eventTextColor: "black",
+        // eventBackgroundColor: "#000000",
+        // eventTextColor: "#333333",
+        // eventBorderColor:"#000000",
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
@@ -240,6 +324,8 @@ export default {
       selectedYear: "2023",
       fromDate: "",
       toDate: "",
+      slideClass: "slide-in",
+      form: "",
     };
   },
   computed: {
@@ -265,11 +351,42 @@ export default {
     setTimeout(() => {
       this.calendarOptions.events = this.getLeaveVacation;
     }, 1000);
-    console.log(this.calendarOptions.events, "this.calendarOptions.events");
+    // console.log(this.calendarOptions.events, "this.calendarOptions.events");
+    this.getAllowanceDays().then((result) => {
+      this.allowanceData = result;
+      // this.temKey += 1;
+    });
   },
   methods: {
-    getLeaveVacationsAdmin,
+    addHandleInput,
+    getAllowanceDays,
+    addLeaveVacations,
     change(event) {},
+    searchLeavesType(event){
+       this.getSearchKey = event ;
+      //  console.log(this.getSearchKey, event,  "this.getSearchKey")
+      this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+      search:this.getSearchKey,
+    });
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+    }, 1000);
+    },
+    fullData(){
+      this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+    }, 1000);
+    },
+    actionBY($event) {
+      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("add-leave");
+    },
     getCurrentDateMonth() {
       var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
       let date = new Date(cuDate);
@@ -292,9 +409,18 @@ export default {
           this.calendarOptions.initialView,
           year + this.$refs.myInput.value + this.currentDate
         );
-      console.log(this.selectedMonth, this.selectedYear, "selectedMonth");
       this.getCurrentDateMonth();
-      this.getLeaveVacationsAdmin();
+      this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+    this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+    }, 1000);
     },
     changeYearView() {
       var month;
@@ -310,8 +436,18 @@ export default {
           this.calendarOptions.initialView,
           this.$refs.myInputYear.value + month + this.currentDate
         );
-      this.getCurrentDateMonth();
-      this.getLeaveVacationsAdmin();
+        this.getCurrentDateMonth();
+      this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+    this.$store.dispatch("leavevacation/setLeaveVacations", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+    }, 1000);
     },
     monthView() {
       this.ViewTitle = "Month";
@@ -333,11 +469,24 @@ export default {
       calendarApi.next();
     },
     handleEventClick(clickInfo) {
-      // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      //   clickInfo.event.remove()
-      // }
-
-      console.log("hello");
+      this.slideClass = "slide-in";
+      this.addLeaveKey +=1;
+      this.calendarOptions.events.filter((item, index) => {
+        if (item.id == clickInfo.event._def.publicId) {
+          this.form = item;
+          this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD")
+          this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD")
+          // console.log(this.form, "clickInfo.event._def.publicId");
+          return item;
+        }
+      });
+      this.openSidebar = true;
+    },
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+      }, 700);
     },
     weekData() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends;
@@ -373,10 +522,11 @@ export default {
       .menu-items {
         background-color: #fff;
         width: 97px;
+        box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
         border-radius: 10px;
         position: absolute;
-        left: 37px;
-        top: 2px;
+        left: 0px;
+        top: 0px;
       }
       .button-items {
         display: flex;
@@ -479,16 +629,8 @@ export default {
 .fc-icon-chevron-right::before {
   font-family: "fcicons" !important;
 }
-.fc-h-event {
-  background-color: #fff !important;
-  border: none !important;
-}
-.fc-event-selected {
-  box-shadow: none !important;
-}
-.fc-event:focus {
-  box-shadow: none !important;
-}
+
+
 .event_wrapper {
   border-radius: 6px;
   padding: 4px 8px;
@@ -513,7 +655,7 @@ export default {
     color: #fff;
   }
   &__bgvacation {
-    background-color: #f2f2f2;
+    background-color: #F2F2F2;
   }
   &__bgabsent {
     background-color: #f5d0d3;
@@ -571,5 +713,16 @@ export default {
     //   text-transform: uppercase
     // }
   }
+}
+.fc-h-event {
+  background-color: #fff !important;
+  border: none !important;
+}
+.fc-event:focus::after{
+  background-color: none !important;
+}
+
+.fc-event:focus {
+  box-shadow: none !important;
 }
 </style>

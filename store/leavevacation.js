@@ -38,8 +38,9 @@ export const  actions = {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
           params: {
-            from: payload.from,
-            to:payload.to
+            from: payload?.from,
+            to:payload?.to,
+            search:payload?.search
           },
         }
       );

@@ -88,6 +88,7 @@
                     label="Cancle"
                     variant="gray"
                     size="lg"
+                    v-on:click="closeSidebar"
                   ></bib-button>
                   <bib-button
                     label="Save"
@@ -205,7 +206,6 @@ export default {
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey +=1;
-      console.log(this.addLeaveKey, "this.addLeaveKey")
     });
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);

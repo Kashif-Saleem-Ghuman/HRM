@@ -7,12 +7,13 @@ export async function getLeaveVacations() {
     const leaveVacations = await axios.get(
       process.env.API_URL + "/requests",
       {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-        },
         params: {
           from: this.fromDate, // This is the body part
           to: this.toDate,
+        },
+      },{
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
         },
       }
     );

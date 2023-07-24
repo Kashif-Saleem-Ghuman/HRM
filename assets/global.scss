@@ -10,7 +10,13 @@ $input-placeholder-color: #b1b1b4;
 $input-border-color: #e8e8eb;
 $input-borderradius: 4px;
 $validation-star-color: #fa0f00;
-
+.fc-event:focus::after {
+  background: none !important;
+  inset: -1px;
+  content: "";
+  position: absolute;
+  z-index: 0;
+}
 .validation-text{
   font-size: 12px;
   height: 27px;

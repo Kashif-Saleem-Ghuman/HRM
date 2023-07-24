@@ -147,3 +147,9 @@ export function addHandleInput(event, name, addresses) {
     // this.form[name] = event;
     console.log(this.addForm, "update");
 }
+export function editHandleInput(event, name, addresses) {
+  // this.isFlag = true;
+    this.updateForm[name] = event;
+    // this.form[name] = event;
+    console.log(this.updateForm, "update");
+}

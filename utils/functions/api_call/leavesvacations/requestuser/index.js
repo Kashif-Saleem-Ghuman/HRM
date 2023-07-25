@@ -17,34 +17,13 @@ export async function getLeaveVacations() {
         },
       }
     );
-    this.calendarOptions.events = leaveVacations.data.requests;
+    this.leaveData = leaveVacations.data.requests;
   } catch (e) {
     alert(e);
   }
   this.loading = false;
 }
-export async function getAllowanceDays() {
-  this.loading = true;
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-        },
-        params: {
-          type: this.vacationType, // This is the body part
-        },
-      }
-    );
-    this.loading = false;
-    return allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
-  } catch (e) {
-    alert(e);
-  }
-  this.loading = false;
-}
+
 export async function addLeaveVacations() {
   if(this.addForm.type == ''){
     this.errorMsgSelect = true;
@@ -89,6 +68,116 @@ export async function addLeaveVacations() {
     setTimeout(() => {
       this.openSidebar = false;
     }, 700);
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function getAllowanceDays() {
+  this.loading = true;
+  try {
+    const allowanceDays = await axios.get(
+      process.env.API_URL + "/requests/allowance-days",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          type: this.vacationType, // This is the body part
+        },
+      }
+    );
+    this.loading = false;
+    return allowanceDays.data;
+    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function getAllowancVacationeDays() {
+  this.loading = true;
+  try {
+    const allowanceDays = await axios.get(
+      process.env.API_URL + "/requests/allowance-days",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          type: 'vacation', // This is the body part
+        },
+      }
+    );
+    this.loading = false;
+    this.allowanceVacationData = allowanceDays.data
+    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function getAllowancMedicalDays() {
+  this.loading = true;
+  try {
+    const allowanceDays = await axios.get(
+      process.env.API_URL + "/requests/allowance-days",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          type: 'medical', // This is the body part
+        },
+      }
+    );
+    this.loading = false;
+    this.allowanceMedicalData = allowanceDays.data
+    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function getAllowanceLeaveDays() {
+  this.loading = true;
+  try {
+    const allowanceDays = await axios.get(
+      process.env.API_URL + "/requests/allowance-days",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          type: 'leave', // This is the body part
+        },
+      }
+    );
+    this.loading = false;
+    this.allowanceLeaveData = allowanceDays.data
+    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function getAllowancOtherDays() {
+  this.loading = true;
+  try {
+    const allowanceDays = await axios.get(
+      process.env.API_URL + "/requests/allowance-days",
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+        },
+        params: {
+          type: 'vacation', // This is the body part
+        },
+      }
+    );
+    this.loading = false;
+    this.allowanceOtherData = allowanceDays.data
+    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }

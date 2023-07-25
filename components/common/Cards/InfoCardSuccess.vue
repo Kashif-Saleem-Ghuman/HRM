@@ -4,21 +4,16 @@
       <label>Leave status</label>
     </div>
     <div class="info-card-inner-wrapper">
-        <div
-      class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-circle mr-05" style="padding: 12px;"
-      @click.stop="$emit('on-click')"
-    >
-      <bib-icon
-        icon="tick"
-        variant="success"
-        :scale="1"
-      ></bib-icon>
-    </div>
+      <div
+        class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-circle mr-05"
+        style="padding: 12px"
+        @click.stop="$emit('on-click')"
+      >
+        <bib-icon icon="tick" variant="success" :scale="1"></bib-icon>
+      </div>
       <div>
         <label>Approved</label>
-        <div>
-          Request Approved on 04-04-2023 by shweta S.
-        </div>
+        <div>Request Approved on 04-04-2023 by shweta S.</div>
       </div>
     </div>
   </div>
@@ -49,7 +44,7 @@ export default {
 .info-card-success-wrapper {
   padding: 12px 0;
   font-size: 14px;
-  
+
   label {
     font-size: 1rem;
     font-weight: 600;

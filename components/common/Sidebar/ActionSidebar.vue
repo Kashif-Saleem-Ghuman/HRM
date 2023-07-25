@@ -66,7 +66,9 @@ export default {
     };
   },
   methods: {
-   
+    closeSidebar() {
+      this.$nuxt.$emit("close-sidebar");
+    },
   },
 };
 </script>

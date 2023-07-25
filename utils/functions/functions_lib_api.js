@@ -19,8 +19,11 @@ import {
   } from "./api_call/leavesvacations/requestadmin";
   import {
     getLeaveVacations,
-    getAllowanceDays,
-    addLeaveVacations
+    addLeaveVacations,
+    getAllowancVacationeDays,
+    getAllowancMedicalDays,
+    getAllowanceLeaveDays,
+    getAllowanceDays
   } from "./api_call/leavesvacations/requestuser";
   
   export {
@@ -39,7 +42,9 @@ import {
 
     // leave vacations user functions
     getLeaveVacations,
+    addLeaveVacations,
     getAllowanceDays,
-    addLeaveVacations
-
+    getAllowancVacationeDays,
+    getAllowancMedicalDays,
+    getAllowanceLeaveDays,
   };

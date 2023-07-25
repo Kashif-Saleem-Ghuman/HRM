@@ -14,34 +14,52 @@
         class="d-grid d-flex gap-1"
         style="grid-template-columns: repeat(3, 1fr)"
       >
-        <info-card-one
-          :item="infoCardData[0]"
-          buttonLable="Clock in"
+        <info-card-leave-vacation
+          title="Vacation"
+          :item="allowanceVacationData"
+          buttonLable="Request Vacation"
           icon="table"
-          profilePic="profilePic"
-          buttonVariant="light"
-        ></info-card-one>
-        <info-card-one
-          :item="infoCardData[1]"
-          buttonLable="View Timesheet"
+          className="button-wrapper__bgsucess"
+          variant="white"
+          @on-click="addLeaves('vacation')"
+        ></info-card-leave-vacation>
+        <info-card-leave-vacation
+          title="Medical/sick"
+          :item="allowanceMedicalData"
+          buttonLable="Request Medical Leave"
           icon="table"
-          buttonVariant="light"
-          profilePic="profilePic"
-        ></info-card-one>
-        <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
+          className="button-wrapper__bgalert"
+          variant="white"
+          @on-click="addLeaves('leave')"
+        ></info-card-leave-vacation>
+        <info-card-leave-vacation
+          title="Request Personal leave"
+          :item="allowanceLeaveData"
+          buttonLable="Request Personal Leave"
+          icon="table"
+          className="button-wrapper__bgwarnning"
+          variant="white"
+          @on-click="addLeaves('leave')"
+        ></info-card-leave-vacation>
       </div>
     </div>
     <div class="pl-1 py-1">
-      <list-day
-        :dayWiseDataTimesheet="timesheetData"
-      ></list-day>
+      <list-leave-attendance :leaveData="leaveData"></list-leave-attendance>
     </div>
   </div>
 </template>
 <script>
-import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
-import { TIMESHEET_DATA, MY_TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
+import {
+  getAllowancVacationeDays,
+  getAllowancMedicalDays,
+  getAllowanceLeaveDays,
+  getLeaveVacations,
+} from "../../../utils/functions/functions_lib_api";
+import {
+  LEAVE_ATTENDANCE_DATA,
+  INFO_CARD_LEAVE_VACATION_DATA,
+} from "../../../utils/constant/Calander";
 export default {
   data() {
     return {
@@ -49,8 +67,11 @@ export default {
       activeTab: "Dashborad",
       activeUserData: "",
       activeUserName: "",
-      infoCardData: INFO_CARD_DATA,
-      timesheetData: TIMESHEET_DATA,
+      infoCardData: INFO_CARD_LEAVE_VACATION_DATA,
+      leaveData: [],
+      allowanceVacationData: [],
+      allowanceMedicalData: [],
+      allowanceLeaveData: [],
     };
   },
   async created() {
@@ -68,10 +89,26 @@ export default {
     ...mapGetters({
       userList: "employee/GET_USERS_LIST",
       getActiveUser: "employee/GET_USER",
+      getAccessToken: "token/getAccessToken",
     }),
   },
-  async mounted() {},
-  methods: {},
+  async mounted() {
+    this.getAllowancVacationeDays();
+    this.getAllowancMedicalDays();
+    this.getAllowanceLeaveDays();
+    this.getLeaveVacations();
+    console.log(this.allowanceVacationData, this.allowanceMedicalData, this.allowanceLeaveData, "allowanceVacationData")
+  },
+  methods: {
+    getAllowancVacationeDays,
+    getAllowancMedicalDays,
+    getAllowanceLeaveDays,
+    getLeaveVacations,
+    addLeaves($event) {
+      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("add-leave");
+    },
+  },
 };
 </script>
 <style lang="scss">

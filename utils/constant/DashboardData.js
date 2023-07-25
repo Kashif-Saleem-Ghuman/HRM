@@ -145,6 +145,7 @@ export const INFO_CARD_DATA = [
     figureLabelData:"6",
     figureLabelTwo:"On leave",
     figureLabelTwoData:"4",
+    daysDesc:"Days",
   },
   {
     title: "Timesheets",
@@ -167,6 +168,7 @@ export const INFO_CARD_DATA = [
     figureLabelData:"6",
     figureLabelTwo:"On leave",
     figureLabelTwoData:"4",
+    daysDesc:"Days",
   },
   {
     title: "Birthdays & Work anniversaries",

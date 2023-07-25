@@ -88,36 +88,36 @@ export const TABLE_HEAD = {
       label: "Hire Date",
     },
   ],
-  tHeadAttandance: [
+  tHeadAttandanceUser: [
     {
       key: "",
       label: "#",
     },
     {
-      key: "name",
-      label: "Employee",
+      key: "leavetype",
+      label: "Leave Type",
+    },
+    {
+      key: "start",
+      label: "Start",
+    },
+
+    {
+      key: "end",
+      label: "End",
+    },
+    {
+      key: "duration",
+      label: "Duration",
+    },
+
+    {
+      key: "paid",
+      label: "Paid",
     },
     {
       key: "status",
       label: "Status",
-    },
-
-    {
-      key: "in",
-      label: "In",
-    },
-    {
-      key: "out",
-      label: "Out",
-    },
-
-    {
-      key: "breaks",
-      label: "Breaks",
-    },
-    {
-      key: "total",
-      label: "total",
     },
   ],
   tHeadTimesheet: [

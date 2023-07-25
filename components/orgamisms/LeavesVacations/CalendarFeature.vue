@@ -155,6 +155,7 @@
                 : '',
             ]"
           >
+          {{ arg.event.extendedProps.employee.photo }}
             <bib-avatar
               :src="arg.event.extendedProps.employee.photo"
               size="2rem"
@@ -189,9 +190,15 @@
           :startDate="startDate"
           :endDate="endDate"
           :note="form.note"
+          inActive="disabled"
         ></add-leave>
+        <div class="row">
+      <div class="col-12">
+        <info-card-success></info-card-success>
+      </div>
+    </div>
       </template>
-      <template v-slot:sidebar-footer>
+      <!-- <template v-slot:sidebar-footer>
         <div class="">
           <div style="text-align: right">
             <bib-button
@@ -208,7 +215,7 @@
             ></bib-button>
           </div>
         </div>
-      </template>
+      </template> -->
     </action-sidebar>
   </div>
 </template>

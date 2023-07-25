@@ -2,7 +2,7 @@
   <div class="d-flex">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div>
-        <label>{{ item.title }}</label>
+        <label>{{ title }}</label>
       </div>
       <div class="info-card-items mt-05">
         <div>
@@ -35,15 +35,9 @@
           <span>{{ item.figureLabelTwoData }}</span>
         </div>
       </div>
-      <div style="width: 100%" v-show="icon">
-        <bib-button
-          :label="buttonLable"
-          size="lg"
-          :icon="icon"
-          :variant="buttonVariant"
-          pill
-          class="w-100 mb-1"
-        ></bib-button>
+      <div class="button-wrapper" :class="className">
+        <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
+        <span>{{ buttonLable }}</span>
       </div>
     </div>
   </div>
@@ -70,6 +64,12 @@ export default {
     buttonVariant: {
       type: String,
     },
+    title:{
+      type:String
+    },
+    className:{
+      type:String
+    }
   },
   data() {
     return {
@@ -136,6 +136,48 @@ export default {
       span {
         font-weight: 600;
       }
+    }
+  }
+}
+.button-wrapper{
+  background-color: $light;
+  border-radius: 6px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &__bgsucess {
+    background-color: #2ba026;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      color: #fff;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+  &__bgalert {
+    background-color: #ea4a4a;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      color: #fff;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+  &__bgwarnning {
+    background-color: #fabc2a;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      color: #fff;
+      font-weight: 400;
+      font-size: 14px;
     }
   }
 }

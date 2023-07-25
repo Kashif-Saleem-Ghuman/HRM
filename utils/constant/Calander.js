@@ -100,4 +100,59 @@ export const YEAR_LIST = [
   { label: "2022", key: "2022", selected: false },
   { label: "2023", key: "2023", selected: false },
 ];
-
+export const LEAVE_ATTENDANCE_DATA = [
+  {
+    id: "1",
+    leaveType: "Vacations",
+    start: "00:00:0000",
+    end: "00:00:0000",
+    duration: "00:00:0000",
+    paid:'YES($)',
+    status:'Absent',
+  },
+  {
+    id: "1",
+    leaveType: "Vacations",
+    start: "00:00:0000",
+    end: "00:00:0000",
+    duration: "00",
+    paid:'YES($)',
+    status:'approve',
+  },
+  {
+    id: "1",
+    leaveType: "Vacations",
+    start: "00",
+    end: "00",
+    duration: "00",
+    paid:'YES($)',
+    status:'pending',
+  },
+  {
+    id: "1",
+    leaveType: "Vacations",
+    start: "00",
+    end: "00",
+    duration: "00",
+    paid:'YES($)',
+    status:'approve',
+  },
+];
+export const INFO_CARD_LEAVE_VACATION_DATA = [
+  {
+    allowance:18,
+    used:5,
+    progress:98,
+  },
+  {
+    allowance:12,
+    used:6,
+    progress:28,
+  },
+  {
+    allowance:6,
+    used:1,
+    progress:18,
+  },
+  
+];

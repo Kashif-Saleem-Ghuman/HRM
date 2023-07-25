@@ -1,5 +1,5 @@
 <template>
-  <div id="side-panel" :class="'side-panel ' + 'side-panel__' + className" style="z-index: 10000;" v-click-outside="closeSidebar">
+  <div id="side-panel" :class="'side-panel ' + 'side-panel__' + className" style="z-index: 10000;">
     <div class="d-flex p-1 justify-between align-center sidebar-header">
       <div class="d-flex justify-between align-center">
         <bib-icon

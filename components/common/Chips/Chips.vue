@@ -14,6 +14,7 @@
       <bib-icon
         v-if="iconShow"
         :icon="icon"
+        :variant="variantIcon"
         :scale="0.8"
         style="margin-right: 5px"
       ></bib-icon>
@@ -48,6 +49,9 @@ export default {
       },
     },
     variant: {
+      type: String,
+    },
+    variantIcon: {
       type: String,
     },
     shapeCircle: {
@@ -254,7 +258,7 @@ export default {
 }
 .chip-wrapper-without-bg {
   border-radius: 1rem;
-  padding: 4px 8px;
+  // padding: 4px 8px;
   margin-right: 10px;
   display: flex;
   justify-content: center;

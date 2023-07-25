@@ -22,7 +22,7 @@
             v-model="ltype"
             :options="leaveTypeOptions"
             placeholder="Select your Leave type"
-            required
+            :disabled="inActive"
             @input="$emit('input', $event, 'type')"
           ></bib-input>  
           <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgSelect">Please select leave type</small>
@@ -56,6 +56,7 @@
             v-model="dateStart"
             placeholder="Select your start date"
             @change="$emit('input', $event, 'start')"
+            :disabled="inActive"
           ></bib-input>
           <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgStartDate">Please select start date</small>
         </div>
@@ -66,6 +67,7 @@
             placeholder="Select your end date"
             @change="$emit('input', $event, 'end')"
             v-model="dateEnd"
+            :disabled="inActive"
           ></bib-input>
           <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgEndDate">Please select end date</small>
         </div>
@@ -79,14 +81,15 @@
           placeholder="Enter text"
           v-model="reason"
           @change="$emit('input', $event, 'note')"
+          :disabled="inActive"
         ></bib-input>
       </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-12">
         <info-card-success></info-card-success>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -126,6 +129,9 @@ export default {
     },
     note:{
       type:String
+    },
+    inActive: {
+      type: String,
     },
   },
   data(){

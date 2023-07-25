@@ -62,11 +62,12 @@
                     @selectAllItems="selectAllItems()"
                     :key="pendingList"
                     :checked="checked"
+                    v-show="requestListData.length ? true : ''"
                   ></list-pending>
                 </div>
-                <!-- <div v-show="noRecord">
-                 NO Record founds
-                </div> -->
+                <div >
+                 <no-record v-show="requestListData.length ? '' : true"></no-record>
+                </div>
               </div>
             </div>
           </div>
@@ -101,6 +102,7 @@ export default {
       pendingList: 0,
       requestListApproveData: [],
       checked: false,
+      noRecord:false,
     };
   },
   computed: {
@@ -120,6 +122,11 @@ export default {
   },
   mounted() {
     // this.getPendingLeaveVacationsAdmin();
+    if(this.requestListData.lenghth <= 0){
+      this.noRecord = true
+    }else{
+      this.noRecord = false
+    }
   },
   methods: {
     getPendingLeaveVacationsAdmin,

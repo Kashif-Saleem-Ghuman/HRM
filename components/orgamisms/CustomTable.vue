@@ -267,6 +267,9 @@ export default {
       &:first-child {
         border-left: none;
       }
+      &:last-child {
+        width: 250px !important;
+      }
       &:not(:last-child) {
         border-right: none;
       }

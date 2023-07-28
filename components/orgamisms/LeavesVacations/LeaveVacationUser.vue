@@ -17,6 +17,7 @@
         <info-card-leave-vacation
           title="Vacation"
           :item="allowanceVacationData"
+          totalAllowance="30"
           buttonLable="Request Vacation"
           icon="table"
           className="button-wrapper__bgsucess"
@@ -26,15 +27,17 @@
         <info-card-leave-vacation
           title="Medical/sick"
           :item="allowanceMedicalData"
+          totalAllowance="10"
           buttonLable="Request Medical Leave"
           icon="table"
           className="button-wrapper__bgalert"
           variant="white"
-          @on-click="addLeaves('leave')"
+          @on-click="addLeaves('medical')"
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Request Personal leave"
           :item="allowanceLeaveData"
+          totalAllowance="06"
           buttonLable="Request Personal Leave"
           icon="table"
           className="button-wrapper__bgwarnning"
@@ -43,38 +46,104 @@
         ></info-card-leave-vacation>
       </div>
     </div>
-    <div class="pl-1 py-1">
-      <list-leave-attendance :leaveData="leaveData"></list-leave-attendance>
+    <div class="d-flex justify-between align-center px-075">
+      <div class="d-flex align-center">
+        <div class="custom_date_picker">
+          <!-- <div class="mr-05">Date:</div> -->
+          <!-- <bib-datetime-picker
+                    v-model="date2"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    @input="onChange"
+                    class="custom_date_picker"
+                  ></bib-datetime-picker> -->
+        </div>
+      </div>
+      <div class="d-flex align-center">
+        <div class="d-flex align-center">
+          <!-- <div style="font-size: 14px" class="mr-05">Show:</div> -->
+          <!-- <dropdown-menu
+            :items="items"
+            @click="filterItem($event)"
+            style="margin-left: -10px"
+            actionMenu="actionMenu"
+          ></dropdown-menu> -->
+        </div>
+      </div>
+    </div>
+    <div class="py-1">
+      <list-leave-attendance
+        :leaveData="leaveVacationDataUser"
+        :key="componentKeyUser"
+        @delete-item="deleteItem($event)"
+        v-show="leaveVacationDataUser?.length ? true : false"
+      ></list-leave-attendance>
+      <div>
+        <no-record v-show="leaveVacationDataUser?.length ? false : true"></no-record>
+      </div>
+      <loader v-bind:showloader="loading"></loader>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import fecha, { format } from "fecha";
+
 import {
   getAllowancVacationeDays,
   getAllowancMedicalDays,
   getAllowanceLeaveDays,
-  getLeaveVacations,
+  deleteLevaeVacation,
 } from "../../../utils/functions/functions_lib_api";
 import {
-  LEAVE_ATTENDANCE_DATA,
-  INFO_CARD_LEAVE_VACATION_DATA,
-} from "../../../utils/constant/Calander";
+  getCurrentDateMonth,
+  getCurrentYear,
+} from "../../../utils/functions/functions_lib";
+import { SORTING_MENU } from "../../../utils/constant/Constant";
+import { INFO_CARD_LEAVE_VACATION_DATA } from "../../../utils/constant/Calander";
 export default {
   data() {
     return {
       id: "",
       activeTab: "Dashborad",
       activeUserData: "",
+      items: SORTING_MENU.leaveVacationUserFilter,
       activeUserName: "",
       infoCardData: INFO_CARD_LEAVE_VACATION_DATA,
-      leaveData: [],
+      leaveVacationDataUser: [],
       allowanceVacationData: [],
       allowanceMedicalData: [],
       allowanceLeaveData: [],
+      currentMonth: fecha.format(new Date(), "MM"),
+      currentYear: fecha.format(new Date(), "YYYY"),
+      selectedYear: "2023",
+      fromDate: "",
+      toDate: "",
+      componentKeyUser: 0,
+      loading: false,
+      allChecked: false,
+      checked: false,
     };
   },
+  computed: {
+    ...mapGetters({
+      getActiveUser: "employee/GET_USER",
+      getAccessToken: "token/getAccessToken",
+      getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
+      getformToDate: "leavevacation/getformToDate",
+      getUserRole: "token/getUserRole",
+    }),
+  },
   async created() {
+    this.$root.$on("leaves-list", () => {
+      this.componentKeyUser += 1;
+      this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+      this.leaveVacationDataUser = this.getLeaveVacationUser;
+    });
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
@@ -83,27 +152,59 @@ export default {
       " " +
       this.activeUserData.lastName +
       " / " +
-      "Time & Attendance";
-  },
-  computed: {
-    ...mapGetters({
-      userList: "employee/GET_USERS_LIST",
-      getActiveUser: "employee/GET_USER",
-      getAccessToken: "token/getAccessToken",
-    }),
+      "Leaves and Vacations";
   },
   async mounted() {
+    this.getCurrentYear();
+    this.loading = true;
     this.getAllowancVacationeDays();
     this.getAllowancMedicalDays();
     this.getAllowanceLeaveDays();
-    this.getLeaveVacations();
-    console.log(this.allowanceVacationData, this.allowanceMedicalData, this.allowanceLeaveData, "allowanceVacationData")
+    this.selectedMonth = this.currentMonth;
+    this.getCurrentYear();
+    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+
+    await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
+    this.leaveVacationDataUser = this.getLeaveVacationUser;
+    this.loading = false;
+    // fecha.format(new Date(this.leaveVacationDataUser.start), "YYYY/MM/DD"),
+    // fecha.format(new Date(this.leaveVacationDataUser.end), "YYYY/MM/DD"),
   },
   methods: {
     getAllowancVacationeDays,
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
-    getLeaveVacations,
+    getCurrentDateMonth,
+    getCurrentYear,
+    deleteLevaeVacation,
+    async deleteItem(event) {
+      await this.deleteLevaeVacation(event);
+      await this.getCurrentYear();
+      this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then(() => {
+          this.$nuxt.$emit("leaves-list");
+        });
+    },
+    // filterItem(event){
+    //   console.log(event, "filterItem")
+    //   // if(event.key=='all'){
+    //   //   for (var i = 0; i < this.items.length; i++){
+    //   //     this.items[i].selected = !this.items[i].selected
+    //   // }
+    //   // }
+    //   // console.log(event.key, "filterItem")
+    //   // // event.selected = !event.selected
+    // },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar", $event);
       this.$nuxt.$emit("add-leave");

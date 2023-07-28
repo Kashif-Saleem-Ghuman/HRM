@@ -1,69 +1,61 @@
 import axios from "axios";
 import fecha, { format } from "fecha";
 
-export async function getLeaveVacations() {
-  this.loading = true;
-  try {
-    const leaveVacations = await axios.get(
-      process.env.API_URL + "/requests",
-      {
-        params: {
-          from: this.fromDate, // This is the body part
-          to: this.toDate,
-        },
-      },{
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-        },
-      }
-    );
-    this.leaveData = leaveVacations.data.requests;
-  } catch (e) {
-    alert(e);
-  }
-  this.loading = false;
-}
-
 export async function addLeaveVacations() {
-  if(this.addForm.type == ''){
-    this.errorMsgSelect = true;
-    return true
+  if (this.getUserRole == "ADMIN") {
+    if (this.addForm.type == "") {
+      this.errorMsgSelect = true;
+      return true;
+    }
+    this.errorMsgSelect = false;
   }
-  this.errorMsgSelect = false;
-  if(this.addForm.start == ''){
+  if (this.addForm.start == "") {
     this.errorMsgStartDate = true;
-    return true
+    return true;
   }
   this.errorMsgStartDate = false;
-  if(this.addForm.end == ''){
+  if (this.addForm.end == "") {
     this.errorMsgEndDate = true;
-    return true
+    return true;
   }
   this.errorMsgEndDate = false;
   this.loading = true;
-  var data = this.addForm
-  var startDate = fecha.format(new Date(data.start), 'isoDate'); // '2015-11-20'data.start.toISOString();
-  var endDate = fecha.format(new Date(data.end), 'isoDate');
+  var data = this.addForm;
+  var startDate = fecha.format(new Date(data.start), "isoDate"); // '2015-11-20'data.start.toISOString();
+  var endDate = fecha.format(new Date(data.end), "isoDate");
   this.addForm.start = startDate;
-  this.addForm.end = endDate
+  this.addForm.end = endDate;
   // console.log( this.getAccessToken, "toISOString()")
   try {
     const addLeaveVacations = await axios.post(
-      process.env.API_URL + "/requests", this.addForm,
+      process.env.API_URL + "/requests",
+      this.addForm,
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        
       }
     );
     this.leaveVacationData = addLeaveVacations.data;
-    this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    }).then((result)=>{
-      this.$nuxt.$emit("update-key");
-    });
+    if (this.getUserRole == "ADMIN") {
+      this.$store
+        .dispatch("leavevacation/setLeaveVacations", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then(() => {
+          this.$nuxt.$emit("update-key");
+        });
+    } else {
+      this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then(() => {
+          this.$nuxt.$emit("leaves-list");
+        });
+    }
     this.slideClass = "slide-out";
     setTimeout(() => {
       this.openSidebar = false;
@@ -80,10 +72,10 @@ export async function getAllowanceDays() {
       process.env.API_URL + "/requests/allowance-days",
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: this.vacationType, // This is the body part
+          type: this.leaveType, // This is the body part
         },
       }
     );
@@ -102,15 +94,15 @@ export async function getAllowancVacationeDays() {
       process.env.API_URL + "/requests/allowance-days",
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: 'vacation', // This is the body part
+          type: "vacation", // This is the body part
         },
       }
     );
     this.loading = false;
-    this.allowanceVacationData = allowanceDays.data
+    this.allowanceVacationData = allowanceDays.data;
     // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
@@ -124,15 +116,15 @@ export async function getAllowancMedicalDays() {
       process.env.API_URL + "/requests/allowance-days",
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: 'medical', // This is the body part
+          type: "medical", // This is the body part
         },
       }
     );
     this.loading = false;
-    this.allowanceMedicalData = allowanceDays.data
+    this.allowanceMedicalData = allowanceDays.data;
     // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
@@ -146,15 +138,15 @@ export async function getAllowanceLeaveDays() {
       process.env.API_URL + "/requests/allowance-days",
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: 'leave', // This is the body part
+          type: "leave", // This is the body part
         },
       }
     );
     this.loading = false;
-    this.allowanceLeaveData = allowanceDays.data
+    this.allowanceLeaveData = allowanceDays.data;
     // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
@@ -168,16 +160,34 @@ export async function getAllowancOtherDays() {
       process.env.API_URL + "/requests/allowance-days",
       {
         headers: {
-          Authorization: "Bearer " + this.getAccessToken,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: 'vacation', // This is the body part
+          type: "vacation", // This is the body part
         },
       }
     );
     this.loading = false;
-    this.allowanceOtherData = allowanceDays.data
+    this.allowanceOtherData = allowanceDays.data;
     // console.log(this.allowanceDaysData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}
+export async function deleteLevaeVacation(value) {
+  this.loading = true;
+  try {
+    const laeveDelete = await axios.delete(
+      process.env.API_URL + "/requests/" + value,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    this.loading = false;
+    console.log(laeveDelete , "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }

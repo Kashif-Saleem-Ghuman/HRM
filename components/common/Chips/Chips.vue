@@ -15,8 +15,8 @@
         v-if="iconShow"
         :icon="icon"
         :variant="variantIcon"
-        :scale="0.8"
-        style="margin-right: 5px"
+        :scale="0.9"
+        style="margin-right: 8px"
       ></bib-icon>
       <span>{{ title }}</span>
     </div>
@@ -282,7 +282,7 @@ export default {
       fill: #2ba026 !important;
     }
     span {
-      color: #2ba026;
+      // color: #2ba026;
       font-weight: 500;
       font-size: 14px;
     }
@@ -293,7 +293,7 @@ export default {
       fill: #ffab00 !important;
     }
     span {
-      color: #ffab00;
+      // color: #ffab00;
       font-weight: 500;
       font-size: 14px;
     }
@@ -304,7 +304,7 @@ export default {
       fill: #1f42a2 !important;
     }
     span {
-      color: #1f42a2;
+      // color: #1f42a2;
       font-weight: 500;
       font-size: 14px;
     }
@@ -315,7 +315,7 @@ export default {
       fill: #e6000e !important;
     }
     span {
-      color: #e6000e;
+      // color: #e6000e;
       font-weight: 500;
       font-size: 14px;
     }

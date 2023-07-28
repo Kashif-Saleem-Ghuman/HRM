@@ -15,7 +15,7 @@ export async function vfileAdded(file, name, event) {
       }
     )
     .then((res) => {
-      console.log(res)
+      console.log(res);
       // this.openPopupNotification(0);
       this.avatarUrl = res;
       this.updateForm[name] = this.avatarUrl;
@@ -42,21 +42,20 @@ export async function updateAllData() {
     .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-
     })
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       this.openPopupNotification(1);
       // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
-      this.form = res
-      console.log(res, "callled")
+      this.form = res;
+      console.log(res, "callled");
       this.inactive = "disabled";
       this.updateButton = "disabled";
       this.loading = false;
       this.isFlag = false;
-      this.updateForm={}
+      this.updateForm = {};
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
@@ -75,7 +74,7 @@ export function handleInput(event, name, addresses) {
   }
   if (addresses === "addresses") {
     if (event == "USA") {
-      alert("callled")
+      alert("callled");
       this.cureentState = this.states.filter((item, index) => {
         if (item.code == event) {
           // this.stateVisible = true;
@@ -116,24 +115,28 @@ export function handleInput(event, name, addresses) {
   }
 }
 export function handleInputObject(event, name, emContact) {
-  console.log(event, name, emContact, "callled")
+  console.log(event, name, emContact, "callled");
   let add = {};
   this.isFlag = true;
   if (emContact == "emContact1") {
     add[name] = event;
 
     this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
-    this.updateForm.emergencyContacts[0]= {...this.form.emergencyContacts[0]}
+    this.updateForm.emergencyContacts[0] = {
+      ...this.form.emergencyContacts[0],
+    };
     this.updateForm.emergencyContacts[1] = {
       ...this.updateForm.emergencyContacts[1],
       ...this.form.emergencyContacts[1],
       ...add,
     };
-    console.log(this.updateForm.emergencyContacts[1], "aslkdnalsdjlk")
+    console.log(this.updateForm.emergencyContacts[1], "aslkdnalsdjlk");
   } else {
     add[name] = event;
     this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
-    this.updateForm.emergencyContacts[1]= {...this.form.emergencyContacts[1]}
+    this.updateForm.emergencyContacts[1] = {
+      ...this.form.emergencyContacts[1],
+    };
     this.updateForm.emergencyContacts[0] = {
       ...this.form.emergencyContacts[1],
       ...this.updateForm.emergencyContacts[0],
@@ -143,13 +146,18 @@ export function handleInputObject(event, name, emContact) {
 }
 export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
-    this.addForm[name] = event;
-    // this.form[name] = event;
-    console.log(this.addForm, "update");
+  this.addForm[name] = event;
+  // this.form[name] = event;
+  // console.log(this.addForm, "update");
+  console.log(this.addForm.start, "this.addForm.start");
+  if (this.addForm.start != "" || this.addForm.endDate != "") {
+    this.errorMsgStartDate = false;
+    this.errorMsgEndDate = false;
+  }
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;
-    this.updateForm[name] = event;
-    // this.form[name] = event;
-    console.log(this.updateForm, "update");
+  this.updateForm[name] = event;
+  // this.form[name] = event;
+  console.log(this.updateForm, "update");
 }

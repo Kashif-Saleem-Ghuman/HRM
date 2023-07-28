@@ -111,10 +111,10 @@ export const TABLE_HEAD = {
       label: "Duration",
     },
 
-    {
-      key: "paid",
-      label: "Paid",
-    },
+    // {
+    //   key: "paid",
+    //   label: "Paid",
+    // },
     {
       key: "status",
       label: "Status",
@@ -1198,22 +1198,26 @@ export const MORE_MENU = [
 ];
 
 export const SORTING_MENU = {
-  actionMenuPeople: [
+  leaveVacationUserFilter: [
+    // {
+    //   label: "All",
+    //   key: "all",
+    //   selected:false,
+    // },
     {
-      label: "Name",
-      key: "name",
+      label: "Vacations",
+      key: "vacations",
+      selected:false,
     },
     {
-      label: "Presence",
-      key: "presence",
+      label: "Medical/sick",
+      key: "medical",
+      selected:false,
     },
     {
-      label: "Department",
-      key: "department",
-    },
-    {
-      label: "Reset",
-      key: "reset",
+      label: "Leave",
+      key: "leave",
+      selected:false,
     },
   ],
   actionMenuTimesheet: [

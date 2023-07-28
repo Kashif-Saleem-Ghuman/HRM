@@ -155,7 +155,6 @@
                 : '',
             ]"
           >
-          {{ arg.event.extendedProps.employee.photo }}
             <bib-avatar
               :src="arg.event.extendedProps.employee.photo"
               size="2rem"
@@ -230,7 +229,7 @@ import {
   MONTH_LIST,
   YEAR_LIST,
 } from "../../../utils/constant/Calander";
-import { addHandleInput } from "../../../utils/functions/functions_lib";
+import { addHandleInput, getCurrentDateMonth } from "../../../utils/functions/functions_lib";
 
 import {
   addLeaveVacations,
@@ -359,15 +358,16 @@ export default {
       this.calendarOptions.events = this.getLeaveVacation;
     }, 1000);
     // console.log(this.calendarOptions.events, "this.calendarOptions.events");
-    this.getAllowanceDays().then((result) => {
-      this.allowanceData = result;
-      // this.temKey += 1;
-    });
+    // this.getAllowanceDays().then((result) => {
+    //   this.allowanceData = result;
+    //   // this.temKey += 1;
+    // });
   },
   methods: {
     addHandleInput,
     getAllowanceDays,
     addLeaveVacations,
+    getCurrentDateMonth,
     change(event) {},
     searchLeavesType(event){
        this.getSearchKey = event ;
@@ -394,14 +394,14 @@ export default {
       this.$nuxt.$emit("open-sidebar", $event);
       this.$nuxt.$emit("add-leave");
     },
-    getCurrentDateMonth() {
-      var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
-      let date = new Date(cuDate);
-      let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-      let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
-      this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
-    },
+    // getCurrentDateMonth() {
+    //   var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
+    //   let date = new Date(cuDate);
+    //   let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    //   let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    //   this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
+    //   this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
+    // },
     changeMonthView() {
       var year;
       this.selectedMonth = this.$refs.myInput.value;

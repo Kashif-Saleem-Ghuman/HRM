@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-1">
-      <!-- <div class="row">
+      <div class="row" v-show="getUserRole == 'USER'">
         <div class="col-12">
           <bib-input
             type="text"
@@ -13,9 +13,9 @@
             @change="$emit('input', $event, 'employeeId')"
           ></bib-input>
         </div>
-      </div> -->
+      </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" v-show="getUserRole == 'ADMIN'">
           <bib-input
             type="select"
             label="Leave type"
@@ -24,15 +24,20 @@
             placeholder="Select your Leave type"
             :disabled="inActive"
             @input="$emit('input', $event, 'type')"
-          ></bib-input>  
-          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgSelect">Please select leave type</small>
+          ></bib-input>
+          <small
+            class="text-danger"
+            style="margin-top: -0.25rem; display: block"
+            v-show="errorMsgSelect"
+            >Please select leave type</small
+          >
         </div>
       </div>
       <div class="row pt-075 pb-075">
         <div class="col-4">
           <div class="d-flex input-display-wrapper">
             <span>Allowance</span>
-            <span>{{allowanceDays}}</span>
+            <span>{{ allowanceDays }}</span>
           </div>
         </div>
         <div class="col-4">
@@ -44,7 +49,7 @@
         <div class="col-4">
           <div class="d-flex input-display-wrapper">
             <span>Available</span>
-            <span>{{allowanceDays - usedDays}}</span>
+            <span>{{ allowanceDays - usedDays }}</span>
           </div>
         </div>
       </div>
@@ -58,7 +63,12 @@
             @change="$emit('input', $event, 'start')"
             :disabled="inActive"
           ></bib-input>
-          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgStartDate">Please select start date</small>
+          <small
+            class="text-danger"
+            style="margin-top: -0.25rem; display: block"
+            v-show="errorMsgStartDate"
+            >Please select start date</small
+          >
         </div>
         <div class="col-6">
           <bib-input
@@ -69,7 +79,12 @@
             v-model="dateEnd"
             :disabled="inActive"
           ></bib-input>
-          <small class="text-danger " style="margin-top:-0.25rem; display:block;" v-show="errorMsgEndDate">Please select end date</small>
+          <small
+            class="text-danger"
+            style="margin-top: -0.25rem; display: block"
+            v-show="errorMsgEndDate"
+            >Please select end date</small
+          >
         </div>
       </div>
     </div>
@@ -94,9 +109,9 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   props: {
-    
     leaveType: {
       type: String,
     },
@@ -106,45 +121,51 @@ export default {
     employeeName: {
       type: String,
     },
-    allowanceDays:{
-      type:Number
+    allowanceDays: {
+      type: [Number, String],
     },
-    usedDays:{
-      type:Number
+    usedDays: {
+      type: Number,
     },
-    errorMsgSelect:{
-      type:Boolean
+    errorMsgSelect: {
+      type: Boolean,
     },
-    errorMsgStartDate:{
-      type:Boolean
+    errorMsgStartDate: {
+      type: Boolean,
     },
-    errorMsgEndDate:{
-      type:Boolean
+    errorMsgEndDate: {
+      type: Boolean,
     },
-    startDate:{
-      type:String
+    startDate: {
+      type: String,
     },
-    endDate:{
-      type:String
+    endDate: {
+      type: String,
     },
-    note:{
-      type:String
+    note: {
+      type: String,
     },
     inActive: {
       type: String,
     },
   },
-  data(){
+  data() {
     return {
-      ltype : this.leaveType,
-      dateStart:this.startDate,
+      ltype: this.leaveType,
+      dateStart: this.startDate,
       dateEnd: this.endDate,
-      reason:this.note,
-    }
+      reason: this.note,
+    };
   },
-  computed:{
-      
-    }
+  computed: {
+    ...mapGetters({
+      getUserRole: "token/getUserRole",
+    })
+    
+  },
+  mounted(){
+    console.log(this.getUserRole, "getUserRole")
+  }
 };
 </script>
 <style lang="scss">

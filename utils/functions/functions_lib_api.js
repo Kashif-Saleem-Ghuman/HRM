@@ -15,15 +15,15 @@ import {
     getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    getRejectLeaveVacationsAdmin
+    getRejectLeaveVacationsAdmin,
   } from "./api_call/leavesvacations/requestadmin";
   import {
-    getLeaveVacations,
     addLeaveVacations,
     getAllowancVacationeDays,
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
-    getAllowanceDays
+    getAllowanceDays,
+    deleteLevaeVacation
   } from "./api_call/leavesvacations/requestuser";
   
   export {
@@ -41,10 +41,10 @@ import {
     getRejectLeaveVacationsAdmin,
 
     // leave vacations user functions
-    getLeaveVacations,
     addLeaveVacations,
     getAllowanceDays,
     getAllowancVacationeDays,
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
+    deleteLevaeVacation
   };

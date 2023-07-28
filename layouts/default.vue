@@ -68,12 +68,12 @@
           >
             <template v-slot:sidebar-body>
               <add-leave
-                :employeeName="employeeName"
+              :employeeName="employeeName"
                 :leaveTypeOptions="leaveTypeOptions"
                 @input="addHandleInput"
                 @change="addHandleInput"
                 style="z-index: 100000"
-                :allowanceDays="allowanceData?.daysAllowed"
+                :allowanceDays="allowanceDays"
                 :usedDays="allowanceData?.daysUsed"
                 :key="addLeaveKey"
                 :errorMsgSelect="errorMsgSelect"
@@ -149,7 +149,7 @@ export default {
       addVacationSidebar: true,
       slideClass: "slide-in",
       allowanceData: "",
-      vacationType: "vacation",
+      leaveType: "vacation",
       employeeName: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
       addForm: {
@@ -157,6 +157,7 @@ export default {
         start:'',
         end:'',
       },
+      allowanceDays:"",
       sidebarHeading: "",
       addLeaveKey:0,
       errorMsgSelect:false,
@@ -172,31 +173,44 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
+      getActiveUser: "employee/GET_USER",
       getformToDate:"leavevacation/getformToDate"
     }),
   },
   async created() {
     // this.routesCheck();
-   
+    await this.$store.dispatch("employee/setActiveUser");
+    this.activeUserData = this.getActiveUser;
+    this.employeeName =
+      this.activeUserData.firstName +
+      " " +
+      this.activeUserData.lastName
     this.$root.$on("open-sidebar", (payload) => {
       this.slideClass = "slide-in";
      
       if (payload == "leave") {
-        this.sidebarHeading = "Schedule leave";
+        this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave"
+        this.allowanceDays = 6
         this.openSidebar = true;
       }
       if (payload == "vacation") {
-        this.sidebarHeading = "Schedule vacation";
+        this.sidebarHeading = "Request vacation";
+        this.addForm.type = "vacation"
+        this.allowanceDays = 30
         this.openSidebar = true;
       }
-      if (payload == "requestVacation") {
-        this.sidebarHeading = "Request vacation";
+      if (payload == "medical") {
+        this.sidebarHeading = "Request medical/sick";
+        this.addForm.type = "medical"
+        this.allowanceDays = 10
         this.openSidebar = true;
       }
       if (payload == "requestLeave") {
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
       }
+      console.log(this.addForm.type, "this.addForm.type")
     });
     this.$root.$on("close-sidebar", () => {
       this.slideClass = "slide-out";
@@ -206,6 +220,9 @@ export default {
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey +=1;
+      this.errorMsgSelect = false
+      this.errorMsgStartDate = false
+      this.errorMsgEndDate = false
     });
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);

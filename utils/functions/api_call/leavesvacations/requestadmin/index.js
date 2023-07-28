@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export async function getLeaveVacationsAdmin() {
   this.loading = true;
   try {

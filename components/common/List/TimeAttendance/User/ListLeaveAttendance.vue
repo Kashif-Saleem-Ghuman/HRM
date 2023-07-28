@@ -1,175 +1,218 @@
 <template>
-    <custom-table
-      :fields="tableFields"
-      class="border-gray4 bg-white"
-      :sections="leaveData"
-      :hide-no-column="true"
-      @item-clicked="handleItemClick_Table"
-     
-    >
-      <!-- <template #cell_action="data">
+  <custom-table
+    :fields="tableFields"
+    class="border-gray4 bg-white"
+    :sections="leaveData"
+    :hide-no-column="true"
+  >
+    <!-- <template #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox size="md"></bib-checkbox>
         </div>
       </template> -->
-      <template #cell(leavetype)="data">
-        <div>
-          <chips
-            :title="data.value.leaveType == null ? 'N/A' : data.value.leaveType"
-            iconShow="iconShow"
-            icon="setting"
-            :variantIcon="
-              data.value.status == 'approve'
-                ? 'success'
-                : '' || data.value.status == 'pending'
-                ? 'eye-open'
-                : '' || data.value.status == 'Past due'
-                ? 'help'
-                : ''
-            "
-            :className="[
-              data.value?.status == 'Vacation' ? 'chip-wrapper-without-bg__bgsucess' : '',
-              data.value?.status === 'pending' ? 'chip-wrapper-without-bg__bgabsentpink' : '',
-              data.value?.status === 'A' ? 'chip-wrapper-without-bg__bgvacation' : '',
-              data.value?.status == null ? 'chip-wrapper-without-bg__bggray' : '',
-            ]"
-          ></chips>
-        </div>
-      </template>
-      <template #cell(start)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.start == "" ? '---' : data.value.start }}</span>
-        </div>
-      </template>
-      <template #cell(end)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.end == null ? 'HRM' : data.value.end }}</span>
-        </div>
-      </template>
-      <template #cell(duration)="data">
-        <div class="justify-between text-dark">
-          <span>{{ data.value.duration == null ? 'Null' : data.value.duration }}</span>
-          <span>{{ data.value.duration == null ? 'Null' : data.value.duration }}</span>
-        </div>
-      </template>
-      
-      <template #cell(paid)="data">
-        <div class="text-dark" style="text-align: right;">
-          <span>{{ data.value.paid == null ? 'Null' : data.value.paid }}</span>
-        </div>
-      </template>
-      <template #cell(status)="data" style="width: 80px;">
+    <template #cell(leavetype)="data">
+      <div class="text-dark upper-case">
         <chips
-            :title="data.value.status == null ? 'N/A' : data.value.status"
-            iconShow="iconShow"
-            :icon="
-              data.value.status == 'approve'
-                ? 'check-all'
-                : '' || data.value.status == 'pending'
-                ? 'eye-open'
-                : '' || data.value.status == 'Past due'
-                ? 'help'
-                : ''
-            "
-            :className="[
-              data.value?.status == 'approve' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.status === 'pending' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.status === 'A' ? 'chip-wrapper__bgvacation' : '',
-              data.value?.status == null ? 'chip-wrapper__bggray' : '',
-            ]"
-            
-          ></chips>
-      </template>
-    </custom-table>
-  </template>
-  
-  <script>
-  import { mapGetters } from "vuex";
-  
-  import {
-    TABLE_HEAD,
-  } from "../../../../../utils/constant/Constant";
-  export default {
-    props: {
-        leaveData: {
-        type: Array,
-        default: "",
-      },
+          :title="data.value.type == null ? 'N/A' : data.value.type"
+          iconShow="iconShow"
+          :icon="
+            data.value.type == 'medical'
+              ? 'home'
+              : '' || data.value.type == 'leave'
+              ? 'eye-open'
+              : '' || data.value.type == 'vacation'
+              ? 'setting'
+              : ''
+          "
+          :variantIcon="
+            data.value.status == 'approved'
+              ? 'success'
+              : '' || data.value.status == 'pending'
+              ? 'eye-open'
+              : '' || data.value.status == 'Past due'
+              ? 'help'
+              : ''
+          "
+          :className="[
+            data.value?.status === 'approved'
+              ? 'chip-wrapper-without-bg__bgsucess'
+              : '',
+            data.value?.status === 'pending'
+              ? 'chip-wrapper-without-bg__bgabsentpink'
+              : '',
+            data.value?.status === 'A'
+              ? 'chip-wrapper-without-bg__bgvacation'
+              : '',
+            data.value?.status == null ? 'chip-wrapper-without-bg__bggray' : '',
+          ]"
+        ></chips>
+      </div>
+    </template>
+    <template #cell(start)="data">
+      <div class="justify-left text-dark">
+        <span>{{ onLoad(data.value.start) }}</span>
+      </div>
+    </template>
+    <template #cell(end)="data">
+      <div class="justify-left text-dark">
+        <span>{{ onLoad(data.value.end) }}</span>
+      </div>
+    </template>
+    <template #cell(duration)="data">
+      <div class="justify-left text-dark">
+        <span>{{
+          data.value.duration == null
+            ? "Null value found"
+            : data.value.duration / 12 + " days"
+        }}</span>
+        <span>{{
+          data.value.duration == null
+            ? "Null value found"
+            : "(" + data.value.duration + " hrs)"
+        }}</span>
+      </div>
+    </template>
+    <!--       
+      <template #cell(paid)="data">
+        <div class="justify-left text-dark">
+          <span>{{ data.value.paid == null ? 'Null value found' : data.value.paid }}</span>
+        </div>
+      </template> -->
+    <template #cell(status)="data">
+      <div
+        class="d-flex align-center justify-center space-between"
+      >
+        <chips
+          :title="data.value.status == null ? 'N/A' : data.value.status"
+          iconShow="iconShow"
+          :icon="
+            data.value.status == 'approved'
+              ? 'check-all'
+              : '' || data.value.status == 'pending'
+              ? 'eye-open'
+              : '' || data.value.status == 'Past due'
+              ? 'help'
+              : ''
+          "
+          class="upper-case justify-left"
+          :className="[
+            data.value?.status == 'approved' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.status === 'pending'
+              ? 'chip-wrapper__bgabsentpink'
+              : '',
+            data.value?.status === 'A' ? 'chip-wrapper__bgvacation' : '',
+            data.value?.status == null ? 'chip-wrapper__bggray' : '',
+          ]"
+          style="min-width: 130px !important;"
+        ></chips>
+        <bib-button
+          label="Delete"
+          variant="danger--outline"
+          icon="trash-solid"
+          size="xl"
+          class="px-1"
+          @click="$emit('delete-item', data.value.id)"
+        ></bib-button>
+      </div>
+    </template>
+  </custom-table>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+import fecha, { format } from "fecha";
+
+import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
+export default {
+  props: {
+    leaveData: {
+      type: Array,
+      default: "",
     },
-    data() {
-      return {
-        tableFields: TABLE_HEAD.tHeadAttandanceUser,
-        attendanceClass: [],
-        satisfaction: "",
-        userPhotoClick: false,
-      };
+  },
+  data() {
+    return {
+      tableFields: TABLE_HEAD.tHeadAttandanceUser,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+      startDate: "",
+    };
+  },
+  created() {
+    this.$store.dispatch("teams/setTeamListOptions");
+  },
+  mounted() {
+    // this.onLoad();
+  },
+  // created() {
+  //   if (this.$router.history.current.fullPath == "/people") {
+  //     this.tableFields = TABLE_HEAD.tHeadPeople;
+  //     return;
+  //   }
+
+  //   if (this.$router.history.current.fullPath == "/people/directory") {
+  //     this.tableFields = TABLE_FIELDS_DIR;
+  //     return;
+  //   }
+  // },
+  computed: {
+    ...mapGetters({
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+    }),
+  },
+  methods: {
+    onLoad(item) {
+      return fecha.format(new Date(item), "YYYY/MM/DD");
     },
-    created() {
-      this.$store.dispatch("teams/setTeamListOptions");
+    test(item) {
+      var teamNames = "";
+      this.getTeamListOptions.forEach((element) => {
+        if (element.value == item) {
+          teamNames = element.label;
+        }
+      });
+      return teamNames;
     },
-    // created() {
-    //   if (this.$router.history.current.fullPath == "/people") {
-    //     this.tableFields = TABLE_HEAD.tHeadPeople;
-    //     return;
-    //   }
-  
-    //   if (this.$router.history.current.fullPath == "/people/directory") {
-    //     this.tableFields = TABLE_FIELDS_DIR;
-    //     return;
-    //   }
-    // },
-    computed: {
-      ...mapGetters({
-        getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-      }),
+    handleItemClick_Table($event, keyI, item) {
+      this.$router.push("/myprofile/" + item.id);
     },
-    methods: {
-      test(item) {
-        var teamNames = "";
-        this.getTeamListOptions.forEach((element) => {
-          if (element.value == item) {
-            teamNames = element.label;
-          }
-        });
-        return teamNames;
-      },
-      handleItemClick_Table($event, keyI, item) {
-        this.$router.push("/myprofile/" + item.id);
-      },
-      viewProfile(id) {
-        this.$router.push("/myprofile/" + id);
-      },
-      sendInvite() {
-        alert("send invite api call");
-      },
-      profiletab(name, isLeave) {
-        document.querySelector("#" + name).style.display = isLeave
-          ? "none"
-          : "block";
-      },
-  
-      handleAction_Table(data) {
-        // console.log(data);
-      },
+    viewProfile(id) {
+      this.$router.push("/myprofile/" + id);
     },
-  };
-  </script>
-  
-  <style lang="scss">
-  .info_wrapper {
-    color: $black;
-    font-weight: normal;
-  }
-  
-  .title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .description {
-    font-size: 14px;
-    font-weight: normal;
-    color: $black;
-  }
-  </style>
-  
+    sendInvite() {
+      alert("send invite api call");
+    },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
+
+    handleAction_Table(data) {
+      // console.log(data);
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.info_wrapper {
+  color: $black;
+  font-weight: normal;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: normal;
+  color: $black;
+}
+.upper-case {
+  text-transform: capitalize;
+}
+</style>

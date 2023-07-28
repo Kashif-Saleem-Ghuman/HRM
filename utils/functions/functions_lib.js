@@ -12,6 +12,8 @@ import {
   getBusinessId,
   openPopupNotification,
   dateCheck,
+  getCurrentDateMonth,
+  getCurrentYear
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -40,4 +42,6 @@ export {
   updateAllData,
   handleInput,
   handleInputObject,
+  getCurrentDateMonth,
+  getCurrentYear
 };

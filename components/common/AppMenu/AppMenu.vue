@@ -143,11 +143,13 @@ export default {
 
         // user menu actions
         if (item.key == "requestVacation") {
-          this.$nuxt.$emit("open-sidebar", 'requestVacation')
+          this.$nuxt.$emit("open-sidebar", 'vacation')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "requestLeave") {
           this.$nuxt.$emit("open-sidebar", 'requestLeave')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "my-leave-vacations") {

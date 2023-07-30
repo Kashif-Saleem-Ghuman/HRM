@@ -257,8 +257,8 @@ export default {
       var users = this.getUser;
       this.id = users.id
       await this.$store.dispatch("employee/setActiveUser");
-      this.$store.dispatch("token/setActiveUserId", users.id);
-      await this.$store.dispatch("employee/setUser", this.id);     
+      await this.$store.dispatch("token/setActiveUserId", this.getUser.id);
+      await this.$store.dispatch("employee/setUser", this.getUser.id);     
       this.form = users;
     }
 

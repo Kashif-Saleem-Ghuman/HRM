@@ -6,6 +6,7 @@
           type="text"
           label="Street number and name"
           placeholder="Enter your address"
+          v-model="street"
           :disabled="inActive"
           indicator
           @input="$emit('input', $event, 'addressLine1', 'streetNumber')"
@@ -16,6 +17,7 @@
       <div class="col-12">
         <bib-input
           type="text"
+          v-model="suitApartment"
           label="Suite/Apartment"
           placeholder="Enter your address"
           :disabled="inActive"
@@ -29,6 +31,7 @@
           type="select"
           label="Country"
           :options="countryOptions"
+          v-model="country"
           placeholder="Please select country"
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
@@ -39,6 +42,7 @@
           type="select"
           label="Province/State"
           :options="stateOptions"
+          v-model="state"
           placeholder="Please select state"
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
@@ -48,6 +52,7 @@
         <bib-input
           type="text"
           label="Postal Code"
+          v-model="postalCode"
           placeholder="Enter your postal code"
           :disabled="inActive"
           @change="$emit('input', $event, 'postalCode', 'addresses')"
@@ -61,7 +66,7 @@
 export default {
   name: "AddressDetail",
   props: {
-    address: {
+    street: {
       type: String,
     },
     address2: {
@@ -73,7 +78,6 @@ export default {
     countryOptions: {
       type: Array,
     },
-    
     state: {
       type: String,
     },
@@ -88,6 +92,9 @@ export default {
     },
     stateVisible: {
       type: Boolean,
+    },
+    suitApartment:{
+      type:String
     },
     inActive: {
       type: String,

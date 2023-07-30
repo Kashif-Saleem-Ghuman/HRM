@@ -184,6 +184,7 @@ export default {
     getCurrentYear,
     deleteLevaeVacation,
     async deleteItem(event) {
+      if(confirm("Do you really want to delete?")){
       await this.deleteLevaeVacation(event);
       await this.getCurrentYear();
       this.$store
@@ -194,6 +195,7 @@ export default {
         .then(() => {
           this.$nuxt.$emit("leaves-list");
         });
+      }
     },
     // filterItem(event){
     //   console.log(event, "filterItem")

@@ -5,10 +5,9 @@
           <bib-input
             type="text"
             label="Work Title"
-            v-model="employeeStatus"
-            :options="esstatusOptions"
+            v-model="workTitle"
             placeholder="Enter Work title"
-            @input="$emit('input', $event, 'status')"
+            @input="$emit('input', $event, 'workTitle')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -16,9 +15,9 @@
           <bib-input
             type="text"
             label="Department"
-            v-model="employeeNumber"
+            v-model="department"
             placeholder="Enter your Department"
-            @change="$emit('input', $event, 'employeNumber')"
+            @change="$emit('input', $event, 'department')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -28,9 +27,9 @@
           <bib-input
             type="text"
             label="Reports to"
-            v-model="socialInsuranceNumber"
+            v-model="reportsTo"
             placeholder="Enter your Social Insurance Number"
-            @change="$emit('input', $event, 'sin')"
+            @change="$emit('input', $event, 'reportsTo')"
             icon-left="file"
             :disabled="inActive"
           ></bib-input>
@@ -41,9 +40,9 @@
           <bib-input
             type="text"
             label="Work email"
-            v-model="socialInsuranceNumber"
+            v-model="workEmail"
             placeholder="Enter your work email"
-            @change="$emit('input', $event, 'sin')"
+            @change="$emit('input', $event, 'workEmail')"
             icon-left="file"
             :disabled="inActive"
           ></bib-input>
@@ -54,9 +53,9 @@
           <bib-input
             type="text"
             label="Work telephone"
-            v-model="socialInsuranceNumber"
+            v-model="workTelephone"
             placeholder="Enter work telephone"
-            @change="$emit('input', $event, 'sin')"
+            @change="$emit('input', $event, 'workTelephone')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -64,9 +63,9 @@
           <bib-input
             type="text"
             label="Work extension"
-            v-model="hireDate"
+            v-model="workExt"
             placeholder="Enter work extension"
-            @change="$emit('input', $event, 'hireDate')"
+            @change="$emit('input', $event, 'workExtenstion')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -77,20 +76,23 @@
   export default {
     name: "Placement",
     props: {
-      hireDate: {
+      workTitle: {
         type: String,
       },
-      socialInsuranceNumber: {
+      department: {
         type: String,
       },
-      employeeNumber: {
+      reportsTo: {
         type: String,
       },
-      employeeStatus: {
+      workEmail: {
         type: String,
       },
-      esstatusOptions: {
-        type: Array,
+      workTelephone: {
+        type: String,
+      },
+      workExt:{
+        type:String
       },
       inActive: {
         type: String,

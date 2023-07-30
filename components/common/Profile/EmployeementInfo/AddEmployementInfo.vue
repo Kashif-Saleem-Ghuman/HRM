@@ -50,7 +50,7 @@
         <bib-input
           type="text"
           label="Employment Type"
-          v-model="socialInsuranceNumber"
+          v-model="employeeType"
           placeholder="Enter your Employment Type"
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
@@ -74,6 +74,9 @@ export default {
     },
     employeeStatus: {
       type: String,
+    },
+    employeeType:{
+      type:String
     },
     esstatusOptions: {
       type: Array,

@@ -101,6 +101,7 @@
             </template>
           </action-sidebar>
         </div>
+        <bib-notification :popupMessages="popupMessages"></bib-notification>
       </template>
     </bib-app-wrapper>
   </div>
@@ -117,7 +118,7 @@ import { SELECT_OPTIONS } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
-  getUser,
+  // getUser,
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
@@ -163,6 +164,7 @@ export default {
       errorMsgSelect:false,
       errorMsgStartDate:false,
       errorMsgEndDate:false,
+      popupMessages: [],
       token: "",
     };
   },
@@ -173,6 +175,7 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
+      getUserId: "token/getUserId",
       getActiveUser: "employee/GET_USER",
       getformToDate:"leavevacation/getformToDate"
     }),
@@ -236,7 +239,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
@@ -251,6 +253,7 @@ export default {
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
+            console.log(userId, "userIduserIduserIduserId")
             this.accountType =
               res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"
@@ -260,8 +263,9 @@ export default {
             localStorage.setItem("userId", userId);
             this.userRole = userRole;
             this.$store.dispatch("token/setActiveUserRole", userRole);
+            
           }
-          this.getUser();
+          // this.getUser();
           this.getBusinessId();
         })
         .catch((err) => {
@@ -280,7 +284,6 @@ export default {
   },
   methods: {
     isThemeCheck,
-    getUser,
     getBusinessId,
     handleToggleWrapperTheme,
     getAllowanceDays,

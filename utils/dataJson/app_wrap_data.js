@@ -2,7 +2,7 @@ const data = () => {
   return {
     popupNotificationMsgs: [
       {
-        text: 'Profile Image Upload successfully...',
+        text: 'Leave Added successfully...',
         variant: 'success'
       },
       {

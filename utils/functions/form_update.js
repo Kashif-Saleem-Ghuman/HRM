@@ -150,9 +150,10 @@ export function addHandleInput(event, name, addresses) {
   // this.form[name] = event;
   // console.log(this.addForm, "update");
   console.log(this.addForm.start, "this.addForm.start");
-  if (this.addForm.start != "" || this.addForm.endDate != "") {
+  if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
+    this.errorMsgSelect = false;
   }
 }
 export function editHandleInput(event, name, addresses) {

@@ -63,6 +63,7 @@
                     :key="pendingList"
                     :checked="checked"
                     :checkedAll="checkedAll"
+                    @reject-item="rejectItem($event)"
                     v-show="requestListData.length ? true : ''"
                   ></list-pending>
                 </div>
@@ -84,6 +85,7 @@ import { LEAVEVACATION_TAB } from "../../../utils/constant/Constant";
 import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
+  getRejectLeaveVacationsAdmin
 } from "../../../utils/functions/functions_lib_api";
 import{popupNotificationMsgs} from '../../../utils/constant/Notifications';
 import {
@@ -140,12 +142,32 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
+    getRejectLeaveVacationsAdmin,
     openPopupNotification,
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (tab.value == "Pending Requests") {
         this.getPendingLeaveVacationsAdmin();
       }
+    },
+    async rejectItem(event) {
+      console.log(event, "event")
+      this.addIds.push(event + "");
+      console.log(this.addIds, "item");
+     await this.getRejectLeaveVacationsAdmin().then(()=>{
+      this.$nuxt.$emit("pendingList");
+     });
+     this.getPendingLeaveVacationsAdmin();
+      // await this.getCurrentDateMonth();
+      // this.$store
+      //   .dispatch("leavevacation/setLeaveVacations", {
+      //     from: this.getformToDate.from,
+      //     to: this.getformToDate.to,
+      //   })
+      //   .then(() => {
+      //     this.$nuxt.$emit("pendingList");
+      //   });
+      
     },
     async getIdValue(event) {
       this.checkedAll = false

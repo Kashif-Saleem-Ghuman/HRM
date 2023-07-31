@@ -101,6 +101,7 @@
             </template>
           </action-sidebar>
         </div>
+        <bib-notification :popupMessages="popupMessages"></bib-notification>
       </template>
     </bib-app-wrapper>
   </div>
@@ -117,7 +118,7 @@ import { SELECT_OPTIONS } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
-  getUser,
+  // getUser,
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
@@ -163,7 +164,9 @@ export default {
       errorMsgSelect:false,
       errorMsgStartDate:false,
       errorMsgEndDate:false,
+      popupMessages: [],
       token: "",
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
     };
   },
   fetch() {
@@ -173,13 +176,25 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
+      getUserId: "token/getUserId",
       getActiveUser: "employee/GET_USER",
       getformToDate:"leavevacation/getformToDate"
     }),
   },
   async created() {
+    
     // this.routesCheck();
-    await this.$store.dispatch("employee/setActiveUser");
+    if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
+      let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+      localStorage.setItem("accessToken", jwt);
+      this.token = jwt;
+      this.$store.dispatch("token/setToken", jwt);
+      console.log(this.getAccessToken, "getAccessToken")
+    } else {
+      localStorage.setItem("accessToken", this.token);
+      this.$store.dispatch("token/setToken", this.token);
+    }
+     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
     this.employeeName =
       this.activeUserData.firstName +
@@ -224,19 +239,9 @@ export default {
       this.errorMsgStartDate = false
       this.errorMsgEndDate = false
     });
-    if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
-      let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      localStorage.setItem("accessToken", jwt);
-      this.token = jwt;
-      this.$store.dispatch("token/setToken", jwt);
-    } else {
-      localStorage.setItem("accessToken", this.token);
-      this.$store.dispatch("token/setToken", this.token);
-    }
   },
   async mounted() {
     this.loading = true;
-    this.openPopupNotification(0);
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
@@ -251,6 +256,7 @@ export default {
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
+            console.log(userId, "userIduserIduserIduserId")
             this.accountType =
               res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"
@@ -260,8 +266,9 @@ export default {
             localStorage.setItem("userId", userId);
             this.userRole = userRole;
             this.$store.dispatch("token/setActiveUserRole", userRole);
+            
           }
-          this.getUser();
+          // this.getUser();
           this.getBusinessId();
         })
         .catch((err) => {
@@ -269,8 +276,8 @@ export default {
           console.log(err);
         });
     } else {
-      window.location.href =
-        process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+      // window.location.href =
+      //   process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
     this.getAllowanceDays().then((result) => {
           this.allowanceData = result;
@@ -280,7 +287,6 @@ export default {
   },
   methods: {
     isThemeCheck,
-    getUser,
     getBusinessId,
     handleToggleWrapperTheme,
     getAllowanceDays,

@@ -37,10 +37,10 @@ export default {
       type: Object,
     },
     progressCount: {
-      type: Number,
+      type: [Number, String],
     },
     progressPercentage: {
-      type: String,
+      type: [String, Number],
     },
     progressTitle: {
       type: String,

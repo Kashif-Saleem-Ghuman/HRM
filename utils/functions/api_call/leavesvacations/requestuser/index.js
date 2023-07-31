@@ -59,6 +59,7 @@ export async function addLeaveVacations() {
     this.slideClass = "slide-out";
     setTimeout(() => {
       this.openSidebar = false;
+      this.openPopupNotification(0);
     }, 700);
   } catch (e) {
     alert(e);

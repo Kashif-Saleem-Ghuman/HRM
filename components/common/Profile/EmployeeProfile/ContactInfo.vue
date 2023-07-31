@@ -5,6 +5,7 @@
         <bib-input
           type="email"
           label="Primary email"
+          v-model="primaryEmail"
           placeholder="Enter your primary email"
           :disabled="inActive"
           @change="$emit('input', $event, 'primaryEmail')"
@@ -14,6 +15,7 @@
         <bib-input
           type="email"
           label="Secondary email"
+          v-model="seondaryEmail"
           placeholder="Enter your secondary mail"
           :disabled="inActive"
           @change="$emit('input', $event, 'seondaryEmail')"
@@ -25,6 +27,7 @@
         <bib-input
           type="text"
           label="Home phone"
+          v-model="homePhone"
           placeholder="Enter your home phone"
           :disabled="inActive"
           @change="$emit('input', $event, 'homePhone')"
@@ -34,6 +37,7 @@
         <bib-input
           type="text"
           label="Cell phone"
+          v-model="cellPhone"
           placeholder="Enter your phone"
           :disabled="inActive"
           @change="$emit('input', $event, 'cellPhone')"
@@ -44,10 +48,22 @@
 </template>
 <script>
 export default {
-  name: "ContactInfo",
+  name: "ContactInformation",
   props: {
     inActive: {
       type: String,
+    },
+    primaryEmail:{
+      type:String
+    },
+    seondaryEmail:{
+      type:String
+    },
+    homePhone:{
+      type:String
+    },
+    cellPhone:{
+      type:String
     },
   },
 };

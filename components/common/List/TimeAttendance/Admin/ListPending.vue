@@ -7,6 +7,7 @@
     classTypeHead="table__hrow__custom"
     classTypeBody="table__hrow__custom__irow"
     @input="($emit('selectAllItems'))"
+    :allChecked="checkedAll"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -77,6 +78,10 @@ export default {
     },
     checked:{
       type:Boolean
+    },
+    checkedAll:{
+      type: Boolean,
+      default: false,
     }
   },
   data() {

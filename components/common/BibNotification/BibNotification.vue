@@ -12,7 +12,6 @@
   </bib-popup-notification-wrapper>
 </template>
 <script>
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 export default {
   props: {
     popupMessages: {
@@ -23,7 +22,7 @@ export default {
     return {};
   },
   methods: {
-    openPopupNotification,
+    // openPopupNotification,
   },
 };
 </script>

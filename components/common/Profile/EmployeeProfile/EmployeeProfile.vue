@@ -5,6 +5,7 @@
         <bib-input
           type="text"
           label="First Name"
+          v-model="firstname"
           placeholder="Type your firstName"
           @change="$emit('input', $event, 'firstName')"
           :disabled="inActive"
@@ -14,6 +15,7 @@
         <bib-input
           type="text"
           label="Last Name"
+          v-model="lastname"
           placeholder="Type your lastName"
           @change="$emit('input', $event, 'lastName')"
           :disabled="inActive"
@@ -25,6 +27,7 @@
         <bib-input
           type="date"
           label="Date of birth"
+          v-model="dob"
           placeholder="Enter title"
           @change="$emit('input', $event, 'dob')"
           :disabled="inActive"
@@ -34,6 +37,7 @@
         <bib-input
           type="select"
           label="Gender"
+          v-model="gender"
           :options="genderOptions"
           placeholder="Enter your department"
           @input="$emit('input', $event, 'gender')"
@@ -46,6 +50,7 @@
         <bib-input
           type="select"
           label="Marital Status"
+          v-model="maritalStatus"
           :options="maritalOptions"
           placeholder="Please select employee status"
           @input="$emit('input', $event, 'maritalStatus')"

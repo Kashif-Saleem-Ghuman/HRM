@@ -7,16 +7,15 @@
       <div class="info-card-items mt-05">
         <div>
           <div class="subheading">Available</div>
-          <span>{{ totalAllowance - item.daysUsed }}</span>
+          <span>{{ balanceLeave }}</span>
 
           <div class="subheading_footer">Days</div>
         </div>
         <div>
           <progress-circle
-            :progressCount="item?.progress"
-            :progressPercentage="item?.progress + '%'"
+            :progressCount="( item.daysUsed / this.totalAllowance).toFixed(2) * 100"
+            :progressPercentage="(item.daysUsed / this.totalAllowance ).toFixed(2) * 100 + '%'"
             :fill="fill"
-            v-show="item.progress == null ? '' : item.progress + '%'"
             emptyfill="#f1f1f1"
           ></progress-circle>
         </div>
@@ -46,6 +45,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: "Chips",
   props: {
@@ -80,7 +80,11 @@ export default {
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
+      balanceLeave: '',
     };
+  },
+  mounted(){
+    this.balanceLeave = this.totalAllowance - this.item.daysUsed || '00';
   },
   methods: {
     buttonAction(item) {

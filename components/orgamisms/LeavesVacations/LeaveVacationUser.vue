@@ -63,12 +63,12 @@
       <div class="d-flex align-center">
         <div class="d-flex align-center">
           <!-- <div style="font-size: 14px" class="mr-05">Show:</div> -->
-          <!-- <dropdown-menu
+          <dropdown-menu
             :items="items"
             @click="filterItem($event)"
-            style="margin-left: -10px"
+            style="margin-left: -10px; z-index:100000 "
             actionMenu="actionMenu"
-          ></dropdown-menu> -->
+          ></dropdown-menu>
         </div>
       </div>
     </div>
@@ -197,16 +197,16 @@ export default {
         });
       }
     },
-    // filterItem(event){
-    //   console.log(event, "filterItem")
-    //   // if(event.key=='all'){
-    //   //   for (var i = 0; i < this.items.length; i++){
-    //   //     this.items[i].selected = !this.items[i].selected
-    //   // }
-    //   // }
-    //   // console.log(event.key, "filterItem")
-    //   // // event.selected = !event.selected
-    // },
+    filterItem(event){
+      console.log(event, "filterItem")
+      // if(event.key=='all'){
+      //   for (var i = 0; i < this.items.length; i++){
+      //     this.items[i].selected = !this.items[i].selected
+      // }
+      // }
+      // console.log(event.key, "filterItem")
+      // // event.selected = !event.selected
+    },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar", $event);
       this.$nuxt.$emit("add-leave");

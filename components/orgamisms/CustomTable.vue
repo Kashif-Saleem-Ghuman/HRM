@@ -15,7 +15,7 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-checkbox size="md" @change="$emit('input', $event)"></bib-checkbox>
+            <bib-checkbox size="md" @change="$emit('input', $event)" :checked="allChecked"></bib-checkbox>
           </div>
         </th>
 
@@ -187,6 +187,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    allChecked:{
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

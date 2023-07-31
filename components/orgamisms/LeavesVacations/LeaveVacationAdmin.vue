@@ -62,12 +62,14 @@
                     @selectAllItems="selectAllItems()"
                     :key="pendingList"
                     :checked="checked"
+                    :checkedAll="checkedAll"
                     v-show="requestListData.length ? true : ''"
                   ></list-pending>
                 </div>
                 <div >
                  <no-record v-show="requestListData.length ? '' : true"></no-record>
                 </div>
+                <bib-notification :popupMessages="popupMessages"></bib-notification>
               </div>
             </div>
           </div>
@@ -83,6 +85,10 @@ import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
 } from "../../../utils/functions/functions_lib_api";
+import{popupNotificationMsgs} from '../../../utils/constant/Notifications';
+import {
+  openPopupNotification,
+} from "../../../utils/functions/functions_lib.js";
 export default {
   data() {
     return {
@@ -102,6 +108,9 @@ export default {
       pendingList: 0,
       requestListApproveData: [],
       checked: false,
+      checkedAll:false,
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
       noRecord:false,
     };
   },
@@ -131,6 +140,7 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
+    openPopupNotification,
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (tab.value == "Pending Requests") {
@@ -138,14 +148,18 @@ export default {
       }
     },
     async getIdValue(event) {
+      this.checkedAll = false
       if (this.addIds.includes(event + "")) {
         for (var i = 0; i < this.addIds.length; i++) {
           if (this.addIds[i] === event+"") {
             this.addIds.splice(i, 1);
+            console.log(this.addIds, "item");
           }
         }
       } else {
+        this.checkedAll = false
         this.addIds.push(event + "");
+        console.log(this.addIds, "item");
       }
     },
     selectAllItems() {
@@ -157,6 +171,7 @@ export default {
         this.requestListData.map((item, index) => {
           this.addIds.push(item.id + "");
           console.log(this.addIds, "item");
+          this.checkedAll = true
           this.checked = true;
         });
       }

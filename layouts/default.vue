@@ -166,6 +166,7 @@ export default {
       errorMsgEndDate:false,
       popupMessages: [],
       token: "",
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
     };
   },
@@ -215,6 +216,7 @@ export default {
         this.allowanceDays = 30
         this.openSidebar = true;
       }
+      
       if (payload == "medical") {
         this.sidebarHeading = "Request medical/sick";
         this.addForm.type = "medical"
@@ -223,6 +225,16 @@ export default {
       }
       if (payload == "requestLeave") {
         this.sidebarHeading = "Request leave";
+        this.openSidebar = true;
+      }
+      if (payload == "leaveAdmin") {
+        this.sidebarHeading = "Request leave";
+        this.allowanceDays = 6
+        this.openSidebar = true;
+      }
+      if (payload == "vacationAdmin") {
+        this.sidebarHeading = "Request vacation";
+        this.allowanceDays = 30
         this.openSidebar = true;
       }
       console.log(this.addForm.type, "this.addForm.type")
@@ -235,9 +247,9 @@ export default {
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey +=1;
-      this.errorMsgSelect = false
-      this.errorMsgStartDate = false
-      this.errorMsgEndDate = false
+      // this.errorMsgSelect = true
+      // this.errorMsgStartDate = true
+      // this.errorMsgEndDate = true
     });
   },
   async mounted() {

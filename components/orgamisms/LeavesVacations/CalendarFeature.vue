@@ -10,14 +10,14 @@
                     variant="success"
                     :scale="1"
                     title="Add leave"
-                    @on-click="actionBY('leave')"
+                    @on-click="actionBY('leaveAdmin')"
                   ></button-green>
                   <button-green
                     icon="add"
                     variant="success"
                     :scale="1"
                     title="Add vacation"
-                    @on-click="actionBY('vacation')"
+                    @on-click="actionBY('vacationAdmin')"
                   ></button-green>
                 </div>
             <label>View:</label>

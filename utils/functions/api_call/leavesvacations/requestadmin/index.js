@@ -69,8 +69,11 @@ export async function getApproveLeaveVacationsAdmin() {
 export async function getRejectLeaveVacationsAdmin() {
   this.loading = true;
   try {
-    const rejectLeaveVacationsAdmin = await axios.get(
+    const rejectLeaveVacationsAdmin = await axios.put(
       process.env.API_URL + "/requests/admin/reject",
+      {
+        requestIds: this.addIds,
+      },
       {
         headers: {
           Authorization: "Bearer " + this.getAccessToken,
@@ -78,6 +81,8 @@ export async function getRejectLeaveVacationsAdmin() {
       }
     );
     this.rejectLeaveVacationsAdminData = rejectLeaveVacationsAdmin.data;
+    this.$nuxt.$emit("pending-key");
+    this.addIds=[];
   } catch (e) {
     alert(e);
   }

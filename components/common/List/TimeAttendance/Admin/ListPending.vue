@@ -45,6 +45,7 @@
       </div>
     </template>
     <template #cell(status)="data">
+      <div class="d-flex align-center justify-center space-between">
       <chips
             :title="data.value.status == null ? 'N/A' : data.value.status"
             iconShow="iconShow"
@@ -60,10 +61,19 @@
             :className="[
               data.value?.status == 'approve' ? 'chip-wrapper__bgsucess' : '',
               data.value?.status === 'pending' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.status === 'A' ? 'chip-wrapper__bgvacation' : '',
+              data.value?.status === 'rejected' ? 'chip-wrapper__bggray' : '',
               data.value?.status == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
+          <bib-button
+          label="Reject"
+          variant="warning"
+          size="xl"
+          class="px-1"
+          @click="$emit('reject-item', data.value.id)"
+          
+        ></bib-button>
+      </div>
     </template>
   </custom-table>
 </template>

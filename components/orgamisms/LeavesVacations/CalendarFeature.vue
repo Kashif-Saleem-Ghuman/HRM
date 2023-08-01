@@ -5,52 +5,52 @@
         <div class="ltr-wrapper-items">
           <div class="button-items pr-05">
             <div class="d-flex align-center">
-                  <button-green
-                    icon="add"
-                    variant="success"
-                    :scale="1"
-                    title="Add leave"
-                    @on-click="actionBY('leaveAdmin')"
-                  ></button-green>
-                  <button-green
-                    icon="add"
-                    variant="success"
-                    :scale="1"
-                    title="Add vacation"
-                    @on-click="actionBY('vacationAdmin')"
-                  ></button-green>
-                </div>
-            <label>View:</label>
-           <div style="position: relative;">
-            <button-black
-              icon="close"
-              variant="light"
-              :scale="1"
-              :title="ViewTitle"
-              @on-click="show = !show"
-              v-click-outside="clickOutside"
-            ></button-black>
-            <div class="menu-items">
-              <ul v-if="show">
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="monthView('Month')"
-                    style="cursor: pointer"
-                    >Month</span
-                  >
-                </li>
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="weekView('Week')"
-                    style="cursor: pointer"
-                    >Week</span
-                  >
-                </li>
-              </ul>
+              <button-green
+                icon="add"
+                variant="success"
+                :scale="1"
+                title="Add leave"
+                @on-click="actionBY('leaveAdmin')"
+              ></button-green>
+              <button-green
+                icon="add"
+                variant="success"
+                :scale="1"
+                title="Add vacation"
+                @on-click="actionBY('vacationAdmin')"
+              ></button-green>
             </div>
-           </div>
+            <label>View:</label>
+            <div style="position: relative">
+              <button-black
+                icon="close"
+                variant="light"
+                :scale="1"
+                :title="ViewTitle"
+                @on-click="show = !show"
+                v-click-outside="clickOutside"
+              ></button-black>
+              <div class="menu-items">
+                <ul v-if="show">
+                  <li class="d-flex align-center">
+                    <span
+                      class="ml-05"
+                      @click="monthView('Month')"
+                      style="cursor: pointer"
+                      >Month</span
+                    >
+                  </li>
+                  <li class="d-flex align-center">
+                    <span
+                      class="ml-05"
+                      @click="weekView('Week')"
+                      style="cursor: pointer"
+                      >Week</span
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="button-items">
             <label>Month:</label>
@@ -125,6 +125,21 @@
         ></button-gray>
       </div>
     </div>
+    <div class="d-flex px-1 pb-05 pt-05 align-center" v-show="nextPrev" style="border-top: solid 1px #eee;">
+      <button-black
+        variant="light"
+        :scale="1"
+        title="Prev"
+        class="mr-075"
+        @on-click="prevWeek()"
+      ></button-black>
+      <button-black
+        variant="light"
+        :scale="1"
+        title="Next"
+        @on-click="nextWeek()"
+      ></button-black>
+    </div>
     <div class="">
       <FullCalendar
         :options="calendarOptions"
@@ -132,9 +147,7 @@
         id="fullCalendar"
         :key="reloadData"
       >
-        <template
-          v-slot:eventContent="arg"
-        >
+        <template v-slot:eventContent="arg">
           <a
             class="author-display d-flex"
             :class="[
@@ -160,7 +173,11 @@
               size="2rem"
             ></bib-avatar>
             <div class="list-item pl-05">
-              <label>{{ arg.event.extendedProps.employee.firstName + ' ' +  arg.event.extendedProps.employee.lastName}}</label>
+              <label>{{
+                arg.event.extendedProps.employee.firstName +
+                " " +
+                arg.event.extendedProps.employee.lastName
+              }}</label>
               <span>{{ arg.event.extendedProps.employee.jobTitle }}</span>
             </div>
           </a>
@@ -192,10 +209,61 @@
           inActive="disabled"
         ></add-leave>
         <div class="row">
-      <div class="col-12">
-        <info-card-success></info-card-success>
-      </div>
-    </div>
+          <div class="col-12">
+            <div>
+              <info-card-success
+                :label="
+                  leaveStatus == 'approved'
+                    ? 'Approved'
+                    : '' || leaveStatus == 'pending'
+                    ? 'Pending'
+                    : '' || leaveStatus == 'reject'
+                    ? 'reject'
+                    : ''
+                "
+                :message="
+                  leaveStatus == 'approved'
+                    ? 'Approved'
+                    : '' || leaveStatus == 'pending'
+                    ? 'Pending'
+                    : '' || leaveStatus == 'reject'
+                    ? 'reject'
+                    : ''
+                "
+                :icon="
+                  leaveStatus == 'approved'
+                    ? 'tick'
+                    : '' || leaveStatus == 'pending'
+                    ? 'pencil'
+                    : '' || leaveStatus == 'reject'
+                    ? 'file'
+                    : ''
+                "
+                :variant="
+                  leaveStatus == 'approved'
+                    ? 'success'
+                    : '' || leaveStatus == 'pending'
+                    ? 'gray3'
+                    : '' || leaveStatus == 'reject'
+                    ? 'danger'
+                    : ''
+                "
+                :className="[
+                  leaveStatus == 'approved'
+                    ? 'text-success bg-success-sub6 bg-hover-success-sub3'
+                    : '',
+                  leaveStatus == 'pending'
+                    ? 'text-warning bg-warning bg-hover-warning-sub3'
+                    : '',
+                ]"
+                :classNameWrapper="[
+                  leaveStatus == 'approved' ? 'text-success' : '',
+                  leaveStatus == 'pending' ? 'text-warning' : '',
+                ]"
+              ></info-card-success>
+            </div>
+          </div>
+        </div>
       </template>
       <!-- <template v-slot:sidebar-footer>
         <div class="">
@@ -229,7 +297,11 @@ import {
   MONTH_LIST,
   YEAR_LIST,
 } from "../../../utils/constant/Calander";
-import { addHandleInput, getCurrentDateMonth } from "../../../utils/functions/functions_lib";
+import {
+  addHandleInput,
+  getCurrentDateMonth,
+  getCurrentYear,
+} from "../../../utils/functions/functions_lib";
 
 import {
   addLeaveVacations,
@@ -253,19 +325,19 @@ export default {
       errorMsgStartDate: false,
       errorMsgEndDate: false,
       allowanceData: "",
-      startDate:"",
-      endDate:"",
-      form:{},
+      startDate: "",
+      endDate: "",
+      form: {},
       vacationType: "vacation",
-      addLeaveKey:0,
+      addLeaveKey: 0,
       monthList: MONTH_LIST,
       yearList: YEAR_LIST,
       ViewTitle: "Month",
-      getSearchKey:'',
+      getSearchKey: "",
       addForm: {
-        type:'',
-        start:'',
-        end:'',
+        type: "",
+        start: "",
+        end: "",
       },
       calendarOptions: {
         plugins: [dayGridPlugin],
@@ -332,6 +404,9 @@ export default {
       toDate: "",
       slideClass: "slide-in",
       form: "",
+      leaveStatus: "",
+      flag : false,
+      nextPrev:false,
     };
   },
   computed: {
@@ -368,27 +443,28 @@ export default {
     getAllowanceDays,
     addLeaveVacations,
     getCurrentDateMonth,
+    getCurrentYear,
     change(event) {},
-    searchLeavesType(event){
-       this.getSearchKey = event ;
+    searchLeavesType(event) {
+      this.getSearchKey = event;
       //  console.log(this.getSearchKey, event,  "this.getSearchKey")
       this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-      search:this.getSearchKey,
-    });
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-    }, 1000);
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+        search: this.getSearchKey,
+      });
+      setTimeout(() => {
+        this.calendarOptions.events = this.getLeaveVacation;
+      }, 1000);
     },
-    fullData(){
+    fullData() {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    });
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-    }, 1000);
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+      setTimeout(() => {
+        this.calendarOptions.events = this.getLeaveVacation;
+      }, 1000);
     },
     actionBY($event) {
       this.$nuxt.$emit("open-sidebar", $event);
@@ -418,16 +494,16 @@ export default {
         );
       this.getCurrentDateMonth();
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
-    this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    });
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-    }, 1000);
+        from: this.fromDate,
+        to: this.toDate,
+      });
+      this.$store.dispatch("leavevacation/setLeaveVacations", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+      setTimeout(() => {
+        this.calendarOptions.events = this.getLeaveVacation;
+      }, 1000);
     },
     changeYearView() {
       var month;
@@ -443,30 +519,70 @@ export default {
           this.calendarOptions.initialView,
           this.$refs.myInputYear.value + month + this.currentDate
         );
-        this.getCurrentDateMonth();
+      this.getCurrentDateMonth();
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
-    this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    });
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-    }, 1000);
+        from: this.fromDate,
+        to: this.toDate,
+      });
+      this.$store.dispatch("leavevacation/setLeaveVacations", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+      setTimeout(() => {
+        this.calendarOptions.events = this.getLeaveVacation;
+      }, 1000);
     },
     monthView() {
       this.ViewTitle = "Month";
+      this.nextPrev = false
       this.calendarOptions.initialView = "dayGridMonth";
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridMonth");
     },
     weekView() {
+      this.nextPrev = true
       this.ViewTitle = "Week";
       this.calendarOptions.initialView = "dayGridWeek";
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridWeek");
+    },
+    async prevWeek() {
+      if (this.flag == false) {
+        this.flag == true;
+        this.getCurrentYear();
+        await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+          from: this.fromDate,
+          to: this.toDate,
+        });
+        this.$store.dispatch("leavevacation/setLeaveVacations", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        });
+        setTimeout(() => {
+          this.calendarOptions.events = this.getLeaveVacation;
+        }, 1000);
+      }
+      let calendarApi = this.$refs.fullCalendar.getApi();
+      calendarApi.prev();
+    },
+    async nextWeek() {
+      if (this.flag == false) {
+        this.flag = true;
+        this.getCurrentYear();
+        await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+          from: this.fromDate,
+          to: this.toDate,
+        });
+        this.$store.dispatch("leavevacation/setLeaveVacations", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        });
+        setTimeout(() => {
+          this.calendarOptions.events = this.getLeaveVacation;
+        }, 1000);
+      }
+      let calendarApi = this.$refs.fullCalendar.getApi();
+      calendarApi.next();
     },
     clickOutside() {
       this.show = false;
@@ -477,12 +593,17 @@ export default {
     },
     handleEventClick(clickInfo) {
       this.slideClass = "slide-in";
-      this.addLeaveKey +=1;
+      this.addLeaveKey += 1;
       this.calendarOptions.events.filter((item, index) => {
         if (item.id == clickInfo.event._def.publicId) {
+          console.log(item.status, "itemitemitemitem");
+          this.leaveStatus = item.status;
           this.form = item;
-          this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD")
-          this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD")
+          this.startDate = fecha.format(
+            new Date(this.form.start),
+            "YYYY-MM-DD"
+          );
+          this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
           // console.log(this.form, "clickInfo.event._def.publicId");
           return item;
         }
@@ -637,7 +758,6 @@ export default {
   font-family: "fcicons" !important;
 }
 
-
 .event_wrapper {
   border-radius: 6px;
   padding: 4px 8px;
@@ -662,7 +782,7 @@ export default {
     color: #fff;
   }
   &__bgvacation {
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
   }
   &__bgabsent {
     background-color: #f5d0d3;
@@ -725,7 +845,7 @@ export default {
   background-color: #fff !important;
   border: none !important;
 }
-.fc-event:focus::after{
+.fc-event:focus::after {
   background-color: none !important;
 }
 

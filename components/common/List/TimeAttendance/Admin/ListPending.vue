@@ -14,11 +14,47 @@
         <bib-checkbox size="md" @change="$emit('input', data.value.id)" :checked="checked"></bib-checkbox>
       </div>
     </template>
-    <!-- <template #cell(from)="data">
-      <div class="justify-between text-dark">
-        <span>{{ data.value.submitted }}</span>
-      </div>
-    </template> -->
+    <template #cell(name)="data">
+      <div
+          class="d-flex align-center text-left gap-05"
+          style="position: relative"
+        >
+          <div
+            style="cursor: pointer"
+            v-on:click="profiletab('id_' + data.value.id)"
+            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            class="ml-05"
+          >
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
+              :src="data.value.photo"
+              size="3rem"
+            >
+            </bib-avatar>
+            <div :id="'id_' + data.value.id" style="" class="userCard">
+              <user-info-card
+                :src="data.value.photo"
+                :firstName="data.value.firstName"
+                :lastName="data.value.lastName"
+                :jobTitle="data.value.jobTitle"
+                :email="data.value.email"
+                :phone="data.value.phone"
+                @viewProfile="viewProfile(data.value.id)"
+                @sendInvite="sendInvite"
+              ></user-info-card>
+            </div>
+          </div>
+          <div class="info_wrapper">
+            <div class="title">
+              {{ data.value.firstName }} {{ data.value.lastName }}
+            </div>
+            <div class="description">
+              {{ data.value.jobTitle }}
+            </div>
+          </div>
+        </div>
+    </template>
     <template #cell(recived)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.id }}</span>
@@ -31,12 +67,12 @@
     </template>
     <template #cell(from)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.start }}</span>
+        <span>{{ onLoad(data.value.start) }}</span>
       </div>
     </template>
     <template #cell(to)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.end }}</span>
+        <span>{{ onLoad(data.value.end) }}</span>
       </div>
     </template>
     <template #cell(reason)="data">
@@ -79,6 +115,7 @@
 </template>
 
 <script>
+import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
 export default {
   props: {
@@ -103,6 +140,9 @@ export default {
     };
   },
   methods: {
+    onLoad(item) {
+      return fecha.format(new Date(item), "YYYY/MM/DD");
+    },
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/myprofile/" + item.id);
     },
@@ -112,6 +152,32 @@ export default {
     handleAction_Table(data) {
       console.log(data);
     },
+    viewProfile(id) {
+      this.$router.push("/myprofile/" + id);
+    },
+    vclick() {
+      alert("callled");
+    },
+    mouseover() {
+      this.showTooltip = true;
+    },
+    mouseleave() {
+      this.showTooltip = false;
+    },
+    sendInvite() {
+      alert("send invite api call");
+    },
+    timeInfotab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
+
   },
 };
 </script>

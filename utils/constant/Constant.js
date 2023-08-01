@@ -261,8 +261,8 @@ export const TABLE_HEAD = {
       label: "#",
     },
     {
-      key: "from",
-      label: "From",
+      key: "name",
+      label: "Name",
     },
     {
       key: "recived",

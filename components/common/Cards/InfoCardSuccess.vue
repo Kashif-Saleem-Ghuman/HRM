@@ -3,17 +3,18 @@
     <div>
       <label>Leave status</label>
     </div>
-    <div class="info-card-inner-wrapper">
+    <div class="info-card-inner-wrapper" :class="[classNameWrapper]">
       <div
-        class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-circle mr-05"
+        class="d-flex align-center cursor-pointer shape-circle mr-05"
         style="padding: 12px"
         @click.stop="$emit('on-click')"
+        :class="[className]"
       >
-        <bib-icon icon="tick" variant="success" :scale="1"></bib-icon>
+        <bib-icon :icon="icon" :variant="variant" :scale="1"></bib-icon>
       </div>
       <div>
-        <label>Approved</label>
-        <div>Request Approved on 04-04-2023 by shweta S.</div>
+        <label>{{label}}</label>
+        <div>{{ message }}</div>
       </div>
     </div>
   </div>
@@ -25,15 +26,21 @@ export default {
     label: {
       type: String,
     },
-    hashItem: {
+    message: {
       type: String,
     },
-    items: {
-      type: Array,
-    },
-    profilePic: {
+    icon: {
       type: String,
     },
+    variant: {
+      type: String,
+    },
+    className:{
+      type:Array
+    },
+    classNameWrapper:{
+      type:Array
+    }
   },
   data() {
     return {};
@@ -53,7 +60,6 @@ export default {
     display: flex;
     background-color: $light;
     align-items: center;
-    color: #2ba026;
     padding: 1rem;
     border-radius: 10px;
     margin-top: 1rem;

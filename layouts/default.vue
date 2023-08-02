@@ -190,7 +190,6 @@ export default {
       localStorage.setItem("accessToken", jwt);
       this.token = jwt;
       this.$store.dispatch("token/setToken", jwt);
-      console.log(this.getAccessToken, "getAccessToken")
     } else {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
@@ -237,7 +236,6 @@ export default {
         this.allowanceDays = 30
         this.openSidebar = true;
       }
-      console.log(this.addForm.type, "this.addForm.type")
     });
     this.$root.$on("close-sidebar", () => {
       this.slideClass = "slide-out";
@@ -268,7 +266,6 @@ export default {
             var businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
-            console.log(userId, "userIduserIduserIduserId")
             this.accountType =
               res?.data?.u?.subbs == "FREETRAIL"
                 ? "See Plans & Pricing"

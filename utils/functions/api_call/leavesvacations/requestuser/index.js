@@ -188,7 +188,7 @@ export async function deleteLevaeVacation(value) {
       }
     );
     this.loading = false;
-    console.log(laeveDelete , "this.allowanceDaysData")
+    this.confirmastionMessageModal = false;
   } catch (e) {
     alert(e);
   }

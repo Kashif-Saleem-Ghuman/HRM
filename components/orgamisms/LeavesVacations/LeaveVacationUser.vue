@@ -65,8 +65,9 @@
           <!-- <div style="font-size: 14px" class="mr-05">Show:</div> -->
           <dropdown-menu
             :items="items"
+            filterLabel="All"
             @click="filterItem($event)"
-            style="margin-left: -10px; z-index:100000 "
+            style="margin-left: -10px; z-index: 1000"
             actionMenu="actionMenu"
           ></dropdown-menu>
         </div>
@@ -76,12 +77,21 @@
       <list-leave-attendance
         :leaveData="leaveVacationDataUser"
         :key="componentKeyUser"
-        @delete-item="deleteItem($event)"
+        @delete-item="deleteItemConfirmation($event)"
         v-show="leaveVacationDataUser?.length ? true : false"
       ></list-leave-attendance>
       <div>
-        <no-record v-show="leaveVacationDataUser?.length ? false : true"></no-record>
+        <no-record
+          v-show="leaveVacationDataUser?.length ? false : true"
+        ></no-record>
       </div>
+      <confirmation-modal
+        :title="modalContent[0].title"
+        :confirmationMessage="modalContent[0].message"
+        :confirmastionMessageModal="confirmastionMessageModal"
+        @close="closeconfirmastionMessageModal"
+        @deleteLeave="deleteItem()"
+      ></confirmation-modal>
       <loader v-bind:showloader="loading"></loader>
     </div>
   </div>
@@ -89,7 +99,7 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-
+import {DELETE_MESSAGE} from '../../../utils/constant/ConfirmationMessage'
 import {
   getAllowancVacationeDays,
   getAllowancMedicalDays,
@@ -124,6 +134,9 @@ export default {
       loading: false,
       allChecked: false,
       checked: false,
+      confirmastionMessageModal: false,
+      deleteItemId: "",
+      modalContent:DELETE_MESSAGE.deleteConfirmationMessage
     };
   },
   computed: {
@@ -183,9 +196,16 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     deleteLevaeVacation,
-    async deleteItem(event) {
-      if(confirm("Do you really want to delete?")){
-      await this.deleteLevaeVacation(event);
+    closeconfirmastionMessageModal() {
+      this.confirmastionMessageModal = false;
+    },
+    deleteItemConfirmation(event) {
+      this.confirmastionMessageModal = true;
+      this.deleteItemId = event;
+      console.log(this.deleteItemId, "this.deleteItemId ");
+    },
+    async deleteItem() {
+      await this.deleteLevaeVacation(this.deleteItemId);
       await this.getCurrentYear();
       this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
@@ -195,10 +215,9 @@ export default {
         .then(() => {
           this.$nuxt.$emit("leaves-list");
         });
-      }
     },
-    filterItem(event){
-      console.log(event, "filterItem")
+    filterItem(event) {
+      console.log(event, "filterItem");
       // if(event.key=='all'){
       //   for (var i = 0; i < this.items.length; i++){
       //     this.items[i].selected = !this.items[i].selected

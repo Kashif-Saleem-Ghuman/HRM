@@ -49,8 +49,9 @@
         <div
           class="shape-rounded bg-secondary-sub3 width-2 height-2 d-flex justify-center align-center ml-05 cursor-pointer;"
           @click="showMenuItems"
+          
         >
-          All
+          {{filterLabel}}
         </div>
         <template>
           <div class="action-menu-items" v-show="showMenu">
@@ -105,6 +106,9 @@ export default {
     allChecked: {
       type: String,
     },
+    filterLabel:{
+      type:String
+    }
   },
   data() {
     return {

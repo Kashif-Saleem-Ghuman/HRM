@@ -164,7 +164,6 @@ export default {
     
   },
   mounted(){
-    console.log(this.getUserRole, "getUserRole")
   }
 };
 </script>

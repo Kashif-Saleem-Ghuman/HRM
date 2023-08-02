@@ -90,14 +90,14 @@
                 ? 'check-all'
                 : '' || data.value.status == 'pending'
                 ? 'eye-open'
-                : '' || data.value.status == 'Past due'
+                : '' || data.value.status == 'rejected'
                 ? 'help'
                 : ''
             "
             :className="[
               data.value?.status == 'approve' ? 'chip-wrapper__bgsucess' : '',
               data.value?.status === 'pending' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.status === 'rejected' ? 'chip-wrapper__bggray' : '',
+              data.value?.status === 'rejected' ? 'chip-wrapper__bgdefault' : '',
               data.value?.status == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>

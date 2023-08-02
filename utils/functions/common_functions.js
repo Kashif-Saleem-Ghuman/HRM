@@ -57,9 +57,4 @@ export function getCurrentYear() {
   const lastDay = new Date(currentYear, 11, 31);
   this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
   this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
-  console.log(
-    this.fromDate,
-    this.toDate,
-    "this.fromDatethis.fromDatethis.fromDatethis.fromDatethis.fromDate"
-  );
 }

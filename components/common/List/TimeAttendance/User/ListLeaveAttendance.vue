@@ -90,7 +90,7 @@
               ? 'check-all'
               : '' || data.value.status == 'pending'
               ? 'eye-open'
-              : '' || data.value.status == 'Past due'
+              : '' || data.value.status == 'rejected'
               ? 'help'
               : ''
           "
@@ -100,7 +100,7 @@
             data.value?.status === 'pending'
               ? 'chip-wrapper__bgabsentpink'
               : '',
-            data.value?.status === 'A' ? 'chip-wrapper__bgvacation' : '',
+            data.value?.status === 'rejected' ? 'chip-wrapper__bggray' : '',
             data.value?.status == null ? 'chip-wrapper__bggray' : '',
           ]"
           style="min-width: 130px !important;"

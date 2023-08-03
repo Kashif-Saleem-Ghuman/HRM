@@ -627,7 +627,7 @@ export default {
 .custom-header {
   display: flex;
   justify-content: space-between;
-  z-index: 10000;
+  z-index: 900;
   // background-color: #cdf784;
   position: relative;
   .ltr-wrapper {

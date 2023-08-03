@@ -24,6 +24,7 @@
               size="3rem"
             >
             </bib-avatar>
+           
             <div :id="'id_' + data.value.id" style="" class="userCard">
               <user-info-card
                 :src="data.value.photo"
@@ -158,11 +159,6 @@ export default {
     },
     sendInvite() {
       alert("send invite api call");
-    },
-    timeInfotab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

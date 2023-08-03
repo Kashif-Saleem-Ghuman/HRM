@@ -9,7 +9,7 @@
           <div class="subheading">{{ item.numLabel }}</div>
           <span>{{ item.numberData }}</span>
 
-          <div class="subheading_footer">{{ item.daysDesc }}</div>
+          <div class="subheading_footer" style="height: 20px;">{{ item.daysDesc }}</div>
         </div>
         <div>
           <progress-circle
@@ -28,14 +28,14 @@
       <div class="footer-item d-flex">
         <div class="items">
           <label>{{ item.figureLabel }}</label>
-          <span>{{ item.figureLabelData }}</span>
+          <span >{{ item.figureLabelData }}</span>
         </div>
         <div class="items">
           <label>{{ item.figureLabelTwo }}</label>
           <span>{{ item.figureLabelTwoData }}</span>
         </div>
       </div>
-      <div class="button-wrapper" :class="className">
+      <div class="button-wrapper mb-1" :class="className">
         <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
         <span>{{ buttonLable }}</span>
       </div>

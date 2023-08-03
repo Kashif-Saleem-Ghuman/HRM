@@ -1,7 +1,7 @@
 <template>
     <div id="dashborad-wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
+        class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075"
       >
       
         <section-header-left
@@ -13,7 +13,7 @@
       <div class="tab-wrapper">
         <div id="dashboard-inner-wrapper">
           <div class="" id="tab_info_wrapper">
-            <div
+            <!-- <div
               class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
@@ -46,9 +46,9 @@
                   </button>
                 </div>
               </div>
-            </div>
-            <div class="pl-1 py-1">
-              <div
+            </div> -->
+            <div class="pl-1">
+              <!-- <div
                 class="d-grid d-flex gap-1"
                 style="grid-template-columns: repeat(4, 1fr)"
               >
@@ -80,7 +80,7 @@
                   profilePic="profilePic"
                   buttonVariant="light"
                 ></info-card-one>
-              </div>
+              </div> -->
             </div>
             <div class="scroll_wrapper">
               <div style="z-index: 1">

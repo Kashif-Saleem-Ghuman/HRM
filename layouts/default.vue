@@ -68,7 +68,7 @@
           >
             <template v-slot:sidebar-body>
               <add-leave
-              :employeeName="employeeName"
+                :employeeName="employeeName"
                 :leaveTypeOptions="leaveTypeOptions"
                 @input="addHandleInput"
                 @change="addHandleInput"
@@ -102,6 +102,22 @@
           </action-sidebar>
         </div>
         <bib-notification :popupMessages="popupMessages"></bib-notification>
+
+        <div>
+          <bib-clock-wrapper
+            @close="close()"
+            @click:outside="close()"
+            title="Business in box / Timer"
+            inTime="09:00"
+            outTime="30:00"
+            breakTime="19:00"
+            :borderClass="borderClass"
+            @clock-in="clockIn()"
+            :buttonLabel="clockLable"
+            :clockModal="clockModal"
+          >
+          </bib-clock-wrapper>
+        </div>
       </template>
     </bib-app-wrapper>
   </div>
@@ -136,6 +152,7 @@ export default {
     return {
       openSidebar: false,
       openSidebar2: false,
+      clockModal:false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
       lightThemeChecked: this.$cookies.get("isLightTheme") || false,
@@ -154,17 +171,19 @@ export default {
       employeeName: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
       addForm: {
-        type:'',
-        start:'',
-        end:'',
+        type: "",
+        start: "",
+        end: "",
       },
-      allowanceDays:"",
+      allowanceDays: "",
       sidebarHeading: "",
-      addLeaveKey:0,
-      errorMsgSelect:false,
-      errorMsgStartDate:false,
-      errorMsgEndDate:false,
+      addLeaveKey: 0,
+      errorMsgSelect: false,
+      errorMsgStartDate: false,
+      errorMsgEndDate: false,
       popupMessages: [],
+      borderClass: "border-gray",
+      clockLable: "CLOCK IN",
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
@@ -179,11 +198,10 @@ export default {
       getUserRole: "token/getUserRole",
       getUserId: "token/getUserId",
       getActiveUser: "employee/GET_USER",
-      getformToDate:"leavevacation/getformToDate"
+      getformToDate: "leavevacation/getformToDate",
     }),
   },
   async created() {
-    
     // this.routesCheck();
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -194,32 +212,30 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
-     await this.$store.dispatch("employee/setActiveUser");
+    await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
     this.employeeName =
-      this.activeUserData.firstName +
-      " " +
-      this.activeUserData.lastName
+      this.activeUserData.firstName + " " + this.activeUserData.lastName;
     this.$root.$on("open-sidebar", (payload) => {
       this.slideClass = "slide-in";
-     
+
       if (payload == "leave") {
         this.sidebarHeading = "Request leave";
-        this.addForm.type = "leave"
-        this.allowanceDays = 6
+        this.addForm.type = "leave";
+        this.allowanceDays = 6;
         this.openSidebar = true;
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request vacation";
-        this.addForm.type = "vacation"
-        this.allowanceDays = 30
+        this.addForm.type = "vacation";
+        this.allowanceDays = 30;
         this.openSidebar = true;
       }
-      
+
       if (payload == "medical") {
         this.sidebarHeading = "Request medical/sick";
-        this.addForm.type = "medical"
-        this.allowanceDays = 10
+        this.addForm.type = "medical";
+        this.allowanceDays = 10;
         this.openSidebar = true;
       }
       if (payload == "requestLeave") {
@@ -228,12 +244,12 @@ export default {
       }
       if (payload == "leaveAdmin") {
         this.sidebarHeading = "Request leave";
-        this.allowanceDays = 6
+        this.allowanceDays = 6;
         this.openSidebar = true;
       }
       if (payload == "vacationAdmin") {
         this.sidebarHeading = "Request vacation";
-        this.allowanceDays = 30
+        this.allowanceDays = 30;
         this.openSidebar = true;
       }
     });
@@ -243,11 +259,11 @@ export default {
         this.openSidebar = false;
       }, 700);
     });
+    this.$root.$on("clock-in", () => {
+      this.clockModal = true
+    });
     this.$root.$on("add-leave", () => {
-      this.addLeaveKey +=1;
-      // this.errorMsgSelect = true
-      // this.errorMsgStartDate = true
-      // this.errorMsgEndDate = true
+      this.addLeaveKey += 1;
     });
   },
   async mounted() {
@@ -275,7 +291,6 @@ export default {
             localStorage.setItem("userId", userId);
             this.userRole = userRole;
             this.$store.dispatch("token/setActiveUserRole", userRole);
-            
           }
           // this.getUser();
           this.getBusinessId();
@@ -289,9 +304,9 @@ export default {
       //   process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
     this.getAllowanceDays().then((result) => {
-          this.allowanceData = result;
-          // this.temKey += 1;
-        });
+      this.allowanceData = result;
+      // this.temKey += 1;
+    });
     this.loading = false;
   },
   methods: {
@@ -308,6 +323,13 @@ export default {
     headerActionCall,
     openPopupNotification,
     routesCheck,
+    clockIn() {
+      this.borderClass = "border-green";
+        this.clockLable = "CLOCK OUT";
+    },
+    close(){
+      this.clockModal = false
+    },
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {

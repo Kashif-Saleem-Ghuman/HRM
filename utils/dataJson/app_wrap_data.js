@@ -107,8 +107,8 @@ const data = () => {
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [
-      { label: "Clock in", icon: "time", key: "usertimeattandance", selected: false},
-      { label: "Send Notification", icon: "mail", key: "userleavevacations",  selected: false},
+      { label: "Clock in", icon: "time", key: "clockIn", selected: false},
+      { label: "Send Notification", icon: "mail", key: "sendNotification",  selected: false},
       { label: "Request Vacation", icon: "start", key: "requestVacation",  selected: false},
       { label: "Request Leave", icon: "exit-to-app", key: "requestLeave", url:"/files", selected: false},
     ],
@@ -117,12 +117,12 @@ const data = () => {
     ],
     navItemsAdmin: [
       { label: "Organization admin", icon: "user", key: "dashboard",  url:"/dashboard/", selected: false, id:""},
-      { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox/", selected: false},
+      // { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox/", selected: false},
       { label: "Organization profile", icon: "add", key: "orgprofile", url:"/orgprofile/", selected: false, id:""},
       { label: "People", icon: "add", key: "people", url:"/people/", selected: false, id:""},
       { label: "Time & Attendance", icon: "add", key: "time-attendance", url:'/time-attendance/', selected: false},
       { label: "Leave & vacations", icon: "add", key: "leave-vacations", url:'/leave-vacations/', selected: false},
-      { label: "Settings", icon: "add", key: "settings", url:'/settings', selected: false},
+      // { label: "Settings", icon: "add", key: "settings", url:'/settings', selected: false},
     ],
     navItemsUserSwitch: [
       { label: "My account", icon: "add", key: "my-account", selected: false, id:""},

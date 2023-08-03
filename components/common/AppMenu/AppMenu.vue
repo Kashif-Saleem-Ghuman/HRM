@@ -102,7 +102,6 @@ export default {
       this.$router.push("/dashboard")
     },
     menuClick(item) {
-      console.log(this.$router.history.current.fullPath, "this.$router.history.current.fullPath")
       for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
         if (this.appWrapItems.navItemsAdmin[i].key == item.key) {
           this.appWrapItems.navItemsAdmin[i].selected = true;
@@ -152,8 +151,12 @@ export default {
           this.$nuxt.$emit("add-leave");
           return;
         }
-        if (item.key == "my-leave-vacations") {
-          this.$router.push("/my-leave-vacations");
+        if (item.key == "clockIn") {
+          this.$nuxt.$emit("clock-in")
+          return;
+        }
+        if (item.key == "sendNotification") {
+          window.open('https://dev-chat.business-in-a-box.com/', "_blank")
           return;
         }
         if (item.key == "myprofile") {

@@ -11,7 +11,7 @@
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md" @change="$emit('input', data.value.id)" :checked="checked"></bib-checkbox>
+        <bib-checkbox size="md" @change="$emit('input', data.value.employee.id)" :checked="checked"></bib-checkbox>
       </div>
     </template>
     <template #cell(name)="data">
@@ -21,36 +21,36 @@
         >
           <div
             style="cursor: pointer"
-            v-on:click="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            v-on:click="profiletab('id_' + data.value.employee.id)"
+            v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
             class="ml-05"
           >
             <bib-avatar
               class="mt-auto mb-auto"
               shape="circle"
-              :src="data.value.photo"
+              :src="data.value.employee.photo"
               size="3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id" style="" class="userCard">
+            <div :id="'id_' + data.value.employee.id" style="" class="userCard">
               <user-info-card
-                :src="data.value.photo"
-                :firstName="data.value.firstName"
-                :lastName="data.value.lastName"
-                :jobTitle="data.value.jobTitle"
-                :email="data.value.email"
-                :phone="data.value.phone"
-                @viewProfile="viewProfile(data.value.id)"
+                :src="data.value.employee.photo"
+                :firstName="data.value.employee.firstName"
+                :lastName="data.value.employee.lastName"
+                :jobTitle="data.value.employee.jobTitle"
+                :email="data.value.employee.email"
+                :phone="data.value.employee.phone"
+                @viewProfile="viewProfile(data.value.employee.id)"
                 @sendInvite="sendInvite"
               ></user-info-card>
             </div>
           </div>
           <div class="info_wrapper">
             <div class="title">
-              {{ data.value.firstName }} {{ data.value.lastName }}
+              {{ data.value.employee.firstName }} {{ data.value.employee.lastName }}
             </div>
             <div class="description">
-              {{ data.value.jobTitle }}
+              {{ data.value.employee.jobTitle }}
             </div>
           </div>
         </div>
@@ -167,11 +167,7 @@ export default {
     sendInvite() {
       alert("send invite api call");
     },
-    timeInfotab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
+    
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"

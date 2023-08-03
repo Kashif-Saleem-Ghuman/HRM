@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="d-flex align-center">
+    <div class="d-flex">
       <bib-avatar
-        class="mt-auto mb-auto mr-05"
+        class="mr-05"
         shape="circle"
         :src="src"
         size="5rem"
       ></bib-avatar>
       <div>
-        <div class="user_card_detail">
+        <div class="user_card_detail align-center d-flex">
           <label
             >{{ firstName }} {{ lastName }}
             <span>
@@ -16,8 +16,8 @@
             </span>
           </label>
           <div class="card_info">
-            <div style="padding: 2px 0">
-              <chips title="Punched in [online]" variant="__bgsucess"></chips>
+            <div class="button-wrapper-punch">
+              <span v-on:click="$emit('punchedIn')"> Punched in (online)</span>
             </div>
             <p class="email">
               {{ email }}
@@ -32,15 +32,19 @@
         <bib-button
           label="View Profile"
           variant="light"
-          pill
+          class="mr-05"
           v-on:click="$emit('viewProfile')"
+        ></bib-button>
+        <bib-button
+          label="Meet"
+          variant="success"
+          class="mr-05"
+          v-on:click="sendMeet()"
         ></bib-button>
         <bib-button
           label="Send Message"
           variant="success"
-          class="ml-auto"
-          pill
-          v-on:click="$emit('sendInvite')"
+          v-on:click="sendMessage()"
         ></bib-button>
       </div>
     </div>
@@ -77,6 +81,12 @@ export default {
     employee() {
       alert("import called");
     },
+    sendMeet(){
+      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    },
+    sendMessage(){
+      window.open('https://dev-chat.business-in-a-box.com/', "_blank")
+    }
   },
 };
 </script>
@@ -116,6 +126,15 @@ export default {
       p {
         padding: 1px 0;
         margin: 0px;
+      }
+      .button-wrapper-punch {
+        padding-top: 5px;
+        span {
+          background-color: #d5e8d4;
+          border-radius: 6px;
+          padding: 5px 10px;
+          color: #2ba026;
+        }
       }
     }
   }

@@ -264,10 +264,10 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Name",
     },
-    {
-      key: "recived",
-      label: "Recived",
-    },
+    // {
+    //   key: "recived",
+    //   label: "Recived",
+    // },
     {
       key: "type",
       label: "Type",

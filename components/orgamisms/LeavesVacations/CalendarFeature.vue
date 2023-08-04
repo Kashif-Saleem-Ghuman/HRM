@@ -10,6 +10,7 @@
                 variant="success"
                 :scale="1"
                 title="Add leave"
+                style="height: 2.5rem;"
                 @on-click="actionBY('leaveAdmin')"
               ></button-green>
               <button-green
@@ -17,16 +18,18 @@
                 variant="success"
                 :scale="1"
                 title="Add vacation"
+                style="height: 2.5rem; border-radius: 6px"
                 @on-click="actionBY('vacationAdmin')"
               ></button-green>
             </div>
-            <label>View:</label>
+            <!-- <label>View:</label> -->
             <div style="position: relative">
               <button-black
                 icon="close"
                 variant="light"
                 :scale="1"
                 :title="ViewTitle"
+                style="height: 2.5rem;"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
               ></button-black>
@@ -53,12 +56,13 @@
             </div>
           </div>
           <div class="button-items">
-            <label>Month:</label>
+            <!-- <label>Month:</label> -->
             <select
               class="select_month"
               id="my-select"
               ref="myInput"
               @change="changeMonthView()"
+              style="height: 2.5rem;"
             >
               <option
                 v-for="i in monthList"
@@ -70,7 +74,7 @@
             </select>
           </div>
           <div class="button-items pl-05 pr-05">
-            <label>Year:</label>
+            <!-- <label>Year:</label> -->
             <select
               id="select_year"
               ref="myInputYear"
@@ -85,7 +89,7 @@
               </option>
             </select>
           </div>
-          <div class="button-items pr-05">
+          <!-- <div class="button-items pr-05">
             <button-black
               icon="close"
               variant="light"
@@ -94,7 +98,7 @@
               @on-click="show = !show"
               v-click-outside="clickOutside"
             ></button-black>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="rtl-wrapper d-flex align-center">
@@ -106,22 +110,24 @@
               name="name"
               placeholder="Type your name"
               @change="searchLeavesType($event)"
+              style="height: 2.5"
             ></bib-input>
           </template>
         </div>
-        <div class="serach-item pr-05">
+        <!-- <div class="serach-item pr-05">
           <label>Show:</label>
           <button-gray
             variant="light"
             title="All"
             @on-click="fullData()"
           ></button-gray>
-        </div>
+        </div> -->
         <button-gray
           variant="light"
           :scale="1"
           title="Weekends"
           @on-click="weekData()"
+          style="height: 2.5"
         ></button-gray>
       </div>
     </div>
@@ -624,6 +630,35 @@ export default {
 </script>
 
 <style lang="scss">
+$breakpoint-mobile: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-laptop: 1200px;
+$breakpoint-desktop: 1400px;
+
+@media (min-width: $breakpoint-mobile) {
+  body{
+    font-size: 10px;
+  }
+}
+@media (min-width: $breakpoint-tablet) {
+  body{
+    font-size: 11px;
+  }
+}
+@media (min-width: $breakpoint-laptop) {
+  body{
+    font-size: 12px;
+    span{
+      font-size: 12px;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  body{
+    font-size: 14px;
+  }
+}
 .custom-header {
   display: flex;
   justify-content: space-between;
@@ -643,8 +678,6 @@ export default {
         background: var(--bib-white);
         li {
           padding: 5px 0;
-
-          font-size: 13px;
         }
       }
       .menu-items {
@@ -683,7 +716,10 @@ export default {
       }
     }
   }
+  
+}
   .rtl-wrapper {
+   
     .serach-item {
       display: flex;
       justify-content: space-between;
@@ -697,7 +733,7 @@ export default {
       }
     }
   }
-}
+
 .author-display {
   border-radius: 0.5rem;
   // background-color: #cdf784;

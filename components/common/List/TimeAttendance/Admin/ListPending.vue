@@ -55,11 +55,11 @@
           </div>
         </div>
     </template>
-    <template #cell(recived)="data">
+    <!-- <template #cell(recived)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.id }}</span>
       </div>
-    </template>
+    </template> -->
     <template #cell(type)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.type }}</span>
@@ -106,6 +106,7 @@
           variant="warning"
           size="xl"
           class="px-1"
+          style="height: 3rem; display: flex; align-items: center;"
           @click="$emit('reject-item', data.value.id)"
           
         ></bib-button>

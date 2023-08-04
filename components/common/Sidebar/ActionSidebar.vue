@@ -19,11 +19,14 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-x p-1" style="height: 78vh">
+      <div class="of-scroll-x p-1" style="height: 72vh">
         <slot name="sidebar-body"></slot>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
-      <div class="sidebar-footer p-1">
+      <div class="sidebar-footer p-1" style="height: 10vh;
+    display: flex;
+    justify-content: end;
+    align-items: end;">
         <slot name="sidebar-footer">
           <!-- <div class="d-flex align-center" v-if="copyLink">
               <bib-icon

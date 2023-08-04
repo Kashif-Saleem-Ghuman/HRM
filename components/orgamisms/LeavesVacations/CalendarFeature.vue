@@ -384,6 +384,7 @@ export default {
         selectHelper: false,
         dayMaxEvents: false,
         weekends: true,
+        contentHeight:"auto",
         // eventColor: "green",
         // style related
         // eventColor: "#FFFFFF",

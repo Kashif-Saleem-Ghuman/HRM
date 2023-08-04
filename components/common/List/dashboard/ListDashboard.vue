@@ -13,8 +13,8 @@
         >
           <div
             style="cursor: pointer"
-            v-on:click="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            v-on:click="profiletab('id_' + data.value.employeeId)"
+            v-on:mouseleave="profiletab('id_' + data.value.employeeId, true)"
             class="ml-05"
           >
             <bib-avatar
@@ -25,7 +25,7 @@
             >
             </bib-avatar>
            
-            <div :id="'id_' + data.value.id" style="" class="userCard">
+            <div :id="'id_' + data.value.employeeId" style="" class="userCard">
               <user-info-card
                 :src="data.value.photo"
                 :firstName="data.value.firstName"
@@ -33,7 +33,7 @@
                 :jobTitle="data.value.jobTitle"
                 :email="data.value.email"
                 :phone="data.value.phone"
-                @viewProfile="viewProfile(data.value.id)"
+                @viewProfile="viewProfile(data.value.employeeId)"
                 @sendInvite="sendInvite"
               ></user-info-card>
             </div>
@@ -137,8 +137,8 @@ export default {
     itemCliked(item) {
       document.querySelector("#timesheetid_" + item).style = "display:none";
       this.timesheetModal = true;
-      var users = this.localData.find((items) => items.id === item);
-      console.log(users.id, item, "asdkskahkdhshadakdhaskhk");
+      var users = this.localData.find((items) => items.employeeId === item);
+      console.log(users.employeeId, item, "asdkskahkdhshadakdhaskhk");
       this.filteredData = users;
     },
     handleItemClick_Table(event, keyI, item) {

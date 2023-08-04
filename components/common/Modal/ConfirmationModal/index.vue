@@ -16,6 +16,13 @@
     <template slot="footer">
       <div class="d-flex justify-center">
         <bib-button
+          label="Cancle"
+          variant="light"
+          class="mr-1"
+          @click="$emit('close')"
+          pill
+        ></bib-button>
+        <bib-button
           label="Delete"
           variant="danger"
           class="mr-1"

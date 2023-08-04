@@ -203,6 +203,7 @@ export default {
       if (event == "approve") {
         if (this.addIds == "") {
           alert("Please select pending leave");
+          return true
         }
         await this.getApproveLeaveVacationsAdmin();
         await this.getPendingLeaveVacationsAdmin();
@@ -215,6 +216,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .author-display {
   border-radius: 0.5rem;
   // background-color: #cdf784;

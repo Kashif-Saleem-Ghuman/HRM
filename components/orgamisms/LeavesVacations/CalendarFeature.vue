@@ -567,7 +567,8 @@ export default {
         });
         setTimeout(() => {
           this.calendarOptions.events = this.getLeaveVacation;
-        }, 1000);
+          console.log(this.calendarOptions.events, "this.calendarOptions.events")
+        }, 1500);
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.prev();

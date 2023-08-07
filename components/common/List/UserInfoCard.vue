@@ -37,7 +37,7 @@
         ></bib-button>
         <bib-button
           label="Meet"
-          variant="success"
+          variant="light"
           class="mr-05"
           v-on:click="sendMeet()"
         ></bib-button>

@@ -68,7 +68,7 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData.slice(0, 5)"></list>
+                <list :userList="localData.slice()"></list>
               </div>
             </div>
           </div>
@@ -110,15 +110,16 @@
             <div class="col-12 custom-tabs">
               <div class="d-flex">
                 <button-gray
-                  @on-click="$emit('employee')"
+                  @on-click="sendMessage()"
                   icon="mail-new"
                   variant="gray1"
+                  class="mr-05"
                   :scale="0.8"
                   title="Send Message"
                   titleClass="button-title"
                 ></button-gray>
                 <button-gray
-                  @on-click="$emit('employee')"
+                  @on-click="sendMeet()"
                   icon="device-mobile"
                   variant="gray1"
                   :scale="0.8"
@@ -174,6 +175,13 @@
                         <address-detail
                           :countryOptions="countries"
                           :stateOptions="cureentState"
+                          :stateVisible="stateVisible"
+                          :otherStateShow="otherStateVisible"
+                          :errorMsgStreet="errorMsgStreet"
+                          :errorMsgSuit="errorMsgSuit"
+                          :errorMsgCountry="errorMsgCountry"
+                          :errorMsgState="errorMsgState"
+                          :errorMsgPostalCode="errorMsgPostalCode"
                           @input="handleInput"
                         ></address-detail>
                       </div>
@@ -193,7 +201,10 @@
                         </div>
                       </div>
                       <div>
-                        <emergency-conta></emergency-conta>
+                        <emergency-conta
+                          @input="handleInputObject"
+                          emContact="emContact"
+                        ></emergency-conta>
                       </div>
                     </div>
                   </div>
@@ -227,7 +238,16 @@
                         </div>
                       </div>
                       <div>
-                        <placement></placement>
+                        <placement
+                          :workTitleState="form?.workTitle"
+                          :departmentState="form?.department"
+                          :reportsToState="form?.reportsTo"
+                          :workEmailState="form?.workEmail"
+                          :workTelephoneState="form?.workTelephone"
+                          :workExtState="form?.workExt"
+                          :inActiveState="form?.inactiveCommon"
+                          @input="handleInput"
+                        ></placement>
                       </div>
                     </div>
                   </div>
@@ -273,6 +293,7 @@
               variant="success"
               size="lg"
               style="width: 50%"
+              @click="updateAllData"
             ></bib-button>
           </div>
         </template>
@@ -335,7 +356,14 @@ export default {
       maritalOptions: SELECT_OPTIONS.maritalStatusOptions,
       countries: COUNTRIES,
       states: STATES,
-      cureentState: [],
+      cureentState: STATES,
+      stateVisible:true,
+      otherStateVisible:false,
+      errorMsgStreet:false,
+      errorMsgCountry:false,
+      errorMsgPostalCode:false,
+      errorMsgState:false,
+      errorMsgSuit:false,
       updateForm: {},
       isFlag: false,
       statusOptions: SELECT_OPTIONS.esstatusOptions,
@@ -365,8 +393,16 @@ export default {
   methods: {
     vfileAdded,
     handleInput,
+    handleInputObject,
+    updateAllData,
     handleChange__FileInput(files) {
       console.log(files);
+    },
+    sendMeet(){
+      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    },
+    sendMessage(){
+      window.open('https://dev-chat.business-in-a-box.com/', "_blank")
     },
     handleClickOutside() {
       this.slideClass = "slide-out";
@@ -437,6 +473,24 @@ export default {
 };
 </script>
 <style lang="scss">
+@media (min-width: 1200px) {
+  .title {
+    font-size: 12px !important;
+    font-weight: 600;
+  }
+  .description {
+    font-size: 12px !important;
+    font-weight: normal;
+    color: $black;
+  }
+  .custom-tabs {
+    .tabs {
+      button {
+        font-size: 12px !important;
+      }
+    }
+  }
+}
 .border-wrapper {
   border: solid 1px $light;
   border-radius: 5px;
@@ -450,6 +504,7 @@ export default {
       margin-right: 10px;
       border: none !important;
       border-radius: 6px;
+      font-size: 14px;
       background-color: #eee !important;
     }
     .active {

@@ -27,7 +27,7 @@
         <bib-input
           type="date"
           label="Date of birth"
-          v-model="dob"
+          v-model="dobState"
           placeholder="Enter title"
           @change="$emit('input', $event, 'dob')"
           :disabled="inActive"
@@ -37,7 +37,7 @@
         <bib-input
           type="select"
           label="Gender"
-          v-model="gender"
+          v-model="genderState"
           :options="genderOptions"
           placeholder="Enter your department"
           @input="$emit('input', $event, 'gender')"
@@ -50,7 +50,7 @@
         <bib-input
           type="select"
           label="Marital Status"
-          v-model="maritalStatus"
+          v-model="maritalStatusState"
           :options="maritalOptions"
           placeholder="Please select employee status"
           @input="$emit('input', $event, 'maritalStatus')"
@@ -64,10 +64,10 @@
 export default {
   name: "EmployeeProfile",
   props: {
-    firstname: {
+    firstName: {
       type: String,
     },
-    lastname: {
+    lastName: {
       type: String,
     },
     dob: {
@@ -93,7 +93,13 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      firstname:this.firstName,
+      lastname:this.lastName,
+      dobState:this.dob,
+      genderState:this.gender,
+      maritalStatusState:this.maritalStatus
+    };
   },
 };
 </script>

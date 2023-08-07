@@ -791,12 +791,13 @@ export const FILES_DATA = [
   },
 ];
 export const COUNTRIES = [
+  { value: "", label: "Select Country", },
   { value: "USA", label: "USA" },
   { value: "Canada", label: "Canada" },
   { value: "Other", label: "Other" },
 ];
 export const STATES = [
-  // { value: "", label: "Select State", code: "all" },
+  { value: "", label: "Select State" },
   {
     label: "Alabama",
     value: "Alabama",

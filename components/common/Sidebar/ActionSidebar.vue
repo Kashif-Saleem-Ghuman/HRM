@@ -99,6 +99,11 @@ export default {
     width: 35rem;
   }
 }
+@media (min-width: 1200px) {
+  body{
+    font-size: 12px !important;
+  }
+}
 .side-panel {
   position: fixed;
   z-index: 1000;
@@ -109,7 +114,7 @@ export default {
   right: 0px;
   border-left: 1px solid #f2f2f5;
   label{
-    font-size: 14px;
+    // font-size: 14px;
     font-weight: 600;
   }
   // box-shadow: 5px 2px 15px $gray6;

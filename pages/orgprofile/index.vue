@@ -21,14 +21,23 @@
               ></tabs-title>
             </div>
           </div>
-          <div class="py-cus">
-            <drop-zone
+          <div class="py-cus px-05">
+            <div class="company-info">
+              <div class="company-logo">
+              <bib-icon icon="bib-logo" :scale="5"></bib-icon>
+            </div>
+              <div class="company-items">
+                <label>{{ org.CompanyName }}</label>
+                <span>{{ org.BizStage }}</span>
+              </div>
+            </div>
+            <!-- <drop-zone
               :src="org.Website"
               :className="org.Website != null ? 'hide' : ''"
               :customRemove="org.Website == null ? 'hide' : 'hide'"
               @vfileAdded="vfileAdded"
               style="pointer-events: none; cursor: default"
-            ></drop-zone>
+            ></drop-zone> -->
           </div>
           <div class="main-wrapper custom-input">
             <div class="row mx-0">
@@ -161,4 +170,30 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.company-info{
+  display: flex;
+  align-items: center;
+  .company-logo{
+    background-color: #f3f4f4;
+    padding: 1rem;
+    border-radius: 16px;
+   
+  }
+  .company-items{
+    display: block;
+    align-items: center;
+    padding-left: 1rem;
+    label{
+      font-size: 18px;
+      color: #000;
+      display: block;
+      font-weight: 600;
+    }
+    span{
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+</style>

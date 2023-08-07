@@ -36,8 +36,38 @@ export async function updateAllData() {
     alert("No data to Update");
     return true;
   }
+  if (!this.updateForm.address) {
+    this.errorMsgStreet = true;
+    return true;
+  }
+  this.errorMsgStreet = false;
+  if (!this.updateForm.address.street) {
+    this.errorMsgStreet = true;
+    return true;
+  }
+  this.errorMsgSuit = false;
+  if (!this.updateForm.address.suit) {
+    this.errorMsgSuit = true;
+    return true;
+  }
+  this.errorMsgSuit = false;
+  if (!this.updateForm.address.country) {
+    this.errorMsgCountry = true;
+    return true;
+  }
+  this.errorMsgCountry = false;
+  if (!this.updateForm.address.state) {
+    this.errorMsgState = true;
+    return true;
+  }
+  this.errorMsgState = false;
+  if (!this.updateForm.address.postalCode) {
+    this.errorMsgPostalCode = true;
+    return true;
+  }
+  this.errorMsgPostalCode = false;
   this.loading = true;
-  // var data = JSON.stringify(this.updateForm);
+  var data = JSON.stringify(this.updateForm);
   await this.$axios
     .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
       headers: {
@@ -49,10 +79,9 @@ export async function updateAllData() {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       this.openPopupNotification(1);
       // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
+      this.localData = data
       this.form = res;
       console.log(res, "callled");
-      this.inactive = "disabled";
-      this.updateButton = "disabled";
       this.loading = false;
       this.isFlag = false;
       this.updateForm = {};
@@ -74,7 +103,6 @@ export function handleInput(event, name, addresses) {
   }
   if (addresses === "addresses") {
     if (event == "USA") {
-      alert("callled");
       this.cureentState = this.states.filter((item, index) => {
         if (item.code == event) {
           // this.stateVisible = true;
@@ -95,18 +123,19 @@ export function handleInput(event, name, addresses) {
     if (event == "Other") {
       // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
+      this.otherStateVisible = true
     }
-    // add[name] = event;
-    // this.updateForm.address = this.updateForm.address || [];
-    // this.updateForm.address = {
-    //   ...this.updateForm.address,
-    //   ...add,
-    // };
-    // this.form.address = {
-    //   ...this.form.address,
-    //   ...add,
-    // };
-    // console.log(this.updateForm, "update");
+    add[name] = event;
+    this.updateForm.address = this.updateForm.address || [];
+    this.updateForm.address = {
+      ...this.updateForm.address,
+      ...add,
+    };
+    this.form.address = {
+      ...this.form.address,
+      ...add,
+    };
+    console.log(this.updateForm, "updateFormmmmmmmmmmmmmmmmmmmmmmm");
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;
@@ -118,30 +147,19 @@ export function handleInputObject(event, name, emContact) {
   console.log(event, name, emContact, "callled");
   let add = {};
   this.isFlag = true;
-  if (emContact == "emContact1") {
-    add[name] = event;
-
-    this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
-    this.updateForm.emergencyContacts[0] = {
-      ...this.form.emergencyContacts[0],
-    };
-    this.updateForm.emergencyContacts[1] = {
-      ...this.updateForm.emergencyContacts[1],
-      ...this.form.emergencyContacts[1],
-      ...add,
-    };
-    console.log(this.updateForm.emergencyContacts[1], "aslkdnalsdjlk");
-  } else {
+  if (emContact == "emContact") {
     add[name] = event;
     this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
-    this.updateForm.emergencyContacts[1] = {
-      ...this.form.emergencyContacts[1],
-    };
-    this.updateForm.emergencyContacts[0] = {
-      ...this.form.emergencyContacts[1],
-      ...this.updateForm.emergencyContacts[0],
+    this.updateForm.emergencyContacts = {
+      ...this.updateForm.emergencyContacts,
       ...add,
     };
+    this.form.emergencyContacts = {
+      ...this.form.emergencyContacts,
+      ...add,
+    };
+    console.log(this.updateForm, "aslkdnalsdjlk");
+  
   }
 }
 export function addHandleInput(event, name, addresses) {

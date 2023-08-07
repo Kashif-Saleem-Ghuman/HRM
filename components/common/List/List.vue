@@ -5,7 +5,6 @@
     :sections="userList"
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
-   
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -15,7 +14,7 @@
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
-        style="position: relative"
+        style="position: relative; width: 220px"
       >
         <div
           style="cursor: pointer"
@@ -55,23 +54,27 @@
     <template #cell(email)="data">
       <div class="text-dark">
         <div class="justify-between text-dark">
-        <span>{{ data.value.email }}</span>
-      </div>
+          <span>{{ data.value.email }}</span>
+        </div>
       </div>
     </template>
     <template #cell(telephone)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.phone == "" ? '---' : data.value.phone }}</span>
+        <span>{{ data.value.phone == "" ? "---" : data.value.phone }}</span>
       </div>
     </template>
     <template #cell(department)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.department == null ? 'HRM' : data.value.department }}</span>
+        <span>{{
+          data.value.department == null ? "HRM" : data.value.department
+        }}</span>
       </div>
     </template>
     <template #cell(hiredate)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.hireDate == null ? 'Null' : data.value.hireDate }}</span>
+        <span>{{
+          data.value.hireDate == null ? "Null" : data.value.hireDate
+        }}</span>
       </div>
     </template>
     <!-- <template #cell(department)="data">
@@ -89,9 +92,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import {
-  TABLE_HEAD,
-} from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
 export default {
   props: {
     userList: {
@@ -159,6 +160,23 @@ export default {
 </script>
 
 <style lang="scss">
+@media (min-width: 500px) {
+  body {
+    font-size: 10px;
+  }
+}
+@media (min-width: 768px) {
+  body {
+    font-size: 11px;
+  }
+}
+
+
+@media (min-width: 1400px) {
+  body {
+    font-size: 14px;
+  }
+}
 .info_wrapper {
   color: $black;
   font-weight: normal;

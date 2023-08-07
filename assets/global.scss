@@ -54,6 +54,13 @@ $validation-star-color: #fa0f00;
 .px-cus-48{
   padding: 0 32px;
 }
+.error-message{
+  padding: 0 0 0.5rem 2px;
+  margin-top: -10px;
+  small{
+    margin-top: -10px;
+  }
+}
 .custom-input {
   input {
     // background-color: $input-bg-color;

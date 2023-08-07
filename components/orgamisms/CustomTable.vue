@@ -313,7 +313,7 @@ export default {
     font-weight: 400;
     line-height: 2.5rem;
     background-color: #F8F8F9;
-    font-size: $base-size;
+    // font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
 

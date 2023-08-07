@@ -43,14 +43,11 @@
                   <div id="my-profile-wrapper">
                     <div class="row-custom py-cus">
                       <employee-profile
-                        :firstname="form.firstName"
-                        :midname="form.middleName"
-                        :lastname="form.lastName"
-                        :marital="form.marital"
+                        :firstNameState="form.firstName"
+                        :lastNameState="form.lastName"
+                        :maritalState="form.marital"
                         :maritalOptions="maritalOption"
                         :genderOptions="genderOptions"
-                        :title="form.jobTitle"
-                        :employeeStatus="form.status"
                         :inActive="inactiveCommon"
                       ></employee-profile>
                     </div>
@@ -70,10 +67,10 @@
                       ></tabs-title>
                     </div>
                     <contact-info
-                      :primaryEmail="form?.primaryEmail"
-                      :seondaryEmail="form?.seondaryEmail"
-                      :homePhone="form?.homePhone"
-                      :cellPhone="form?.cellPhone"
+                      :primaryEmailState="form?.primaryEmail"
+                      :seondaryEmailState="form?.seondaryEmail"
+                      :homePhoneState="form?.homePhone"
+                      :cellPhoneState="form?.cellPhone"
                       :inActive="inactiveCommon"
                     >
                     </contact-info>
@@ -91,13 +88,13 @@
                     </div>
                     <div>
                       <address-detail
-                        :street="form?.address?.street"
-                        :suitApartment="form?.address?.suitApartment"
-                        :country="form?.address?.country"
+                        :streetState="form?.address?.street"
+                        :suitApartmentState="form?.address?.suitApartment"
+                        :countryState="form?.address?.country"
                         :countryOptions="countries"
-                        :state="form?.address?.state"
+                        :stateState="form?.address?.state"
                         :stateOptions="cureentState"
-                        :postalCode="form?.address?.postalCode"
+                        :postalCodeState="form?.address?.postalCode"
                         :inActive="inactiveCommon"
                         @input="handleInput"
                       ></address-detail>
@@ -115,12 +112,12 @@
                     </div>
                     <div>
                       <emergency-conta
-                        :fullName="fullName"
-                        :releationships="
+                        :fullNameState="fullName"
+                        :releationshipsState="
                           form?.emergencyContacts?.releationships
                         "
-                        :telephone="form?.emergencyContacts?.telephone"
-                        :email="form?.emergencyContacts?.email"
+                        :telephoneState="form?.emergencyContacts?.telephone"
+                        :emailState="form?.emergencyContacts?.email"
                         :inActive="inactiveCommon"
                       ></emergency-conta>
                     </div>
@@ -137,12 +134,12 @@
                     <div class="scroll_wrapper">
                       <div class="py-cus row-custom">
                         <add-employement-info
-                        :employeeStatus="form?.employeeStatus"
+                        :employeeStatusState="form?.employeeStatus"
                         :esstatusOptions="statusOptions"
-                        :employeeNumber="form?.employeeNumber"
-                        :socialInsuranceNumber="form?.sin"
-                        :hireDate="form?.hireDate"
-                        :employeeType="form?.employeeType"
+                        :employeeNumberState="form?.employeeNumber"
+                        :socialInsuranceNumberState="form?.sin"
+                        :hireDateState="form?.hireDate"
+                        :employeeTypeState="form?.employeeType"
                           @input="handleInput"
                           :inActive="inactiveCommon"
                         ></add-employement-info>
@@ -162,13 +159,13 @@
                           </div>
                           <div>
                             <placement
-                            :workTitle="workTitle"
-                            :department="department"
-                            :reportsTo="reportsTo"
-                            :workEmail="workEmail"
-                            :workTelephone="workTelephone"
-                            :workExt="workExt"
-                            :inActive="inactiveCommon"
+                            :workTitleState="form?.workTitle"
+                            :departmentState="form?.department"
+                            :reportsToState="form?.reportsTo"
+                            :workEmailState="form?.workEmail"
+                            :workTelephoneState="form?.workTelephone"
+                            :workExtState="form?.workExt"
+                            :inActiveState="form?.inactiveCommon"
                             ></placement>
                           </div>
                         </div>
@@ -224,7 +221,7 @@ export default {
       statusOptions: SELECT_OPTIONS.esstatusOptions,
       countries: COUNTRIES,
       states: STATES,
-      cureentState: [],
+      cureentState: STATES,
       teamOptions: "",
       emContact: false,
       activeTab: "Employee Profile",

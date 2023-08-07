@@ -5,11 +5,11 @@
         <bib-input
           type="text"
           label="Street number and name"
-          placeholder="Enter your address"
+          placeholder="Enter your street"
           v-model="streetState"
           :disabled="inActive"
           indicator
-          @input="$emit('input', $event, 'addressLine1', 'addresses')"
+          @input="$emit('input', $event, 'street', 'addresses')"
         ></bib-input>
         <small
             class="text-danger"
@@ -27,7 +27,7 @@
           label="Suite/Apartment"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'addressLine2', 'addresses')"
+          @input="$emit('input', $event, 'suit', 'addresses')"
         ></bib-input>
         <small
             class="text-danger"

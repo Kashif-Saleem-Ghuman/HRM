@@ -68,7 +68,7 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData.slice(0, 5)"></list>
+                <list :userList="localData.slice()"></list>
               </div>
             </div>
           </div>
@@ -293,6 +293,7 @@
               variant="success"
               size="lg"
               style="width: 50%"
+              @click="updateAllData"
             ></bib-button>
           </div>
         </template>
@@ -393,6 +394,7 @@ export default {
     vfileAdded,
     handleInput,
     handleInputObject,
+    updateAllData,
     handleChange__FileInput(files) {
       console.log(files);
     },

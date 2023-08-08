@@ -138,7 +138,7 @@ export default {
       return teamNames;
     },
     handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/myprofile/" + item.id);
+      this.$router.push("/myprofile/");
     },
     viewProfile(id) {
       this.$router.push("/myprofile/" + id);

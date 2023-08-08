@@ -8,45 +8,43 @@
     >
       <template #cell(name)="data">
         <div
-          class="d-flex align-center text-left gap-05"
-          style="position: relative"
+        class="d-flex align-center text-left gap-05"
+        style="position: relative; width: 220px"
+      >
+        <div
+          style="cursor: pointer"
+          v-on:mouseover="profiletab('id_' + data.value.id)"
+          v-on:mouseleave="profiletab('id_' + data.value.id, true)"
         >
-          <div
-            style="cursor: pointer"
-            v-on:click="profiletab('id_' + data.value.employeeId)"
-            v-on:mouseleave="profiletab('id_' + data.value.employeeId, true)"
-            class="ml-05"
+          <bib-avatar
+            class="mt-auto mb-auto"
+            shape="circle"
+            :src="data.value.photo"
+            size="3rem"
           >
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
+          </bib-avatar>
+          <div :id="'id_' + data.value.id" style="" class="userCard">
+            <user-info-card
               :src="data.value.photo"
-              size="3rem"
-            >
-            </bib-avatar>
-           
-            <div :id="'id_' + data.value.employeeId" style="" class="userCard">
-              <user-info-card
-                :src="data.value.photo"
-                :firstName="data.value.firstName"
-                :lastName="data.value.lastName"
-                :jobTitle="data.value.jobTitle"
-                :email="data.value.email"
-                :phone="data.value.phone"
-                @viewProfile="viewProfile(data.value.employeeId)"
-                @sendInvite="sendInvite"
-              ></user-info-card>
-            </div>
-          </div>
-          <div class="info_wrapper">
-            <div class="title">
-              {{ data.value.firstName }} {{ data.value.lastName }}
-            </div>
-            <div class="description">
-              {{ data.value.jobTitle }}
-            </div>
+              :firstName="data.value.firstName"
+              :lastName="data.value.lastName"
+              :jobTitle="data.value.jobTitle"
+              :email="data.value.email"
+              :phone="data.value.phone"
+              @viewProfile="viewProfile(data.value.id)"
+              @sendInvite="sendInvite"
+            ></user-info-card>
           </div>
         </div>
+        <div class="info_wrapper">
+          <div class="title">
+            {{ data.value.firstName }} {{ data.value.lastName }}
+          </div>
+          <div class="description">
+            {{ data.value.jobTitle }}
+          </div>
+        </div>
+      </div>
       </template>
       <template #cell(status)="data">
         <div class="text-dark">

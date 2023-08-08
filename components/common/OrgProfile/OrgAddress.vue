@@ -5,9 +5,10 @@
         <bib-input
           type="text"
           label="Address 1"
-          v-model="address1"
+          :value="address1"
           placeholder="Address"
           :disabled="inActive"
+          @input="$emit('input', $event, 'AddressL1', 'addresses')"
         ></bib-input>
       </div>
     </div>
@@ -16,38 +17,45 @@
         <bib-input
           type="text"
           label="Address 2"
-          v-model="address2"
+          :value="address2"
           placeholder="Address 2"
           :disabled="inActive"
+          @input="$emit('input', $event, 'AddressL2'), 'addresses'"
         ></bib-input>
       </div>
     </div>
     <div class="row mx-0">
       <div class="col-4">
         <bib-input
-          type="text"
+          type="select"
           label="Country"
-          v-model="country"
-          placeholder="Enter your phone"
+          :options="countryOptions"
+          :value="country"
+          placeholder="Please select country"
           :disabled="inActive"
+          @input="$emit('input', $event, 'Country', 'addresses')"
         ></bib-input>
       </div>
-      <div class="col-4">
+      <div class="col-4" v-show="stateVisible">
         <bib-input
-          type="text"
+          type="select"
           label="Province/State"
-          v-model="state"
-          placeholder="Enter your phone"
-          :disabled="inActive"
+          :options="stateOptions"
+          :value="state"
+          placeholder="Please select state"
+          :disabled="inActive" 
+          @input="$emit('input', $event, 'StateProvince', 'addresses')"
         ></bib-input>
       </div>
       <div class="col-4">
+        
         <bib-input
           type="text"
           label="City"
-          v-model="city"
-          placeholder="Enter your phone"
+          :value="city"
+          placeholder="Enter your city"
           :disabled="inActive"
+          @input="$emit('input', $event, 'City'), 'addresses'"
         ></bib-input>
       </div>
     </div>
@@ -56,9 +64,10 @@
         <bib-input
           type="text"
           label="Postal Code"
-          v-model="postalCode"
+          :value="postalCode"
           placeholder="Postal Code"
           :disabled="inActive"
+          @input="$emit('input', $event, 'PostalCode')"
         ></bib-input>
       </div>
     </div>
@@ -77,8 +86,23 @@ export default {
     country: {
       type: String,
     },
+    countryOptions: {
+      type: Array,
+    },
+    stateOptions: {
+      type: Array,
+    },
+    stateVisible: {
+      type: Boolean,
+    },
     state: {
       type: String,
+    },
+    countryOptions: {
+      type: Array,
+    },
+    stateOptions: {
+      type: Array,
     },
     city: {
       type: String,

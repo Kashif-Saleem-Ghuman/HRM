@@ -5,7 +5,7 @@
         <bib-input
           type="text"
           label="First Name"
-          v-model="firstname"
+          :value="firstName"
           placeholder="Type your firstName"
           @change="$emit('input', $event, 'firstName')"
           :disabled="inActive"
@@ -15,7 +15,7 @@
         <bib-input
           type="text"
           label="Last Name"
-          v-model="lastname"
+          :value="lastName"
           placeholder="Type your lastName"
           @change="$emit('input', $event, 'lastName')"
           :disabled="inActive"
@@ -27,7 +27,7 @@
         <bib-input
           type="date"
           label="Date of birth"
-          v-model="dobState"
+          :value="dob"
           placeholder="Enter title"
           @change="$emit('input', $event, 'dob')"
           :disabled="inActive"
@@ -37,7 +37,7 @@
         <bib-input
           type="select"
           label="Gender"
-          v-model="genderState"
+          :value="gender"
           :options="genderOptions"
           placeholder="Enter your department"
           @input="$emit('input', $event, 'gender')"
@@ -50,7 +50,7 @@
         <bib-input
           type="select"
           label="Marital Status"
-          v-model="maritalStatusState"
+          :value="maritalStatus"
           :options="maritalOptions"
           placeholder="Please select employee status"
           @input="$emit('input', $event, 'maritalStatus')"
@@ -94,11 +94,11 @@ export default {
   },
   data() {
     return {
-      firstname:this.firstName,
-      lastname:this.lastName,
-      dobState:this.dob,
-      genderState:this.gender,
-      maritalStatusState:this.maritalStatus
+      // firstNameState:this.firstName,
+      // lastNameState:this.lastName,
+      // dobState:this.dob,
+      // genderState:this.gender,
+      // maritalStatusState:this.maritalStatus
     };
   },
 };

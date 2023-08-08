@@ -21,6 +21,7 @@ export async function getUser() {
   }
 }
 export async function getBusinessId() {
+  this.loading = true
   let businessId = localStorage.getItem("businessId");
   try {
     const businessid = await axios.get(
@@ -33,6 +34,26 @@ export async function getBusinessId() {
     );
     // console.log(businessid.data, "Org Object Called");
     this.org = businessid.data;
+    this.loading = false
+  } catch (e) {
+    alert(e);
+  }
+}
+export async function updateBusinessId() {
+  this.loading = true
+  let businessId = localStorage.getItem("businessId");
+  try {
+    const businessid = await axios.put(
+      process.env.ORG_API_ENDPOINT + "/" + businessId, this.updateForm,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    // console.log(businessid.data, "Org Object Called");
+    this.org = businessid.data;
+    this.loading = false
   } catch (e) {
     alert(e);
   }

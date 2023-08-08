@@ -5,10 +5,10 @@
         <bib-input
           type="text"
           label="Organization Name"
-          v-model="companyName"
+          :value="companyName"
           placeholder="Type your name"
           :disabled="inActive"
-          @change="$emit('input', $event, 'firstName')"
+          @change="$emit('input', $event, 'CompanyName')"
         ></bib-input>
       </div>
     </div>
@@ -19,7 +19,7 @@
         >
         <bib-input
           type="email"
-          v-model="contactEmail"
+          :value="contactEmail"
           placeholder="Enter your email"
           @change="$emit('input', $event, 'email')"
           :disabled="inActive"
@@ -34,7 +34,7 @@
         >
         <bib-input
           type="text"
-          v-model="contactPhone"
+          :value="contactPhone"
           placeholder="Enter mobile number"
           @change="$emit('input', $event, 'phone')"
           :disabled="inActive"
@@ -49,17 +49,17 @@
         <bib-input
           type="text"
           label="Organization type"
-          v-model="orgType"
+          :value="orgType"
           placeholder="Type your name"
           :disabled="inActive"
-          @change="$emit('input', $event, 'firstName')"
+          @change="$emit('input', $event, 'BizStage')"
         ></bib-input>
       </div>
       <div class="col-6">
         <bib-input
           type="text"
           label="Establishment date"
-          v-model="estDate"
+          :value="estDate"
           placeholder="Type your name"
           :disabled="inActive"
           @change="$emit('input', $event, 'firstName')"
@@ -71,7 +71,7 @@
         <bib-input
           type="text"
           label="Business category"
-          v-model="businessCategory"
+          :value="businessCategory"
           placeholder="Type your name"
           :disabled="inActive"
           @change="$emit('input', $event, 'businessCategory')"
@@ -81,7 +81,7 @@
         <bib-input
           type="text"
           label="Location"
-          v-model="location"
+          :value="location"
           placeholder="Type your name"
           :disabled="inActive"
           @change="$emit('input', $event, 'location')"

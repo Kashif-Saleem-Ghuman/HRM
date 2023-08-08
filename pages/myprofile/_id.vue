@@ -42,12 +42,15 @@
                   <!-- my profile Info Wrapper Start Here  -->
                   <div id="my-profile-wrapper">
                     <div class="row-custom py-cus">
+                     
                       <employee-profile
-                        :firstNameState="form.firstName"
-                        :lastNameState="form.lastName"
-                        :maritalState="form.marital"
+                        :firstName="form.firstName"
+                        :lastName="form.lastName"
+                        :maritalStatus="form.marital"
                         :maritalOptions="maritalOption"
                         :genderOptions="genderOptions"
+                        :gender="form.gender"
+                        :dob="form.dateOfBirth"
                         :inActive="inactiveCommon"
                       ></employee-profile>
                     </div>
@@ -67,10 +70,10 @@
                       ></tabs-title>
                     </div>
                     <contact-info
-                      :primaryEmailState="form?.primaryEmail"
-                      :seondaryEmailState="form?.seondaryEmail"
-                      :homePhoneState="form?.homePhone"
-                      :cellPhoneState="form?.cellPhone"
+                      :primaryEmail="form?.email"
+                      :seondaryEmail="form?.seondaryEmail"
+                      :homePhone="form?.homePhone"
+                      :cellPhone="form?.phone"
                       :inActive="inactiveCommon"
                     >
                     </contact-info>

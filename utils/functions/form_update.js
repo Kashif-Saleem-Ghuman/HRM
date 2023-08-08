@@ -180,3 +180,46 @@ export function editHandleInput(event, name, addresses) {
   // this.form[name] = event;
   console.log(this.updateForm, "update");
 }
+export function handleOrgProfile(event, name, addresses) {
+  this.isFlag = true;
+  if (addresses == "team") {
+    this.updateForm.teams = this.updateForm.teams || [];
+    // console.log(this.updateform.teams, "calllled")
+    this.updateForm.teams.push(event);
+    console.log(event, name, "calllled");
+    return;
+  }
+  if (addresses === "addresses") {
+    if (event == "USA") {
+      this.cureentState = this.states.filter((item, index) => {
+        if (item.code == event) {
+          this.stateVisible = true;
+          this.isFlag = true;
+          return item;
+        }
+      });
+    }
+    if (event == "Canada") {
+      this.cureentState = this.states.filter((item, index) => {
+        if (item.code == event) {
+          this.stateVisible = true;
+          this.isFlag = true;
+          return item;
+        }
+      });
+    }
+    if (event == "Other") {
+      // this.updateForm.addresses[0]["state"] = "";
+      this.stateVisible = false;
+      this.otherStateVisible = true
+    }
+    this.updateForm[name] = event;
+    this.form[name] = event;
+    console.log(this.updateForm, "updateFormmmmmmmmmmmmmmmmmmmmmmm");
+  } else {
+    this.isFlag = true;
+    this.updateForm[name] = event;
+    // this.form[name] = event;
+    console.log(this.updateForm, "update");
+  }
+}

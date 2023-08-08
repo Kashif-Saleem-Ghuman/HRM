@@ -13,7 +13,8 @@ import {
   openPopupNotification,
   dateCheck,
   getCurrentDateMonth,
-  getCurrentYear
+  getCurrentYear,
+  updateBusinessId
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -21,7 +22,8 @@ import {
   handleInput,
   addHandleInput,
   editHandleInput,
-  handleInputObject
+  handleInputObject,
+  handleOrgProfile,
 } from "../functions/form_update.js";
 
 export {
@@ -43,5 +45,7 @@ export {
   handleInput,
   handleInputObject,
   getCurrentDateMonth,
-  getCurrentYear
+  getCurrentYear,
+  updateBusinessId,
+  handleOrgProfile
 };

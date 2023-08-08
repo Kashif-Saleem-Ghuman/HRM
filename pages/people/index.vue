@@ -68,7 +68,7 @@
             </div>
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData.slice()"></list>
+                <list :userList="localData"></list>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@
                         </div>
                       </div>
                       <div>
-                        <contact-info></contact-info>
+                        <contact-info @input="handleInput"></contact-info>
                       </div>
                     </div>
                   </div>
@@ -372,7 +372,7 @@ export default {
   async created() {
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
-    console.log(this.localData, "userList");
+    console.log(this.localData, "userListttttttttttttttttttttttttttttttttttttttttt");
     this.totalUser = this.localData.length;
     // await this.$store.dispatch("employee/setTeamList");
     this.$store.dispatch("teams/setTeamListOptions");

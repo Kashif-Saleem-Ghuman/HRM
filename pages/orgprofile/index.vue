@@ -24,8 +24,8 @@
           <div class="py-cus px-05">
             <div class="company-info">
               <div class="company-logo">
-              <bib-icon icon="bib-logo" :scale="5"></bib-icon>
-            </div>
+                <bib-icon icon="bib-logo" :scale="5"></bib-icon>
+              </div>
               <div class="company-items">
                 <label>{{ org.CompanyName }}</label>
                 <span>{{ org.BizStage }}</span>
@@ -48,7 +48,7 @@
                   :estDate="org.SourceQParam"
                   :businessCategory="org.BizStage"
                   :location="org.City"
-                  :inActive="inActive"
+                  @input="handleOrgProfile"
                 ></org-info>
               </div>
             </div>
@@ -71,7 +71,7 @@
                   :website="org.Website"
                   :contactEmail="org.ContactEmail"
                   :contactPhone="org.ContactPhone"
-                  :inActive="inActive"
+                  @input="handleOrgProfile"
                 ></company-contact-info>
               </div>
             </div>
@@ -97,42 +97,49 @@
                   :state="org.StateProvince"
                   :city="org.City"
                   :postalCode="org.PostalCode"
-                  :inActive="inActive"
+                  :countryOptions="countries"
+                  :stateOptions="cureentState"
+                  :stateVisible="stateVisible"
+                  @input="handleOrgProfile"
                 ></org-address>
               </div>
             </div>
-            <!-- <div class="row mx-0 pb-2 pt-05 pl-05">
+            <div class="row mx-0 pb-2 pt-05 pl-05">
               <div class="d-flex">
-                      <bib-button
-                        label="Cancle"
-                        size="xl"
-                        variant="light"
-                        class="mr-05"
-                        @click="updateAllData()"
-                      ></bib-button>
-                      <bib-button
-                        label="Save"
-                        size="xl"
-                        variant="success"
-                        @click="updateAllData()"
-                      ></bib-button>
-                    </div>
-            </div> -->
+                <bib-button
+                  label="Cancle"
+                  size="xl"
+                  variant="light"
+                  class="mr-05"
+                  @click="updateBusinessId"
+                ></bib-button>
+                <bib-button
+                  label="Save"
+                  size="xl"
+                  variant="success"
+                  @click="updateBusinessId"
+                ></bib-button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <loader v-bind:showloader="loading"></loader>
   </div>
 </template>
 <script>
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
+import { COUNTRIES, STATES } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 import {
   openPopupNotification,
   vfileAdded,
   getBusinessId,
+  updateBusinessId,
+  handleOrgProfile,
 } from "../../utils/functions/functions_lib.js";
 export default {
   data() {
@@ -145,9 +152,13 @@ export default {
       avatarUrl: "",
       updateForm: {},
       isFlag: false,
-      infoUpdateOrgProfile: true,
-      inActive: "disabled",
-      infoUpdateOrgProfile: true,
+      infoUpdateOrgProfile: false,
+      inActive: "enabled",
+      loading: false,
+      countries: COUNTRIES,
+      states: STATES,
+      cureentState: STATES,
+      stateVisible: true,
     };
   },
   created() {},
@@ -163,6 +174,8 @@ export default {
   methods: {
     getBusinessId,
     vfileAdded,
+    updateBusinessId,
+    handleOrgProfile,
     openPopupNotification,
     chnage(event, name) {
       this.updateForm[name] = event;
@@ -171,26 +184,25 @@ export default {
 };
 </script>
 <style lang="scss">
-.company-info{
+.company-info {
   display: flex;
   align-items: center;
-  .company-logo{
+  .company-logo {
     background-color: #f3f4f4;
     padding: 1rem;
     border-radius: 16px;
-   
   }
-  .company-items{
+  .company-items {
     display: block;
     align-items: center;
     padding-left: 1rem;
-    label{
+    label {
       font-size: 18px;
       color: #000;
       display: block;
       font-weight: 600;
     }
-    span{
+    span {
       font-size: 14px;
       font-weight: 500;
     }

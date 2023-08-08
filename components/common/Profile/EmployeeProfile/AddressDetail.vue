@@ -6,7 +6,7 @@
           type="text"
           label="Street number and name"
           placeholder="Enter your street"
-          v-model="streetState"
+          :value="street"
           :disabled="inActive"
           indicator
           @input="$emit('input', $event, 'street', 'addresses')"
@@ -23,7 +23,7 @@
       <div class="col-12">
         <bib-input
           type="text"
-          v-model="suitApartmentState"
+          :value="suitApartment"
           label="Suite/Apartment"
           placeholder="Enter your address"
           :disabled="inActive"
@@ -43,7 +43,7 @@
           type="select"
           label="Country"
           :options="countryOptions"
-          v-model="countryState"
+          :value="country"
           placeholder="Please select country"
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
@@ -60,7 +60,7 @@
           type="select"
           label="Province/State"
           :options="stateOptions"
-          v-model="stateState"
+          :value="state"
           placeholder="Please select state"
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
@@ -76,7 +76,7 @@
         <bib-input
           type="text"
           label="Other"
-          v-model="otherStateState"
+          :value="otherState"
           placeholder="Please enter state"
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
@@ -86,7 +86,7 @@
         <bib-input
           type="text"
           label="Postal Code"
-          v-model="postalCodeState"
+          :value="postalCode"
           placeholder="Enter your postal code"
           :disabled="inActive"
           @change="$emit('input', $event, 'postalCode', 'addresses')"
@@ -160,12 +160,12 @@ export default {
   },
   data() {
     return {
-      streetState:this.street,
-      suitApartmentState:this.suitApartment,
-      countryState:this.country,
-      stateState:this.state,
-      otherStateState:this.otherState,
-      postalCodeState:this.postalCode
+      // streetState:this.street,
+      // suitApartmentState:this.suitApartment,
+      // countryState:this.country,
+      // stateState:this.state,
+      // otherStateState:this.otherState,
+      // postalCodeState:this.postalCode
     };
   },
 };

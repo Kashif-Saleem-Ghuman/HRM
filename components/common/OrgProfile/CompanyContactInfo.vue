@@ -5,24 +5,25 @@
           <bib-input
             type="text"
             label="Website"
-            v-model="website"
-            placeholder="Address"
+            :value="website"
+            placeholder="Enter website url"
+            @change="$emit('input', $event, 'Website')"
             :disabled="inActive"
           ></bib-input>
           <bib-input
             type="email"
             label="Email address"
-            v-model="contactEmail"
+            :value="contactEmail"
             placeholder="Enter your email"
-            @change="$emit('input', $event, 'email')"
+            @change="$emit('input', $event, 'ContactEmail')"
             :disabled="inActive"
           ></bib-input>
           <bib-input
             type="text"
             label="Telephone"
-            v-model="contactPhone"
+            :value="contactPhone"
             placeholder="Enter mobile number"
-            @change="$emit('input', $event, 'phone')"
+            @change="$emit('input', $event, 'ContactPhone')"
             :disabled="inActive"
           ></bib-input>
         </div>

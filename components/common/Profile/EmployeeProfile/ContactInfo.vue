@@ -5,7 +5,7 @@
         <bib-input
           type="email"
           label="Primary email"
-          v-model="primaryEmailState"
+          :value="primaryEmail"
           placeholder="Enter your primary email"
           :disabled="inActive"
           @change="$emit('input', $event, 'primaryEmail')"
@@ -15,7 +15,7 @@
         <bib-input
           type="email"
           label="Secondary email"
-          v-model="seondaryEmailState"
+          :value="seondaryEmail"
           placeholder="Enter your secondary mail"
           :disabled="inActive"
           @change="$emit('input', $event, 'seondaryEmail')"
@@ -27,7 +27,7 @@
         <bib-input
           type="text"
           label="Home phone"
-          v-model="homePhoneState"
+          :value="homePhone"
           placeholder="Enter your home phone"
           :disabled="inActive"
           @change="$emit('input', $event, 'homePhone')"
@@ -37,7 +37,7 @@
         <bib-input
           type="text"
           label="Cell phone"
-          v-model="cellPhoneState"
+          :value="cellPhone"
           placeholder="Enter your phone"
           :disabled="inActive"
           @change="$emit('input', $event, 'cellPhone')"
@@ -68,10 +68,10 @@ export default {
   },
   data() {
     return {
-      primaryEmailState:this.primaryEmail,
-      seondaryEmailState:this.seondaryEmail,
-      homePhoneState:this.homePhone,
-      cellPhoneState:this.cellPhone,
+      // primaryEmailState:this.primaryEmail,
+      // seondaryEmailState:this.seondaryEmail,
+      // homePhoneState:this.homePhone,
+      // cellPhoneState:this.cellPhone,
     };
   },
 };

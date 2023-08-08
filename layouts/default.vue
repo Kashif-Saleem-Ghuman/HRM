@@ -300,8 +300,8 @@ export default {
           console.log(err);
         });
     } else {
-      // window.location.href =
-      //   process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+      window.location.href =
+        process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
     this.getAllowanceDays().then((result) => {
       this.allowanceData = result;

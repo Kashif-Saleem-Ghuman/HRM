@@ -80,11 +80,13 @@ export default {
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
-      balanceLeave: '',
+      balanceLeave: '00',
     };
   },
   mounted(){
-    this.balanceLeave = this.totalAllowance - this.item.daysUsed || '00';
+    setTimeout(()=>{
+      this.balanceLeave = this.totalAllowance - this.item.daysUsed;
+    },1000)
   },
   methods: {
     buttonAction(item) {

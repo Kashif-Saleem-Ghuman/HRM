@@ -147,7 +147,7 @@ export default {
           return;
         }
         if (item.key == "requestLeave") {
-          this.$nuxt.$emit("open-sidebar", 'requestLeave')
+          this.$nuxt.$emit("open-sidebar", 'leave')
           this.$nuxt.$emit("add-leave");
           return;
         }

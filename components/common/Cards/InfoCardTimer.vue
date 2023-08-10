@@ -22,15 +22,13 @@
           <span>00:00</span>
         </div>
       </div>
-      <div style="width: 100%">
-        <bib-button
-          label="Clock in"
-          size="lg"
-          icon="add"
-          variant="light"
-          pill
-          class="w-100 mb-1"
-        ></bib-button>
+      <div
+        class="button-wrapper mb-1"
+        :class="className"
+        @click.stop="$emit('on-click')"
+      >
+        <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
+        <span>{{ buttonLable }}</span>
       </div>
       </div>
       
@@ -58,6 +56,9 @@
       buttonVariant: {
         type: String,
       },
+      className:{
+        type:String
+      }
     },
     data() {
       return {
@@ -77,5 +78,6 @@
     height: 40px;
     border-right: 33px solid #fff;
 }
+
 </style>
   

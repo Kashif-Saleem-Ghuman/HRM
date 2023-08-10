@@ -36,40 +36,40 @@ export async function updateAllData() {
     alert("No data to Update");
     return true;
   }
-  if (!this.updateForm.address) {
-    this.errorMsgStreet = true;
-    return true;
-  }
-  this.errorMsgStreet = false;
-  if (!this.updateForm.address.street) {
-    this.errorMsgStreet = true;
-    return true;
-  }
-  this.errorMsgSuit = false;
-  if (!this.updateForm.address.suit) {
-    this.errorMsgSuit = true;
-    return true;
-  }
-  this.errorMsgSuit = false;
-  if (!this.updateForm.address.country) {
-    this.errorMsgCountry = true;
-    return true;
-  }
-  this.errorMsgCountry = false;
-  if (!this.updateForm.address.state) {
-    this.errorMsgState = true;
-    return true;
-  }
-  this.errorMsgState = false;
-  if (!this.updateForm.address.postalCode) {
-    this.errorMsgPostalCode = true;
-    return true;
-  }
-  this.errorMsgPostalCode = false;
+  // if (!this.updateForm.address) {
+  //   this.errorMsgStreet = true;
+  //   return true;
+  // }
+  // this.errorMsgStreet = false;
+  // if (!this.updateForm.address.street) {
+  //   this.errorMsgStreet = true;
+  //   return true;
+  // }
+  // this.errorMsgSuit = false;
+  // if (!this.updateForm.address.suit) {
+  //   this.errorMsgSuit = true;
+  //   return true;
+  // }
+  // this.errorMsgSuit = false;
+  // if (!this.updateForm.address.country) {
+  //   this.errorMsgCountry = true;
+  //   return true;
+  // }
+  // this.errorMsgCountry = false;
+  // if (!this.updateForm.address.state) {
+  //   this.errorMsgState = true;
+  //   return true;
+  // }
+  // this.errorMsgState = false;
+  // if (!this.updateForm.address.postalCode) {
+  //   this.errorMsgPostalCode = true;
+  //   return true;
+  // }
+  // this.errorMsgPostalCode = false;
   this.loading = true;
   var data = JSON.stringify(this.updateForm);
   await this.$axios
-    .$put(`${process.env.API_URL}/employees/${this.id}`, this.updateForm, {
+    .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
@@ -88,12 +88,13 @@ export async function updateAllData() {
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
+      
     });
   this.loading = false;
 }
 export function handleInput(event, name, addresses) {
   let add = {};
-  this.isFlag = true;
+  // this.isFlag = true;
   if (addresses == "team") {
     this.updateForm.teams = this.updateForm.teams || [];
     // console.log(this.updateform.teams, "calllled")
@@ -131,10 +132,10 @@ export function handleInput(event, name, addresses) {
       ...this.updateForm.address,
       ...add,
     };
-    this.form.address = {
-      ...this.form.address,
-      ...add,
-    };
+    // this.form.address = {
+    //   ...this.form.address,
+    //   ...add,
+    // };
     console.log(this.updateForm, "updateFormmmmmmmmmmmmmmmmmmmmmmm");
   } else {
     this.isFlag = true;

@@ -122,7 +122,7 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 
-import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
+import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 export default {
   props: {
     leaveData: {

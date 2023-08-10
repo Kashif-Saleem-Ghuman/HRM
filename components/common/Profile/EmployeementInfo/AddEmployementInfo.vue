@@ -5,7 +5,7 @@
         <bib-input
           type="select"
           label="Employee Status"
-          v-model="employeeStatusState"
+          :value="employeeStatus"
           :options="esstatusOptions"
           placeholder="Select your employee status"
           @input="$emit('input', $event, 'status')"
@@ -16,7 +16,7 @@
         <bib-input
           type="text"
           label="Employee number"
-          v-model="employeeNumberState"
+          :value="employeeNumber"
           placeholder="Enter your Employee number"
           @change="$emit('input', $event, 'employeNumber')"
           :disabled="inActive"
@@ -28,7 +28,7 @@
         <bib-input
           type="text"
           label="Social Insurance Number"
-          v-model="socialInsuranceNumberState"
+          :value="socialInsuranceNumber"
           placeholder="Enter your Social Insurance Number"
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
@@ -38,7 +38,7 @@
         <bib-input
           type="date"
           label="Hire Date"
-          v-model="hireDateState"
+          :value="hireDate"
           placeholder="Select your Hire Date"
           @change="$emit('input', $event, 'hireDate')"
           :disabled="inActive"
@@ -50,7 +50,7 @@
         <bib-input
           type="text"
           label="Employment Type"
-          v-model="employeeTypeState"
+          :value="employeeType"
           placeholder="Enter your Employment Type"
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
@@ -87,11 +87,7 @@ export default {
   },
   data() {
     return {
-      hireDateState:this.hireDate,
-      socialInsuranceNumberState:this.socialInsuranceNumber,
-      employeeNumberState:this.employeeNumber,
-      employeeStatusState:this.employeeStatus,
-      employeeTypeState:this.employeeType
+      
     };
   },
 };

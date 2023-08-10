@@ -6,11 +6,11 @@
     :hide-no-column="true"
     @item-clicked="handleItemClick_Table"
   >
-    <template #cell_action="data">
+    <!-- <template #cell_action="data">
       <div class="d-flex justify-center align-center">
         <bib-checkbox size="md"></bib-checkbox>
       </div>
-    </template>
+    </template> -->
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
@@ -138,7 +138,8 @@ export default {
       return teamNames;
     },
     handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/myprofile/");
+      localStorage.setItem('clickedUserId', item.id)
+      this.$router.push("/myprofile/" + item.id);
     },
     viewProfile(id) {
       this.$router.push("/myprofile/" + id);

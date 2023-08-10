@@ -103,12 +103,12 @@
       </div>
       <div class="rtl-wrapper d-flex align-center">
         <div class="serach-item pr-05">
-          <label>Serach:</label>
+          <label>Search:</label>
           <template>
             <bib-input
               type="text"
               name="name"
-              placeholder="Type your name"
+              placeholder="Search by leave type"
               @change="searchLeavesType($event)"
               style="height: 2.5"
             ></bib-input>
@@ -438,6 +438,7 @@ export default {
     });
     setTimeout(() => {
       this.calendarOptions.events = this.getLeaveVacation;
+      this.reloadData += 1;
     }, 1000);
     // console.log(this.calendarOptions.events, "this.calendarOptions.events");
     // this.getAllowanceDays().then((result) => {

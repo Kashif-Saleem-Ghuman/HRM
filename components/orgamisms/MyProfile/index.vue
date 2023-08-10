@@ -179,6 +179,57 @@
                 </div>
               </div>
             </div>
+
+             <div id="employee-information-wrapper py-cus">
+              <div class="row mx-0">
+                <div class="col-6">
+                  <div class="" id="tab_info_wrapper">
+                    <div v-if="activeTab == personalTabItem[1].value">
+                      <div class="scroll_wrapper">
+                        <div class="py-cus row-custom">
+                          <add-employement-info
+                          :employeeStatusState="form?.employeeStatus"
+                          :esstatusOptions="statusOptions"
+                          :employeeNumberState="form?.employeeNumber"
+                          :socialInsuranceNumberState="form?.sin"
+                          :hireDateState="form?.hireDate"
+                          :employeeTypeState="form?.employeeType"
+                            @input="handleInput"
+                            :inActive="inactiveCommon"
+                          ></add-employement-info>
+                        </div>
+                        <!-- Contact Info Wrapper Start Here  -->
+                        <div class="border-wrapper">
+                          <div class="contact-info-wrapper">
+                            <div class="row mx-0">
+                              <div class="col-6">
+                                <tabs-title
+                                  title="Placement"
+                                  variant="gray"
+                                  :scale="0.9"
+                                  class="py-1"
+                                ></tabs-title>
+                              </div>
+                            </div>
+                            <div>
+                              <placement
+                              :workTitleState="form?.workTitle"
+                              :departmentState="form?.department"
+                              :reportsToState="form?.reportsTo"
+                              :workEmailState="form?.workEmail"
+                              :workTelephoneState="form?.workTelephone"
+                              :workExtState="form?.workExt"
+                              :inActiveState="form?.inactiveCommon"
+                              ></placement>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

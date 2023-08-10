@@ -35,7 +35,11 @@
           <span>{{ item.figureLabelTwoData }}</span>
         </div>
       </div>
-      <div class="button-wrapper mb-1" :class="className">
+      <div
+        class="button-wrapper mb-1"
+        :class="className"
+        @click.stop="$emit('on-click')"
+      >
         <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
         <span>{{ buttonLable }}</span>
       </div>
@@ -169,13 +173,25 @@ export default {
       font-size: 14px;
     }
   }
-  &__bgwarnning {
-    background-color: #fabc2a;
+  &__bgpink {
+    background-color: #f5d0d3;
     svg {
       fill: #fff !important;
     }
     span {
       color: #fff;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+  &__bgwarnning
+   {
+    background-color: #f5d0d3;
+    svg {
+      fill: #ea4a4a !important;
+    }
+    span {
+      color: #ea4a4a;
       font-weight: 400;
       font-size: 14px;
     }

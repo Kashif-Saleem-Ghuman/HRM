@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-1">
-      <div class="row" v-show="getUserRole == 'USER'">
+      <div class="row" v-show="employeeNameInput">
         <div class="col-12">
           <bib-input
             type="text"
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12" v-show="getUserRole == 'ADMIN'">
+        <div class="col-12" v-show="leaveTypeSelect">
           <bib-input
             type="select"
             label="Leave type"
@@ -112,6 +112,12 @@
 import {mapGetters} from 'vuex'
 export default {
   props: {
+    employeeNameInput:{
+      type:Boolean
+    },
+    leaveTypeSelect: {
+      type: Boolean,
+    },
     leaveType: {
       type: String,
     },

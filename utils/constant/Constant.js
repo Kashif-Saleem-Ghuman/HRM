@@ -401,6 +401,33 @@ export const TABLE_HEAD = {
       label: "Enrolment status",
     },
   ],
+  tHeadWeekView: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Day of week",
+    },
+    {
+      key: "in",
+      label: "IN",
+    },
+    {
+      key: "break",
+      label: "Break",
+    },
+    {
+      key: "out",
+      label: "Out",
+    },
+    {
+      key: "total",
+      label: "Total",
+    },
+    
+  ],
 };
 
 export const TABLE_FIELDS_TIME_ATTENDANCE = [
@@ -657,6 +684,28 @@ export const EMPLOYEE_PROFILE_TAB = [
     title: "Files",
     value: "files",
   },
+];
+export const USER_PROFILE_TAB = [
+  {
+    title: "Employee Profile",
+    value: "Employee Profile",
+  },
+  {
+    title: "Employment Information",
+    value: "Employment Information",
+  },
+  {
+    title: "Time & Attandance",
+    value: "Time & Attandance",
+  },
+  {
+    title: "Leaves and Vacations",
+    value: "Leaves and Vacations",
+  },
+  // {
+  //   title: "Files",
+  //   value: "files",
+  // },
 ];
 export const ADD_EMPLOYEE_TAB = [
   {

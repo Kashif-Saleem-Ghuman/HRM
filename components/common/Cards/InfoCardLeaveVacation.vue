@@ -13,15 +13,15 @@
         </div>
         <div>
           <progress-circle
-            :progressCount="( item.daysUsed / this.totalAllowance).toFixed(2) * 100"
-            :progressPercentage="(item.daysUsed / this.totalAllowance ).toFixed(2) * 100 + '%'"
+            :progressCount="( daysUsed / this.totalAllowance).toFixed(2) * 100"
+            :progressPercentage="(daysUsed / this.totalAllowance ).toFixed(2) * 100 + '%'"
             :fill="fill"
             emptyfill="#f1f1f1"
           ></progress-circle>
         </div>
-        <div v-show="item.photo == null ? '' : item.photo">
+        <!-- <div v-show="item.photo == null ? '' : item.photo">
           <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
-        </div>
+        </div> -->
       </div>
       <div class="footer-item d-flex">
         <div class="items">
@@ -30,7 +30,7 @@
         </div>
         <div class="items">
           <label>Used</label>
-          <span>{{ item.daysUsed }}</span>
+          <span>{{ daysUsed }}</span>
         </div>
       </div>
       <div
@@ -76,6 +76,9 @@ export default {
     totalAllowance: {
       type: String,
     },
+    daysUsed:{
+      type:[String, Number]
+    }
   },
   data() {
     return {
@@ -85,7 +88,7 @@ export default {
   },
   mounted(){
     setTimeout(()=>{
-      this.balanceLeave = this.totalAllowance - this.item.daysUsed;
+      this.balanceLeave = this.totalAllowance - this.daysUsed;
     },1000)
   },
   methods: {

@@ -8,7 +8,7 @@
             v-model="fullNameState"
             placeholder="Enter your full name"
             :disabled="inActive"
-            @change="$emit('input', $event, 'name', emContact)"
+            @change="$emit('input', $event, 'name', 'emContact')"
           ></bib-input>
         </div>
       </div>
@@ -21,7 +21,7 @@
             v-model="releationshipsState"
             placeholder="Please enter releationships"
             :disabled="inActive"
-            @change="$emit('input', $event, 'relationship', emContact)"
+            @change="$emit('input', $event, 'relationship', 'emContact')"
           ></bib-input>
         </div>
         <div class="col-4">
@@ -31,7 +31,7 @@
             v-model="telephoneState"
             placeholder="Please enter telephone"
             :disabled="inActive"
-            @change="$emit('input', $event, 'phone', emContact)"
+            @change="$emit('input', $event, 'phone', 'emContact')"
           ></bib-input>
         </div>
         <div class="col-4">
@@ -41,7 +41,7 @@
             v-model="emailState"
             placeholder="Please enter email"
             :disabled="inActive"
-            @change="$emit('input', $event, 'email', emContact)"
+            @change="$emit('input', $event, 'email', 'emContact')"
           ></bib-input>
         </div>
       </div>

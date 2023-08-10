@@ -72,6 +72,8 @@
                 :leaveTypeOptions="leaveTypeOptions"
                 @input="addHandleInput"
                 @change="addHandleInput"
+                :employeeNameInput="employeeNameInput"
+                :leaveTypeSelect="leaveTypeSelect"
                 style="z-index: 100000"
                 :allowanceDays="allowanceDays"
                 :usedDays="allowanceData?.daysUsed"
@@ -152,7 +154,7 @@ export default {
     return {
       openSidebar: false,
       openSidebar2: false,
-      clockModal:false,
+      clockModal: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
       lightThemeChecked: this.$cookies.get("isLightTheme") || false,
@@ -184,6 +186,8 @@ export default {
       popupMessages: [],
       borderClass: "border-gray",
       clockLable: "CLOCK IN",
+      employeeNameInput:false,
+      leaveTypeSelect:false,
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
@@ -212,24 +216,37 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
-    await this.$store.dispatch("employee/setActiveUser");
-    this.activeUserData = this.getActiveUser;
-    this.employeeName =
-      this.activeUserData.firstName + " " + this.activeUserData.lastName;
+
     this.$root.$on("open-sidebar", (payload) => {
       this.slideClass = "slide-in";
+      this.leaveTypeSelect = false;
+      this.employeeNameInput = false;
+      if (localStorage.getItem("clickedUserId") !=='') {
+      var id = localStorage.getItem("clickedUserId");
+       this.$store.dispatch("employee/setUser", id);
+      this.activeUserData = this.getActiveUser;
+      this.employeeName =
+        this.activeUserData.firstName + " " + this.activeUserData.lastName;
+    } else {
+       this.$store.dispatch("employee/setActiveUser");
+      this.activeUserData = this.getActiveUser;
+      this.employeeName =
+        this.activeUserData.firstName + " " + this.activeUserData.lastName;
+    }
 
       if (payload == "leave") {
         this.sidebarHeading = "Request leave";
         this.addForm.type = "leave";
         this.allowanceDays = 6;
         this.openSidebar = true;
+        this.employeeNameInput = true
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request vacation";
         this.addForm.type = "vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
+        this.employeeNameInput = true
       }
 
       if (payload == "medical") {
@@ -237,6 +254,7 @@ export default {
         this.addForm.type = "medical";
         this.allowanceDays = 10;
         this.openSidebar = true;
+        this.employeeNameInput = true
       }
       if (payload == "requestLeave") {
         this.sidebarHeading = "Request leave";
@@ -246,11 +264,15 @@ export default {
         this.sidebarHeading = "Request leave";
         this.allowanceDays = 6;
         this.openSidebar = true;
+        this.addForm.type = "leave";
+        this.leaveTypeSelect = true;
       }
       if (payload == "vacationAdmin") {
         this.sidebarHeading = "Request vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
+        this.addForm.type = "vacation";
+        this.leaveTypeSelect = true;
       }
     });
     this.$root.$on("close-sidebar", () => {
@@ -260,7 +282,7 @@ export default {
       }, 700);
     });
     this.$root.$on("clock-in", () => {
-      this.clockModal = true
+      this.clockModal = true;
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey += 1;
@@ -325,10 +347,10 @@ export default {
     routesCheck,
     clockIn() {
       this.borderClass = "border-green";
-        this.clockLable = "CLOCK OUT";
+      this.clockLable = "CLOCK OUT";
     },
-    close(){
-      this.clockModal = false
+    close() {
+      this.clockModal = false;
     },
     closeSidebar() {
       this.slideClass = "slide-out";

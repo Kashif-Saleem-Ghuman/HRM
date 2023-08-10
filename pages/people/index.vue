@@ -62,7 +62,7 @@
                   variant="success"
                   :scale="1"
                   title="Add employee"
-                  @on-click="actionBY()"
+                  @on-click="userId()"
                 ></button-green>
               </div>
             </div>
@@ -75,230 +75,6 @@
         </div>
       </div>
     </div>
-    <!-- <action-sidebar v-show="openSidebar"></action-sidebar> -->
-    <template>
-      <action-sidebar
-        @close-sidebar="closeSidebar"
-        @close="closeSidebar"
-        :className="slideClass"
-        heading="Add Employee"
-        v-show="newMessageSidebar"
-      >
-        <template v-slot:sidebar-body>
-          <div class="row mx-0">
-            <div class="col-12 custom-tabs">
-              <div>
-                <drop-zone
-                  :src="form.photo"
-                  :className="form.photo != null ? 'hide' : ''"
-                  :customRemove="form.photo == null ? 'hide' : 'hide'"
-                  @vfileAdded="vfileAdded"
-                ></drop-zone>
-              </div>
-            </div>
-          </div>
-          <div class="row py-1">
-            <div class="col-12 custom-tabs">
-              <bib-tabs
-                :tabs="personalTabItem"
-                :value="activeTabSidebar"
-                @change="handleChange_Tabs"
-              ></bib-tabs>
-            </div>
-          </div>
-          <div class="row mx-0">
-            <div class="col-12 custom-tabs">
-              <div class="d-flex">
-                <button-gray
-                  @on-click="sendMessage()"
-                  icon="mail-new"
-                  variant="gray1"
-                  class="mr-05"
-                  :scale="0.8"
-                  title="Send Message"
-                  titleClass="button-title"
-                ></button-gray>
-                <button-gray
-                  @on-click="sendMeet()"
-                  icon="device-mobile"
-                  variant="gray1"
-                  :scale="0.8"
-                  title="Make a call"
-                  titleClass="button-title"
-                ></button-gray>
-              </div>
-            </div>
-          </div>
-          <div id="employee-profile-wrapper py-cus">
-            <div class="" id="tab_info_wrapper">
-              <div v-if="activeTabSidebar == personalTabItem[0].value">
-                <div class="scroll_wrapper">
-                  <div class="py-cus row-custom">
-                    <employee-profile
-                      :genderOptions="genderOptions"
-                      :maritalOptions="maritalOptions"
-                      @input="handleInput"
-                    ></employee-profile>
-                  </div>
-                  <!-- Contact Info Wrapper Start Here  -->
-                  <div class="border-wrapper">
-                    <div class="contact-info-wrapper">
-                      <div class="row mx-0">
-                        <div class="col-6">
-                          <tabs-title
-                            title="Contacts"
-                            variant="gray"
-                            :scale="0.9"
-                            class="py-1"
-                          ></tabs-title>
-                        </div>
-                      </div>
-                      <div>
-                        <contact-info @input="handleInput"></contact-info>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Address Info Wrapper Start Here  -->
-                  <div class="border-wrapper">
-                    <div class="address-info-wrapper">
-                      <div class="row mx-0">
-                        <div class="col-6">
-                          <tabs-title
-                            title="Address"
-                            variant="gray"
-                            :scale="0.9"
-                            class="py-1"
-                          ></tabs-title>
-                        </div>
-                      </div>
-                      <div>
-                        <address-detail
-                          :countryOptions="countries"
-                          :stateOptions="cureentState"
-                          :stateVisible="stateVisible"
-                          :otherStateShow="otherStateVisible"
-                          :errorMsgStreet="errorMsgStreet"
-                          :errorMsgSuit="errorMsgSuit"
-                          :errorMsgCountry="errorMsgCountry"
-                          :errorMsgState="errorMsgState"
-                          :errorMsgPostalCode="errorMsgPostalCode"
-                          @input="handleInput"
-                        ></address-detail>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Emergency Contact Wrapper -->
-                  <div class="border-wrapper">
-                    <div class="address-info-wrapper">
-                      <div class="row mx-0">
-                        <div class="col-6">
-                          <tabs-title
-                            title="Emergency Contact"
-                            variant="gray"
-                            :scale="0.9"
-                            class="py-1"
-                          ></tabs-title>
-                        </div>
-                      </div>
-                      <div>
-                        <emergency-conta
-                          @input="handleInputObject"
-                          emContact="emContact"
-                        ></emergency-conta>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Employment information start here -->
-          <div id="employee-information-wrapper py-cus">
-            <div class="" id="tab_info_wrapper">
-              <div v-if="activeTabSidebar == personalTabItem[1].value">
-                <div class="scroll_wrapper">
-                  <div class="py-cus row-custom">
-                    <add-employement-info
-                      :esstatusOptions="statusOptions"
-                      @input="handleInput"
-                    ></add-employement-info>
-                  </div>
-                  <!-- Contact Info Wrapper Start Here  -->
-                  <div class="border-wrapper">
-                    <div class="contact-info-wrapper">
-                      <div class="row mx-0">
-                        <div class="col-6">
-                          <tabs-title
-                            title="Placement"
-                            variant="gray"
-                            :scale="0.9"
-                            class="py-1"
-                          ></tabs-title>
-                        </div>
-                      </div>
-                      <div>
-                        <placement
-                          :workTitleState="form?.workTitle"
-                          :departmentState="form?.department"
-                          :reportsToState="form?.reportsTo"
-                          :workEmailState="form?.workEmail"
-                          :workTelephoneState="form?.workTelephone"
-                          :workExtState="form?.workExt"
-                          :inActiveState="form?.inactiveCommon"
-                          @input="handleInput"
-                        ></placement>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- File Wrapper start here -->
-          <div id="employee-information-wrapper py-cus">
-            <div class="" id="tab_info_wrapper">
-              <div v-if="activeTabSidebar == personalTabItem[2].value">
-                <div class="scroll_wrapper">
-                  <div class="py-cus row-custom">
-                    <template>
-                      <bib-input
-                        type="file"
-                        ref="filesUploaded"
-                        class=""
-                        @files-dropped="handleChange__FileInput"
-                        variant="accepted"
-                        iconLeft="upload"
-                        placeholder="Drop file here or click to upload"
-                      ></bib-input>
-                    </template>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </template>
-        <template v-slot:sidebar-footer>
-          <div class="d-flex justify-between align-center">
-            <bib-button
-              label="Cancle"
-              variant="gray"
-              size="lg"
-              style="width: 50%"
-              class="mr-1"
-            ></bib-button>
-            <bib-button
-              label="Save"
-              variant="success"
-              size="lg"
-              style="width: 50%"
-              @click="updateAllData"
-            ></bib-button>
-          </div>
-        </template>
-      </action-sidebar>
-    </template>
   </div>
 </template>
 <script>
@@ -411,15 +187,7 @@ export default {
       }, 700);
     },
     actionBY() {
-      if (this.newMessageSidebar == true) {
-        this.slideClass = "slide-out";
-        setTimeout(() => {
-          this.newMessageSidebar = false;
-        }, 700);
-      } else {
-        this.newMessageSidebar = true;
-        this.slideClass = "slide-in";
-      }
+      
     },
     closeSidebar() {
       this.slideClass = "slide-out";
@@ -467,7 +235,12 @@ export default {
       }
     },
     userId(id) {
-      this.$router.push("/myprofile/" + id);
+      if(id){
+        this.$router.push("/myprofile/" + id);
+      }else{
+        this.$router.push("/myprofile/");
+      }
+      
     },
   },
 };

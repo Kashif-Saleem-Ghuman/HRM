@@ -16,7 +16,7 @@
       >
         <info-card-leave-vacation
           title="Vacation"
-          :item="allowanceVacationData"
+          :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
           totalAllowance="30"
           buttonLable="Request Vacation"
           icon="table"
@@ -26,7 +26,7 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Medical/sick"
-          :item="allowanceMedicalData"
+          :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
           totalAllowance="10"
           buttonLable="Request Medical Leave"
           icon="table"
@@ -36,7 +36,7 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Request Personal leave"
-          :item="allowanceLeaveData"
+          :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
           totalAllowance="06"
           buttonLable="Request Personal Leave"
           icon="table"
@@ -99,11 +99,9 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-import {DELETE_MESSAGE} from '../../../utils/constant/ConfirmationMessage'
+import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
 import {
-  getAllowancVacationeDays,
-  getAllowancMedicalDays,
-  getAllowanceLeaveDays,
+  getUserLeavesDetail,
   deleteLevaeVacation,
 } from "../../../utils/functions/functions_lib_api";
 import {
@@ -122,9 +120,6 @@ export default {
       activeUserName: "",
       infoCardData: INFO_CARD_LEAVE_VACATION_DATA,
       leaveVacationDataUser: [],
-      allowanceVacationData: [],
-      allowanceMedicalData: [],
-      allowanceLeaveData: [],
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
       selectedYear: "2023",
@@ -136,7 +131,8 @@ export default {
       checked: false,
       confirmastionMessageModal: false,
       deleteItemId: "",
-      modalContent:DELETE_MESSAGE.deleteConfirmationMessage
+      modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
+      allowanceLeavesDetailedData: [],
     };
   },
   computed: {
@@ -157,6 +153,9 @@ export default {
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
     });
+  },
+  async mounted() {
+    localStorage.removeItem("clickedUserId");
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
@@ -166,13 +165,9 @@ export default {
       this.activeUserData.lastName +
       " / " +
       "Leaves and Vacations";
-  },
-  async mounted() {
     this.getCurrentYear();
     this.loading = true;
-    this.getAllowancVacationeDays();
-    this.getAllowancMedicalDays();
-    this.getAllowanceLeaveDays();
+    this.getUserLeavesDetail(this.activeUserData.id);
     this.selectedMonth = this.currentMonth;
     this.getCurrentYear();
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
@@ -190,12 +185,10 @@ export default {
     // fecha.format(new Date(this.leaveVacationDataUser.end), "YYYY/MM/DD"),
   },
   methods: {
-    getAllowancVacationeDays,
-    getAllowancMedicalDays,
-    getAllowanceLeaveDays,
     getCurrentDateMonth,
     getCurrentYear,
     deleteLevaeVacation,
+    getUserLeavesDetail,
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },

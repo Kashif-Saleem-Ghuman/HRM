@@ -9,7 +9,7 @@
           :value="street"
           :disabled="inActive"
           indicator
-          @input="$emit('input', $event, 'street', 'addresses')"
+          @input="$emit('input', $event, 'addressLine1', 'addresses')"
         ></bib-input>
         <small
             class="text-danger"
@@ -27,7 +27,7 @@
           label="Suite/Apartment"
           placeholder="Enter your address"
           :disabled="inActive"
-          @input="$emit('input', $event, 'suit', 'addresses')"
+          @input="$emit('input', $event, 'addressLine2', 'addresses')"
         ></bib-input>
         <small
             class="text-danger"
@@ -85,21 +85,38 @@
       <div class="col-4">
         <bib-input
           type="text"
-          label="Postal Code"
-          :value="postalCode"
-          placeholder="Enter your postal code"
+          label="City"
+          :value="city"
+          placeholder="Enter your city"
           :disabled="inActive"
-          @change="$emit('input', $event, 'postalCode', 'addresses')"
+          @change="$emit('input', $event, 'city', 'addresses')"
+        ></bib-input>
+        <small
+            class="text-danger"
+             style="margin:0 0 0.5rem 2px; display: block"
+            v-show="errorMsgCity"
+            >Please enter your city</small
+          >
+      </div>
+    </div>
+    <div class="row mx-0">
+      <div class="col-12">
+        <bib-input
+          type="text"
+          :value="postalCode"
+          label="Postal Code"
+          placeholder="Enter your City"
+          :disabled="inActive"
+          @input="$emit('input', $event, 'postalCode', 'addresses')"
         ></bib-input>
         <small
             class="text-danger"
              style="margin:0 0 0.5rem 2px; display: block"
             v-show="errorMsgPostalCode"
-            >Please enter postal code</small
+            >Please enter suit postal code</small
           >
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -152,6 +169,9 @@ export default {
       type: Boolean,
     },
     errorMsgPostalCode: {
+      type: Boolean,
+    },
+    errorMsgCity: {
       type: Boolean,
     },
     inActive: {

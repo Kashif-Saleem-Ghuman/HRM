@@ -113,38 +113,11 @@
         </td>
       </tr>
     </template>
-    <tr :style="{ width: '0rem' }" :class="classTypeBody">
-      <td></td>
-      <td>
-        <div class="justify-between text-dark px-05" style="width: 200px">
-          <span> New Activity</span>
-        </div>
+   
+    <tr >
+      <td colspan="4" class="without-border">
+        00:00:00
       </td>
-      <td>
-        <bib-input type="text" placeholder="00:00:00"></bib-input>
-      </td>
-      <td>
-        <bib-input type="text" placeholder="00:00:00"></bib-input>
-      </td>
-      <td style="text-align: right">
-        <bib-input type="text" placeholder="00:00:00"></bib-input>
-      </td>
-      <td></td>
-    </tr>
-    <tr :style="{ width: '0rem' }" :class="classTypeBody">
-      <td class="without-border"></td>
-      <td class="without-border"></td>
-      <td class="without-border"></td>
-      <td class="without-border"></td>
-      <td style="text-align: right" class="bold-text">
-        <bib-input
-          type="text"
-          value="00:00:00"
-          placeholder="Type your name"
-          style="font-weight: bold"
-        ></bib-input>
-      </td>
-      <td class="without-border"></td>
     </tr>
   </table>
 </template>

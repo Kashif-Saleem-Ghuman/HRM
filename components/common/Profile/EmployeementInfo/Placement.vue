@@ -5,9 +5,9 @@
           <bib-input
             type="text"
             label="Work Title"
-            v-model="workTitleState"
+            :value="workTitle"
             placeholder="Enter Work title"
-            @input="$emit('input', $event, 'workTitle')"
+            @input="$emit('input', $event, 'jobTitle')"
             :disabled="inActive"
           ></bib-input>
         </div>
@@ -15,21 +15,21 @@
           <bib-input
             type="text"
             label="Department"
-            v-model="departmentState"
+            value="HRM"
             placeholder="Enter your Department"
-            @change="$emit('input', $event, 'department')"
-            :disabled="inActive"
+            disabled="disabled"
           ></bib-input>
         </div>
       </div>
       <div class="row mx-0">
         <div class="col-12">
           <bib-input
-            type="text"
+            type="select"
             label="Reports to"
-            v-model="reportsToState"
+            :options="reportOptions"
+            :value="reportsTo"
             placeholder="Please select reporting Manager"
-            @change="$emit('input', $event, 'reportsTo')"
+            @input="$emit('input', $event, 'manager')"
             icon-left="file"
             :disabled="inActive"
           ></bib-input>
@@ -40,7 +40,7 @@
           <bib-input
             type="text"
             label="Work email"
-            v-model="workEmailState"
+            :value="workEmail"
             placeholder="Enter your work email"
             @change="$emit('input', $event, 'workEmail')"
             icon-left="file"
@@ -53,7 +53,7 @@
           <bib-input
             type="text"
             label="Work telephone"
-            v-model="workTelephoneState"
+            :value="workTelephone"
             placeholder="Enter work telephone"
             @change="$emit('input', $event, 'workTelephone')"
             :disabled="inActive"
@@ -63,7 +63,7 @@
           <bib-input
             type="text"
             label="Work extension"
-            v-model="workExtState"
+            :value="workExt"
             placeholder="Enter work extension"
             @change="$emit('input', $event, 'workExtenstion')"
             :disabled="inActive"
@@ -97,15 +97,13 @@
       inActive: {
         type: String,
       },
+      reportOptions:{
+        type:Array
+      }
     },
     data() {
     return {
-      workTitleState:this.workTitle,
-      departmentState:this.department,
-      reportsToState:this.reportsTo,
-      workEmailState:this.workEmail,
-      workTelephoneState:this.workTelephone,
-      workExtState:this.workExt
+      
     };
   },
   };

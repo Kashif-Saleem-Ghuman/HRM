@@ -29,7 +29,7 @@
           label="Date of birth"
           :value="dob"
           placeholder="Enter title"
-          @change="$emit('input', $event, 'dob')"
+          @change="$emit('input', $event, 'dateOfBirth')"
           :disabled="inActive"
         ></bib-input>
       </div>

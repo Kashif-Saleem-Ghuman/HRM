@@ -15,7 +15,7 @@ export const getters = {
   GET_DEPARTMENT_LIST(state) {
     return state.departmentList;
   },
-  GET_REPORTS_LIST(state) {
+  getReportList(state) {
     return state.reportList;
   },
 };

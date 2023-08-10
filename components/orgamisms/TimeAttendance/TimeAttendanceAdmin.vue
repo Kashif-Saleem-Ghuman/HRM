@@ -200,9 +200,9 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-day-view
+                  <list-pending-time
                     :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,3)"
-                  ></list-day-view>
+                  ></list-pending-time>
                 </div>
               </div>
             </div>
@@ -248,9 +248,9 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-day-view
+                  <list-pending-time
                     :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,2)"
-                  ></list-day-view>
+                  ></list-pending-time>
                 </div>
               </div>
             </div>
@@ -278,7 +278,6 @@
       return {
         endDate: null,
         timeAttendanceTab: TIME_ATTENDANCE_TAB,
-        timesheetData: MY_TIMESHEET_DATA,
         dayWiseDataTimesheet: TIMESHEET_DATA,
         activeTab: "Attendance",
         updateForm: {},

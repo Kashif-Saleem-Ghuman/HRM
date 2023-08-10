@@ -1,5 +1,9 @@
 <template>
-  <div id="side-panel" :class="'side-panel ' + 'side-panel__' + className" style="z-index: 10000;">
+  <div
+    id="side-panel"
+    :class="'side-panel ' + 'side-panel__' + className"
+    style="z-index: 10000"
+  >
     <div class="d-flex p-1 justify-between align-center sidebar-header">
       <div class="d-flex justify-between align-center">
         <bib-icon
@@ -23,10 +27,15 @@
         <slot name="sidebar-body"></slot>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
-      <div class="sidebar-footer p-1" style="height: 10vh;
-    display: flex;
-    justify-content: end;
-    align-items: end;">
+      <div
+        class="sidebar-footer p-1"
+        style="
+          height: 10vh;
+          display: flex;
+          justify-content: end;
+          align-items: end;
+        "
+      >
         <slot name="sidebar-footer">
           <!-- <div class="d-flex align-center" v-if="copyLink">
               <bib-icon
@@ -52,9 +61,9 @@ export default {
     heading: {
       type: String,
     },
-    copyLink:{
-      type:String,
-    }
+    copyLink: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -100,7 +109,7 @@ export default {
   }
 }
 @media (min-width: 1200px) {
-  body{
+  body {
     font-size: 12px !important;
   }
 }
@@ -113,7 +122,7 @@ export default {
   background-color: $white;
   right: 0px;
   border-left: 1px solid #f2f2f5;
-  label{
+  label {
     // font-size: 14px;
     font-weight: 600;
   }

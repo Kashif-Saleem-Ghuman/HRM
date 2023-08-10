@@ -23,7 +23,8 @@ import {
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
     getAllowanceDays,
-    deleteLevaeVacation
+    deleteLevaeVacation,
+    getUserLeavesDetail,
   } from "./api_call/leavesvacations/requestuser";
   
   export {
@@ -46,5 +47,6 @@ import {
     getAllowancVacationeDays,
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
-    deleteLevaeVacation
+    deleteLevaeVacation,
+    getUserLeavesDetail
   };

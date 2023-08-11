@@ -105,14 +105,14 @@
           ]"
           style="min-width: 130px !important;"
         ></chips>
-        <bib-button
+        <!-- <bib-button
           label="Delete"
           variant="danger--outline"
           icon="trash-solid"
           size="xl"
           class="px-1"
           @click="$emit('delete-item', data.value.id)"
-        ></bib-button>
+        ></bib-button> -->
       </div>
     </template>
   </custom-table>

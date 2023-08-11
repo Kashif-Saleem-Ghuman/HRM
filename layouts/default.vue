@@ -70,13 +70,18 @@
               <add-leave
                 :employeeName="employeeName"
                 :leaveTypeOptions="leaveTypeOptions"
+                :leaveType="leaveType"
                 @input="addHandleInput"
                 @change="addHandleInput"
+                @selectLeaveType="selectLeaveTypeHandle"
+                @selectUser="selectUserHandle"
                 :employeeNameInput="employeeNameInput"
+                :employeeNameSelect="employeeNameSelect"
+                :employeesOptions="employeesOptions"
                 :leaveTypeSelect="leaveTypeSelect"
                 style="z-index: 100000"
                 :allowanceDays="allowanceDays"
-                :usedDays="allowanceData?.daysUsed"
+                :usedDays="useDaysData"
                 :key="addLeaveKey"
                 :errorMsgSelect="errorMsgSelect"
                 :errorMsgStartDate="errorMsgStartDate"
@@ -130,8 +135,13 @@ import { mapGetters } from "vuex";
 import {
   addLeaveVacations,
   getAllowanceDays,
+  getUserLeavesDetail,
 } from "../utils/functions/functions_lib_api";
-import { addHandleInput } from "../utils/functions/functions_lib";
+import {
+  addHandleInput,
+  selectUserHandle,
+  selectLeaveTypeHandle,
+} from "../utils/functions/functions_lib";
 import { SELECT_OPTIONS } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
@@ -168,10 +178,11 @@ export default {
       userRole: "",
       addVacationSidebar: true,
       slideClass: "slide-in",
-      allowanceData: "",
+      useDaysData: "",
       leaveType: "vacation",
       employeeName: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      leaveType: "",
       addForm: {
         type: "",
         start: "",
@@ -186,8 +197,12 @@ export default {
       popupMessages: [],
       borderClass: "border-gray",
       clockLable: "CLOCK IN",
-      employeeNameInput:false,
-      leaveTypeSelect:false,
+      employeeNameInput: false,
+      leaveTypeSelect: false,
+      employeeNameSelect: "",
+      employeesOptions: [],
+      userId: "",
+      allowanceLeavesDetailedData:[],
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
@@ -203,6 +218,7 @@ export default {
       getUserId: "token/getUserId",
       getActiveUser: "employee/GET_USER",
       getformToDate: "leavevacation/getformToDate",
+      getReportList: "employee/getReportList",
     }),
   },
   async created() {
@@ -221,32 +237,32 @@ export default {
       this.slideClass = "slide-in";
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
-      if (localStorage.getItem("clickedUserId") !=='') {
-      var id = localStorage.getItem("clickedUserId");
-       this.$store.dispatch("employee/setUser", id);
-      this.activeUserData = this.getActiveUser;
-      this.employeeName =
-        this.activeUserData.firstName + " " + this.activeUserData.lastName;
-    } else {
-       this.$store.dispatch("employee/setActiveUser");
-      this.activeUserData = this.getActiveUser;
-      this.employeeName =
-        this.activeUserData.firstName + " " + this.activeUserData.lastName;
-    }
+      //   if (localStorage.getItem("clickedUserId") !=='') {
+      //   var id = localStorage.getItem("clickedUserId");
+      //    this.$store.dispatch("employee/setUser", id);
+      //   this.activeUserData = this.getActiveUser;
+      //   this.employeeName =
+      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
+      // } else {
+      //    this.$store.dispatch("employee/setActiveUser");
+      //   this.activeUserData = this.getActiveUser;
+      //   this.employeeName =
+      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
+      // }
 
       if (payload == "leave") {
         this.sidebarHeading = "Request leave";
         this.addForm.type = "leave";
         this.allowanceDays = 6;
         this.openSidebar = true;
-        this.employeeNameInput = true
+        this.employeeNameInput = true;
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request vacation";
         this.addForm.type = "vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
-        this.employeeNameInput = true
+        this.employeeNameInput = true;
       }
 
       if (payload == "medical") {
@@ -254,18 +270,26 @@ export default {
         this.addForm.type = "medical";
         this.allowanceDays = 10;
         this.openSidebar = true;
-        this.employeeNameInput = true
+        this.employeeNameInput = true;
       }
       if (payload == "requestLeave") {
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
       }
       if (payload == "leaveAdmin") {
+        var id = this.userId
+        console.log(this.userId, "this.userIdthis.userIdthis.userId")
         this.sidebarHeading = "Request leave";
-        this.allowanceDays = 6;
         this.openSidebar = true;
         this.addForm.type = "leave";
         this.leaveTypeSelect = true;
+        this.leaveType = "leave";
+        this.allowanceDays = 12;
+        this.getUserLeavesDetail(id)
+        // this.getUserLeavesDetail(this.userId)
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+        },1000)
       }
       if (payload == "vacationAdmin") {
         this.sidebarHeading = "Request vacation";
@@ -273,6 +297,10 @@ export default {
         this.openSidebar = true;
         this.addForm.type = "vacation";
         this.leaveTypeSelect = true;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+        },1000)
+        this.leaveType = "vacation";
       }
     });
     this.$root.$on("close-sidebar", () => {
@@ -316,6 +344,10 @@ export default {
           }
           // this.getUser();
           this.getBusinessId();
+          this.$store.dispatch("employee/setReportsToList");
+          this.employeesOptions = this.getReportList;
+          // console.log(this.employeesOptions, "this.employeesOptions");
+          this.$store.dispatch("employee/setActiveUser");
         })
         .catch((err) => {
           this.loading = false;
@@ -329,6 +361,8 @@ export default {
       this.allowanceData = result;
       // this.temKey += 1;
     });
+    this.userId = this.getActiveUser.id
+    console.log(this.userId, "userIduserIduserIduserId")
     this.loading = false;
   },
   methods: {
@@ -338,6 +372,7 @@ export default {
     getAllowanceDays,
     addLeaveVacations,
     addHandleInput,
+    getUserLeavesDetail,
     openAccountPage,
     myProfile,
     logout,
@@ -345,6 +380,8 @@ export default {
     headerActionCall,
     openPopupNotification,
     routesCheck,
+    selectUserHandle,
+    selectLeaveTypeHandle,
     clockIn() {
       this.borderClass = "border-green";
       this.clockLable = "CLOCK OUT";

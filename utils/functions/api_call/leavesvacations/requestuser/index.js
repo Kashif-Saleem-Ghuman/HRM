@@ -196,6 +196,7 @@ export async function deleteLevaeVacation(value) {
 }
 export async function getUserLeavesDetail(id) {
   this.loading = true;
+  console.log(id, "asjkdlkajdlkjaslkdj")
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/widgets/admin/request/employees/"  + id,

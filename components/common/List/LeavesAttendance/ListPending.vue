@@ -11,7 +11,7 @@
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md" @change="$emit('input', data.value.employee.id)" :checked="checked"></bib-checkbox>
+        <bib-checkbox size="md" @change="$emit('input', data.value.id)" :checked="checked"></bib-checkbox>
       </div>
     </template>
     <template #cell(name)="data">

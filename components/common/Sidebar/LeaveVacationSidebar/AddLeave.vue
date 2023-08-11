@@ -6,7 +6,7 @@
           <bib-input
             type="text"
             label="Employee"
-            v-model="employeeName"
+            :value="employeeName"
             icon-left="user"
             placeholder="Employee"
             disabled
@@ -15,15 +15,31 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-12">
+          <bib-input
+            type="select"
+            label="Employee"
+            :value="employeeNameSelect"
+            :options="employeesOptions"
+            icon-left="user"
+            avatar-right=""
+            placeholder="Employee"
+            :disabled="inActive"
+            @input="$emit('selectUser', $event, 'employeeId')"
+          ></bib-input>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col-12" v-show="leaveTypeSelect">
           <bib-input
             type="select"
             label="Leave type"
-            v-model="ltype"
+            :value="leaveType"
             :options="leaveTypeOptions"
             placeholder="Select your Leave type"
             :disabled="inActive"
-            @input="$emit('input', $event, 'type')"
+            @input="$emit('selectLeaveType', $event, 'type')"
           ></bib-input>
           <small
             class="text-danger"
@@ -58,7 +74,7 @@
           <bib-input
             type="date"
             label="Start date"
-            v-model="dateStart"
+            :value="startDate"
             placeholder="Select your start date"
             @change="$emit('input', $event, 'start')"
             :disabled="inActive"
@@ -76,7 +92,7 @@
             label="End date"
             placeholder="Select your end date"
             @change="$emit('input', $event, 'end')"
-            v-model="dateEnd"
+            :value="endDate"
             :disabled="inActive"
           ></bib-input>
           <small
@@ -94,7 +110,7 @@
           type="textarea"
           label="Reason"
           placeholder="Enter text"
-          v-model="reason"
+          :value="note"
           @change="$emit('input', $event, 'note')"
           :disabled="inActive"
         ></bib-input>
@@ -127,20 +143,17 @@ export default {
     employeeName: {
       type: String,
     },
+    employeeNameSelect: {
+      type: [String, Number],
+    },
+    employeesOptions: {
+      type: [Array, Object],
+    },
     allowanceDays: {
       type: [Number, String],
     },
     usedDays: {
-      type: Number,
-    },
-    errorMsgSelect: {
-      type: Boolean,
-    },
-    errorMsgStartDate: {
-      type: Boolean,
-    },
-    errorMsgEndDate: {
-      type: Boolean,
+      type: [Number, String],
     },
     startDate: {
       type: String,
@@ -154,13 +167,22 @@ export default {
     inActive: {
       type: String,
     },
+    errorMsgSelect: {
+      type: Boolean,
+    },
+    errorMsgStartDate: {
+      type: Boolean,
+    },
+    errorMsgEndDate: {
+      type: Boolean,
+    },
   },
   data() {
     return {
-      ltype: this.leaveType,
-      dateStart: this.startDate,
-      dateEnd: this.endDate,
-      reason: this.note,
+      // ltype: this.leaveType,
+      // dateStart: this.startDate,
+      // dateEnd: this.endDate,
+      // reason: this.note,
     };
   },
   computed: {

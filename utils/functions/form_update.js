@@ -167,13 +167,65 @@ export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
   this.addForm[name] = event;
   // this.form[name] = event;
-  // console.log(this.addForm, "update");
-  console.log(this.addForm.start, "this.addForm.start");
+  console.log(this.userId, "update");
   if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
     this.errorMsgSelect = false;
   }
+}
+export function selectUserHandle(event, name) {
+  this.userId = event;
+  this.getUserLeavesDetail(this.userId)
+  this.isFlag = true;
+  this.addForm[name] = event;
+  this.userId = event;
+  this.userId = event;
+  if(this.leaveType == 'leave'){
+    this.getUserLeavesDetail(this.userId);
+    setTimeout(() => {
+      this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+    }, 1000)
+    
+    this.allowanceDays = 12;
+  
+   }
+   if(this.leaveType == 'medical'){
+    this.getUserLeavesDetail(this.userId)
+    setTimeout(() => {
+      this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
+    }, 1000)
+    this.allowanceDays = 10;
+  
+   }
+   if(this.leaveType == 'vacation'){
+    this.getUserLeavesDetail(this.userId)
+    setTimeout(() => {
+      this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+    }, 1000)
+    this.allowanceDays = 30;
+  
+   }    
+}
+export function selectLeaveTypeHandle(event, name, addresses) {
+this.leaveType = event;
+  this.isFlag = true;
+  this.addForm[name] = event;
+ if(this.leaveType == 'leave'){
+  this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+  this.allowanceDays = 12;
+
+ }
+ if(this.leaveType == 'medical'){
+  this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
+  this.allowanceDays = 10;
+
+ }
+ if(this.leaveType == 'vacation'){
+  this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+  this.allowanceDays = 30;
+
+ }
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;

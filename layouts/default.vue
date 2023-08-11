@@ -345,7 +345,6 @@ export default {
           // this.getUser();
           this.getBusinessId();
           this.$store.dispatch("employee/setReportsToList");
-          this.employeesOptions = this.getReportList;
           this.$store.dispatch("employee/setActiveUser");
 
           // console.log(this.employeesOptions, "this.employeesOptions");
@@ -365,6 +364,7 @@ export default {
     setTimeout(() => {
       this.userId = this.getActiveUser.id
       this.getUserLeavesDetail(this.userId)
+      this.employeesOptions = this.getReportList;
     },2000)
     this.loading = false;
   },

@@ -363,8 +363,8 @@ export default {
     });
     setTimeout(() => {
       this.userId = this.getActiveUser.id
-    },1000)
-    console.log(this.userId, "userIduserIduserIduserId")
+      console.log(this.userId, "userIduserIduserIduserId")
+    },2000)
     this.loading = false;
   },
   methods: {

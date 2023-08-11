@@ -365,7 +365,7 @@ export default {
       this.userId = this.getActiveUser.id
       this.getUserLeavesDetail(this.userId)
       this.employeesOptions = this.getReportList;
-    },2000)
+    },5000)
     this.loading = false;
   },
   methods: {

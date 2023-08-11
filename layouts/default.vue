@@ -277,17 +277,17 @@ export default {
         this.openSidebar = true;
       }
       if (payload == "leaveAdmin") {
-        var id = this.userId
-        console.log(this.userId, "this.userIdthis.userIdthis.userId")
+        console.log(this.getActiveUser.id, "this.getActiveUser.id")
+        this.$store.dispatch("employee/setActiveUser");
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
         this.addForm.type = "leave";
         this.leaveTypeSelect = true;
         this.leaveType = "leave";
         this.allowanceDays = 12;
-        this.getUserLeavesDetail(id)
+        
         // this.getUserLeavesDetail(this.userId)
-        setTimeout(() => {
+        setTimeout(() => {          
           this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
         },1000)
       }
@@ -346,8 +346,9 @@ export default {
           this.getBusinessId();
           this.$store.dispatch("employee/setReportsToList");
           this.employeesOptions = this.getReportList;
-          // console.log(this.employeesOptions, "this.employeesOptions");
           this.$store.dispatch("employee/setActiveUser");
+
+          // console.log(this.employeesOptions, "this.employeesOptions");
         })
         .catch((err) => {
           this.loading = false;
@@ -363,8 +364,8 @@ export default {
     });
     setTimeout(() => {
       this.userId = this.getActiveUser.id
-    },1000)
-    console.log(this.userId, "userIduserIduserIduserId")
+      this.getUserLeavesDetail(this.userId)
+    },2000)
     this.loading = false;
   },
   methods: {

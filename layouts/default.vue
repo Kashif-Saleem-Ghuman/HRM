@@ -361,7 +361,9 @@ export default {
       this.allowanceData = result;
       // this.temKey += 1;
     });
-    this.userId = this.getActiveUser.id
+    setTimeout(() => {
+      this.userId = this.getActiveUser.id
+    },1000)
     console.log(this.userId, "userIduserIduserIduserId")
     this.loading = false;
   },

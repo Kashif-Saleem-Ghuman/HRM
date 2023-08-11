@@ -625,7 +625,7 @@ export const SELECT_OPTIONS = {
     { label: "Kelvin", value: "kelvin" },
   ],
   leaveType:[
-    { label: "Please Select Leave Type", value: null },
+    // { label: "Please Select Leave Type", value: null },
     { label: "Vacation", value: "vacation" },
     { label: "Leave", value: "leave" },
     { label: "Medical/sick", value: "medical" },

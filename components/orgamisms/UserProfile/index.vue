@@ -590,7 +590,6 @@ export default {
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
     });
-    console.log(this.reportOptions, "getReportListgetReportListgetReportList")
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     if (this.$route.params.id) {
       this.id = this.$route.params.id;

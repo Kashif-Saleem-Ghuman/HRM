@@ -202,8 +202,10 @@
           @input="addHandleInput"
           @change="addHandleInput"
           style="z-index: 100000"
-          :allowanceDays="allowanceData?.daysAllowed"
-          :usedDays="allowanceData?.daysUsed"
+          :allowanceDays="allowanceData"
+          :usedDays="useDaysData"
+          :employeeNameSelect="employeeNameSelect"
+                :employeesOptions="employeesOptions"
           :key="addLeaveKey"
           :errorMsgSelect="errorMsgSelect"
           :errorMsgStartDate="errorMsgStartDate"
@@ -312,6 +314,7 @@ import {
 import {
   addLeaveVacations,
   getAllowanceDays,
+  getUserLeavesDetail
 } from "../../../utils/functions/functions_lib_api";
 import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
 
@@ -330,6 +333,8 @@ export default {
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
+      employeeNameSelect:'',
+      employeesOptions : [],
       allowanceData: "",
       startDate: "",
       endDate: "",
@@ -414,6 +419,8 @@ export default {
       leaveStatus: "",
       flag : false,
       nextPrev:false,
+      allowanceLeavesDetailedData:[],
+      useDaysData: "",
     };
   },
   computed: {
@@ -421,6 +428,8 @@ export default {
       getAccessToken: "token/getAccessToken",
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
+      getReportList:"employee/getReportList",
+
     }),
   },
 
@@ -445,6 +454,9 @@ export default {
     //   this.allowanceData = result;
     //   // this.temKey += 1;
     // });
+    this.$store.dispatch("employee/setReportsToList");
+    this.employeesOptions = this.getReportList;
+    console.log(this.employeesOptions, "this.employeesOptions")
   },
   methods: {
     addHandleInput,
@@ -452,6 +464,7 @@ export default {
     addLeaveVacations,
     getCurrentDateMonth,
     getCurrentYear,
+    getUserLeavesDetail,
     change(event) {},
     searchLeavesType(event) {
       this.getSearchKey = event;
@@ -600,14 +613,31 @@ export default {
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.next();
     },
-    handleEventClick(clickInfo) {
+    async handleEventClick(clickInfo) {
       this.slideClass = "slide-in";
       this.addLeaveKey += 1;
       this.calendarOptions.events.filter((item, index) => {
         if (item.id == clickInfo.event._def.publicId) {
-          console.log(item.status, "itemitemitemitem");
+          this.getUserLeavesDetail(item.employee.id)
+          console.log(item, "allowanceLeavesDetailedData");
           this.leaveStatus = item.status;
           this.form = item;
+          this.employeeNameSelect = item.employee.id;
+          setTimeout(() => {
+            if(item.type == 'vacation'){
+            this.allowanceData = 30
+            this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+          }
+          if(item.type == 'leave'){
+            this.allowanceData = 12;
+            this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+          }
+          if(item.type == 'medical'){
+            this.allowanceData = 10;
+            this.useDaysData =  this.allowanceLeavesDetailedData.medicalLeavesUsed
+          }
+          },1000)
+          // console.log(this.allowanceLeavesDetailedData, "allowanceLeavesDetailedDataallowanceLeavesDetailedDataallowanceLeavesDetailedData")
           this.startDate = fecha.format(
             new Date(this.form.start),
             "YYYY-MM-DD"

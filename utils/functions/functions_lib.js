@@ -24,6 +24,8 @@ import {
   editHandleInput,
   handleInputObject,
   handleOrgProfile,
+  selectUserHandle,
+  selectLeaveTypeHandle,
 } from "../functions/form_update.js";
 
 export {
@@ -47,5 +49,7 @@ export {
   getCurrentDateMonth,
   getCurrentYear,
   updateBusinessId,
-  handleOrgProfile
+  handleOrgProfile,
+  selectUserHandle,
+  selectLeaveTypeHandle
 };

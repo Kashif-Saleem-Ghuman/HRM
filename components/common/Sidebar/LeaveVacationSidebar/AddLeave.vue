@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" v-show="employeeNameSelectShow">
           <bib-input
             type="select"
             label="Employee"
@@ -129,6 +129,9 @@ import {mapGetters} from 'vuex'
 export default {
   props: {
     employeeNameInput:{
+      type:Boolean
+    },
+    employeeNameSelectShow:{
       type:Boolean
     },
     leaveTypeSelect: {

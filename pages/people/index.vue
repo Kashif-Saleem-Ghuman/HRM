@@ -146,6 +146,7 @@ export default {
     };
   },
   async created() {
+    localStorage.removeItem("clickedUserId");
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
     console.log(this.localData, "userListttttttttttttttttttttttttttttttttttttttttt");

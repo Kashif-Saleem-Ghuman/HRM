@@ -205,7 +205,8 @@ export function selectUserHandle(event, name) {
     }, 1000)
     this.allowanceDays = 30;
   
-   }    
+   }   
+    
 }
 export function selectLeaveTypeHandle(event, name, addresses) {
 this.leaveType = event;
@@ -226,6 +227,7 @@ this.leaveType = event;
   this.allowanceDays = 30;
 
  }
+ console.log(this.addForm, "this.addFormthis.addForm")
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;

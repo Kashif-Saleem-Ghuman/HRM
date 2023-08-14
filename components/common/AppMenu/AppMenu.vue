@@ -142,12 +142,12 @@ export default {
 
         // user menu actions
         if (item.key == "requestVacation") {
-          this.$nuxt.$emit("open-sidebar", 'vacation')
+          this.$nuxt.$emit("open-sidebar", 'vacationUser')
           this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "requestLeave") {
-          this.$nuxt.$emit("open-sidebar", 'leave')
+          this.$nuxt.$emit("open-sidebar", 'leaveAdmin')
           this.$nuxt.$emit("add-leave");
           return;
         }

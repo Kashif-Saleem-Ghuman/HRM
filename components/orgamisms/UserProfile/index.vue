@@ -435,7 +435,7 @@
                       <info-card-leave-vacation
                         title="Request Personal leave"
                         :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-                        totalAllowance="06"
+                        totalAllowance="12"
                         buttonLable="Request Personal Leave"
                         icon="table"
                         className="button-wrapper__bgwarnning"
@@ -493,7 +493,8 @@ import {
 } from "../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
-  getUserLeavesDetail
+  getUserLeavesDetail,
+  
 } from "../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
@@ -674,7 +675,7 @@ export default {
       console.log(this.updateForm, "switchLabelweekStarts");
     },
     addLeaves($event) {
-      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
     showEmergency() {
@@ -684,7 +685,6 @@ export default {
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-      
     },
     viewChange(e) {
       if (e == "Today") {

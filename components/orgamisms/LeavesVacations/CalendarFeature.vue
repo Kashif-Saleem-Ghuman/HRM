@@ -173,6 +173,7 @@
                 ? 'event_wrapper__bgabsent'
                 : '',
             ]"
+            style="cursor: pointer;"
           >
             <bib-avatar
               :src="arg.event.extendedProps.employee.photo"
@@ -202,10 +203,12 @@
           @input="addHandleInput"
           @change="addHandleInput"
           style="z-index: 100000"
+          :employeeName="employeeName"
           :allowanceDays="allowanceData"
           :usedDays="useDaysData"
           :employeeNameSelect="employeeNameSelect"
                 :employeesOptions="employeesOptions"
+                :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
           :errorMsgSelect="errorMsgSelect"
           :errorMsgStartDate="errorMsgStartDate"
@@ -334,6 +337,7 @@ export default {
       errorMsgStartDate: false,
       errorMsgEndDate: false,
       employeeNameSelect:'',
+      employeeName:'',
       employeesOptions : [],
       allowanceData: "",
       startDate: "",
@@ -421,6 +425,7 @@ export default {
       nextPrev:false,
       allowanceLeavesDetailedData:[],
       useDaysData: "",
+      employeeNameSelectShow:true,
     };
   },
   computed: {
@@ -492,7 +497,7 @@ export default {
       }, 1000);
     },
     actionBY($event) {
-      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
     // getCurrentDateMonth() {
@@ -619,6 +624,7 @@ export default {
     },
     async handleEventClick(clickInfo) {
       this.slideClass = "slide-in";
+      this.employeeNameSelectShow = true
       this.addLeaveKey += 1;
       this.calendarOptions.events.filter((item, index) => {
         if (item.id == clickInfo.event._def.publicId) {
@@ -627,6 +633,9 @@ export default {
           this.leaveStatus = item.status;
           this.form = item;
           this.employeeNameSelect = item.employee.id;
+          
+          this.employeeName =
+          item.employee.firstName + " " + item.employee.lastName;
           setTimeout(() => {
             if(item.type == 'vacation'){
             this.allowanceData = 30

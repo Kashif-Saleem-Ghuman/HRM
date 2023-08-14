@@ -77,6 +77,7 @@
                 @selectUser="selectUserHandle"
                 :employeeNameInput="employeeNameInput"
                 :employeeNameSelect="employeeNameSelect"
+                :employeeNameSelectShow="employeeNameSelectShow"
                 :employeesOptions="employeesOptions"
                 :leaveTypeSelect="leaveTypeSelect"
                 style="z-index: 100000"
@@ -200,10 +201,13 @@ export default {
       employeeNameInput: false,
       leaveTypeSelect: false,
       employeeNameSelect: "",
+      employeeNameSelectShow: false,
       employeesOptions: [],
       userId: "",
-      allowanceLeavesDetailedData:[],
+      allowanceLeavesDetailedData: [],
       token: "",
+      token:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY4NTk0OTcwNTYwMSwiZXhwIjoxNjkzNzI1NzA1NjAxLCJqdGkiOiJlNTYxMzc1ZC05MjdiLTQxYmQtOWNkNS05ZTQ0MWZmYjkzNGIifQ.iLVUiKPRiDNN7c9GYD20azlUxGoAFHYr-E65n_R_Byw",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
     };
@@ -234,28 +238,34 @@ export default {
     }
 
     this.$root.$on("open-sidebar", (payload) => {
-      this.slideClass = "slide-in";
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
-      //   if (localStorage.getItem("clickedUserId") !=='') {
-      //   var id = localStorage.getItem("clickedUserId");
-      //    this.$store.dispatch("employee/setUser", id);
-      //   this.activeUserData = this.getActiveUser;
-      //   this.employeeName =
-      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
-      // } else {
-      //    this.$store.dispatch("employee/setActiveUser");
-      //   this.activeUserData = this.getActiveUser;
-      //   this.employeeName =
-      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
-      // }
-
-      if (payload == "leave") {
-        this.sidebarHeading = "Request leave";
+      this.getUserLeavesDetail(this.activeUserData.id);
+      this.slideClass = "slide-in";
+      if (payload === "vacationUser") {
+        this.sidebarHeading = "Request vacation";
         this.addForm.type = "leave";
-        this.allowanceDays = 6;
+        this.allowanceDays = 30;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+      }
+      if (payload === "leaveUser") {
+        this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+      }
+      if (payload === "leave") {
+        this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed;
+        this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request vacation";
@@ -263,6 +273,9 @@ export default {
         this.allowanceDays = 30;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+        }, 1000);
       }
 
       if (payload == "medical") {
@@ -271,13 +284,82 @@ export default {
         this.allowanceDays = 10;
         this.openSidebar = true;
         this.employeeNameInput = true;
+
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+        }, 1000);
       }
-      if (payload == "requestLeave") {
+    });
+    this.$root.$on("open-sidebar-admin", (payload) => {
+      // this.employeeNameSelect = this.activeUserData.id;
+      
+      // use case people page
+      if (localStorage.getItem("clickedUserId")) {
+        var userId = this.$route.params.id;
+        this.activeUserData = this.getActiveUser;
+        var id = localStorage.getItem("clickedUserId");
+        this.$store.dispatch("employee/setUser", id);
+        this.activeUserData = this.getActiveUser;
+        this.employeeName =
+          this.activeUserData.firstName + " " + this.activeUserData.lastName;
+        //  use case refresh page
+        if (this.$route.params.id) {
+          this.$store.dispatch("employee/setUser", userId);
+          setTimeout(() => {
+            this.employeeName = "";
+            this.activeUserData = this.getActiveUser;
+            this.employeeName =
+              this.activeUserData.firstName +
+              " " +
+              this.activeUserData.lastName;
+            this.employeeNameSelect = userId;
+          }, 1000);
+        }
+        // else {
+        //   this.employeeNameSelect = this.activeUserData.id;
+        //   this.employeeName =
+        //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
+        // }
+      } else {
+        this.employeeNameSelect = this.activeUserData.id;
+      }
+      this.leaveTypeSelect = false;
+      this.employeeNameInput = false;
+      this.useDaysData = 0;
+      this.slideClass = "slide-in";
+      if (payload === "leave") {
+        this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed;
         this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
         this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+      }
+      if (payload == "vacation") {
+        this.sidebarHeading = "Request vacation";
+        this.addForm.type = "vacation";
+        this.allowanceDays = 30;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+        }, 1000);
+      }
+
+      if (payload == "medical") {
+        this.sidebarHeading = "Request medical/sick";
+        this.addForm.type = "medical";
+        this.allowanceDays = 10;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+        }, 1000);
       }
       if (payload == "leaveAdmin") {
-        console.log(this.getActiveUser.id, "this.getActiveUser.id")
         this.$store.dispatch("employee/setActiveUser");
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
@@ -285,11 +367,12 @@ export default {
         this.leaveTypeSelect = true;
         this.leaveType = "leave";
         this.allowanceDays = 12;
-        
+        this.employeeNameSelectShow = true;
+
         // this.getUserLeavesDetail(this.userId)
-        setTimeout(() => {          
-          this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
-        },1000)
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed;
+        }, 1000);
       }
       if (payload == "vacationAdmin") {
         this.sidebarHeading = "Request vacation";
@@ -298,9 +381,10 @@ export default {
         this.addForm.type = "vacation";
         this.leaveTypeSelect = true;
         setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
-        },1000)
+          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+        }, 1000);
         this.leaveType = "vacation";
+        this.employeeNameSelectShow = true;
       }
     });
     this.$root.$on("close-sidebar", () => {
@@ -327,6 +411,7 @@ export default {
           ssojwt: accessToken,
         })
         .then((res) => {
+          this.$store.dispatch("employee/setActiveUser");
           if (res) {
             this.token = res.data.jwt;
             var businessId = res?.data?.u?.subb;
@@ -346,6 +431,7 @@ export default {
           this.getBusinessId();
           this.$store.dispatch("employee/setReportsToList");
           this.$store.dispatch("employee/setActiveUser");
+          this.activeUserData = this.getActiveUser;
 
           // console.log(this.employeesOptions, "this.employeesOptions");
         })
@@ -362,10 +448,16 @@ export default {
       // this.temKey += 1;
     });
     setTimeout(() => {
-      this.userId = this.getActiveUser.id
-      this.getUserLeavesDetail(this.userId)
+      var userId = this.$route.params.id;
+      this.userId = this.getActiveUser.id;
+      console.log(this.userId, "getActiveUser");
+      if (userId) {
+        this.getUserLeavesDetail(userId);
+      } else {
+        this.getUserLeavesDetail(this.userId);
+      }
       this.employeesOptions = this.getReportList;
-    },5000)
+    }, 1000);
     this.loading = false;
   },
   methods: {

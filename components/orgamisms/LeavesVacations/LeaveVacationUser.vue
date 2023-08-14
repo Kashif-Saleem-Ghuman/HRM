@@ -158,7 +158,6 @@ export default {
     });
   },
   async mounted() {
-    localStorage.removeItem("clickedUserId");
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;

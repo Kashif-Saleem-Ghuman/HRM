@@ -16,7 +16,7 @@
       >
         <info-card-leave-vacation
           title="Vacation"
-          :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
+          :usedDays="this.allowanceLeavesDetailedData.vacationsUsed"
           totalAllowance="30"
           buttonLable="Request Vacation"
           icon="table"
@@ -26,7 +26,7 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Medical/sick"
-          :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
+          :usedDays="this.allowanceLeavesDetailedData.otherLeavesUsed"
           totalAllowance="10"
           buttonLable="Request Medical Leave"
           icon="table"
@@ -36,7 +36,7 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Request Personal leave"
-          :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
+          :usedDays="this.allowanceLeavesDetailedData.medicalLeavesUsed"
           totalAllowance="06"
           buttonLable="Request Personal Leave"
           icon="table"
@@ -133,6 +133,7 @@ export default {
       deleteItemId: "",
       modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       allowanceLeavesDetailedData: [],
+      useDaysData: "",
     };
   },
   computed: {
@@ -152,6 +153,8 @@ export default {
         to: this.getformToDate.to,
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
+      console.log(this.getActiveUser.id, "getActiveUsergetActiveUser")
+      // this.getUserLeavesDetail(item.employee.id)
     });
   },
   async mounted() {

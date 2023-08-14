@@ -62,7 +62,8 @@ export async function addLeaveVacations() {
       this.openPopupNotification(0);
     }, 700);
   } catch (e) {
-    alert(e);
+    console.log(e.response.data.message, "tttttttttttttttttttttttttttttttttt")
+    alert(e.response.data.message);
   }
   this.loading = false;
 }

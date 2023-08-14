@@ -449,6 +449,10 @@ export default {
       this.calendarOptions.events = this.getLeaveVacation;
       this.reloadData += 1;
     }, 1000);
+    setTimeout(() => {
+      this.calendarOptions.events = this.getLeaveVacation;
+      this.reloadData += 1;
+    }, 3000);
     // console.log(this.calendarOptions.events, "this.calendarOptions.events");
     // this.getAllowanceDays().then((result) => {
     //   this.allowanceData = result;

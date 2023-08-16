@@ -132,6 +132,8 @@ export default {
     this.addIds = [];
   },
   mounted() {
+    localStorage.removeItem('clickedUserId')
+    this.$nuxt.$emit("add-leave");
     // this.getPendingLeaveVacationsAdmin();
     if(this.requestListData.lenghth <= 0){
       this.noRecord = true

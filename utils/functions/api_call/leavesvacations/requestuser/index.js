@@ -62,7 +62,8 @@ export async function addLeaveVacations() {
       this.openPopupNotification(0);
     }, 700);
   } catch (e) {
-    alert(e);
+    console.log(e.response.data.message, "tttttttttttttttttttttttttttttttttt")
+    alert(e.response.data.message);
   }
   this.loading = false;
 }
@@ -194,11 +195,11 @@ export async function deleteLevaeVacation(value) {
   }
   this.loading = false;
 }
-export async function getUserLeavesDetail(id) {
+export async function getUserLeavesDetailUser() {
   this.loading = true;
   try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/widgets/admin/request/employees/"  + id,
+    const result = await axios.get(
+      process.env.API_URL + "/widgets/request/",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -206,7 +207,8 @@ export async function getUserLeavesDetail(id) {
       }
     );
     this.loading = false;
-    this.allowanceLeavesDetailedData = allowanceDays.data;
+    // this.allowanceLeavesDetailedData = allowanceDays.data;
+    return result.data;
     // console.log(this.allowanceLeavesDetailedData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);

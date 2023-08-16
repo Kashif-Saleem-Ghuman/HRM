@@ -7,7 +7,7 @@
       <div class="info-card-items mt-05">
         <div>
           <div class="subheading">Available</div>
-          <span>{{ balanceLeave }}</span>
+          <span>{{ balanceLeave || '00' }}</span>
 
           <div class="subheading_footer">Days</div>
         </div>
@@ -77,19 +77,24 @@ export default {
       type: String,
     },
     daysUsed:{
-      type:[String, Number]
+      type:Number
     }
   },
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
       balanceLeave: '00',
+      progress:'0%'
     };
   },
-  mounted(){
+  async created(){
     setTimeout(()=>{
-      this.balanceLeave = this.totalAllowance - this.daysUsed;
+      this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
     },1000)
+  },
+  mounted(){
+    
+    console.log(this.daysUsed, "this.balanceLeave")
   },
   methods: {
     buttonAction(item) {

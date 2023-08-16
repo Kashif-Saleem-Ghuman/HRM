@@ -13,6 +13,7 @@
       <div
         class="d-grid d-flex gap-1"
         style="grid-template-columns: repeat(3, 1fr)"
+        v-if="is_data_fetched"
       >
         <info-card-leave-vacation
           title="Vacation"
@@ -26,7 +27,7 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Medical/sick"
-          :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
+          :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
           totalAllowance="10"
           buttonLable="Request Medical Leave"
           icon="table"
@@ -36,8 +37,8 @@
         ></info-card-leave-vacation>
         <info-card-leave-vacation
           title="Request Personal leave"
-          :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-          totalAllowance="06"
+          :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
+          totalAllowance="12"
           buttonLable="Request Personal Leave"
           icon="table"
           className="button-wrapper__bgwarnning"
@@ -101,7 +102,7 @@ import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
 import {
-  getUserLeavesDetail,
+  getUserLeavesDetailUser,
   deleteLevaeVacation,
 } from "../../../utils/functions/functions_lib_api";
 import {
@@ -133,6 +134,7 @@ export default {
       deleteItemId: "",
       modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       allowanceLeavesDetailedData: [],
+      is_data_fetched: false
     };
   },
   computed: {
@@ -152,22 +154,20 @@ export default {
         to: this.getformToDate.to,
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
+      console.log(this.getActiveUser.id, "getActiveUsergetActiveUser")
+      // this.getUserLeavesDetail(item.employee.id)
     });
   },
   async mounted() {
-    localStorage.removeItem("clickedUserId");
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
+    this.getUserLeavesDetailUser().then((result)=>{
+      this.allowanceLeavesDetailedData = result
+      this.is_data_fetched = true
+    });
     this.activeUserData = this.getActiveUser;
-    this.activeUserName =
-      this.activeUserData.firstName +
-      " " +
-      this.activeUserData.lastName +
-      " / " +
-      "Leaves and Vacations";
     this.getCurrentYear();
     this.loading = true;
-    this.getUserLeavesDetail(this.activeUserData.id);
     this.selectedMonth = this.currentMonth;
     this.getCurrentYear();
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
@@ -180,6 +180,12 @@ export default {
       to: this.getformToDate.to,
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
+    this.activeUserName =
+      this.activeUserData.firstName +
+      " " +
+      this.activeUserData.lastName +
+      " / " +
+      "Leaves and Vacations";
     this.loading = false;
     // fecha.format(new Date(this.leaveVacationDataUser.start), "YYYY/MM/DD"),
     // fecha.format(new Date(this.leaveVacationDataUser.end), "YYYY/MM/DD"),
@@ -188,7 +194,7 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     deleteLevaeVacation,
-    getUserLeavesDetail,
+    getUserLeavesDetailUser,
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },

@@ -67,26 +67,29 @@
             v-show="openSidebar"
           >
             <template v-slot:sidebar-body>
-              <add-leave
-                :employeeName="employeeName"
-                :leaveTypeOptions="leaveTypeOptions"
-                :leaveType="leaveType"
-                @input="addHandleInput"
-                @change="addHandleInput"
-                @selectLeaveType="selectLeaveTypeHandle"
-                @selectUser="selectUserHandle"
-                :employeeNameInput="employeeNameInput"
-                :employeeNameSelect="employeeNameSelect"
-                :employeesOptions="employeesOptions"
-                :leaveTypeSelect="leaveTypeSelect"
-                style="z-index: 100000"
-                :allowanceDays="allowanceDays"
-                :usedDays="useDaysData"
-                :key="addLeaveKey"
-                :errorMsgSelect="errorMsgSelect"
-                :errorMsgStartDate="errorMsgStartDate"
-                :errorMsgEndDate="errorMsgEndDate"
-              ></add-leave>
+              <div v-if="is_leave_data_fetched">
+                <add-leave
+                  :employeeName="employeeName"
+                  :leaveTypeOptions="leaveTypeOptions"
+                  :leaveType="leaveType"
+                  @input="addHandleInput"
+                  @change="addHandleInput"
+                  @selectLeaveType="selectLeaveTypeHandle"
+                  @selectUser="selectUserHandle"
+                  :employeeNameInput="employeeNameInput"
+                  :employeeNameSelect="employeeNameSelect"
+                  :employeeNameSelectShow="employeeNameSelectShow"
+                  :employeesOptions="employeesOptions"
+                  :leaveTypeSelect="leaveTypeSelect"
+                  style="z-index: 100000"
+                  :allowanceDays="allowanceDays"
+                  :usedDays="useDaysData"
+                  :key="addLeaveKey"
+                  :errorMsgSelect="errorMsgSelect"
+                  :errorMsgStartDate="errorMsgStartDate"
+                  :errorMsgEndDate="errorMsgEndDate"
+                ></add-leave>
+              </div>
             </template>
             <template v-slot:sidebar-footer>
               <div class="">
@@ -136,6 +139,7 @@ import {
   addLeaveVacations,
   getAllowanceDays,
   getUserLeavesDetail,
+  getUserLeavesDetailUser,
 } from "../utils/functions/functions_lib_api";
 import {
   addHandleInput,
@@ -200,12 +204,17 @@ export default {
       employeeNameInput: false,
       leaveTypeSelect: false,
       employeeNameSelect: "",
+      employeeNameSelectShow: false,
       employeesOptions: [],
       userId: "",
-      allowanceLeavesDetailedData:[],
+      allowanceLeavesDetailedData: [],
+      activeUserData: [],
+      activeUserAllowanceData: [],
+      is_leave_data_fetched: false,
       token: "",
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY4NTk0OTcwNTYwMSwiZXhwIjoxNjkzNzI1NzA1NjAxLCJqdGkiOiJlNTYxMzc1ZC05MjdiLTQxYmQtOWNkNS05ZTQ0MWZmYjkzNGIifQ.iLVUiKPRiDNN7c9GYD20azlUxGoAFHYr-E65n_R_Byw",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s"
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s",
     };
   },
   fetch() {
@@ -215,10 +224,10 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
-      getUserId: "token/getUserId",
+      getUser: "token/GET_USER",
       getActiveUser: "employee/GET_USER",
       getformToDate: "leavevacation/getformToDate",
-      getReportList: "employee/getReportList",
+      getReportList: "employee/GET_REPORTS_LIST",
     }),
   },
   async created() {
@@ -232,30 +241,34 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
-
     this.$root.$on("open-sidebar", (payload) => {
-      this.slideClass = "slide-in";
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
-      //   if (localStorage.getItem("clickedUserId") !=='') {
-      //   var id = localStorage.getItem("clickedUserId");
-      //    this.$store.dispatch("employee/setUser", id);
-      //   this.activeUserData = this.getActiveUser;
-      //   this.employeeName =
-      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
-      // } else {
-      //    this.$store.dispatch("employee/setActiveUser");
-      //   this.activeUserData = this.getActiveUser;
-      //   this.employeeName =
-      //     this.activeUserData.firstName + " " + this.activeUserData.lastName;
-      // }
-
-      if (payload == "leave") {
-        this.sidebarHeading = "Request leave";
+      this.slideClass = "slide-in";
+      if (payload === "vacationUser") {
+        this.sidebarHeading = "Request vacation";
         this.addForm.type = "leave";
-        this.allowanceDays = 6;
+        this.allowanceDays = 30;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+      }
+      if (payload === "leaveUser") {
+        this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+      }
+      if (payload === "leave") {
+        this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed;
+        this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request vacation";
@@ -263,6 +276,9 @@ export default {
         this.allowanceDays = 30;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+        }, 1000);
       }
 
       if (payload == "medical") {
@@ -271,36 +287,113 @@ export default {
         this.allowanceDays = 10;
         this.openSidebar = true;
         this.employeeNameInput = true;
+
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+        }, 1000);
       }
-      if (payload == "requestLeave") {
+      this.employeeName =
+        this.activeUserData.firstName + " " + this.activeUserData.lastName;
+    });
+    this.$root.$on("open-sidebar-admin", (payload) => {
+      var userId = this.$route.params.id;
+      // this.employeeNameSelect = this.activeUserData.id;
+      // use case people page
+      if (localStorage.getItem("clickedUserId")) {
+        var id = localStorage.getItem("clickedUserId");
+        //  use case refresh page
+        if (this.$route.params.id) {
+          this.$store.dispatch("employee/setUser", userId).then((user) => {
+            this.activeUserData = user;
+            this.employeeName = user.firstName + " " + user.lastName;
+          });
+          this.getUserLeavesDetail(id).then((result) => {
+            this.allowanceLeavesDetailedData = result;
+            console.log(this.allowanceLeavesDetailedData, "this.activeUserAllowanceDatathis.activeUserAllowanceData")
+
+          });
+        }
+      }
+      this.leaveTypeSelect = false;
+      this.employeeNameInput = false;
+
+      this.slideClass = "slide-in";
+      if (payload === "leave") {
         this.sidebarHeading = "Request leave";
+        this.addForm.type = "leave";
+        this.allowanceDays = 12;
         this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData?.otherLeavesUsed;
+        }, 1000);
+        return true;
+      }
+      if (payload == "vacation") {
+        this.sidebarHeading = "Request vacation";
+        this.addForm.type = "vacation";
+        this.allowanceDays = 30;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+        this.addLeaveKey += 1;
+        setTimeout(() => {
+          this.useDaysData = this.allowanceLeavesDetailedData?.vacationsUsed;
+        }, 1000);
+        return true;
+      }
+
+      if (payload == "medical") {
+        this.sidebarHeading = "Request medical/sick";
+        this.addForm.type = "medical";
+        this.allowanceDays = 10;
+        this.openSidebar = true;
+        this.employeeNameInput = true;
+        this.employeeNameSelectShow = false;
+        setTimeout(() => {
+          this.useDaysData =
+            this.allowanceLeavesDetailedData?.medicalLeavesUsed;
+        }, 1000);
+        return true;
       }
       if (payload == "leaveAdmin") {
-        console.log(this.getActiveUser.id, "this.getActiveUser.id")
-        this.$store.dispatch("employee/setActiveUser");
+         this.$store.dispatch("employee/setActiveUser").then((user) => {
+      var activeId = user.id
+        this.activeUserData = user;
+        this.employeeNameSelect = activeId
+        console.log(this.activeUserData, "getActiveUser");
+      });
+        this.addLeaveKey += 1;
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
         this.addForm.type = "leave";
         this.leaveTypeSelect = true;
         this.leaveType = "leave";
         this.allowanceDays = 12;
-        
-        // this.getUserLeavesDetail(this.userId)
-        setTimeout(() => {          
-          this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
-        },1000)
+        this.employeeNameSelectShow = true;
+        this.$nuxt.$emit("add-leave");
+        this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
+        return true;
       }
       if (payload == "vacationAdmin") {
+         this.$store.dispatch("employee/setActiveUser").then((user) => {
+      var activeId = user.id
+        this.activeUserData = user;
+        this.employeeNameSelect = activeId
+        console.log(this.activeUserData, "getActiveUser");
+      });
+         this.employeeNameSelect = this.getActiveUser.id 
         this.sidebarHeading = "Request vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
         this.addForm.type = "vacation";
         this.leaveTypeSelect = true;
-        setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
-        },1000)
         this.leaveType = "vacation";
+        this.employeeNameSelectShow = true;
+        this.$nuxt.$emit("add-leave");
+        this.useDaysData = this.activeUserAllowanceData?.vacationsUsed;
+        return true;
       }
     });
     this.$root.$on("close-sidebar", () => {
@@ -344,10 +437,7 @@ export default {
           }
           // this.getUser();
           this.getBusinessId();
-          this.$store.dispatch("employee/setReportsToList");
-          this.$store.dispatch("employee/setActiveUser");
-
-          // console.log(this.employeesOptions, "this.employeesOptions");
+          this.$store.dispatch("employee/setReportsToList")
         })
         .catch((err) => {
           this.loading = false;
@@ -357,15 +447,18 @@ export default {
       window.location.href =
         process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
-    this.getAllowanceDays().then((result) => {
-      this.allowanceData = result;
-      // this.temKey += 1;
-    });
-    setTimeout(() => {
-      this.userId = this.getActiveUser.id
-      this.getUserLeavesDetail(this.userId)
-      this.employeesOptions = this.getReportList;
-    },5000)
+    await this.$store.dispatch("employee/setActiveUser").then((user) => {
+      var activeId = user.id
+        this.activeUserData = user;
+        this.employeeNameSelect = activeId
+        console.log(this.activeUserData, "getActiveUser");
+      });
+      await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
+        this.activeUserAllowanceData = result;
+        // this.employeeNameSelect = result.id;
+        this.is_leave_data_fetched = true;
+      })
+      this.employeesOptions = this.getReportList
     this.loading = false;
   },
   methods: {
@@ -385,6 +478,8 @@ export default {
     routesCheck,
     selectUserHandle,
     selectLeaveTypeHandle,
+    getUserLeavesDetailUser,
+
     clockIn() {
       this.borderClass = "border-green";
       this.clockLable = "CLOCK OUT";

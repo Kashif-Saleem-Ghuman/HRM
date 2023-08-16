@@ -411,6 +411,7 @@
                     <div
                       class="d-grid d-flex gap-1 py-05"
                       style="grid-template-columns: repeat(3, 1fr)"
+                      v-if="is_data_fetched"
                     >
                       <info-card-leave-vacation
                         title="Vacation"
@@ -435,7 +436,7 @@
                       <info-card-leave-vacation
                         title="Request Personal leave"
                         :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-                        totalAllowance="06"
+                        totalAllowance="12"
                         buttonLable="Request Personal Leave"
                         icon="table"
                         className="button-wrapper__bgwarnning"
@@ -493,7 +494,8 @@ import {
 } from "../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
-  getUserLeavesDetail
+  getUserLeavesDetail,
+  
 } from "../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
@@ -566,6 +568,7 @@ export default {
       errorMsgState: false,
       errorMsgSuit: false,
       reportOptions:'',
+      is_data_fetched:false,
     };
   },
   computed: {
@@ -576,7 +579,7 @@ export default {
       activeUserRole: "token/getUserRole",
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
-      getReportList:"employee/getReportList"
+      getReportList:"employee/GET_REPORTS_LIST"
     }),
   },
 
@@ -595,7 +598,10 @@ export default {
       this.id = this.$route.params.id;
       await this.$store.dispatch("employee/setUser", this.id);
       this.form = this.getUser;
-      this.getUserLeavesDetail(this.id);
+      this.getUserLeavesDetail(this.id).then((result)=>{
+        this.allowanceLeavesDetailedData = result
+      this.is_data_fetched = true
+      });
     } else {
       // var users = this.getUser;
       // this.id = users.id;
@@ -674,7 +680,7 @@ export default {
       console.log(this.updateForm, "switchLabelweekStarts");
     },
     addLeaves($event) {
-      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
     showEmergency() {
@@ -684,7 +690,6 @@ export default {
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-      
     },
     viewChange(e) {
       if (e == "Today") {

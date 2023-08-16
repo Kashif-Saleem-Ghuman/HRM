@@ -27,7 +27,7 @@
         :class="className"
         @click.stop="$emit('on-click')"
       >
-        <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
+        <bib-icon :icon="icon"  class="mr-05"></bib-icon>
         <span>{{ buttonLable }}</span>
       </div>
       </div>

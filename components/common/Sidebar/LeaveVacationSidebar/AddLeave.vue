@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" v-show="employeeNameSelectShow">
           <bib-input
             type="select"
             label="Employee"
@@ -56,7 +56,7 @@
             <span>{{ allowanceDays }}</span>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-4" :key="usedDayLeave">
           <div class="d-flex input-display-wrapper">
             <span>Used</span>
             <span>{{ usedDays }}</span>
@@ -131,6 +131,9 @@ export default {
     employeeNameInput:{
       type:Boolean
     },
+    employeeNameSelectShow:{
+      type:Boolean
+    },
     leaveTypeSelect: {
       type: Boolean,
     },
@@ -138,7 +141,7 @@ export default {
       type: String,
     },
     leaveTypeOptions: {
-      type: Array,
+      type: [Array, Object],
     },
     employeeName: {
       type: String,
@@ -183,7 +186,14 @@ export default {
       // dateStart: this.startDate,
       // dateEnd: this.endDate,
       // reason: this.note,
+      usedDayLeave:0,
     };
+  },
+  created(){
+    this.$root.$on("used-days", () => {
+      this.usedDayLeave += 1;
+      console.log(this.usedDayLeave, "this.$nuxt.$emit(")
+    });
   },
   computed: {
     ...mapGetters({

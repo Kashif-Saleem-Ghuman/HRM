@@ -16,6 +16,7 @@ import {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
     getRejectLeaveVacationsAdmin,
+    getUserLeavesDetail,
   } from "./api_call/leavesvacations/requestadmin";
   import {
     addLeaveVacations,
@@ -24,7 +25,7 @@ import {
     getAllowanceLeaveDays,
     getAllowanceDays,
     deleteLevaeVacation,
-    getUserLeavesDetail,
+    getUserLeavesDetailUser,
   } from "./api_call/leavesvacations/requestuser";
   
   export {
@@ -40,6 +41,7 @@ import {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
     getRejectLeaveVacationsAdmin,
+    getUserLeavesDetail,
 
     // leave vacations user functions
     addLeaveVacations,
@@ -48,5 +50,5 @@ import {
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
     deleteLevaeVacation,
-    getUserLeavesDetail
+    getUserLeavesDetailUser
   };

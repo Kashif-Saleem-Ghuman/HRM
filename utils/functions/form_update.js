@@ -174,37 +174,26 @@ export function addHandleInput(event, name, addresses) {
     this.errorMsgSelect = false;
   }
 }
-export function selectUserHandle(event, name) {
+export async function  selectUserHandle(event, name) {
   this.userId = event;
-  this.getUserLeavesDetail(this.userId)
+  await this.getUserLeavesDetail(this.userId).then((result)=>{
+    this.allowanceLeavesDetailedData = result
+  })
   this.isFlag = true;
   this.addForm[name] = event;
-  this.userId = event;
-  this.userId = event;
   if(this.leaveType == 'leave'){
-    this.getUserLeavesDetail(this.userId);
-    setTimeout(() => {
-      this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
-    }, 1000)
-    
+    this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
     this.allowanceDays = 12;
-  
    }
-   if(this.leaveType == 'medical'){
-    this.getUserLeavesDetail(this.userId)
-    setTimeout(() => {
-      this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
-    }, 1000)
+   if(this.leaveType == 'medical'){     
+     this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
+
     this.allowanceDays = 10;
   
    }
    if(this.leaveType == 'vacation'){
-    this.getUserLeavesDetail(this.userId)
-    setTimeout(() => {
-      this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
-    }, 1000)
+    this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
     this.allowanceDays = 30;
-  
    }   
     
 }

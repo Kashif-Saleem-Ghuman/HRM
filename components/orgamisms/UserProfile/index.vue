@@ -411,6 +411,7 @@
                     <div
                       class="d-grid d-flex gap-1 py-05"
                       style="grid-template-columns: repeat(3, 1fr)"
+                      v-if="is_data_fetched"
                     >
                       <info-card-leave-vacation
                         title="Vacation"
@@ -567,6 +568,7 @@ export default {
       errorMsgState: false,
       errorMsgSuit: false,
       reportOptions:'',
+      is_data_fetched:false,
     };
   },
   computed: {
@@ -577,7 +579,7 @@ export default {
       activeUserRole: "token/getUserRole",
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
-      getReportList:"employee/getReportList"
+      getReportList:"employee/GET_REPORTS_LIST"
     }),
   },
 
@@ -596,7 +598,10 @@ export default {
       this.id = this.$route.params.id;
       await this.$store.dispatch("employee/setUser", this.id);
       this.form = this.getUser;
-      this.getUserLeavesDetail(this.id);
+      this.getUserLeavesDetail(this.id).then((result)=>{
+        this.allowanceLeavesDetailedData = result
+      this.is_data_fetched = true
+      });
     } else {
       // var users = this.getUser;
       // this.id = users.id;

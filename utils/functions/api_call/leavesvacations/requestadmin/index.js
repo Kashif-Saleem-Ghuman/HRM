@@ -88,3 +88,24 @@ export async function getRejectLeaveVacationsAdmin() {
   }
   this.loading = false;
 }
+export async function getUserLeavesDetail(id) {
+  this.loading = true;
+  try {
+    const result = await axios.get(
+      process.env.API_URL + "/widgets/admin/request/employees/"  + id,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    this.loading = false;
+    // this.allowanceLeavesDetailedData = allowanceDays.data;
+    this.is_data_fetched = true
+    return result.data;
+    // console.log(this.allowanceLeavesDetailedData, "this.allowanceDaysData")
+  } catch (e) {
+    alert(e);
+  }
+  this.loading = false;
+}

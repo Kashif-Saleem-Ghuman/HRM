@@ -433,7 +433,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
-      getReportList:"employee/getReportList",
+      getReportList:"employee/GET_REPORTS_LIST",
 
     }),
   },

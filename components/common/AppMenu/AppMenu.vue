@@ -125,14 +125,17 @@ export default {
         }
         if (item.key == "people") {
           this.$router.push("/people/");
+          this.$nuxt.$emit("close-sidebar");
           return;
         }
         if (item.key == "time-attendance") {
           this.$router.push("/time-attendance/");
+          this.$nuxt.$emit("close-sidebar");
           return;
         }
         if (item.key == "leave-vacations") {
           this.$router.push("/leaves-and-vacations/");
+          this.$nuxt.$emit("close-sidebar");
           return;
         }
         if (item.key == "settings") {
@@ -143,12 +146,10 @@ export default {
         // user menu actions
         if (item.key == "requestVacation") {
           this.$nuxt.$emit("open-sidebar", 'vacationUser')
-          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "requestLeave") {
           this.$nuxt.$emit("open-sidebar", 'leaveAdmin')
-          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "clockIn") {

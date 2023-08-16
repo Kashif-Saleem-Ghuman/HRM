@@ -155,10 +155,10 @@ export function handleInputObject(event, name, emContact) {
       ...this.updateForm.emergencyContacts,
       ...add,
     };
-    this.form.emergencyContacts = {
-      ...this.form.emergencyContacts,
-      ...add,
-    };
+    // this.form.emergencyContacts = {
+    //   ...this.form.emergencyContacts,
+    //   ...add,
+    // };
     console.log(this.updateForm, "aslkdnalsdjlk");
   
   }
@@ -167,7 +167,7 @@ export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
   this.addForm[name] = event;
   // this.form[name] = event;
-  console.log(this.userId, "update");
+  console.log(this.addForm, "updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
   if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
@@ -177,22 +177,22 @@ export function addHandleInput(event, name, addresses) {
 export async function  selectUserHandle(event, name) {
   this.userId = event;
   await this.getUserLeavesDetail(this.userId).then((result)=>{
-    this.allowanceLeavesDetailedData = result
+    this.activeUserAllowanceData = result
   })
   this.isFlag = true;
   this.addForm[name] = event;
   if(this.leaveType == 'leave'){
-    this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed
     this.allowanceDays = 12;
    }
    if(this.leaveType == 'medical'){     
-     this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
+     this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed
 
     this.allowanceDays = 10;
   
    }
    if(this.leaveType == 'vacation'){
-    this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+    this.useDaysData = this.activeUserAllowanceData.vacationsUsed
     this.allowanceDays = 30;
    }   
     
@@ -202,17 +202,17 @@ this.leaveType = event;
   this.isFlag = true;
   this.addForm[name] = event;
  if(this.leaveType == 'leave'){
-  this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
+  this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed
   this.allowanceDays = 12;
 
  }
  if(this.leaveType == 'medical'){
-  this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed
+  this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed
   this.allowanceDays = 10;
 
  }
  if(this.leaveType == 'vacation'){
-  this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
+  this.useDaysData = this.activeUserAllowanceData.vacationsUsed
   this.allowanceDays = 30;
 
  }

@@ -5,7 +5,7 @@
           <bib-input
             type="text"
             label="Contact name"
-            v-model="fullNameState"
+            :value="fullName"
             placeholder="Enter your full name"
             :disabled="inActive"
             @change="$emit('input', $event, 'name', 'emContact')"
@@ -18,7 +18,7 @@
           <bib-input
             type="text"
             label="Releationships"
-            v-model="releationshipsState"
+            :value="releationships"
             placeholder="Please enter releationships"
             :disabled="inActive"
             @change="$emit('input', $event, 'relationship', 'emContact')"
@@ -28,7 +28,7 @@
           <bib-input
             type="text"
             label="Telephone"
-            v-model="telephoneState"
+            :value="telephone"
             placeholder="Please enter telephone"
             :disabled="inActive"
             @change="$emit('input', $event, 'phone', 'emContact')"
@@ -38,7 +38,7 @@
           <bib-input
             type="email"
             label="Email"
-            v-model="emailState"
+            :value="email"
             placeholder="Please enter email"
             :disabled="inActive"
             @change="$emit('input', $event, 'email', 'emContact')"
@@ -72,10 +72,10 @@
     },
     data() {
     return {
-      fullNameState:this.fullName,
-      releationshipsState:this.releationships,
-      telephoneState:this.telephone,
-      emailState:this.email,
+      // fullNameState:this.fullName,
+      // releationshipsState:this.releationships,
+      // telephoneState:this.telephone,
+      // emailState:this.email,
     };
   },
   };

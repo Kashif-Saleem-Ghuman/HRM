@@ -118,8 +118,8 @@
                         </div>
                         <div>
                           <address-detail
-                            :street="form?.address?.street"
-                            :suitApartment="form?.address?.suitApartment"
+                            :street="form?.address?.addressLine1"
+                            :suitApartment="form?.address?.addressLine2"
                             :country="form?.address?.country"
                             :countryOptions="countries"
                             :state="form?.address?.state"

@@ -228,8 +228,8 @@
                     ? 'Approved'
                     : '' || leaveStatus == 'pending'
                     ? 'Pending'
-                    : '' || leaveStatus == 'reject'
-                    ? 'reject'
+                    : '' || leaveStatus == 'rejected'
+                    ? 'Rejected'
                     : ''
                 "
                 :message="
@@ -237,8 +237,8 @@
                     ? 'Approved'
                     : '' || leaveStatus == 'pending'
                     ? 'Pending'
-                    : '' || leaveStatus == 'reject'
-                    ? 'reject'
+                    : '' || leaveStatus == 'rejected'
+                    ? 'Rejected'
                     : ''
                 "
                 :icon="
@@ -246,7 +246,7 @@
                     ? 'tick'
                     : '' || leaveStatus == 'pending'
                     ? 'pencil'
-                    : '' || leaveStatus == 'reject'
+                    : '' || leaveStatus == 'rejected'
                     ? 'file'
                     : ''
                 "
@@ -255,8 +255,8 @@
                     ? 'success'
                     : '' || leaveStatus == 'pending'
                     ? 'gray3'
-                    : '' || leaveStatus == 'reject'
-                    ? 'danger'
+                    : '' || leaveStatus == 'rejected'
+                    ? 'white'
                     : ''
                 "
                 :className="[
@@ -266,10 +266,14 @@
                   leaveStatus == 'pending'
                     ? 'text-warning bg-warning bg-hover-warning-sub3'
                     : '',
+                    leaveStatus == 'rejected'
+                    ? 'text-danger bg-danger bg-hover-danger-sub3'
+                    : '',
                 ]"
                 :classNameWrapper="[
                   leaveStatus == 'approved' ? 'text-success' : '',
                   leaveStatus == 'pending' ? 'text-warning' : '',
+                  leaveStatus == 'rejected' ? 'text-danger' : '',
                 ]"
               ></info-card-success>
             </div>
@@ -628,7 +632,9 @@ export default {
       this.addLeaveKey += 1;
       this.calendarOptions.events.filter((item, index) => {
         if (item.id == clickInfo.event._def.publicId) {
-          this.getUserLeavesDetail(item.employee.id)
+          this.getUserLeavesDetail(item.employee.id).then((result)=>{
+            this.allowanceLeavesDetailedData = result
+          })
           console.log(item, "allowanceLeavesDetailedData");
           this.leaveStatus = item.status;
           this.form = item;

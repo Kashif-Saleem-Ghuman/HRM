@@ -9,7 +9,7 @@
           :options="esstatusOptions"
           placeholder="Select your employee status"
           @input="$emit('input', $event, 'status')"
-          :disabled="inActive"
+          disabled
         ></bib-input>
       </div>
       <div class="col-6">

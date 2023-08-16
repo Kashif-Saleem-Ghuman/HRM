@@ -188,6 +188,7 @@ export default {
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
       leaveType: "",
       addForm: {
+        employeeId: "",
         type: "",
         start: "",
         end: "",
@@ -242,27 +243,11 @@ export default {
       this.$store.dispatch("token/setToken", this.token);
     }
     this.$root.$on("open-sidebar", (payload) => {
-      this.leaveTypeSelect = false;
-      this.employeeNameInput = false;
+      this.employeeNameSelectShow = false;
       this.slideClass = "slide-in";
-      if (payload === "vacationUser") {
-        this.sidebarHeading = "Request vacation";
-        this.addForm.type = "leave";
-        this.allowanceDays = 30;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-      }
-      if (payload === "leaveUser") {
-        this.sidebarHeading = "Request leave";
-        this.addForm.type = "leave";
-        this.allowanceDays = 12;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-      }
+
       if (payload === "leave") {
-        this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed;
+        this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
         this.sidebarHeading = "Request leave";
         this.addForm.type = "leave";
         this.allowanceDays = 12;
@@ -277,7 +262,7 @@ export default {
         this.openSidebar = true;
         this.employeeNameInput = true;
         setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+          this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
         }, 1000);
       }
 
@@ -289,7 +274,7 @@ export default {
         this.employeeNameInput = true;
 
         setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+          this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
         }, 1000);
       }
       this.employeeName =
@@ -309,8 +294,10 @@ export default {
           });
           this.getUserLeavesDetail(id).then((result) => {
             this.allowanceLeavesDetailedData = result;
-            console.log(this.allowanceLeavesDetailedData, "this.activeUserAllowanceDatathis.activeUserAllowanceData")
-
+            console.log(
+              this.allowanceLeavesDetailedData,
+              "this.activeUserAllowanceDatathis.activeUserAllowanceData"
+            );
           });
         }
       }
@@ -320,6 +307,7 @@ export default {
       this.slideClass = "slide-in";
       if (payload === "leave") {
         this.sidebarHeading = "Request leave";
+        this.addForm.employeeId = userId;
         this.addForm.type = "leave";
         this.allowanceDays = 12;
         this.openSidebar = true;
@@ -358,12 +346,12 @@ export default {
         return true;
       }
       if (payload == "leaveAdmin") {
-         this.$store.dispatch("employee/setActiveUser").then((user) => {
-      var activeId = user.id
-        this.activeUserData = user;
-        this.employeeNameSelect = activeId
-        console.log(this.activeUserData, "getActiveUser");
-      });
+        this.$store.dispatch("employee/setActiveUser").then((user) => {
+          var activeId = user.id;
+          this.activeUserData = user;
+          this.employeeNameSelect = activeId;
+          console.log(this.activeUserData, "getActiveUser");
+        });
         this.addLeaveKey += 1;
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
@@ -377,13 +365,13 @@ export default {
         return true;
       }
       if (payload == "vacationAdmin") {
-         this.$store.dispatch("employee/setActiveUser").then((user) => {
-      var activeId = user.id
-        this.activeUserData = user;
-        this.employeeNameSelect = activeId
-        console.log(this.activeUserData, "getActiveUser");
-      });
-         this.employeeNameSelect = this.getActiveUser.id 
+        this.$store.dispatch("employee/setActiveUser").then((user) => {
+          var activeId = user.id;
+          this.activeUserData = user;
+          this.employeeNameSelect = activeId;
+          console.log(this.activeUserData, "getActiveUser");
+        });
+        this.employeeNameSelect = this.getActiveUser.id;
         this.sidebarHeading = "Request vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
@@ -437,7 +425,7 @@ export default {
           }
           // this.getUser();
           this.getBusinessId();
-          this.$store.dispatch("employee/setReportsToList")
+          this.$store.dispatch("employee/setReportsToList");
         })
         .catch((err) => {
           this.loading = false;
@@ -448,17 +436,29 @@ export default {
         process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
     await this.$store.dispatch("employee/setActiveUser").then((user) => {
-      var activeId = user.id
-        this.activeUserData = user;
-        this.employeeNameSelect = activeId
-        console.log(this.activeUserData, "getActiveUser");
-      });
+      var activeId = user.id;
+      this.activeUserData = user;
+      this.employeeNameSelect = activeId;
+      console.log(this.activeUserData, "getActiveUser");
+    });
+    if (this.getUserRole == "ADMIN") {
       await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
         this.activeUserAllowanceData = result;
         // this.employeeNameSelect = result.id;
         this.is_leave_data_fetched = true;
-      })
-      this.employeesOptions = this.getReportList
+      });
+    } else {
+      await this.getUserLeavesDetailUser(this.getActiveUser.id).then(
+        (result) => {
+          this.activeUserAllowanceData = result;
+          // this.employeeNameSelect = result.id;
+          console.log(this.activeUserAllowanceData, "data")
+          this.addForm.employeeId = this.getActiveUser.id
+          this.is_leave_data_fetched = true;
+        }
+      );
+    }
+    this.employeesOptions = this.getReportList;
     this.loading = false;
   },
   methods: {

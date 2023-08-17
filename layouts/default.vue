@@ -121,9 +121,6 @@
             inTime="09:00"
             outTime="30:00"
             breakTime="19:00"
-            :borderClass="borderClass"
-            @clock-in="clockIn()"
-            :buttonLabel="clockLable"
             :clockModal="clockModal"
           >
           </bib-clock-wrapper>
@@ -470,7 +467,6 @@ export default {
     selectUserHandle,
     selectLeaveTypeHandle,
     getUserLeavesDetailUser,
-
     clockIn() {
       this.borderClass = "border-green";
       this.clockLable = "CLOCK OUT";

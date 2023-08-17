@@ -6,6 +6,10 @@ import {
     getTimesheet,
   } from "./api_call/timeattandance/time";
   import {
+    startTimer,
+    stopTimer,
+  } from "./api_call/timeattandance/timer";
+  import {
     addBenefitsData,
     updateBenefitsData,
     getBenefitsData,
@@ -30,8 +34,6 @@ import {
   
   export {
     employeeTime,
-    getTimeAttandance,
-    getTimesheet,
     addBenefitsData,
     updateBenefitsData,
     getBenefitsData,
@@ -50,5 +52,11 @@ import {
     getAllowancMedicalDays,
     getAllowanceLeaveDays,
     deleteLevaeVacation,
-    getUserLeavesDetailUser
+    getUserLeavesDetailUser,
+
+    // time and attendance functions
+    getTimeAttandance,
+    getTimesheet,
+    startTimer,
+    stopTimer
   };

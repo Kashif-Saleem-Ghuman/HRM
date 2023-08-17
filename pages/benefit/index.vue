@@ -95,7 +95,7 @@ export default {
       orderBy: "asc",
       totalUser: "",
       userPhoto: localStorage.getItem("userPhoto"),
-      // Time & attandance
+      // Time & Attendance
       weekOptions: WEEK_DAY,
       timeOffModal: false,
     };

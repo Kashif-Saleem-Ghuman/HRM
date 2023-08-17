@@ -87,11 +87,11 @@
           iconShow="iconShow"
           :icon="
             data.value.status == 'approved'
-              ? 'check-all'
+              ? 'check-square-solid'
               : '' || data.value.status == 'pending'
-              ? 'eye-open'
+              ? 'check-square-solid'
               : '' || data.value.status == 'rejected'
-              ? 'help'
+              ? 'check-square-solid'
               : ''
           "
           class="upper-case justify-left"

@@ -59,6 +59,7 @@ export const  actions = {
     this.loading = false;
   },
   async setLeaveVacationsUser(ctx, payload) {
+
     this.loading = true;
     try {
       const leaveVacations = await axios.get(
@@ -70,6 +71,7 @@ export const  actions = {
           params: {
             from: payload?.from,
             to:payload?.to,
+            employeeId:payload?.employeeId,
             search:payload?.search
           },
         }

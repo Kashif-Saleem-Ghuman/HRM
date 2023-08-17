@@ -695,8 +695,8 @@ export const USER_PROFILE_TAB = [
     value: "Employment Information",
   },
   {
-    title: "Time & Attandance",
-    value: "Time & Attandance",
+    title: "Time & Attendance",
+    value: "Time & Attendance",
   },
   {
     title: "Leaves and Vacations",

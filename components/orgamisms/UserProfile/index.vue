@@ -149,7 +149,7 @@
                         </div>
                         <div>
                           <emergency-conta
-                            :fullName="fullName"
+                            :fullName="form?.emergencyContacts?.fullName"
                             :releationships="
                               form?.emergencyContacts?.releationships
                             "
@@ -525,6 +525,7 @@ export default {
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       show: false,
+      loading: false,
       showYear: false,
       activeRole: this.activeUserRole === "ADMIN" ? true : false,
       showButton: false,
@@ -584,24 +585,31 @@ export default {
   },
 
   async created() {
+    this.id = this.$route.params.id;
     // await this.users();
     this.$root.$on("leaves-list", () => {
       this.componentKeyUser += 1;
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
+        employeeId:this.id
+
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
     });
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     if (this.$route.params.id) {
-      this.id = this.$route.params.id;
       await this.$store.dispatch("employee/setUser", this.id);
       this.form = this.getUser;
-      this.getUserLeavesDetail(this.id).then((result)=>{
-        this.allowanceLeavesDetailedData = result
-      this.is_data_fetched = true
+      // this.getUserLeavesDetail(this.id).then((result)=>{
+      //   this.allowanceLeavesDetailedData = result
+      // this.is_data_fetched = true
+      // });
+      this.$store.dispatch("leavesdata/setLeaveVacationsAllowance", + this.id).then((result)=>{
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
       });
+      
     } else {
       // var users = this.getUser;
       // this.id = users.id;
@@ -643,6 +651,7 @@ export default {
     await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,
+      employeeId:this.id
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
   },

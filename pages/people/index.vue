@@ -53,7 +53,7 @@
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
-            <div
+            <!-- <div
               class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
             >
               <div class="d-flex align-center">
@@ -65,7 +65,7 @@
                   @on-click="userId()"
                 ></button-green>
               </div>
-            </div>
+            </div> -->
             <div class="scroll_wrapper">
               <div>
                 <list :userList="localData"></list>

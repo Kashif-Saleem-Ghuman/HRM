@@ -118,9 +118,6 @@
             @close="close()"
             @click:outside="close()"
             title="Business in box / Timer"
-            inTime="09:00"
-            outTime="30:00"
-            breakTime="19:00"
             :clockModal="clockModal"
             v-if="clockModal"
           >
@@ -198,8 +195,6 @@ export default {
       errorMsgStartDate: false,
       errorMsgEndDate: false,
       popupMessages: [],
-      borderClass: "border-gray",
-      clockLable: "CLOCK IN",
       employeeNameInput: false,
       leaveTypeSelect: false,
       employeeNameSelect: "",
@@ -468,10 +463,6 @@ export default {
     selectUserHandle,
     selectLeaveTypeHandle,
     getUserLeavesDetailUser,
-    clockIn() {
-      this.borderClass = "border-green";
-      this.clockLable = "CLOCK OUT";
-    },
     close() {
       this.clockModal = false;
     },

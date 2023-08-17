@@ -88,11 +88,8 @@ export const actions = {
           },
         }
       );
-      var reportsTo = report.employees;
-      if (report) {
-        ctx.commit("SET_REPORTS", reportsTo);
-        return report;
-      }
+      ctx.commit("SET_REPORTS",  report.employees);
+      return  report.employees;
     } catch (e) {
       console.log(e);
     }

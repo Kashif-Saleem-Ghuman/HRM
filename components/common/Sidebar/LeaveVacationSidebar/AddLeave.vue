@@ -137,6 +137,9 @@ export default {
     leaveTypeSelect: {
       type: Boolean,
     },
+    showUsedDay:{
+      type:Boolean
+    },
     leaveType: {
       type: String,
     },
@@ -157,6 +160,7 @@ export default {
     },
     usedDays: {
       type: [Number, String],
+      default:'00'
     },
     startDate: {
       type: String,

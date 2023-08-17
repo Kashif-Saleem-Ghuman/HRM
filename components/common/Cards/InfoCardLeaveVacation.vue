@@ -14,7 +14,7 @@
         <div>
           <progress-circle
             :progressCount="( daysUsed / this.totalAllowance).toFixed(2) * 100"
-            :progressPercentage="(daysUsed / this.totalAllowance ).toFixed(2) * 100 + '%'"
+            :progressPercentage="(daysUsed / this.totalAllowance ).toFixed(1) * 100 + '%'"
             :fill="fill"
             emptyfill="#f1f1f1"
           ></progress-circle>

@@ -67,7 +67,7 @@
             v-show="openSidebar"
           >
             <template v-slot:sidebar-body>
-              <div v-if="is_leave_data_fetched">
+              <div>
                 <add-leave
                   :employeeName="employeeName"
                   :leaveTypeOptions="leaveTypeOptions"
@@ -212,6 +212,7 @@ export default {
       activeUserData: [],
       activeUserAllowanceData: [],
       is_leave_data_fetched: false,
+      apiCall: true,
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY4NTk0OTcwNTYwMSwiZXhwIjoxNjkzNzI1NzA1NjAxLCJqdGkiOiJlNTYxMzc1ZC05MjdiLTQxYmQtOWNkNS05ZTQ0MWZmYjkzNGIifQ.iLVUiKPRiDNN7c9GYD20azlUxGoAFHYr-E65n_R_Byw",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
@@ -229,6 +230,7 @@ export default {
       getActiveUser: "employee/GET_USER",
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
+      getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
   },
   async created() {
@@ -284,26 +286,12 @@ export default {
       var userId = this.$route.params.id;
       // this.employeeNameSelect = this.activeUserData.id;
       // use case people page
-      if (localStorage.getItem("clickedUserId")) {
-        var id = localStorage.getItem("clickedUserId");
-        //  use case refresh page
-        if (this.$route.params.id) {
-          this.$store.dispatch("employee/setUser", userId).then((user) => {
-            this.activeUserData = user;
-            this.employeeName = user.firstName + " " + user.lastName;
-          });
-          this.getUserLeavesDetail(id).then((result) => {
-            this.allowanceLeavesDetailedData = result;
-            console.log(
-              this.allowanceLeavesDetailedData,
-              "this.activeUserAllowanceDatathis.activeUserAllowanceData"
-            );
-          });
-        }
-      }
+      console.log(this.getActiveUser, this.getLeaveAllowance, 'charan pal' )
+      
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
-
+      this.employeeName =
+        this.getActiveUser.firstName + " " + this.getActiveUser.lastName;
       this.slideClass = "slide-in";
       if (payload === "leave") {
         this.sidebarHeading = "Request leave";
@@ -314,7 +302,7 @@ export default {
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
         setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData?.otherLeavesUsed;
+          this.useDaysData = this.getLeaveAllowance?.otherLeavesUsed;
         }, 1000);
         return true;
       }
@@ -327,7 +315,7 @@ export default {
         this.employeeNameSelectShow = false;
         this.addLeaveKey += 1;
         setTimeout(() => {
-          this.useDaysData = this.allowanceLeavesDetailedData?.vacationsUsed;
+          this.useDaysData = this.getLeaveAllowance?.vacationsUsed;
         }, 1000);
         return true;
       }
@@ -341,7 +329,7 @@ export default {
         this.employeeNameSelectShow = false;
         setTimeout(() => {
           this.useDaysData =
-            this.allowanceLeavesDetailedData?.medicalLeavesUsed;
+            this.getLeaveAllowance?.medicalLeavesUsed;
         }, 1000);
         return true;
       }
@@ -399,6 +387,10 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    console.log(
+      this.getLeaveAllowance,
+      "getLeaveAllowancegetLeaveAllowancegetLeaveAllowancegetLeaveAllowance"
+    );
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
@@ -442,19 +434,24 @@ export default {
       console.log(this.activeUserData, "getActiveUser");
     });
     if (this.getUserRole == "ADMIN") {
+      if (this.$route.params.id) {
+      await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
+        this.activeUserAllowanceData = result;
+        // this.employeeNameSelect = result.id;
+      });
+    }else{
       await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
         this.activeUserAllowanceData = result;
         // this.employeeNameSelect = result.id;
-        this.is_leave_data_fetched = true;
       });
+    }
     } else {
       await this.getUserLeavesDetailUser(this.getActiveUser.id).then(
         (result) => {
           this.activeUserAllowanceData = result;
           // this.employeeNameSelect = result.id;
-          console.log(this.activeUserAllowanceData, "data")
-          this.addForm.employeeId = this.getActiveUser.id
-          this.is_leave_data_fetched = true;
+          console.log(this.activeUserAllowanceData, "data");
+          this.addForm.employeeId = this.getActiveUser.id;
         }
       );
     }

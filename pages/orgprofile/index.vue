@@ -48,6 +48,7 @@
                   :estDate="org.SourceQParam"
                   :businessCategory="org.BizStage"
                   :location="org.City"
+                  :inActive="inActiveCommon"
                   @input="handleOrgProfile"
                 ></org-info>
               </div>
@@ -72,6 +73,7 @@
                   :contactEmail="org.ContactEmail"
                   :contactPhone="org.ContactPhone"
                   @input="handleOrgProfile"
+                  :inActive="inActiveCommon"
                 ></company-contact-info>
               </div>
             </div>
@@ -100,11 +102,12 @@
                   :countryOptions="countries"
                   :stateOptions="cureentState"
                   :stateVisible="stateVisible"
+                  :inActive="inActiveCommon"
                   @input="handleOrgProfile"
                 ></org-address>
               </div>
             </div>
-            <div class="row mx-0 pb-2 pt-05 pl-05">
+            <!-- <div class="row mx-0 pb-2 pt-05 pl-05">
               <div class="d-flex">
                 <bib-button
                   label="Cancle"
@@ -120,7 +123,7 @@
                   @click="updateBusinessId"
                 ></bib-button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -159,6 +162,7 @@ export default {
       states: STATES,
       cureentState: STATES,
       stateVisible: true,
+      inActiveCommon:"disabled"
     };
   },
   created() {},

@@ -286,8 +286,7 @@ export default {
       var userId = this.$route.params.id;
       // this.employeeNameSelect = this.activeUserData.id;
       // use case people page
-      console.log(this.getActiveUser, this.getLeaveAllowance, 'charan pal' )
-      
+      this.useDaysData =''      
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
       this.employeeName =

@@ -122,6 +122,7 @@
             outTime="30:00"
             breakTime="19:00"
             :clockModal="clockModal"
+            v-if="clockModal"
           >
           </bib-clock-wrapper>
         </div>

@@ -8,7 +8,7 @@
     >
       <template #cell(name)="data">
         <div
-        class="d-flex align-center text-left gap-05"
+        class="d-flex px-1 align-center text-left gap-05"
         style="position: relative; width: 220px"
       >
         <div

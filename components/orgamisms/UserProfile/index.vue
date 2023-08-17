@@ -149,12 +149,12 @@
                         </div>
                         <div>
                           <emergency-conta
-                            :fullName="form?.emergencyContacts?.fullName"
+                            :fullName="form?.emergencyContact?.name"
                             :releationships="
-                              form?.emergencyContacts?.releationships
+                              form?.emergencyContact?.relationship
                             "
-                            :telephone="form?.emergencyContacts?.telephone"
-                            :email="form?.emergencyContacts?.email"
+                            :telephone="form?.emergencyContact?.phone"
+                            :email="form?.emergencyContact?.email"
                             @input="handleInputObject"
                           ></emergency-conta>
                         </div>

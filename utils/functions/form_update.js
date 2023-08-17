@@ -150,9 +150,9 @@ export function handleInputObject(event, name, emContact) {
   this.isFlag = true;
   if (emContact == "emContact") {
     add[name] = event;
-    this.updateForm.emergencyContacts = this.updateForm.emergencyContacts || [];
-    this.updateForm.emergencyContacts = {
-      ...this.updateForm.emergencyContacts,
+    this.updateForm.emergencyContact = this.updateForm.emergencyContact || [];
+    this.updateForm.emergencyContact = {
+      ...this.updateForm.emergencyContact,
       ...add,
     };
     // this.form.emergencyContacts = {

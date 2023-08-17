@@ -237,9 +237,9 @@ export default {
     },
     userId(id) {
       if(id){
-        this.$router.push("/myprofile/" + id);
+        this.$router.push("/profile/" + id);
       }else{
-        this.$router.push("/myprofile/");
+        this.$router.push("/profile/");
       }
       
     },

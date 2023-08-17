@@ -139,10 +139,10 @@ export default {
     },
     handleItemClick_Table($event, keyI, item) {
       localStorage.setItem('clickedUserId', item.id)
-      this.$router.push("/myprofile/" + item.id);
+      this.$router.push("/profile/" + item.id);
     },
     viewProfile(id) {
-      this.$router.push("/myprofile/" + id);
+      this.$router.push("/profile/" + id);
     },
     sendInvite() {
       alert("send invite api call");

@@ -75,7 +75,7 @@ export default {
       return fecha.format(new Date(item), "YYYY/MM/DD");
     },
     handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/myprofile/" + item.id);
+      this.$router.push("/profile/" + item.id);
     },
     handleAction($event){
       this.$emit("get-id", $event);
@@ -84,7 +84,7 @@ export default {
       console.log(data);
     },
     viewProfile(id) {
-      this.$router.push("/myprofile/" + id);
+      this.$router.push("/profile/" + id);
     },
     vclick() {
       alert("callled");

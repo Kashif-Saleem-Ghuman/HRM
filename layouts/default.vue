@@ -286,7 +286,7 @@ export default {
       var userId = this.$route.params.id;
       // this.employeeNameSelect = this.activeUserData.id;
       // use case people page
-      this.useDaysData =''      
+      this.useDaysData = "";
       this.leaveTypeSelect = false;
       this.employeeNameInput = false;
       this.employeeName =
@@ -327,8 +327,7 @@ export default {
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
         setTimeout(() => {
-          this.useDaysData =
-            this.getLeaveAllowance?.medicalLeavesUsed;
+          this.useDaysData = this.getLeaveAllowance?.medicalLeavesUsed;
         }, 1000);
         return true;
       }
@@ -386,10 +385,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    console.log(
-      this.getLeaveAllowance,
-      "getLeaveAllowancegetLeaveAllowancegetLeaveAllowancegetLeaveAllowance"
-    );
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();
@@ -434,16 +429,16 @@ export default {
     });
     if (this.getUserRole == "ADMIN") {
       if (this.$route.params.id) {
-      await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
-        this.activeUserAllowanceData = result;
-        // this.employeeNameSelect = result.id;
-      });
-    }else{
-      await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
-        this.activeUserAllowanceData = result;
-        // this.employeeNameSelect = result.id;
-      });
-    }
+        await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
+          this.activeUserAllowanceData = result;
+          // this.employeeNameSelect = result.id;
+        });
+      } else {
+        await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
+          this.activeUserAllowanceData = result;
+          // this.employeeNameSelect = result.id;
+        });
+      }
     } else {
       await this.getUserLeavesDetailUser(this.getActiveUser.id).then(
         (result) => {

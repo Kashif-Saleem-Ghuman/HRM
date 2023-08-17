@@ -317,7 +317,7 @@
         console.log(this.updateForm, "switchLabelweekStarts");
       },
       userId(id) {
-        this.$router.push("/myprofile/" + id);
+        this.$router.push("/profile/" + id);
       },
       parseDate(dateString, format) {
         return fecha.parse(dateString, format);

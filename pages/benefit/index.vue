@@ -116,7 +116,7 @@ export default {
       this.activeTab = tab.value;
     },
     userId(id) {
-      this.$router.push("/myprofile/" + id);
+      this.$router.push("/profile/" + id);
     },
   },
 };

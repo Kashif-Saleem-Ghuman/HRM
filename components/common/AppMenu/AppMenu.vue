@@ -160,8 +160,8 @@ export default {
           window.open('https://dev-chat.business-in-a-box.com/', "_blank")
           return;
         }
-        if (item.key == "myprofile") {
-          this.$router.push("/myprofile");
+        if (item.key == "profile") {
+          this.$router.push("/profile");
           return;
         }
       }

@@ -101,7 +101,7 @@ export default {
     },
 
     handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/myprofile/" + item.id);
+      this.$router.push("/profile/" + item.id);
     },
     handleAction_Table(data) {
       // console.log(data);

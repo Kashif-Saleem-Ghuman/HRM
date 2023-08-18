@@ -19,14 +19,14 @@
       <div class="content">
         <div class="clockin" :class="borderClass">
           <div>
-            <span>Wed Aug 03 2023</span>
-            <span>00:00:00</span>
-            <label>00:00:00</label>
+            <span>{{ date }}</span>
+            <span>{{ time }}</span>
+            <span class="stop-watch">{{ stopWatchTime }}</span>
           </div>
         </div>
-        <div class="button-punched-in mb-1 mt-2" @click="$emit('clock-in')">
+        <div class="button-punched-in mb-1 mt-2" @click="stopWatchClicked">
           <bib-icon icon="video-solid" variant="white" class="mr-05"></bib-icon>
-          <span>{{ buttonLabel }}</span>
+          <span>{{ buttonLable }}</span>
         </div>
         <div class="time-log-wrapper">
           <header>Time log</header>
@@ -53,11 +53,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { startTimer, stopTimer } from "../../../../utils/functions/api_call/timeattandance/timer";
+
 export default {
   name: "BibClockWrapper",
   props: {
-    clockModal:{
-      type:Boolean
+    clockModal: {
+      type: Boolean,
+      default: true,
     },
     title: {
       type: String,
@@ -74,18 +78,76 @@ export default {
     outTime: {
       type: String,
     },
-    borderClass: {
-      type: String,
-    },
-    buttonLabel: {
-      type: String,
-    },
   },
   methods: {
+    startTimer,
+    stopTimer,
     close() {
       this.$emit("close");
     },
+    async stopWatchClicked() {
+      if (!this.active) await this.startStopWatch();
+      else await this.stopStopWatch();
+    },
+    async startStopWatch() {
+      console.log('before start: ', this.getTimerData);
+      await this.startTimer();
+      await this.$store.dispatch('timeattendance/setTimerData');
+      this.active = true;
+      this.chronometer = 0;
+      console.log('after start: ', this.getTimerData);
+    },
+    async stopStopWatch() {
+      await this.stopTimer();
+      this.active = false;
+    }
   },
+  beforeDestroy() {
+    // prevent memory leak
+    clearInterval(this.interval);
+  },
+  async mounted() {
+    await this.$store.dispatch('timeattendance/setTimerData');
+    this.active = this.getTimerData.active;
+    // update the time every second
+    this.interval = setInterval(() => {
+      this.time = new Date().toTimeString().split(' ')[0];
+      this.date = new Date().toDateString();
+      if (this.active) {
+        this.chronometer = !this.getTimerData.start
+          ? 0
+          : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
+      };
+    }, 1000)
+  },
+  computed: {
+    ...mapGetters({
+      getTimerData: 'timeattendance/getTimerData',
+    }),
+    buttonLable() {
+      return this.active ? 'CLOCK OUT' : 'CLOCK IN'
+    },
+    stopWatchTime() {
+      const hours = Math.floor(this.chronometer / 3600);
+      const formattedHours = hours < 10 ? `0${hours}` : hours;
+      const minutes = Math.floor((this.chronometer % 3600) / 60);
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      const seconds = this.chronometer % 60;
+      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    },
+    borderClass() {
+      return this.active ? 'border-green' : 'border-gray';
+    }
+  },
+  data() {
+    return {
+      chronometer: 0,
+      time: '',
+      date: '',
+      active: false,
+    }
+  }
 };
 </script>
 
@@ -153,9 +215,6 @@ export default {
           display: block;
           text-align: center;
         }
-        label {
-          font-size: 52px;
-        }
       }
     }
   }
@@ -189,5 +248,8 @@ export default {
     padding: 10px 0;
     color: #fff;
   }
+}
+.stop-watch {
+  font-size: 52px;
 }
 </style>

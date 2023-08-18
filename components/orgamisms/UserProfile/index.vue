@@ -210,10 +210,10 @@
                           <add-employement-info
                             :employeeStatus="form?.employeeStatus"
                             :esstatusOptions="statusOptions"
-                            :employeeNumber="form?.employeeNumber"
+                            :employeeNumber="form?.employeeNo"
                             :socialInsuranceNumber="form?.sin"
                             :hireDate="form?.hireDate"
-                            :employeeType="form?.employeeType"
+                            :employeeType="form?.sin"
                             @input="handleInput"
                           ></add-employement-info>
                         </div>
@@ -234,14 +234,13 @@
                           </div>
                           <div>
                             <placement
-                              :workTitle="form?.workTitle"
+                              :workTitle="form?.jobTitle"
                               :department="form?.department"
                               :reportsTo="form?.reportsTo"
                               :reportOptions="reportOptions"
-                              :workEmail="form?.workEmail"
-                              :workTelephone="form?.workTelephone"
+                              :workEmail="form?.email"
+                              :workTelephone="form?.phone"
                               :workExt="form?.workExt"
-                              :inActive="form?.inactiveCommon"
                               @input="handleInput"
                             ></placement>
                           </div>
@@ -640,8 +639,9 @@ export default {
   async mounted() {
     this.id = this.$route.params.id;
     
-    this.$store.dispatch("employee/setReportsToList");
-    this.reportOptions = this.getReportList
+    this.$store.dispatch("employee/setReportsToList").then((result)=>{
+      this.reportOptions = result
+    });
     this.formOptions = SELECT_OPTIONS;
     this.getCurrentYear();
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {

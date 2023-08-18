@@ -94,7 +94,7 @@ export async function updateAllData() {
 }
 export function handleInput(event, name, addresses) {
   let add = {};
-  // this.isFlag = true;
+  this.isFlag = true;
   if (addresses == "team") {
     this.updateForm.teams = this.updateForm.teams || [];
     // console.log(this.updateform.teams, "calllled")

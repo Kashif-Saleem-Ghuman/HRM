@@ -81,7 +81,6 @@ export async function updateAllData() {
       // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
       this.localData = data
       this.form = res;
-      console.log(res, "callled");
       this.loading = false;
       this.isFlag = false;
       this.updateForm = {};

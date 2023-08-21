@@ -15,8 +15,17 @@
         style="grid-template-columns: repeat(3, 1fr)"
       >
         <info-card-timer
-         
+         role="USER"
+         @clock="openClock"
         ></info-card-timer>
+        <bib-clock-wrapper
+          @close="closeClock"
+          @click:outside="closeClock"
+          title="Business in box / Timer"
+          :clockModal="clockModal"
+          v-if="clockModal"
+        >
+        </bib-clock-wrapper>
         <info-card-one
           :item="infoCardData[1]"
           buttonLable="View Timesheet"
@@ -49,6 +58,7 @@ export default {
       activeUserName: "",
       infoCardData: INFO_CARD_DATA,
       timesheetData: TIMESHEET_DATA,
+      clockModal: false,
     };
   },
   async created() {
@@ -69,7 +79,14 @@ export default {
     }),
   },
   async mounted() {},
-  methods: {},
+  methods: {
+    openClock() {
+      this.clockModal = true;
+    },
+    closeClock() {
+      this.clockModal = false;
+    }
+  },
 };
 </script>
 <style lang="scss">

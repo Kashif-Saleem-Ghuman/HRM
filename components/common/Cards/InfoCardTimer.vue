@@ -1,83 +1,120 @@
 <template>
-    <div class="d-flex">
-      <div class="info-card-leave-wrapper" style="width: 100%">
+  <div class="d-flex">
+    <div class="info-card-leave-wrapper" style="width: 100%">
+      <div>
+        <label>My status</label>
+      </div>
+      <div class="info-card-items mt-05">
         <div>
-          <label>My status</label>
-        </div>
-        <div class="info-card-items mt-05">
-          <div>
-            <div class="subheading">in 00:00:00</div>
-            <span>00:00:00</span>
-  
-            <div class="subheading_footer">out 00:00:00</div>
-          </div>
-        </div>
-        <div class="footer-item d-flex">
-        <div class="items">
-          <label>Break</label>
-          <span>00:00</span>
-        </div>
-        <div class="items">
-          <label>Total work</label>
-          <span>00:00</span>
-        </div>
-      </div>
-      <div
-        class="button-wrapper mb-1"
-        :class="className"
-        @click.stop="$emit('on-click')"
-      >
-        <bib-icon :icon="icon"  class="mr-05"></bib-icon>
-        <span>{{ buttonLable }}</span>
-      </div>
-      </div>
-      
-    </div>
-  </template>
-  <script>
-  export default {
-    name: "Chips",
-    props: {
-      label: {
-        type: String,
-      },
-      hashItem: {
-        type: String,
-      },
-      item: {
-        type: Object,
-      },
-      buttonLable: {
-        type: String,
-      },
-      icon: {
-        type: String,
-      },
-      buttonVariant: {
-        type: String,
-      },
-      className:{
-        type:String
-      }
-    },
-    data() {
-      return {
-        fill: { gradient: ["#ffb700", "#47b801"] },
-      };
-    },
-    methods: {
-      buttonAction(item) {
-        alert("Called", item);
-      },
-    },
-  };
-  </script>
-  <style lang="scss">
-.items{
-    border-bottom: 1px solid #eee;
-    height: 40px;
-    border-right: 33px solid #fff;
-}
+          <div class="subheading">in {{ activityDetails.in }}</div>
+          <span>{{ stopWatchTime }}</span>
 
+          <div class="subheading_footer">out {{ activityDetails.out }}</div>
+        </div>
+      </div>
+      <div class="footer-item d-flex">
+      <div class="items">
+        <label>Break</label>
+        <span>{{ activityDetails.breaks }}</span>
+      </div>
+      <div class="items">
+        <label>Total work</label>
+        <span>{{ activityDetails.total }}</span>
+      </div>
+    </div>
+    <div
+      class="button-wrapper mb-1 button-wrapper__bgsucess"
+      @click="$emit('clock')"
+    >
+      <bib-icon :icon="icon"  class="mr-05"></bib-icon>
+      <span>{{ buttonLable }}</span>
+    </div>
+    </div>
+  </div>
+</template>
+<script>
+import { calculateActivityDetails, formatTime } from '../../../utils/functions/clock_functions';
+import { mapGetters } from "vuex";
+
+export default {
+  name: "Chips",
+  props: {
+    clockModal: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+    },
+    icon: {
+      type: String,
+    },
+    role: {
+      type: String,
+    },
+  },
+  data() {
+    return {
+      fill: { gradient: ["#ffb700", "#47b801"] },
+      localData: [],
+      activityReport: {},
+      loading: true,
+      time: '',
+      date: '',
+      active: false,
+      timerLoading: false,
+      chronometer: 0,
+    };
+  },
+  async mounted() {
+    // update the time every second
+    this.timerLoading = true;
+    this.interval = setInterval(() => {
+      this.time = new Date().toTimeString().split(' ')[0];
+      this.date = new Date().toDateString();
+      if (this.active) {
+        this.chronometer = !this.getTimerData.start
+          ? 0
+          : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
+      };
+      this.timerLoading = false;
+    }, 1000)
+    this.active = this.getTimerData.active;
+    this.time = new Date().toTimeString().split(' ')[0];
+    this.date = new Date().toDateString();
+    await this.$store.dispatch('timeattendance/setTimerData');
+    await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    this.timeEntriesLoading = false;
+  },
+  methods: {
+    close() {
+      this.clockModal = false;
+    },
+  },
+  computed: {
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+      getTimerData: 'timeattendance/getTimerData',
+      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
+    }),
+    stopWatchTime() {
+      if (this.timerLoading) return '--:--:--';
+      return formatTime(this.chronometer);
+    },
+    buttonLable() {
+      return this.active ? 'CLOCK OUT' : 'CLOCK IN'
+    },
+    activityDetails() {
+      return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
+    },
+  }
+};
+</script>
+<style lang="scss">
+.items  {
+  border-bottom: 1px solid #eee;
+  height: 40px;
+  border-right: 33px solid #fff;
+}
 </style>
   

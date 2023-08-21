@@ -15,7 +15,7 @@
 <script>
 import fecha, { format } from "fecha";
 import {mapGetters} from 'vuex';
-import {getTimeAttandance} from '../../../utils/functions/api_call/timeattandance/time'
+import {getTimeAttendance} from '../../../utils/functions/api_call/timeattendance/time'
 export default {
   props: {
     label: {
@@ -39,7 +39,7 @@ export default {
     this.$store.dispatch("date/setActiveDate", formatDate);
   },
   methods: {
-    getTimeAttandance,
+    getTimeAttendance,
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
     },

@@ -101,7 +101,7 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      { label: "Time & Attandance", icon: "add", key: "time-attendance", selected: false},
+      { label: "Time & Attendance", icon: "add", key: "time-attendance", selected: false},
       { label: "Leave & Vacations", icon: "add", key: "leave-vacations",  selected: false},
       { label: "My Profile", icon: "add", key: "profile",  selected: false},
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},

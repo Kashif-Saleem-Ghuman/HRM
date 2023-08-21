@@ -285,10 +285,10 @@
             </div>
           </div>
 
-          <div id="time-attandance-wrapper">
+          <div id="time-attendance-wrapper">
             <div v-if="activeTab == personalTabItem[2].value">
               <div class="scroll_wrapper">
-                <div class="time-attandance-wrapper">
+                <div class="time-attendance-wrapper">
                   <div
                     class="d-flex align-center bottom_border_wrapper px-1 py-05"
                   >
@@ -364,9 +364,9 @@
                       style="grid-template-columns: repeat(3, 1fr)"
                     >
                       <info-card-timer
-                        buttonLable="Clocked in"
                         icon="table"
                         className="button-wrapper__bgsucess"
+                        :employeeId="this.id"
                       ></info-card-timer>
                       <info-card-one
                         :item="infoCardData[1]"
@@ -773,7 +773,7 @@ export default {
   padding: 0px 10px 1rem 10px;
   margin-bottom: 16px;
 }
-.time-attandance-wrapper {
+.time-attendance-wrapper {
   .button-items {
     display: flex;
     align-items: center;

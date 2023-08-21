@@ -88,7 +88,7 @@ export const TABLE_HEAD = {
       label: "Hire Date",
     },
   ],
-  tHeadAttandanceUser: [
+  tHeadAttendanceUser: [
     {
       key: "",
       label: "#",
@@ -1284,7 +1284,7 @@ export const SORTING_MENU = {
       key: "day",
     },
   ],
-  actionMenuTimeAttandance: [
+  actionMenuTimeAttendance: [
     {
       label: "Name",
       key: "name",

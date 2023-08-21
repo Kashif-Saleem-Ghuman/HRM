@@ -132,7 +132,7 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_HEAD.tHeadAttandanceUser,
+      tableFields: TABLE_HEAD.tHeadAttendanceUser,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,

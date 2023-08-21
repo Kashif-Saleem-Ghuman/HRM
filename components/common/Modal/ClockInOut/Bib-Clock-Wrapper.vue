@@ -54,7 +54,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { startTimer, stopTimer } from "../../../../utils/functions/api_call/timeattandance/timer";
+import { startTimer, stopTimer } from "../../../../utils/functions/api_call/timeattendance/timer";
+import { formatTime, calculateActivityDetails } from '../../../../utils/functions/clock_functions';
 
 export default {
   name: "BibClockWrapper",
@@ -90,16 +91,6 @@ export default {
       this.active = false;
       await this.stopTimer();
       await this.$store.dispatch('timeattendance/setDailyTimeEntries');
-    },
-    formatTime(timeInSeconds, includeSeconds = true) {
-      const hours = Math.floor(timeInSeconds / 3600);
-      const formattedHours = hours < 10 ? `0${hours}` : hours;
-      const minutes = Math.floor((timeInSeconds % 3600) / 60);
-      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-      if (!includeSeconds) return `${formattedHours}:${formattedMinutes}`;
-      const seconds = timeInSeconds % 60;
-      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     }
   },
   beforeDestroy() {
@@ -139,61 +130,13 @@ export default {
     },
     stopWatchTime() {
       if (this.timerLoading) return '--:--:--';
-      return this.formatTime(this.chronometer);
+      return formatTime(this.chronometer);
     },
     borderClass() {
       return this.active ? 'border-green' : 'border-gray';
     },
     activityDetails() {
-      // by default, just consider the start time of the current timer
-      let inTime = this.getTimerData?.start
-        ? new Date(this.getTimerData.start).toTimeString().split(' ')[0]
-        : null; 
-      // there is no out time before there is a timeEntry record
-      let outTime = null;
-
-      const timeEntriesLength = this.getDailyTimeEntries?.length;
-      console.log({timeEntriesLength})
-      if(timeEntriesLength) {
-        // when there is a record in daily entries, override inTime
-        // with starting time of the first record
-        inTime = new Date(this.getDailyTimeEntries[0].start)
-          .toTimeString()
-          .split(' ')
-          [0];
-
-        // when there is a record in daily entries, outTime is the
-        // ending time of the last record
-        outTime = new Date(this.getDailyTimeEntries[timeEntriesLength - 1].end)
-          .toTimeString()
-          .split(' ')
-          [0];
-      }
-
-      let breaksSeconds = 0;
-      let totalSeconds = 0;
-
-      for (let i = 1; i < timeEntriesLength; i++) {
-        totalSeconds += Math.floor(
-          (
-            new Date(this.getDailyTimeEntries[i].end).getTime()
-            - new Date(this.getDailyTimeEntries[i].start).getTime()
-          ) / 1000
-        );
-        if (i > 0) breaksSeconds += Math.floor(
-          (
-            new Date(this.getDailyTimeEntries[i].start).getTime()
-            - new Date(this.getDailyTimeEntries[i - 1].end).getTime()
-          ) / 1000
-        );
-      }
-
-      return {
-        in: inTime === null ? '--:--' : inTime,
-        out: inTime === null ? '--:--' : outTime,
-        breaks: this.formatTime(breaksSeconds, false),
-        total: this.formatTime(totalSeconds),
-      };
+      return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
     },
   },
   data() {

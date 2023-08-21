@@ -32,19 +32,19 @@
           <header>Time log</header>
           <div class="d-flex time-log-item">
             <span>In</span>
-            <span>{{ inTime }}</span>
+            <span>{{ activityDetails.in }}</span>
           </div>
           <div class="d-flex time-log-item">
             <span>Breaks</span>
-            <span>{{ breakTime }}</span>
+            <span>{{ activityDetails.breaks }}</span>
           </div>
           <div class="d-flex time-log-item">
             <span>0ut</span>
-            <span>{{ outTime }}</span>
+            <span>{{ activityDetails.out }}</span>
           </div>
           <div class="d-flex time-log-item">
             <span style="font-weight: bold">Total</span>
-            <span style="font-weight: bold">09:00</span>
+            <span style="font-weight: bold">{{ activityDetails.total }}</span>
           </div>
         </div>
       </div>
@@ -69,15 +69,6 @@ export default {
         return null;
       },
     },
-    inTime: {
-      type: String,
-    },
-    breakTime: {
-      type: String,
-    },
-    outTime: {
-      type: String,
-    },
   },
   methods: {
     startTimer,
@@ -90,26 +81,37 @@ export default {
       else await this.stopStopWatch();
     },
     async startStopWatch() {
-      console.log('before start: ', this.getTimerData);
-      await this.startTimer();
-      await this.$store.dispatch('timeattendance/setTimerData');
       this.active = true;
       this.chronometer = 0;
-      console.log('after start: ', this.getTimerData);
+      await this.startTimer();
+      await this.$store.dispatch('timeattendance/setTimerData');
     },
     async stopStopWatch() {
-      await this.stopTimer();
       this.active = false;
+      await this.stopTimer();
+      await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    },
+    formatTime(timeInSeconds, includeSeconds = true) {
+      const hours = Math.floor(timeInSeconds / 3600);
+      const formattedHours = hours < 10 ? `0${hours}` : hours;
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      if (!includeSeconds) return `${formattedHours}:${formattedMinutes}`;
+      const seconds = timeInSeconds % 60;
+      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     }
   },
   beforeDestroy() {
     // prevent memory leak
     clearInterval(this.interval);
   },
+  created() {
+    this.timeEntriesLoading = true;
+  },
   async mounted() {
-    await this.$store.dispatch('timeattendance/setTimerData');
-    this.active = this.getTimerData.active;
     // update the time every second
+    this.timerLoading = true;
     this.interval = setInterval(() => {
       this.time = new Date().toTimeString().split(' ')[0];
       this.date = new Date().toDateString();
@@ -118,27 +120,81 @@ export default {
           ? 0
           : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
       };
+      this.timerLoading = false;
     }, 1000)
+    this.active = this.getTimerData.active;
+    this.time = new Date().toTimeString().split(' ')[0];
+    this.date = new Date().toDateString();
+    await this.$store.dispatch('timeattendance/setTimerData');
+    await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    this.timeEntriesLoading = false;
   },
   computed: {
     ...mapGetters({
       getTimerData: 'timeattendance/getTimerData',
+      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     buttonLable() {
       return this.active ? 'CLOCK OUT' : 'CLOCK IN'
     },
     stopWatchTime() {
-      const hours = Math.floor(this.chronometer / 3600);
-      const formattedHours = hours < 10 ? `0${hours}` : hours;
-      const minutes = Math.floor((this.chronometer % 3600) / 60);
-      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-      const seconds = this.chronometer % 60;
-      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+      if (this.timerLoading) return '--:--:--';
+      return this.formatTime(this.chronometer);
     },
     borderClass() {
       return this.active ? 'border-green' : 'border-gray';
-    }
+    },
+    activityDetails() {
+      // by default, just consider the start time of the current timer
+      let inTime = this.getTimerData?.start
+        ? new Date(this.getTimerData.start).toTimeString().split(' ')[0]
+        : null; 
+      // there is no out time before there is a timeEntry record
+      let outTime = null;
+
+      const timeEntriesLength = this.getDailyTimeEntries?.length;
+      console.log({timeEntriesLength})
+      if(timeEntriesLength) {
+        // when there is a record in daily entries, override inTime
+        // with starting time of the first record
+        inTime = new Date(this.getDailyTimeEntries[0].start)
+          .toTimeString()
+          .split(' ')
+          [0];
+
+        // when there is a record in daily entries, outTime is the
+        // ending time of the last record
+        outTime = new Date(this.getDailyTimeEntries[timeEntriesLength - 1].end)
+          .toTimeString()
+          .split(' ')
+          [0];
+      }
+
+      let breaksSeconds = 0;
+      let totalSeconds = 0;
+
+      for (let i = 1; i < timeEntriesLength; i++) {
+        totalSeconds += Math.floor(
+          (
+            new Date(this.getDailyTimeEntries[i].end).getTime()
+            - new Date(this.getDailyTimeEntries[i].start).getTime()
+          ) / 1000
+        );
+        if (i > 0) breaksSeconds += Math.floor(
+          (
+            new Date(this.getDailyTimeEntries[i].start).getTime()
+            - new Date(this.getDailyTimeEntries[i - 1].end).getTime()
+          ) / 1000
+        );
+      }
+
+      return {
+        in: inTime === null ? '--:--' : inTime,
+        out: inTime === null ? '--:--' : outTime,
+        breaks: this.formatTime(breaksSeconds, false),
+        total: this.formatTime(totalSeconds),
+      };
+    },
   },
   data() {
     return {
@@ -146,6 +202,7 @@ export default {
       time: '',
       date: '',
       active: false,
+      timerLoading: false,
     }
   }
 };

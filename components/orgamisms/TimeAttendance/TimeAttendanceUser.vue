@@ -1,127 +1,126 @@
 <template>
-   <div id="time-attandance-wrapper">
-              <div class="scroll_wrapper">
-                <div class="time-attandance-wrapper">
-                  <div
-                    class="d-flex align-center bottom_border_wrapper px-1 py-05"
+  <div id="time-attandance-wrapper">
+    <div class="scroll_wrapper">
+      <div
+        class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
+      >
+      <section-header-left
+        :title="activeUserName"
+        :avatar="activeUserData.photo"
+        headerRight="headerRight"
+      ></section-header-left>
+      </div>
+      <div class="time-attandance-wrapper">
+       
+        <div class="px-1 py-05">
+          <div
+            class="d-grid d-flex gap-1 py-05"
+            style="grid-template-columns: repeat(3, 1fr)"
+          >
+            <info-card-timer
+              buttonLable="Online"
+              icon="table"
+              className="button-wrapper__bgsucess"
+            ></info-card-timer>
+            <info-card-one
+              :item="infoCardData[1]"
+              title="View Timesheet"
+              buttonLable="View timesheet past due"
+              icon="table"
+              profilePic="profilePic"
+              buttonVariant="light"
+              className="button-wrapper__bgwarnning"
+            ></info-card-one>
+
+            <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
+          </div>
+        </div>
+
+        <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
+          <label class="pr-05">View:</label>
+          <div style="position: relative">
+            <button-gray
+              variant="light"
+              :scale="1"
+              :title="ViewTitle"
+              style="height: 2.5rem; color: #000"
+              @on-click="show = !show"
+              v-click-outside="clickOutside"
+              class="pr-05"
+            ></button-gray>
+            <div class="menu-items">
+              <ul v-if="show">
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="viewChange('Today')"
+                    style="cursor: pointer"
+                    >Today</span
                   >
-                    <label class="pr-05">View:</label>
-                    <div style="position: relative">
-                      <button-gray
-                        variant="light"
-                        :scale="1"
-                        :title="ViewTitle"
-                        style="height: 2.5rem; color: #000"
-                        @on-click="show = !show"
-                        v-click-outside="clickOutside"
-                        class="pr-05"
-                      ></button-gray>
-                      <div class="menu-items">
-                        <ul v-if="show">
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Today')"
-                              style="cursor: pointer"
-                              >Today</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Week')"
-                              style="cursor: pointer"
-                              >Week</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Month')"
-                              style="cursor: pointer"
-                              >Month</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Year')"
-                              style="cursor: pointer"
-                              >Year</span
-                            >
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    <div
-                class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-              >
-                <div class="d-flex align-center">
-                  <div class="custom_date_picker">
-                    <!-- <div class="mr-05">Date:</div> -->
-                    <bib-datetime-picker
-                      v-model="date2"
-                      :format="format"
-                      :parseDate="parseDate"
-                      :formatDate="formatDate"
-                      @input="onChange"
-                      class="custom_date_picker"
-                    ></bib-datetime-picker>
-                  </div>
-                </div>
-  </div>
-
-
-                  </div>
-                  <div class="px-1 py-05">
-                    <div
-                      class="d-grid d-flex gap-1 py-05"
-                      style="grid-template-columns: repeat(3, 1fr)"
-                    >
-                      <info-card-timer
-                        buttonLable="Online"
-                        icon="table"
-                        className="button-wrapper__bgsucess"
-                      ></info-card-timer>
-                      <info-card-one
-                        :item="infoCardData[1]"
-                        title="View Timesheet"
-                        buttonLable="View timesheet past due"
-                        icon="table"
-                        profilePic="profilePic"
-                        buttonVariant="light"
-                        className="button-wrapper__bgwarnning"
-                      ></info-card-one>
-
-                      <info-card-help
-                        custumBg="help-wrapper__bg-black"
-                      ></info-card-help>
-                    </div>
-                  </div>
-                  <div>
-                    <list-day-admin
-                      :listToday="todayData"
-                      v-show="todayListView"
-                    ></list-day-admin>
-                    <list-week
-                      :listWeek="weekDataView"
-                      v-show="weekListView"
-                    ></list-week>
-                    <list-month
-                      :listMonth="MonthViewData"
-                      v-show="monthListView"
-                    ></list-month>
-                  </div>
-                </div>
+                </li>
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="viewChange('Week')"
+                    style="cursor: pointer"
+                    >Week</span
+                  >
+                </li>
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="viewChange('Month')"
+                    style="cursor: pointer"
+                    >Month</span
+                  >
+                </li>
+                <li class="d-flex align-center">
+                  <span
+                    class="ml-05"
+                    @click="viewChange('Year')"
+                    style="cursor: pointer"
+                    >Year</span
+                  >
+                </li>
+              </ul>
             </div>
           </div>
+
+          <div
+            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+          >
+            <div class="d-flex align-center">
+              <div class="custom_date_picker">
+                <!-- <div class="mr-05">Date:</div> -->
+                <bib-datetime-picker
+                  v-model="date2"
+                  :format="format"
+                  :parseDate="parseDate"
+                  :formatDate="formatDate"
+                  class="custom_date_picker"
+                ></bib-datetime-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <list-day-admin
+            :listToday="todayData"
+            v-show="todayListView"
+          ></list-day-admin>
+          <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
+          <list-month
+            :listMonth="MonthViewData"
+            v-show="monthListView"
+          ></list-month>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
-import {
-  TIME_ATTENDANCE_TAB,
-} from "../../../utils/constant/Constant.js";
+import { TIME_ATTENDANCE_TAB } from "../../../utils/constant/Constant.js";
 import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
 import {
   TIMESHEET_DATA,
@@ -131,14 +130,15 @@ import {
 import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
 
 import { mapGetters } from "vuex";
-
+import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
 import fecha, { format } from "fecha";
 import getJson from "../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
 export default {
   data() {
     return {
-      endDate: null,
+      activeUserData: "",
+      activeUserName: "",
       ViewTitle: "Today",
       monthList: YEAR_LIST,
       show: false,
@@ -148,13 +148,11 @@ export default {
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       todayListView: true,
-      weekListView: true,
-      monthListView: true,
+      weekListView: false,
+      monthListView: false,
       activeTab: "Attendance",
-      updateForm: {},
-      isFlag: false,
-      time: {},
-      loading:false,
+      loading: false,
+      form: {},
       // Time & attandance
       infoCardData: INFO_CARD_DATA,
       localData: [],
@@ -175,12 +173,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: "employee/GET_USER",
+      getActiveUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
       activeDate: "date/getActiveDate",
+      getformToDate: "leavevacation/getformToDate",
     }),
   },
-  async mounted() {},
+  async created() {
+    await this.$store.dispatch("employee/setUserList");
+    await this.$store.dispatch("employee/setActiveUser");
+    this.activeUserData = this.getActiveUser;
+    this.activeUserName =
+      this.activeUserData.firstName +
+      " " +
+      this.activeUserData.lastName +
+      " / " +
+      "Time & Attendance";
+  },
   methods: {
     clickOutside() {
       this.show = false;
@@ -208,6 +217,8 @@ export default {
         alert("No list Found");
       }
     },
+    getCurrentDateMonth,
+
     change(event, name) {
       this.updateForm[name] = event;
       console.log(this.updateForm, "switchLabelweekStarts");

@@ -503,6 +503,7 @@ import {
   handleInput,
   handleInputObject,
   getCurrentYear,
+  getCurrentDateMonth,
 } from "../../../utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
 
@@ -524,8 +525,8 @@ export default {
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       todayListView: true,
-      weekListView: true,
-      monthListView: true,
+      weekListView: false,
+      monthListView: false,
       show: false,
       loading: false,
       showYear: false,
@@ -586,8 +587,18 @@ export default {
   async created() {
     this.id = this.$route.params.id;
     // await this.users();
+    await this.getCurrentDateMonth();
+
+    this.$store.dispatch("leavevacation/setActiveFromToDate", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+
+      console.log(this.getformToDate, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+
     this.$root.$on("leaves-list", () => {
       this.componentKeyUser += 1;
+      
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
@@ -663,6 +674,7 @@ export default {
     handleInputObject,
     deleteLevaeVacation,
     getCurrentYear,
+    getCurrentDateMonth,
     getUserLeavesDetail,
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;

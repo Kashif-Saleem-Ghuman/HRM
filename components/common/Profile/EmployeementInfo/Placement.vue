@@ -29,7 +29,7 @@
             :options="reportOptions"
             :value="reportsTo"
             placeholder="Please select reporting Manager"
-            @input="$emit('input', $event, 'manager')"
+            @input="$emit('input', $event, 'managerId')"
             icon-left="file"
             :disabled="inActive"
           ></bib-input>
@@ -83,7 +83,7 @@
         type: String,
       },
       reportsTo: {
-        type: String,
+        type: [String, Number],
       },
       workEmail: {
         type: String,

@@ -6,16 +6,16 @@
       </div>
       <div class="info-card-items mt-05">
         <div>
-          <div class="subheading">{{ item.numLabel }}</div>
-          <span>{{ item.numberData }}</span>
+          <div class="subheading">Past due</div>
+          <span>{{ item.pastDue }}</span>
 
-          <div class="subheading_footer" style="height: 20px;">{{ item.daysDesc }}</div>
+          <div class="subheading_footer" style="height: 20px;">Timesheets</div>
         </div>
         <div>
           <progress-circle
-            :progressCount="item?.progress"
+            :progressCount="item?.pastDue"
             :progressTitle="item?.progreesTitle"
-            :progressPercentage="item?.progress + '%'"
+            :progressPercentage="item?.pastDue + '%'"
             :fill="fill"
             v-show="item.progress == null ? '' : item.progress + '%'"
             emptyfill="#f1f1f1"
@@ -27,12 +27,12 @@
       </div>
       <div class="footer-item d-flex">
         <div class="items">
-          <label>{{ item.figureLabel }}</label>
-          <span >{{ item.figureLabelData }}</span>
+          <label>Pending</label>
+          <span >{{ item.pending }}</span>
         </div>
         <div class="items">
-          <label>{{ item.figureLabelTwo }}</label>
-          <span>{{ item.figureLabelTwoData }}</span>
+          <label>Refused</label>
+          <span>{{ item.refused }}</span>
         </div>
       </div>
       <div

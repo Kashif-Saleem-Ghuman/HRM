@@ -71,7 +71,7 @@ export const actions = {
       );
       if (employeeList) {
         ctx.commit("SET_USERS", employeeList.employees);
-        return employeeList;
+        return employeeList.employees;
       }
     } catch (e) {
       console.log(e);

@@ -101,7 +101,7 @@
     INFO_CARD_DATA,
   } from "../../../utils/constant/DashboardData";
   import { mapGetters } from "vuex";
-  import { getTimeAttendance } from "../../../utils/functions/api_call/timeattendance/time";
+  import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
   import fecha, { format } from "fecha";
   
   export default {
@@ -130,16 +130,17 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.$store.dispatch("employee/setUserList");
       await this.getTimeAttendance();
-      await this.$store.dispatch("employee/setActiveUser");
+      await this.$store.dispatch("employee/setActiveUser")
       var users = this.getUser;
       this.id = users.id;
       this.activeUserName = users.firstName + " " + users.lastName;
     },
-  
+  mounted(){
+    console.log(this.localData, "this.localData ")
+  },
     methods: {
-      getTimeAttendance,
+       getTimeAttendance,
       parseDate(dateString, format) {
         return fecha.parse(dateString, format);
       },
@@ -150,7 +151,7 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.getTimeAttendance();
+        this.getTimeAttandance();
       },
     },
   };

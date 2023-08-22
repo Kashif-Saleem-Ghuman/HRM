@@ -20,10 +20,14 @@ export async function getTimeAttendance() {
 export async function getTimesheet() {
   try {
           const timesheetData = await axios.get(
-            process.env.API_URL + "widgets/admin/timesheet" + this.getCurrentDate,
+            process.env.API_URL + "/widgets/admin/timesheet/",
             {
               headers: {
                 Authorization: "Bearer " + this.getAccessToken,
+              },
+              params: {
+                from:  this.getformToDate?.from,
+                to: this.getformToDate?.to,
               },
             }
           );

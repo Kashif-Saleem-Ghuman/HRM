@@ -38,7 +38,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   let breaksSeconds = 0;
   let totalSeconds = 0;
 
-  for (let i = 1; i < timeEntriesLength; i++) {
+  for (let i = 0; i < timeEntriesLength; i++) {
     totalSeconds += Math.floor(
       (
         new Date(timeEntries[i].end).getTime()
@@ -52,10 +52,9 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       ) / 1000
     );
   }
-
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
-    out: inTime === null ? '--:--' : outTime.trim().slice(0, 5),
+    out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
     breaks: formatTime(breaksSeconds, false),
     total: formatTime(totalSeconds, false),
   };

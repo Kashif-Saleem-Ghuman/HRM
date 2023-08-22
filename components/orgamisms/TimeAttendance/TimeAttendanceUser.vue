@@ -18,10 +18,17 @@
             style="grid-template-columns: repeat(3, 1fr)"
           >
             <info-card-timer
-              buttonLable="Online"
-              icon="table"
-              className="button-wrapper__bgsucess"
+              role="USER"
+              @clock="openClock"
             ></info-card-timer>
+            <bib-clock-wrapper
+              @close="closeClock"
+              @click:outside="closeClock"
+              title="Business in box / Timer"
+              :clockModal="clockModal"
+              v-if="clockModal"
+            >
+            </bib-clock-wrapper>
             <info-card-one
               :item="infoCardData[1]"
               title="View Timesheet"
@@ -155,6 +162,8 @@ export default {
       form: {},
       // Time & attandance
       infoCardData: INFO_CARD_DATA,
+      timesheetData: TIMESHEET_DATA,
+      clockModal: false,
       localData: [],
       getCurrentDate: "",
       date: null,
@@ -245,6 +254,14 @@ export default {
         this.getTime();
       }
     },
+  },
+  methods: {
+    openClock() {
+      this.clockModal = true;
+    },
+    closeClock() {
+      this.clockModal = false;
+    }
   },
 };
 </script>

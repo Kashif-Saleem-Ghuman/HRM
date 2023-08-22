@@ -2,13 +2,13 @@ import {
     employeeTime,
   } from "./api_call/timeapi";
   import {
-    getTimeAttandance,
+    getTimeAttendance,
     getTimesheet,
-  } from "./api_call/timeattandance/time";
+  } from "./api_call/timeattendance/time";
   import {
     startTimer,
     stopTimer,
-  } from "./api_call/timeattandance/timer";
+  } from "./api_call/timeattendance/timer";
   import {
     addBenefitsData,
     updateBenefitsData,
@@ -55,7 +55,7 @@ import {
     getUserLeavesDetailUser,
 
     // time and attendance functions
-    getTimeAttandance,
+    getTimeAttendance,
     getTimesheet,
     startTimer,
     stopTimer

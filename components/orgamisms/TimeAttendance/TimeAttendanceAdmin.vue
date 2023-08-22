@@ -269,7 +269,7 @@
   import { TIMESHEET_DATA, MY_TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
   import { mapGetters } from "vuex";
   
-  import { getTimeAttandance } from "../../../utils/functions/api_call/timeattandance/time";
+  import { getTimeAttendance } from "../../../utils/functions/api_call/timeattendance/time";
   import fecha, { format } from "fecha";
   import getJson from "../../../utils/dataJson/app_wrap_data";
   const appWrapItems = getJson();
@@ -284,7 +284,7 @@
         isFlag: false,
         time: {},
         loading:false,
-        // Time & attandance
+        // Time & attendance
         infoCardData: INFO_CARD_DATA,
         localData: [],
         getCurrentDate: "",
@@ -295,7 +295,7 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.getTimeAttandance();
+      await this.getTimeAttendance();
       console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
   
       await this.$store.dispatch("employee/setActiveUser");
@@ -311,7 +311,7 @@
     },
     async mounted() {},
     methods: {
-      getTimeAttandance,
+      getTimeAttendance,
       change(event, name) {
         this.updateForm[name] = event;
         console.log(this.updateForm, "switchLabelweekStarts");
@@ -329,7 +329,7 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.getTimeAttandance();
+        this.getTimeAttendance();
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

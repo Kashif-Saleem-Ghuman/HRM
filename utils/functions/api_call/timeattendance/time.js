@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export async function getTimeAttandance() {
+export async function getTimeAttendance() {
   this.loading = true
   try {
-          const timeAttandance = await axios.get(
+          const timeAttendance = await axios.get(
             process.env.API_URL + "/timesheets/admin/attendance?date=" + this.getCurrentDate,
             {
               headers: {
@@ -11,7 +11,7 @@ export async function getTimeAttandance() {
               },
             }
           );
-          this.localData = timeAttandance.data;
+          this.localData = timeAttendance.data;
         } catch (e) {
           alert(e);
         }
@@ -50,7 +50,7 @@ export async function getTime() {
           alert(e);
         }
 }
-export async function updateTimeAttandance() {
+export async function updateTimeAttendance() {
     try {
       const timeData = await axios.put(process.env.API_URL + "/employees/" + this.id + "/settings/time", this.updateForm, {
         headers: {

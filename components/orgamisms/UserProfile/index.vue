@@ -370,7 +370,7 @@
                         :employeeId="this.id"
                       ></info-card-timer>
                       <info-card-one
-                        :item="infoCardData[1]"
+                        :item="timesheetData"
                         title="View Timesheet"
                         buttonLable="View timesheet past due"
                         icon="table"
@@ -495,7 +495,7 @@ import {
 import {
   deleteLevaeVacation,
   getUserLeavesDetail,
-  
+  getTimesheet,
 } from "../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
@@ -571,6 +571,13 @@ export default {
       errorMsgSuit: false,
       reportOptions:'',
       is_data_fetched:false,
+      currentMonth: fecha.format(new Date(), "MM"),
+      selectedMonth: "",
+      fromDate: "",
+      toDate: "",
+      currentYear: fecha.format(new Date(), "YYYY"),
+      selectedYear: "2023",
+      timesheetData:[],
     };
   },
   computed: {
@@ -594,8 +601,6 @@ export default {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
       });
-
-      console.log(this.getformToDate, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
 
     this.$root.$on("leaves-list", () => {
       this.componentKeyUser += 1;
@@ -621,34 +626,11 @@ export default {
         this.is_data_fetched = true;
       });
       
-    } else {
-      // var users = this.getUser;
-      // this.id = users.id;
-      // await this.$store.dispatch("employee/setActiveUser");
-      // await this.$store.dispatch("token/setActiveUserId", this.getUser.id);
-      // await this.$store.dispatch("employee/setUser", this.getUser.id);
-      // this.form = users;
-    }
-
-    if (!this.form.address?.country) {
-      this.cureentState = this.states.filter((item, index) => {
-        return item;
-      });
-    }
-    if (this.form.address?.country === "Canada") {
-      this.cureentState = this.states.filter((item, index) => {
-        return item;
-      });
-    }
-    if (this.form.address?.country === "USA") {
-      this.cureentState = this.states.filter((item, index) => {
-        return item;
-      });
-    } else {
-    }
+    } 
   },
 
   async mounted() {
+    this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
     
     this.$store.dispatch("employee/setReportsToList").then((result)=>{
@@ -677,6 +659,7 @@ export default {
     getCurrentYear,
     getCurrentDateMonth,
     getUserLeavesDetail,
+    getTimesheet,
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
@@ -712,6 +695,14 @@ export default {
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
+      if(this.activeTab == 'Time & Attendance')
+       this.getCurrentDateMonth();
+      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+    console.log(this.getformToDate, "getformToDate")
+      this.getTimesheet();
     },
     viewChange(e) {
       if (e == "Today") {

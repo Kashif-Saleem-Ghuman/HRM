@@ -415,10 +415,11 @@ export default {
       currentDate: fecha.format(new Date(), "DD"),
       // currentMonth:'08',
       currentMonth: fecha.format(new Date(), "MM"),
+      selectedMonth: "",
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
         "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
-      selectedMonth: "",
+      
       selectedYear: "2023",
       fromDate: "",
       toDate: "",

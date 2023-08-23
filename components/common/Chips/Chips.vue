@@ -140,7 +140,7 @@ export default {
   padding: 4px 8px;
   margin-right: 10px;
   display: flex;
-  height: 3rem;
+  height: 2.5rem;
   // justify-content: center;
   align-items: center;
   // background-color: #f2f2f5;

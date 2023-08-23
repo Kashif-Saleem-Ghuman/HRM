@@ -61,15 +61,15 @@
     <template #cell(duration)="data">
       <div class="justify-left text-dark">
         <span>{{
-          data.value.duration == 0
-            ? "1 day"
+          data.value.duration == null
+            ? "No record Found"
             : data.value.duration / 24 + " days"
         }}</span>
-        <!-- <span>{{
+        <span>{{
           data.value.duration == 12
             ? "Null value found"
             : "(" + data.value.duration + " hrs)"
-        }}</span> -->
+        }}</span>
       </div>
     </template>
     <!--       

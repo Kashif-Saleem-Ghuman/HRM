@@ -21,8 +21,8 @@ export async function addLeaveVacations() {
   this.errorMsgEndDate = false;
   this.loading = true;
   var data = this.addForm;
-  var startDate = fecha.format(new Date(data.start), "YYYY-MM-DDT12:00:00"); // '2015-11-20'data.start.toISOString();
-  var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT12:59:00");
+  var startDate = fecha.format(new Date(data.start), "YYYY-MM-DDT00:00:00.000Z"); // '2015-11-20'data.start.toISOString();
+  var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
   this.addForm.start = startDate;
   this.addForm.end = endDate;
   console.log( this.addForm, "toISOString()")

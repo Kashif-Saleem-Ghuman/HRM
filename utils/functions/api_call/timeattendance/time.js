@@ -17,6 +17,7 @@ export async function getTimeAttendance() {
         }
         this.loading = false
 }
+
 export async function getTimesheet() {
   try {
           const timesheetData = await axios.get(
@@ -37,33 +38,67 @@ export async function getTimesheet() {
         }
 }
 
-export async function getTime() {
-  try {
-          const time = await axios.get(
-            process.env.API_URL + "/employees/" + this.id + "/settings/time",
-            {
-              headers: {
-                Authorization: "Bearer " + this.getAccessToken,
-              },
-            }
-          );
-          this.time = time.data;
-          // this.benefitsPackageOptions = benefits.data.benefitPackage.options;
-          // this.benefitsNameOptions = benefits.data.benefitPlan.options
-        } catch (e) {
-          alert(e);
-        }
-}
-export async function updateTimeAttendance() {
+  export async function getTimeAttendanceDaily(date) {
+    this.loading = true
     try {
-      const timeData = await axios.put(process.env.API_URL + "/employees/" + this.id + "/settings/time", this.updateForm, {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-        },
-      });
-      this.openPopupNotification(1);
-      this.time = timeData.data;
-    } catch (e) {
-      alert(e);
-    }
+            const timeAttendance = await axios.get(
+              process.env.API_URL + "/timesheets/daily?date=",
+              {
+                headers: {
+                  Authorization: "Bearer " + this.getAccessToken,
+                },
+                params: {
+                  from:  date,
+                  to: date,
+                  employeeId:this.id
+                },
+              }
+            );
+            this.todayData = timeAttendance.data;
+          } catch (e) {
+            alert(e);
+          }
+          this.loading = false
+  }
+  export async function getTimeAttendanceWeek() {
+    this.loading = true
+    try {
+            const timeAttendance = await axios.get(
+              process.env.API_URL + "/timesheets/week?date=",
+              {
+                headers: {
+                  Authorization: "Bearer " + this.getAccessToken,
+                },
+                params: {
+                  from:  '2023-08-22',
+                  to: '2023-08-22',
+                },
+              }
+            );
+            this.weekDataView = timeAttendance.data;
+          } catch (e) {
+            alert(e);
+          }
+          this.loading = false
+  }
+  export async function getTimeAttendanceMonth() {
+    this.loading = true
+    try {
+            const timeAttendance = await axios.get(
+              process.env.API_URL + "/timesheets/month?date=",
+              {
+                headers: {
+                  Authorization: "Bearer " + this.getAccessToken,
+                },
+                params: {
+                  from:  this.getformToDate?.from,
+                  to: this.getformToDate?.to,
+                },
+              }
+            );
+            this.MonthViewData = timeAttendance.data;
+          } catch (e) {
+            alert(e);
+          }
+          this.loading = false
   }

@@ -49,7 +49,7 @@ export default {
       },
     },
     variant: {
-      type: String,
+      type: [String, Array],
     },
     variantIcon: {
       type: String,

@@ -15,9 +15,9 @@
           <progress-circle
             :progressCount="item?.pastDue"
             :progressTitle="item?.progreesTitle"
-            :progressPercentage="item?.pastDue + '%'"
+            :progressPercentage="item.pastDue + '%'"
             :fill="fill"
-            v-show="item.progress == null ? '' : item.progress + '%'"
+            v-show="item.pastDue == null ? '' : item.pastDue + '%'"
             emptyfill="#f1f1f1"
           ></progress-circle>
         </div>
@@ -57,7 +57,7 @@ export default {
       type: String,
     },
     item: {
-      type: Object,
+      type: [Object, Array],
     },
     buttonLable: {
       type: String,

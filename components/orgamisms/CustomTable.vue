@@ -115,12 +115,21 @@
         </td>
       </tr>
     </template>
-    <tr v-show="showTotal" style="padding: 16px !important;">
+    <tr v-show="showTotal" style="padding: 16px !important;" >
       <td></td>
       <td></td>
       <td></td>
       <td class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
-      <td class="pl-1" style="text-align: left; padding: 16px !important; font-weight: bold;">
+      <td class="" style="text-align: left; font-weight: bold;">
+        00:00:00
+      </td>
+    </tr>
+    <tr v-show="showTotal" style="padding: 16px !important;">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="pl-1 " style="text-align: right; padding: 16px !important;" >Status</td>
+      <td class="" style="text-align: left; font-weight: bold;">
         00:00:00
       </td>
     </tr>

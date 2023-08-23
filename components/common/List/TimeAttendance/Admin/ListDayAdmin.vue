@@ -48,6 +48,7 @@
 <script>
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
+
 export default {
   props: {
     listToday: {

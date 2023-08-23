@@ -4,17 +4,15 @@ import {
   import {
     getTimeAttendance,
     getTimesheet,
+    getTimeAttendanceDaily,
+    getTimeAttendanceWeek,
+    getTimeAttendanceMonth
   } from "./api_call/timeattendance/time";
   import {
     startTimer,
     stopTimer,
   } from "./api_call/timeattendance/timer";
-  import {
-    addBenefitsData,
-    updateBenefitsData,
-    getBenefitsData,
-    deleteBenefitsData
-  } from "./api_call/benefits/benefits.js";
+  
   import {
     getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
@@ -34,9 +32,6 @@ import {
   
   export {
     employeeTime,
-    addBenefitsData,
-    updateBenefitsData,
-    getBenefitsData,
 
     // leave vacations admin functions
     getLeaveVacationsAdmin,
@@ -58,5 +53,8 @@ import {
     getTimeAttendance,
     getTimesheet,
     startTimer,
-    stopTimer
+    stopTimer,
+    getTimeAttendanceDaily,
+    getTimeAttendanceWeek,
+    getTimeAttendanceMonth,
   };

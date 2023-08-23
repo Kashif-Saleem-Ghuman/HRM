@@ -18,9 +18,9 @@ export const TIMESHEET_DATA = [
     activity: "HRM",
     start: "00:00:00",
     end: "00:00:00",
-    week:"Week #23",
-    weekStart:"00:00:00",
-    weekEnd:"00:00:00",
+    week: "Week #23",
+    weekStart: "00:00:00",
+    weekEnd: "00:00:00",
     activityData: [
       {
         timeto: "08:00:00",
@@ -111,9 +111,9 @@ export const TIMESHEET_DATA = [
     breaks: 0.7,
     totalHour: "31:00",
     department: "Tech",
-    week:"Week #23",
-    weekStart:"00:00:00",
-    weekEnd:"00:00:00",
+    week: "Week #23",
+    weekStart: "00:00:00",
+    weekEnd: "00:00:00",
     activityData: [
       {
         timeto: "08:00:00",
@@ -134,9 +134,9 @@ export const TIMESHEET_DATA = [
   },
 
   {
-    week:"Week #23",
-    weekStart:"00:00:00",
-    weekEnd:"00:00:00",
+    week: "Week #23",
+    weekStart: "00:00:00",
+    weekEnd: "00:00:00",
     id: "63bf9d766bb6d8b00bb07d13",
     businessId: "O3GWpmbk5ezJn4KR",
     userId: "DKgl9av2NwnaG1vz",
@@ -174,9 +174,9 @@ export const TIMESHEET_DATA = [
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1675423967685.jpg",
   },
   {
-    week:"Week #23",
-    weekStart:"00:00:00",
-    weekEnd:"00:00:00",
+    week: "Week #23",
+    weekStart: "00:00:00",
+    weekEnd: "00:00:00",
     id: "63bfa19c6bb6d8b00bb07d1f",
     businessId: "O3GWpmbk5ezJn4KR",
     userId: "k61YQdJ6J7ldOGpJ",
@@ -281,9 +281,9 @@ export const TIMESHEET_DATA = [
       "https://dev-bib-account-storagebucket.s3.amazonaws.com/user_avatar_1676464522832.jpg",
   },
   {
-    week:"Week #23",
-    weekStart:"00:00:00",
-    weekEnd:"00:00:00",
+    week: "Week #23",
+    weekStart: "00:00:00",
+    weekEnd: "00:00:00",
     id: "63bfcfd36bb6d8b00bb07d90",
     businessId: "O3GWpmbk5ezJn4KR",
     userId: "Py7LDdwpOq1e1YKX",
@@ -415,28 +415,24 @@ export const MY_TIMEOFF_DATA = [
 
 export const DAY_VIEW_DATA = [
   {
-    activity: "Activity",
+    activity: "Attendance",
     start: "00:00",
     end: "00:00",
     total: "00:00",
   },
   {
-    activity: "Activity",
+    activity: "Break",
     start: "00:00",
     end: "00:00",
     total: "00:00",
   },
+];
+export const TODAY_VIEW_DATA = [
   {
-    activity: "Activity",
-    start: "00:00",
-    end: "00:00",
-    total: "00:00",
+    label: "Attendance",
   },
   {
-    activity: "Activity",
-    start: "00:00",
-    end: "00:00",
-    total: "00:00",
+    label: "Break",
   },
 ];
 export const WEEK_VIEW_DATA = [

@@ -10,7 +10,7 @@
                 variant="success"
                 :scale="1"
                 title="Add leave"
-                style="height: 2.5rem;"
+                style="height: 2.5rem"
                 @on-click="actionBY('leaveAdmin')"
               ></button-green>
               <button-green
@@ -29,7 +29,7 @@
                 variant="light"
                 :scale="1"
                 :title="ViewTitle"
-                style="height: 2.5rem;"
+                style="height: 2.5rem"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
               ></button-black>
@@ -62,7 +62,7 @@
               id="my-select"
               ref="myInput"
               @change="changeMonthView()"
-              style="height: 2.5rem;"
+              style="height: 2.5rem"
             >
               <option
                 v-for="i in monthList"
@@ -131,7 +131,11 @@
         ></button-gray>
       </div>
     </div>
-    <div class="d-flex px-1 pb-05 pt-05 align-center" v-show="nextPrev" style="border-top: solid 1px #eee;">
+    <div
+      class="d-flex px-1 pb-05 pt-05 align-center"
+      v-show="nextPrev"
+      style="border-top: solid 1px #eee"
+    >
       <button-black
         variant="light"
         :scale="1"
@@ -173,7 +177,7 @@
                 ? 'event_wrapper__bgabsent'
                 : '',
             ]"
-            style="cursor: pointer;"
+            style="cursor: pointer"
           >
             <bib-avatar
               :src="arg.event.extendedProps.employee.photo"
@@ -207,8 +211,8 @@
           :allowanceDays="allowanceData"
           :usedDays="useDaysData"
           :employeeNameSelect="employeeNameSelect"
-                :employeesOptions="employeesOptions"
-                :employeeNameSelectShow="employeeNameSelectShow"
+          :employeesOptions="employeesOptions"
+          :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
           :errorMsgSelect="errorMsgSelect"
           :errorMsgStartDate="errorMsgStartDate"
@@ -266,7 +270,7 @@
                   leaveStatus == 'pending'
                     ? 'text-warning bg-warning bg-hover-warning-sub3'
                     : '',
-                    leaveStatus == 'rejected'
+                  leaveStatus == 'rejected'
                     ? 'text-danger bg-danger bg-hover-danger-sub3'
                     : '',
                 ]"
@@ -321,7 +325,7 @@ import {
 import {
   addLeaveVacations,
   getAllowanceDays,
-  getUserLeavesDetail
+  getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
 import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
 
@@ -340,9 +344,9 @@ export default {
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
-      employeeNameSelect:'',
-      employeeName:'',
-      employeesOptions : [],
+      employeeNameSelect: "",
+      employeeName: "",
+      employeesOptions: [],
       allowanceData: "",
       startDate: "",
       endDate: "",
@@ -397,7 +401,7 @@ export default {
         selectHelper: false,
         dayMaxEvents: false,
         weekends: true,
-        contentHeight:"auto",
+        contentHeight: "auto",
         // eventColor: "green",
         // style related
         // eventColor: "#FFFFFF",
@@ -419,18 +423,18 @@ export default {
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
         "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
-      
+
       selectedYear: "2023",
       fromDate: "",
       toDate: "",
       slideClass: "slide-in",
       form: "",
       leaveStatus: "",
-      flag : false,
-      nextPrev:false,
-      allowanceLeavesDetailedData:[],
+      flag: false,
+      nextPrev: false,
+      allowanceLeavesDetailedData: [],
       useDaysData: "",
-      employeeNameSelectShow:true,
+      employeeNameSelectShow: true,
     };
   },
   computed: {
@@ -438,8 +442,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
-      getReportList:"employee/GET_REPORTS_LIST",
-
+      getReportList: "employee/GET_REPORTS_LIST",
     }),
   },
 
@@ -470,7 +473,7 @@ export default {
     // });
     this.$store.dispatch("employee/setReportsToList");
     this.employeesOptions = this.getReportList;
-    console.log(this.employeesOptions, "this.employeesOptions")
+    console.log(this.employeesOptions, "this.employeesOptions");
   },
   methods: {
     addHandleInput,
@@ -569,13 +572,13 @@ export default {
     },
     monthView() {
       this.ViewTitle = "Month";
-      this.nextPrev = false
+      this.nextPrev = false;
       this.calendarOptions.initialView = "dayGridMonth";
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView("dayGridMonth");
     },
     weekView() {
-      this.nextPrev = true
+      this.nextPrev = true;
       this.ViewTitle = "Week";
       this.calendarOptions.initialView = "dayGridWeek";
       let calendarApi = this.$refs.fullCalendar.getApi();
@@ -595,7 +598,10 @@ export default {
         });
         setTimeout(() => {
           this.calendarOptions.events = this.getLeaveVacation;
-          console.log(this.calendarOptions.events, "this.calendarOptions.events")
+          console.log(
+            this.calendarOptions.events,
+            "this.calendarOptions.events"
+          );
         }, 1500);
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
@@ -629,34 +635,36 @@ export default {
     },
     async handleEventClick(clickInfo) {
       this.slideClass = "slide-in";
-      this.employeeNameSelectShow = true
+      this.employeeNameSelectShow = true;
       this.addLeaveKey += 1;
       this.calendarOptions.events.filter((item, index) => {
         if (item.id == clickInfo.event._def.publicId) {
-          this.getUserLeavesDetail(item.employee.id).then((result)=>{
-            this.allowanceLeavesDetailedData = result
-          })
+          this.getUserLeavesDetail(item.employee.id).then((result) => {
+            this.allowanceLeavesDetailedData = result;
+          });
           console.log(item, "allowanceLeavesDetailedData");
           this.leaveStatus = item.status;
           this.form = item;
           this.employeeNameSelect = item.employee.id;
-          
+
           this.employeeName =
-          item.employee.firstName + " " + item.employee.lastName;
+            item.employee.firstName + " " + item.employee.lastName;
           setTimeout(() => {
-            if(item.type == 'vacation'){
-            this.allowanceData = 30
-            this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed
-          }
-          if(item.type == 'leave'){
-            this.allowanceData = 12;
-            this.useDaysData = this.allowanceLeavesDetailedData.otherLeavesUsed
-          }
-          if(item.type == 'medical'){
-            this.allowanceData = 10;
-            this.useDaysData =  this.allowanceLeavesDetailedData.medicalLeavesUsed
-          }
-          },1000)
+            if (item.type == "vacation") {
+              this.allowanceData = 30;
+              this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+            }
+            if (item.type == "leave") {
+              this.allowanceData = 12;
+              this.useDaysData =
+                this.allowanceLeavesDetailedData.otherLeavesUsed;
+            }
+            if (item.type == "medical") {
+              this.allowanceData = 10;
+              this.useDaysData =
+                this.allowanceLeavesDetailedData.medicalLeavesUsed;
+            }
+          }, 1000);
           // console.log(this.allowanceLeavesDetailedData, "allowanceLeavesDetailedDataallowanceLeavesDetailedDataallowanceLeavesDetailedData")
           this.startDate = fecha.format(
             new Date(this.form.start),
@@ -684,26 +692,26 @@ export default {
 
 <style lang="scss">
 @media (min-width: 500px) {
-  body{
+  body {
     font-size: 10px;
   }
 }
 @media (min-width: 768px) {
-  body{
+  body {
     font-size: 11px;
   }
 }
 @media (min-width: 1200px) {
-  body{
+  body {
     font-size: 12px;
-    span{
+    span {
       font-size: 12px;
     }
   }
 }
 
 @media (min-width: 1400px) {
-  body{
+  body {
     font-size: 14px;
   }
 }
@@ -764,23 +772,21 @@ export default {
       }
     }
   }
-  
 }
-  .rtl-wrapper {
-   
-    .serach-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      input {
-        margin: 0px !important;
-      }
-      label {
-        padding-right: 5px;
-        font-size: 13px;
-      }
+.rtl-wrapper {
+  .serach-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      margin: 0px !important;
+    }
+    label {
+      padding-right: 5px;
+      font-size: 13px;
     }
   }
+}
 
 .author-display {
   border-radius: 0.5rem;

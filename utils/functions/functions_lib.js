@@ -14,7 +14,8 @@ import {
   dateCheck,
   getCurrentDateMonth,
   getCurrentYear,
-  updateBusinessId
+  updateBusinessId,
+  getCurrentWeek
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -51,5 +52,6 @@ export {
   updateBusinessId,
   handleOrgProfile,
   selectUserHandle,
-  selectLeaveTypeHandle
+  selectLeaveTypeHandle,
+  getCurrentWeek
 };

@@ -18,7 +18,11 @@
         <div class="row mx-0 bottom_border_wrapper">
           <div class="col-12 px-1">
             <bib-tabs
-              :tabs="!this.$route.params.id ? personalTabItem.slice(0,2) : personalTabItem"
+              :tabs="
+                !this.$route.params.id
+                  ? personalTabItem.slice(0, 2)
+                  : personalTabItem
+              "
               :value="activeTab"
               @change="handleChange_Tabs"
             ></bib-tabs>
@@ -289,9 +293,7 @@
             <div v-if="activeTab == personalTabItem[2].value">
               <div class="scroll_wrapper">
                 <div class="time-attendance-wrapper">
-                  <div
-                    class="d-flex align-center bottom_border_wrapper px-1 py-05"
-                  >
+                  <div class="d-flex align-center px-1 py-05 bottom_border_wrapper">
                     <label class="pr-05">View:</label>
                     <div style="position: relative">
                       <button-gray
@@ -340,22 +342,21 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="button-items">
-                      <!-- <label>Month:</label> -->
-                      <select
-                        class="select_month"
-                        id="my-select"
-                        ref="myInput"
-                        style="height: 2.5rem"
-                      >
-                        <option
-                          v-for="i in monthList"
-                          :value="i.key"
-                          :selected="i.key === currentYear ? true : false"
-                        >
-                          {{ i.label }}
-                        </option>
-                      </select>
+                    <div class="d-flex justify-between align-center">
+                      <div class="d-flex align-center">
+                        <div class="custom_date_picker">
+                          <!-- <div class="mr-05">Date:</div> -->
+                          <bib-datetime-picker
+                            v-model="date2"
+                            :format="format"
+                            :parseDate="parseDate"
+                            :formatDate="formatDate"
+                            class="custom_date_picker"
+                            @input="dateSlection($event)"
+                            style="margin-bottom: -8px !important;"
+                          ></bib-datetime-picker>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="px-1 py-05">
@@ -376,6 +377,7 @@
                         icon="table"
                         profilePic="profilePic"
                         buttonVariant="light"
+                        @on-click="viewChange('Month')"
                         className="button-wrapper__bgwarnning"
                       ></info-card-one>
 
@@ -425,7 +427,9 @@
                       ></info-card-leave-vacation>
                       <info-card-leave-vacation
                         title="Medical/sick"
-                        :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
+                        :daysUsed="
+                          allowanceLeavesDetailedData.medicalLeavesUsed
+                        "
                         totalAllowance="10"
                         buttonLable="Request Medical Leave"
                         icon="table"
@@ -496,6 +500,9 @@ import {
   deleteLevaeVacation,
   getUserLeavesDetail,
   getTimesheet,
+  getTimeAttendanceDaily,
+  getTimeAttendanceWeek,
+  getTimeAttendanceMonth,
 } from "../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
@@ -505,6 +512,7 @@ import {
   handleInputObject,
   getCurrentYear,
   getCurrentDateMonth,
+  getCurrentWeek,
 } from "../../../utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
 
@@ -569,15 +577,18 @@ export default {
       errorMsgPostalCode: false,
       errorMsgState: false,
       errorMsgSuit: false,
-      reportOptions:'',
-      is_data_fetched:false,
+      reportOptions: "",
+      is_data_fetched: false,
       currentMonth: fecha.format(new Date(), "MM"),
       selectedMonth: "",
       fromDate: "",
       toDate: "",
       currentYear: fecha.format(new Date(), "YYYY"),
       selectedYear: "2023",
-      timesheetData:[],
+      timesheetData: [],
+      format: "MMM D, YYYY",
+      date2: fecha.format(new Date(), "YYYY-MM-DD"),
+      todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
     };
   },
   computed: {
@@ -588,7 +599,7 @@ export default {
       activeUserRole: "token/getUserRole",
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
-      getReportList:"employee/GET_REPORTS_LIST"
+      getReportList: "employee/GET_REPORTS_LIST",
     }),
   },
 
@@ -598,18 +609,17 @@ export default {
     await this.getCurrentDateMonth();
 
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      });
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    });
 
     this.$root.$on("leaves-list", () => {
       this.componentKeyUser += 1;
-      
+
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
-        employeeId:this.id
-
+        employeeId: this.id,
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
     });
@@ -621,20 +631,21 @@ export default {
       //   this.allowanceLeavesDetailedData = result
       // this.is_data_fetched = true
       // });
-      this.$store.dispatch("leavesdata/setLeaveVacationsAllowance", + this.id).then((result)=>{
-        this.allowanceLeavesDetailedData = result;
-        this.is_data_fetched = true;
-      });
-      
-    } 
+      this.$store
+        .dispatch("leavesdata/setLeaveVacationsAllowance", +this.id)
+        .then((result) => {
+          this.allowanceLeavesDetailedData = result;
+          this.is_data_fetched = true;
+        });
+    }
   },
 
   async mounted() {
     this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
-    
-    this.$store.dispatch("employee/setReportsToList").then((result)=>{
-      this.reportOptions = result
+this.getCurrentWeek();
+    this.$store.dispatch("employee/setReportsToList").then((result) => {
+      this.reportOptions = result;
     });
     this.formOptions = SELECT_OPTIONS;
     this.getCurrentYear();
@@ -645,7 +656,7 @@ export default {
     await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,
-      employeeId:this.id
+      employeeId: this.id,
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
   },
@@ -660,6 +671,21 @@ export default {
     getCurrentDateMonth,
     getUserLeavesDetail,
     getTimesheet,
+    getTimeAttendanceDaily,
+    getTimeAttendanceWeek,
+    getTimeAttendanceMonth,
+    getCurrentWeek,
+    parseDate(dateString, format) {
+      return fecha.parse(dateString, format);
+    },
+    formatDate(dateObj, format) {
+      return fecha.format(dateObj, format);
+    },
+    dateSlection(event){
+      var date = fecha.format(new Date(event), "YYYY-MM-DD");
+      this.todayDate = date
+      this.getTimeAttendanceDaily(date);
+    },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
@@ -695,21 +721,18 @@ export default {
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-      if(this.activeTab == 'Time & Attendance')
-       this.getCurrentDateMonth();
-      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
-    console.log(this.getformToDate, "getformToDate")
-      this.getTimesheet();
+      if (this.activeTab == "Time & Attendance") 
+      this.getTimeAttendanceDaily(this.todayDate);
+      console.log(this.date2, "getformToDate");
     },
     viewChange(e) {
       if (e == "Today") {
+        alert("called");
         this.todayListView = true;
         this.weekListView = false;
         this.monthListView = false;
         this.ViewTitle = "Today";
+        this.getTimeAttendanceDaily();
       }
       if (e == "Week") {
         this.todayListView = false;

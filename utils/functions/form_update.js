@@ -36,10 +36,12 @@ export async function updateAllData() {
     alert("No data to Update");
     return true;
   }
-  // if (!this.updateForm.address) {
-  //   this.errorMsgStreet = true;
-  //   return true;
-  // }
+  if (!/^[^@]+@\w+(\.\w+)+\w$/.test(this.updateForm.primaryEmail)) {
+    this.errorMsgPrimaryEmail = true;
+    return true;
+  }else{
+    this.errorMsgPrimaryEmail = false;
+  }
   // this.errorMsgStreet = false;
   // if (!this.updateForm.address.street) {
   //   this.errorMsgStreet = true;
@@ -125,6 +127,7 @@ export function handleInput(event, name, addresses) {
       this.stateVisible = false;
       this.otherStateVisible = true
     }
+    
     add[name] = event;
     this.updateForm.address = this.updateForm.address || [];
     this.updateForm.address = {
@@ -140,6 +143,12 @@ export function handleInput(event, name, addresses) {
     this.isFlag = true;
     this.updateForm[name] = event;
     // this.form[name] = event;
+    if (!/^[^@]+@\w+(\.\w+)+\w$/.test(this.updateForm.primaryEmail)) {
+      this.errorMsgPrimaryEmail = true;
+      return true;
+    }else{
+      this.errorMsgPrimaryEmail = false;
+    }
     console.log(this.updateForm, "update");
   }
 }

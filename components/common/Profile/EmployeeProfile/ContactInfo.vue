@@ -8,8 +8,14 @@
           :value="primaryEmail"
           placeholder="Enter your primary email"
           :disabled="inActive"
-          @change="$emit('input', $event, 'primaryEmail')"
+          @input="$emit('input', $event, 'primaryEmail')"
         ></bib-input>
+        <small
+            class="text-danger"
+            style="margin-top: -0.5rem; margin-bottom: 0.5rem; display: block"
+            v-show="errorMsgPrimaryEmail"
+            >Please enter valid email address</small
+          >
       </div>
       <div class="col-6">
         <bib-input
@@ -65,6 +71,9 @@ export default {
     cellPhone:{
       type:String
     },
+    errorMsgPrimaryEmail:{
+      type:String
+    }
   },
   data() {
     return {

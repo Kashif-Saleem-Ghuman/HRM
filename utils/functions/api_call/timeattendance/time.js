@@ -55,6 +55,7 @@ export async function getTimesheet() {
               }
             );
             this.todayData = timeAttendance.data;
+            return timeAttendance.data;
           } catch (e) {
             alert(e);
           }

@@ -105,6 +105,7 @@
                           :seondaryEmail="form?.seondaryEmail"
                           :homePhone="form?.homePhone"
                           :cellPhone="form?.phone"
+                          :errorMsgPrimaryEmail="errorMsgPrimaryEmail"
                           @input="handleInput"
                         >
                         </contact-info>
@@ -589,6 +590,7 @@ export default {
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
+      errorMsgPrimaryEmail:false,
     };
   },
   computed: {
@@ -722,8 +724,12 @@ this.getCurrentWeek();
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (this.activeTab == "Time & Attendance") 
-      this.getTimeAttendanceDaily(this.todayDate);
-      console.log(this.date2, "getformToDate");
+      this.getTimesheet();
+      // this.getTimeAttendanceDaily(this.todayDate).then((result)=>{
+      //   this.todayData = result
+      //   console.log(this.todayData, "getformToDate");
+
+      // });
     },
     viewChange(e) {
       if (e == "Today") {

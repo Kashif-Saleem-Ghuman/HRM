@@ -254,8 +254,6 @@ export default {
         this.getTime();
       }
     },
-  },
-  methods: {
     openClock() {
       this.clockModal = true;
     },

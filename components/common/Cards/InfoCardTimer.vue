@@ -49,9 +49,12 @@ export default {
     icon: {
       type: String,
     },
-    role: {
+    activeUserRole: {
       type: String,
     },
+    employeeId: {
+      type: Number,
+    }
   },
   data() {
     return {
@@ -61,7 +64,6 @@ export default {
       loading: true,
       time: '',
       date: '',
-      active: false,
       timerLoading: false,
       chronometer: 0,
     };
@@ -79,11 +81,14 @@ export default {
       };
       this.timerLoading = false;
     }, 1000)
-    this.active = this.getTimerData.active;
     this.time = new Date().toTimeString().split(' ')[0];
     this.date = new Date().toDateString();
-    await this.$store.dispatch('timeattendance/setTimerData');
-    await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    await this.$store.dispatch('timeattendance/setTimerData', this.employeeId);
+    if (this.activeUserRole === 'USER') {
+      await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    } else {
+      await this.$store.dispatch('timeattendance/setEmployeeAttendanceData', this.employeeId)
+    }
     this.timeEntriesLoading = false;
   },
   methods: {
@@ -101,12 +106,22 @@ export default {
       if (this.timerLoading) return '--:--:--';
       return formatTime(this.chronometer);
     },
-    buttonLable() {
-      return this.active ? 'CLOCK OUT' : 'CLOCK IN'
-    },
     activityDetails() {
       return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
     },
+    active() {
+      return this?.getTimerData?.active || false
+    },
+    buttonLable() {
+      if (this.activeUserRole === 'USER') {
+        if (this?.active) return 'Clock In';
+        else return 'Clock Out';
+      }
+      else if (this.activeUserRole === 'ADMIN') {
+        if (this?.active) return 'Online';
+        else return 'Offline';
+      }
+    }
   }
 };
 </script>

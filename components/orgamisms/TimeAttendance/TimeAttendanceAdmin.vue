@@ -62,20 +62,6 @@
                 class="d-grid d-flex gap-1 py-1 px-1"
                 style="grid-template-columns: repeat(3, 1fr)"
               >
-                <info-card-time
-                  :item="infoCardData[0]"
-                  buttonLable="Clock in"
-                  icon="table"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-time>
-                <info-card-time
-                  :item="infoCardData[1]"
-                  buttonLable="Clock in"
-                  icon="table"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-time>
                 <info-card-help
                   custumBg="help-wrapper__bg-black"
                 ></info-card-help>

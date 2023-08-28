@@ -1,4 +1,5 @@
 import axios from "axios";
+import fecha from "fecha";
 
 export const state = () => ({
   timer: {
@@ -34,15 +35,17 @@ export const mutations = {
 };
 
 export const actions = {
-  async setTimerData(ctx) {
+  async setTimerData(ctx, employeeId = '') {
     this.loading = true;
+    const defaultUrl = `${process.env.API_URL}/timers`;
+    const url = employeeId ? defaultUrl + `?employeeId=${employeeId}` : defaultUrl;
     try {
       const leaveVacations = await axios.get(
-        `${process.env.API_URL}/timers`,
+        url,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          }
+          },
         }
       );
       ctx.commit("SET_TIMER_DATA", leaveVacations.data);
@@ -66,6 +69,28 @@ export const actions = {
         },
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
+    } catch (e) {
+      alert(e);
+    }
+  },
+
+  async setEmployeeAttendanceData(ctx, employeeId) {
+    try {
+      const date = fecha.format(new Date(), "YYYY-MM-DD")
+      const { data } = await axios.get(
+        process.env.API_URL + "/timesheets/admin/attendance?date=" + date,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      );
+      const activityReport = data.find((a) => a.id === employeeId).activityReport
+      ctx.commit("SET_DAILY_TIME_ENTRIES", [{
+        start: activityReport.in,
+        end: activityReport.out,
+        total: activityReport.total,
+      }]);
     } catch (e) {
       alert(e);
     }

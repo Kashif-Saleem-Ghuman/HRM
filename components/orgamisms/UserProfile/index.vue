@@ -366,10 +366,9 @@
                       style="grid-template-columns: repeat(3, 1fr)"
                     >
                       <info-card-timer
-                        buttonLable="Online"
-                        icon="table"
-                        className="button-wrapper__bgsucess"
-                        :employeeId="this.id"
+                        :activeUserRole="activeUserRole"
+                        @clock="openClock"
+                        :employeeId="Number(this.id)"
                       ></info-card-timer>
                       <info-card-one
                         :item="timesheetData"
@@ -759,6 +758,12 @@ this.getCurrentWeek();
     clickOutside() {
       this.show = false;
     },
+    openClock() {
+      this.clockModal = true;
+    },
+    closeClock() {
+      this.clockModal = false;
+    }
   },
 };
 </script>

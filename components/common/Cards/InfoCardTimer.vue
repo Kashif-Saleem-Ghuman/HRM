@@ -114,8 +114,8 @@ export default {
     },
     buttonLable() {
       if (this.activeUserRole === 'USER') {
-        if (this?.active) return 'Clock In';
-        else return 'Clock Out';
+        if (this?.active) return 'Clock Out';
+        else return 'Clock In';
       }
       else if (this.activeUserRole === 'ADMIN') {
         if (this?.active) return 'Online';

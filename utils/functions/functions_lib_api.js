@@ -1,4 +1,8 @@
 import {
+  addFiles,
+  getFiles,
+  } from "./api_call/myprofile";
+  import {
     employeeTime,
   } from "./api_call/timeapi";
   import {
@@ -57,4 +61,8 @@ import {
     getTimeAttendanceDaily,
     getTimeAttendanceWeek,
     getTimeAttendanceMonth,
+
+    // my profile
+  addFiles,
+  getFiles,
   };

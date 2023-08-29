@@ -652,34 +652,10 @@ export const EMPLOYEE_PROFILE_TAB = [
     title: "Employee Profile",
     value: "Employee Profile",
   },
-  // {
-  //   title: "Personal Information",
-  //   value: "Personal Information",
-  // },
-  // {
-  //   title: "Contact Information",
-  //   value: "Contact Information",
-  // },
   {
     title: "Employment Information",
     value: "Employment Information",
   },
-  // {
-  //   title: "Pay",
-  //   value: "Pay",
-  // },
-  // {
-  //   title: "Benefits",
-  //   value: "benefits",
-  // },
-  // {
-  //   title: "Time-off",
-  //   value: "time-off",
-  // },
-  // {
-  //   title: "Time & Attendance",
-  //   value: "timeattendance",
-  // },
   {
     title: "Files",
     value: "files",

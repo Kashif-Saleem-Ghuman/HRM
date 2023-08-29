@@ -24,7 +24,7 @@
     </div>
 
     <!-- User Menu  -->
-    <div  class="mt-1">
+    <div v-if="userMenu" class="mt-1">
       <div :class="sectionHead" class="section-head">
         <span v-on:click="changeDashboard" style="cursor: pointer; color: #86868a;">Home</span>
       </div>

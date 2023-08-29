@@ -72,7 +72,7 @@ export default {
       type:String
     },
     errorMsgPrimaryEmail:{
-      type:String
+      type:[String, Boolean]
     }
   },
   data() {

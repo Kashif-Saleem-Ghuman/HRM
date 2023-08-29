@@ -1,10 +1,10 @@
 !
 <template>
   <div>
-    <div v-if="getUserRole == 'ADMIN'">
+    <div v-if="getUserRole == 'USER'">
       <user-profile></user-profile>
     </div>
-    <div v-if="getUserRole == 'USER'">
+    <div v-if="getUserRole == 'ADMIN'">
       <my-profile></my-profile>
     </div>
   </div>

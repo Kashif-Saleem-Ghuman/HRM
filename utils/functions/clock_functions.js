@@ -17,45 +17,44 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   // there is no out time before there is a timeEntry record
   let outTime = null;
 
-  const timeEntriesLength = timeEntries?.length;
+  const filteredTimeEntries = timeEntries?.filter?.((t) => t.end) || [];
+  const timeEntriesLength = filteredTimeEntries?.length;
 
   if(timeEntriesLength) {
     // when there is a record in daily entries, override inTime
     // with starting time of the first record
-    inTime = new Date(timeEntries[0].start)
+    inTime = new Date(filteredTimeEntries[0].start)
       .toTimeString()
       .split(' ')
       [0];
 
     // when there is a record in daily entries, outTime is the
     // ending time of the last record
-    outTime = new Date(timeEntries[timeEntriesLength - 1].end)
+    outTime = new Date(filteredTimeEntries[timeEntriesLength - 1].end)
       .toTimeString()
       .split(' ')
       [0];
   }
-
   let breaksSeconds = 0;
   let totalSeconds = 0;
 
-  for (let i = 1; i < timeEntriesLength; i++) {
+  for (let i = 0; i < timeEntriesLength; i++) {
     totalSeconds += Math.floor(
       (
-        new Date(timeEntries[i].end).getTime()
-        - new Date(timeEntries[i].start).getTime()
+        new Date(filteredTimeEntries[i].end).getTime()
+        - new Date(filteredTimeEntries[i].start).getTime()
       ) / 1000
     );
     if (i > 0) breaksSeconds += Math.floor(
       (
-        new Date(timeEntries[i].start).getTime()
-        - new Date(timeEntries[i - 1].end).getTime()
+        new Date(filteredTimeEntries[i].start).getTime()
+        - new Date(filteredTimeEntries[i - 1].end).getTime()
       ) / 1000
     );
   }
-
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
-    out: inTime === null ? '--:--' : outTime.trim().slice(0, 5),
+    out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
     breaks: formatTime(breaksSeconds, false),
     total: formatTime(totalSeconds, false),
   };

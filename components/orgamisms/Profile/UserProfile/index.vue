@@ -490,12 +490,12 @@ import {
   COUNTRIES,
   STATES,
   WEEK_DAY,
-} from "../../../utils/constant/Constant.js";
+} from "../../../../utils/constant/Constant.js";
 import {
   TIMESHEET_DATA,
   DAY_VIEW_DATA,
   WEEK_VIEW_DATA,
-} from "../../../utils/constant/TimesheetData.js";
+} from "../../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
   getUserLeavesDetail,
@@ -503,7 +503,7 @@ import {
   getTimeAttendanceDaily,
   getTimeAttendanceWeek,
   getTimeAttendanceMonth,
-} from "../../../utils/functions/functions_lib_api";
+} from "../../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
   vfileAdded,
@@ -513,13 +513,13 @@ import {
   getCurrentYear,
   getCurrentDateMonth,
   getCurrentWeek,
-} from "../../../utils/functions/functions_lib.js";
-import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
+} from "../../../../utils/functions/functions_lib.js";
+import { DELETE_MESSAGE } from "../../../../utils/constant/ConfirmationMessage";
 
-import getJson from "../../../utils/dataJson/app_wrap_data";
+import getJson from "../../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
-import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
+import { MONTH_LIST, YEAR_LIST } from "../../../../utils/constant/Calander";
+import { INFO_CARD_DATA } from "../../../../utils/constant/DashboardData";
 
 import fecha from "fecha";
 export default {

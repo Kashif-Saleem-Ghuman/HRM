@@ -290,48 +290,50 @@
             <div v-if="activeTab == personalTabItem[2].value">
               <div id="scroll-wrapper" class="scroll-wrapper">
                 <div class="px-1">
-                  <div class="row">
-                    <div class="col-12">
-                      <!-- my profile Info Wrapper Start Here  -->
-                      <div id="my-profile-wrapper">
-                        <div class="py-cus row-custom" :key="fileList">
-                          <bib-input
-                            type="file"
-                            ref="filesUploaded"
-                            @files-dropped="handleChange__FileInput"
-                            variant="accepted"
-                            iconLeft="upload"
-                            placeholder="Drop file here or click to upload"
-                            style="margin-left: -8px;"
-                          ></bib-input>
-                        </div>
-                        <template v-for="(file, key) in filesUploaded">
-                          <div
-                            class="shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
-                          >
-                            <div class="d-flex align-center">
-                              <bib-icon
-                                :icon="
-                                  file.name.split('.').pop() == 'pdf'
-                                    ? 'pdf'
-                                    : '' || file.name.split('.').pop() == 'docx'
-                                    ? 'word'
-                                    : '' || file.name.split('.').pop() == 'word'
-                                    ? 'excel'
-                                    : ''
-                                "
-                                variant="gray5"
-                              ></bib-icon>
+                  <!-- my profile Info Wrapper Start Here  -->
+                  <div id="my-profile-wrapper">
+                    <div class="py-cus custom-dropzone" :key="fileList">
+                      <bib-input
+                        type="file"
+                        ref="filesUploaded"
+                        @files-dropped="handleChange__FileInput"
+                        variant="accepted"
+                        iconLeft="upload"
+                        placeholder="Drop file here or click to upload"
+                        style="margin-left: -8px"
+                      ></bib-input>
+                      <bib-button label="Upload" size="lg" variant="success" @click="fileUpload"></bib-button>
+                    </div>
+                    <div
+                      class="d-grid gap-1"
+                      style="grid-template-columns: repeat(4, 1fr)"
+                    >
+                      <template v-for="(file, key) in filesUploaded">
+                        <div
+                          class="shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+                        >
+                          <div class="d-flex align-center">
+                            <bib-icon
+                              :icon="
+                                file.name.split('.').pop() == 'pdf'
+                                  ? 'pdf'
+                                  : '' || file.name.split('.').pop() == 'docx'
+                                  ? 'word'
+                                  : '' || file.name.split('.').pop() == 'word'
+                                  ? 'excel'
+                                  : ''
+                              "
+                              variant="gray5"
+                            ></bib-icon>
 
-                              <h5
-                                class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
-                              >
-                                {{ file.name }}
-                              </h5>
-                            </div>
+                            <h5
+                              class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+                            >
+                              {{ file.name }}
+                            </h5>
                           </div>
-                        </template>
-                      </div>
+                        </div>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -354,12 +356,12 @@ import {
   COUNTRIES,
   STATES,
   WEEK_DAY,
-} from "../../../utils/constant/Constant.js";
+} from "../../../../utils/constant/Constant.js";
 import {
   TIMESHEET_DATA,
   DAY_VIEW_DATA,
   WEEK_VIEW_DATA,
-} from "../../../utils/constant/TimesheetData.js";
+} from "../../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
   getUserLeavesDetail,
@@ -369,7 +371,7 @@ import {
   getTimeAttendanceMonth,
   addFiles,
   getFiles,
-} from "../../../utils/functions/functions_lib_api";
+} from "../../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
   vfileAdded,
@@ -379,13 +381,13 @@ import {
   getCurrentYear,
   getCurrentDateMonth,
   getCurrentWeek,
-} from "../../../utils/functions/functions_lib.js";
-import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
+} from "../../../../utils/functions/functions_lib.js";
+import { DELETE_MESSAGE } from "../../../../utils/constant/ConfirmationMessage";
 
-import getJson from "../../../utils/dataJson/app_wrap_data";
+import getJson from "../../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
-import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
+import { MONTH_LIST, YEAR_LIST } from "../../../../utils/constant/Calander";
+import { INFO_CARD_DATA } from "../../../../utils/constant/DashboardData";
 
 import fecha from "fecha";
 export default {
@@ -535,7 +537,10 @@ export default {
     getCurrentWeek,
     async handleChange__FileInput(files) {
       this.files = files;
-      await this.addFiles(this.id, files);
+      
+    },
+    async fileUpload(){
+      await this.addFiles(this.id, this.files);
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.fileList += 1;
@@ -632,6 +637,30 @@ export default {
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none !important;
+  }
+}
+.custom-dropzone {
+  width: 50%;
+  // height: auto;
+  display: flex;
+  border: 1px dotted #2ba026 !important;
+  justify-content: space-between;
+  background-color: #eef7ee;
+  align-items: center;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 20px 0;
+  .input--file {
+    // border: 1px dotted #dcdcdf !important;
+    background: #fff;
+    margin: 0 10px;
+    border-radius: 6px;
+    ;
+
+  }
+  .border-gray4 {
+    border: none !important;
+    margin-left: -15px;
   }
 }
 .section-wrapper {

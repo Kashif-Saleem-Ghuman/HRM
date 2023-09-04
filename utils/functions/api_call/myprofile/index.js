@@ -3,7 +3,7 @@ export async function addFiles(payload, files) {
   let fd = new FormData();
   
   for (let i = 0; i < files.length; i++) {
-    fd.append("file", files[i])
+    fd.append("files", files[i])
     console.log(files[i], "kasdjhkjahsdkjahskdjk")
   }
 

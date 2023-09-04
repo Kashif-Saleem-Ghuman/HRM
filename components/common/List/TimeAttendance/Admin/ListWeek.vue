@@ -3,41 +3,42 @@
       <custom-table
         :fields="tableFields"
         class="border-gray4 bg-white"
-        :sections="listWeek"
+        :sections="activityReports"
         :hide-no-column="true"
         :showTotal=true
       >
         <template #cell(name)="data">
           <div class="info_wrapper text-left pl-1">
               <div class="title">
-                {{ data.value.weekDay }}
+                {{ data.value.weekday }}
               </div>
               <div class="description">
-                {{ data.value.weekDayTime }}
+                {{ getWeekdayString(data.value.date) }}
+           
               </div>
             </div>
         </template>
         <template #cell(in)="data">
           <div class="justify-between pl-075">
-        <span>{{ data.value.in }}</span>
+        <span>{{ data.value.activityReport.in }}</span>
       </div>
         </template>
   
         <template #cell(break)="data">
           <div class="justify-between pl-075">
-        <span>{{ data.value.break }}</span>
+        <span>{{ data.value.activityReport.break }}</span>
       </div>
         </template>
   
         <template #cell(out)="data">
           <div class="justify-between pl-075">
-        <span>{{ data.value.out }}</span>
+        <span>{{ data.value.activityReport.out }}</span>
       </div>
         </template>
         
         <template #cell(total)="data">
           <div class="justify-between pl-075">
-        <span>{{ data.value.total }}</span>
+        <span>{{ data.value.activityReport.total }}</span>
       </div>
         </template>
       </custom-table>
@@ -50,9 +51,12 @@
   </template>
   
   <script>
-  import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
-  import { mapGetters } from "vuex";
+  import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+  import { DateTime } from "luxon";
+  import { TABLE_HEAD, WEEK_DAY } from "../../../../../utils/constant/Constant.js";
   import { TIMESHEET_DATA } from "../../../../../utils/constant/TimesheetData";
+  import { getTimeAttendanceWeek } from "../../../../../utils/functions/api_call/timeattendance/time";
+
   export default {
     props: {
       listWeek: {
@@ -71,18 +75,39 @@
         timesheetModal: false,
         localData: TIMESHEET_DATA,
         filteredData: [],
+        parsedTimesheets: null
       };
     },
-    // async craeted(){
-    //   await this.$store.dispatch("employee/setUserList");
-    //   this.localData = this.userList;
-    // },
-    // computed: {
-    //   ...mapGetters({
-    //     userList: "employee/GET_USERS_LIST"
-    //   }),
-    // },
+
+   computed: {
+      activityReports() {
+        return this.parsedTimesheets?.activityReports ?? []
+      },
+
+      total() {
+        return this.parsedTimesheets?.total ?? 0
+      }
+   },
+
+
+    created() {
+      this.getAndParseTimesheets()
+    },
     methods: {
+      async getAndParseTimesheets() {
+        //TODO take dates from calendar
+        const from = "2023-08-27T00:00:00.000Z"
+        const to = "2023-09-02T00:00:00.000Z"
+
+        const timesheets = await getTimeAttendanceWeek({ from, to })
+        this.parsedTimesheets = (new TimesheetParser(timesheets)).parse('week')
+      },
+
+      // TODO could be in in utils to reuse in other components
+      getWeekdayString(date) {
+        return WEEK_DAY[DateTime.fromISO(date).weekday - 1].label
+      },
+
       close() {
         alert("sadjlaksjdlasldkjlasjdl");
         this.timesheetModal = false;

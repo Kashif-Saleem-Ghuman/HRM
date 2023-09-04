@@ -18,7 +18,7 @@
             style="grid-template-columns: repeat(3, 1fr)"
           >
             <info-card-timer
-              role="USER"
+              activeUserRole="USER"
               @clock="openClock"
             ></info-card-timer>
             <bib-clock-wrapper

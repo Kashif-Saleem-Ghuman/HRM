@@ -537,6 +537,7 @@ export default {
     getCurrentWeek,
     async handleChange__FileInput(files) {
       this.files = files;
+      
     },
     async fileUpload(){
       await this.addFiles(this.id, this.files);

@@ -53,6 +53,31 @@ export default class BaseTimesheetParser {
     return activityReport;
   };
 
+  generateActivityReportFromTimer = (timers, timeEntries) => {
+    const timer = timers[0] ?? {};
+    const timeEntriesByActivity = keyBy(timeEntries, "activity");
+    const timeEntryIn = timer?.start ? this.getTimeFromDate(timer.start) : null;
+
+    const timeEntryOut = null;
+    const timeEntryBreak = timeEntriesByActivity.break?.start
+      ? this.getDateDiffInMinutes(
+          timeEntriesByActivity.break.start,
+          timeEntriesByActivity.break.end
+        )
+      : null;
+
+    let total = this.getDateDiffInMinutes(timer.start, DateTime.now().toISO());
+
+    const activityReport = {
+      in: timeEntryIn,
+      out: timeEntryOut,
+      break: timeEntryBreak,
+      total,
+    };
+
+    return activityReport;
+  };
+
   getDayTotalWorkHours(timeEntries = []) {
     const timeEntry = timeEntries.find(
       (timeEntry) => timeEntry.activity == "in"

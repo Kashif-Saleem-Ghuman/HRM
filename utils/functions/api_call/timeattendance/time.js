@@ -1,19 +1,21 @@
 import { createConfig } from "../config";
 import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 
-export async function getTimeAttendance() {
-  this.loading = true;
+export async function getTimeAttendance(payload) {
+  const { date } = payload
+  
   try {
+    const url = `/timesheets/admin/daily?date=${date}`
     const config = createConfig();
-    const timeAttendance = await hrmApiAxiosInstance.get(
-      "/timesheets/admin/attendance?date=" + this.getCurrentDate,
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
       config
     );
-    this.localData = timeAttendance.data;
+    return data
   } catch (e) {
-    alert(e);
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
   }
-  this.loading = false;
 }
 
 export async function getTimesheet() {

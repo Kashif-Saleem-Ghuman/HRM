@@ -49,12 +49,12 @@
       <template #cell(status)="data">
         <div class="text-dark">
           <chips-list
-            :title="data.value.activityReport.status == null ? '---' : data.value.activityReport.status"
+            :title="data.value.activityReport.active == null ? '---' : data.value.activityReport.active"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.activityReport.status == 'Online' ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
-              data.value.activityReport.status == 'Absent' ? 'chip-list-wrapper__light' : '',
+              data.value.activityReport.active ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__default',
+              !data.value.activityReport.active ? 'chip-list-wrapper__light' : '',
             ]"
           ></chips-list>
         </div>
@@ -62,7 +62,7 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.activityReport.in == null ? 'N/A' : dateCheck(data.value.activityReport.in)"
+            :title="data.value?.activityReport.in == null ? 'N/A' : data.value.activityReport.in"
             :className="[
               data.value?.activityReport.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
               data.value?.activityReport.in === 'V' ? 'chip-wrapper__bgvacation' : '',
@@ -74,7 +74,7 @@
       </template>
       <template #cell(out)="data">
         <chips
-          :title="data.value?.activityReport.out == null ? 'N/A' : dateCheck(data.value?.activityReport.out)"
+          :title="data.value?.activityReport.out == null ? 'N/A' : data.value?.activityReport.out"
           :className="[
             data.value?.activityReport.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
           ]"
@@ -82,9 +82,9 @@
       </template>
       <template #cell(breaks)="data">
         <chips
-          :title="data.value?.activityReport.breaks == null ? 'N/A' : data.value?.activityReport.breaks"
+          :title="data.value?.activityReport.break == null ? 'N/A' : data.value?.activityReport.break"
           :className="[
-            data.value?.activityReport.breaks >= '00:02' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.break >= '00:02' ? 'chip-wrapper__bgsucess' : '',
           ]"
         ></chips>
       </template>

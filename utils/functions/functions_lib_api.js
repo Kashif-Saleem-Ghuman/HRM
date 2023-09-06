@@ -9,8 +9,7 @@ import {
     getTimeAttendance,
     getTimesheet,
     getTimeAttendanceDaily,
-    getTimeAttendanceWeek,
-    getTimeAttendanceMonth
+    getTimeAttendanceCustomRange,
   } from "./api_call/timeattendance/time";
   import {
     startTimer,
@@ -59,8 +58,7 @@ import {
     startTimer,
     stopTimer,
     getTimeAttendanceDaily,
-    getTimeAttendanceWeek,
-    getTimeAttendanceMonth,
+    getTimeAttendanceCustomRange,
 
     // my profile
   addFiles,

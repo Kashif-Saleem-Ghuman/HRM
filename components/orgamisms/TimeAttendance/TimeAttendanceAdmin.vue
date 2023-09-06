@@ -246,7 +246,7 @@
     </div>
   </template>
   <script>
-  import dayjs from "dayjs";
+  import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
   import {
     TIME_ATTENDANCE_TAB,
   } from "../../../utils/constant/Constant.js";
@@ -276,14 +276,17 @@
         getCurrentDate: "",
         date: null,
         format: "MMM D, YYYY",
-        date2: fecha.format(new Date(), "YYYY-MM-DD"),
+        date2: format(new Date(), "YYYY-MM-DD"),
       };
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.getTimeAttendance();
-      console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
-  
+      const { employees } = await getTimeAttendance({ date: this.getCurrentDate });
+      employees.forEach(employee => {
+        const parser = new TimesheetParser(employee)
+        employee.activityReport = parser.parse('day')
+      });
+      this.localData = employees
       await this.$store.dispatch("employee/setActiveUser");
       var users = this.getUser;
       this.id = users.id;
@@ -315,7 +318,7 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.getTimeAttendance();
+        this.localData = this.getTimeAttendance({ date }).then(res => res.employees);
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

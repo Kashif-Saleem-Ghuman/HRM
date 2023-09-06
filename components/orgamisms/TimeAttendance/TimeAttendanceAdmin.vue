@@ -40,12 +40,12 @@
                   </div>
                 </div>
   
-                <div class="d-flex align-center">
-                  <div class="d-flex align-center mr-05">
+                <div class="d-flex">
+                  <!-- <div class="d-flex align-center mr-05">
                     <span class="mr-05">Search:</span>
                     <bib-input size="sm" type="text" test_id="srchInput01">
                     </bib-input>
-                  </div>
+                  </div> -->
                   <div class="d-flex align-center">
                     <div style="font-size: 14px" class="mr-05">Show:</div>
                     <button
@@ -62,6 +62,14 @@
                 class="d-grid d-flex gap-1 py-1 px-1"
                 style="grid-template-columns: repeat(3, 1fr)"
               >
+              <absent-present-card
+                  :item="absentPresentCardData[0]"
+                  title="Attandance"
+                ></absent-present-card>
+                <absent-present-card
+                  :item="absentPresentCardData[1]"
+                  title="Absnece"
+                ></absent-present-card>
                 <info-card-help
                   custumBg="help-wrapper__bg-black"
                 ></info-card-help>
@@ -118,27 +126,21 @@
                 class="d-grid d-flex gap-1 py-1 px-1"
                 style="grid-template-columns: repeat(3, 1fr)"
               >
-                <info-card-time
-                  :item="infoCardData[0]"
-                  buttonLable="Clock in"
-                  icon="table"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-time>
-                <info-card-time
-                  :item="infoCardData[1]"
-                  buttonLable="Clock in"
-                  icon="table"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-time>
+              <absent-present-card
+                  :item="absentPresentCardData[0]"
+                  title="Timesheet past due"
+                ></absent-present-card>
+                <absent-present-card
+                  :item="absentPresentCardData[1]"
+                  title="Timesheets pending"
+                ></absent-present-card>
                 <info-card-help
                   custumBg="help-wrapper__bg-black"
                 ></info-card-help>
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-timesheet :userList="dayWiseDataTimesheet"></list-timesheet>
+                  <list-timesheet :listMonth="MonthViewData"></list-timesheet>
                   <loader v-bind:showloader="loading"></loader>
                   <!-- <list-timesheet :userList="users"></list-timesheet> -->
                 </div>
@@ -250,7 +252,7 @@
   import {
     TIME_ATTENDANCE_TAB,
   } from "../../../utils/constant/Constant.js";
-  import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
+  import { INFO_CARD_DATA, ABSENT_INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
   
   import { TIMESHEET_DATA, MY_TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
   import { mapGetters } from "vuex";
@@ -265,6 +267,7 @@
         endDate: null,
         timeAttendanceTab: TIME_ATTENDANCE_TAB,
         dayWiseDataTimesheet: TIMESHEET_DATA,
+        MonthViewData: TIMESHEET_DATA,
         activeTab: "Attendance",
         updateForm: {},
         isFlag: false,
@@ -272,6 +275,7 @@
         loading:false,
         // Time & attendance
         infoCardData: INFO_CARD_DATA,
+        absentPresentCardData: ABSENT_INFO_CARD_DATA,
         localData: [],
         getCurrentDate: "",
         date: null,

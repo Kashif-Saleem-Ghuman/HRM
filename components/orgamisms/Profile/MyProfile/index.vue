@@ -18,11 +18,7 @@
         <div class="row mx-0 bottom_border_wrapper">
           <div class="col-12 px-1">
             <bib-tabs
-              :tabs="
-                !this.$route.params.id
-                  ? personalTabItem.slice(0, 2)
-                  : personalTabItem
-              "
+              :tabs="personalTabItem"
               :value="activeTab"
               @change="handleChange_Tabs"
             ></bib-tabs>
@@ -290,184 +286,54 @@
             </div>
           </div>
 
-          <div id="time-attendance-wrapper">
+          <div id="files-information-wrapper">
             <div v-if="activeTab == personalTabItem[2].value">
-              <div class="scroll_wrapper">
-                <div class="time-attendance-wrapper">
-                  <div class="d-flex align-center px-1 py-05 bottom_border_wrapper">
-                    <label class="pr-05">View:</label>
-                    <div style="position: relative">
-                      <button-gray
-                        variant="light"
-                        :scale="1"
-                        :title="ViewTitle"
-                        style="height: 2.5rem; color: #000"
-                        @on-click="show = !show"
-                        v-click-outside="clickOutside"
-                        class="pr-05"
-                      ></button-gray>
-                      <div class="menu-items">
-                        <ul v-if="show">
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Today')"
-                              style="cursor: pointer"
-                              >Today</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Week')"
-                              style="cursor: pointer"
-                              >Week</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Month')"
-                              style="cursor: pointer"
-                              >Month</span
-                            >
-                          </li>
-                          <li class="d-flex align-center">
-                            <span
-                              class="ml-05"
-                              @click="viewChange('Year')"
-                              style="cursor: pointer"
-                              >Year</span
-                            >
-                          </li>
-                        </ul>
-                      </div>
+              <div id="scroll-wrapper" class="scroll-wrapper">
+                <div class="px-1">
+                  <!-- my profile Info Wrapper Start Here  -->
+                  <div id="my-profile-wrapper">
+                    <div class="py-cus custom-dropzone" :key="fileList">
+                      <bib-input
+                        type="file"
+                        ref="filesUploaded"
+                        @files-dropped="handleChange__FileInput"
+                        variant="accepted"
+                        iconLeft="upload"
+                        placeholder="Drop file here or click to upload"
+                        style="margin-left: -8px"
+                      ></bib-input>
+                      <bib-button label="Upload" size="lg" variant="success" @click="fileUpload"></bib-button>
                     </div>
-                    <div class="d-flex justify-between align-center">
-                      <div class="d-flex align-center">
-                        <div class="custom_date_picker">
-                          <!-- <div class="mr-05">Date:</div> -->
-                          <bib-datetime-picker
-                            v-model="date2"
-                            :format="format"
-                            :parseDate="parseDate"
-                            :formatDate="formatDate"
-                            class="custom_date_picker"
-                            @input="dateSlection($event)"
-                            style="margin-bottom: -8px !important;"
-                          ></bib-datetime-picker>
+                    <div
+                      class="d-grid gap-1"
+                      style="grid-template-columns: repeat(4, 1fr)"
+                    >
+                      <template v-for="(file, key) in filesUploaded">
+                        <div
+                          class="shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+                        >
+                          <div class="d-flex align-center">
+                            <bib-icon
+                              :icon="
+                                file.name.split('.').pop() == 'pdf'
+                                  ? 'pdf'
+                                  : '' || file.name.split('.').pop() == 'docx'
+                                  ? 'word'
+                                  : '' || file.name.split('.').pop() == 'word'
+                                  ? 'excel'
+                                  : ''
+                              "
+                              variant="gray5"
+                            ></bib-icon>
+
+                            <h5
+                              class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+                            >
+                              {{ file.name }}
+                            </h5>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="px-1 py-05">
-                    <div
-                      class="d-grid d-flex gap-1 py-05"
-                      style="grid-template-columns: repeat(3, 1fr)"
-                    >
-                      <info-card-timer
-                        :activeUserRole="activeUserRole"
-                        @clock="openClock"
-                        :employeeId="Number(this.id)"
-                      ></info-card-timer>
-                      <info-card-one
-                        :item="timesheetData"
-                        title="View Timesheet"
-                        buttonLable="View timesheet past due"
-                        icon="table"
-                        profilePic="profilePic"
-                        buttonVariant="light"
-                        @on-click="viewChange('Month')"
-                        className="button-wrapper__bgwarnning"
-                      ></info-card-one>
-
-                      <info-card-help
-                        custumBg="help-wrapper__bg-black"
-                      ></info-card-help>
-                    </div>
-                  </div>
-                  <div>
-                    <list-day-admin
-                      :listToday="todayData"
-                      v-show="todayListView"
-                    ></list-day-admin>
-                    <list-week
-                      :listWeek="weekDataView"
-                      v-show="weekListView"
-                    ></list-week>
-                    <list-month
-                      :listMonth="MonthViewData"
-                      v-show="monthListView"
-                    ></list-month>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="leave-vacation-wrapper py-cus">
-            <div class="" id="tab_info_wrapper">
-              <div v-if="activeTab == personalTabItem[3].value">
-                <div class="scroll_wrapper">
-                  <div class="px-1 py-05">
-                    <div
-                      class="d-grid d-flex gap-1 py-05"
-                      style="grid-template-columns: repeat(3, 1fr)"
-                      v-if="is_data_fetched"
-                    >
-                      <info-card-leave-vacation
-                        title="Vacation"
-                        :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
-                        totalAllowance="30"
-                        buttonLable="Request Vacation"
-                        icon="table"
-                        className="button-wrapper__bgsucess"
-                        variant="white"
-                        @on-click="addLeaves('vacation')"
-                      ></info-card-leave-vacation>
-                      <info-card-leave-vacation
-                        title="Medical/sick"
-                        :daysUsed="
-                          allowanceLeavesDetailedData.medicalLeavesUsed
-                        "
-                        totalAllowance="10"
-                        buttonLable="Request Medical Leave"
-                        icon="table"
-                        className="button-wrapper__bgalert"
-                        variant="white"
-                        @on-click="addLeaves('medical')"
-                      ></info-card-leave-vacation>
-                      <info-card-leave-vacation
-                        title="Request Personal leave"
-                        :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-                        totalAllowance="12"
-                        buttonLable="Request Personal Leave"
-                        icon="table"
-                        className="button-wrapper__bgwarnning"
-                        variant="white"
-                        @on-click="addLeaves('leave')"
-                      ></info-card-leave-vacation>
-                    </div>
-                    <div class="py-1">
-                      <list-leave-attendance
-                        :leaveData="leaveVacationDataUser"
-                        :key="componentKeyUser"
-                        @delete-item="deleteItemConfirmation($event)"
-                        v-show="leaveVacationDataUser?.length ? true : false"
-                      ></list-leave-attendance>
-                      <div>
-                        <no-record
-                          v-show="leaveVacationDataUser?.length ? false : true"
-                        ></no-record>
-                      </div>
-                      <confirmation-modal
-                        :title="modalContent[0].title"
-                        :confirmationMessage="modalContent[0].message"
-                        :confirmastionMessageModal="confirmastionMessageModal"
-                        @close="closeconfirmastionMessageModal"
-                        @deleteLeave="deleteItem()"
-                      ></confirmation-modal>
-                      <loader v-bind:showloader="loading"></loader>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -485,24 +351,26 @@
 <script>
 import { mapGetters } from "vuex";
 import {
-  USER_PROFILE_TAB,
+  EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
   COUNTRIES,
   STATES,
   WEEK_DAY,
-} from "../../../utils/constant/Constant.js";
+} from "../../../../utils/constant/Constant.js";
 import {
   TIMESHEET_DATA,
   DAY_VIEW_DATA,
   WEEK_VIEW_DATA,
-} from "../../../utils/constant/TimesheetData.js";
+} from "../../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
   getUserLeavesDetail,
   getTimesheet,
   getTimeAttendanceDaily,
   getTimeAttendanceCustomRange,
-} from "../../../utils/functions/functions_lib_api";
+  addFiles,
+  getFiles,
+} from "../../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
   vfileAdded,
@@ -512,13 +380,13 @@ import {
   getCurrentYear,
   getCurrentDateMonth,
   getCurrentWeek,
-} from "../../../utils/functions/functions_lib.js";
-import { DELETE_MESSAGE } from "../../../utils/constant/ConfirmationMessage";
+} from "../../../../utils/functions/functions_lib.js";
+import { DELETE_MESSAGE } from "../../../../utils/constant/ConfirmationMessage";
 
-import getJson from "../../../utils/dataJson/app_wrap_data";
+import getJson from "../../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
-import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
+import { MONTH_LIST, YEAR_LIST } from "../../../../utils/constant/Calander";
+import { INFO_CARD_DATA } from "../../../../utils/constant/DashboardData";
 
 import fecha from "fecha";
 export default {
@@ -543,7 +411,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       webPortalAccess: "true",
-      personalTabItem: USER_PROFILE_TAB,
+      personalTabItem: EMPLOYEE_PROFILE_TAB,
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
@@ -588,7 +456,10 @@ export default {
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
-      errorMsgPrimaryEmail:false,
+      errorMsgPrimaryEmail: false,
+      files: [],
+      filesUploaded: "",
+      fileList: 0,
     };
   },
   computed: {
@@ -606,44 +477,30 @@ export default {
   async created() {
     this.id = this.$route.params.id;
     // await this.users();
-    await this.getCurrentDateMonth();
-
-    this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    });
-
-    this.$root.$on("leaves-list", () => {
-      this.componentKeyUser += 1;
-
-      this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        employeeId: this.id,
-      });
-      this.leaveVacationDataUser = this.getLeaveVacationUser;
-    });
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     if (this.$route.params.id) {
+      this.id = this.$route.params.id;
       await this.$store.dispatch("employee/setUser", this.id);
-      this.form = this.getUser;
-      // this.getUserLeavesDetail(this.id).then((result)=>{
-      //   this.allowanceLeavesDetailedData = result
-      // this.is_data_fetched = true
-      // });
-      this.$store
-        .dispatch("leavesdata/setLeaveVacationsAllowance", +this.id)
-        .then((result) => {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        });
+    } else {
+      var users = this.getUser;
+      await this.$store.dispatch("employee/setActiveUser");
+      await this.$store.dispatch("token/setActiveUserId", this.getUser.id);
+      await this.$store.dispatch("employee/setUser", this.getUser.id);
+      this.form = users;
+      this.id = this.getUser.id;
+      this.getFiles(this.id).then((result) => {
+        this.filesUploaded = result;
+        this.filesUploaded.reverse();
+        //  this.fileList += 1;
+      });
     }
+    this.form = this.getUser;
   },
 
   async mounted() {
     this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
-this.getCurrentWeek();
+    this.getCurrentWeek();
     this.$store.dispatch("employee/setReportsToList").then((result) => {
       this.reportOptions = result;
     });
@@ -673,16 +530,30 @@ this.getCurrentWeek();
     getTimesheet,
     getTimeAttendanceDaily,
     getTimeAttendanceCustomRange,
+    addFiles,
+    getFiles,
     getCurrentWeek,
+    async handleChange__FileInput(files) {
+      this.files = files;
+      
+    },
+    async fileUpload(){
+      await this.addFiles(this.id, this.files);
+      await this.getFiles(this.id).then((result) => {
+        this.filesUploaded = result;
+        this.fileList += 1;
+        this.filesUploaded.reverse();
+      });
+    },
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
     },
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
     },
-    dateSlection(event){
+    dateSlection(event) {
       var date = fecha.format(new Date(event), "YYYY-MM-DD");
-      this.todayDate = date
+      this.todayDate = date;
       this.getTimeAttendanceDaily(date);
     },
     closeconfirmastionMessageModal() {
@@ -720,8 +591,7 @@ this.getCurrentWeek();
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-      if (this.activeTab == "Time & Attendance") 
-      this.getTimesheet();
+      if (this.activeTab == "Time & Attendance") this.getTimesheet();
       // this.getTimeAttendanceDaily(this.todayDate).then((result)=>{
       //   this.todayData = result
       //   console.log(this.todayData, "getformToDate");
@@ -756,12 +626,6 @@ this.getCurrentWeek();
     clickOutside() {
       this.show = false;
     },
-    openClock() {
-      this.clockModal = true;
-    },
-    closeClock() {
-      this.clockModal = false;
-    }
   },
 };
 </script>
@@ -771,6 +635,30 @@ this.getCurrentWeek();
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none !important;
+  }
+}
+.custom-dropzone {
+  width: 50%;
+  // height: auto;
+  display: flex;
+  border: 1px dotted #2ba026 !important;
+  justify-content: space-between;
+  background-color: #eef7ee;
+  align-items: center;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 20px 0;
+  .input--file {
+    // border: 1px dotted #dcdcdf !important;
+    background: #fff;
+    margin: 0 10px;
+    border-radius: 6px;
+    ;
+
+  }
+  .border-gray4 {
+    border: none !important;
+    margin-left: -15px;
   }
 }
 .section-wrapper {

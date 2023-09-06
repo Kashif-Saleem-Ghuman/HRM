@@ -40,8 +40,8 @@
             data.value?.status === 'pending'
               ? 'chip-wrapper-without-bg__bgabsentpink'
               : '',
-            data.value?.status === 'A'
-              ? 'chip-wrapper-without-bg__bgvacation'
+            data.value?.status === 'rejected'
+              ? 'chip-wrapper-without-bg__bgrejected'
               : '',
             data.value?.status == null ? 'chip-wrapper-without-bg__bggray' : '',
           ]"

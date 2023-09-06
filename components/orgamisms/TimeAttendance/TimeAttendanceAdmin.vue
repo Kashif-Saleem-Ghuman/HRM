@@ -307,7 +307,7 @@
 
         employees.forEach(employee => {
           const parser = new TimesheetParser(employee)
-          employee.activityReport = parser.parse('day')
+          return parser.parse('day')
         });
         
         this.localData = employees

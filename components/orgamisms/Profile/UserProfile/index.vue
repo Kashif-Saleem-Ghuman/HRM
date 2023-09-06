@@ -501,9 +501,8 @@ import {
   getUserLeavesDetail,
   getTimesheet,
   getTimeAttendanceDaily,
-  getTimeAttendanceWeek,
-  getTimeAttendanceMonth,
-} from "../../../../utils/functions/functions_lib_api";
+  getTimeAttendanceCustomRange,
+} from "../../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
   vfileAdded,
@@ -673,8 +672,7 @@ this.getCurrentWeek();
     getUserLeavesDetail,
     getTimesheet,
     getTimeAttendanceDaily,
-    getTimeAttendanceWeek,
-    getTimeAttendanceMonth,
+    getTimeAttendanceCustomRange,
     getCurrentWeek,
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);

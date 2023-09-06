@@ -84,7 +84,7 @@
             </div>
             <div class="scroll_wrapper">
               <div style="z-index: 1">
-                <list-dashboard :userList="localData"></list-dashboard>
+                <list-dashboard :userList="employees"></list-dashboard>
                 <loader v-bind:showloader="loading"></loader>
               </div>
             </div>
@@ -95,14 +95,14 @@
     </div>
   </template>
   <script>
-  import dayjs from "dayjs";
-  import {
-    DASHBOARD_DATA,
-    INFO_CARD_DATA,
-  } from "../../../utils/constant/DashboardData";
-  import { mapGetters } from "vuex";
-  import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
+  import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
   import fecha, { format } from "fecha";
+  import { mapGetters } from "vuex";
+  import {
+  DASHBOARD_DATA,
+  INFO_CARD_DATA,
+  } from "../../../utils/constant/DashboardData";
+  import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
   
   export default {
     data() {
@@ -117,6 +117,7 @@
         date: null,
         format: "MMM D, YYYY",
         date2: fecha.format(new Date(), "YYYY-MM-DD"),
+        employees: []
       };
     },
   
@@ -130,17 +131,30 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.getTimeAttendance();
       await this.$store.dispatch("employee/setActiveUser")
       var users = this.getUser;
       this.id = users.id;
       this.activeUserName = users.firstName + " " + users.lastName;
     },
   mounted(){
-    console.log(this.localData, "this.localData ")
+    this.getOrganizationEntries();
   },
     methods: {
-       getTimeAttendance,
+      async getOrganizationEntries() {
+        this.loading = true
+        const date = this.getCurrentDate
+        const data = await getTimeAttendance({ date });
+        const employees = data.employees
+
+        employees.forEach(employee => {
+          const parser = new TimesheetParser(employee)
+          employee.activityReport = parser.parse('day')
+        });
+        
+        this.employees = employees
+        this.loading = false
+      },
+      
       parseDate(dateString, format) {
         return fecha.parse(dateString, format);
       },

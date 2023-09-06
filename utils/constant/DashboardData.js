@@ -181,6 +181,53 @@ export const INFO_CARD_DATA = [
     figureLabelTwoData:"4",
   },
 ];
+export const ABSENT_INFO_CARD_DATA = [
+  {
+    title: "Attendance",
+    numLabel:"Present",
+    numberData:"53",
+    progreesTitle:"Atten",
+    progress:68,
+    figureLabel:"Absent",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+    daysDesc:"Days",
+  },
+  {
+    title: "Timesheets",
+    numLabel:"Missing in action",
+    numberData:"4",
+    progreesTitle:"Comp",
+    daysDesc:"Days",
+    progress:98,
+    figureLabel:"Absent",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+  },
+  {
+    title: "Notifications",
+    numLabel:"Absence notification ",
+    numberData:"1",
+    
+    figureLabel:"Vacation req.",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+    daysDesc:"Days",
+  },
+  {
+    title: "Birthdays & Work anniversaries",
+    numLabel:"Wooohooo!",
+    numberData:"2",
+    photo:"1.jpg",
+    figureLabel:"Brithdays",
+    figureLabelData:"6",
+    figureLabelTwo:"On leave",
+    figureLabelTwoData:"4",
+  },
+];
 export const INBOX_CARD_DATA = [
   {
     title: "New messages",

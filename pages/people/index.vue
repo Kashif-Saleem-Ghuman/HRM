@@ -149,7 +149,6 @@ export default {
     localStorage.removeItem("clickedUserId");
     await this.$store.dispatch("employee/setUserList");
     this.localData = this.userList;
-    console.log(this.localData, "userListttttttttttttttttttttttttttttttttttttttttt");
     this.totalUser = this.localData.length;
     // await this.$store.dispatch("employee/setTeamList");
     this.$store.dispatch("teams/setTeamListOptions");

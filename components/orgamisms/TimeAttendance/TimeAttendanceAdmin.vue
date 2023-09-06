@@ -281,12 +281,7 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      const { employees } = await getTimeAttendance({ date: this.getCurrentDate });
-      employees.forEach(employee => {
-        const parser = new TimesheetParser(employee)
-        employee.activityReport = parser.parse('day')
-      });
-      this.localData = employees
+      this.getOrganizationEntries()
       await this.$store.dispatch("employee/setActiveUser");
       var users = this.getUser;
       this.id = users.id;
@@ -300,6 +295,20 @@
     },
     async mounted() {},
     methods: {
+      async getOrganizationEntries() {
+        this.loading = true
+        const date = this.getCurrentDate
+        const data = await getTimeAttendance({ date });
+        const employees = data.employees
+
+        employees.forEach(employee => {
+          const parser = new TimesheetParser(employee)
+          employee.activityReport = parser.parse('day')
+        });
+        
+        this.localData = employees
+        this.loading = false
+      },
       getTimeAttendance,
       change(event, name) {
         this.updateForm[name] = event;
@@ -318,7 +327,7 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.localData = this.getTimeAttendance({ date }).then(res => res.employees);
+        this.getOrganizationEntries()
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

@@ -54,33 +54,17 @@ export async function getTimeAttendanceDaily(date) {
   }
   this.loading = false;
 }
-export async function getTimeAttendanceWeek({ from, to }) {
+
+export async function getTimeAttendanceCustomRange({ from, to }) {
   try {
     const config = createConfig();
     config.params = { from, to };
     const { data } = await hrmApiAxiosInstance.get(
-      "/timesheets/weekly",
+      "/timesheets?date=",
       config
     );
     return data?.timesheets || [];
   } catch {}
-}
-
-export async function getTimeAttendanceMonth() {
-  try {
-    const config = createConfig();
-    config.params = {
-      from: this.getformToDate?.from,
-      to: this.getformToDate?.to,
-    };
-    const timeAttendance = await hrmApiAxiosInstance.get(
-      "/timesheets/month?date=",
-      config
-    );
-    this.MonthViewData = timeAttendance.data;
-  } catch (e) {
-    alert(e);
-  }
 }
 
 export async function getTimesheets({ from, to }) {

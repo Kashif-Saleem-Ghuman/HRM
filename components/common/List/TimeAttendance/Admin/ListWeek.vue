@@ -55,7 +55,7 @@
   import { DateTime } from "luxon";
   import { TABLE_HEAD, WEEK_DAY } from "../../../../../utils/constant/Constant.js";
   import { TIMESHEET_DATA } from "../../../../../utils/constant/TimesheetData";
-  import { getTimeAttendanceWeek } from "../../../../../utils/functions/api_call/timeattendance/time";
+  import { getTimeAttendanceCustomRange } from "../../../../../utils/functions/api_call/timeattendance/time";
 
   export default {
     props: {
@@ -99,7 +99,7 @@
         const from = "2023-08-27T00:00:00.000Z"
         const to = "2023-09-02T00:00:00.000Z"
 
-        const timesheets = await getTimeAttendanceWeek({ from, to })
+        const timesheets = await getTimeAttendanceCustomRange({ from, to })
         this.parsedTimesheets = (new TimesheetParser(timesheets)).parse('week')
       },
 

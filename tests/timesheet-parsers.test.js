@@ -85,4 +85,47 @@ describe("Timesheet Parsers", () => {
 
     dateNowSpy.mockRestore();
   });
+
+  test("parse timesheets data for hours per day", () => {
+    const start = DateTime.now().toISO();
+    const end = DateTime.fromISO(start).plus({ hours: 8 }).toISO();
+
+    const timesheetsApiResponse = [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        photo: "",
+        jobTitle: null,
+        active: false,
+        timesheets: [
+          {
+            id: 10,
+            start: DateTime.now().startOf("week").toISO(),
+            end: DateTime.now().endOf("week").toISO(),
+            status: "not_submitted",
+            timeEntries: [
+              {
+                id: 273,
+                start: start,
+                end: end,
+                total: 8,
+                activity: "in",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const timesheet = timesheetsApiResponse[0].timesheets[0];
+    const timesheetParser = new TimesheetParser(timesheet);
+    const parsed = timesheetParser.parse("hours");
+    const { dailyTimeEntries } = parsed;
+    expect(dailyTimeEntries).toBeDefined();
+    expect(
+      dailyTimeEntries[DateTime.fromISO(start).toFormat("yyyy-MM-dd")]
+        .totalHours
+    ).toEqual(8);
+    expect(parsed.total).toEqual(8);
+  });
 });

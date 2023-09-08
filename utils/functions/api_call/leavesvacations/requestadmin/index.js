@@ -59,7 +59,7 @@ export async function getApproveLeaveVacationsAdmin() {
     this.$nuxt.$emit("pending-key");
     this.addIds=[];
     this.checked = false;
-    this.openPopupNotification(2);
+    // this.openPopupNotification(2);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
     alert(e);

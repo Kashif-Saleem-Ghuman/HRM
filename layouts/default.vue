@@ -77,13 +77,13 @@
                   @selectLeaveType="selectLeaveTypeHandle"
                   @selectUser="selectUserHandle"
                   :employeeNameInput="employeeNameInput"
-                  :employeeNameSelect="employeeNameSelect"
                   :employeeNameSelectShow="employeeNameSelectShow"
                   :employeesOptions="employeesOptions"
                   :leaveTypeSelect="leaveTypeSelect"
                   style="z-index: 100000"
                   :allowanceDays="allowanceDays"
-                  :usedDays="useDaysData"
+                  :usedDays="useDaysDataValue"
+                  :employeeNameSelect="employeeNameSlectedValue"
                   :key="addLeaveKey"
                   :errorMsgSelect="errorMsgSelect"
                   :errorMsgStartDate="errorMsgStartDate"
@@ -227,6 +227,12 @@ export default {
       getReportList: "employee/GET_REPORTS_LIST",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    useDaysDataValue(){
+      return this.useDaysData
+    },
+    employeeNameSlectedValue(){
+      return this.employeeNameSelect
+    }
   },
   async created() {
     // this.routesCheck();

@@ -140,7 +140,7 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-timesheet :listMonth="MonthViewData"></list-timesheet>
+                  <list-timesheet :timesheetsList="timesheetsList"></list-timesheet>
                   <loader v-bind:showloader="loading"></loader>
                   <!-- <list-timesheet :userList="users"></list-timesheet> -->
                 </div>
@@ -237,7 +237,7 @@
               <div class="scroll_wrapper">
                 <div>
                   <list-pending-time
-                    :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,2)"
+                    :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0, 2)"
                   ></list-pending-time>
                 </div>
               </div>
@@ -248,16 +248,17 @@
     </div>
   </template>
   <script>
+  import { DateTime } from "luxon";
   import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
   import {
     TIME_ATTENDANCE_TAB,
   } from "../../../utils/constant/Constant.js";
   import { INFO_CARD_DATA, ABSENT_INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
   
-  import { TIMESHEET_DATA, MY_TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
+  import { TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
   import { mapGetters } from "vuex";
   
-  import { getTimeAttendance } from "../../../utils/functions/api_call/timeattendance/time";
+  import { getTimeAttendance, getTimeAttendanceCustomRange } from "../../../utils/functions/api_call/timeattendance/time";
   import fecha, { format } from "fecha";
   import getJson from "../../../utils/dataJson/app_wrap_data";
   const appWrapItems = getJson();
@@ -267,7 +268,7 @@
         endDate: null,
         timeAttendanceTab: TIME_ATTENDANCE_TAB,
         dayWiseDataTimesheet: TIMESHEET_DATA,
-        MonthViewData: TIMESHEET_DATA,
+        timesheetsList: [],
         activeTab: "Attendance",
         updateForm: {},
         isFlag: false,
@@ -285,10 +286,9 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      this.getOrganizationEntries()
+      this.generateOrganizationEntries();
       await this.$store.dispatch("employee/setActiveUser");
-      var users = this.getUser;
-      this.id = users.id;
+      this.id = this.getUser.id;
     },
     computed: {
       ...mapGetters({
@@ -297,23 +297,34 @@
         activeDate: "date/getActiveDate",
       }),
     },
-    async mounted() {},
     methods: {
-      async getOrganizationEntries() {
-        this.loading = true
-        const date = this.getCurrentDate
-        const data = await getTimeAttendance({ date });
-        const employees = data.employees
-
+      async generateOrganizationEntries() {
+        this.loading = true;
+        const date = this.getCurrentDate;
+        const { employees } = await this.getTimeAttendance({ date });
         employees.forEach(employee => {
-          const parser = new TimesheetParser(employee)
-          return parser.parse('day')
+          const parser = new TimesheetParser(employee);
+          return parser.parse('day');
         });
         
-        this.localData = employees
-        this.loading = false
+        this.localData = employees;
+        this.loading = false;
+      },
+      async generateWeekDaysEntries() {
+        this.loading = true;
+        const date = new Date(this.getCurrentDate);
+        const from = DateTime.fromJSDate(date).startOf('week').toISO();
+        const to = DateTime.fromJSDate(date).endOf('week').toISO();
+        let timesheets = await this.getTimeAttendanceCustomRange({ from, to });
+        timesheets = timesheets.map((employee) => {
+          const parser = new TimesheetParser(employee);
+          return parser.parse('weekDays');
+        });
+        this.timesheetsList = timesheets;
+        this.loading = false;
       },
       getTimeAttendance,
+      getTimeAttendanceCustomRange,
       change(event, name) {
         this.updateForm[name] = event;
         console.log(this.updateForm, "switchLabelweekStarts");
@@ -331,10 +342,16 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.getOrganizationEntries()
+        this.generateOrganizationEntries()
+        if (this.activeTab == this.timeAttendanceTab[1].value) {
+          this.generateWeekDaysEntries();
+        }
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;
+        if (tab.value == this.timeAttendanceTab[1].value) {
+          this.generateWeekDaysEntries();
+        }
         if (tab.value == "Setting") {
           console.log(this.time, "this.time");
           this.getTime();

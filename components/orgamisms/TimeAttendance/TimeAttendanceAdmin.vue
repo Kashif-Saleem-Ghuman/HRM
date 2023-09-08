@@ -64,7 +64,7 @@
               >
               <absent-present-card
                   :item="absentPresentCardData[0]"
-                  title="Attandance"
+                  title="Attendance"
                 ></absent-present-card>
                 <absent-present-card
                   :item="absentPresentCardData[1]"
@@ -285,7 +285,7 @@
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.getTimeAttendance();
+      await this.getTimeAttendance(this.getCurrentDate);
       console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
   
       await this.$store.dispatch("employee/setActiveUser");

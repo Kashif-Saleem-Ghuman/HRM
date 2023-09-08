@@ -179,17 +179,26 @@
             ]"
             style="cursor: pointer"
           >
-            <bib-avatar
-              :src="arg.event.extendedProps.employee.photo"
-              size="2rem"
-            ></bib-avatar>
-            <div class="list-item pl-05">
+            <div>
+              <bib-avatar
+                :src="arg.event.extendedProps.employee.photo"
+                size="2rem"
+              ></bib-avatar>
+            </div>
+            <div class="pl-05">
               <label>{{
                 arg.event.extendedProps.employee.firstName +
                 " " +
                 arg.event.extendedProps.employee.lastName
               }}</label>
-              <span>{{ arg.event.extendedProps.employee.jobTitle }}</span>
+              <span
+                style="
+                  display: block !important;
+                  width: 150px !important;
+                  word-wrap: break-word !important;
+                "
+                >{{ arg.event.extendedProps.employee.jobTitle }}</span
+              >
             </div>
           </a>
         </template>
@@ -792,10 +801,13 @@ export default {
   border-radius: 0.5rem;
   // background-color: #cdf784;
   color: black;
-  padding: 0.5rem;
-  margin-bottom: 10px;
+  // padding: 0.5rem;
+  // margin: 10px;
   opacity: 10 !important;
   z-index: 10000;
+  display: flex;
+  width: 100%;
+  font-size: 12px;
   label {
     font-weight: bold;
     display: block;
@@ -850,11 +862,11 @@ export default {
 
 .event_wrapper {
   border-radius: 6px;
-  padding: 4px 8px;
+  // padding: 4px 8px;
   border: none;
-  margin-right: 10px;
+  // margin-right: 10px;
   display: flex;
-  height: 3rem;
+  // height: 3rem;
   background-color: #fff !important;
   // justify-content: center;
   align-items: center;
@@ -941,5 +953,8 @@ export default {
 
 .fc-event:focus {
   box-shadow: none !important;
+}
+.fc-daygrid-dot-event:hover {
+  background-color: #fff !important;
 }
 </style>

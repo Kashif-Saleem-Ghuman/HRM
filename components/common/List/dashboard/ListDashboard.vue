@@ -62,7 +62,7 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.activityReport.in == null ? 'N/A' : data.value.activityReport.in"
+            :title="data.value?.activityReport.in == null ? '---' : data.value.activityReport.in"
             :className="[
               data.value?.activityReport.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
               data.value?.activityReport.in === 'V' ? 'chip-wrapper__bgvacation' : '',
@@ -74,7 +74,7 @@
       </template>
       <template #cell(out)="data">
         <chips
-          :title="data.value?.activityReport.out == null ? 'N/A' : data.value?.activityReport.out"
+          :title="data.value?.activityReport.out == null ? '---' : data.value?.activityReport.out"
           :className="[
             data.value?.activityReport.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
           ]"
@@ -82,7 +82,7 @@
       </template>
       <template #cell(breaks)="data">
         <chips
-          :title="data.value?.activityReport.break == null ? 'N/A' : data.value?.activityReport.break"
+          :title="data.value?.activityReport.break == null ? '---' : data.value?.activityReport.break"
           :className="[
             data.value?.activityReport.break >= '00:02' ? 'chip-wrapper__bgsucess' : '',
           ]"
@@ -91,7 +91,7 @@
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.activityReport.total == null ? 'N/A' : data.value?.activityReport.total
+            data.value?.activityReport.total == null ? '---' : data.value?.activityReport.total
           "
            style="background-color: #fff; height: auto; color: #000;"
         ></chips>

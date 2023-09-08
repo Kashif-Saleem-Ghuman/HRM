@@ -248,7 +248,7 @@
     </div>
   </template>
   <script>
-  import dayjs from "dayjs";
+  import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
   import {
     TIME_ATTENDANCE_TAB,
   } from "../../../utils/constant/Constant.js";
@@ -280,14 +280,12 @@
         getCurrentDate: "",
         date: null,
         format: "MMM D, YYYY",
-        date2: fecha.format(new Date(), "YYYY-MM-DD"),
+        date2: format(new Date(), "YYYY-MM-DD"),
       };
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.getTimeAttendance(this.getCurrentDate);
-      console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
-  
+      this.getOrganizationEntries()
       await this.$store.dispatch("employee/setActiveUser");
       var users = this.getUser;
       this.id = users.id;
@@ -301,6 +299,20 @@
     },
     async mounted() {},
     methods: {
+      async getOrganizationEntries() {
+        this.loading = true
+        const date = this.getCurrentDate
+        const data = await getTimeAttendance({ date });
+        const employees = data.employees
+
+        employees.forEach(employee => {
+          const parser = new TimesheetParser(employee)
+          return parser.parse('day')
+        });
+        
+        this.localData = employees
+        this.loading = false
+      },
       getTimeAttendance,
       change(event, name) {
         this.updateForm[name] = event;
@@ -319,7 +331,7 @@
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
         this.getCurrentDate = date;
-        this.getTimeAttendance();
+        this.getOrganizationEntries()
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

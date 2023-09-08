@@ -137,10 +137,10 @@
       this.activeUserName = users.firstName + " " + users.lastName;
     },
   mounted(){
-    this.getOrganizationOrganizationEntries();
+    this.getOrganizationEntries();
   },
     methods: {
-      async getOrganizationOrganizationEntries() {
+      async getOrganizationEntries() {
         this.loading = true
         const date = this.getCurrentDate
         const data = await getTimeAttendance({ date });
@@ -148,7 +148,7 @@
 
         employees.forEach(employee => {
           const parser = new TimesheetParser(employee)
-          employee.activityReport = parser.parse('day')
+          return parser.parse('day')
         });
         
         this.employees = employees

@@ -3,7 +3,7 @@
     <custom-table
       :fields="tableFields"
       class="border-gray4 bg-white"
-      :sections="listMonth"
+      :sections="activityReports"
       :hide-no-column="true"
     >
       <template #cell(name)="data">
@@ -236,7 +236,8 @@
 
 <script>
 import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
-import { mapGetters } from "vuex";
+import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { getTimeAttendanceCustomRange } from "../../../../../utils/functions/functions_lib_api";
 export default {
   props: {
     listMonth: {
@@ -254,6 +255,7 @@ export default {
       userPhotoClick: false,
       timesheetModal: false,
       filteredData: [],
+      parsedTimesheets: null
     };
   },
   // async craeted(){
@@ -265,7 +267,32 @@ export default {
   //     userList: "employee/GET_USERS_LIST"
   //   }),
   // },
+
+  computed: {
+    activityReports() {
+      return this.parsedTimesheets?.activityReports ?? []
+    },
+
+    total() {
+      return this.parsedTimesheets?.total ?? 0
+    }
+  },
+
+  created() {
+    this.getAndParseTimesheets()
+  },
+
+
+
   methods: {
+    async getAndParseTimesheets() {
+      //TODO take dates from calendar
+      const from = "2023-09-01T00:00:00.000Z"
+      const to = "2023-10-01T00:00:00.000Z"
+
+      const timesheets = await getTimeAttendanceCustomRange({ from, to })
+      this.parsedTimesheets = (new TimesheetParser(timesheets)).parse('month')
+    },
     close() {
       alert("sadjlaksjdlasldkjlasjdl");
       this.timesheetModal = false;

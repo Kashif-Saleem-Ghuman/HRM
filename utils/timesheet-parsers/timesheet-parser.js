@@ -2,12 +2,14 @@ import DayTimesheetParser from "./day-timesheet-parse";
 import MonthTimesheetParser from "./month-timesheet-parser";
 import WeekTimesheetParser from "./week-timesheet-parser";
 import TimesheetHoursPerDayParser from "./timesheet-hours-per-day.parser";
+import TimesheetWeekGroupedByDayParser from "./timesheet-week-grouped-by-day.parser";
 
 const parserMap = {
   day: DayTimesheetParser,
   week: WeekTimesheetParser,
   month: MonthTimesheetParser,
-  hours: TimesheetHoursPerDayParser
+  hours: TimesheetHoursPerDayParser,
+  weekDays: TimesheetWeekGroupedByDayParser,
 };
 
 export class TimesheetParser {

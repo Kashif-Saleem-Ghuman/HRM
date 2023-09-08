@@ -62,10 +62,10 @@ export async function getTimeAttendanceCustomRange({ from, to }) {
     const config = createConfig();
     config.params = { from, to };
     const { data } = await hrmApiAxiosInstance.get(
-      "/timesheets?date=",
+      "/timesheets/admin",
       config
     );
-    return data?.timesheets || [];
+    return data || [];
   } catch {}
 }
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 import fecha from "fecha";
+import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 export const state = () => ({
   timer: {
@@ -78,14 +79,17 @@ export const actions = {
     try {
       const date = fecha.format(new Date(), "YYYY-MM-DD")
       const { data } = await axios.get(
-        process.env.API_URL + "/timesheets/admin/attendance?date=" + date,
+        process.env.API_URL + "/timesheets/admin/daily?date=" + date,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         },
       );
-      const activityReport = data.find((a) => a.id === employeeId).activityReport
+      const employee = data.employees.find((a) => a.id === employeeId);
+      const parser = new TimesheetParser(employee);
+      parser.parse('day');
+      const { activityReport } = employee;
       ctx.commit("SET_DAILY_TIME_ENTRIES", [{
         start: activityReport.in,
         end: activityReport.out,

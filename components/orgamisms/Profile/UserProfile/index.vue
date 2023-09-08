@@ -636,6 +636,7 @@ export default {
         .then((result) => {
           this.allowanceLeavesDetailedData = result;
           this.is_data_fetched = true;
+          console.log(this.form.userId, "this.idthis.idthis.idthis.id")
         });
     }
   },
@@ -679,6 +680,12 @@ this.getCurrentWeek();
     },
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
+    },
+    sendMeet(){
+      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    },
+    sendMessage(){
+      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")
     },
     dateSlection(event){
       var date = fecha.format(new Date(event), "YYYY-MM-DD");

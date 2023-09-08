@@ -77,13 +77,13 @@
                   @selectLeaveType="selectLeaveTypeHandle"
                   @selectUser="selectUserHandle"
                   :employeeNameInput="employeeNameInput"
-                  :employeeNameSelect="employeeNameSelect"
                   :employeeNameSelectShow="employeeNameSelectShow"
                   :employeesOptions="employeesOptions"
                   :leaveTypeSelect="leaveTypeSelect"
                   style="z-index: 100000"
                   :allowanceDays="allowanceDays"
-                  :usedDays="useDaysData"
+                  :usedDays="useDaysDataValue"
+                  :employeeNameSelect="employeeNameSlectedValue"
                   :key="addLeaveKey"
                   :errorMsgSelect="errorMsgSelect"
                   :errorMsgStartDate="errorMsgStartDate"
@@ -208,9 +208,10 @@ export default {
       apiCall: true,
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrNjFZUWRKNko3bGRPR3BKIiwic3ViZSI6ImRocnV2LnNoYXJtYUBxc3N0ZWNobm9zb2Z0LmNvbSIsInN1YnMiOiJBQ1RJVkUiLCJzdWJiIjoiTzNHV3BtYms1ZXpKbjRLUiIsInN1YmJzIjoiQ0xJRU5UIiwic3ViciI6IkFETUlOIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY4NTk0OTcwNTYwMSwiZXhwIjoxNjkzNzI1NzA1NjAxLCJqdGkiOiJlNTYxMzc1ZC05MjdiLTQxYmQtOWNkNS05ZTQ0MWZmYjkzNGIifQ.iLVUiKPRiDNN7c9GYD20azlUxGoAFHYr-E65n_R_Byw",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2OTI4NTE5NDE2NzIsImV4cCI6MTcwMDYyNzk0MTY3MiwianRpIjoiMzU2YmM4OTUtNjE3Mi00NjE3LTk2NzEtNWI5NmU0OWIzMGEwIn0.0zMvHg45zgJ6L51qGICZRa31xzA3t9OzyKPXp5YuqTs",
+      token:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2OTI4NTE5NDE2NzIsImV4cCI6MTcwMDYyNzk0MTY3MiwianRpIjoiMzU2YmM4OTUtNjE3Mi00NjE3LTk2NzEtNWI5NmU0OWIzMGEwIn0.0zMvHg45zgJ6L51qGICZRa31xzA3t9OzyKPXp5YuqTs",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODc3NjcxMTE4MDQsImV4cCI6MTY5NTU0MzExMTgwNCwianRpIjoiZmQzOGViMGMtNzZkMS00ZDM1LWI0ZjEtZjQ3ZTdkOGE2YTg0In0.3GlavEBOTcxMq7UqdwiPy0bbTpLLw6WBVUeemfSQF6s",
-      token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRUxZcWFRV1FHOWRuamsyIiwic3ViZSI6InJhamVldi5zaGFybWFAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJVU0VSIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY5MjI4NTc0MDgwNiwiZXhwIjoxNzAwMDYxNzQwODA2LCJqdGkiOiI3NzkwMWFiMy1hMTlhLTRhMjItYjA4My1lZmIyODlkZTk5ZGQifQ.RlizfkgCHRqfHMf0PzIgBPxdqcL0pz3TA8PrnBdJXFk"
+      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRUxZcWFRV1FHOWRuamsyIiwic3ViZSI6InJhamVldi5zaGFybWFAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJVU0VSIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY5MjI4NTc0MDgwNiwiZXhwIjoxNzAwMDYxNzQwODA2LCJqdGkiOiI3NzkwMWFiMy1hMTlhLTRhMjItYjA4My1lZmIyODlkZTk5ZGQifQ.RlizfkgCHRqfHMf0PzIgBPxdqcL0pz3TA8PrnBdJXFk"
     };
   },
   fetch() {
@@ -226,6 +227,12 @@ export default {
       getReportList: "employee/GET_REPORTS_LIST",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    useDaysDataValue(){
+      return this.useDaysData
+    },
+    employeeNameSlectedValue(){
+      return this.employeeNameSelect
+    }
   },
   async created() {
     // this.routesCheck();
@@ -332,6 +339,10 @@ export default {
           this.employeeNameSelect = activeId;
           console.log(this.activeUserData, "getActiveUser");
         });
+        this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
+          this.activeUserAllowanceData = result;
+          // this.employeeNameSelect = result.id;
+        });
         this.addLeaveKey += 1;
         this.sidebarHeading = "Request leave";
         this.openSidebar = true;
@@ -341,7 +352,10 @@ export default {
         this.allowanceDays = 12;
         this.employeeNameSelectShow = true;
         this.$nuxt.$emit("add-leave");
-        this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
+        setTimeout(() => {
+          this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
+        }, 1000);
+
         return true;
       }
       if (payload == "vacationAdmin") {

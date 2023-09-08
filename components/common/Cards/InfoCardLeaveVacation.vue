@@ -7,14 +7,14 @@
       <div class="info-card-items mt-05">
         <div>
           <div class="subheading">Available</div>
-          <span>{{ balanceLeave || '00' }}</span>
+          <span>{{ balanceLeaveValue || '00' }}</span>
 
           <div class="subheading_footer">Days</div>
         </div>
         <div>
           <progress-circle
-            :progressCount="( daysUsed / this.totalAllowance).toFixed(2) * 100"
-            :progressPercentage="(daysUsed / this.totalAllowance ).toFixed(1) * 100 + '%'"
+            :progressCount="getpercentageValue"
+            :progressPercentage="getpercentageValue + '%'"
             :fill="fill"
             emptyfill="#f1f1f1"
           ></progress-circle>
@@ -87,10 +87,18 @@ export default {
       progress:'0%'
     };
   },
+  computed:{
+    getpercentageValue(){
+      return ( this.daysUsed / this.totalAllowance).toFixed(2) * 100
+    },
+    balanceLeaveValue(){
+      return this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
+    }
+  },
   async created(){
-    setTimeout(()=>{
-      this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
-    },1000)
+    // setTimeout(()=>{
+    //   this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
+    // },1000)
   },
   mounted(){
     

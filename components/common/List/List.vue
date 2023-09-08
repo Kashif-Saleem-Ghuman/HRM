@@ -60,7 +60,7 @@
     </template>
     <template #cell(telephone)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.phone == "" ? "---" : data.value.phone }}</span>
+        <span>{{ data.value.phone === null ? "---" : data.value.phone || data.value.phone != "" ? data.value.phone : "---" }}</span>
       </div>
     </template>
     <template #cell(department)="data">
@@ -73,7 +73,7 @@
     <template #cell(hiredate)="data">
       <div class="justify-between text-dark">
         <span>{{
-          data.value.hireDate == null ? "Null" : data.value.hireDate
+          data.value.hireDate == null ? "---" : data.value.hireDate
         }}</span>
       </div>
     </template>

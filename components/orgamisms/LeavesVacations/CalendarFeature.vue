@@ -179,17 +179,26 @@
             ]"
             style="cursor: pointer"
           >
-            <bib-avatar
-              :src="arg.event.extendedProps.employee.photo"
-              size="2rem"
-            ></bib-avatar>
-            <div class="list-item pl-05">
+            <div>
+              <bib-avatar
+                :src="arg.event.extendedProps.employee.photo"
+                size="2rem"
+              ></bib-avatar>
+            </div>
+            <div class="pl-05">
               <label>{{
                 arg.event.extendedProps.employee.firstName +
                 " " +
                 arg.event.extendedProps.employee.lastName
               }}</label>
-              <span>{{ arg.event.extendedProps.employee.jobTitle }}</span>
+              <span
+                style="
+                  display: block !important;
+                  width: 150px !important;
+                  word-wrap: break-word !important;
+                "
+                >{{ arg.event.extendedProps.employee.jobTitle }}</span
+              >
             </div>
           </a>
         </template>
@@ -209,8 +218,8 @@
           style="z-index: 100000"
           :employeeName="employeeName"
           :allowanceDays="allowanceData"
-          :usedDays="useDaysData"
-          :employeeNameSelect="employeeNameSelect"
+          :usedDays="useDaysDataValue"
+          :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
@@ -434,7 +443,7 @@ export default {
       nextPrev: false,
       allowanceLeavesDetailedData: [],
       useDaysData: "",
-      employeeNameSelectShow: true,
+      employeeNameSelectShow: false,
     };
   },
   computed: {
@@ -444,6 +453,12 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
     }),
+    useDaysDataValue() {
+      return this.useDaysData;
+    },
+    employeeNameSlectedValue() {
+      return this.employeeNameSelect;
+    },
   },
 
   mounted() {
@@ -471,8 +486,12 @@ export default {
     //   this.allowanceData = result;
     //   // this.temKey += 1;
     // });
-    this.$store.dispatch("employee/setReportsToList");
-    this.employeesOptions = this.getReportList;
+    this.$store.dispatch("employee/setReportsToList").then((reportTo)=>{
+      this.employeesOptions = reportTo
+      this.employeeNameSelectShow = true
+    });
+    // this.employeesOptions = this.getReportList;
+    // this.employeeNameSelectShow = true
     console.log(this.employeesOptions, "this.employeesOptions");
   },
   methods: {
@@ -642,11 +661,11 @@ export default {
           this.getUserLeavesDetail(item.employee.id).then((result) => {
             this.allowanceLeavesDetailedData = result;
           });
-          console.log(item, "allowanceLeavesDetailedData");
+          console.log(item.employee.id, "allowanceLeavesDetailedData");
           this.leaveStatus = item.status;
           this.form = item;
           this.employeeNameSelect = item.employee.id;
-
+          
           this.employeeName =
             item.employee.firstName + " " + item.employee.lastName;
           setTimeout(() => {
@@ -793,13 +812,31 @@ export default {
   // background-color: #cdf784;
   color: black;
   padding: 0.5rem;
-  margin-bottom: 10px;
+  // margin: 10px;
   opacity: 10 !important;
   z-index: 10000;
+  display: flex;
+  width: 100%;
+  font-size: 12px;
   label {
     font-weight: bold;
     display: block;
   }
+  .fc-daygrid-event {
+    border-radius: 13px !important;
+    font-size: var(--fc-small-font-size);
+    position: relative;
+    white-space:unset !important;
+    word-wrap: break-word !important;
+    background-color: #000;
+}
+}
+.fc-scrollgrid-sync-inner{
+  padding: 0 5px !important;
+}
+.fc-daygrid-event {
+    white-space:unset !important;
+    word-wrap: break-word !important;
 }
 .fc-header-toolbar {
   padding: 0 10px !important;
@@ -850,11 +887,11 @@ export default {
 
 .event_wrapper {
   border-radius: 6px;
-  padding: 4px 8px;
+  // padding: 4px 8px;
   border: none;
-  margin-right: 10px;
+  // margin-right: 10px;
   display: flex;
-  height: 3rem;
+  // height: 3rem;
   background-color: #fff !important;
   // justify-content: center;
   align-items: center;
@@ -941,5 +978,8 @@ export default {
 
 .fc-event:focus {
   box-shadow: none !important;
+}
+.fc-daygrid-dot-event:hover {
+  background-color: #fff !important;
 }
 </style>

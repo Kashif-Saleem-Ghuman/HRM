@@ -1,5 +1,5 @@
 <template>
-  <div id="time-attandance-wrapper">
+  <div id="time-attendance-wrapper">
     <div class="scroll_wrapper">
       <div
         class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"

@@ -264,7 +264,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #fff;
-
+  font-size: 14px;
   &__shape-circle {
     width: 3rem;
     height: 3rem;
@@ -283,8 +283,8 @@ export default {
     }
     span {
       // color: #2ba026;
-      font-weight: 500;
-      font-size: 14px;
+      // font-weight: 500;
+      // font-size: 14px;
     }
   }
   &__bgabsent {
@@ -294,19 +294,19 @@ export default {
     }
     span {
       // color: #ffab00;
-      font-weight: 500;
-      font-size: 14px;
+      // font-weight: 500;
+      // font-size: 14px;
     }
   }
-  &__bgvacation {
+  &__bgrejected {
     // background-color: rgba(31, 66, 162, 0.16);
     svg {
-      fill: #1f42a2 !important;
+      fill: #000 !important;
     }
     span {
       // color: #1f42a2;
-      font-weight: 500;
-      font-size: 14px;
+      // font-weight: 500;
+      // font-size: 14px;
     }
   }
   &__bgabsentpink {
@@ -316,8 +316,8 @@ export default {
     }
     span {
       // color: #e6000e;
-      font-weight: 500;
-      font-size: 14px;
+      // font-weight: 500;
+      // font-size: 14px;
     }
   }
 }

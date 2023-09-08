@@ -58,22 +58,22 @@
                   </div>
                 </div>
               </div>
-              <div
+              <!-- <div
                 class="d-grid d-flex gap-1 py-1 px-1"
                 style="grid-template-columns: repeat(3, 1fr)"
               >
               <absent-present-card
                   :item="absentPresentCardData[0]"
-                  title="Attandance"
+                  title="Attendance"
                 ></absent-present-card>
                 <absent-present-card
                   :item="absentPresentCardData[1]"
-                  title="Absnece"
+                  title="Absence"
                 ></absent-present-card>
                 <info-card-help
                   custumBg="help-wrapper__bg-black"
                 ></info-card-help>
-              </div>
+              </div> -->
               <div class="scroll_wrapper">
                 <div>
                   <list-dashboard :userList="localData"></list-dashboard>

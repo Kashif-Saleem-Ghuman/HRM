@@ -1325,6 +1325,10 @@ export const WEEK_DAY = [
     value: "tuesday",
   },
   {
+    label: "Wednesday",
+    value: "wednesday",
+  },
+  {
     label: "Thursday",
     value: "thursday",
   },
@@ -1403,3 +1407,31 @@ export const PAY_ACTION_MENU = [
     key: "fileformat",
   },
 ];
+
+
+export const TIMESHEET_STATUS = {
+  "not_submitted": {
+    label: "Not submitted",
+    value: "not_submitted"
+  },
+  "pending": {
+    label: "Pending",
+    value: "pending"
+  },
+  "vacation": {
+    label: "Vacation",
+    value: "vacation"
+  },
+  "approved": {
+    label: "Approved",
+    value: "approved"
+  },
+  "rejected": {
+    label: "Rejected",
+    value: "rejected"
+  },
+  "past_due": {
+    label: "Past Due",
+    value: "past_due"
+  }
+}

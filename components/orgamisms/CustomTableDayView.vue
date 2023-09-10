@@ -5,6 +5,9 @@
     :class="{ table__headless: headless, resizableTable: resizableColumns }"
     cellspacing="0"
   >
+    <!-- /*
+   TABLE HEADERS
+  */ -->
     <template>
       <tr :class="classTypeHead">
         <th v-if="!hideNoColumn" class="table__hrow__custom__no">
@@ -46,6 +49,7 @@
         </th>
       </tr>
     </template>
+
     <template v-for="(item, keyI) in sections">
       <tr>
         <td colspan="6">
@@ -55,10 +59,7 @@
                 class="d-flex align-center text-left gap-05"
                 style="position: relative"
               >
-                <div
-                  style="cursor: pointer"
-                  class="px-05"
-                >
+                <div style="cursor: pointer" class="px-05">
                   <bib-avatar
                     class="mt-auto mb-auto"
                     shape="circle"
@@ -77,28 +78,22 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="time-list pr-1">
-              <ul class="time-list-item">
-                <li>In <label>00:00</label></li>
-                <li>Out <label>00:00</label></li>
-                <li>Break <label>00:00</label></li>
-                <li>Total <label>00:00</label></li>
-              </ul>
-            </div> -->
           </div>
         </td>
       </tr>
+
+
+      <!-- ROW FOR EACH EMPLOYEE TIMESHEET -->
       <tr
-        :style="{ visibility: isCollapsed ? 'collapse' : '' }"
-        :class="classTypeBody"
-        @contextmenu.stop="rightClickItem($event, keyI)"
-        @click="$emit('item-clicked', $event, keyI, item)"
-        @dblclick="clickItem(keyI)"
+        v-for="(items, keyI) in sections[keyI]?.timesheets"
         :id="keyI"
-        style="cursor: pointer"
-        v-for="(items, keyI) in sections[keyI]?.activityData"
+        class="timesheet-table"
+        :key="keyI"
       >
-        <td v-if="!hideNoColumn" class="table__irow-count p-1">{{ keyI + 1 }}</td>
+
+       <td v-if="!hideNoColumn" class="table__irow-count p-1">
+          {{ keyI + 1 }}
+        </td>
         <td v-if="$scopedSlots.cell_title" colspan="1" style="width: 50px">
           <slot
             name="cell_action"
@@ -132,7 +127,7 @@
             v-bind:keyI="keyI"
             v-bind:value="sections[keyI]"
           ></slot>
-        </td>
+        </td> 
       </tr>
       <!-- <tr>
         <td colspan="6">
@@ -144,16 +139,9 @@
 </template>
 
 <script>
-/**
- * @module Orgamisms/CustomTable
- * @author Charan Pal
- * @rebuild Charan Pal
- * @desc Table component
- * @vue-prop {Boolean} headless=null - table without header.
- * @vue-prop {String} fields=[] - table header names.
- * @vue-prop {String} sections=[] - table data.
- * @vue-prop {Object} collapseObj=null - collapsible table settings.
- */
+import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
+import { WEEK_DAY } from '../../utils/constant/Constant';
+
 export default {
   name: "BibTable",
   props: {
@@ -175,10 +163,10 @@ export default {
     classTypeBody: {
       type: String,
     },
-    className: {
-      type: Array,
-      default: [],
-    },
+    // className: {
+    //   type: Array,
+    //   default: [],
+    // },
     headless: {
       type: Boolean,
       default() {
@@ -228,6 +216,8 @@ export default {
   },
   data() {
     return {
+      // WEEK_DAY starts with sunday but need to start with monday
+      weekDays: [...WEEK_DAY.slice(1), WEEK_DAY[0]].map( day => day.value.substring(0,3)),
       cols: [],
       item: {},
       isCollapsed: this.collapseObj ? this.collapseObj.collapsed : false,
@@ -238,6 +228,7 @@ export default {
     this.cols.shift();
   },
   methods: {
+    formatIsoDateToYYYYMMDD,
     clickItem(key) {
       this.$emit("item-dblclicked", this.sections[key]);
       this.unselectAll();
@@ -305,6 +296,13 @@ export default {
   }
 }
 
+.timesheet-table {
+  
+  td {
+    border: 1px solid #eee;
+  }
+}
+
 .table_day {
   width: 100%;
   height: max-content;
@@ -316,6 +314,7 @@ export default {
       font-weight: bold;
     }
   }
+
   input {
     // border: none !important;
     margin: 0px !important;

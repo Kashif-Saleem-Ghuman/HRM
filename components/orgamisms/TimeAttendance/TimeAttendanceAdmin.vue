@@ -188,9 +188,10 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-pending-time
-                    :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0,3)"
-                  ></list-pending-time>
+                  <timesheets-approval-table
+                    type="pending"
+                    :date="getCurrentDate"
+                  ></timesheets-approval-table>
                 </div>
               </div>
             </div>
@@ -236,9 +237,10 @@
               </div>
               <div class="scroll_wrapper">
                 <div>
-                  <list-pending-time
-                    :dayWiseDataTimesheet="dayWiseDataTimesheet.slice(0, 2)"
-                  ></list-pending-time>
+                  <timesheets-approval-table
+                    type="pending"
+                    :date="getCurrentDate"
+                  ></timesheets-approval-table>
                 </div>
               </div>
             </div>
@@ -278,7 +280,7 @@
         infoCardData: INFO_CARD_DATA,
         absentPresentCardData: ABSENT_INFO_CARD_DATA,
         localData: [],
-        getCurrentDate: "",
+        getCurrentDate: new Date(),
         date: null,
         format: "MMM D, YYYY",
         date2: format(new Date(), "YYYY-MM-DD"),

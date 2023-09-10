@@ -129,3 +129,40 @@ describe("Timesheet Parsers", () => {
     expect(parsed.total).toEqual(8);
   });
 });
+
+
+
+const result = {
+
+  // the data of the timesheet passed to parser
+  id: 10,
+  start: "2023-09-04T00:00:00.000-04:00",
+  end: "2023-09-10T23:59:59.999-04:00",
+  status: "not_submitted",
+  timeEntries: [
+    {
+      id: 273,
+      start: "2023-09-07T11:15:36.675-04:00",
+      end: "2023-09-07T19:15:36.675-04:00",
+      total: 8,
+      activity: "in",
+    },
+  ],
+
+// New field added by the parser
+  dailyTimeEntries: {
+    "2023-09-07": {
+      timeEntries: [
+        {
+          id: 273,
+          start: "2023-09-07T11:15:36.675-04:00",
+          end: "2023-09-07T19:15:36.675-04:00",
+          total: 8,
+          activity: "in",
+        },
+      ],
+      totalHours: 8,
+    },
+  },
+  total: 8,
+}

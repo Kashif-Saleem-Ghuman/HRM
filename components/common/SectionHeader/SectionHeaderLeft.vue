@@ -97,11 +97,11 @@ export default {
 </script>
 <style lang="css" scoped>
 .nav_wrapper {
-  border-bottom: 1px solid var(--bib-light);
+  border-bottom: 1px solid #F2F2F5;
 }
 
 .title-text {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
 }
 </style>

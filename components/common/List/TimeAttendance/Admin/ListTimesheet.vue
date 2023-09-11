@@ -3,7 +3,7 @@
       <custom-table
         :fields="tableFields"
         class="border-gray4 bg-white"
-        :sections="listMonth"
+        :sections="timesheetsList"
         :hide-no-column="true"
       >
       <template #cell(name)="data">
@@ -49,19 +49,19 @@
         <template #cell(mon)="data">
           <chips
             :title="
-              data.value?.weekData?.mon?.totalHours == null
+              data.value?.weekData?.[1]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.mon?.totalHours
+                : data.value?.weekData?.[1]?.totalHours
             "
             :className="[
-              data.value?.weekData?.mon?.totalHours >= '8'
+              data.value?.weekData?.[1]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.mon?.totalHours <= '7' &&
-              data.value?.weekData?.mon?.totalHours >= '5'
+              data.value?.weekData?.[1]?.totalHours <= '7' &&
+              data.value?.weekData?.[1]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.mon?.totalHours <= '3'
+                data.value?.weekData?.[1]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -73,19 +73,19 @@
         <template #cell(tue)="data">
           <chips
             :title="
-              data.value?.weekData?.tue?.totalHours == null
+              data.value?.weekData?.[2]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.tue?.totalHours
+                : data.value?.weekData?.[2]?.totalHours
             "
             :className="[
-              data.value?.weekData?.tue?.totalHours >= '8'
+              data.value?.weekData?.[2]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.tue?.totalHours <= '7' &&
-              data.value?.weekData?.tue?.totalHours >= '5'
+              data.value?.weekData?.[2]?.totalHours <= '7' &&
+              data.value?.weekData?.[2]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.tue?.totalHours <= '3'
+                data.value?.weekData?.[2]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -97,19 +97,19 @@
         <template #cell(wed)="data">
           <chips
             :title="
-              data.value?.weekData?.wed?.totalHours == null
+              data.value?.weekData?.[3]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.wed?.totalHours
+                : data.value?.weekData?.[3]?.totalHours
             "
             :className="[
-              data.value?.weekData?.wed?.totalHours >= '8'
+              data.value?.weekData?.[3]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.wed?.totalHours <= '7' &&
-              data.value?.weekData?.wed?.totalHours >= '5'
+              data.value?.weekData?.[3]?.totalHours <= '7' &&
+              data.value?.weekData?.[3]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.wed?.totalHours <= '3'
+                data.value?.weekData?.[3]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -120,19 +120,19 @@
         <template #cell(thu)="data">
           <chips
             :title="
-              data.value?.weekData?.thu?.totalHours == null
+              data.value?.weekData?.[4]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.thu?.totalHours
+                : data.value?.weekData?.[4]?.totalHours
             "
             :className="[
-              data.value?.weekData?.thu?.totalHours >= '8'
+              data.value?.weekData?.[4]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.thu?.totalHours <= '7' &&
-              data.value?.weekData?.thu?.totalHours >= '5'
+              data.value?.weekData?.[4]?.totalHours <= '7' &&
+              data.value?.weekData?.[4]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.thu?.totalHours <= '3'
+                data.value?.weekData?.[4]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -143,19 +143,19 @@
         <template #cell(fri)="data">
           <chips
             :title="
-              data.value?.weekData?.fri?.totalHours == null
+              data.value?.weekData?.[5]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.fri?.totalHours
+                : data.value?.weekData?.[5]?.totalHours
             "
             :className="[
-              data.value?.weekData?.fri?.totalHours >= '8'
+              data.value?.weekData?.[5]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.fri?.totalHours <= '7' &&
-              data.value?.weekData?.fri?.totalHours >= '5'
+              data.value?.weekData?.[5]?.totalHours <= '7' &&
+              data.value?.weekData?.[5]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.fri?.totalHours <= '3'
+                data.value?.weekData?.[5]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -166,19 +166,19 @@
         <template #cell(sat)="data">
           <chips
             :title="
-              data.value?.weekData?.sat?.totalHours == null
+              data.value?.weekData?.[6]?.totalHours == null
                 ? 'N/A'
-                : data.value?.weekData?.sat?.totalHours
+                : data.value?.weekData?.[6]?.totalHours
             "
             :className="[
-              data.value?.weekData?.sat?.totalHours >= '8'
+              data.value?.weekData?.[6]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.sat?.totalHours <= '7' &&
-              data.value?.weekData?.sat?.totalHours >= '5'
+              data.value?.weekData?.[6]?.totalHours <= '7' &&
+              data.value?.weekData?.[6]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.sat?.totalHours <= '3'
+                data.value?.weekData?.[6]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -191,12 +191,12 @@
             class="text-dark td_row_wrapper"
             :class="[data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '']"
           >
-            <span>{{ data.value?.weekData?.sat?.totalHours }}</span>
+            <span>{{ data.value?.weekData?.[7]?.totalHours }}</span>
           </div>
         </template>
         <template #cell(total)="data">
           <div class="justify-between pl-075">
-          <span>{{ data.value.totalHour }}</span>
+          <span>{{ data.value.total }}</span>
         </div>
         
           <!-- <chips
@@ -265,12 +265,11 @@
   
   <script>
   import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
-  import { mapGetters } from "vuex";
   export default {
     props: {
-      listMonth: {
-        type:  [Array, Object],
-        default: "",
+      timesheetsList: {
+        type:  Array,
+        default: [],
       },
     },
     data() {
@@ -285,7 +284,7 @@
         filteredData: [],
       };
     },
-    // async craeted(){
+    // async created(){
     //   await this.$store.dispatch("employee/setUserList");
     //   this.localData = this.userList;
     // },

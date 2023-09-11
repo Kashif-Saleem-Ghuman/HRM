@@ -16,6 +16,14 @@ export default class BaseTimesheetParser {
     );
   };
 
+  groupTimeEntriesByWeekDay = (timeEntries = []) => {
+    const groupedByDate = this.groupTimeEntriesByDate(timeEntries);
+    const groupedByWeekDay = {};
+    for (let date in groupedByDate) {
+      groupedByWeekDay[DateTime.fromJSDate(new Date(date)).weekday] = groupedByDate[date];
+    }
+    return groupedByWeekDay;
+  }
   generateActivityReport = (timeEntries) => {
     const timeEntriesByActivity = keyBy(timeEntries, "activity");
 

@@ -18,6 +18,78 @@ export async function getTimeAttendance(payload) {
   }
 }
 
+export async function getAdminTimesheets(payload) {
+  const { from, to, status } = payload
+  const url = '/timesheets/admin/'
+  if (!from || !to ) throw new Error(`'from' and 'to' params required for ${url}`)
+
+  try {
+    const config = createConfig();
+    const params = {
+      from,
+      to, 
+      status
+    }
+    config.params = params
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
+  }
+}
+
+export async function getPendingTimesheets(payload) {
+  const { from, to } = payload
+  const url = '/timesheets/admin/pending'
+  if (!from || !to ) throw new Error(`'from' and 'to' params required for ${url}`)
+
+  try {
+    const config = createConfig();
+    const params = {
+      from,
+      to, 
+    }
+    config.params = params
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
+  }
+}
+
+
+export async function getPastDueTimesheets(payload) {
+  const { from, to } = payload
+  const url = '/timesheets/admin/past-due'
+  if (!from || !to ) throw new Error(`'from' and 'to' params required for ${url}`)
+
+  try {
+    const config = createConfig();
+    const params = {
+      from,
+      to, 
+    }
+    config.params = params
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
+  }
+}
+
+
 export async function getTimesheet() {
   try {
     const config = createConfig();
@@ -62,10 +134,10 @@ export async function getTimeAttendanceCustomRange({ from, to }) {
     const config = createConfig();
     config.params = { from, to };
     const { data } = await hrmApiAxiosInstance.get(
-      "/timesheets?date=",
+      "/timesheets/admin",
       config
     );
-    return data?.timesheets || [];
+    return data || [];
   } catch {}
 }
 
@@ -81,3 +153,28 @@ export async function getTimesheets({ from, to }) {
     console.error(error);
   }
 }
+
+
+export async function approveTimesheet({ id }) {
+  try {
+    const url = `/timesheets/admin/approve/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.post(url, {}, config);
+    return data
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+export async function rejectTimesheet({ id }) {
+  try {
+    const url = `/timesheets/admin/reject/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.post(url, {}, config);
+    return data
+  } catch (error) {
+    console.error(error);
+  }
+}
+

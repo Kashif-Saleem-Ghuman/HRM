@@ -263,6 +263,7 @@
   import { getTimeAttendance, getTimeAttendanceCustomRange } from "../../../utils/functions/api_call/timeattendance/time";
   import fecha, { format } from "fecha";
   import getJson from "../../../utils/dataJson/app_wrap_data";
+  import { getWeekStartEndDates } from "../../../utils/functions/dates";
   const appWrapItems = getJson();
   export default {
     data() {
@@ -314,9 +315,8 @@
       },
       async generateWeekDaysEntries() {
         this.loading = true;
-        const date = new Date(this.getCurrentDate);
-        const from = DateTime.fromJSDate(date).startOf('week').toISO();
-        const to = DateTime.fromJSDate(date).endOf('week').toISO();
+        const { from, to } = getWeekStartEndDates(this.getCurrentDate)
+
         let timesheets = await this.getTimeAttendanceCustomRange({ from, to });
         timesheets = timesheets.map((employee) => {
           const parser = new TimesheetParser(employee);

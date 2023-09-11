@@ -233,7 +233,7 @@ export default {
   }
 }
 .fc-header-toolbar {
-  padding: 0 10px !important;
+  padding: 0 20px !important;
 }
 .fc-scrollgrid {
   border-left: none !important;

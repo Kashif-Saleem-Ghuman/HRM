@@ -177,7 +177,7 @@
                 ? 'event_wrapper__bgabsent'
                 : '',
             ]"
-            style="cursor: pointer"
+            style="cursor: pointer; margin-bottom: 3px;"
           >
             <div>
               <bib-avatar
@@ -192,11 +192,6 @@
                 arg.event.extendedProps.employee.lastName
               }}</label>
               <span
-                style="
-                  display: block !important;
-                  width: 150px !important;
-                  word-wrap: break-word !important;
-                "
                 >{{ arg.event.extendedProps.employee.jobTitle }}</span
               >
             </div>
@@ -812,15 +807,17 @@ export default {
   // background-color: #cdf784;
   color: black;
   padding: 0.5rem;
-  // margin: 10px;
+  // padding-bottom: 120px;
   opacity: 10 !important;
   z-index: 10000;
   display: flex;
   width: 100%;
   font-size: 12px;
+  
   label {
-    font-weight: bold;
+    font-weight: 600;
     display: block;
+    font-size: $font-size-sm;
   }
   .fc-daygrid-event {
     border-radius: 13px !important;
@@ -854,7 +851,9 @@ export default {
     border-right: 0px;
     border-left: 0px;
     .fc-scrollgrid-sync-inner {
-      padding: 0.5rem;
+      padding: 1rem !important;
+      font-weight: 400;
+      font-size: 14px !important;
     }
   }
 }

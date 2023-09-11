@@ -72,7 +72,7 @@
 </template>
   
 <script>
-import { formatIsoDateToYYYYMMDD, getWeekStartEndDates } from "@/utils/functions/dates";
+import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
 TABLE_HEAD,
 TIMESHEET_STATUS,
@@ -95,7 +95,8 @@ const fetchTimesheetsFunctionMap = {
 };
 export default {
   props: {
-    date: {
+    dates: {
+      type: Object,
       required: true,
     },
     type: {
@@ -149,7 +150,8 @@ export default {
 
     async getAndParseTimesheets() {
       this.loading = true;
-      const { from, to } = getWeekStartEndDates(this.date)
+      const { from, to } = this.dates
+      if (!from || !to) return 
 
       const employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
@@ -229,9 +231,15 @@ export default {
   },
 
   watch: {
-    date(date) {
-      this.getAndParseTimesheets();
-    },
+    dates: {
+      deep: true,
+      handler: function(newVal, oldVal) {
+        //To make sure the dates really changed, avoid making useless api calls
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+          this.getAndParseTimesheets()
+        }
+      }
+    }
   },
 };
 </script>

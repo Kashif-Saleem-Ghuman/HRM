@@ -200,30 +200,30 @@
         <template #cell(status)="data">
           <div class="text-dark">
             <chips
-              :title="data.value.status"
+              :title="statusDictionary[data.value.timesheets?.[0]?.status]"
               iconShow="iconShow"
               :icon="
-                data.value.status == 'Approve'
+                data.value.timesheets?.[0]?.status == 'approved'
                   ? 'check-all'
-                  : '' || data.value.status == 'Approve'
+                  : '' || data.value.timesheets?.[0]?.status == 'pending'
                   ? 'warning'
-                  : '' || data.value.status == 'pending'
+                  : '' || data.value.timesheets?.[0]?.status == 'rejected'
                   ? 'urgent-solid'
-                  : '' || data.value.status == 'Past due'
+                  : '' || data.value.timesheets?.[0]?.status == 'past_due'
                   ? 'help'
                   : ''
               "
               :variant="[
-                data.value.status == 'Approve'
+                data.value.timesheets?.[0]?.status == 'approved'
                   ? 'chip-wrapper__bgsucess'
                   : '',
-                data.value.status == 'Pending'
+                data.value.timesheets?.[0]?.status == 'pending'
                   ? 'chip-wrapper__bgabsent'
                   : '',
-                data.value.status == 'Past due'
+                data.value.timesheets?.[0]?.status == 'rejected'
                   ? 'chip-wrapper__bgabsentpink'
                   : '',
-                data.value.status == 'Vacation'
+                data.value.timesheets?.[0]?.status == 'past_due'
                   ? 'chip-wrapper__bgvacation'
                   : '',
               ]"
@@ -258,6 +258,13 @@
         userPhotoClick: false,
         timesheetModal: false,
         filteredData: [],
+        statusDictionary: {
+          approved: 'Approved',
+          rejected: 'Rejected',
+          pending: 'Pending',
+          not_submitted: 'Not submitted',
+          past_due: 'Past due'
+        }
       };
     },
     // async created(){

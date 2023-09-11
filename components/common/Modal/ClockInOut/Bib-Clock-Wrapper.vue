@@ -24,7 +24,10 @@
             <span class="stop-watch">{{ stopWatchTime }}</span>
           </div>
         </div>
-        <div class="button-punched-in mb-1 mt-2" @click="stopWatchClicked">
+        <div 
+          :class="['button-punched-in', 'mb-1', 'mt-2', active ? 'active-button' : 'disabled-button']"
+          @click="() => active ? stopWatchClicked() : null"
+        >
           <bib-icon icon="video-solid" variant="white" class="mr-05"></bib-icon>
           <span>{{ buttonLable }}</span>
         </div>
@@ -110,6 +113,13 @@ export default {
         this.chronometer = !this.getTimerData.start
           ? 0
           : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
+      } else if (this.getDailyTimeEntries?.[0]?.end) {
+        this.chronometer = Math.floor(
+          (
+            new Date(this.getDailyTimeEntries?.[0]?.end).getTime() 
+            - new Date(this.getDailyTimeEntries?.[0]?.start).getTime()
+          ) / 1000,
+        )
       };
       this.timerLoading = false;
     }, 1000)
@@ -220,19 +230,24 @@ export default {
   }
 }
 .button-punched-in {
-  background-color: #6bbf68;
   border-radius: 6px;
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   span {
     color: #fff;
   }
   svg {
     fill: #fff !important;
   }
+}
+.active-button {
+  cursor: pointer;
+  background-color: #6bbf68;
+}
+.disabled-button {
+  background-color: gray;
 }
 .time-log-wrapper {
   header {

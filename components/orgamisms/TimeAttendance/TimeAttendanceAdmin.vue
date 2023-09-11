@@ -181,7 +181,7 @@
               <div class="scroll_wrapper">
                 <div>
                   <timesheets-approval-table
-                    type="past-due"
+                    type="pending"
                     :dates.sync="weekDates"
                   ></timesheets-approval-table>
                 </div>
@@ -197,15 +197,7 @@
               >
                 <div class="d-flex align-center">
                   <div class="custom_date_picker d-flex">
-                    <div class="mr-05">Date:</div>
-                    <bib-datetime-picker
-                      v-model="date2"
-                      :format="format"
-                      :parseDate="parseDate"
-                      :formatDate="formatDate"
-                      @input="onDateChange"
-                      class="custom_date_picker"
-                    ></bib-datetime-picker>
+                    <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>
   
@@ -230,8 +222,8 @@
               <div class="scroll_wrapper">
                 <div>
                   <timesheets-approval-table
-                    type="pending"
-                    :date="getCurrentDate"
+                    type="past_due"
+                    :dates="weekDates"
                   ></timesheets-approval-table>
                 </div>
               </div>

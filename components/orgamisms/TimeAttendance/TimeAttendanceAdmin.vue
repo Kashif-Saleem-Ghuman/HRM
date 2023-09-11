@@ -156,15 +156,7 @@
               >
                 <div class="d-flex align-center">
                   <div class="custom_date_picker">
-                    <div class="mr-05">Date:</div>
-                    <bib-datetime-picker
-                      v-model="date2"
-                      :format="format"
-                      :parseDate="parseDate"
-                      :formatDate="formatDate"
-                      @input="onDateChange"
-                      class="custom_date_picker"
-                    ></bib-datetime-picker>
+                    <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>
   
@@ -189,8 +181,8 @@
               <div class="scroll_wrapper">
                 <div>
                   <timesheets-approval-table
-                    type="pending"
-                    :date="getCurrentDate"
+                    type="past-due"
+                    :dates.sync="weekDates"
                   ></timesheets-approval-table>
                 </div>
               </div>
@@ -285,6 +277,7 @@
         date: null,
         format: "MMM D, YYYY",
         date2: format(new Date(), "YYYY-MM-DD"),
+        weekDates: { from: null, to: null }
       };
     },
     async created() {
@@ -340,24 +333,27 @@
       formatDate(dateObj, format) {
         return fecha.format(dateObj, format);
       },
-      onDateChange(value) {
-        let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-        this.$store.dispatch("date/setActiveDate", date);
+      setSelectedDate(date) {
         this.getCurrentDate = date
-        
+        // this.$store.dispatch("date/setActiveDate", date);
+      },
+      onDateChange(value) {
+        const date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         if (this.activeTab == this.timeAttendanceTab[0].value) {
-          this.handleAttendanceDateChange()
+          this.handleAttendanceDateChange(date)
         } else if (this.activeTab == this.timeAttendanceTab[1].value) {
-          this.handleTimesheetsDateChange()
-        }
+          this.handleTimesheetsDateChange(date)
+        } 
       },
 
-      handleAttendanceDateChange() {
-        this.generateOrganizationEntries()
+      handleAttendanceDateChange(value) {
+        this.setSelectedDate(value)
+        this.generateOrganizationEntries(value)
       },
 
-      handleTimesheetsDateChange() {
-        this.generateWeekDaysEntries();
+      handleTimesheetsDateChange(value) {
+        this.setSelectedDate(value)
+        this.generateWeekDaysEntries(value);
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

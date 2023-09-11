@@ -34,7 +34,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -98,7 +98,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -162,7 +162,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -211,7 +211,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -340,14 +340,24 @@
       formatDate(dateObj, format) {
         return fecha.format(dateObj, format);
       },
-      onChange(value) {
+      onDateChange(value) {
         let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
         this.$store.dispatch("date/setActiveDate", date);
-        this.getCurrentDate = date;
-        this.generateOrganizationEntries()
-        if (this.activeTab == this.timeAttendanceTab[1].value) {
-          this.generateWeekDaysEntries();
+        this.getCurrentDate = date
+        
+        if (this.activeTab == this.timeAttendanceTab[0].value) {
+          this.handleAttendanceDateChange()
+        } else if (this.activeTab == this.timeAttendanceTab[1].value) {
+          this.handleTimesheetsDateChange()
         }
+      },
+
+      handleAttendanceDateChange() {
+        this.generateOrganizationEntries()
+      },
+
+      handleTimesheetsDateChange() {
+        this.generateWeekDaysEntries();
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

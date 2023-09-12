@@ -1,5 +1,6 @@
 import { createConfig } from "../config";
 import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
+import { DateTime } from "luxon"
 
 export async function getTimeAttendance(payload) {
   const { date } = payload
@@ -103,6 +104,25 @@ export async function getTimesheet() {
     );
 
     this.timesheetData = timesheetData.data;
+  } catch (e) {
+    alert(e);
+  }
+}
+
+
+export async function getUserTimesheetWidget() {
+  try {
+    const config = createConfig();
+    config.params = {
+      from: DateTime.now().minus({ months: 3}).toISO(),
+      to: DateTime.now().toISO()
+    };
+    const widget = await hrmApiAxiosInstance.get(
+      "/widgets/timesheet/",
+      config
+    );
+
+    return widget?.data
   } catch (e) {
     alert(e);
   }

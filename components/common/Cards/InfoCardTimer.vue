@@ -78,6 +78,13 @@ export default {
         this.chronometer = !this.getTimerData.start
           ? 0
           : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
+      } else if (this.getDailyTimeEntries?.[0]?.end) {
+        this.chronometer = Math.floor(
+          (
+            new Date(this.getDailyTimeEntries?.[0]?.end).getTime() 
+            - new Date(this.getDailyTimeEntries?.[0]?.start).getTime()
+          ) / 1000,
+        )
       };
       this.timerLoading = false;
     }, 1000)
@@ -87,7 +94,7 @@ export default {
     if (this.activeUserRole === 'USER') {
       await this.$store.dispatch('timeattendance/setDailyTimeEntries');
     } else {
-      await this.$store.dispatch('timeattendance/setEmployeeAttendanceData', this.employeeId)
+      await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', this.employeeId)
     }
     this.timeEntriesLoading = false;
   },

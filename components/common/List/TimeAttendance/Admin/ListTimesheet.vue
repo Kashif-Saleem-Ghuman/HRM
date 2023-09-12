@@ -48,11 +48,7 @@
       </template>
         <template #cell(mon)="data">
           <chips
-            :title="
-              data.value?.weekData?.[1]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[1]?.totalHours
-            "
+            :title="data.value?.weekData?.[1]?.totalHours ?? '--'"
             :className="[
               data.value?.weekData?.[1]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
@@ -72,11 +68,7 @@
   
         <template #cell(tue)="data">
           <chips
-            :title="
-              data.value?.weekData?.[2]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[2]?.totalHours
-            "
+            :title="data.value?.weekData?.[2]?.totalHours ?? '--'"
             :className="[
               data.value?.weekData?.[2]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
@@ -96,11 +88,7 @@
   
         <template #cell(wed)="data">
           <chips
-            :title="
-              data.value?.weekData?.[3]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[3]?.totalHours
-            "
+            :title="data.value?.weekData?.[3]?.totalHours ?? '--'"
             :className="[
               data.value?.weekData?.[3]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
@@ -119,11 +107,7 @@
         </template>
         <template #cell(thu)="data">
           <chips
-            :title="
-              data.value?.weekData?.[4]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[4]?.totalHours
-            "
+            :title="data.value?.weekData?.[4]?.totalHours ?? '--'"
             :className="[
               data.value?.weekData?.[4]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
@@ -142,11 +126,7 @@
         </template>
         <template #cell(fri)="data">
           <chips
-            :title="
-              data.value?.weekData?.[5]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[5]?.totalHours
-            "
+            :title="data.value?.weekData?.[5]?.totalHours ?? '--'"
             :className="[
               data.value?.weekData?.[5]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
@@ -165,11 +145,7 @@
         </template>
         <template #cell(sat)="data">
           <chips
-            :title="
-              data.value?.weekData?.[6]?.totalHours == null
-                ? 'N/A'
-                : data.value?.weekData?.[6]?.totalHours
-            "
+            :title="data.value?.weekData?.[6]?.totalHours ?? '--' "
             :className="[
               data.value?.weekData?.[6]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'

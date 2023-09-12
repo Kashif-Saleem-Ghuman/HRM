@@ -34,7 +34,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -98,7 +98,7 @@
                       :format="format"
                       :parseDate="parseDate"
                       :formatDate="formatDate"
-                      @input="onChange"
+                      @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
                   </div>
@@ -156,15 +156,7 @@
               >
                 <div class="d-flex align-center">
                   <div class="custom_date_picker">
-                    <div class="mr-05">Date:</div>
-                    <bib-datetime-picker
-                      v-model="date2"
-                      :format="format"
-                      :parseDate="parseDate"
-                      :formatDate="formatDate"
-                      @input="onChange"
-                      class="custom_date_picker"
-                    ></bib-datetime-picker>
+                    <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>
   
@@ -190,7 +182,7 @@
                 <div>
                   <timesheets-approval-table
                     type="pending"
-                    :date="getCurrentDate"
+                    :dates.sync="weekDates"
                   ></timesheets-approval-table>
                 </div>
               </div>
@@ -205,15 +197,7 @@
               >
                 <div class="d-flex align-center">
                   <div class="custom_date_picker d-flex">
-                    <div class="mr-05">Date:</div>
-                    <bib-datetime-picker
-                      v-model="date2"
-                      :format="format"
-                      :parseDate="parseDate"
-                      :formatDate="formatDate"
-                      @input="onChange"
-                      class="custom_date_picker"
-                    ></bib-datetime-picker>
+                    <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>
   
@@ -238,8 +222,8 @@
               <div class="scroll_wrapper">
                 <div>
                   <timesheets-approval-table
-                    type="pending"
-                    :date="getCurrentDate"
+                    type="past_due"
+                    :dates="weekDates"
                   ></timesheets-approval-table>
                 </div>
               </div>
@@ -263,6 +247,7 @@
   import { getTimeAttendance, getTimeAttendanceCustomRange } from "../../../utils/functions/api_call/timeattendance/time";
   import fecha, { format } from "fecha";
   import getJson from "../../../utils/dataJson/app_wrap_data";
+  import { getWeekStartEndDates } from "../../../utils/functions/dates";
   const appWrapItems = getJson();
   export default {
     data() {
@@ -284,6 +269,7 @@
         date: null,
         format: "MMM D, YYYY",
         date2: format(new Date(), "YYYY-MM-DD"),
+        weekDates: { from: null, to: null }
       };
     },
     async created() {
@@ -314,9 +300,8 @@
       },
       async generateWeekDaysEntries() {
         this.loading = true;
-        const date = new Date(this.getCurrentDate);
-        const from = DateTime.fromJSDate(date).startOf('week').toISO();
-        const to = DateTime.fromJSDate(date).endOf('week').toISO();
+        const { from, to } = getWeekStartEndDates(this.getCurrentDate)
+
         let timesheets = await this.getTimeAttendanceCustomRange({ from, to });
         timesheets = timesheets.map((employee) => {
           const parser = new TimesheetParser(employee);
@@ -340,14 +325,27 @@
       formatDate(dateObj, format) {
         return fecha.format(dateObj, format);
       },
-      onChange(value) {
-        let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-        this.$store.dispatch("date/setActiveDate", date);
-        this.getCurrentDate = date;
-        this.generateOrganizationEntries()
-        if (this.activeTab == this.timeAttendanceTab[1].value) {
-          this.generateWeekDaysEntries();
-        }
+      setSelectedDate(date) {
+        this.getCurrentDate = date
+        // this.$store.dispatch("date/setActiveDate", date);
+      },
+      onDateChange(value) {
+        const date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+        if (this.activeTab == this.timeAttendanceTab[0].value) {
+          this.handleAttendanceDateChange(date)
+        } else if (this.activeTab == this.timeAttendanceTab[1].value) {
+          this.handleTimesheetsDateChange(date)
+        } 
+      },
+
+      handleAttendanceDateChange(value) {
+        this.setSelectedDate(value)
+        this.generateOrganizationEntries(value)
+      },
+
+      handleTimesheetsDateChange(value) {
+        this.setSelectedDate(value)
+        this.generateWeekDaysEntries(value);
       },
       async handleChange_Tabs(tab) {
         this.activeTab = tab.value;

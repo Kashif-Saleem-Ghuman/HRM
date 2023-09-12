@@ -72,23 +72,22 @@
 </template>
   
 <script>
+import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
-  TABLE_HEAD,
-  TIMESHEET_STATUS,
-  WEEK_DAY,
+TABLE_HEAD,
+TIMESHEET_STATUS,
+WEEK_DAY,
 } from "../../../../../utils/constant/Constant.js";
 import {
-  approveTimesheet,
-  getPendingTimesheets,
-  getPastDueTimesheets,
-  rejectTimesheet,
+approveTimesheet,
+getPastDueTimesheets,
+getPendingTimesheets,
+rejectTimesheet,
 } from "../../../../../utils/functions/api_call/timeattendance/time";
+import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 
 const PENDING_TYPE = "pending";
 const PAST_DUE_TYPE = "past_due";
-import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
-import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
-import { DateTime } from "luxon";
 
 const fetchTimesheetsFunctionMap = {
   [PENDING_TYPE]: getPendingTimesheets,
@@ -96,7 +95,8 @@ const fetchTimesheetsFunctionMap = {
 };
 export default {
   props: {
-    date: {
+    dates: {
+      type: Object,
       required: true,
     },
     type: {
@@ -150,9 +150,8 @@ export default {
 
     async getAndParseTimesheets() {
       this.loading = true;
-      const date = this.date;
-      const from = DateTime.fromISO(date).startOf("week").toISO();
-      const to = DateTime.fromISO(date).endOf("week").toISO();
+      const { from, to } = this.dates
+      if (!from || !to) return 
 
       const employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
@@ -232,9 +231,15 @@ export default {
   },
 
   watch: {
-    date(date) {
-      this.getAndParseTimesheets();
-    },
+    dates: {
+      deep: true,
+      handler: function(newVal, oldVal) {
+        //To make sure the dates really changed, avoid making useless api calls
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+          this.getAndParseTimesheets()
+        }
+      }
+    }
   },
 };
 </script>

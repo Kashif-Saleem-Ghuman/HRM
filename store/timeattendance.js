@@ -75,7 +75,7 @@ export const actions = {
     }
   },
 
-  async setEmployeeAttendanceData(ctx, employeeId) {
+  async setEmployeeDailyTimeEntry(ctx, employeeId) {
     try {
       const date = fecha.format(new Date(), "YYYY-MM-DD")
       const { data } = await axios.get(
@@ -87,14 +87,12 @@ export const actions = {
         },
       );
       const employee = data.employees.find((a) => a.id === employeeId);
-      const parser = new TimesheetParser(employee);
-      parser.parse('day');
-      const { activityReport } = employee;
-      ctx.commit("SET_DAILY_TIME_ENTRIES", [{
-        start: activityReport.in,
-        end: activityReport.out,
-        total: activityReport.total,
-      }]);
+      const timeEntries = employee.timeEntries || [];
+      ctx.commit("SET_DAILY_TIME_ENTRIES", timeEntries.map((te) => ({
+        start: te.start,
+        end: te.end,
+        total: te.total,
+      })));
     } catch (e) {
       alert(e);
     }

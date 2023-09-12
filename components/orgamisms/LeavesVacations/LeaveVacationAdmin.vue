@@ -1,5 +1,5 @@
 <template>
-  <div class="py-1">
+  <div>
     <div id="people-action-wrapper">
       <div
         class="d-flex justify-between align-center bottom_border_wrapper"

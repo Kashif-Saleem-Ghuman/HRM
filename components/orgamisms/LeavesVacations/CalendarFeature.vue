@@ -434,7 +434,7 @@ export default {
       allowanceLeavesDetailedData: [],
       useDaysData: "",
       employeeNameSelectShow: false,
-      weekendsButtonView:'Show Week days'
+      weekendsButtonView:'Show Weekdays'
     };
   },
   computed: {
@@ -862,6 +862,7 @@ export default {
       color: #1D1D20;
       border-right: 1px solid #F2F2F5;
       border-left: 1px solid #F2F2F5;
+      border-bottom: 0px solid #000 !important;
     }
   }
 }

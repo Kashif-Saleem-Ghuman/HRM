@@ -125,7 +125,7 @@
         <button-gray
           variant="light"
           :scale="1"
-          title="Weekends"
+          :title="weekendsButtonView"
           @on-click="weekData()"
           style="height: 2.5"
         ></button-gray>
@@ -161,11 +161,8 @@
           <a
             class="author-display d-flex"
             :class="[
-              arg.event.extendedProps.type === 'holiday'
-                ? 'event_wrapper__bghoilday'
-                : '',
               arg.event.extendedProps.type === 'vacation'
-                ? 'event_wrapper__bgvacation'
+                ? 'event_wrapper__bgvacations'
                 : '',
               arg.event.extendedProps.type === 'leave'
                 ? 'event_wrapper__bgonleave'
@@ -177,7 +174,7 @@
                 ? 'event_wrapper__bgabsent'
                 : '',
             ]"
-            style="cursor: pointer; margin-bottom: 3px;"
+            style="cursor: pointer; margin-bottom: 3px"
           >
             <div>
               <bib-avatar
@@ -191,9 +188,7 @@
                 " " +
                 arg.event.extendedProps.employee.lastName
               }}</label>
-              <span
-                >{{ arg.event.extendedProps.employee.jobTitle }}</span
-              >
+              <span>{{ arg.event.extendedProps.type }}</span>
             </div>
           </a>
         </template>
@@ -439,6 +434,7 @@ export default {
       allowanceLeavesDetailedData: [],
       useDaysData: "",
       employeeNameSelectShow: false,
+      weekendsButtonView:'Show Week days'
     };
   },
   computed: {
@@ -481,13 +477,14 @@ export default {
     //   this.allowanceData = result;
     //   // this.temKey += 1;
     // });
-    this.$store.dispatch("employee/setReportsToList").then((reportTo)=>{
-      this.employeesOptions = reportTo
-      this.employeeNameSelectShow = true
+    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
+      this.employeesOptions = reportTo;
+      this.employeeNameSelectShow = true;
     });
     // this.employeesOptions = this.getReportList;
     // this.employeeNameSelectShow = true
     console.log(this.employeesOptions, "this.employeesOptions");
+    
   },
   methods: {
     addHandleInput,
@@ -509,6 +506,7 @@ export default {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
+    
     fullData() {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
@@ -660,7 +658,7 @@ export default {
           this.leaveStatus = item.status;
           this.form = item;
           this.employeeNameSelect = item.employee.id;
-          
+
           this.employeeName =
             item.employee.firstName + " " + item.employee.lastName;
           setTimeout(() => {
@@ -698,7 +696,14 @@ export default {
       }, 700);
     },
     weekData() {
+      if(this.weekendsButtonView == 'Show Weekdays'){
+        this.weekendsButtonView = 'Show Weekends'
+      }else{
+        this.weekendsButtonView = 'Show Weekdays'
+      }
+      
       this.calendarOptions.weekends = !this.calendarOptions.weekends;
+      
     },
   },
 };
@@ -812,56 +817,75 @@ export default {
   z-index: 10000;
   display: flex;
   width: 100%;
-  font-size: 12px;
-  
+
   label {
     font-weight: 600;
     display: block;
-    font-size: $font-size-sm;
+    font-size: 12px;
+  }
+  span{
+    font-size: 12px;
   }
   .fc-daygrid-event {
     border-radius: 13px !important;
-    font-size: var(--fc-small-font-size);
     position: relative;
-    white-space:unset !important;
+    white-space: unset !important;
     word-wrap: break-word !important;
     background-color: #000;
+  }
 }
-}
-.fc-scrollgrid-sync-inner{
-  padding: 0 5px !important;
-}
+
 .fc-daygrid-event {
-    white-space:unset !important;
-    word-wrap: break-word !important;
+  white-space: unset !important;
+  word-wrap: break-word !important;
 }
 .fc-header-toolbar {
   padding: 0 10px !important;
 }
 .fc-scrollgrid {
-  border-left: none !important;
+  // border-left: none !important;
 }
 .fc-scrollgrid-section-liquid {
   background-color: #f8f8f9;
 }
 .fc-theme-standard {
+  background-color: #F2F2F5;
   th {
-    background-color: #fff !important;
     // padding: 5px 0;
-    border-right: 0px;
-    border-left: 0px;
+    // border-right: 0px;
+    // border-left: 0px;
+    background-color: #000;
     .fc-scrollgrid-sync-inner {
-      padding: 1rem !important;
+      padding: 0.5rem!important;
       font-weight: 400;
       font-size: 14px !important;
+      color: #1D1D20;
+      border-right: 1px solid #F2F2F5;
+      border-left: 1px solid #F2F2F5;
     }
   }
+}
+.fc-daygrid-day-frame{
+  // max-height: 200px;
+  // overflow-y: aut;
+  // overflow-x: hidden;
+}
+.fc-scrollgrid-sync-inner {
+  padding: 0 5px !important;
+  // max-height: 200px;
+  // overflow-y: aut;
+  // overflow-x: hidden;
+  // scrollbar-color: red yellow;
+  // scrollbar-width: thin;
+
+
 }
 .fc-theme-standard td {
   border: 1px solid #eee !important;
 }
 .fc-day-today {
   background-color: #fff !important;
+  font-weight: bold;
 }
 .fc-daygrid-event-harness {
   a {
@@ -886,33 +910,45 @@ export default {
 
 .event_wrapper {
   border-radius: 6px;
-  // padding: 4px 8px;
   border: none;
-  // margin-right: 10px;
   display: flex;
-  // height: 3rem;
-  background-color: #fff !important;
-  // justify-content: center;
+  // background-color: #fff !important;
   align-items: center;
-  // background-color: #f2f2f5;
-
+  
   &__bgevent {
     background-color: #d5e8d4;
   }
   &__bgonleave {
     background-color: #f7e9ce !important;
+    color: #ffab00;
+    label {
+      color: #ffab00;
+    }
+    span {
+      color: #ffab00;
+      text-transform: capitalize;
+    }
   }
 
   &__bghoilday {
     background-color: #1f42a2 !important;
     color: #fff;
   }
-  &__bgvacation {
-    background-color: #f2f2f2;
+  &__bgvacations {
+    background-color: #d5e8d4;
+    color: #2ba026;
+    label {
+      color: #2ba026;
+    }
+    span {
+      color: #2ba026;
+      text-transform: capitalize;
+    }
   }
   &__bgabsent {
     background-color: #f5d0d3;
     color: #e6000e;
+    text-transform: capitalize;
   }
   &__bgpending {
     background-color: #ffffff;
@@ -926,46 +962,6 @@ export default {
       font-size: 14px;
     }
   }
-  &__bgdefault {
-    background-color: #ffffff;
-    border: 1px solid #e1e0e0;
-    svg {
-      fill: #b1b1b4 !important;
-    }
-    span {
-      color: #b1b1b4;
-      font-weight: 600;
-      font-size: 14px;
-    }
-  }
-  &__bggray {
-    background-color: #f2f2f5;
-    border-radius: 0.5rem;
-    svg {
-      fill: #000 !important;
-    }
-    span {
-      color: #000;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    span:first-letter {
-      text-transform: uppercase;
-    }
-  }
-  &__bgwhite {
-    background-color: #fff;
-    border-radius: 0.5rem;
-    color: #eee;
-    span {
-      color: #e2e2e3;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    // span:first-letter{
-    //   text-transform: uppercase
-    // }
-  }
 }
 .fc-h-event {
   background-color: #fff !important;
@@ -974,11 +970,13 @@ export default {
 .fc-event:focus::after {
   background-color: none !important;
 }
-
+.fc-event-main{
+  background-color: #F2F2F5 !important;
+}
 .fc-event:focus {
   box-shadow: none !important;
 }
 .fc-daygrid-dot-event:hover {
-  background-color: #fff !important;
+  background-color: #F2F2F5 !important;
 }
 </style>

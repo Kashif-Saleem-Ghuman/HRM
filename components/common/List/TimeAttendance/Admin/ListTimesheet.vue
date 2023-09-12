@@ -200,30 +200,30 @@
         <template #cell(status)="data">
           <div class="text-dark">
             <chips
-              :title="data.value.status"
+              :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
               iconShow="iconShow"
               :icon="
-                data.value.status == 'Approve'
+                data.value.timesheets?.[0]?.status == 'approved'
                   ? 'check-all'
-                  : '' || data.value.status == 'Approve'
+                  : '' || data.value.timesheets?.[0]?.status == 'pending'
                   ? 'warning'
-                  : '' || data.value.status == 'pending'
+                  : '' || data.value.timesheets?.[0]?.status == 'rejected'
                   ? 'urgent-solid'
-                  : '' || data.value.status == 'Past due'
+                  : '' || data.value.timesheets?.[0]?.status == 'past_due'
                   ? 'help'
                   : ''
               "
               :variant="[
-                data.value.status == 'Approve'
+                data.value.timesheets?.[0]?.status == 'approved'
                   ? 'chip-wrapper__bgsucess'
                   : '',
-                data.value.status == 'Pending'
+                data.value.timesheets?.[0]?.status == 'pending'
                   ? 'chip-wrapper__bgabsent'
                   : '',
-                data.value.status == 'Past due'
+                data.value.timesheets?.[0]?.status == 'rejected'
                   ? 'chip-wrapper__bgabsentpink'
                   : '',
-                data.value.status == 'Vacation'
+                data.value.timesheets?.[0]?.status == 'past_due'
                   ? 'chip-wrapper__bgvacation'
                   : '',
               ]"
@@ -240,7 +240,7 @@
   </template>
   
   <script>
-  import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
+  import { TABLE_HEAD, TIMESHEET_STATUS } from "../../../../../utils/constant/Constant.js";
   export default {
     props: {
       timesheetsList: {
@@ -258,6 +258,7 @@
         userPhotoClick: false,
         timesheetModal: false,
         filteredData: [],
+        TIMESHEET_STATUS,
       };
     },
     // async created(){

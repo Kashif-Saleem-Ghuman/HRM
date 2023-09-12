@@ -13,6 +13,7 @@
         </div>
         <div>
           <progress-circle
+            v-if="showProgress"
             :progressCount="item?.pastDue"
             :progressTitle="item?.progreesTitle"
             :progressPercentage="item.pastDue + '%'"
@@ -73,6 +74,9 @@ export default {
     },
     className:{
       type:String
+    },
+    showProgress: {
+      type: Boolean,
     }
   },
   data() {

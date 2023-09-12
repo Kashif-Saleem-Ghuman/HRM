@@ -25,8 +25,8 @@
           </div>
         </div>
         <div 
-          :class="['button-punched-in', 'mb-1', 'mt-2', active ? 'active-button' : 'disabled-button']"
-          @click="() => active ? stopWatchClicked() : null"
+          :class="['button-punched-in', 'mb-1', 'mt-2', activeButton ? 'active-button' : 'disabled-button']"
+          @click="() => activeButton ? stopWatchClicked() : null"
         >
           <bib-icon icon="video-solid" variant="white" class="mr-05"></bib-icon>
           <span>{{ buttonLable }}</span>
@@ -137,6 +137,9 @@ export default {
     }),
     buttonLable() {
       return this.active ? 'CLOCK OUT' : 'CLOCK IN'
+    },
+    activeButton() {
+      return !this.getDailyTimeEntries?.[0]?.end
     },
     stopWatchTime() {
       if (this.timerLoading) return '--:--:--';

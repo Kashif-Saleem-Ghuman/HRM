@@ -200,7 +200,7 @@
         <template #cell(status)="data">
           <div class="text-dark">
             <chips
-              :title="statusDictionary[data.value.timesheets?.[0]?.status]"
+              :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
               iconShow="iconShow"
               :icon="
                 data.value.timesheets?.[0]?.status == 'approved'
@@ -240,7 +240,7 @@
   </template>
   
   <script>
-  import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
+  import { TABLE_HEAD, TIMESHEET_STATUS } from "../../../../../utils/constant/Constant.js";
   export default {
     props: {
       timesheetsList: {
@@ -258,13 +258,7 @@
         userPhotoClick: false,
         timesheetModal: false,
         filteredData: [],
-        statusDictionary: {
-          approved: 'Approved',
-          rejected: 'Rejected',
-          pending: 'Pending',
-          not_submitted: 'Not submitted',
-          past_due: 'Past due'
-        }
+        TIMESHEET_STATUS,
       };
     },
     // async created(){

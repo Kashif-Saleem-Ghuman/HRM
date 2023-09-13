@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex gap-1">
       <div
-        class="d-flex align-center justify-between cursor-pointer text-white bg-black bg-hover-dark-sub1 pl-05 pt-05 pb-05 pr-05  font-md" style="border-radius: 10px;"
+        class="d-flex align-center justify-between cursor-pointer text-white bg-black bg-hover-dark-sub1 pl-05 pt-05 pb-05 pr-05  font-md" style="border-radius: 6px;"
         @click.stop="$emit('on-click')"
       >
         <span :class="titleClass" class="pl-05 pr-05">{{ title }}</span>

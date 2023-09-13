@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex gap-1">
     <div
-      class="d-flex align-center cursor-pointer text-gray1 bg-light bg-hover-gray2 pl-05 pt-05 pb-05 pr-05 font-md" style="border-radius: 10px;"
+      class="d-flex align-center cursor-pointer text-gray1 bg-light bg-hover-gray2 pl-05 pt-05 pb-05 pr-05 font-md" style="border-radius: 6px;"
       @click="$emit('on-click')"
     >
       <bib-icon

@@ -96,7 +96,10 @@ $validation-star-color: #fa0f00;
   cursor: pointer;
 }
 .bottom_border_wrapper {
-  border-bottom: 1px solid var(--bib-light);
+  border-bottom: 1px solid #f2f2f5;
+}
+.bottom_top_wrapper{
+  border-top: 1px solid #f2f2f5;
 }
 /** layout **/
 .row {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="custom-header px-1 py-1">
+    <div class="custom-header px-1 py-05 ">
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="button-items pr-05">
@@ -10,7 +10,7 @@
                 variant="success"
                 :scale="1"
                 title="Add leave"
-                style="height: 2.5rem"
+                style="height: 2rem"
                 @on-click="actionBY('leaveAdmin')"
               ></button-green>
               <button-green
@@ -18,7 +18,7 @@
                 variant="success"
                 :scale="1"
                 title="Add vacation"
-                style="height: 2.5rem; border-radius: 6px"
+                style="height: 2rem; border-radius: 6px;"
                 @on-click="actionBY('vacationAdmin')"
               ></button-green>
             </div>
@@ -29,7 +29,7 @@
                 variant="light"
                 :scale="1"
                 :title="ViewTitle"
-                style="height: 2.5rem"
+                style="height: 2rem"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
               ></button-black>
@@ -62,7 +62,7 @@
               id="my-select"
               ref="myInput"
               @change="changeMonthView()"
-              style="height: 2.5rem"
+              style="height: 2rem"
             >
               <option
                 v-for="i in monthList"
@@ -79,6 +79,7 @@
               id="select_year"
               ref="myInputYear"
               @change="changeYearView()"
+              style="height: 2rem"
             >
               <option
                 v-for="i in yearList"
@@ -105,13 +106,11 @@
         <div class="serach-item pr-05">
           <label>Search:</label>
           <template>
-            <bib-input
+            <input
               type="text"
               name="name"
-              placeholder="Search by leave type"
               @change="searchLeavesType($event)"
-              style="height: 2.5"
-            ></bib-input>
+            />
           </template>
         </div>
         <!-- <div class="serach-item pr-05">
@@ -127,14 +126,13 @@
           :scale="1"
           :title="weekendsButtonView"
           @on-click="weekData()"
-          style="height: 2.5"
+          style="height: 2rem"
         ></button-gray>
       </div>
     </div>
     <div
-      class="d-flex px-1 pb-05 pt-05 align-center"
+      class="d-flex px-1 py-05 align-center bottom_top_wrapper"
       v-show="nextPrev"
-      style="border-top: solid 1px #eee"
     >
       <button-black
         variant="light"
@@ -434,7 +432,7 @@ export default {
       allowanceLeavesDetailedData: [],
       useDaysData: "",
       employeeNameSelectShow: false,
-      weekendsButtonView:'Show Weekdays'
+      weekendsButtonView: "Show Weekdays",
     };
   },
   computed: {
@@ -463,15 +461,26 @@ export default {
     this.$store.dispatch("leavevacation/setLeaveVacations", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,
+    }).then((result)=>{
+      this.calendarOptions.events = result;
+      const att = document.createAttribute("id");
+      att.value = "currentDay";
+      var el = document.querySelectorAll(".fc-day-today");
+      el[0].setAttributeNode(att);
+      for (let i = 0; i < el.length; i++) {
+        // el[i].id = 'currentDay' + i;
+        el[0].setAttributeNode(att);
+      }
+      this.scrolltoId();
     });
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-      this.reloadData += 1;
-    }, 1000);
-    setTimeout(() => {
-      this.calendarOptions.events = this.getLeaveVacation;
-      this.reloadData += 1;
-    }, 3000);
+    // setTimeout(() => {
+    //   this.calendarOptions.events = this.getLeaveVacation;
+    //   this.reloadData += 1;
+    // }, 1000);
+    // setTimeout(() => {
+    //   this.calendarOptions.events = this.getLeaveVacation;
+    //   this.reloadData += 1;
+    // }, 3000);
     // console.log(this.calendarOptions.events, "this.calendarOptions.events");
     // this.getAllowanceDays().then((result) => {
     //   this.allowanceData = result;
@@ -483,8 +492,6 @@ export default {
     });
     // this.employeesOptions = this.getReportList;
     // this.employeeNameSelectShow = true
-    console.log(this.employeesOptions, "this.employeesOptions");
-    
   },
   methods: {
     addHandleInput,
@@ -493,6 +500,10 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     getUserLeavesDetail,
+     scrolltoId(){
+var access = document.getElementById("currentDay");
+access.scrollIntoView();
+},
     change(event) {},
     searchLeavesType(event) {
       this.getSearchKey = event;
@@ -506,7 +517,7 @@ export default {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
-    
+
     fullData() {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
@@ -696,14 +707,13 @@ export default {
       }, 700);
     },
     weekData() {
-      if(this.weekendsButtonView == 'Show Weekdays'){
-        this.weekendsButtonView = 'Show Weekends'
-      }else{
-        this.weekendsButtonView = 'Show Weekdays'
+      if (this.weekendsButtonView == "Show Weekdays") {
+        this.weekendsButtonView = "Show Weekends";
+      } else {
+        this.weekendsButtonView = "Show Weekdays";
       }
-      
+
       this.calendarOptions.weekends = !this.calendarOptions.weekends;
-      
     },
   },
 };
@@ -777,14 +787,13 @@ export default {
     select {
       font-size: 14px;
       width: 100%;
-      border: 1px solid var(--bib-gray4);
-      border-radius: 0.2rem;
+      // border: 1px solid var(--bib-gray4);
       color: var(--bib-dark);
       background-color: #000;
       color: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      border-right: 10px solid transparent;
+      padding: 0 10px;
+      border-radius: 6px;
+      // border-right: 10px solid transparent;
       option {
         background-color: #fff;
         color: #000;
@@ -799,6 +808,11 @@ export default {
     align-items: center;
     input {
       margin: 0px !important;
+      border-radius: 6px !important;
+      padding: 0px 5px !important;
+      height: 32px;
+      border: 1px solid #E2E2E3;
+      font-size: 14px;
     }
     label {
       padding-right: 5px;
@@ -823,7 +837,7 @@ export default {
     display: block;
     font-size: 12px;
   }
-  span{
+  span {
     font-size: 12px;
   }
   .fc-daygrid-event {
@@ -849,41 +863,60 @@ export default {
   background-color: #f8f8f9;
 }
 .fc-theme-standard {
-  background-color: #F2F2F5;
+  background-color: #F8F8F9;
+  font-size: 14px;
   th {
     // padding: 5px 0;
     // border-right: 0px;
     // border-left: 0px;
-    background-color: #000;
     .fc-scrollgrid-sync-inner {
-      padding: 0.5rem!important;
+      padding: 0.5rem !important;
       font-weight: 400;
       font-size: 14px !important;
-      color: #1D1D20;
-      border-right: 1px solid #F2F2F5;
-      border-left: 1px solid #F2F2F5;
-      border-bottom: 0px solid #000 !important;
+      color: #1d1d20;
+      border-right: 1px solid #f2f2f5;
+      border-left: 1px solid #f2f2f5;
+      border-top: 0px !important;
+      // border-bottom: 0px solid #000 !important;
     }
   }
 }
-.fc-daygrid-day-frame{
+.fc-daygrid-day-frame {
   // max-height: 200px;
-  // overflow-y: aut;
+  // overflow-y: aut0;
   // overflow-x: hidden;
 }
+
 .fc-scrollgrid-sync-inner {
   padding: 0 5px !important;
-  // max-height: 200px;
-  // overflow-y: aut;
-  // overflow-x: hidden;
-  // scrollbar-color: red yellow;
-  // scrollbar-width: thin;
-
-
+  max-height: 200px;
+  overflow-y: visible;
+  overflow-x: hidden;
+ 
+}
+.fc-scrollgrid-sync-inner::-webkit-scrollbar {
+  width: 5px;
+}
+.fc-scrollgrid-sync-inner::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+.fc-scrollgrid-sync-inner::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgb(216, 216, 216);
 }
 .fc-theme-standard td {
-  border: 1px solid #eee !important;
+  border: 1px solid #f2f2f5 !important;
 }
+.fc-theme-standard th {
+  border-top: 0px solid #000 !important;
+  z-index: 9999;
+  border-bottom: 0px !important;
+}
+
+// .fc-theme-standard th {
+//   border: 10px solid #f2f2f5 !important;
+// }
 .fc-day-today {
   background-color: #fff !important;
   font-weight: bold;
@@ -908,14 +941,16 @@ export default {
 .fc-icon-chevron-right::before {
   font-family: "fcicons" !important;
 }
-
+.fc-daygrid-event-harness-abs {
+  right: 0 !important;
+}
 .event_wrapper {
   border-radius: 6px;
   border: none;
   display: flex;
   // background-color: #fff !important;
   align-items: center;
-  
+
   &__bgevent {
     background-color: #d5e8d4;
   }
@@ -971,13 +1006,13 @@ export default {
 .fc-event:focus::after {
   background-color: none !important;
 }
-.fc-event-main{
-  background-color: #F2F2F5 !important;
+.fc-event-main {
+  background-color: #f2f2f5 !important;
 }
 .fc-event:focus {
   box-shadow: none !important;
 }
 .fc-daygrid-dot-event:hover {
-  background-color: #F2F2F5 !important;
+  background-color: #f2f2f5 !important;
 }
 </style>

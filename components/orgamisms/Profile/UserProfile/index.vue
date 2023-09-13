@@ -386,6 +386,8 @@
                     <list-day-admin
                       :listToday="todayData"
                       v-show="todayListView"
+                      :totalWork="totalWork"
+                      :status="timesheetStatus"
                     ></list-day-admin>
                     <list-week
                       :listWeek="weekDataView"
@@ -489,8 +491,8 @@ import {
 } from "../../../../utils/constant/Constant.js";
 import {
   TIMESHEET_DATA,
-  DAY_VIEW_DATA,
   WEEK_VIEW_DATA,
+  ACTIVITY_DICTIONARY,
 } from "../../../../utils/constant/TimesheetData.js";
 import {
   deleteLevaeVacation,
@@ -509,6 +511,8 @@ import {
   getCurrentDateMonth,
   getCurrentWeek,
 } from "../../../../utils/functions/functions_lib.js";
+import { getDateDiffInHHMM, getTimeFromDate } from "../../../../utils/functions/dates"
+import { formatTime } from "../../../../utils/functions/clock_functions"
 import { DELETE_MESSAGE } from "../../../../utils/constant/ConfirmationMessage";
 
 import getJson from "../../../../utils/dataJson/app_wrap_data";
@@ -525,7 +529,7 @@ export default {
       monthList: YEAR_LIST,
       currentYear: fecha.format(new Date(), "YYYY"),
       infoCardData: INFO_CARD_DATA,
-      todayData: DAY_VIEW_DATA,
+      todayData: [],
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       todayListView: true,
@@ -585,6 +589,9 @@ export default {
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
       errorMsgPrimaryEmail:false,
+      ACTIVITY_DICTIONARY,
+      totalWork: '--:--',
+      timesheetStatus: '',
     };
   },
   computed: {
@@ -596,6 +603,7 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
       getReportList: "employee/GET_REPORTS_LIST",
+      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
   },
 
@@ -640,7 +648,7 @@ export default {
   async mounted() {
     this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
-this.getCurrentWeek();
+    this.getCurrentWeek();
     this.$store.dispatch("employee/setReportsToList").then((result) => {
       this.reportOptions = result;
     });
@@ -723,7 +731,27 @@ this.getCurrentWeek();
 
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
-      if (this.activeTab == "Time & Attendance") 
+      if (this.activeTab == "Time & Attendance") {
+        await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', Number(this.id));
+        this.todayData = [];
+        let work = 0; // miliseconds
+        for (const timeEntry of this.getDailyTimeEntries) {
+          this.todayData.push({
+            activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
+            start: getTimeFromDate(timeEntry.start),
+            end: getTimeFromDate(timeEntry.end),
+            total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
+            status: timeEntry.status,
+          });
+          if (timeEntry.activity === 'in') {
+            work += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+          } else if (timeEntry.activity === 'break') {
+            work -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+          }
+        }
+        this.totalWork = formatTime(work / 1000, false);
+        this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
+      }
       this.getTimesheet();
       // this.getTimeAttendanceDaily(this.todayDate).then((result)=>{
       //   this.todayData = result

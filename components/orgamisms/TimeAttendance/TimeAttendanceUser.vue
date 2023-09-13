@@ -30,13 +30,14 @@
             >
             </bib-clock-wrapper>
             <info-card-one
-              :item="infoCardData[1]"
+              :item="timesheetWidgetData"
               title="View Timesheet"
-              buttonLable="View timesheet past due"
+              buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"
               buttonVariant="light"
               className="button-wrapper__bgwarnning"
+              @on-click="onViewTimesheetsClick"
             ></info-card-one>
 
             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
@@ -45,7 +46,17 @@
 
         <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
           <label class="pr-05">View:</label>
-          <div style="position: relative">
+          <bib-input
+            type="select"
+            v-model="view"
+            :options="VIEWS"
+            label=""
+            placeholder=""
+            :disabled="false"
+            @input="onViewChange"
+            style="width: 10vw;"
+          ></bib-input>
+          <!-- <div style="position: relative">
             <button-gray
               variant="light"
               :scale="1"
@@ -91,7 +102,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
 
           <div
             class="d-flex justify-between align-center px-075 bottom_border_wrapper"
@@ -140,10 +151,21 @@ import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
 import fecha, { format } from "fecha";
 import getJson from "../../../utils/dataJson/app_wrap_data";
+import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
 const appWrapItems = getJson();
+
+const VIEWS = [
+  { label: "Day", value: 'day' },
+  { label: "Week", value: 'week' },
+  { label: "Month", value: 'month' },
+  { label: "Year", value: 'year' }
+]
+
 export default {
   data() {
     return {
+      VIEWS,
+      view: "",
       activeUserData: "",
       activeUserName: "",
       ViewTitle: "Today",
@@ -154,14 +176,12 @@ export default {
       todayData: DAY_VIEW_DATA,
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
-      todayListView: true,
-      weekListView: false,
-      monthListView: false,
       activeTab: "Attendance",
       loading: false,
       form: {},
       // Time & attandance
       infoCardData: INFO_CARD_DATA,
+      timesheetWidgetData: {},
       timesheetData: TIMESHEET_DATA,
       clockModal: false,
       localData: [],
@@ -187,8 +207,18 @@ export default {
       activeDate: "date/getActiveDate",
       getformToDate: "leavevacation/getformToDate",
     }),
+    todayListView() {
+      return this.view === 'day';
+    },
+    weekListView() {
+      return this.view === 'week';
+    },
+    monthListView() {
+      return this.view === 'month';
+    }
   },
   async created() {
+    this.setView()
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
@@ -198,33 +228,27 @@ export default {
       this.activeUserData.lastName +
       " / " +
       "Time & Attendance";
+
+    this.getTimesheetWidget()
+
   },
   methods: {
+    setView() {
+      this.view = this.$route.query.view ?? VIEWS[0].value
+    },
+    async getTimesheetWidget() {
+      const widget = await getUserTimesheetWidget()
+      this.timesheetWidgetData = widget
+    },
     clickOutside() {
       this.show = false;
     },
-    viewChange(e) {
-      if (e == "Today") {
-        this.todayListView = true;
-        this.weekListView = false;
-        this.monthListView = false;
-        this.ViewTitle = "Today";
-      }
-      if (e == "Week") {
-        this.todayListView = false;
-        this.weekListView = true;
-        this.monthListView = false;
-        this.ViewTitle = "Week";
-      }
-      if (e == "Month") {
-        this.todayListView = false;
-        this.monthListView = true;
-        this.weekListView = false;
-        this.ViewTitle = "Month";
-      }
-      if (e == "Year") {
-        alert("No list Found");
-      }
+    onViewChange(e) {
+      this.$router.push({ query: { view: e } });
+    },
+
+    onViewTimesheetsClick() {
+      this.$router.push({ query: { view: 'year' } });
     },
     getCurrentDateMonth,
 
@@ -260,6 +284,12 @@ export default {
     closeClock() {
       this.clockModal = false;
     }
+  },
+
+  watch: {
+    '$route.query.view'(newVal) {
+      this.view = newVal || 'day';
+    },
   },
 };
 </script>

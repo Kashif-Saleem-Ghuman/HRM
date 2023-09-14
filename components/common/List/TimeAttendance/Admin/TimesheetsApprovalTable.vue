@@ -116,7 +116,7 @@ export default {
       weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
       tableFields: TABLE_HEAD.tHeadTimesheet,
       employees: [],
-      loading: false,
+      loading: true,
     };
   },
   mounted() {

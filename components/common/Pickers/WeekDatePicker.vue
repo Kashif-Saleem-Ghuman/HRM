@@ -33,7 +33,7 @@ export default {
     onDateChange() {
       //When user clicks X button
       if (!this.from) {
-        this.setCurrentWeek()
+       return  this.setCurrentWeek()
       }
 
       const { from, to } = getWeekStartEndDates(
@@ -60,9 +60,9 @@ export default {
       this.to = this.previousTo;
     },
     formatDatesToStartEndDayUTC(from, to) {
-      return {
-        from: DateTime.utc(this.from).startOf("day").toUTC(),
-        to: DateTime.utc(this.to).endOf("day").toUTC(),
+      return  {
+        from: DateTime.fromJSDate(from).toUTC().startOf("day").toISO(),
+        to: DateTime.fromJSDate(to).toUTC().endOf("day").toISO(),
       };
     },
   },

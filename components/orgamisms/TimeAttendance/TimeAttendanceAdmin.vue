@@ -134,9 +134,9 @@
                   :item="absentPresentCardData[1]"
                   title="Timesheets pending"
                 ></absent-present-card>
-                <info-card-help
+                <!-- <info-card-help
                   custumBg="help-wrapper__bg-black"
-                ></info-card-help>
+                ></info-card-help> -->
               </div>
               <div class="scroll_wrapper">
                 <div>

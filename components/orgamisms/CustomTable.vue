@@ -278,17 +278,22 @@ export default {
   &__hrow__custom {
     background-color: $white;
     color: $gray5;
-    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase !important;
-
     th {
       border: $gray3 1px solid;
       // border-top: none;
       text-align: left;
-      height: 48px !important;
+      height: 40px !important;
       text-transform: uppercase !important;
-
+      
+      color: #1D1D20;
+      
+      span{
+        font-size: 12px;
+        font-weight: 500;
+        color: #B1B1B4;
+      }
       &:first-child {
         border-left: none;
       }
@@ -330,20 +335,23 @@ export default {
 
   &__irow {
     color: $gray6;
-    height: 4rem !important;
     font-weight: 400;
-    line-height: 2.5rem;
     background-color: #F8F8F9;
-    // font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
-
+    font-size: 30px;
     &-count {
       width: 60px;
     }
 
     td {
       border: 1px solid $light;
+      padding: 6px;
+      span{
+        font-size: 14px;
+        color: #1D1D20;
+      }
+
       &:first-child {
         border-left: 0;
       }

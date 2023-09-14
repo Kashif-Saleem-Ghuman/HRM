@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pt-1">
+    <div class="add-leave-wrapper">
       <div class="row" v-show="employeeNameInput">
         <div class="col-12">
           <bib-input
@@ -26,50 +26,61 @@
             placeholder="Employee"
             :disabled="inActive"
             @input="$emit('selectUser', $event, 'employeeId')"
+            style="padding-right: 0px"
           ></bib-input>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-12" v-show="leaveTypeSelect">
-          <bib-input
-            type="select"
-            label="Leave type"
-            :value="leaveType"
-            :options="leaveTypeOptions"
-            placeholder="Select your Leave type"
-            :disabled="inActive"
-            @input="$emit('selectLeaveType', $event, 'type')"
-          ></bib-input>
-          <small
-            class="text-danger"
-            style="margin-top: -0.25rem; display: block"
-            v-show="errorMsgSelect"
-            >Please select leave type</small
-          >
+      <div class="row border-wrapper-box">
+        <div class="col-12" style="padding: 0px;">
+          <div class="col-12" style="padding: 0px;">
+          <div  v-show="leaveTypeSelect" class="pb-05">
+            <bib-input
+              type="select"
+              label="Leave type"
+              :value="leaveType"
+              :options="leaveTypeOptions"
+              placeholder="Select your Leave type"
+              :disabled="inActive"
+              @input="$emit('selectLeaveType', $event, 'type')"
+            ></bib-input>
+            <small
+              class="text-danger"
+              style="margin-top: -0.25rem; display: block"
+              v-show="errorMsgSelect"
+              >Please select leave type</small
+            >
+            </div>
+          </div>
+
+          <div class="row pb-05">
+            <div class="col-4">
+              <div class="d-flex input-display-wrapper">
+                <span>Allowance</span>
+                <span>{{ allowanceDays }}</span>
+              </div>
+            </div>
+            <div class="col-4" :key="usedDayLeave">
+              <div class="d-flex input-display-wrapper">
+                <span>Used</span>
+                <span>{{ usedDays }}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="d-flex input-display-wrapper">
+                <span>Available</span>
+                <span>{{ allowanceDays - usedDays }}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row pt-075 pb-075">
-        <div class="col-4">
-          <div class="d-flex input-display-wrapper">
-            <span>Allowance</span>
-            <span>{{ allowanceDays }}</span>
-          </div>
-        </div>
-        <div class="col-4" :key="usedDayLeave">
-          <div class="d-flex input-display-wrapper">
-            <span>Used</span>
-            <span>{{ usedDays }}</span>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="d-flex input-display-wrapper">
-            <span>Available</span>
-            <span>{{ allowanceDays - usedDays }}</span>
-          </div>
-        </div>
+
+      <div class="border-wrapper-box">
+        <div class="row">
+        <label class="col-12" style="display: block;">Dates</label>
       </div>
-      <div class="row">
+        <div class="row">
         <div class="col-6">
           <bib-input
             type="date"
@@ -86,7 +97,7 @@
             >Please select start date</small
           >
         </div>
-        <div class="col-6">
+        <div class="col-6 pad-remove">
           <bib-input
             type="date"
             label="End date"
@@ -103,6 +114,7 @@
           >
         </div>
       </div>
+    </div>
     </div>
     <div class="row">
       <div class="col-12">
@@ -125,20 +137,20 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   props: {
-    employeeNameInput:{
-      type:Boolean
+    employeeNameInput: {
+      type: Boolean,
     },
-    employeeNameSelectShow:{
-      type:Boolean
+    employeeNameSelectShow: {
+      type: Boolean,
     },
     leaveTypeSelect: {
       type: Boolean,
     },
-    showUsedDay:{
-      type:Boolean
+    showUsedDay: {
+      type: Boolean,
     },
     leaveType: {
       type: String,
@@ -160,7 +172,7 @@ export default {
     },
     usedDays: {
       type: [Number, String],
-      default:'00'
+      default: "00",
     },
     startDate: {
       type: String,
@@ -190,29 +202,32 @@ export default {
       // dateStart: this.startDate,
       // dateEnd: this.endDate,
       // reason: this.note,
-      usedDayLeave:0,
+      usedDayLeave: 0,
     };
   },
-  created(){
+  created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
-      console.log(this.usedDayLeave, "this.$nuxt.$emit(")
+      console.log(this.usedDayLeave, "this.$nuxt.$emit(");
     });
   },
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",
-    })
-    
+    }),
   },
-  mounted(){
-  }
+  mounted() {},
 };
 </script>
 <style lang="scss">
+.add-leave-wrapper {
+  input {
+    color: #85858f;
+  }
+}
 .input-display-wrapper {
   padding: 0.75rem;
-  border-radius: 4px;
+  border-radius: 6px;
   border: solid 1px var(--bib-gray4);
   display: block;
   justify-content: space-between;
@@ -220,6 +235,22 @@ export default {
     display: block;
     font-size: 14px;
     color: #999;
+  }
+}
+.pad-remove {
+  // padding: 0px;
+}
+.border-wrapper-box {
+  border: 1px solid #f2f2f5;
+  padding: 16px 16px 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  margin-top: 8px;
+  margin-left: 1px;
+  label{
+    font-size: 14px;
+    color: #85858F;
+    padding-bottom: 0.7rem;
   }
 }
 </style>

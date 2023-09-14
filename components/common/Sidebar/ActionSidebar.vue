@@ -4,12 +4,15 @@
     :class="'side-panel ' + 'side-panel__' + className"
     style="z-index: 10000"
   >
-    <div class="d-flex p-1 justify-between align-center sidebar-header">
+    <div
+      class="d-flex justify-between align-center sidebar-header"
+      style="padding: 24px"
+    >
       <div class="d-flex justify-between align-center">
         <bib-icon
           icon="add"
-          style="margin-right: 4px"
           :scale="0.9"
+          class="mr-05"
           @click="$emit('close')"
         ></bib-icon>
         <label> {{ heading }}</label>
@@ -23,8 +26,8 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-x p-1" style="height: 72vh">
-        <slot name="sidebar-body"></slot>
+      <div class="of-scroll-x" style="height: 72vh">
+        <div style="padding: 24px"><slot name="sidebar-body"></slot></div>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
       <div
@@ -104,7 +107,7 @@ export default {
 }
 @media screen and (max-width: 1600px) {
   .side-panel {
-    max-width: $sidebar-width - 160px;
+    // max-width: $sidebar-width - 120px;
     width: 35rem;
   }
 }
@@ -123,8 +126,9 @@ export default {
   right: 0px;
   border-left: 1px solid #f2f2f5;
   label {
-    // font-size: 14px;
+    font-size: 14px;
     font-weight: 600;
+    color: #1d1d20;
   }
   // box-shadow: 5px 2px 15px $gray6;
   &__slide-in {

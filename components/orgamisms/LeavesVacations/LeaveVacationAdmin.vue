@@ -5,7 +5,7 @@
         class="d-flex justify-between align-center bottom_border_wrapper"
       >
         <section-header-left
-          title="Leaves and Vacation"
+          title="Leave & Vacations"
           headerRight="headerRight"
         ></section-header-left>
       </div>

@@ -10,7 +10,7 @@
                 variant="success"
                 :scale="1"
                 title="Add leave"
-                style="height: 2rem"
+                
                 @on-click="actionBY('leaveAdmin')"
               ></button-green>
               <button-green
@@ -18,7 +18,6 @@
                 variant="success"
                 :scale="1"
                 title="Add vacation"
-                style="height: 2rem; border-radius: 6px;"
                 @on-click="actionBY('vacationAdmin')"
               ></button-green>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <custom-table
+  <bib-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="leaveData"
@@ -115,7 +115,7 @@
         ></bib-button> -->
       </div>
     </template>
-  </custom-table>
+  </bib-table>
 </template>
 
 <script>

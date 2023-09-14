@@ -102,17 +102,17 @@ export default {
   box-shadow: 0 2px 8px rgb(0 0 0 / 24%);
   .user_card_detail {
     display: block;
-    font-size: 1rem;
+    
     label {
       font-weight: 600;
       color: #000;
       display: flex;
       flex-direction: column;
-
       span {
         font-weight: 400;
         padding: 1px 0 3px 0;
         color: #6a6d76;
+        
       }
     }
     .card_info {

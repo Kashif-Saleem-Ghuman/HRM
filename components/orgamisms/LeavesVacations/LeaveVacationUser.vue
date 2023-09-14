@@ -61,9 +61,8 @@
                   ></bib-datetime-picker> -->
         </div>
       </div>
-      <div class="d-flex align-center">
+      <!-- <div class="d-flex align-center">
         <div class="d-flex align-center">
-          <!-- <div style="font-size: 14px" class="mr-05">Show:</div> -->
           <dropdown-menu
             :items="items"
             filterLabel="All"
@@ -72,7 +71,7 @@
             actionMenu="actionMenu"
           ></dropdown-menu>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="py-1">
       <list-leave-attendance

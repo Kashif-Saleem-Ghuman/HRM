@@ -250,7 +250,7 @@ export default {
 
       if (payload === "leave") {
         this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
-        this.sidebarHeading = "Request leave";
+        this.sidebarHeading = "Request Leave";
         this.addForm.type = "leave";
         this.allowanceDays = 12;
         this.openSidebar = true;
@@ -258,7 +258,7 @@ export default {
         this.employeeNameSelectShow = false;
       }
       if (payload == "vacation") {
-        this.sidebarHeading = "Request vacation";
+        this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
@@ -269,7 +269,7 @@ export default {
       }
 
       if (payload == "medical") {
-        this.sidebarHeading = "Request medical/sick";
+        this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
         this.allowanceDays = 10;
         this.openSidebar = true;
@@ -293,7 +293,7 @@ export default {
         this.getActiveUser.firstName + " " + this.getActiveUser.lastName;
       this.slideClass = "slide-in";
       if (payload === "leave") {
-        this.sidebarHeading = "Request leave";
+        this.sidebarHeading = "Request Leave";
         this.addForm.employeeId = userId;
         this.addForm.type = "leave";
         this.allowanceDays = 12;
@@ -306,7 +306,7 @@ export default {
         return true;
       }
       if (payload == "vacation") {
-        this.sidebarHeading = "Request vacation";
+        this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
@@ -320,7 +320,7 @@ export default {
       }
 
       if (payload == "medical") {
-        this.sidebarHeading = "Request medical/sick";
+        this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
         this.allowanceDays = 10;
         this.openSidebar = true;
@@ -343,7 +343,7 @@ export default {
           // this.employeeNameSelect = result.id;
         });
         this.addLeaveKey += 1;
-        this.sidebarHeading = "Request leave";
+        this.sidebarHeading = "Request Leave";
         this.openSidebar = true;
         this.addForm.type = "leave";
         this.leaveTypeSelect = true;
@@ -365,7 +365,7 @@ export default {
           console.log(this.activeUserData, "getActiveUser");
         });
         this.employeeNameSelect = this.getActiveUser.id;
-        this.sidebarHeading = "Request vacation";
+        this.sidebarHeading = "Request Vacation";
         this.allowanceDays = 30;
         this.openSidebar = true;
         this.addForm.type = "vacation";

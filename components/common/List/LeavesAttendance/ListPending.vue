@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="info_wrapper">
-            <div class="title">
+            <div class="title-user">
               {{ data.value.employee.firstName }} {{ data.value.employee.lastName }}
             </div>
             <div class="description">
@@ -62,7 +62,7 @@
     </template> -->
     <template #cell(type)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.type }}</span>
+        <span style="text-transform: capitalize;">{{ data.value.type }}</span>
       </div>
     </template>
     <template #cell(from)="data">
@@ -94,6 +94,7 @@
                 ? 'help'
                 : ''
             "
+            style="text-transform:capitalize;"
             :className="[
               data.value?.status == 'approve' ? 'chip-wrapper__bgsucess' : '',
               data.value?.status === 'pending' ? 'chip-wrapper__bgabsentpink' : '',
@@ -104,9 +105,8 @@
           <bib-button
           label="Reject"
           variant="warning"
-          size="xl"
           class="px-1"
-          style="height: 3rem; display: flex; align-items: center;"
+          style="height: 2.2rem; display: flex; align-items: center;"
           @click="$emit('reject-item', data.value.id)"
           
         ></bib-button>
@@ -185,14 +185,15 @@ export default {
   font-weight: normal;
 }
 
-.title {
+.title-user {
   font-size: 14px;
   font-weight: 600;
+  color: #1D1D20;
 }
 
 .description {
   font-size: 14px;
   font-weight: normal;
-  color: $black;
+  color: #1D1D20;
 }
 </style>

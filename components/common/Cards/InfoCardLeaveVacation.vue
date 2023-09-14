@@ -34,7 +34,7 @@
         </div>
       </div>
       <div
-        class="button-wrapper mb-1"
+        class="button-wrapper"
         :class="className"
         @click.stop="$emit('on-click')"
       >
@@ -112,16 +112,18 @@ export default {
 };
 </script>
 <style lang="scss">
+
 .info-card-leave-wrapper {
-  padding: 12px 12px 0px 12px;
+  padding: 24px;
   font-size: 14px;
   background: #fff;
-  border-radius: 12px;
-  border: 1px solid #e2e2e3;
+  border-radius: 24px;
+  border: 1px solid #F2F2F5;
   overflow-wrap: break-word;
   label {
     font-size: 1rem;
     font-weight: 600;
+    color: #1D1D20;
   }
   .info-card-items {
     display: flex;
@@ -131,6 +133,7 @@ export default {
       font-weight: 500;
       color: #b1b1b4;
       margin-bottom: -10px;
+      font-size: 14px;
     }
     span {
       font-size: 56px;
@@ -147,7 +150,7 @@ export default {
     }
   }
   .footer-item {
-    padding-top: 16px;
+    padding-top: 8px;
     padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
@@ -158,11 +161,13 @@ export default {
       padding-right: 10px;
       align-items: center;
       label {
-        color: #b1b1b4;
+        color: #B1B1B4;
         font-weight: normal;
+        font-size: 14px;
       }
       span {
         font-weight: 600;
+        font-size: 14px;
       }
     }
   }

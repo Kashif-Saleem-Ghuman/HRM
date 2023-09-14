@@ -3,6 +3,7 @@
     <div
       class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-rounded pl-05 pt-025 pb-025 pr-075 mr-05 font-md"
       @click.stop="$emit('on-click')"
+      style="height: 2rem"
     >
       <bib-icon
         v-if="icon"

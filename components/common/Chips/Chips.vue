@@ -137,10 +137,10 @@ export default {
 }
 .chip-wrapper {
   border-radius: 6px;
-  padding: 4px 8px;
+  padding:  8px;
   margin-right: 10px;
   display: flex;
-  height: 2.5rem;
+  // height: 2rem;
   // justify-content: center;
   align-items: center;
   // background-color: #f2f2f5;
@@ -165,7 +165,7 @@ export default {
     }
     span {
       color: #2ba026;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -177,7 +177,7 @@ export default {
     }
     span {
       color: #ffab00;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -188,7 +188,7 @@ export default {
     }
     span {
       color: #1f42a2;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -198,8 +198,8 @@ export default {
       fill: #e6000e !important;
     }
     span {
-      color: #e6000e;
-      font-weight: 600;
+      color: #e6000e !important;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -211,7 +211,7 @@ export default {
     }
     span {
       color: #b1b1b4;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -223,7 +223,7 @@ export default {
     }
     span {
       color: #b1b1b4;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
   }
@@ -235,7 +235,7 @@ export default {
     }
     span {
       color: #000;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
     span:first-letter {
@@ -248,7 +248,7 @@ export default {
     color: #eee;
     span {
       color: #e2e2e3;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
     }
     // span:first-letter{

@@ -1,4 +1,4 @@
-@import "@/assets/variable.scss";
+@import "../assets/variable.scss";
 html,
 body {
   font-family: $font-family;
@@ -169,4 +169,29 @@ $validation-star-color: #fa0f00;
 //     }
 //   }
 // }
+// .table {
+// &__hrow {
+//   background-color: $white !important;
+//   color: $gray5;
+//   font-weight: 600;
+//   text-transform: uppercase !important;
+//   th {
+//     border: $gray3 1px solid !important;
+    
 
+//     &:first-child {
+//       border-left: none;
+//     }
+//     &:last-child {
+//       width: 150px !important;
+//     }
+//     &:not(:last-child) {
+//       border-right: none;
+//     }
+
+//     &.cell_action_header {
+//       width: 0rem;
+//     }
+//   }
+// }
+// }

@@ -91,7 +91,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<!-- <style lang="scss">
 .info-card-leave-wrapper {
   padding: 12px 12px 0px 12px;
   font-size: 14px;
@@ -127,7 +127,7 @@ export default {
     }
   }
   .footer-item {
-    padding-top: 16px;
+    padding-top: 8px;
     padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
@@ -201,4 +201,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

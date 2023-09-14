@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex gap-1 bg-pink">
-    <div class="d-flex align-center cursor-pointer" @click="$emit('on-click')">
+    <div class="d-flex align-center cursor-pointer" @click="$emit('on-click')" style="height: 2rem">
       <bib-icon
         v-if="icon"
         :icon="icon"
@@ -43,7 +43,7 @@ export default {
 <style lang="scss">
 .bg-pink {
   background-color: #f3ced0;
-  padding: 4px 12px 3px 8px;
+  padding: 0px 12px 0px 8px;
   border-radius: 4px;
   font-size: 14px;
   color: #e6000e;

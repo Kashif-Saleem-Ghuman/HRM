@@ -246,24 +246,24 @@ export default {
 };
 </script>
 <style lang="scss">
-@media (min-width: 1200px) {
-  .title {
-    font-size: 12px !important;
-    font-weight: 600;
-  }
-  .description {
-    font-size: 12px !important;
-    font-weight: normal;
-    color: $black;
-  }
-  .custom-tabs {
-    .tabs {
-      button {
-        font-size: 12px !important;
-      }
-    }
-  }
-}
+// @media (min-width: 1200px) {
+//   .title {
+//     font-size: 14px !important;
+//     font-weight: 600;
+//   }
+//   .description {
+//     font-size: 12px !important;
+//     font-weight: normal;
+//     color: $black;
+//   }
+//   .custom-tabs {
+//     .tabs {
+//       button {
+//         font-size: 12px !important;
+//       }
+//     }
+//   }
+// }
 .border-wrapper {
   border: solid 1px $light;
   border-radius: 5px;

@@ -371,8 +371,7 @@ export default {
     }
     &:hover {
       cursor: default;
-      background-color: $light;
-      border-color: $gray4;
+      background-color: white;
       td {
         border-left: $gray4 1px solid;
         &:first-child {

@@ -10,21 +10,6 @@
             <span>{{ item.numberData }}</span>
             </div>
           <div>
-            <progress-circle
-              :progressCount="item?.progress"
-              :progressTitle="item?.progreesTitle"
-              :progressPercentage="item?.progress + '%'"
-              :fill="fill"
-              v-show="item.progress == null ? '' : item.progress + '%'"
-              emptyfill="#f1f1f1"
-            ></progress-circle>
-          </div>
-        </div>
-        <div class="pt-1 d-block">
-          <div>
-            <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
-            <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
-            <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
           </div>
         </div>
       </div>

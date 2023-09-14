@@ -60,29 +60,30 @@ export default {
     }
     span {
       color: #2ba026;
-      font-weight: 600;
+      font-weight: 100;
       font-size: 14px;
     }
   }
   &__default {
     li {
-      color: #b1b1b4;
+      color: #b1b1b4 !important;
     }
     span {
-      color: #b1b1b4;
-      font-weight: 600;
+      color: #b1b1b4 !important;
+      font-weight: 100;
       font-size: 14px;
     }
   }
   &__light {
     li {
-      color: #dadada;
+      color: #dadada !important;
     }
     span {
-      color: #dadada;
-      font-weight: 600;
+      color: #dadada !important;
+      font-weight: 100;
       font-size: 14px;
     }
   }
 }
+
 </style>

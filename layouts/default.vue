@@ -95,7 +95,7 @@
               <div class="">
                 <div style="text-align: right">
                   <bib-button
-                    label="Cancle"
+                    label="Cancel"
                     variant="gray"
                     size="lg"
                     v-on:click="closeSidebar"

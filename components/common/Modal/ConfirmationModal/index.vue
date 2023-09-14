@@ -16,7 +16,7 @@
     <template slot="footer">
       <div class="d-flex justify-center">
         <bib-button
-          label="Cancle"
+          label="Cancel"
           variant="light"
           class="mr-1"
           @click="$emit('close')"

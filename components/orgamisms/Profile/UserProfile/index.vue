@@ -175,7 +175,7 @@
                       class="d-flex justify-between align-center button-custom-wrapper"
                     >
                       <bib-button
-                        label="Cancle"
+                        label="Cancel"
                         variant="gray"
                         size="lg"
                         class="mr-1"
@@ -262,7 +262,7 @@
                       class="d-flex justify-between align-center button-custom-wrapper"
                     >
                       <bib-button
-                        label="Cancle"
+                        label="Cancel"
                         variant="gray"
                         size="lg"
                         class="mr-1"

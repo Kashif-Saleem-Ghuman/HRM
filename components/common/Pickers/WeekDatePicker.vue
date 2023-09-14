@@ -3,16 +3,15 @@
     <div class="pickers">
       <div class="picker">
         <label for="start-date">From</label>
-        <input
-          type="date"
-          id="from-date"
+        <bib-datepicker
           v-model="from"
-          @change="onDateChange"
-        />
+          placeholder="Choose Start Of Week Date"
+          @input="onDateChange"
+        ></bib-datepicker>
       </div>
       <div class="picker">
         <label for="end-date">To</label>
-        <input type="date" id="to-date" v-model="to" disabled="true" />
+        <bib-datepicker v-model="to" :disabled="true"></bib-datepicker>
       </div>
     </div>
   </div>
@@ -20,48 +19,46 @@
 
 <script>
 import { DateTime } from "luxon";
-import {
-  getWeekStartEndDates,
-  isDateOnSunday,
-} from "../../../utils/functions/dates";
+import { getWeekStartEndDates } from "../../../utils/functions/dates";
 
 export default {
   data() {
     return {
       from: "",
       to: "",
-      previousFrom: "",
-      previousTo: "",
     };
   },
 
   methods: {
     onDateChange() {
-      console.log("cjange?");
-      if (!isDateOnSunday(this.from)) {
-        alert("Please select a date where the week starts on a Sunday.");
-        this.setToPreviousDates();
-      }
-
-      const { to } = getWeekStartEndDates(this.from);
-      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd");
-
-      this.previousFrom = this.from;
-      this.previousTo = this.to;
-      this.$emit("update:dates", { from: this.from, to: this.to });
+      const { from, to } = getWeekStartEndDates(
+        DateTime.fromJSDate(this.from).toISO()
+      );
+      this.from = DateTime.fromISO(from).toJSDate();
+      this.to = DateTime.fromISO(to).toJSDate();
+      this.$emit("update:dates", {
+        ...this.formatDatesToStartEndDayUTC(this.from, this.to),
+      });
     },
+
     setCurrentWeek() {
       const now = DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
-      this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd");
-      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd");
-      this.previousFrom = this.from;
-      this.previousTo = this.to;
-      this.$emit("update:dates", { from: this.from, to: this.to });
+      this.from = DateTime.fromISO(from).toJSDate();
+      this.to = DateTime.fromISO(to).toJSDate();
+      this.$emit("update:dates", {
+        ...this.formatDatesToStartEndDayUTC(this.from, this.to),
+      });
     },
     setToPreviousDates() {
       this.from = this.previousFrom;
       this.to = this.previousTo;
+    },
+    formatDatesToStartEndDayUTC(from, to) {
+      return {
+        from: DateTime.utc(this.from).startOf("day").toUTC(),
+        to: DateTime.utc(this.to).endOf("day").toUTC(),
+      };
     },
   },
 

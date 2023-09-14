@@ -31,6 +31,11 @@ export default {
 
   methods: {
     onDateChange() {
+      //When user clicks X button
+      if (!this.from) {
+        this.setCurrentWeek()
+      }
+
       const { from, to } = getWeekStartEndDates(
         DateTime.fromJSDate(this.from).toISO()
       );

@@ -155,7 +155,7 @@
                 class="d-flex justify-between align-center px-075 bottom_border_wrapper"
               >
                 <div class="d-flex align-center">
-                  <div class="custom_date_picker">
+                  <div class="custom_date_picker pt-1">
                     <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>
@@ -196,7 +196,7 @@
                 class="d-flex justify-between align-center px-075 bottom_border_wrapper"
               >
                 <div class="d-flex align-center">
-                  <div class="custom_date_picker d-flex">
+                  <div class="custom_date_picker d-flex pt-1">
                     <week-date-picker :dates.sync="weekDates"></week-date-picker>
                   </div>
                 </div>

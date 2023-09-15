@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 
 export const formatIsoDateToYYYYMMDD = (date) => {
-  return DateTime.fromISO(date).toFormat("yyyy-MM-dd");
+  return DateTime.fromISO(date).toUTC().toFormat("yyyy-MM-dd");
 };
 
 export const getWeekStartEndDates = (dateIso) => {

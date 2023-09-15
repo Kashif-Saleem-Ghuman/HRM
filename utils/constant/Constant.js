@@ -123,43 +123,43 @@ export const TABLE_HEAD = {
     },
     {
       key: "name",
-      label: "Employee",
+      label: "EMPLOYEE",
     },
     {
       key: "mon",
-      label: "Mon",
+      label: "MON",
     },
     {
       key: "tue",
-      label: "Tue",
+      label: "TUE",
     },
     {
       key: "wed",
-      label: "Wed",
+      label: "WED",
     },
     {
       key: "thu",
-      label: "Thu",
+      label: "THU",
     },
     {
       key: "fri",
-      label: "Fri",
+      label: "FRI",
     },
     {
       key: "sat",
-      label: "Sat",
+      label: "SAT",
     },
     {
       key: "sun",
-      label: "Sun",
+      label: "SUN",
     },
     {
       key: "total",
-      label: "Total",
+      label: "TOTAL HRS",
     },
     {
       key: "status",
-      label: "Status",
+      label: "STATUS",
     },
   ],
   tHeadTimesheetModal:[

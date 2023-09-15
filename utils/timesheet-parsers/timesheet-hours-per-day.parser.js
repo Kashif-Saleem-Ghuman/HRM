@@ -19,7 +19,7 @@ export default class TimesheetHoursPerDayParser extends BaseTimesheetParser {
 
       timesheet[
         WEEK_DAY[DateTime.fromISO(date).weekday - 1].value.substring(0, 3)
-      ] = DateTime.fromObject({ hour: totalHours }).toFormat("hh:mm");
+      ] = totalHours
 
       dailyTimeEntries[date] = {
         timeEntries,

@@ -36,14 +36,14 @@
       <template v-for="day in weekDays" #[`cell(${day})`]="data">
         <chips
           :key="day"
-          :title="data.value[day] ?? '--'"
+          :title="data.value[day] ? formatHoursToHHMM(data.value[day]) :  '--'"
           :className="[getDayClassName(data.value[day])]"
         ></chips>
       </template>
 
       <template #cell(total)="data">
         <chips
-          :title="data.value.total ?? '--'"
+          :title="data.value.total ? formatHoursToHHMM(data.value.total) : '--'"
           :className="[
             getTotalClassName(data.value.total),
             data.value.status == TIMESHEET_STATUS['vacation'].value
@@ -85,7 +85,7 @@ getPendingTimesheets,
 rejectTimesheet,
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
-
+import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 const PENDING_TYPE = "pending";
 const PAST_DUE_TYPE = "past_due";
 
@@ -125,6 +125,7 @@ export default {
   },
   methods: {
     formatIsoDateToYYYYMMDD,
+    formatHoursToHHMM,
 
     addTypeToTimesheetStatusOptions() {
       this.timesheetStatusOptions = [
@@ -176,7 +177,7 @@ export default {
 
       if (hours <= "07" && hours >= "05") return "chip-wrapper__bgabsent";
 
-      if (hours <= "01" && hours >= "03") return "chip-wrapper__bgabsentpink";
+      if (hours <= "05") return "chip-wrapper__bgabsentpink";
 
       return "";
     },

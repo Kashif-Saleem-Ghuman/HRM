@@ -6,54 +6,59 @@
     :hide-no-column="true"
     classTypeHead="table__hrow__custom"
     classTypeBody="table__hrow__custom__irow"
-    @input="($emit('selectAllItems'))"
+    @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md" @change="$emit('input', data.value.id)" :checked="checked"></bib-checkbox>
+        <bib-checkbox
+          size="md"
+          @change="$emit('input', data.value.id)"
+          :checked="checked"
+        ></bib-checkbox>
       </div>
     </template>
     <template #cell(name)="data">
       <div
-          class="d-flex align-center text-left gap-05"
-          style="position: relative"
+        class="d-flex align-center text-left gap-05"
+        style="position: relative"
+      >
+        <div
+          style="cursor: pointer"
+          v-on:click="profiletab('id_' + data.value.employee.id)"
+          v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
+          class="ml-05"
         >
-          <div
-            style="cursor: pointer"
-            v-on:click="profiletab('id_' + data.value.employee.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
-            class="ml-05"
+          <bib-avatar
+            class="mt-auto mb-auto"
+            shape="circle"
+            :src="data.value.employee.photo"
+            size="3rem"
           >
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
+          </bib-avatar>
+          <div :id="'id_' + data.value.employee.id" style="" class="userCard">
+            <user-info-card
               :src="data.value.employee.photo"
-              size="3rem"
-            >
-            </bib-avatar>
-            <div :id="'id_' + data.value.employee.id" style="" class="userCard">
-              <user-info-card
-                :src="data.value.employee.photo"
-                :firstName="data.value.employee.firstName"
-                :lastName="data.value.employee.lastName"
-                :jobTitle="data.value.employee.jobTitle"
-                :email="data.value.employee.email"
-                :phone="data.value.employee.phone"
-                @viewProfile="viewProfile(data.value.employee.id)"
-                @sendInvite="sendInvite"
-              ></user-info-card>
-            </div>
-          </div>
-          <div class="info_wrapper">
-            <div class="title-user">
-              {{ data.value.employee.firstName }} {{ data.value.employee.lastName }}
-            </div>
-            <div class="description">
-              {{ data.value.employee.jobTitle }}
-            </div>
+              :firstName="data.value.employee.firstName"
+              :lastName="data.value.employee.lastName"
+              :jobTitle="data.value.employee.jobTitle"
+              :email="data.value.employee.email"
+              :phone="data.value.employee.phone"
+              @viewProfile="viewProfile(data.value.employee.id)"
+              @sendInvite="sendInvite"
+            ></user-info-card>
           </div>
         </div>
+        <div class="info_wrapper">
+          <div class="title-user">
+            {{ data.value.employee.firstName }}
+            {{ data.value.employee.lastName }}
+          </div>
+          <div class="description">
+            {{ data.value.employee.jobTitle }}
+          </div>
+        </div>
+      </div>
     </template>
     <!-- <template #cell(recived)="data">
       <div class="justify-between text-dark">
@@ -62,7 +67,7 @@
     </template> -->
     <template #cell(type)="data">
       <div class="justify-between text-dark">
-        <span style="text-transform: capitalize;">{{ data.value.type }}</span>
+        <span style="text-transform: capitalize">{{ data.value.type }}</span>
       </div>
     </template>
     <template #cell(from)="data">
@@ -80,9 +85,28 @@
         <span>{{ data.value.note }}</span>
       </div>
     </template>
-    <template #cell(status)="data">
+    <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
-      <chips
+        <button-green
+          icon="add"
+          variant="success"
+          :scale="1"
+          title="Approved"
+          class="mr-05"
+          className="button-custom button-custom--lightsuccess"
+          size="sm"
+          @on-click="$emit('approve-item', data.value.id)"
+        ></button-green>
+        <button-green
+          icon="add"
+          variant="danger"
+          :scale="1"
+          title="Reject"
+          size="sm"
+          className="button-custom button-custom--pending"
+          @on-click="$emit('reject-item', data.value.id)"
+        ></button-green>
+        <!-- <chips
             :title="data.value.status == null ? 'N/A' : data.value.status"
             iconShow="iconShow"
             :icon="
@@ -101,15 +125,15 @@
               data.value?.status === 'rejected' ? 'chip-wrapper__bgdefault' : '',
               data.value?.status == null ? 'chip-wrapper__bggray' : '',
             ]"
-          ></chips>
-          <bib-button
+          ></chips> -->
+        <!-- <bib-button
           label="Reject"
           variant="warning"
           class="px-1"
           style="height: 2.2rem; display: flex; align-items: center;"
           @click="$emit('reject-item', data.value.id)"
           
-        ></bib-button>
+        ></bib-button> -->
       </div>
     </template>
   </custom-table>
@@ -124,13 +148,13 @@ export default {
       type: [Array, Object],
       default: "",
     },
-    checked:{
-      type:Boolean
+    checked: {
+      type: Boolean,
     },
-    checkedAll:{
+    checkedAll: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data() {
     return {
@@ -147,7 +171,7 @@ export default {
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/profile/" + item.id);
     },
-    handleAction($event){
+    handleAction($event) {
       this.$emit("get-id", $event);
     },
     handleAction_Table(data) {
@@ -168,13 +192,12 @@ export default {
     sendInvite() {
       alert("send invite api call");
     },
-    
+
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"
         : "block";
     },
-
   },
 };
 </script>
@@ -188,12 +211,12 @@ export default {
 .title-user {
   font-size: 14px;
   font-weight: 600;
-  color: #1D1D20;
+  color: #1d1d20;
 }
 
 .description {
   font-size: 14px;
   font-weight: normal;
-  color: #1D1D20;
+  color: #1d1d20;
 }
 </style>

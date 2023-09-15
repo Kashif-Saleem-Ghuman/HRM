@@ -7,17 +7,21 @@
             <div class="d-flex align-center">
               <button-green
                 icon="add"
-                variant="success"
+                variant="success--outline"
                 :scale="1"
                 title="Add leave"
-                
+                class="mr-05"
+                className="button-custom--lightsuccess"
                 @on-click="actionBY('leaveAdmin')"
               ></button-green>
               <button-green
                 icon="add"
-                variant="success"
+                variant="success--outline"
                 :scale="1"
+                class="mr-05"
                 title="Add vacation"
+                size="md"
+                className="button-custom--lightsuccess"
                 @on-click="actionBY('vacationAdmin')"
               ></button-green>
             </div>
@@ -28,7 +32,7 @@
                 variant="light"
                 :scale="1"
                 :title="ViewTitle"
-                style="height: 2rem"
+                style="height: 1.9rem"
                 @on-click="show = !show"
                 v-click-outside="clickOutside"
               ></button-black>
@@ -61,7 +65,7 @@
               id="my-select"
               ref="myInput"
               @change="changeMonthView()"
-              style="height: 2rem"
+              style="height: 1.9rem"
             >
               <option
                 v-for="i in monthList"
@@ -78,7 +82,7 @@
               id="select_year"
               ref="myInputYear"
               @change="changeYearView()"
-              style="height: 2rem"
+              style="height: 1.9rem"
             >
               <option
                 v-for="i in yearList"
@@ -395,7 +399,7 @@ export default {
         selectable: false,
         selectMirror: SVGComponentTransferFunctionElement,
         selectHelper: false,
-        dayMaxEvents: false,
+        dayMaxEvents: 1,
         weekends: true,
         contentHeight: "auto",
         // eventColor: "green",
@@ -880,21 +884,12 @@ access.scrollIntoView();
     }
   }
 }
-.fc-daygrid-day-frame {
-  // max-height: 200px;
-  // overflow-y: aut0;
-  // overflow-x: hidden;
-}
-
 .fc-scrollgrid-sync-inner {
   padding: 0 5px !important;
-  max-height: 200px;
-  overflow-y: visible;
-  overflow-x: hidden;
- 
+  
 }
 .fc-scrollgrid-sync-inner::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 .fc-scrollgrid-sync-inner::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
@@ -920,6 +915,7 @@ access.scrollIntoView();
   background-color: #fff !important;
   font-weight: bold;
 }
+
 .fc-daygrid-event-harness {
   a {
     border: none !important;
@@ -941,7 +937,7 @@ access.scrollIntoView();
   font-family: "fcicons" !important;
 }
 .fc-daygrid-event-harness-abs {
-  right: 0 !important;
+  // right: 0 !important;
 }
 .event_wrapper {
   border-radius: 6px;
@@ -1012,6 +1008,6 @@ access.scrollIntoView();
   box-shadow: none !important;
 }
 .fc-daygrid-dot-event:hover {
-  background-color: #f2f2f5 !important;
+  background-color: transparent !important;
 }
 </style>

@@ -1,9 +1,7 @@
 <template>
   <div>
     <div id="people-action-wrapper">
-      <div
-        class="d-flex justify-between align-center bottom_border_wrapper"
-      >
+      <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left
           title="Leave & Vacations"
           headerRight="headerRight"
@@ -36,6 +34,7 @@
             <div v-if="activeTab == leaveVacation[1].value">
               <div
                 class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+                v-show="requestListData.length ? true : false"
               >
                 <div class="d-flex align-center">
                   <button-green
@@ -43,6 +42,25 @@
                     variant="success"
                     :scale="1"
                     title="Approved"
+                    class="mr-05"
+                    className="button button-custom--lightsuccess"
+                    :disabled="disabled"
+                    @on-click="pendingApproveRequest('approve')"
+                  ></button-green>
+                  <button-green
+                    icon="add"
+                    variant="danger"
+                    :scale="1"
+                    title="Reject"
+                    className="button-custom--pending"
+                    disabled
+                    @on-click="pendingApproveRequest('approve')"
+                  ></button-green>
+                  <!-- <button-green
+                    icon="add"
+                    variant="warning"
+                    :scale="1"
+                    title="Reject"
                     @on-click="pendingApproveRequest('approve')"
                   ></button-green>
                   <button-warning
@@ -51,7 +69,7 @@
                     :scale="1"
                     title="Pending"
                     @on-click="pendingApproveRequest('pending')"
-                  ></button-warning>
+                  ></button-warning> -->
                 </div>
               </div>
               <div class="scroll_wrapper">
@@ -64,13 +82,18 @@
                     :checked="checked"
                     :checkedAll="checkedAll"
                     @reject-item="rejectItem($event)"
+                    @approve-item="approveItem($event)"
                     v-show="requestListData.length ? true : ''"
                   ></list-pending>
                 </div>
-                <div >
-                 <no-record v-show="requestListData.length ? '' : true"></no-record>
+                <div>
+                  <no-record
+                    v-show="requestListData.length ? '' : true"
+                  ></no-record>
                 </div>
-                <bib-notification :popupMessages="popupMessages"></bib-notification>
+                <bib-notification
+                  :popupMessages="popupMessages"
+                ></bib-notification>
               </div>
             </div>
           </div>
@@ -85,12 +108,10 @@ import { LEAVEVACATION_TAB } from "../../../utils/constant/Constant";
 import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
-  getRejectLeaveVacationsAdmin
+  getRejectLeaveVacationsAdmin,
 } from "../../../utils/functions/functions_lib_api";
-import{popupNotificationMsgs} from '../../../utils/constant/Notifications';
-import {
-  openPopupNotification,
-} from "../../../utils/functions/functions_lib.js";
+import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 export default {
   data() {
     return {
@@ -110,10 +131,11 @@ export default {
       pendingList: 0,
       requestListApproveData: [],
       checked: false,
-      checkedAll:false,
+      checkedAll: false,
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
-      noRecord:false,
+      noRecord: false,
+      disabled: true,
     };
   },
   computed: {
@@ -132,13 +154,13 @@ export default {
     this.addIds = [];
   },
   mounted() {
-    localStorage.removeItem('clickedUserId')
+    localStorage.removeItem("clickedUserId");
     this.$nuxt.$emit("add-leave");
     // this.getPendingLeaveVacationsAdmin();
-    if(this.requestListData.lenghth <= 0){
-      this.noRecord = true
-    }else{
-      this.noRecord = false
+    if (this.requestListData.lenghth <= 0) {
+      this.noRecord = true;
+    } else {
+      this.noRecord = false;
     }
   },
   methods: {
@@ -153,37 +175,39 @@ export default {
       }
     },
     async rejectItem(event) {
-      console.log(event, "event")
       this.addIds.push(event + "");
       console.log(this.addIds, "item");
-     await this.getRejectLeaveVacationsAdmin().then(()=>{
-      this.$nuxt.$emit("pendingList");
-     });
-     this.getPendingLeaveVacationsAdmin();
-      // await this.getCurrentDateMonth();
-      // this.$store
-      //   .dispatch("leavevacation/setLeaveVacations", {
-      //     from: this.getformToDate.from,
-      //     to: this.getformToDate.to,
-      //   })
-      //   .then(() => {
-      //     this.$nuxt.$emit("pendingList");
-      //   });
-      
+      await this.getRejectLeaveVacationsAdmin().then(() => {
+        this.$nuxt.$emit("pendingList");
+      });
+      this.getPendingLeaveVacationsAdmin();
+    },
+    async approveItem(event) {
+      this.addIds.push(event + "");
+      console.log(this.addIds, "item");
+      await this.getApproveLeaveVacationsAdmin().then(() => {
+        this.$nuxt.$emit("pendingList");
+      });
+      this.getPendingLeaveVacationsAdmin();
     },
     async getIdValue(event) {
-      this.checkedAll = false
+      this.checkedAll = false;
       if (this.addIds.includes(event + "")) {
         for (var i = 0; i < this.addIds.length; i++) {
-          if (this.addIds[i] === event+"") {
+          if (this.addIds[i] === event + "") {
             this.addIds.splice(i, 1);
             console.log(this.addIds, "item");
           }
         }
       } else {
-        this.checkedAll = false
+        this.checkedAll = false;
         this.addIds.push(event + "");
         console.log(this.addIds, "item");
+      }
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
       }
     },
     selectAllItems() {
@@ -195,18 +219,19 @@ export default {
         this.requestListData.map((item, index) => {
           this.addIds.push(item.id + "");
           console.log(this.addIds, "item");
-          this.checkedAll = true
+          this.checkedAll = true;
           this.checked = true;
         });
+      }
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
       }
     },
 
     async pendingApproveRequest(event) {
       if (event == "approve") {
-        if (this.addIds == "") {
-          alert("Please select pending leave");
-          return true
-        }
         await this.getApproveLeaveVacationsAdmin();
         await this.getPendingLeaveVacationsAdmin();
       } else if (event == "pending") {
@@ -218,7 +243,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .author-display {
   border-radius: 0.5rem;
   // background-color: #cdf784;

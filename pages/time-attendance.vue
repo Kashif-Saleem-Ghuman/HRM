@@ -3,7 +3,7 @@
     <div v-if="isAdmin">
       <time-attendance-admin></time-attendance-admin>
     </div>
-    <div v-else>
+    <div v-else-if="isUser">
       <time-attendance-user></time-attendance-user>
     </div>
   </div>
@@ -21,6 +21,9 @@ export default {
   computed: {
     isAdmin() {
       return this.getUserRole == USER_ROLES.ADMIN
+    },
+    isUser() {
+      return this.getUserRole == USER_ROLES.USER
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",

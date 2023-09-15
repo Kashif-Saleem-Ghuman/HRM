@@ -7,36 +7,32 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      // header_icon: {
-      //   icon: 'swap-vertical',
-      //   event: 'file-name-sort',
-      //   isActive: true
-      // },
+      width: `${100 / 6}%`
     },
     {
       key: "status",
       label: "Status",
-      // header_icon: {
-      //   icon: 'swap-vertical',
-      //   event: 'file-name-sort',
-      //   isActive: true
-      // },
+       width: `${100 / 6}%`,
     },
     {
       key: "in",
       label: "In",
+      width: `${100 / 6}%`
     },
     {
       key: "out",
       label: "Out",
+      width: `${100 / 6}%`
     },
     {
       key: "breaks",
       label: "Breaks",
+      width: `${100 / 6}%`
     },
     {
       key: "total",
       label: "Total hours",
+      width: `${100 / 6}%`
     },
   ],
   tHeadInbox: [

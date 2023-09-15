@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="add-leave-wrapper">
-      <div class="row" v-show="employeeNameInput">
-        <div class="col-12">
+      <div v-show="employeeNameInput">
+        <div>
           <bib-input
             type="text"
             label="Employee"
@@ -10,12 +10,13 @@
             icon-left="user"
             placeholder="Employee"
             disabled
+            style="padding-right: 0 !important;"
             @change="$emit('input', $event, 'employeeId')"
           ></bib-input>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12" v-show="employeeNameSelectShow">
+      <div>
+        <div  v-show="employeeNameSelectShow">
           <bib-input
             type="select"
             label="Employee"
@@ -31,9 +32,9 @@
         </div>
       </div>
 
-      <div class="row border-wrapper-box">
-        <div class="col-12" style="padding: 0px;">
-          <div class="col-12" style="padding: 0px;">
+      <div class="border-wrapper-box">
+        <div style="padding: 0px;">
+          <div style="padding: 0px;">
           <div  v-show="leaveTypeSelect" class="pb-05">
             <bib-input
               type="select"
@@ -53,20 +54,20 @@
             </div>
           </div>
 
-          <div class="row pb-05">
-            <div class="col-4">
+          <div class="pb-05 d-flex justify-between">
+            <div class="items-width">
               <div class="d-flex input-display-wrapper">
                 <span>Allowance</span>
                 <span>{{ allowanceDays }}</span>
               </div>
             </div>
-            <div class="col-4" :key="usedDayLeave">
+            <div class="items-width" :key="usedDayLeave">
               <div class="d-flex input-display-wrapper">
                 <span>Used</span>
                 <span>{{ usedDays }}</span>
               </div>
             </div>
-            <div class="col-4">
+            <div class="last-child">
               <div class="d-flex input-display-wrapper">
                 <span>Available</span>
                 <span>{{ allowanceDays - usedDays }}</span>
@@ -77,11 +78,11 @@
       </div>
 
       <div class="border-wrapper-box">
-        <div class="row">
-        <label class="col-12" style="display: block;">Dates</label>
+        <div>
+        <label style="display: block;">Dates</label>
       </div>
-        <div class="row">
-        <div class="col-6">
+        <div class="d-flex">
+        <div class="items-width">
           <bib-input
             type="date"
             label="Start date"
@@ -97,7 +98,7 @@
             >Please select start date</small
           >
         </div>
-        <div class="col-6 pad-remove">
+        <div class="last-child">
           <bib-input
             type="date"
             label="End date"
@@ -116,8 +117,8 @@
       </div>
     </div>
     </div>
-    <div class="row">
-      <div class="col-12">
+    <div>
+      <div>
         <bib-input
           type="textarea"
           label="Reason"
@@ -128,8 +129,8 @@
         ></bib-input>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col-12">
+    <!-- <div>
+      <div>
         <info-card-success></info-card-success>
       </div>
     </div> -->
@@ -224,7 +225,16 @@ export default {
   input {
     color: #85858f;
   }
+  
 }
+.items-width{
+  width: 100%;
+  padding-right: 1rem;
+}
+.last-child{
+  width: 100%;
+    padding-right: 0px;
+  }
 .input-display-wrapper {
   padding: 0.75rem;
   border-radius: 6px;

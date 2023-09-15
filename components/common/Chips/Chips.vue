@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex gap-1">
+  <div class="d-flex">
     <div
       :class="[
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
@@ -16,7 +16,7 @@
         :icon="icon"
         :variant="variantIcon"
         :scale="0.9"
-        style="margin-right: 8px"
+        style="margin-right: 4px"
       ></bib-icon>
       <span>{{ title }}</span>
     </div>
@@ -138,10 +138,9 @@ export default {
 .chip-wrapper {
   border-radius: 6px;
   padding:  8px;
-  margin-right: 10px;
   display: flex;
   // height: 2rem;
-  // justify-content: center;
+  justify-content: center;
   align-items: center;
   // background-color: #f2f2f5;
 

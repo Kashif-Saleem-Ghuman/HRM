@@ -22,7 +22,7 @@ export async function getLeaveVacationsAdmin() {
 }
 
 export async function getPendingLeaveVacationsAdmin() {
-  this.loading = true;
+  // this.loading = true;
   try {
     const pendingLeaveVacationsAdmin = await axios.get(
       process.env.API_URL + "/requests/admin/pending",
@@ -37,7 +37,7 @@ export async function getPendingLeaveVacationsAdmin() {
   } catch (e) {
     alert(e);
   }
-  this.loading = false;
+  // this.loading = false;
 }
 
 export async function getApproveLeaveVacationsAdmin() {

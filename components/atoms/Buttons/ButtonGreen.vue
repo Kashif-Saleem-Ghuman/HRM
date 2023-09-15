@@ -1,16 +1,20 @@
 <template>
   <div class="d-flex gap-1">
     <div
-      class="d-flex align-center cursor-pointer text-success bg-success-sub6 bg-hover-success-sub3 shape-rounded pl-05 pt-025 pb-025 pr-075 mr-05 font-md"
+      class="button-custom"
+      :class="[
+      className,
+      disabled == true ? 'button-custom--disabled' : '',
+     
+    ]"
+     
       @click.stop="$emit('on-click')"
-      style="height: 2rem"
     >
       <bib-icon
         v-if="icon"
         :icon="icon"
         :variant="variant"
         :scale="scale"
-        :class="className"
       ></bib-icon>
       <span :class="titleClass" class="pl-025">{{ title }}</span>
     </div>
@@ -38,9 +42,80 @@ export default {
     titleClass: {
       type: String,
     },
+    disabled: {
+      type: Boolean,
+      default() {
+        return false;
+      },
+    },
   },
   data() {
     return {};
   },
 };
 </script>
+<style lang="scss">
+.button-custom {
+  display: inline-block;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.25rem 1rem !important;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  user-select: none;
+  $self: &;
+  &--lightsuccess {
+    background-color: #2ba02629 !important;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    // max-width: 140px;
+    color: #6bbf68 !important;
+    svg {
+      fill: #6bbf68 !important;
+    }
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      color: #6bbf68 !important; 
+    }
+    &:focus,
+    &:active,
+    &:focus-within {
+      box-shadow: 0 0 0 0.2rem #207f1d29 !important;
+    }
+  }
+  &--pending {
+    background-color: #f3ced0 !important;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    // max-width: 140px;
+    color: #e6000e !important;
+    svg {
+      fill: #e6000e !important;
+    }
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      color: #e6000e !important;
+    }
+    &:focus,
+    &:active,
+    &:focus-within {
+      box-shadow: 0 0 0 0.2rem #f4c2c4 !important;
+    }
+  }
+  
+  &--disabled {
+    cursor: not-allowed;
+    display: flex; /* For IE11/ MS Edge bug */
+    align-items: center;
+    pointer-events: none;
+    text-decoration: none;
+    
+  }
+}
+</style>

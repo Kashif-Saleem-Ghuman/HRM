@@ -1,15 +1,18 @@
 <template>
   <div class="no-record-found">
     <label>No Record Founds</label>
-    <div class="d-flex justify-center">
+    <!-- <div class="d-flex justify-center">
       <button-green
-        icon="add"
-        variant="success"
-        :scale="1"
-        title="Back to main page"
-        @on-click="$router.push('/dashboard/')"
-      ></button-green>
-    </div>
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Back to main page"
+                    class="mr-05"
+                    className="button button-custom--lightsuccess"
+                    @on-click="$router.push('/dashboard/')"
+                  ></button-green>
+      
+    </div> -->
   </div>
 </template>
 

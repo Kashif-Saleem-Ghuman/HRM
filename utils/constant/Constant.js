@@ -285,8 +285,8 @@ export const TABLE_HEAD = {
       label: "Reason",
     },
     {
-      key: "status",
-      label: "Status",
+      key: "action",
+      label: "Action",
     },
   ],
   tHeadTimeoffRequestDashboard: [

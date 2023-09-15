@@ -513,22 +513,22 @@ export const TIME_ATTENDANCE_TAB = [
   {
     title: "Attendance",
     value: "Attendance",
-    route: "/time-attendance/attendance"
+    route: "/time-attendance/attendance/"
   },
   {
     title: "Timesheets",
     value: "Timesheets",
-    route: "/time-attendance/timesheets"
+    route: "/time-attendance/timesheets/"
   },
   {
     title: "Pending",
     value: "Pending",
-    route: "/time-attendance/pending"
+    route: "/time-attendance/pending/"
   },
   {
     title: "Past due",
     value: "Past due",
-    route: "/time-attendance/past-due"
+    route: "/time-attendance/past-due/"
   },
 ];
 

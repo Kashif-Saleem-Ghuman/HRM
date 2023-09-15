@@ -13,6 +13,7 @@
       <div class="row mx-0 bottom_border_wrapper">
         <div class="col-12 px-1">
           <bib-tabs
+            v-if="activeTab"
             :tabs="TIME_ATTENDANCE_TAB"
             :value="activeTab"
             @change="onTabChange"
@@ -35,10 +36,11 @@ export default {
   data() {
     return {
       TIME_ATTENDANCE_TAB,
-      activeTab: "Attendance",
+      activeTab: null,
     };
   },
   async created() {
+    this.setActiveTab()
     await this.$store.dispatch("employee/setActiveUser");
   },
 
@@ -53,6 +55,11 @@ export default {
     onTabChange(tab) {
       this.$router.push(tab.route);
     },
+    setActiveTab() {
+      const route = this.$route.fullPath
+      const activeTab = TIME_ATTENDANCE_TAB.find( tab => tab.route == route)
+      this.activeTab = activeTab.value
+    }
   },
 };
 </script>

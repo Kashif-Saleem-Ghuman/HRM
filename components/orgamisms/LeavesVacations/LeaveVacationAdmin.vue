@@ -33,7 +33,8 @@
           <div class="" id="pending_request_wrapper">
             <div v-if="activeTab == leaveVacation[1].value">
               <div
-                class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"  v-show="requestListData.length ? true : false"
+                class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+                v-show="requestListData.length ? true : false"
               >
                 <div class="d-flex align-center">
                   <button-green
@@ -134,7 +135,7 @@ export default {
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       noRecord: false,
-      disabled:true,
+      disabled: true,
     };
   },
   computed: {
@@ -198,16 +199,15 @@ export default {
             console.log(this.addIds, "item");
           }
         }
-       
       } else {
         this.checkedAll = false;
         this.addIds.push(event + "");
         console.log(this.addIds, "item");
       }
-      if(this.addIds != ''){
-        this.disabled = false
-      }else{
-        this.disabled = true
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
       }
     },
     selectAllItems() {
@@ -223,10 +223,10 @@ export default {
           this.checked = true;
         });
       }
-      if(this.addIds != ''){
-        this.disabled = false
-      }else{
-        this.disabled = true
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
       }
     },
 

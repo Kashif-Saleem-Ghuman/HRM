@@ -513,24 +513,25 @@ export const TIME_ATTENDANCE_TAB = [
   {
     title: "Attendance",
     value: "Attendance",
+    route: "/time-attendance/attendance"
   },
   {
     title: "Timesheets",
     value: "Timesheets",
+    route: "/time-attendance/timesheets"
   },
   {
     title: "Pending",
     value: "Pending",
+    route: "/time-attendance/pending"
   },
   {
     title: "Past due",
     value: "Past due",
+    route: "/time-attendance/past-due"
   },
-  // {
-  //   title: "Setting",
-  //   value: "Setting",
-  // },
 ];
+
 export const TABLE_FIELDS = [
   {
     key: "",
@@ -1430,4 +1431,9 @@ export const TIMESHEET_STATUS = {
     label: "Past Due",
     value: "past_due"
   }
+}
+
+export const USER_ROLES = {
+  USER: "USER",
+  ADMIN: "ADMIN"
 }

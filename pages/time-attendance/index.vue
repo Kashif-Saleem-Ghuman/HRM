@@ -1,31 +1,19 @@
-!
-<template>
-  <div>
-    <div v-if="getUserRole == 'ADMIN'">
-      <time-attendance-admin></time-attendance-admin>
-    </div>
-    <div v-if="getUserRole == 'USER'">
-      <time-attendance-user>
-        
-      </time-attendance-user>
-    </div>
-  </div>
-</template>
+<template></template>
 
 <script>
-import { mapGetters } from "vuex";
+import { TIME_ATTENDANCE_TAB, USER_ROLES } from '../../utils/constant/Constant';
 export default {
-  data() {
-    return {
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getUserRole: "token/getUserRole",
-    }),
-  },
-  
-};
+  middleware: [
+    async function({ store, redirect }) {
+      let userRole = store.getters['token/getUserRole']
+      if (!userRole) {
+         const { role } = await store.dispatch("employee/setActiveUser")
+         userRole = role
+      }
+      if ( userRole == USER_ROLES.ADMIN) {
+        redirect(TIME_ATTENDANCE_TAB[0].route)
+      }
+    }
+  ]
+}
 </script>
-
-<style lang="scss" scoped></style>

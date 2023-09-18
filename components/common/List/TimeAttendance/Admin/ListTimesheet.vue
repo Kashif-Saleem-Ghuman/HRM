@@ -46,18 +46,21 @@
         </div>
       </div>
       </template>
-        <template #cell(mon)="data">
+
+      <template v-for="(day, dayIndex) in weekDays" #[`cell(${day})`]="data">
           <chips
-            :title="data.value?.weekData?.[1]?.totalHours ?? '--'"
+            class="pt-1 pb-0"
+            :key="day"
+            :title="data.value?.weekData?.[dayIndex]?.totalHours ? formatHoursToHHMM(data.value?.weekData?.[dayIndex]?.totalHours) : '--'"
             :className="[
-              data.value?.weekData?.[1]?.totalHours >= '8'
+              data.value?.weekData?.[dayIndex]?.totalHours >= '8'
                 ? 'chip-wrapper__bgsucess'
                 : '',
-              data.value?.weekData?.[1]?.totalHours <= '7' &&
-              data.value?.weekData?.[1]?.totalHours >= '5'
+              data.value?.weekData?.[dayIndex]?.totalHours <= '7' &&
+              data.value?.weekData?.[dayIndex]?.totalHours >= '5'
                 ? 'chip-wrapper__bgabsent'
                 : '',
-                data.value?.weekData?.[1]?.totalHours <= '3'
+                data.value?.weekData?.[dayIndex]?.totalHours <= '3'
                 ? 'chip-wrapper__bgabsentpink'
                 : '',
               data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
@@ -65,137 +68,12 @@
             ]"
           ></chips>
         </template>
-  
-        <template #cell(tue)="data">
-          <chips
-            :title="data.value?.weekData?.[2]?.totalHours ?? '--'"
-            :className="[
-              data.value?.weekData?.[2]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[2]?.totalHours <= '7' &&
-              data.value?.weekData?.[2]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[2]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips>
-        </template>
-  
-        <template #cell(wed)="data">
-          <chips
-            :title="data.value?.weekData?.[3]?.totalHours ?? '--'"
-            :className="[
-              data.value?.weekData?.[3]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[3]?.totalHours <= '7' &&
-              data.value?.weekData?.[3]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[3]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips>
-        </template>
-        <template #cell(thu)="data">
-          <chips
-            :title="data.value?.weekData?.[4]?.totalHours ?? '--'"
-            :className="[
-              data.value?.weekData?.[4]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[4]?.totalHours <= '7' &&
-              data.value?.weekData?.[4]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[4]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips>
-        </template>
-        <template #cell(fri)="data">
-          <chips
-            :title="data.value?.weekData?.[5]?.totalHours ?? '--'"
-            :className="[
-              data.value?.weekData?.[5]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[5]?.totalHours <= '7' &&
-              data.value?.weekData?.[5]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[5]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips>
-        </template>
-        <template #cell(sat)="data">
-          <chips
-            :title="data.value?.weekData?.[6]?.totalHours ?? '--' "
-            :className="[
-              data.value?.weekData?.[6]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[6]?.totalHours <= '7' &&
-              data.value?.weekData?.[6]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[6]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips>
-        </template>
-        <template #cell(sun)="data">
-          <div
-            class="text-dark td_row_wrapper"
-            :class="[data.value.status == 'IN' ? 'td_row_wrapper__sucess' : '']"
-          >
-            <span>{{ data.value?.weekData?.[7]?.totalHours }}</span>
-          </div>
-        </template>
+
         <template #cell(total)="data">
           <div class="justify-between pl-075">
-          <span>{{ data.value.total }}</span>
+          <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
-        
-          <!-- <chips
-            :title="
-              data.value.totalHour == null
-                ? 'N/A'
-                : data.value?.totalHours
-            "
-            :className="[
-              data.value?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.totalHours <= '7' &&
-              data.value?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
-          ></chips> -->
+    
         </template>
         <template #cell(status)="data">
           <div class="text-dark">
@@ -240,7 +118,8 @@
   </template>
   
   <script>
-  import { TABLE_HEAD, TIMESHEET_STATUS } from "../../../../../utils/constant/Constant.js";
+  import { TABLE_HEAD, TIMESHEET_STATUS, WEEK_DAY } from "../../../../../utils/constant/Constant.js";
+  import { formatHoursToHHMM } from "../../../../../utils/functions/time";
   export default {
     props: {
       timesheetsList: {
@@ -259,37 +138,16 @@
         timesheetModal: false,
         filteredData: [],
         TIMESHEET_STATUS,
+        weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
       };
     },
-    // async created(){
-    //   await this.$store.dispatch("employee/setUserList");
-    //   this.localData = this.userList;
-    // },
-    // computed: {
-    //   ...mapGetters({
-    //     userList: "employee/GET_USERS_LIST"
-    //   }),
-    // },
     methods: {
+      formatHoursToHHMM,
       close() {
-        alert("sadjlaksjdlasldkjlasjdl");
         this.timesheetModal = false;
-      },
-      itemCliked(item) {
-        document.querySelector("#timesheetid_" + item).style = "display:none";
-        this.timesheetModal = true;
-        var users = this.localData.find((items) => items.id === item);
-        this.filteredData = users;
-      },
-      handleItemClick_Table(event, keyI, item) {
-        event.preventDefault();
-        this.$router.push("/profile/" + item.id);
       },
       viewProfile(id) {
         this.$router.push("/profile/" + id);
-      },
-      vclick() {
-        alert("callled");
       },
       mouseover() {
         this.showTooltip = true;
@@ -300,20 +158,12 @@
       sendInvite() {
         alert("send invite api call");
       },
-      timeInfotab(name, isLeave) {
-        document.querySelector("#" + name).style.display = isLeave
-          ? "none"
-          : "block";
-      },
       profiletab(name, isLeave) {
         document.querySelector("#" + name).style.display = isLeave
           ? "none"
           : "block";
       },
-  
-      handleAction_Table(data) {
-        console.log(data);
-      },
+
     },
   };
   </script>

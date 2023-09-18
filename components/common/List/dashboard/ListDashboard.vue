@@ -49,11 +49,11 @@
       <template #cell(status)="data">
         <div class="text-dark pl-1">
           <chips-list
-            :title="data.value.activityReport?.active ? 'Online' : 'Absent'"
+            :title="data.value.active ? 'Online' : 'Absent'"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.activityReport.active ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__light',
+              data.value.active ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__light',
             ]"
           ></chips-list>
         </div>
@@ -63,9 +63,9 @@
           <chips
             :title="data.value?.activityReport.in == null ? '--' : data.value.activityReport.in"
             :className="[
-              data.value?.activityReport.in >= '15:00' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.activityReport.in === 'V' ? 'chip-wrapper__bgvacation' : '',
-              data.value?.activityReport.in === 'A' ? 'chip-wrapper__bgabsentpink' : '',
+              data.value?.activityReport.in ? 'chip-wrapper__bgsucess' : '',
+              data.value?.activityReport.vacation ? 'chip-wrapper__bgvacation' : '',
+              data.value?.activityReport.absent ? 'chip-wrapper__bgabsentpink' : '',
               data.value?.activityReport.in == null ? 'chip-wrapper__bggray' : '',
             ]"
           ></chips>
@@ -76,7 +76,7 @@
           <chips
           :title="data.value?.activityReport.out == null ? '--' : data.value?.activityReport.out"
           :className="[
-            data.value?.activityReport.out >= '15:00' ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.out ? 'chip-wrapper__bgout' : '',
             data.value?.activityReport.out == null ? 'chip-wrapper__bggray' : '',
           ]"
         ></chips>
@@ -94,7 +94,7 @@
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.activityReport.total == null ? '--' : data.value?.activityReport.total
+            data.value?.activityReport.total == null ? '--' : getTotalHours(data.value?.activityReport.total)
           "
            style="height: auto; color: #000;text-align: right;"
         ></chips>
@@ -105,10 +105,9 @@
 
 <script>
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
-import { mapGetters } from "vuex";
 import{dateCheck} from '../../../../utils/functions/functions_lib'
-import dayjs from "dayjs";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
+import { formatHoursToHHMM } from "../../../../utils/functions/time";
 export default {
   props: {
     userList: {
@@ -134,6 +133,11 @@ export default {
     dateCheck,
     close() {
       this.timesheetModal = false;
+    },
+    getTotalHours(minutes) {
+      if (minutes == 0 || !minutes) return 0
+      const hours = minutes / 60
+      return formatHoursToHHMM(hours)
     },
     itemCliked(item) {
       document.querySelector("#timesheetid_" + item).style = "display:none";

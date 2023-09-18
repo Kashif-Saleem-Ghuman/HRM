@@ -19,7 +19,6 @@
 </template>
 <script>
 export default {
-  name: "Chips",
   props: {
     label: {
       type: String,

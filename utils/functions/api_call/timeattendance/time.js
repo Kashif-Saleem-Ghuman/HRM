@@ -14,8 +14,7 @@ export async function getTimeAttendance(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    // console.error(e);
   }
 }
 
@@ -38,8 +37,8 @@ export async function getAdminTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    // console.log(`Error while fetching ${url}` );
+    // console.error(e);
   }
 }
 
@@ -61,8 +60,8 @@ export async function getPendingTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    // console.log(`Error while fetching ${url}` );
+    // console.error(e);
   }
 }
 
@@ -85,8 +84,8 @@ export async function getPastDueTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    // console.log(`Error while fetching ${url}` );
+    // console.error(e);
   }
 }
 
@@ -169,8 +168,8 @@ export async function getTimesheets({ from, to }) {
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data?.timesheets || [];
   } catch (error) {
-    console.error(`Error while fetching timesheets from ${url}`);
-    console.error(error);
+    // console.error(`Error while fetching timesheets from ${url}`);
+    // console.error(error);
   }
 }
 
@@ -182,7 +181,7 @@ export async function approveTimesheet({ id }) {
     const { data } = await hrmApiAxiosInstance.post(url, {}, config);
     return data
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 }
 
@@ -194,7 +193,7 @@ export async function rejectTimesheet({ id }) {
     const { data } = await hrmApiAxiosInstance.post(url, {}, config);
     return data
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 }
 

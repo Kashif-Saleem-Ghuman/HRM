@@ -1,29 +1,20 @@
-!
 <template>
-  <div>
-    <div v-if="getUserRole == 'ADMIN'">
-      <leave-vacation-admin></leave-vacation-admin>
-    </div>
-    <div v-if="getUserRole == 'USER'">
-      <leave-vacation-user></leave-vacation-user>
-    </div>
-  </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { LEAVEVACATION_TAB, USER_ROLES } from '../../utils/constant/Constant';
 export default {
-  data() {
-    return {
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getUserRole: "token/getUserRole",
-    }),
-  },
- 
-};
+  middleware: [
+    async function({ store, redirect }) {
+      let userRole = store.getters['token/getUserRole']
+      if (!userRole) {
+         const { role } = await store.dispatch("employee/setActiveUser")
+         userRole = role
+      }
+      if ( userRole == USER_ROLES.ADMIN) {
+        redirect(LEAVEVACATION_TAB[0].route)
+      }
+    }
+  ]
+}
 </script>
-
-<style lang="scss" scoped></style>

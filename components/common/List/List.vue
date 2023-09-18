@@ -73,7 +73,7 @@
     <template #cell(hiredate)="data">
       <div class="justify-between text-dark">
         <span>{{
-          data.value.hireDate == null ? "---" : data.value.hireDate
+          data.value.hireDate == null ? "---" :  onLoad(data.value.hireDate)
         }}</span>
       </div>
     </template>
@@ -91,7 +91,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-
+import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
 export default {
   props: {
@@ -136,6 +136,9 @@ export default {
         }
       });
       return teamNames;
+    },
+    onLoad(item) {
+      return fecha.format(new Date(item), "DD-MM-YYYY");
     },
     handleItemClick_Table($event, keyI, item) {
       localStorage.setItem('clickedUserId', item.id)

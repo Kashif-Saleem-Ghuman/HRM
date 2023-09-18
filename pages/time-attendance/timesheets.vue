@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       format: "MMM D, YYYY",
-      date: format(new Date(), "YYYY-MM-DD"),
+      date: format(new Date(), "dddd, MM MMMM, YYYY"),
       loading: true,
       employees: [],
       maxDate: DateTime.now().endOf("day").toISO(),
@@ -89,7 +89,9 @@ export default {
 
     async generateWeekDaysEntries() {
       this.loading = true;
-      const { from, to } = getWeekStartEndDates(this.date);
+      const date =  format(new Date(), "YYYY-MM-DD")
+
+      const { from, to } = getWeekStartEndDates(date);
 
       let timesheets = await getTimeAttendanceCustomRange({ from, to });
       timesheets = timesheets.map((employee) => {

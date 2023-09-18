@@ -17,7 +17,7 @@
           type="text"
           label="Employee number"
           :value="employeeNumber"
-          placeholder="Enter your Employee number"
+          placeholder=""
           @change="$emit('input', $event, 'employeNumber')"
           :disabled="inActive"
         ></bib-input>
@@ -29,7 +29,7 @@
           type="text"
           label="Social Insurance Number"
           :value="socialInsuranceNumber"
-          placeholder="Enter your Social Insurance Number"
+          placeholder=""
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
         ></bib-input>
@@ -51,7 +51,7 @@
           type="text"
           label="Employment Type"
           :value="employeeType"
-          placeholder="Enter your Employment Type"
+          placeholder=""
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
         ></bib-input>

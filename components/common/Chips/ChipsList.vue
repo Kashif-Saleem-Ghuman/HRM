@@ -3,13 +3,13 @@
     <div
       :class="[className]"
       style="width: 100%"
-      class="cursor-pointer chip-wrapper ml-05"
+      class="cursor-pointer chip-list-wrapper ml-05"
       @click="$emit('on-click')"
     >
-      <ul style="margin: 0; padding: 0">
-        <div class="pl-05">
+      <ul>
+        <div>
             <li>
-          <span>{{ title }}</span>
+          {{ title }}
         </li>
         </div>
       </ul>
@@ -39,49 +39,34 @@ export default {
 .chip-list-wrapper {
   border-radius: 6px;
   padding: 4px 8px;
-  margin-right: 10px;
-  display: flex;
-  height: 3rem;
+  display: inline-block;
   // justify-content: center;
   align-items: center;
-  // background-color: #f2f2f5;
   ul {
     margin: 0 !important;
     padding: 0 !important;
   }
   li {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    font-size: 14px;
+    font-weight: 600;
   }
   &__sucess {
     //   background-color: #d5e8d4;
     li {
       color: #2ba026;
-    }
-    span {
-      color: #2ba026;
-      font-weight: 100;
-      font-size: 14px;
+
     }
   }
   &__default {
     li {
-      color: #b1b1b4 !important;
-    }
-    span {
-      color: #b1b1b4 !important;
-      font-weight: 100;
-      font-size: 14px;
+      color: #21db00 !important;
     }
   }
   &__light {
     li {
-      color: #dadada !important;
-    }
-    span {
-      color: #dadada !important;
-      font-weight: 100;
-      font-size: 14px;
+      color: #E2E2E3 !important;
     }
   }
 }

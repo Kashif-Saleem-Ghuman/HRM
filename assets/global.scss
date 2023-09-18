@@ -198,3 +198,17 @@ $validation-star-color: #fa0f00;
 .button_color-wrapper{
   background-color: #F0F9EF;
 }
+.custom_date_picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  input {
+    border: none !important;
+    background-color: $light;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 300px !important;
+    // margin: 0 1rem;
+  }
+}

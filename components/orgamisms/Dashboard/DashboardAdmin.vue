@@ -170,20 +170,5 @@
     },
   };
   </script>
-  <style lang="scss">
-  .custom_date_picker {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    input {
-      border: none !important;
-      background-color: $light;
-      border-radius: 6px;
-      font-size: 14px;
   
-      // margin: 0 1rem;
-    }
-  }
-  </style>
   

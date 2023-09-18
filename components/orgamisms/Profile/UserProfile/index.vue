@@ -9,7 +9,6 @@
             ? 'Add employee'
             : form.firstName + ' ' + form.lastName
         "
-        bookmark="bookmark-solid"
         headerRight="headerRight"
       ></section-header-left>
     </div>
@@ -301,7 +300,6 @@
                         variant="light"
                         :scale="1"
                         :title="ViewTitle"
-                        style="height: 2.5rem; color: #000"
                         @on-click="show = !show"
                         v-click-outside="clickOutside"
                         class="pr-05"
@@ -343,27 +341,25 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="d-flex justify-between align-center">
+                    <!-- <div class="d-flex justify-between align-center">
                       <div class="d-flex align-center">
-                        <div class="custom_date_picker">
-                          <!-- <div class="mr-05">Date:</div> -->
+                        <div class="d-flex align-center">
+                          <div class="mr-05">Date:</div>
                           <bib-datetime-picker
                             v-model="date2"
                             :format="format"
                             :parseDate="parseDate"
                             :formatDate="formatDate"
-                            class="custom_date_picker"
                             @input="dateSlection($event)"
-                            style="margin-bottom: -8px !important;"
                           ></bib-datetime-picker>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="px-1 py-05">
                     <div
                       class="d-grid d-flex gap-1 py-05"
-                      style="grid-template-columns: repeat(3, 1fr)"
+                      style="grid-template-columns: repeat(2, 1fr)"
                     >
                       <info-card-timer
                         :activeUserRole="activeUserRole"
@@ -380,10 +376,10 @@
                         @on-click="viewChange('Month')"
                         className="button-wrapper__bgwarnning"
                       ></info-card-one>
-
+<!-- 
                       <info-card-help
                         custumBg="help-wrapper__bg-black"
-                      ></info-card-help>
+                      ></info-card-help> -->
                     </div>
                   </div>
                   <div>

@@ -23,7 +23,7 @@
       </div>
     </div>
     <div
-      class="button-wrapper mb-1 button-wrapper__bgsucess"
+      class="button-wrapper button-wrapper__bgsucess"
       @click="$emit('clock')"
     >
       <bib-icon :icon="icon"  class="mr-05"></bib-icon>

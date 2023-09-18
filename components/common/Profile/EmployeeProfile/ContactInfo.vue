@@ -6,7 +6,7 @@
           type="email"
           label="Primary email"
           :value="primaryEmail"
-          placeholder="Enter your primary email"
+          placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'primaryEmail')"
         ></bib-input>
@@ -22,7 +22,7 @@
           type="email"
           label="Secondary email"
           :value="seondaryEmail"
-          placeholder="Enter your secondary mail"
+          placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'seondaryEmail')"
         ></bib-input>
@@ -34,7 +34,7 @@
           type="text"
           label="Home phone"
           :value="homePhone"
-          placeholder="Enter your home phone"
+          placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'homePhone')"
         ></bib-input>
@@ -44,7 +44,7 @@
           type="text"
           label="Cell phone"
           :value="cellPhone"
-          placeholder="Enter your phone"
+          placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'cellPhone')"
         ></bib-input>

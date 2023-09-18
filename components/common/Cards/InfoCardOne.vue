@@ -37,7 +37,7 @@
         </div>
       </div>
       <div
-        class="button-wrapper mb-1"
+        class="button-wrapper"
         :class="className"
         @click.stop="$emit('on-click')"
       >
@@ -91,113 +91,5 @@ export default {
 };
 </script>
 <!-- <style lang="scss">
-.info-card-leave-wrapper {
-  padding: 12px 12px 0px 12px;
-  font-size: 14px;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #e2e2e3;
-  overflow-wrap: break-word;
-  label {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  .info-card-items {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .subheading {
-      font-weight: 500;
-      color: #b1b1b4;
-      margin-bottom: -10px;
-    }
-    span {
-      font-size: 56px;
-      font-weight: 500;
-      margin-left: -4px;
-    }
-    .subheading_footer {
-      font-weight: 500;
-      color: #b1b1b4;
-      margin-top: -10px;
-    }
-    &_desc {
-      font-size: 10px;
-    }
-  }
-  .footer-item {
-    padding-top: 8px;
-    padding-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    .items {
-      display: flex;
-      justify-content: space-between;
-      width: 50%;
-      padding-right: 10px;
-      align-items: center;
-      label {
-        color: #b1b1b4;
-        font-weight: normal;
-      }
-      span {
-        font-weight: 600;
-      }
-    }
-  }
-}
-.button-wrapper{
-  background-color: $light;
-  border-radius: 6px;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  &__bgsucess {
-    background-color: #2ba026;
-    svg {
-      fill: #fff !important;
-    }
-    span {
-      color: #fff;
-      font-weight: 400;
-      font-size: 14px;
-    }
-  }
-  &__bgalert {
-    background-color: #ea4a4a;
-    svg {
-      fill: #fff !important;
-    }
-    span {
-      color: #fff;
-      font-weight: 400;
-      font-size: 14px;
-    }
-  }
-  &__bgpink {
-    background-color: #f5d0d3;
-    svg {
-      fill: #fff !important;
-    }
-    span {
-      color: #fff;
-      font-weight: 400;
-      font-size: 14px;
-    }
-  }
-  &__bgwarnning
-   {
-    background-color: #f5d0d3;
-    svg {
-      fill: #ea4a4a !important;
-    }
-    span {
-      color: #ea4a4a;
-      font-weight: 400;
-      font-size: 14px;
-    }
-  }
-}
+
 </style> -->

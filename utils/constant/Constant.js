@@ -509,6 +509,21 @@ export const PAY_TAB = [
   //   value: "Absence Notifications",
   // },
 ];
+export const LEAVEVACATION_TAB = [
+  {
+    title: "Dashboard",
+    value: "Dashboard",
+    route: "/leaves-and-vacations/dashboard/"
+
+  },
+  {
+    title: "Pending Requests",
+    value: "Pending Requests",
+    route: "/leaves-and-vacations/pendingrequest/"
+
+  },
+  // },
+];
 export const TIME_ATTENDANCE_TAB = [
   {
     title: "Attendance",
@@ -1153,17 +1168,7 @@ export const PEOPLE_TAB = [
   //   value: "Teams",
   // },
 ];
-export const LEAVEVACATION_TAB = [
-  {
-    title: "Dashboard",
-    value: "Dashboard",
-  },
-  {
-    title: "Pending Requests",
-    value: "Pending Requests",
-  },
-  // },
-];
+
 export const MORE_MENU = [
   {
     label: "Open",

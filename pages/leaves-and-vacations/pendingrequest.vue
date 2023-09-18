@@ -1,0 +1,197 @@
+!
+<template>
+  <div id="pending-request-wrapper">
+    <div class="" id="pending_request_wrapper">
+      <div
+        class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
+        v-show="requestListData.length ? true : false"
+      >
+        <div class="d-flex align-center">
+          <button-green
+            icon="add"
+            variant="success"
+            :scale="1"
+            title="Approved"
+            class="mr-05"
+            className="button button-custom--lightsuccess"
+            :disabled="disabled"
+            @on-click="pendingApproveRequest('approve')"
+          ></button-green>
+          <button-green
+            icon="add"
+            variant="danger"
+            :scale="1"
+            title="Reject"
+            className="button-custom--pending"
+            disabled
+            @on-click="pendingApproveRequest('approve')"
+          ></button-green>
+          <!-- <button-green
+                    icon="add"
+                    variant="warning"
+                    :scale="1"
+                    title="Reject"
+                    @on-click="pendingApproveRequest('approve')"
+                  ></button-green>
+                  <button-warning
+                    icon="add"
+                    variant="success"
+                    :scale="1"
+                    title="Pending"
+                    @on-click="pendingApproveRequest('pending')"
+                  ></button-warning> -->
+        </div>
+      </div>
+      <div class="scroll_wrapper">
+        <div>
+          <list-pending
+            :listPending="requestListData"
+            @input="getIdValue($event)"
+            @selectAllItems="selectAllItems()"
+            :key="pendingList"
+            :checked="checked"
+            :checkedAll="checkedAll"
+            @reject-item="rejectItem($event)"
+            @approve-item="approveItem($event)"
+            v-show="requestListData.length ? true : ''"
+          ></list-pending>
+        </div>
+        <div>
+          <no-record v-show="requestListData.length ? '' : true"></no-record>
+        </div>
+        <bib-notification :popupMessages="popupMessages"></bib-notification>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+
+import {
+  getPendingLeaveVacationsAdmin,
+  getApproveLeaveVacationsAdmin,
+  getRejectLeaveVacationsAdmin,
+} from "../../utils/functions/functions_lib_api";
+import { popupNotificationMsgs } from "../../utils/constant/Notifications";
+import { openPopupNotification } from "../../utils/functions/functions_lib.js";
+import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
+
+export default {
+  data() {
+    return {
+      componentKey: 0,
+      leaveVacation: LEAVEVACATION_TAB,
+      activeTab: null,
+      leaveVacationAdminData: [],
+      getRequest: {},
+      requestListData: [],
+      addIds: [],
+      pendingList: 0,
+      requestListApproveData: [],
+      checked: false,
+      checkedAll: false,
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
+      noRecord: false,
+      disabled: true,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+      getformToDate: "leavevacation/getformToDate",
+    }),
+  },
+  async created() {
+    this.$root.$on("update-key", () => {
+      this.componentKey += 1;
+    });
+    this.$root.$on("pending-key", () => {
+      this.pendingList += 1;
+    });
+    this.addIds = [];
+    this.getPendingLeaveVacationsAdmin();
+  },
+  mounted() {
+    localStorage.removeItem("clickedUserId");
+    this.$nuxt.$emit("add-leave");
+    // this.getPendingLeaveVacationsAdmin();
+    if (this.requestListData.lenghth <= 0) {
+      this.noRecord = true;
+    } else {
+      this.noRecord = false;
+    }
+  },
+  methods: {
+    getPendingLeaveVacationsAdmin,
+    getApproveLeaveVacationsAdmin,
+    getRejectLeaveVacationsAdmin,
+    openPopupNotification,
+    async rejectItem(event) {
+      this.addIds.push(event + "");
+      await this.getRejectLeaveVacationsAdmin().then(() => {
+        this.$nuxt.$emit("pendingList");
+      });
+      this.getPendingLeaveVacationsAdmin();
+    },
+    async approveItem(event) {
+      this.addIds.push(event + "");
+      console.log(this.addIds, "item");
+      await this.getApproveLeaveVacationsAdmin().then(() => {
+        this.$nuxt.$emit("pendingList");
+      });
+      this.getPendingLeaveVacationsAdmin();
+    },
+    async getIdValue(event) {
+      this.checkedAll = false;
+      if (this.addIds.includes(event + "")) {
+        for (var i = 0; i < this.addIds.length; i++) {
+          if (this.addIds[i] === event + "") {
+            this.addIds.splice(i, 1);
+            console.log(this.addIds, "item");
+          }
+        }
+      } else {
+        this.checkedAll = false;
+        this.addIds.push(event + "");
+        console.log(this.addIds, "item");
+      }
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
+      }
+    },
+    selectAllItems() {
+      if (this.addIds.length) {
+        this.addIds = [];
+        this.checked = false;
+        console.log(this.addIds, "item");
+      } else {
+        this.requestListData.map((item, index) => {
+          this.addIds.push(item.id + "");
+          console.log(this.addIds, "item");
+          this.checkedAll = true;
+          this.checked = true;
+        });
+      }
+      if (this.addIds != "") {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
+      }
+    },
+    async pendingApproveRequest(event) {
+      if (event == "approve") {
+        await this.getApproveLeaveVacationsAdmin();
+        await this.getPendingLeaveVacationsAdmin();
+      } else if (event == "pending") {
+        this.getPendingLeaveVacationsAdmin();
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>

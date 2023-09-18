@@ -1442,6 +1442,15 @@ export const TIMESHEET_STATUS = {
   }
 }
 
+export const TIMESHEET_STATUSES = {
+  NOT_SUBMITTED: "not_submitted",
+  PENDING: "pending",
+  VACATION: "vacation",
+  APPROVED: "approved",
+  REJECTED: "rejected",
+  PAST_DUE: "past_due"
+}
+
 export const USER_ROLES = {
   USER: "USER",
   ADMIN: "ADMIN"

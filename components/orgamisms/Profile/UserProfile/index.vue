@@ -17,6 +17,7 @@
         <div class="row mx-0 bottom_border_wrapper">
           <div class="col-12 px-1">
             <bib-tabs
+              v-if="activeTab"
               :tabs="personalTabItem"
               :value="activeTab"
               @change="onTabChange"
@@ -48,7 +49,7 @@ export default {
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       personalTabItem: USER_PROFILE_TAB,
-      activeTab: "Employee Profile",
+      activeTab: null,
       form: {},
       id: '',
     };
@@ -58,6 +59,7 @@ export default {
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     await this.$store.dispatch("employee/setUser", this.id);
     this.form = this.getUser;
+    this.setActiveTab()
   },
   computed: {
     ...mapGetters({
@@ -68,6 +70,11 @@ export default {
     onTabChange(tab) {
       this.$router.push(tab.route);
     },
+    setActiveTab() {
+      const route = this.$route.fullPath
+      const activeTab = USER_PROFILE_TAB.find( tab => route.includes(tab.route))
+      this.activeTab = activeTab.value
+  }
   },
 };
 </script>

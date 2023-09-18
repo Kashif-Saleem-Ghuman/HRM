@@ -196,7 +196,6 @@ export default {
       }, 700);
     },
     close() {
-      alert("sadjlaksjdlasldkjlasjdl");
       this.departmentModel = false;
     },
     async handleChange_Tabs(tab) {

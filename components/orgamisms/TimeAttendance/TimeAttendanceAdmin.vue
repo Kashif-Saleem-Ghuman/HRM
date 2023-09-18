@@ -27,7 +27,6 @@
                 class="d-flex justify-between align-center px-075 bottom_border_wrapper"
               >
                 <div class="d-flex align-center">
-                  <div class="custom_date_picker">
                     <div class="mr-05">Date:</div>
                     <bib-datetime-picker
                       v-model="date2"
@@ -37,7 +36,6 @@
                       @input="onDateChange"
                       class="custom_date_picker"
                     ></bib-datetime-picker>
-                  </div>
                 </div>
   
                 <div class="d-flex">
@@ -268,7 +266,7 @@
         getCurrentDate: new Date(),
         date: null,
         format: "MMM D, YYYY",
-        date2: format(new Date(), "YYYY-MM-DD"),
+        date2: format(new Date(), "dddd, MMMM D, YYYY"),
         weekDates: { from: null, to: null }
       };
     },

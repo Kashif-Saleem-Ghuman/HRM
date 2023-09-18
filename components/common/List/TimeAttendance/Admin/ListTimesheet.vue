@@ -51,21 +51,8 @@
           <chips
             class="pt-1 pb-0"
             :key="day"
-            :title="data.value?.weekData?.[dayIndex]?.totalHours ? formatHoursToHHMM(data.value?.weekData?.[dayIndex]?.totalHours) : '--'"
-            :className="[
-              data.value?.weekData?.[dayIndex]?.totalHours >= '8'
-                ? 'chip-wrapper__bgsucess'
-                : '',
-              data.value?.weekData?.[dayIndex]?.totalHours <= '7' &&
-              data.value?.weekData?.[dayIndex]?.totalHours >= '5'
-                ? 'chip-wrapper__bgabsent'
-                : '',
-                data.value?.weekData?.[dayIndex]?.totalHours <= '3'
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value.status == 'Vacation' ? 'chip-wrapper__bgvacation' : '',
-              data.value.test == '00:00' ? 'chip-wrapper__bgabsentpink' : '',
-            ]"
+            :title="getWeekdayValue(data.value?.weekData?.[dayIndex])"
+            :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex])]"
           ></chips>
         </template>
 
@@ -80,31 +67,8 @@
             <chips
               :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
               iconShow="iconShow"
-              :icon="
-                data.value.timesheets?.[0]?.status == 'approved'
-                  ? 'check-all'
-                  : '' || data.value.timesheets?.[0]?.status == 'pending'
-                  ? 'warning'
-                  : '' || data.value.timesheets?.[0]?.status == 'rejected'
-                  ? 'urgent-solid'
-                  : '' || data.value.timesheets?.[0]?.status == 'past_due'
-                  ? 'help'
-                  : ''
-              "
-              :variant="[
-                data.value.timesheets?.[0]?.status == 'approved'
-                  ? 'chip-wrapper__bgsucess'
-                  : '',
-                data.value.timesheets?.[0]?.status == 'pending'
-                  ? 'chip-wrapper__bgabsent'
-                  : '',
-                data.value.timesheets?.[0]?.status == 'rejected'
-                  ? 'chip-wrapper__bgabsentpink'
-                  : '',
-                data.value.timesheets?.[0]?.status == 'past_due'
-                  ? 'chip-wrapper__bgvacation'
-                  : '',
-              ]"
+              :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
+              :variant="[getStatusVariant(data.value.timesheets?.[0]?.status)]"
             ></chips>
           </div>
         </template>
@@ -118,7 +82,7 @@
   </template>
   
   <script>
-  import { TABLE_HEAD, TIMESHEET_STATUS, WEEK_DAY } from "../../../../../utils/constant/Constant.js";
+  import { TABLE_HEAD, TIMESHEET_STATUS, WEEK_DAY, TIMESHEET_STATUSES } from "../../../../../utils/constant/Constant.js";
   import { formatHoursToHHMM } from "../../../../../utils/functions/time";
   export default {
     props: {
@@ -143,7 +107,64 @@
     },
     methods: {
       formatHoursToHHMM,
-      close() {
+
+      getStatusIcon(status) {
+        const iconStatusMapper = {
+          [TIMESHEET_STATUSES.APPROVED]: 'check-all',
+          [TIMESHEET_STATUSES.PENDING]: 'warning',
+          [TIMESHEET_STATUSES.REJECTED]: 'urgent-solid',
+          [TIMESHEET_STATUSES.PAST_DUE]: 'help',
+          [TIMESHEET_STATUSES.NOT_SUBMITTED]: 'help',
+        }
+        return iconStatusMapper[status] || ""
+      },
+
+      getStatusVariant(status) {
+        const variantStatusMapper = {
+          [TIMESHEET_STATUSES.APPROVED]: 'chip-wrapper__bgsucess',
+          [TIMESHEET_STATUSES.PENDING]: 'chip-wrapper__bgabsent',
+          [TIMESHEET_STATUSES.REJECTED]: 'chip-wrapper__bgabsentpin',
+          [TIMESHEET_STATUSES.PAST_DUE]: 'chip-wrapper__bgvacation',
+          [TIMESHEET_STATUSES.NOT_SUBMITTED]: 'chip-wrapper__bgvacation',
+        }
+        return variantStatusMapper[status] || ""
+      },
+
+      getWeekdayValue(data) {
+        if (!data) return "--"
+
+        if (data.vacation) return "Vacation"
+
+        if (data.totalHours) {
+          return formatHoursToHHMM(data.totalHours)
+        }
+
+        return "--"
+      },
+
+      getWeekdayClassNames(data) {
+        if (!data) {
+          return '';
+        }
+        
+        if (data.vacation) {
+          return 'chip-wrapper__bgvacation';
+        }
+
+        const totalHours = Number(data.totalHours);
+        
+        if (totalHours >= 8) {
+          return 'chip-wrapper__bgsucess';
+        } else if (totalHours >= 5 && totalHours < 8) {
+          return 'chip-wrapper__bgabsent';
+        } else if (totalHours <= 3) {
+          return 'chip-wrapper__bgabsentpink';
+        } else {
+          return 'chip-wrapper__bgdefault';
+        }
+},
+
+       close() {
         this.timesheetModal = false;
       },
       viewProfile(id) {

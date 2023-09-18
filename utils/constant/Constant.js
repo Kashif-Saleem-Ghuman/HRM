@@ -677,18 +677,22 @@ export const USER_PROFILE_TAB = [
   {
     title: "Employee Profile",
     value: "Employee Profile",
+    route: "employee-profile-tab",
   },
   {
     title: "Employment Information",
     value: "Employment Information",
+    route: "employment-information-tab",
   },
   {
     title: "Time & Attendance",
     value: "Time & Attendance",
+    route: "leave-vacations-profile-tab",
   },
   {
     title: "Leaves and Vacations",
     value: "Leaves and Vacations",
+    route: "time-attendance-profile-tab",
   },
   // {
   //   title: "Files",

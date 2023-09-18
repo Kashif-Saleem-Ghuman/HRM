@@ -687,12 +687,12 @@ export const USER_PROFILE_TAB = [
   {
     title: "Time & Attendance",
     value: "Time & Attendance",
-    route: "leave-vacations-profile-tab",
+    route: "time-attendance-profile-tab",
   },
   {
     title: "Leaves and Vacations",
     value: "Leaves and Vacations",
-    route: "time-attendance-profile-tab",
+    route: "leave-vacations-profile-tab",
   },
   // {
   //   title: "Files",

@@ -5,7 +5,7 @@
         <bib-input
           type="text"
           label="Street number and name"
-          placeholder="Enter your street"
+          placeholder=""
           :value="street"
           :disabled="inActive"
           indicator
@@ -25,7 +25,7 @@
           type="text"
           :value="suitApartment"
           label="Suite/Apartment"
-          placeholder="Enter your address"
+          placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'addressLine2', 'addresses')"
         ></bib-input>
@@ -44,7 +44,7 @@
           label="Country"
           :options="countryOptions"
           :value="country"
-          placeholder="Please select country"
+          placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
         ></bib-input>
@@ -77,7 +77,7 @@
           type="text"
           label="Other"
           :value="otherState"
-          placeholder="Please enter state"
+          placeholder=""
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
         ></bib-input>
@@ -87,7 +87,7 @@
           type="text"
           label="City"
           :value="city"
-          placeholder="Enter your city"
+          placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'city', 'addresses')"
         ></bib-input>
@@ -105,7 +105,7 @@
           type="text"
           :value="postalCode"
           label="Postal Code"
-          placeholder="Enter your City"
+          placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'postalCode', 'addresses')"
         ></bib-input>

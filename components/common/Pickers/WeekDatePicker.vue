@@ -76,13 +76,14 @@ export default {
 <style lang="scss" scoped>
 .pickers {
   display: flex;
-  gap: 1vw;
   .picker {
     display: flex;
-    flex-direction: column;
-
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 0.5rem;
     label {
       color: #b1b1b4;
+      padding-right: 0.5rem;
     }
   }
 }

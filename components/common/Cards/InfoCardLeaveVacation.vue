@@ -120,7 +120,7 @@ export default {
   border: 1px solid #F2F2F5;
   overflow-wrap: break-word;
   label {
-    font-size: 1rem;
+    font-size: 1rem !important;
     font-weight: 600;
     color: #1D1D20;
   }

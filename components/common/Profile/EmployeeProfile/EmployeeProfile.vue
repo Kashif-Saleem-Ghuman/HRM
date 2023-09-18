@@ -6,7 +6,7 @@
           type="text"
           label="First Name"
           :value="firstName"
-          placeholder="Type your firstName"
+          placeholder=""
           @change="$emit('input', $event, 'firstName')"
           :disabled="inActive"
         ></bib-input>
@@ -16,7 +16,7 @@
           type="text"
           label="Last Name"
           :value="lastName"
-          placeholder="Type your lastName"
+          placeholder=""
           @change="$emit('input', $event, 'lastName')"
           :disabled="inActive"
         ></bib-input>
@@ -28,7 +28,7 @@
           type="date"
           label="Date of birth"
           :value="dob"
-          placeholder="Enter title"
+          placeholder=""
           @change="$emit('input', $event, 'dateOfBirth')"
           :disabled="inActive"
         ></bib-input>
@@ -39,7 +39,7 @@
           label="Gender"
           :value="gender"
           :options="genderOptions"
-          placeholder="Enter your department"
+          placeholder=""
           @input="$emit('input', $event, 'gender')"
           :disabled="inActive"
         ></bib-input>

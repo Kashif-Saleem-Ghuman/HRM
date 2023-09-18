@@ -6,7 +6,7 @@
             type="text"
             label="Work Title"
             :value="workTitle"
-            placeholder="Enter Work title"
+            placeholder=""
             @input="$emit('input', $event, 'jobTitle')"
             :disabled="inActive"
           ></bib-input>
@@ -16,7 +16,7 @@
             type="text"
             label="Department"
             value="HRM"
-            placeholder="Enter your Department"
+            placeholder=""
             disabled="disabled"
           ></bib-input>
         </div>
@@ -41,7 +41,7 @@
             type="text"
             label="Work email"
             :value="workEmail"
-            placeholder="Enter your work email"
+            placeholder=""
             @change="$emit('input', $event, 'workEmail')"
             icon-left="file"
             :disabled="inActive"
@@ -54,7 +54,7 @@
             type="text"
             label="Work telephone"
             :value="workTelephone"
-            placeholder="Enter work telephone"
+            placeholder=""
             @change="$emit('input', $event, 'workTelephone')"
             :disabled="inActive"
           ></bib-input>
@@ -64,7 +64,7 @@
             type="text"
             label="Work extension"
             :value="workExt"
-            placeholder="Enter work extension"
+            placeholder=""
             @change="$emit('input', $event, 'workExtenstion')"
             :disabled="inActive"
           ></bib-input>

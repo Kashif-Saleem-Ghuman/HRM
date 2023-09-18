@@ -6,7 +6,7 @@
             type="text"
             label="Contact name"
             :value="fullName"
-            placeholder="Enter your full name"
+            placeholder=""
             :disabled="inActive"
             @change="$emit('input', $event, 'name', 'emContact')"
           ></bib-input>
@@ -19,7 +19,7 @@
             type="text"
             label="Releationships"
             :value="releationships"
-            placeholder="Please enter releationships"
+            placeholder=""
             :disabled="inActive"
             @change="$emit('input', $event, 'relationship', 'emContact')"
           ></bib-input>
@@ -29,7 +29,7 @@
             type="text"
             label="Telephone"
             :value="telephone"
-            placeholder="Please enter telephone"
+            placeholder=""
             :disabled="inActive"
             @change="$emit('input', $event, 'phone', 'emContact')"
           ></bib-input>
@@ -39,7 +39,7 @@
             type="email"
             label="Email"
             :value="email"
-            placeholder="Please enter email"
+            placeholder=""
             :disabled="inActive"
             @change="$emit('input', $event, 'email', 'emContact')"
           ></bib-input>

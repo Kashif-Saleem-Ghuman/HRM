@@ -9,6 +9,7 @@
           v-model="date"
           @input="onDateChange"
           :maxDate="maxDate"
+          class="custom-date-picker"
         ></bib-datetime-picker>
       </div>
 
@@ -43,7 +44,7 @@ export default {
   data() {
     return {
       format: "MMM D, YYYY",
-      date: format(new Date(), "YYYY-MM-DD"),
+      date: format(new Date(), "dddd, MM MMMM, YYYY"),
       loading: true,
       employees: [],
       maxDate: DateTime.now().endOf("day").toISO(),
@@ -66,7 +67,9 @@ export default {
 
     async generateOrganizationEntries() {
       this.loading = true;
-      const date = this.date;
+      let date = this.date;
+      date = format(new Date(), "YYYY-MM-DD")
+      console.log(date, "YYYY-MM-DDYYYY-MM-DDYYYY-MM-DD")
       const { employees } = await getTimeAttendance({ date });
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
@@ -84,4 +87,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.vdpComponent__input{
+  background-color: #F2F2F5 !important;
+  width: 280px !important;
+}
+</style>

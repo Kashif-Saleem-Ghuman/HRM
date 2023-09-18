@@ -9,8 +9,10 @@
     @input="($emit('selectAllItems'))"
     :allChecked="checkedAll"
     :showTotal=true
+    :totalValue="totalWork"
+    :status="status"
   >
-    <template #cell_action="data">
+    <template v-if="includeCheckbox" #cell_action="data">
       <div class="d-flex justify-center align-center">
         <bib-checkbox size="md" @change="$emit('input', data.value.employee.id)" :checked="checked"></bib-checkbox>
       </div>
@@ -21,8 +23,8 @@
       </div>
     </template> -->
     <template #cell(activity)="data">
-      <div class="justify-between text-dark">
-        <span>{{ data.value.activity }}</span>
+      <div class="justify-between text-dark title">
+        <span>{{ data.value.activityTitle }}</span>
       </div>
     </template>
     <template #cell(start)="data">
@@ -41,19 +43,18 @@
         <span>{{ data.value.total }}</span>
       </div>
     </template>
-   
   </custom-table>
 </template>
 
 <script>
-import fecha, { format } from "fecha";
-import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
+import fecha from "fecha";
+import { TABLE_HEAD, TIMESHEET_STATUS } from "../../../../../utils/constant/Constant";
 
 export default {
   props: {
     listToday: {
-      type: [Array, Object],
-      default: "",
+      type: Array,
+      default: [],
     },
     checked:{
       type:Boolean
@@ -61,7 +62,17 @@ export default {
     checkedAll:{
       type: Boolean,
       default: false,
-    }
+    },
+    includeCheckbox: {
+      type: Boolean,
+      default: false,
+    },
+    totalWork: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -69,6 +80,7 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      TIMESHEET_STATUS,
     };
   },
   methods: {

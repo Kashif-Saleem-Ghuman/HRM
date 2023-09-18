@@ -137,8 +137,8 @@
   </div>
 </template>
 <script>
-import dayjs from "dayjs";
 import { TIME_ATTENDANCE_TAB } from "../../../utils/constant/Constant.js";
+import { ACTIVITY_DICTIONARY } from "../../../utils/constant/TimesheetData"
 import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
 import {
   TIMESHEET_DATA,
@@ -149,7 +149,10 @@ import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
+import { getTimeFromDate, getDateDiffInHHMM } from "../../../utils/functions/dates";
+import { formatTime } from "../../../utils/functions/clock_functions"
 import fecha, { format } from "fecha";
+
 import getJson from "../../../utils/dataJson/app_wrap_data";
 import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
 const appWrapItems = getJson();
@@ -173,7 +176,7 @@ export default {
       show: false,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       dayWiseDataTimesheet: TIMESHEET_DATA,
-      todayData: DAY_VIEW_DATA,
+      todayData: [],
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       activeTab: "Attendance",
@@ -189,6 +192,9 @@ export default {
       date: null,
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
+      ACTIVITY_DICTIONARY,
+      totalWork: '--:--',
+      timesheetStatus: '',
     };
   },
   async created() {
@@ -206,6 +212,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       activeDate: "date/getActiveDate",
       getformToDate: "leavevacation/getformToDate",
+      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     todayListView() {
       return this.view === 'day';
@@ -221,6 +228,25 @@ export default {
     this.setView()
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
+    await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+    this.todayData = [];
+    let work = 0; // miliseconds
+    for (const timeEntry of this.getDailyTimeEntries) {
+      this.todayData.push({
+        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
+        start: getTimeFromDate(timeEntry.start),
+        end: getTimeFromDate(timeEntry.end),
+        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
+        status: timeEntry.status,
+      });
+      if (timeEntry.activity === 'in') {
+        work += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      } else if (timeEntry.activity === 'break') {
+        work -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      }
+    }
+    this.totalWork = formatTime(work / 1000, false);
+    this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
     this.activeUserData = this.getActiveUser;
     this.activeUserName =
       this.activeUserData.firstName +

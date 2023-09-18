@@ -14,3 +14,25 @@ export const getWeekStartEndDates = (dateIso) => {
 export const isDateOnSunday = (date) => {
   return DateTime.fromISO(date).weekday == 7;
 };
+
+export const getTimeFromDate = (date) => {
+  return DateTime.fromISO(date).toFormat("HH:mm");
+};
+
+export const getDateDiffInMinutes = (start, end) => {
+  if (!start || !end) return null;
+
+  const startDate = DateTime.fromISO(start);
+  const endDate = DateTime.fromISO(end);
+  const diff = endDate.diff(startDate, "minutes");
+  const { minutes } = diff.toObject();
+  return minutes;
+};
+
+export const getDateDiffInHHMM = (start, end) => {
+  if (!start || !end) return null;
+
+  const startDate = DateTime.fromISO(start);
+  const endDate = DateTime.fromISO(end);
+  return endDate.diff(startDate, ["hour", "minute"]).toFormat("hh:mm");
+}

@@ -79,7 +79,7 @@ export async function updateAllData() {
     })
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
-      this.openPopupNotification(1);
+      // this.openPopupNotification(1);
       // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
       this.localData = data
       this.form = res;

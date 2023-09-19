@@ -1451,6 +1451,26 @@ export const TIMESHEET_STATUSES = {
   PAST_DUE: "past_due"
 }
 
+export const ACTIVITY_TYPE = {
+  VACATION: 'vacation',
+  LEAVE: 'leave',
+  IN: 'in',
+  OUT: 'out',
+  MEDICAL: 'medical',
+  SICK: 'sick',
+  PERSONAL: 'personal'
+}
+
+export const ACTIVITY_TYPE_LABEL_VALUE = {
+  [ACTIVITY_TYPE.VACATION]: "Vacation",
+  [ACTIVITY_TYPE.LEAVE]: "Leave",
+  [ACTIVITY_TYPE.IN]: "In",
+  [ACTIVITY_TYPE.OUT]: "Out",
+  [ACTIVITY_TYPE.MEDICAL]: "Medical",
+  [ACTIVITY_TYPE.PERSONAL]: "Personal",
+
+}
+
 export const USER_ROLES = {
   USER: "USER",
   ADMIN: "ADMIN"

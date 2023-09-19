@@ -86,6 +86,8 @@ import {
   TIMESHEET_STATUS,
   WEEK_DAY,
   TIMESHEET_STATUSES,
+  ACTIVITY_TYPE,
+  ACTIVITY_TYPE_LABEL_VALUE
 } from "../../../../../utils/constant/Constant.js";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 export default {
@@ -137,8 +139,10 @@ export default {
     getWeekdayValue(data) {
       if (!data) return "--";
 
-      if (data.vacation) return "Vacation";
-
+      for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
+        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity]
+      }
+    
       if (data.totalHours) {
         return formatHoursToHHMM(data.totalHours);
       }

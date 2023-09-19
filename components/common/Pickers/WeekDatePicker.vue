@@ -6,6 +6,7 @@
         <bib-datepicker
           v-model="from"
           placeholder="Choose Start Of Week Date"
+          :maxDate="maxDate"
           @input="onDateChange"
         ></bib-datepicker>
       </div>
@@ -26,6 +27,7 @@ export default {
     return {
       from: "",
       to: "",
+      maxDate: new Date()
     };
   },
 

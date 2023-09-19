@@ -3,14 +3,14 @@
     <loader v-if="loading" :showloader="loading"></loader>
 
     <div
-      v-if="!loading && (!employees || !employees?.length)"
+      v-if="showNoData"
       class="no-data-container"
     >
       <p>No data available</p>
     </div>
 
     <custom-table-day-view
-      v-else
+      v-else-if="showTable"
       :fields="tableFields"
       class="border-gray4 bg-white"
       :sections="employees"
@@ -119,6 +119,16 @@ export default {
       loading: true,
     };
   },
+
+  computed: {
+    showTable() {
+      return !this.loading && this.employees?.length
+    },
+    showNoData() {
+      return !this.loading && (!this.employees || !this.employees?.length)
+    }
+  },
+  
   mounted() {
     this.addTypeToTimesheetStatusOptions();
     this.getAndParseTimesheets();

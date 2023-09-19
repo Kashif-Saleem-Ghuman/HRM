@@ -166,7 +166,7 @@ export default {
   },
   methods: {
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MM-YYYY");
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/profile/" + item.id);

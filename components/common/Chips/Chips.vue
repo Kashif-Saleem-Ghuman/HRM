@@ -8,14 +8,15 @@
         className,
       ]"
       class="cursor-pointer chip-wrapper ml-05"
+      
       @click="$emit('on-click')"
     >
       <bib-icon
         v-if="iconShow"
         :icon="icon"
         :variant="variantIcon"
-        :scale="0.9"
-        style="margin-right: 4px"
+        :scale="1"
+       class="mr-05"
       ></bib-icon>
       <span>{{ title }}</span>
     </div>
@@ -137,12 +138,12 @@ export default {
 .chip-wrapper {
   display:flex;
   justify-content: center;
-  width: 100%;
-  height: 3rem;
+  // width: 100%;
+  // height: 3rem;
   border-radius: 6px;
-  padding:  8px;
+  padding:  8px 15px 8px 8px;
   // height: 2rem;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
 
   &__shape-circle {
@@ -160,11 +161,12 @@ export default {
 
   &__bgsucess {
     background-color: #d5e8d4;
+    color: #2ba026;
     svg {
       fill: #2ba026 !important;
     }
     span {
-      color: #2ba026;
+      color: #2ba026 !important;
       font-weight: 400;
       font-size: 14px;
     }

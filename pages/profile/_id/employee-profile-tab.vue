@@ -202,11 +202,15 @@ export default {
     handleInput,
     handleInputObject,
     updateAllData,
-    sendMessage() {
-      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank");
+    sendMeet(){
+      var genratedId = this.form.userId;
+      var meetId = genratedId.toUpperCase();
+      var id = meetId.match(/.{1,6}/g);
+     var newValue =  id.join("-");
+      window.open('https://dev-connect.business-in-a-box.com/' + newValue + '?webcam=inactive', "_blank")
     },
-    sendMeet() {
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank");
+    sendMessage(){
+      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")
     },
   },
   computed: {

@@ -120,18 +120,14 @@
       <td></td>
       <td></td>
       <td class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
-      <td class="" style="text-align: left; font-weight: bold;">
-        00:00:00
-      </td>
+      <td class="" style="text-align: left; font-weight: bold;">{{ totalValue }}</td>
     </tr>
     <tr v-show="showTotal" style="padding: 16px !important;">
       <td></td>
       <td></td>
       <td></td>
       <td class="pl-1 " style="text-align: right; padding: 16px !important;" >Status</td>
-      <td class="" style="text-align: left; font-weight: bold;">
-        00:00:00
-      </td>
+      <td class="" style="text-align: left; font-weight: bold;">{{ status }}</td>
     </tr>
   </table>
 </template>
@@ -211,6 +207,12 @@ export default {
     },
     showTotal:{
       type:Boolean
+    },
+    totalValue: {
+      type: String,
+    },
+    status: {
+      type: String,
     }
   },
   data() {

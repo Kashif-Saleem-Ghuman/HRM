@@ -5,12 +5,7 @@
     >
       <div class="d-flex align-center">
         <div class="custom_date_picker">
-          <div class="mr-05">Date:</div>
-          <bib-datetime-picker
-            v-model="date"
-            @input="onDateChange"
-            class="custom_date_picker"
-          ></bib-datetime-picker>
+          <week-date-picker :dates.sync="weekDates"></week-date-picker>
         </div>
       </div>
 
@@ -54,45 +49,24 @@
 </template>
 
 <script>
-import fecha, { format } from "fecha";
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
-import { DateTime } from "luxon";
 import { ABSENT_INFO_CARD_DATA } from "../../utils/constant/DashboardData";
-import { getWeekStartEndDates } from "../../utils/functions/dates";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
 export default {
   data() {
     return {
-      format: "MMM D, YYYY",
-      date: format(new Date(), "dddd, MM MMMM, YYYY"),
+      weekDates: { from: null, to: null },
       loading: true,
       employees: [],
-      maxDate: DateTime.now().endOf("day").toISO(),
       absentPresentCardData: ABSENT_INFO_CARD_DATA,
       timesheetsList: [],
     };
   },
 
   methods: {
-    parseDate(dateString, format) {
-      return fecha.parse(dateString, format);
-    },
-    formatDate(dateObj, format) {
-      return fecha.format(dateObj, format);
-    },
-
-    onDateChange(value) {
-      const date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      this.date = date;
-      this.generateWeekDaysEntries();
-    },
-
     async generateWeekDaysEntries() {
       this.loading = true;
-      const date =  format(new Date(), "YYYY-MM-DD")
-
-      const { from, to } = getWeekStartEndDates(date);
-
+      const { from, to } = this.weekDates;
       let timesheets = await getTimeAttendanceCustomRange({ from, to });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser(employee);
@@ -103,8 +77,16 @@ export default {
     },
   },
 
-  created() {
-    this.generateWeekDaysEntries();
+  watch: {
+    weekDates: {
+      deep: true,
+      handler: function (newVal, oldVal) {
+        console.log({ newVal, oldVal });
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+          this.generateWeekDaysEntries();
+        }
+      },
+    },
   },
 };
 </script>

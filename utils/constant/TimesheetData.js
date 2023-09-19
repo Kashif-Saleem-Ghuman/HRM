@@ -416,12 +416,14 @@ export const MY_TIMEOFF_DATA = [
 export const DAY_VIEW_DATA = [
   {
     activity: "Attendance",
+    activityTitle: "CLOCK-IN -> CLOCK-OUT",
     start: "00:00",
     end: "00:00",
     total: "00:00",
   },
   {
     activity: "Break",
+    activityTitle: "BREAK",
     start: "00:00",
     end: "00:00",
     total: "00:00",
@@ -493,3 +495,9 @@ export const WEEK_VIEW_DATA = [
     total: "00:00",
   },
 ];
+
+export const ACTIVITY_DICTIONARY = {
+  in: "CLOCK-IN -> CLOCK-OUT",
+  break: "BREAK",
+  vacation: "Vacation"
+}

@@ -17,6 +17,7 @@ export default class TimesheetWeekGroupedByDayParser extends BaseTimesheetParser
       weekData[date] = {
         timeEntries,
         totalHours,
+        vacation: timeEntries.some( timeEntry => timeEntry.activity == 'vacation')
       };
     });
 

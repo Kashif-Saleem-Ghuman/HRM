@@ -92,6 +92,8 @@ export const actions = {
         start: te.start,
         end: te.end,
         total: te.total,
+        status: te.status,
+        activity: te.activity
       })));
     } catch (e) {
       alert(e);

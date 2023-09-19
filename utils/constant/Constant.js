@@ -677,18 +677,22 @@ export const USER_PROFILE_TAB = [
   {
     title: "Employee Profile",
     value: "Employee Profile",
+    route: "employee-profile-tab",
   },
   {
     title: "Employment Information",
     value: "Employment Information",
+    route: "employment-information-tab",
   },
   {
     title: "Time & Attendance",
     value: "Time & Attendance",
+    route: "time-attendance-profile-tab",
   },
   {
     title: "Leaves and Vacations",
     value: "Leaves and Vacations",
+    route: "leave-vacations-profile-tab",
   },
   // {
   //   title: "Files",
@@ -1436,6 +1440,15 @@ export const TIMESHEET_STATUS = {
     label: "Past Due",
     value: "past_due"
   }
+}
+
+export const TIMESHEET_STATUSES = {
+  NOT_SUBMITTED: "not_submitted",
+  PENDING: "pending",
+  VACATION: "vacation",
+  APPROVED: "approved",
+  REJECTED: "rejected",
+  PAST_DUE: "past_due"
 }
 
 export const USER_ROLES = {

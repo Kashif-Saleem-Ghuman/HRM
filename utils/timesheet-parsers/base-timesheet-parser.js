@@ -1,5 +1,6 @@
 import { groupBy, keyBy } from "lodash";
 import { DateTime } from "luxon";
+import { getDateDiffInMinutes, getTimeFromDate } from "../functions/dates";
 
 export default class BaseTimesheetParser {
   constructor(timesheets = []) {
@@ -28,15 +29,15 @@ export default class BaseTimesheetParser {
     const timeEntriesByActivity = keyBy(timeEntries, "activity");
 
     const timeEntryIn = timeEntriesByActivity.in?.start
-      ? this.getTimeFromDate(timeEntriesByActivity.in.start)
+      ? getTimeFromDate(timeEntriesByActivity.in.start)
       : null;
 
     const timeEntryOut = timeEntriesByActivity.in?.end
-      ? this.getTimeFromDate(timeEntriesByActivity.in.end)
+      ? getTimeFromDate(timeEntriesByActivity.in.end)
       : null;
 
     const timeEntryBreak = timeEntriesByActivity.break?.start
-      ? this.getDateDiffInMinutes(
+      ? getDateDiffInMinutes(
           timeEntriesByActivity.break.start,
           timeEntriesByActivity.break.end
         )
@@ -45,7 +46,7 @@ export default class BaseTimesheetParser {
     let total = 0;
 
     if (timeEntriesByActivity.in?.start && timeEntriesByActivity.in?.end) {
-      total = this.getDateDiffInMinutes(
+      total = getDateDiffInMinutes(
         timeEntriesByActivity.in?.start,
         timeEntriesByActivity.in?.end
       );
@@ -64,17 +65,17 @@ export default class BaseTimesheetParser {
   generateActivityReportFromTimer = (timers, timeEntries) => {
     const timer = timers[0] ?? {};
     const timeEntriesByActivity = keyBy(timeEntries, "activity");
-    const timeEntryIn = timer?.start ? this.getTimeFromDate(timer.start) : null;
+    const timeEntryIn = timer?.start ? getTimeFromDate(timer.start) : null;
 
     const timeEntryOut = null;
     const timeEntryBreak = timeEntriesByActivity.break?.start
-      ? this.getDateDiffInMinutes(
+      ? getDateDiffInMinutes(
           timeEntriesByActivity.break.start,
           timeEntriesByActivity.break.end
         )
       : null;
 
-    let total = this.getDateDiffInMinutes(timer.start, DateTime.now().toISO());
+    let total = getDateDiffInMinutes(timer.start, DateTime.now().toISO());
 
     const activityReport = {
       in: timeEntryIn,
@@ -92,18 +93,4 @@ export default class BaseTimesheetParser {
     );
     return timeEntry?.total ?? 0;
   }
-
-  getTimeFromDate = (date) => {
-    return DateTime.fromISO(date).toFormat("HH:mm");
-  };
-
-  getDateDiffInMinutes = (start, end) => {
-    if (!start || !end) return null;
-
-    const startDate = DateTime.fromISO(start);
-    const endDate = DateTime.fromISO(end);
-    const diff = endDate.diff(startDate, "minutes");
-    const { minutes } = diff.toObject();
-    return minutes;
-  };
 }

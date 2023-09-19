@@ -30,14 +30,11 @@
       class="d-grid d-flex gap-1 py-1 px-1"
       style="grid-template-columns: repeat(3, 1fr)"
     >
-      <absent-present-card
-        :item="absentPresentCardData[0]"
-        title="Timesheet past due"
-      ></absent-present-card>
-      <absent-present-card
-        :item="absentPresentCardData[1]"
-        title="Timesheets pending"
-      ></absent-present-card>
+
+    <pending-timesheets-widget />
+
+    <past-due-timesheets-widget />
+
     </div>
     <div class="scroll_wrapper">
       <div>
@@ -50,7 +47,6 @@
 
 <script>
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
-import { ABSENT_INFO_CARD_DATA } from "../../utils/constant/DashboardData";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
 export default {
   data() {
@@ -58,7 +54,6 @@ export default {
       weekDates: { from: null, to: null },
       loading: true,
       employees: [],
-      absentPresentCardData: ABSENT_INFO_CARD_DATA,
       timesheetsList: [],
     };
   },

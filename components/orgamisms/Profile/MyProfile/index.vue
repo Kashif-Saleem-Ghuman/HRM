@@ -9,7 +9,6 @@
             ? 'Add employee'
             : form.firstName + ' ' + form.lastName
         "
-        bookmark="bookmark-solid"
         headerRight="headerRight"
       ></section-header-left>
     </div>
@@ -494,7 +493,6 @@ export default {
         //  this.fileList += 1;
       });
     }
-    this.form = this.getUser;
   },
 
   async mounted() {
@@ -537,8 +535,12 @@ export default {
       this.files = files;
       
     },
-    sendMeet(){
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    async sendMeet(){
+      var genratedId = this.form.userId;
+      var meetId = await genratedId.toUpperCase();
+      var id = await meetId.match(/.{1,6}/g);
+     var newValue =  id.join("-");
+      window.open('https://dev-connect.business-in-a-box.com/' + newValue + '?webcam=inactive', "_blank")
     },
     sendMessage(){
       window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")

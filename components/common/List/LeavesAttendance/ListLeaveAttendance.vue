@@ -11,26 +11,26 @@
         </div>
       </template> -->
     <template #cell(leavetype)="data">
-      <div class="text-dark upper-case">
+      <div class="text-dark upper-case" style="text-align: left;">
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
           :icon="
             data.value.type == 'medical'
-              ? 'home'
+              ? 'medical-clinic-solid'
               : '' || data.value.type == 'leave'
-              ? 'eye-open'
+              ? 'accessibility-cognitive-disability-Solid'
               : '' || data.value.type == 'vacation'
-              ? 'setting'
+              ? 'airplane-solid'
               : ''
           "
           :variantIcon="
             data.value.status == 'approved'
               ? 'success'
               : '' || data.value.status == 'pending'
-              ? 'eye-open'
-              : '' || data.value.status == 'Past due'
-              ? 'help'
+              ? 'danger'
+              : '' || data.value.status == 'rejected'
+              ? 'warning'
               : ''
           "
           :className="[
@@ -80,7 +80,7 @@
       </template> -->
     <template #cell(status)="data">
       <div
-        class="d-flex align-center justify-center space-between"
+        class="d-flex align-center"
       >
         <chips
           :title="data.value.status == null ? 'N/A' : data.value.status"
@@ -94,8 +94,9 @@
               ? 'check-square-solid'
               : ''
           "
-          class="upper-case justify-left"
-          :className="[
+          class="upper-case"
+          :className="
+          [
             data.value?.status == 'approved' ? 'chip-wrapper__bgsucess' : '',
             data.value?.status === 'pending'
               ? 'chip-wrapper__bgabsentpink'
@@ -163,7 +164,7 @@ export default {
   },
   methods: {
     onLoad(item) {
-      return fecha.format(new Date(item), "YYYY/MM/DD");
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
     test(item) {
       var teamNames = "";

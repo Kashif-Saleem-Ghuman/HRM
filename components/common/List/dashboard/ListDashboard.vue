@@ -8,7 +8,7 @@
     >
       <template #cell(name)="data">
         <div
-        class="d-flex px-1 align-center text-left gap-05"
+        class="d-flex px-05 p-025 align-center text-left gap-05"
         style="position: relative; width: 220px"
       >
         <div
@@ -20,7 +20,7 @@
             class="mt-auto mb-auto"
             shape="circle"
             :src="data.value.photo"
-            size="3rem"
+            size="2.5rem"
           >
           </bib-avatar>
           <div :id="'id_' + data.value.id" style="" class="userCard">

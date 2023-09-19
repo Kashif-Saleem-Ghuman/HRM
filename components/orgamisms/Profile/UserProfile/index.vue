@@ -678,7 +678,11 @@ this.getCurrentWeek();
       return fecha.format(dateObj, format);
     },
     sendMeet(){
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+      var genratedId = this.form.userId;
+      var meetId = genratedId.toUpperCase();
+      var id = meetId.match(/.{1,6}/g);
+     var newValue =  id.join("-");
+      window.open('https://dev-connect.business-in-a-box.com/' + newValue + '?webcam=inactive', "_blank")
     },
     sendMessage(){
       window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")

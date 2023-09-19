@@ -301,7 +301,12 @@
                         placeholder="Drop file here or click to upload"
                         style="margin-left: -8px"
                       ></bib-input>
-                      <bib-button label="Upload" size="lg" variant="success" @click="fileUpload"></bib-button>
+                      <bib-button
+                        label="Upload"
+                        size="lg"
+                        variant="success"
+                        @click="fileUpload"
+                      ></bib-button>
                     </div>
                     <div
                       class="d-grid gap-1"
@@ -533,19 +538,26 @@ export default {
     getCurrentWeek,
     async handleChange__FileInput(files) {
       this.files = files;
-      
     },
-    async sendMeet(){
+    async sendMeet() {
       var genratedId = this.form.userId;
       var meetId = await genratedId.toUpperCase();
       var id = await meetId.match(/.{1,6}/g);
-     var newValue =  id.join("-");
-      window.open('https://dev-connect.business-in-a-box.com/' + newValue + '?webcam=inactive', "_blank")
+      var newValue = id.join("-");
+      window.open(
+        "https://dev-connect.business-in-a-box.com/" +
+          newValue +
+          "?webcam=inactive",
+        "_blank"
+      );
     },
-    sendMessage(){
-      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")
+    sendMessage() {
+      window.open(
+        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
+        "_blank"
+      );
     },
-    async fileUpload(){
+    async fileUpload() {
       await this.addFiles(this.id, this.files);
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
@@ -661,8 +673,6 @@ export default {
     background: #fff;
     margin: 0 10px;
     border-radius: 6px;
-    ;
-
   }
   .border-gray4 {
     border: none !important;

@@ -36,9 +36,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import {
-  USER_PROFILE_TAB,
-} from "../../../../utils/constant/Constant.js";
+import { USER_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
 
 const appWrapItems = getJson();
@@ -51,7 +49,7 @@ export default {
       personalTabItem: USER_PROFILE_TAB,
       activeTab: null,
       form: {},
-      id: '',
+      id: "",
     };
   },
   async created() {
@@ -59,22 +57,24 @@ export default {
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     await this.$store.dispatch("employee/setUser", this.id);
     this.form = this.getUser;
-    this.setActiveTab()
+    this.setActiveTab();
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
-    })
+    }),
   },
   methods: {
     onTabChange(tab) {
       this.$router.push(tab.route);
     },
     setActiveTab() {
-      const route = this.$route.fullPath
-      const activeTab = USER_PROFILE_TAB.find( tab => route.includes(tab.route))
-      this.activeTab = activeTab.value
-  }
+      const route = this.$route.fullPath;
+      const activeTab = USER_PROFILE_TAB.find((tab) =>
+        route.includes(tab.route)
+      );
+      this.activeTab = activeTab.value;
+    },
   },
 };
 </script>

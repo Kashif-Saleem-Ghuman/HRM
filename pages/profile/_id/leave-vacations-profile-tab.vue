@@ -13,7 +13,7 @@
             :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
             totalAllowance="30"
             buttonLable="Request Vacation"
-            icon="table"
+            icon="airplane-solid"
             className="button-wrapper__bgsucess"
             variant="white"
             @on-click="addLeaves('vacation')"
@@ -25,7 +25,7 @@
             "
             totalAllowance="10"
             buttonLable="Request Medical Leave"
-            icon="table"
+            icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
             variant="white"
             @on-click="addLeaves('medical')"
@@ -35,7 +35,7 @@
             :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
             totalAllowance="12"
             buttonLable="Request Personal Leave"
-            icon="table"
+            icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
             variant="white"
             @on-click="addLeaves('leave')"
@@ -97,7 +97,7 @@ export default {
     this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
     this.getCurrentYear();
-    this.getCurrentDateMonth();
+    // this.getCurrentDateMonth();
     this.getCurrentWeek();
 
     await this.$store

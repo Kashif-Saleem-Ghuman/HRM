@@ -21,7 +21,7 @@
               : '' || data.value.type == 'leave'
               ? 'accessibility-cognitive-disability-Solid'
               : '' || data.value.type == 'vacation'
-              ? 'airplane-solid'
+              ? 'sun-solid'
               : ''
           "
           :variantIcon="

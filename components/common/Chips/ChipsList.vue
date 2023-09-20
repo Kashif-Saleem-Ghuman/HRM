@@ -40,7 +40,7 @@ export default {
   border-radius: 6px;
   padding: 4px 8px;
   display: inline-block;
-  // justify-content: center;
+  justify-content: center;
   align-items: center;
   ul {
     margin: 0 !important;

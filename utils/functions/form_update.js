@@ -1,12 +1,16 @@
 export async function vfileAdded(file, name, event) {
   this.isFlag = true;
   this.fileDetail = file;
-  let pimg = new FormData();
-  pimg.append("file", this.fileDetail);
+  let formData = new FormData();
+  formData.append('width', file.width)
+  formData.append('height', file.height)
+  formData.append('left', '0')
+  formData.append('top', '0')
+  formData.append("file", this.fileDetail);
   await this.$axios
     .$post(
       `https://dev-account-api.business-in-a-box.com/v1/user/avatar/upload`,
-      pimg,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -81,10 +85,12 @@ export async function updateAllData() {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       // this.openPopupNotification(1);
       // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
+      this.$nuxt.$emit('top-nav-key')
       this.localData = data
       this.form = res;
       this.loading = false;
       this.isFlag = false;
+      
       this.updateForm = {};
     })
     .catch((err) => {
@@ -175,7 +181,6 @@ export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
   this.addForm[name] = event;
   // this.form[name] = event;
-  console.log(this.addForm, "updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
   if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;

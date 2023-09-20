@@ -10,7 +10,7 @@
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
-          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
+          <bib-avatar size="100px" :src="src" class="avtar-border"></bib-avatar>
           <div class="custom-remove" :class="customRemove">
             <span v-on:click="openImage()">Remove File</span>
           </div>
@@ -78,16 +78,16 @@ export default {
 
     getTempalte: function () {
       return `
-      <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
-        <div class="dz-image">
-          <img data-dz-thumbnail></img>
-        </div>
-        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-        <div class="dz-success-mark"><span class="dz-upload" data-dz-success></span></div>
-        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-        <div class="dz-success-mark"><i class="fa fa-check"></i></div>
-        <div class="dz-error-mark"><i class="fa fa-close"></i></div>
-      </div>`;
+      // <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
+      //   <div class="dz-image">
+      //     <img data-dz-thumbnail></img>
+      //   </div>
+      //   <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+      //   <div class="dz-success-mark"><span class="dz-upload" data-dz-success></span></div>
+      //   <div class="dz-error-message"><span data-dz-errormessage></span></div>
+      //   <div class="dz-success-mark"><i class="fa fa-check"></i></div>
+      //   <div class="dz-error-mark"><i class="fa fa-close"></i></div>
+      // </div>`;
     },
   },
 };
@@ -164,6 +164,7 @@ export default {
 .dropzone .dz-preview .dz-image img {
   border-radius: 50%;
   border: solid 1px #9e9eff;
+  margin-right: 16px;
 }
 .dropzone .dz-preview:hover .dz-image img {
   -webkit-transform: scale(1, 1) !important;

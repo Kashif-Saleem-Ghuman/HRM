@@ -6,10 +6,12 @@
       <section-header-left
         :title="
           form.firstName == undefined
-            ? 'Add employee'
+            ? '---'
             : form.firstName + ' ' + form.lastName
         "
+        :avatar="form.photo"
         headerRight="headerRight"
+        :key="topNav"
       ></section-header-left>
     </div>
     <div class="section-wrapper custom-input">
@@ -50,6 +52,7 @@ export default {
       activeTab: null,
       form: {},
       id: "",
+      topNav:0,
     };
   },
   async created() {
@@ -58,6 +61,12 @@ export default {
     await this.$store.dispatch("employee/setUser", this.id);
     this.form = this.getUser;
     this.setActiveTab();
+    this.$root.$on("top-nav-key", () => {
+       this.$store.dispatch("employee/setUser", this.id);
+    this.form = this.getUser;
+      this.topNav += 1;
+      console.log("this.topNav", this.topNav, this.form)
+    });
   },
   computed: {
     ...mapGetters({

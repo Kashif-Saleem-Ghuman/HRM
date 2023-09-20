@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex p-05">
     <div
       :class="[
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
@@ -7,7 +7,7 @@
         variant,
         className,
       ]"
-      class="cursor-pointer chip-wrapper ml-05"
+      class="cursor-pointer chip-wrapper"
       
       @click="$emit('on-click')"
     >
@@ -138,7 +138,7 @@ export default {
 .chip-wrapper {
   display:flex;
   justify-content: center;
-  // width: 100%;
+  width: 100%;
   // height: 3rem;
   border-radius: 6px;
   padding:  8px 15px 8px 8px;

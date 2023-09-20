@@ -59,7 +59,7 @@
         </div>
       </template>
       <template #cell(in)="data">
-        <div style="padding-top: .4rem;padding-bottom: .4rem;">
+        <div>
           <chips
             :title="data.value?.activityReport.in == null ? '--' : data.value.activityReport.in"
             :className="[

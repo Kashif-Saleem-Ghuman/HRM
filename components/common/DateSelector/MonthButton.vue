@@ -25,26 +25,26 @@
 </template>
 
 <script>
-import { MONTH_LIST } from "../../../utils/constant/Calander";
+import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
 import BaseDateButton from "./BaseDateButton.vue";
 export default {
   extends: BaseDateButton,
   data() {
     return {
-      options: MONTH_LIST,
+      options: MONTHS_LABEL_VALUE,
     };
   },
   methods: {
     selectOption(option) {
       this.disabled = false;
       this.selected = option.label;
-      this.value = option.key;
+      this.value = option.value;
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
       const month = new Date().getMonth();
       this.selected = this.options[month].label;
-      this.value = this.options[month].key;
+      this.value = this.options[month].value;
     },
     onClose() {
       this.isDropdownOpen = false;

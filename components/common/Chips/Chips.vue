@@ -137,7 +137,8 @@ export default {
 }
 .chip-wrapper {
   display:flex;
-  justify-content: center;
+  text-align: center;
+  // justify-content: center;
   width: 100%;
   // height: 3rem;
   border-radius: 6px;

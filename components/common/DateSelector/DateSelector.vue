@@ -1,0 +1,65 @@
+<template>
+  <div class="date-selector">
+    <YearButton :isDisabled="isYearDisabled" :value.sync="year" />
+    <MonthButton
+      :isDisabled="isMonthDisabled"
+      :disabled.sync="isMonthDisabled"
+      :value.sync="month"
+    />
+  </div>
+</template>
+
+<script>
+import { DateTime } from "luxon";
+export default {
+  data() {
+    return {
+      isYearDisabled: false,
+      isMonthDisabled: false,
+      isWeekDisabled: false,
+      isDayDisabled: false,
+      year: null,
+      month: null,
+    };
+  },
+  computed: {
+    dates() {
+      if (!this.year) return { from: null, to: null };
+
+      if (this.isMonthDisabled) {
+        return this.generateYearDates();
+      }
+      return this.generateMonthDates();
+    },
+  },
+  methods: {
+    generateYearDates() {
+      return {
+        from: DateTime.utc(this.year).startOf("year").toISO(),
+        to: DateTime.utc(this.year).endOf("year").toISO(),
+      };
+    },
+    generateMonthDates() {
+      return {
+        from: DateTime.utc(this.year, Number(this.month))
+          .startOf("month")
+          .toISO(),
+        to: DateTime.utc(this.year, Number(this.month)).endOf("month").toISO(),
+      };
+    },
+  },
+  watch: {
+    dates(val) {
+      this.$emit("update:dates", val);
+    },
+  },
+};
+</script>
+
+<style>
+.date-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+</style>

@@ -5,7 +5,7 @@
     >
       <div class="d-flex align-center">
         <div class="custom_date_picker pt-1">
-          <week-date-picker :dates.sync="weekDates"></week-date-picker>
+          <date-selector :dates.sync="dates" />
         </div>
       </div>
 
@@ -13,8 +13,9 @@
     <div class="scroll_wrapper">
       <div>
         <timesheets-approval-table
+          v-if="dates.from && dates.to"
           type="pending"
-          :dates.sync="weekDates"
+          :dates.sync="dates"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -25,7 +26,7 @@
 export default {
   data() {
     return {
-      weekDates: { from: null, to: null },
+      dates: { from: null, to: null },
     };
   },
 };

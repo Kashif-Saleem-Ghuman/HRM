@@ -4,8 +4,8 @@
       class="d-flex justify-between align-center px-075 bottom_border_wrapper"
     >
       <div class="d-flex align-center">
-        <div class="custom_date_picker pt-1">
-          <week-date-picker :dates.sync="weekDates"></week-date-picker>
+        <div class="custom_date_picker pt-1 pb-1">
+          <date-selector :dates.sync="dates" />
         </div>
       </div>
 
@@ -30,7 +30,7 @@
       <div>
         <timesheets-approval-table
           type="past_due"
-          :dates.sync="weekDates"
+          :dates.sync="dates"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -41,7 +41,7 @@
 export default {
   data() {
     return {
-      weekDates: { from: null, to: null },
+      dates: { from: null, to: null },
     };
   },
 };

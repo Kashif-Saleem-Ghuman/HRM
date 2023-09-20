@@ -4,7 +4,7 @@
       class="d-flex justify-between align-center px-075 bottom_border_wrapper"
     >
       <div class="d-flex align-center">
-        <div class="custom_date_picker pt-1">
+        <div class="custom_date_picker pt-1 pb-1">
           <date-selector :dates.sync="dates" />
         </div>
       </div>

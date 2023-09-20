@@ -29,11 +29,13 @@ import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
 import BaseDateButton from "./BaseDateButton.vue";
 export default {
   extends: BaseDateButton,
+
   data() {
     return {
       options: MONTHS_LABEL_VALUE,
     };
   },
+  
   methods: {
     selectOption(option) {
       this.disabled = false;
@@ -49,14 +51,6 @@ export default {
     onClose() {
       this.isDropdownOpen = false;
       this.disabled = true;
-    },
-  },
-
-  watch: {
-    disabled(newVal, oldVal) {
-      if (newVal != oldVal) {
-        this.$emit("update:disabled", newVal);
-      }
     },
   },
 };

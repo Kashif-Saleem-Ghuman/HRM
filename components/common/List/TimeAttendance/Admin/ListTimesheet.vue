@@ -49,10 +49,10 @@
 
       <template v-for="(day, dayIndex) in weekDays" #[`cell(${day})`]="data">
         <chips
-          class="pt-1 pb-0"
+          class=""
           :key="day"
           :title="getWeekdayValue(data.value?.weekData?.[dayIndex])"
-          :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex])]"
+          :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex]), 'd-align']"
         ></chips>
       </template>
 
@@ -197,6 +197,10 @@ export default {
 </script>
   
   <style lang="scss">
+  .d-align{
+    display: flex;
+    justify-content: center;
+  }
 .td_row_wrapper {
   padding: 4px 8px;
   margin-right: 10px;

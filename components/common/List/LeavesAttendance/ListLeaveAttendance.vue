@@ -11,7 +11,7 @@
         </div>
       </template> -->
     <template #cell(leavetype)="data">
-      <div class="text-dark upper-case" style="text-align: left;">
+      <div class="text-dark upper-case" style="margin-left: -8px;">
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
@@ -24,6 +24,7 @@
               ? 'sun-solid'
               : ''
           "
+          
           :variantIcon="
             data.value.status == 'approved'
               ? 'success'

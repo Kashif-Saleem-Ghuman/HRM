@@ -43,7 +43,7 @@ import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      format: "MMM D, YYYY",
+      format: "dddd, MM MMMM, YYYY",
       date: format(new Date(), "dddd, MM MMMM, YYYY"),
       loading: true,
       employees: [],
@@ -60,7 +60,7 @@ export default {
     },
 
     onDateChange(value) {
-      const date = value ? format(new Date(value), "YYYY-MM-DD") : null;
+      const date = value ? format(new Date(value), "DD-MM-YYYY") : null;
       this.date = date;
       this.generateOrganizationEntries();
     },
@@ -90,6 +90,6 @@ export default {
 <style lang="scss">
 .vdpComponent__input{
   background-color: #F2F2F5 !important;
-  width: 280px !important;
+  width: 300px !important;
 }
 </style>

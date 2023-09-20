@@ -91,6 +91,7 @@ export default {
   data() {
     return {};
   },
+  
   methods: {
     bookmarkButton() {
       // console.log(this.users, "calllled");
@@ -101,6 +102,7 @@ export default {
     moreButton() {
       alert("More Button called");
     },
+    
   },
 };
 </script>

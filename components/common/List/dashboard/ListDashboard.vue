@@ -33,6 +33,7 @@
               :phone="data.value.phone"
               @viewProfile="viewProfile(data.value.id)"
               @sendInvite="sendInvite"
+              @sendMessage="sendMessage(data.value.userId)"
             ></user-info-card>
           </div>
         </div>
@@ -67,6 +68,7 @@
               data.value?.activityReport.vacation ? 'chip-wrapper__bgvacation' : '',
               data.value?.activityReport.absent ? 'chip-wrapper__bgabsentpink' : '',
               data.value?.activityReport.in == null ? 'chip-wrapper__bggray' : '',
+              'd-align'
             ]"
           ></chips>
         </div>
@@ -78,6 +80,7 @@
           :className="[
             data.value?.activityReport.out ? 'chip-wrapper__bgout' : '',
             data.value?.activityReport.out == null ? 'chip-wrapper__bggray' : '',
+            'd-align'
           ]"
         ></chips>
         </div>
@@ -88,6 +91,7 @@
           :className="[
             data.value?.activityReport.break >= '00:02' ? 'chip-wrapper__bgsucess' : '',
             data.value?.activityReport.break == null ? 'chip-wrapper__bggray' : '',
+            'd-align'
           ]"
         ></chips>
       </template>
@@ -133,6 +137,12 @@ export default {
     dateCheck,
     close() {
       this.timesheetModal = false;
+    },
+    sendMeet(){
+      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    },
+    sendMessage(id){
+      window.open('https://dev-chat.business-in-a-box.com/directs/'+ id, "_blank")
     },
     getTotalHours(minutes) {
       if (minutes == 0 || !minutes) return 0

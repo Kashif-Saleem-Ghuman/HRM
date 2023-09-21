@@ -36,8 +36,9 @@
               :jobTitle="data.value.jobTitle"
               :email="data.value.email"
               :phone="data.value.phone"
-              @viewProfile="viewProfile(data.value.id)"
+              @viewProfile="viewProfile(data.value.userId)"
               @sendInvite="sendInvite"
+              @sendMessage="sendMessage(data.value.userId)"
             ></user-info-card>
           </div>
         </div>
@@ -93,6 +94,10 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
+import {
+  sendMeet,
+  sendMessage,
+} from "../../../utils/functions/functions_lib";
 export default {
   props: {
     userList: {
@@ -128,15 +133,17 @@ export default {
     }),
   },
   methods: {
-    test(item) {
-      var teamNames = "";
-      this.getTeamListOptions.forEach((element) => {
-        if (element.value == item) {
-          teamNames = element.label;
-        }
-      });
-      return teamNames;
-    },
+    // test(item) {
+    //   var teamNames = "";
+    //   this.getTeamListOptions.forEach((element) => {
+    //     if (element.value == item) {
+    //       teamNames = element.label;
+    //     }
+    //   });
+    //   return teamNames;
+    // },
+    sendMeet,
+  sendMessage,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MM-YYYY");
     },

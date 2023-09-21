@@ -19,7 +19,7 @@
       </div>
       <div class="d-flex px-1" style="margin-top: -10px">
         <button-gray
-          @on-click="sendMessage()"
+          @on-click="sendMessage(form.userId)"
           icon="mail-new"
           variant="gray1"
           class="mr-05"
@@ -28,7 +28,7 @@
           titleClass="button-title"
         ></button-gray>
         <button-gray
-          @on-click="sendMeet()"
+          @on-click="sendMeet(form.userId)"
           icon="device-mobile"
           variant="gray1"
           :scale="0.8"
@@ -169,6 +169,8 @@ import {
   handleInput,
   handleInputObject,
   updateAllData,
+  sendMeet,
+  sendMessage,
 } from "../../../utils/functions/functions_lib";
 
 export default {
@@ -196,24 +198,8 @@ export default {
     handleInput,
     handleInputObject,
     updateAllData,
-    sendMeet() {
-      var genratedId = this.form.userId;
-      var meetId = genratedId.toUpperCase();
-      var id = meetId.match(/.{1,6}/g);
-      var newValue = id.join("-");
-      window.open(
-        "https://dev-connect.business-in-a-box.com/" +
-          newValue +
-          "?webcam=inactive",
-        "_blank"
-      );
-    },
-    sendMessage() {
-      window.open(
-        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
-        "_blank"
-      );
-    },
+    sendMeet,
+  sendMessage,
   },
   computed: {
     ...mapGetters({

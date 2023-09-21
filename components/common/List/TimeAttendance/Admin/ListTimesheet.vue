@@ -20,7 +20,7 @@
               class="mt-auto mb-auto"
               shape="circle"
               :src="data.value.photo"
-              size="3rem"
+              size="2.5rem"
             >
             </bib-avatar>
             <div :id="'id_' + data.value.id" style="" class="userCard">

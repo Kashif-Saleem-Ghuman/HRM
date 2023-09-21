@@ -21,7 +21,7 @@ export default class BaseTimesheetParser {
     const groupedByDate = this.groupTimeEntriesByDate(timeEntries);
     const groupedByWeekDay = {};
     for (let date in groupedByDate) {
-      groupedByWeekDay[DateTime.fromJSDate(new Date(date)).weekday] = groupedByDate[date];
+      groupedByWeekDay[DateTime.fromISO(date).weekday] = groupedByDate[date];
     }
     return groupedByWeekDay;
   }

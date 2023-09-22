@@ -122,10 +122,11 @@
           </div>
         </div>
         <div>
-          <list-day-admin
+          <list-day
             :listToday="todayData"
             v-show="todayListView"
-          ></list-day-admin>
+            @new-entry="handleNewEntry"
+          ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month
             :listMonth="MonthViewData"
@@ -193,6 +194,7 @@ export default {
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       ACTIVITY_DICTIONARY,
+      totalWorkInMS: 0,
       totalWork: '--:--',
       timesheetStatus: '',
     };
@@ -230,22 +232,9 @@ export default {
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("timeattendance/setDailyTimeEntries");
     this.todayData = [];
-    let work = 0; // miliseconds
     for (const timeEntry of this.getDailyTimeEntries) {
-      this.todayData.push({
-        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
-        start: getTimeFromDate(timeEntry.start),
-        end: getTimeFromDate(timeEntry.end),
-        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
-        status: timeEntry.status,
-      });
-      if (timeEntry.activity === 'in') {
-        work += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === 'break') {
-        work -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      }
+      this.handleNewEntry(timeEntry);
     }
-    this.totalWork = formatTime(work / 1000, false);
     this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
     this.activeUserData = this.getActiveUser;
     this.activeUserName =
@@ -256,11 +245,25 @@ export default {
       "Time & Attendance";
 
     this.getTimesheetWidget()
-
   },
   methods: {
     setView() {
       this.view = this.$route.query.view ?? VIEWS[0].value
+    },
+    handleNewEntry(timeEntry) { 
+      this.todayData.push({
+        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
+        start: getTimeFromDate(timeEntry.start),
+        end: getTimeFromDate(timeEntry.end),
+        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
+        status: timeEntry.status,
+      });
+      if (timeEntry.activity === 'in') {
+        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      } else if (timeEntry.activity === 'break') {
+        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      }
+      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
     async getTimesheetWidget() {
       const widget = await getUserTimesheetWidget()

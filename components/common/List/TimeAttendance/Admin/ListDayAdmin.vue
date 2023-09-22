@@ -31,7 +31,6 @@
     <template #cell(start)="data">
       <div class="justify-between text-dark">
         <span>{{data.value.start }}</span>
-        <!-- <span>{{onLoad(data.value.start) }}</span> -->
       </div>
     </template>
     <template #cell(end)="data">
@@ -48,8 +47,7 @@
 </template>
 
 <script>
-import fecha from "fecha";
-import { TABLE_HEAD, TIMESHEET_STATUS } from "../../../../../utils/constant/Constant";
+import { TABLE_HEAD } from "../../../../../utils/constant/Constant";
 
 export default {
   props: {
@@ -78,65 +76,10 @@ export default {
   data() {
     return {
       tableFields: TABLE_HEAD.tHeadMyTimeAttendance,
-      attendanceClass: [],
-      satisfaction: "",
-      userPhotoClick: false,
-      TIMESHEET_STATUS,
     };
   },
   methods: {
-    onLoad(item) {
-      return fecha.format(new Date(item), "YYYY/MM/DD");
-    },
-    handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/profile/" + item.id);
-    },
-    handleAction($event){
-      this.$emit("get-id", $event);
-    },
-    handleAction_Table(data) {
-      console.log(data);
-    },
-    viewProfile(id) {
-      this.$router.push("/profile/" + id);
-    },
-    vclick() {
-      alert("callled");
-    },
-    mouseover() {
-      this.showTooltip = true;
-    },
-    mouseleave() {
-      this.showTooltip = false;
-    },
-    sendInvite() {
-      alert("send invite api call");
-    },
-    
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
-
   },
 };
 </script>
 
-<style lang="scss">
-.info_wrapper {
-  color: $black;
-  font-weight: normal;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.description {
-  font-size: 14px;
-  font-weight: normal;
-  color: $black;
-}
-</style>

@@ -204,6 +204,7 @@ export default {
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
+      getActiveUserData:"token/getActiveUserData"
     }),
   },
   async created() {

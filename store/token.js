@@ -3,6 +3,7 @@ export const state = () => ({
   activeTab:'Employee Profile',
   userRole:'',
   userId:'',
+  activeUserData:[],
 })
 export const getters = {
   getAccessToken(state) {
@@ -16,6 +17,9 @@ export const getters = {
   },
   getUserId(state){
     return state.userId
+  },
+  getActiveUserData(state){
+    return state.activeUserData
   }
 }
 export const mutations = {
@@ -32,6 +36,9 @@ export const mutations = {
   SET_ACTIVE_USER_ID(state, value) {
     state.userId = value
   },
+  SET_ACTIVE_USER_DATA(state, value) {
+    state.activeUserData = value
+  },
 }
 
 export const actions = {
@@ -46,6 +53,10 @@ export const actions = {
   },
   setActiveUserId(context, userId) {
     context.commit('SET_ACTIVE_USER_ID', userId)
+  },
+  setActiveUserData(context, activeUserData) {
+    context.commit('SET_ACTIVE_USER_DATA', activeUserData)
+    console.log(activeUserData, "activeUserDataactiveUserDataactiveUserDataactiveUserData")
   }
 }
 

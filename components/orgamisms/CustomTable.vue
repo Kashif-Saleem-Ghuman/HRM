@@ -116,17 +116,13 @@
       </tr>
     </template>
     <tr v-show="showTotal" style="padding: 16px !important;" >
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
+      <td :colspan="colspan" class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
       <td class="" style="text-align: left; font-weight: bold;">{{ totalValue }}</td>
     </tr>
     <tr v-show="showTotal" style="padding: 16px !important;">
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="pl-1 " style="text-align: right; padding: 16px !important;" >Status</td>
+      
+      <!-- <td></td> -->
+      <td :colspan="colspan" class="pl-1 " style="text-align: right; padding: 16px !important;" >Status</td>
       <td class="" style="text-align: left; font-weight: bold;">{{ status }}</td>
     </tr>
   </table>
@@ -151,6 +147,9 @@ export default {
       default() {
         return false;
       },
+    },
+    colspan:{
+      type:Number
     },
     checkBox: {
       type: String,

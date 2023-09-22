@@ -4,7 +4,6 @@
     class="border-gray4 bg-white"
     :sections="userList"
     :hide-no-column="true"
-    @item-clicked="handleItemClick_Table"
   >
     <!-- <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -36,8 +35,8 @@
               :jobTitle="data.value.jobTitle"
               :email="data.value.email"
               :phone="data.value.phone"
-              @viewProfile="viewProfile(data.value.userId)"
-              @sendInvite="sendInvite"
+              @viewProfile="viewProfile(data.value.id)"
+              @sendMeet="sendMeet(data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
             ></user-info-card>
           </div>
@@ -147,10 +146,10 @@ export default {
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MM-YYYY");
     },
-    handleItemClick_Table($event, keyI, item) {
-      localStorage.setItem('clickedUserId', item.id)
-      this.$router.push("/profile/" + item.id);
-    },
+    // handleItemClick_Table($event, keyI, item) {
+    //   localStorage.setItem('clickedUserId', item.id)
+    //   this.$router.push("/profile/" + item.id);
+    // },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },

@@ -5,12 +5,11 @@
     >
       <section-header-left
         :title="
-          form.firstName == undefined
+          name == undefined
             ? '---'
-            : form.firstName + ' ' + form.lastName
+            : name.firstName + ' ' + name.lastName
         "
-        :avatar="form.photo"
-        headerRight="headerRight"
+        :avatar="name.photo"
         :key="topNav"
       ></section-header-left>
     </div>
@@ -53,6 +52,7 @@ export default {
       form: {},
       id: "",
       topNav:0,
+      name:{},
     };
   },
   async created() {
@@ -60,18 +60,22 @@ export default {
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     await this.$store.dispatch("employee/setUser", this.id);
     this.form = this.getUser;
+    this.name = this.getUser
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
-       this.$store.dispatch("employee/setUser", this.id);
-    this.form = this.getUser;
+    //    this.$store.dispatch("employee/setUser", this.id);
+    // this.form = this.getUser;
       this.topNav += 1;
-      console.log("this.topNav", this.topNav, this.form)
+      console.log("this.topNav", this.getActiveUserData)
+      this.name = this.getActiveUserData
     });
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
+      getActiveUserData:"token/getActiveUserData"
     }),
+
   },
   methods: {
     onTabChange(tab) {

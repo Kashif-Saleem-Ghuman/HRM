@@ -32,7 +32,7 @@
               :email="data.value.email"
               :phone="data.value.phone"
               @viewProfile="viewProfile(data.value.id)"
-              @sendInvite="sendInvite"
+              @sendMeet="sendMeet(data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
             ></user-info-card>
           </div>
@@ -112,6 +112,10 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import{dateCheck} from '../../../../utils/functions/functions_lib'
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
+import {
+  sendMeet,
+  sendMessage,
+} from "../../../../utils/functions/functions_lib";
 export default {
   props: {
     userList: {
@@ -135,14 +139,10 @@ export default {
   
   methods: {
     dateCheck,
+    sendMeet,
+  sendMessage,
     close() {
       this.timesheetModal = false;
-    },
-    sendMeet(){
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
-    },
-    sendMessage(id){
-      window.open('https://dev-chat.business-in-a-box.com/directs/'+ id, "_blank")
     },
     getTotalHours(minutes) {
       if (minutes == 0 || !minutes) return 0

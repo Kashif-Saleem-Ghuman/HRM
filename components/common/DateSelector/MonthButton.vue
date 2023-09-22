@@ -1,5 +1,30 @@
 <template>
   <div>
+    <div class="drop-menu">
+    <div style="position: relative">
+      <bib-button
+        :label="selected"
+        variant="light"
+        @click="toggleDropdown"
+        v-click-outside="clickOutside"
+      ></bib-button>
+      <div class="menu-items">
+        <ul v-if="isDropdownOpen">
+          <li
+            class="d-flex align-center"
+            v-for="(option, index) in options"
+            :key="index"
+            @click="selectOption(option)"
+            style="width: 150px;"
+          >
+            <span>{{ option.label }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<!--     
+
     <button class="dropdown-button" :class="{ disabled: disabled }">
       <span class="text" @click="toggleDropdown">{{ selected }}</span>
 
@@ -20,7 +45,7 @@
       >
         {{ option.label }}
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -35,8 +60,11 @@ export default {
       options: MONTHS_LABEL_VALUE,
     };
   },
-  
+
   methods: {
+    clickOutside() {
+      this.isDropdownOpen = false;
+    },
     selectOption(option) {
       this.disabled = false;
       this.selected = option.label;
@@ -55,3 +83,68 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.black-custom {
+  display: inline-block;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.25rem 1rem !important;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  user-select: none;
+  $self: &;
+  &--lightsuccess {
+    background-color: #000 !important;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    // max-width: 140px;
+    color: #fff !important;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      color: #fff !important; 
+    }
+    &:focus,
+    &:active,
+    &:focus-within {
+      box-shadow: 0 0 0 0.2rem #207f1d29 !important;
+    }
+  }
+  &--pending {
+    background-color: #f3ced0 !important;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    // max-width: 140px;
+    color: #e6000e !important;
+    svg {
+      fill: #e6000e !important;
+    }
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      color: #e6000e !important;
+    }
+    &:focus,
+    &:active,
+    &:focus-within {
+      box-shadow: 0 0 0 0.2rem #f4c2c4 !important;
+    }
+  }
+  
+  &--disabled {
+    cursor: not-allowed;
+    display: flex; /* For IE11/ MS Edge bug */
+    align-items: center;
+    pointer-events: none;
+    text-decoration: none;
+    
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-<div id="time-attendance-wrapper">
+<div id="time-attendance-wrapper" class="click-menu">
   <div class="scroll_wrapper" id="scroll_wrapper">
     <div class="d-flex align-center px-1 py-05 bottom_border_wrapper">
       <label class="pr-05">View:</label>
@@ -167,12 +167,10 @@ export default {
     },
     viewChange(e) {
       if (e == 'Today') {
-        alert('called');
         this.todayListView = true;
         this.weekListView = false;
         this.monthListView = false;
         this.ViewTitle = 'Today';
-        this.getTimeAttendanceDaily();
       }
       if (e == 'Week') {
         this.todayListView = false;
@@ -239,3 +237,51 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.click-menu {
+  .button-items {
+    display: flex;
+    align-items: center;
+
+    label {
+      padding-right: 5px;
+      font-size: 14px;
+    }
+    select {
+      font-size: 14px;
+      width: 100%;
+      border: 1px solid #f2f2f5;
+      border-radius: 0.2rem;
+      background-color: #f2f2f5;
+      color: #6d7278;
+      padding: 10px;
+      border-radius: 10px;
+      border-right: 10px solid transparent;
+      option {
+        background-color: #fff;
+        color: #6d7278;
+      }
+    }
+  }
+  .menu-items {
+    background-color: #fff;
+    width: 97px;
+    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
+    border-radius: 10px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    ul {
+      margin: 0;
+      padding: 0;
+      border: var(--bib-gray3) solid 1px;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
+      background: var(--bib-white);
+      li {
+        padding: 5px 0;
+      }
+    }
+  }
+}
+</style>

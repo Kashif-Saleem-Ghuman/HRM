@@ -84,13 +84,13 @@ export async function updateAllData() {
     .then((res) => {
       // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       // this.openPopupNotification(1);
-      // this.$store.dispatch("employee/setUser" , { id: this.$route.params.id})
-      this.$nuxt.$emit('top-nav-key')
+      this.$store.dispatch("token/setActiveUserData" ,  res )
       this.localData = data
       this.form = res;
       this.loading = false;
       this.isFlag = false;
-      
+      this.$nuxt.$emit('top-nav-key')
+
       this.updateForm = {};
     })
     .catch((err) => {

@@ -4,7 +4,6 @@
     class="border-gray4 bg-white"
     :sections="userList"
     :hide-no-column="true"
-    @item-clicked="handleItemClick_Table"
   >
     <!-- <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -21,13 +20,24 @@
           v-on:mouseover="profiletab('id_' + data.value.id)"
           v-on:mouseleave="profiletab('id_' + data.value.id, true)"
         >
-          <bib-avatar
-            class="mt-auto mb-auto"
-            shape="circle"
-            :src="data.value.photo"
-            size="2.5rem"
-          >
-          </bib-avatar>
+        <bib-avatar
+              variant="secondary-sub3"
+              :text="
+                data.value.firstName.slice(0, 1) +
+                data.value.lastName.slice(0, 1)
+              "
+              text-variant="primary"
+              size="3rem"
+              v-show="data.value.photo === null"
+            ></bib-avatar>
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
+              :src="data.value.photo"
+              v-show="data.value.photo != null"
+              size="3rem"
+            >
+            </bib-avatar>
           <div :id="'id_' + data.value.id" style="" class="userCard">
             <user-info-card
               :src="data.value.photo"
@@ -37,7 +47,8 @@
               :email="data.value.email"
               :phone="data.value.phone"
               @viewProfile="viewProfile(data.value.id)"
-              @sendInvite="sendInvite"
+              @sendMeet="sendMeet(data.value.userId)"
+              @sendMessage="sendMessage(data.value.userId)"
             ></user-info-card>
           </div>
         </div>
@@ -93,6 +104,10 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
+import {
+  sendMeet,
+  sendMessage,
+} from "../../../utils/functions/functions_lib";
 export default {
   props: {
     userList: {
@@ -128,22 +143,24 @@ export default {
     }),
   },
   methods: {
-    test(item) {
-      var teamNames = "";
-      this.getTeamListOptions.forEach((element) => {
-        if (element.value == item) {
-          teamNames = element.label;
-        }
-      });
-      return teamNames;
-    },
+    // test(item) {
+    //   var teamNames = "";
+    //   this.getTeamListOptions.forEach((element) => {
+    //     if (element.value == item) {
+    //       teamNames = element.label;
+    //     }
+    //   });
+    //   return teamNames;
+    // },
+    sendMeet,
+  sendMessage,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MM-YYYY");
     },
-    handleItemClick_Table($event, keyI, item) {
-      localStorage.setItem('clickedUserId', item.id)
-      this.$router.push("/profile/" + item.id);
-    },
+    // handleItemClick_Table($event, keyI, item) {
+    //   localStorage.setItem('clickedUserId', item.id)
+    //   this.$router.push("/profile/" + item.id);
+    // },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },

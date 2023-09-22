@@ -7,6 +7,7 @@
       @click="backRouter"
       icon_bg="bg-secondary-sub2"
       style="cursor: pointer;"
+      v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
     <span class="mr-1 title-text" v-if="title">{{ title }}</span>
@@ -86,6 +87,9 @@ export default {
     },
     items: {
       type: Array,
+    },
+    back:{
+      type:String
     },
   },
   data() {

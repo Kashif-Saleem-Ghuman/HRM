@@ -90,3 +90,21 @@ export function getCurrentWeek() {
 
 console.log(firstday, lastday, "current week")
 }
+export function sendMeet(userId) {
+  var genratedId = userId;
+  var meetId = genratedId.toUpperCase();
+  var id = meetId.match(/.{1,6}/g);
+  var newValue = id.join("-");
+  window.open(
+    "https://dev-connect.business-in-a-box.com/" +
+      newValue +
+      "?webcam=inactive",
+    "_blank"
+  );
+};
+export function sendMessage(userId) {
+  window.open(
+    "https://dev-chat.business-in-a-box.com/directs/" + userId,
+    "_blank"
+  );
+}

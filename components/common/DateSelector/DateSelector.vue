@@ -1,5 +1,6 @@
 <template>
   <div class="date-selector">
+    <span>View:</span>
     <YearButton :isDisabled="isYearDisabled" :value.sync="year" />
     <MonthButton
       :isDisabled="isMonthDisabled"
@@ -60,6 +61,6 @@ export default {
 .date-selector {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 8px;
 }
 </style>

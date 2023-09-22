@@ -11,6 +11,7 @@
     :showTotal=true
     :totalValue="totalWork"
     :status="status"
+    :colspan="3"
   >
     <template v-if="includeCheckbox" #cell_action="data">
       <div class="d-flex justify-center align-center">

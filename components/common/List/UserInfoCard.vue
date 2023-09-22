@@ -39,12 +39,12 @@
           label="Meet"
           variant="light"
           class="mr-05"
-          v-on:click="sendMeet()"
+          v-on:click="$emit('sendMeet')"
         ></bib-button>
         <bib-button
           label="Send Message"
           variant="success"
-          v-on:click="sendMessage()"
+          v-on:click="$emit('sendMessage')"
         ></bib-button>
       </div>
     </div>
@@ -81,12 +81,6 @@ export default {
     employee() {
       alert("import called");
     },
-    sendMeet(){
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
-    },
-    sendMessage(){
-      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")
-    }
   },
 };
 </script>

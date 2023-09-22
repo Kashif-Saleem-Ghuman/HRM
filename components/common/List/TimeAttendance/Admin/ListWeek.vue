@@ -6,6 +6,7 @@
         :sections="activityReports"
         :hide-no-column="true"
         :showTotal=true
+        :colspan="4"
       >
         <template #cell(name)="data">
           <div class="info_wrapper text-left pl-1">

@@ -49,7 +49,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .info-card-leave-wrapper {
   padding: 24px;
   font-size: 14px;

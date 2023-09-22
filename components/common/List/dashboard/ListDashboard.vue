@@ -8,44 +8,56 @@
     >
       <template #cell(name)="data">
         <div
-        class="d-flex px-05 p-025 align-center text-left gap-05"
-        style="position: relative; width: 220px"
-      >
-        <div
-          style="cursor: pointer"
-          v-on:mouseover="profiletab('id_' + data.value.id)"
-          v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+          class="d-flex px-05 p-025 align-center text-left gap-05"
+          style="position: relative; width: 220px"
         >
-          <bib-avatar
-            class="mt-auto mb-auto"
-            shape="circle"
-            :src="data.value.photo"
-            size="2.5rem"
+          <div
+            style="cursor: pointer"
+            v-on:mouseover="profiletab('id_' + data.value.id)"
+            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
-          </bib-avatar>
-          <div :id="'id_' + data.value.id" style="" class="userCard">
-            <user-info-card
+            <bib-avatar
+              variant="secondary-sub3"
+              :text="
+                data.value.firstName.slice(0, 1) +
+                data.value.lastName.slice(0, 1)
+              "
+              text-variant="primary"
+              size="3rem"
+              v-show="data.value.photo === null"
+              style="font-weight: 500;"
+            ></bib-avatar>
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
               :src="data.value.photo"
-              :firstName="data.value.firstName"
-              :lastName="data.value.lastName"
-              :jobTitle="data.value.jobTitle"
-              :email="data.value.email"
-              :phone="data.value.phone"
-              @viewProfile="viewProfile(data.value.id)"
-              @sendMeet="sendMeet(data.value.userId)"
-              @sendMessage="sendMessage(data.value.userId)"
-            ></user-info-card>
+              v-show="data.value.photo != null"
+              size="3rem"
+            >
+            </bib-avatar>
+            <div :id="'id_' + data.value.id" style="" class="userCard">
+              <user-info-card
+                :src="data.value.photo"
+                :firstName="data.value.firstName"
+                :lastName="data.value.lastName"
+                :jobTitle="data.value.jobTitle"
+                :email="data.value.email"
+                :phone="data.value.phone"
+                @viewProfile="viewProfile(data.value.id)"
+                @sendMeet="sendMeet(data.value.userId)"
+                @sendMessage="sendMessage(data.value.userId)"
+              ></user-info-card>
+            </div>
+          </div>
+          <div class="info_wrapper">
+            <div class="title">
+              {{ data.value.firstName }} {{ data.value.lastName }}
+            </div>
+            <div class="description">
+              {{ data.value.jobTitle }}
+            </div>
           </div>
         </div>
-        <div class="info_wrapper">
-          <div class="title">
-            {{ data.value.firstName }} {{ data.value.lastName }}
-          </div>
-          <div class="description">
-            {{ data.value.jobTitle }}
-          </div>
-        </div>
-      </div>
       </template>
       <template #cell(status)="data">
         <div class="text-dark pl-1">
@@ -54,7 +66,9 @@
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value.active ? 'chip-list-wrapper__sucess' : 'chip-list-wrapper__light',
+              data.value.active
+                ? 'chip-list-wrapper__sucess'
+                : 'chip-list-wrapper__light',
             ]"
           ></chips-list>
         </div>
@@ -62,45 +76,71 @@
       <template #cell(in)="data">
         <div>
           <chips
-            :title="data.value?.activityReport.in == null ? '--' : data.value.activityReport.in"
+            :title="
+              data.value?.activityReport.in == null
+                ? '--'
+                : data.value.activityReport.in
+            "
             :className="[
               data.value?.activityReport.in ? 'chip-wrapper__bgsucess' : '',
-              data.value?.activityReport.vacation ? 'chip-wrapper__bgvacation' : '',
-              data.value?.activityReport.absent ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.activityReport.in == null ? 'chip-wrapper__bggray' : '',
-              'd-align'
+              data.value?.activityReport.vacation
+                ? 'chip-wrapper__bgvacation'
+                : '',
+              data.value?.activityReport.absent
+                ? 'chip-wrapper__bgabsentpink'
+                : '',
+              data.value?.activityReport.in == null
+                ? 'chip-wrapper__bggray'
+                : '',
+              'd-align',
             ]"
           ></chips>
         </div>
       </template>
       <template #cell(out)="data">
-        <div >
+        <div>
           <chips
-          :title="data.value?.activityReport.out == null ? '--' : data.value?.activityReport.out"
-          :className="[
-            data.value?.activityReport.out ? 'chip-wrapper__bgout' : '',
-            data.value?.activityReport.out == null ? 'chip-wrapper__bggray' : '',
-            'd-align'
-          ]"
-        ></chips>
+            :title="
+              data.value?.activityReport.out == null
+                ? '--'
+                : data.value?.activityReport.out
+            "
+            :className="[
+              data.value?.activityReport.out ? 'chip-wrapper__bgout' : '',
+              data.value?.activityReport.out == null
+                ? 'chip-wrapper__bggray'
+                : '',
+              'd-align',
+            ]"
+          ></chips>
         </div>
       </template>
       <template #cell(breaks)="data">
         <chips
-          :title="data.value?.activityReport.break == null ? '--' : data.value?.activityReport.break"
+          :title="
+            data.value?.activityReport.break == null
+              ? '--'
+              : data.value?.activityReport.break
+          "
           :className="[
-            data.value?.activityReport.break >= '00:02' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.activityReport.break == null ? 'chip-wrapper__bggray' : '',
-            'd-align'
+            data.value?.activityReport.break >= '00:02'
+              ? 'chip-wrapper__bgsucess'
+              : '',
+            data.value?.activityReport.break == null
+              ? 'chip-wrapper__bggray'
+              : '',
+            'd-align',
           ]"
         ></chips>
       </template>
       <template #cell(total)="data">
         <chips
           :title="
-            data.value?.activityReport.total == null ? '--' : getTotalHours(data.value?.activityReport.total)
+            data.value?.activityReport.total == null
+              ? '--'
+              : getTotalHours(data.value?.activityReport.total)
           "
-           style="height: auto; color: #000;text-align: right;"
+          style="height: auto; color: #000; text-align: right"
         ></chips>
       </template>
     </custom-table>
@@ -109,7 +149,7 @@
 
 <script>
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
-import{dateCheck} from '../../../../utils/functions/functions_lib'
+import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
 import {
@@ -136,18 +176,18 @@ export default {
       filteredData: [],
     };
   },
-  
+
   methods: {
     dateCheck,
     sendMeet,
-  sendMessage,
+    sendMessage,
     close() {
       this.timesheetModal = false;
     },
     getTotalHours(minutes) {
-      if (minutes == 0 || !minutes) return 0
-      const hours = minutes / 60
-      return formatHoursToHHMM(hours)
+      if (minutes == 0 || !minutes) return 0;
+      const hours = minutes / 60;
+      return formatHoursToHHMM(hours);
     },
     itemCliked(item) {
       document.querySelector("#timesheetid_" + item).style = "display:none";

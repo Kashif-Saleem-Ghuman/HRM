@@ -43,8 +43,8 @@ import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      format: "dddd, MM MMMM, YYYY",
-      date: format(new Date(), "dddd, MM MMMM, YYYY"),
+      format: "dddd, DD, MMMM, YYYY",
+      date: format(new Date(), "dddd, DD, MMMM, YYYY"),
       loading: true,
       employees: [],
       maxDate: DateTime.now().endOf("day").toISO(),
@@ -60,16 +60,14 @@ export default {
     },
 
     onDateChange(value) {
-      const date = value ? format(new Date(value), "DD-MM-YYYY") : null;
+      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
       this.date = date;
       this.generateOrganizationEntries();
     },
 
     async generateOrganizationEntries() {
       this.loading = true;
-      let date = this.date;
-      date = format(new Date(), "YYYY-MM-DD")
-      console.log(date, "YYYY-MM-DDYYYY-MM-DDYYYY-MM-DD")
+      let date = format(new Date(this.date), "YYYY-MM-DD")
       const { employees } = await getTimeAttendance({ date });
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);

@@ -35,7 +35,7 @@
       <!-- Weekday cells -->
       <template v-for="day in weekDays" #[`cell(${day})`]="data">
         <chips
-          :key="day"
+          :key="day + random(day)"
           :title="data.value[day] ? formatHoursToHHMM(data.value[day]) :  '--'"
           :className="[getDayClassName(data.value[day])]"
         ></chips>
@@ -76,6 +76,7 @@ import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
 TABLE_HEAD,
 TIMESHEET_STATUS,
+TIMESHEET_STATUSES,
 WEEK_DAY,
 } from "../../../../../utils/constant/Constant.js";
 import {
@@ -83,9 +84,12 @@ approveTimesheet,
 getPastDueTimesheets,
 getPendingTimesheets,
 rejectTimesheet,
+approvePastDueTimesheet
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
+import { random } from "lodash"
+
 const PENDING_TYPE = "pending";
 const PAST_DUE_TYPE = "past_due";
 
@@ -136,6 +140,7 @@ export default {
   methods: {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
+    random,
 
     addTypeToTimesheetStatusOptions() {
       this.timesheetStatusOptions = [
@@ -145,13 +150,21 @@ export default {
     },
     async onStatusChange(event, data) {
       const id = data?.value?.id;
+      const status = data?.value?.status
       const confirm = window.confirm(
         `Are you sure you want to ${event} the selected timesheet?`
       );
 
       if (confirm) {
         if (event == TIMESHEET_STATUS["approved"].value) {
-          await approveTimesheet({ id });
+
+          if (status == TIMESHEET_STATUSES.PAST_DUE &&  id == '-1') {
+            const date = data?.value?.start
+            await approvePastDueTimesheet({ id, date, employeeId: data.value.employeeId})
+          } else {
+            await approveTimesheet({ id });
+          }
+          
         } else if (event == TIMESHEET_STATUS["rejected"].value) {
           await rejectTimesheet({ id });
         }

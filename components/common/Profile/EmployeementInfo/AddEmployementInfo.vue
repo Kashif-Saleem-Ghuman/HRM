@@ -18,7 +18,7 @@
           label="Employee number"
           :value="employeeNumber"
           placeholder=""
-          @change="$emit('input', $event, 'employeNumber')"
+          @change="$emit('input', $event, 'employeeNo')"
           :disabled="inActive"
         ></bib-input>
       </div>

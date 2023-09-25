@@ -45,7 +45,7 @@
                 <employee-profile
                   :firstName="form.firstName"
                   :lastName="form.lastName"
-                  :maritalStatus="form.marital"
+                  :maritalStatus="form.maritalStatus"
                   :maritalOptions="maritalOptions"
                   :genderOptions="genderOptions"
                   :gender="form.gender"

@@ -78,14 +78,14 @@ export async function updateAllData() {
     .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
     })
     .then((res) => {
-      // console.log(data, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
+      console.log(res.maritalStatus, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
       // this.openPopupNotification(1);
-      this.$store.dispatch("token/setActiveUserData" ,  res )
-      this.localData = data
+      // this.$store.dispatch("token/setActiveUserData" ,  res )
+      this.name = res
       this.form = res;
       this.loading = false;
       this.isFlag = false;

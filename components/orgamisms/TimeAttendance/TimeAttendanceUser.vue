@@ -111,11 +111,12 @@
               <div class="custom_date_picker">
                 <!-- <div class="mr-05">Date:</div> -->
                 <bib-datetime-picker
-                  v-model="date2"
+                  v-model="todayDate"
                   :format="format"
                   :parseDate="parseDate"
                   :formatDate="formatDate"
                   class="custom_date_picker"
+                  @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
             </div>
@@ -126,6 +127,7 @@
             :listToday="todayData"
             v-show="todayListView"
             @new-entry="handleNewEntry"
+            :date="new Date(todayDate)"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month
@@ -143,10 +145,9 @@ import { ACTIVITY_DICTIONARY } from "../../../utils/constant/TimesheetData"
 import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
 import {
   TIMESHEET_DATA,
-  DAY_VIEW_DATA,
   WEEK_VIEW_DATA,
 } from "../../../utils/constant/TimesheetData.js";
-import { MONTH_LIST, YEAR_LIST } from "../../../utils/constant/Calander";
+import { YEAR_LIST } from "../../../utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
@@ -191,8 +192,8 @@ export default {
       localData: [],
       getCurrentDate: "",
       date: null,
-      format: "MMM D, YYYY",
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
+      format: "YYYY-MM-DD",
+      todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
       ACTIVITY_DICTIONARY,
       totalWorkInMS: 0,
       totalWork: '--:--',
@@ -200,7 +201,7 @@ export default {
     };
   },
   async created() {
-    this.getCurrentDate = this.date2;
+    this.getCurrentDate = this.todayDate;
     // await this.getTimeAttandance();
     console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
 
@@ -230,13 +231,8 @@ export default {
     this.setView()
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
-    await this.$store.dispatch("timeattendance/setDailyTimeEntries");
-    this.todayData = [];
-    for (const timeEntry of this.getDailyTimeEntries) {
-      this.handleNewEntry(timeEntry);
-    }
-    this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
     this.activeUserData = this.getActiveUser;
+    await this.fillTimeEntries();
     this.activeUserName =
       this.activeUserData.firstName +
       " " +
@@ -289,16 +285,12 @@ export default {
       this.$router.push("/profile/" + id);
     },
     parseDate(dateString, format) {
+      console.log({dateString})
       return fecha.parse(dateString, format);
     },
     formatDate(dateObj, format) {
+      console.log({dateObj})
       return fecha.format(dateObj, format);
-    },
-    onChange(value) {
-      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      this.$store.dispatch("date/setActiveDate", date);
-      this.getCurrentDate = date;
-      this.getTimeAttandance();
     },
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
@@ -312,7 +304,18 @@ export default {
     },
     closeClock() {
       this.clockModal = false;
-    }
+    },
+    async fillTimeEntries() {
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries", new Date(this.todayDate));
+      this.todayData = [];
+      for (const timeEntry of this.getDailyTimeEntries) {
+        this.handleNewEntry(timeEntry);
+      }
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
+    },
+    async dateSelection(event){
+      await this.fillTimeEntries();      
+    },
   },
 
   watch: {

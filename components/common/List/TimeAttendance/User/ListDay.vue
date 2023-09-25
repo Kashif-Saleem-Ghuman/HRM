@@ -87,7 +87,11 @@ export default {
     listToday: {
       type: Array,
       default: [],
-    }
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
   },
   data() {
     return {
@@ -136,7 +140,7 @@ export default {
     hoursAndMinutesToJSDate(hours, minutes) {
       return new Date(
         new Date(
-          new Date().setHours(hours)
+          new Date(this.date).setHours(hours)
         ).setMinutes(minutes)
       );
     },
@@ -161,12 +165,14 @@ export default {
       );
       const newEntry = await this.makeTimeEntry(
         this.newActivity.activity.value,
-        new Date().toISOString(),
+        new Date(this.date).toISOString(),
         startDate.toISOString(),
         endDate.toISOString(),
       );
-      this.$emit('new-entry', newEntry);
-      this.newActivityReset()
+      if (newEntry) {
+        this.$emit('new-entry', newEntry);
+        this.newActivityReset()
+      }
     }
   },
   computed: {

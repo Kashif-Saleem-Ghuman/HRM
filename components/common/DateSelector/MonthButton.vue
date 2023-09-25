@@ -6,6 +6,7 @@
         :label="selected"
         variant="light"
         @click="toggleDropdown"
+        icon="close"
         v-click-outside="clickOutside"
       ></bib-button>
       <div class="menu-items">

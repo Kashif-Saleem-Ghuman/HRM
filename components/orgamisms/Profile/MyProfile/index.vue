@@ -5,11 +5,12 @@
     >
       <section-header-left
         :title="
-          form.firstName == undefined
-            ? 'Add employee'
-            : form.firstName + ' ' + form.lastName
+          name.firstName == undefined
+            ? '--'
+            : name.firstName + ' ' + name.lastName
         "
-        headerRight="headerRight"
+        :avatar="name.photo"
+        :key="topNav"
       ></section-header-left>
     </div>
     <div class="section-wrapper custom-input">
@@ -46,7 +47,7 @@
                 </div>
                 <div class="d-flex px-1" style="margin-top: -10px">
                   <button-gray
-                    @on-click="sendMessage()"
+                    @on-click="sendMessage(name.userId)"
                     icon="mail-new"
                     variant="gray1"
                     class="mr-05"
@@ -55,7 +56,7 @@
                     titleClass="button-title"
                   ></button-gray>
                   <button-gray
-                    @on-click="sendMeet()"
+                    @on-click="sendMeet(name.userId)"
                     icon="device-mobile"
                     variant="gray1"
                     :scale="0.8"
@@ -70,13 +71,13 @@
                       <div id="my-profile-wrapper">
                         <div class="py-cus row-custom">
                           <employee-profile
-                            :firstName="form.firstName"
-                            :lastName="form.lastName"
-                            :maritalStatus="form.marital"
-                            :maritalOptions="maritalOption"
-                            :genderOptions="genderOptions"
-                            :gender="form.gender"
-                            :dob="form.dateOfBirth"
+                           :firstName="form.firstName"
+                  :lastName="form.lastName"
+                  :maritalStatus="form.maritalStatus"
+                  :maritalOptions="maritalOption"
+                  :genderOptions="genderOptions"
+                  :gender="form.gender"
+                  :dob="form.dateOfBirth"
                             @input="handleInput"
                           ></employee-profile>
                         </div>
@@ -361,17 +362,8 @@ import {
   STATES,
   WEEK_DAY,
 } from "../../../../utils/constant/Constant.js";
+
 import {
-  TIMESHEET_DATA,
-  DAY_VIEW_DATA,
-  WEEK_VIEW_DATA,
-} from "../../../../utils/constant/TimesheetData.js";
-import {
-  deleteLevaeVacation,
-  getUserLeavesDetail,
-  getTimesheet,
-  getTimeAttendanceDaily,
-  getTimeAttendanceCustomRange,
   addFiles,
   getFiles,
 } from "../../../../utils/functions/functions_lib_api";
@@ -381,44 +373,24 @@ import {
   updateAllData,
   handleInput,
   handleInputObject,
-  getCurrentYear,
-  getCurrentDateMonth,
-  getCurrentWeek,
+  sendMeet,
+  sendMessage,
 } from "../../../../utils/functions/functions_lib.js";
-import { DELETE_MESSAGE } from "../../../../utils/constant/ConfirmationMessage";
 
 import getJson from "../../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { MONTH_LIST, YEAR_LIST } from "../../../../utils/constant/Calander";
-import { INFO_CARD_DATA } from "../../../../utils/constant/DashboardData";
-
 import fecha from "fecha";
 export default {
   data() {
     return {
       id: "",
-      ViewTitle: "Today",
-      monthList: YEAR_LIST,
-      currentYear: fecha.format(new Date(), "YYYY"),
-      infoCardData: INFO_CARD_DATA,
-      todayData: DAY_VIEW_DATA,
-      MonthViewData: TIMESHEET_DATA,
-      weekDataView: WEEK_VIEW_DATA,
-      todayListView: true,
-      weekListView: false,
-      monthListView: false,
-      show: false,
       loading: false,
-      showYear: false,
-      activeRole: this.activeUserRole === "ADMIN" ? true : false,
-      showButton: false,
       popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
-      webPortalAccess: "true",
-      personalTabItem: EMPLOYEE_PROFILE_TAB,
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
+      personalTabItem: EMPLOYEE_PROFILE_TAB,
       genderOptions: SELECT_OPTIONS.genderOptions,
       maritalOption: SELECT_OPTIONS.maritalStatusOptions,
       statusOptions: SELECT_OPTIONS.esstatusOptions,
@@ -430,17 +402,13 @@ export default {
       activeTab: "Employee Profile",
       // Employee profile state
       dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
-      fullName: "Vishwajeet Mandal",
       inactiveCommon: "disabled",
       form: {},
       formOptions: {},
       updateForm: {},
       isFlag: false,
-      leaveVacationDataUser: [],
-      allowanceLeavesDetailedData: [],
       confirmastionMessageModal: false,
       componentKeyUser: 0,
-      modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       stateVisible: true,
       otherStateVisible: false,
       errorMsgStreet: false,
@@ -450,13 +418,6 @@ export default {
       errorMsgSuit: false,
       reportOptions: "",
       is_data_fetched: false,
-      currentMonth: fecha.format(new Date(), "MM"),
-      selectedMonth: "",
-      fromDate: "",
-      toDate: "",
-      currentYear: fecha.format(new Date(), "YYYY"),
-      selectedYear: "2023",
-      timesheetData: [],
       format: "MMM D, YYYY",
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
@@ -464,61 +425,45 @@ export default {
       files: [],
       filesUploaded: "",
       fileList: 0,
+      topNav: 0,
+      name: {},
     };
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
-      getUserId: "token/getUserId",
       activeUserRole: "token/getUserRole",
-      getformToDate: "leavevacation/getformToDate",
-      getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
       getReportList: "employee/GET_REPORTS_LIST",
+      getActiveUserData: "token/getActiveUserData",
     }),
   },
 
   async created() {
-    this.id = this.$route.params.id;
-    // await this.users();
-    this.$store.dispatch("token/setActiveTab", "Employee Profile");
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id;
-      await this.$store.dispatch("employee/setUser", this.id);
-    } else {
-      var users = this.getUser;
-      await this.$store.dispatch("employee/setActiveUser");
-      await this.$store.dispatch("token/setActiveUserId", this.getUser.id);
+    await this.$store.dispatch("employee/setActiveUser");
       await this.$store.dispatch("employee/setUser", this.getUser.id);
+      var users = this.getUser;
+
       this.form = users;
       this.id = this.getUser.id;
+      this.name = users;
       this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.filesUploaded.reverse();
         //  this.fileList += 1;
       });
-    }
+    this.$root.$on("top-nav-key", () => {
+      this.$store.dispatch("employee/setUser", this.getUser.id).then((result)=>{
+        this.name = result;
+        this.topNav += 1;
+      });
+    });
   },
 
   async mounted() {
-    this.selectedMonth = this.currentMonth;
-    this.id = this.$route.params.id;
-    this.getCurrentWeek();
     this.$store.dispatch("employee/setReportsToList").then((result) => {
       this.reportOptions = result;
     });
-    this.formOptions = SELECT_OPTIONS;
-    this.getCurrentYear();
-    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
-    await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-      employeeId: this.id,
-    });
-    this.leaveVacationDataUser = this.getLeaveVacationUser;
   },
   methods: {
     openPopupNotification,
@@ -526,36 +471,12 @@ export default {
     updateAllData,
     handleInput,
     handleInputObject,
-    deleteLevaeVacation,
-    getCurrentYear,
-    getCurrentDateMonth,
-    getUserLeavesDetail,
-    getTimesheet,
-    getTimeAttendanceDaily,
-    getTimeAttendanceCustomRange,
     addFiles,
     getFiles,
-    getCurrentWeek,
+    sendMeet,
+    sendMessage,
     async handleChange__FileInput(files) {
       this.files = files;
-    },
-    async sendMeet() {
-      var genratedId = this.form.userId;
-      var meetId = await genratedId.toUpperCase();
-      var id = await meetId.match(/.{1,6}/g);
-      var newValue = id.join("-");
-      window.open(
-        "https://dev-connect.business-in-a-box.com/" +
-          newValue +
-          "?webcam=inactive",
-        "_blank"
-      );
-    },
-    sendMessage() {
-      window.open(
-        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
-        "_blank"
-      );
     },
     async fileUpload() {
       await this.addFiles(this.id, this.files);

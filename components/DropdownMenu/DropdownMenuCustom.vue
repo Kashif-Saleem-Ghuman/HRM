@@ -62,6 +62,9 @@ export default {
     listIconVariant: {
       type: String,
     },
+    className:{
+      type:String
+    }
   },
   data() {
     return {
@@ -122,5 +125,20 @@ export default {
       }
     }
   }
+  .button-wrapper {
+  &__bgblack {
+    background-color: #000 !important;
+    color: #fff !important;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      color: #fff !important;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+
+}
 }
 </style>

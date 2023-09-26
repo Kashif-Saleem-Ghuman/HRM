@@ -3,11 +3,20 @@
        <div class="p-1">Custom Components</div> 
     <div class="d-flex"> 
         <dropdown-menu-custom
-          sectionLabel="View : "
+          sectionLabel="Without Icon : "
           :items="dropMenu"
           :buttonLabel="ViewTitle"
           :buttonIconShow="false"
           buttonIcon="check-circle-solid"
+          @on-click="viewChange($event)"
+        ></dropdown-menu-custom>
+        <dropdown-menu-custom
+          sectionLabel="With Icon : "
+          :items="dropMenu"
+          :buttonLabel="ViewTitle"
+          :buttonIconShow="true"
+          buttonIcon="add"
+          listIcon="add"
           @on-click="viewChange($event)"
         ></dropdown-menu-custom>
         <dropdown-menu-chip
@@ -17,6 +26,7 @@
           :buttonIcon="buttonIcon"
           @on-click="leaveStatus($event)"
         ></dropdown-menu-chip>
+
     </div>
     </div>
   </template>

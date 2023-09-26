@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown-menu">
-    <div class="d-flex align-center px-1 py-05">
-      <label class="pr-05">{{ sectionLabel }}</label>
+    <div class="d-flex align-center">
+      <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div style="position: relative">
         <bib-button
           :label="buttonLabel"
@@ -10,7 +10,7 @@
           @click="show = !show"
           :icon="buttonIconShow == true ? buttonIcon : false"
           v-click-outside="clickOutside"
-          class="pr-05"
+          :class="className"
         ></bib-button>
         <div class="menu-items">
           <ul v-if="show">
@@ -81,6 +81,7 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
+  z-index: 99999;
   .button-items {
     display: flex;
     align-items: center;
@@ -111,8 +112,8 @@ export default {
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
-    left: 0px;
-    top: 0px;
+    left: -1px;
+    top: -1px;
     ul {
       margin: 0;
       padding: 0;

@@ -1,155 +1,91 @@
 <template>
   <div>
-    <div class="custom-header px-1 py-05 ">
+    <div class="custom-header px-1 py-05">
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
-          <div class="button-items pr-05">
+          <div class="d-flex pr-05">
             <div class="d-flex align-center">
-              <button-green
+              <bib-button
                 icon="add"
                 variant="success--outline"
                 :scale="1"
-                title="Add leave"
+                label="Add leave"
                 class="mr-05"
-                className="button-custom--lightsuccess"
-                @on-click="actionBY('leaveAdmin')"
-              ></button-green>
-              <button-green
+                @click="actionBY('leaveAdmin')"
+              ></bib-button>
+              <bib-button
                 icon="add"
                 variant="success--outline"
                 :scale="1"
+                label="Add vacation"
                 class="mr-05"
-                title="Add vacation"
-                size="md"
-                className="button-custom--lightsuccess"
-                @on-click="actionBY('vacationAdmin')"
-              ></button-green>
+                @click="actionBY('vacationAdmin')"
+              ></bib-button>
             </div>
-            <!-- <label>View:</label> -->
-            <div style="position: relative">
-              <button-black
-                icon="close"
-                variant="light"
-                :scale="1"
-                :title="ViewTitle"
-                style="height: 1.9rem"
-                @on-click="show = !show"
-                v-click-outside="clickOutside"
-              ></button-black>
-              <div class="menu-items">
-                <ul v-if="show">
-                  <li class="d-flex align-center">
-                    <span
-                      class="ml-05"
-                      @click="monthView('Month')"
-                      style="cursor: pointer"
-                      >Month</span
-                    >
-                  </li>
-                  <li class="d-flex align-center">
-                    <span
-                      class="ml-05"
-                      @click="weekView('Week')"
-                      style="cursor: pointer"
-                      >Week</span
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <dropdown-menu-custom
+              :items="dropMenu"
+              :buttonLabel="ViewTitle"
+              :buttonIconShow="true"
+              buttonIcon="close"
+              @on-click="monthView($event)"
+              class="mr-05"
+              className="button-wrapper__bgblack"
+            ></dropdown-menu-custom>
+            <dropdown-menu-custom
+              :items="dropMenuMonth"
+              :buttonLabel="selectedMonth"
+              :buttonIconShow="true"
+              buttonIcon="arrowhead-down"
+              @on-click="changeMonthView($event)"
+              class="mr-05"
+              className="button-wrapper__bgblack"
+            ></dropdown-menu-custom>
+            <dropdown-menu-custom
+              :items="dropMenuYear"
+              :buttonLabel="selectedYear"
+              :buttonIconShow="true"
+              buttonIcon="arrowhead-down"
+              @on-click="changeYearView($event)"
+              class="mr-05"
+              className="button-wrapper__bgblack"
+            ></dropdown-menu-custom>
           </div>
-          <div class="button-items">
-            <!-- <label>Month:</label> -->
-            <select
-              class="select_month"
-              id="my-select"
-              ref="myInput"
-              @change="changeMonthView()"
-              style="height: 1.9rem"
-            >
-              <option
-                v-for="i in monthList"
-                :value="i.key"
-                :selected="i.key === currentMonth ? true : false"
-              >
-                {{ i.label }}
-              </option>
-            </select>
-          </div>
-          <div class="button-items pl-05 pr-05">
-            <!-- <label>Year:</label> -->
-            <select
-              id="select_year"
-              ref="myInputYear"
-              @change="changeYearView()"
-              style="height: 1.9rem"
-            >
-              <option
-                v-for="i in yearList"
-                :value="i.key"
-                :selected="i.key === currentYear ? true : false"
-              >
-                {{ i.label }}
-              </option>
-            </select>
-          </div>
-          <!-- <div class="button-items pr-05">
-            <button-black
-              icon="close"
-              variant="light"
-              :scale="1"
-              :title="todayDate"
-              @on-click="show = !show"
-              v-click-outside="clickOutside"
-            ></button-black>
-          </div> -->
         </div>
       </div>
       <div class="rtl-wrapper d-flex align-center">
         <div class="serach-item pr-05">
           <label>Search:</label>
           <template>
-            <input
-              type="text"
-              name="name"
-              @change="searchLeavesType($event)"
-            />
+            <input type="text" name="name" @change="searchLeavesType($event)" />
           </template>
         </div>
-        <!-- <div class="serach-item pr-05">
-          <label>Show:</label>
-          <button-gray
-            variant="light"
-            title="All"
-            @on-click="fullData()"
-          ></button-gray>
-        </div> -->
-        <button-gray
+        <bib-button
           variant="light"
           :scale="1"
-          :title="weekendsButtonView"
-          @on-click="weekData()"
+          :label="weekendsButtonView"
+          @click="weekData()"
           style="height: 2rem"
-        ></button-gray>
+        ></bib-button>
       </div>
     </div>
     <div
       class="d-flex px-1 py-05 align-center bottom_top_wrapper"
       v-show="nextPrev"
     >
-      <button-black
-        variant="light"
+      <bib-button
+        variant="secondary--outline"
         :scale="1"
-        title="Prev"
-        class="mr-075"
-        @on-click="prevWeek()"
-      ></button-black>
-      <button-black
-        variant="light"
+        label="Prev"
+        class="mr-05"
+        @click="prevWeek()"
+      ></bib-button>
+      <bib-button
+        variant="secondary--outline"
         :scale="1"
-        title="Next"
-        @on-click="nextWeek()"
-      ></button-black>
+        label="Next"
+        class="mr-05"
+        @click="nextWeek()"
+      ></bib-button>
     </div>
     <div class="">
       <FullCalendar
@@ -284,24 +220,6 @@
           </div>
         </div>
       </template>
-      <!-- <template v-slot:sidebar-footer>
-        <div class="">
-          <div style="text-align: right">
-            <bib-button
-              label="Cancel"
-              variant="gray"
-              size="lg"
-              v-on:click="closeSidebar()"
-            ></bib-button>
-            <bib-button
-              label="Save"
-              variant="success"
-              size="lg"
-              v-on:click="addLeaveVacations()"
-            ></bib-button>
-          </div>
-        </div>
-      </template> -->
     </action-sidebar>
   </div>
 </template>
@@ -309,10 +227,9 @@
 <script>
 import FullCalendar from "../../../modules/@fullcalendar/vue";
 import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
-// import interactionPlugin from "../../../modules/@fullcalendar/interaction";
-// import timeGridPlugin from "../../../modules/@fullcalendar/timegrid";
+import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
+
 import {
-  SAMPLE_EVENTS,
   MONTH_LIST,
   YEAR_LIST,
 } from "../../../utils/constant/Calander";
@@ -353,8 +270,6 @@ export default {
       form: {},
       vacationType: "vacation",
       addLeaveKey: 0,
-      monthList: MONTH_LIST,
-      yearList: YEAR_LIST,
       ViewTitle: "Month",
       getSearchKey: "",
       addForm: {
@@ -384,14 +299,6 @@ export default {
           },
         },
         headerToolbar: false,
-        // headerToolbar: {
-        //   left: "myLink,dayGridMonth,dayGridWeek,prevYear,prev,next,nextYear",
-        //   center: "title",
-        //   right: "weekData,nextButton",
-        // },
-        views: {
-          // we can specify particular view for particular layout here
-        },
         initialView: "dayGridMonth",
         windowResizeDelay: 200,
         events: [],
@@ -402,12 +309,6 @@ export default {
         dayMaxEvents: 1,
         weekends: true,
         contentHeight: "auto",
-        // eventColor: "green",
-        // style related
-        // eventColor: "#FFFFFF",
-        // eventBackgroundColor: "#000000",
-        // eventTextColor: "#333333",
-        // eventBorderColor:"#000000",
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
@@ -417,14 +318,10 @@ export default {
         eventRemove: this.handleEventRemove,
       },
       currentDate: fecha.format(new Date(), "DD"),
-      // currentMonth:'08',
-      currentMonth: fecha.format(new Date(), "MM"),
-      selectedMonth: "",
+      currentMonth: fecha.format(new Date(), "MMM"),
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
         "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
-
-      selectedYear: "2023",
       fromDate: "",
       toDate: "",
       slideClass: "slide-in",
@@ -436,6 +333,13 @@ export default {
       useDaysData: "",
       employeeNameSelectShow: false,
       weekendsButtonView: "Show Weekdays",
+      dropMenu: DropdownMenu.calendarViewType,
+      dropMenuMonth: DropdownMenu.monthList,
+      dropMenuYear: DropdownMenu.yearList,
+      selectedMonth: "",
+      selectedYear: "2023",
+      yearTitle: "2023",
+      ViewTitle: "Month",
     };
   },
   computed: {
@@ -461,40 +365,27 @@ export default {
       to: this.toDate,
     });
 
-    this.$store.dispatch("leavevacation/setLeaveVacations", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    }).then((result)=>{
-      this.calendarOptions.events = result;
-      const att = document.createAttribute("id");
-      att.value = "currentDay";
-      var el = document.querySelectorAll(".fc-day-today");
-      el[0].setAttributeNode(att);
-      for (let i = 0; i < el.length; i++) {
-        // el[i].id = 'currentDay' + i;
+    this.$store
+      .dispatch("leavevacation/setLeaveVacations", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      })
+      .then((result) => {
+        this.calendarOptions.events = result;
+        const att = document.createAttribute("id");
+        att.value = "currentDay";
+        var el = document.querySelectorAll(".fc-day-today");
         el[0].setAttributeNode(att);
-      }
-      this.scrolltoId();
-    });
-    // setTimeout(() => {
-    //   this.calendarOptions.events = this.getLeaveVacation;
-    //   this.reloadData += 1;
-    // }, 1000);
-    // setTimeout(() => {
-    //   this.calendarOptions.events = this.getLeaveVacation;
-    //   this.reloadData += 1;
-    // }, 3000);
-    // console.log(this.calendarOptions.events, "this.calendarOptions.events");
-    // this.getAllowanceDays().then((result) => {
-    //   this.allowanceData = result;
-    //   // this.temKey += 1;
-    // });
+        for (let i = 0; i < el.length; i++) {
+          // el[i].id = 'currentDay' + i;
+          el[0].setAttributeNode(att);
+        }
+        this.scrolltoId();
+      });
     this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
       this.employeesOptions = reportTo;
       this.employeeNameSelectShow = true;
     });
-    // this.employeesOptions = this.getReportList;
-    // this.employeeNameSelectShow = true
   },
   methods: {
     addHandleInput,
@@ -503,10 +394,10 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     getUserLeavesDetail,
-     scrolltoId(){
-var access = document.getElementById("currentDay");
-access.scrollIntoView();
-},
+    scrolltoId() {
+      var access = document.getElementById("currentDay");
+      access.scrollIntoView();
+    },
     change(event) {},
     searchLeavesType(event) {
       this.getSearchKey = event;
@@ -542,9 +433,9 @@ access.scrollIntoView();
     //   this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
     //   this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
     // },
-    changeMonthView() {
+    changeMonthView(e) {
       var year;
-      this.selectedMonth = this.$refs.myInput.value;
+      this.selectedMonth = e.label;
       if (this.selectedYear === "") {
         year = this.currentYear;
       } else {
@@ -554,7 +445,7 @@ access.scrollIntoView();
         .getApi()
         .changeView(
           this.calendarOptions.initialView,
-          year + this.$refs.myInput.value + this.currentDate
+          year + e.key + this.currentDate
         );
       this.getCurrentDateMonth();
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
@@ -569,9 +460,9 @@ access.scrollIntoView();
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
-    changeYearView() {
+    changeYearView(e) {
       var month;
-      this.selectedYear = this.$refs.myInputYear.value;
+      this.selectedYear = e.label;
       if (this.selectedMonth === "") {
         month = this.currentMonth;
       } else {
@@ -581,7 +472,7 @@ access.scrollIntoView();
         .getApi()
         .changeView(
           this.calendarOptions.initialView,
-          this.$refs.myInputYear.value + month + this.currentDate
+          e.key + month + this.currentDate
         );
       this.getCurrentDateMonth();
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
@@ -596,19 +487,21 @@ access.scrollIntoView();
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
-    monthView() {
-      this.ViewTitle = "Month";
-      this.nextPrev = false;
-      this.calendarOptions.initialView = "dayGridMonth";
-      let calendarApi = this.$refs.fullCalendar.getApi();
-      calendarApi.changeView("dayGridMonth");
-    },
-    weekView() {
-      this.nextPrev = true;
-      this.ViewTitle = "Week";
-      this.calendarOptions.initialView = "dayGridWeek";
-      let calendarApi = this.$refs.fullCalendar.getApi();
-      calendarApi.changeView("dayGridWeek");
+    monthView(e) {
+      if (e.key == "month") {
+        this.ViewTitle = "Month";
+        this.nextPrev = false;
+        this.calendarOptions.initialView = "dayGridMonth";
+        let calendarApi = this.$refs.fullCalendar.getApi();
+        calendarApi.changeView("dayGridMonth");
+      }
+      if (e.key == "week") {
+        this.nextPrev = true;
+        this.ViewTitle = "Week";
+        this.calendarOptions.initialView = "dayGridWeek";
+        let calendarApi = this.$refs.fullCalendar.getApi();
+        calendarApi.changeView("dayGridWeek");
+      }
     },
     async prevWeek() {
       if (this.flag == false) {
@@ -618,17 +511,14 @@ access.scrollIntoView();
           from: this.fromDate,
           to: this.toDate,
         });
-        this.$store.dispatch("leavevacation/setLeaveVacations", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-        });
-        setTimeout(() => {
-          this.calendarOptions.events = this.getLeaveVacation;
-          console.log(
-            this.calendarOptions.events,
-            "this.calendarOptions.events"
-          );
-        }, 1500);
+        this.$store
+          .dispatch("leavevacation/setLeaveVacations", {
+            from: this.getformToDate.from,
+            to: this.getformToDate.to,
+          })
+          .then((result) => {
+            this.calendarOptions.events = result;
+          });
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.prev();
@@ -641,13 +531,14 @@ access.scrollIntoView();
           from: this.fromDate,
           to: this.toDate,
         });
-        this.$store.dispatch("leavevacation/setLeaveVacations", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-        });
-        setTimeout(() => {
-          this.calendarOptions.events = this.getLeaveVacation;
-        }, 1000);
+        this.$store
+          .dispatch("leavevacation/setLeaveVacations", {
+            from: this.getformToDate.from,
+            to: this.getformToDate.to,
+          })
+          .then((result) => {
+            this.calendarOptions.events = result;
+          });
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.next();
@@ -757,35 +648,6 @@ access.scrollIntoView();
     .ltr-wrapper-items {
       position: absolute;
       display: flex;
-      ul {
-        margin: 0;
-        padding: 0;
-        border: var(--bib-gray3) solid 1px;
-        border-radius: 0.5rem;
-        box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
-        background: var(--bib-white);
-        li {
-          padding: 5px 0;
-        }
-      }
-      .menu-items {
-        background-color: #fff;
-        width: 97px;
-        box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
-        border-radius: 10px;
-        position: absolute;
-        left: 0px;
-        top: 0px;
-      }
-      .button-items {
-        display: flex;
-        align-items: center;
-
-        label {
-          padding-right: 5px;
-          font-size: 14px;
-        }
-      }
     }
     select {
       font-size: 14px;
@@ -814,7 +676,7 @@ access.scrollIntoView();
       border-radius: 6px !important;
       padding: 0px 5px !important;
       height: 32px;
-      border: 1px solid #E2E2E3;
+      border: 1px solid #e2e2e3;
       font-size: 14px;
     }
     label {
@@ -866,7 +728,7 @@ access.scrollIntoView();
   background-color: #f8f8f9;
 }
 .fc-theme-standard {
-  background-color: #F8F8F9;
+  background-color: #f8f8f9;
   font-size: 14px;
   th {
     // padding: 5px 0;
@@ -886,7 +748,6 @@ access.scrollIntoView();
 }
 .fc-scrollgrid-sync-inner {
   padding: 0 5px !important;
-  
 }
 .fc-scrollgrid-sync-inner::-webkit-scrollbar {
   width: 6px;

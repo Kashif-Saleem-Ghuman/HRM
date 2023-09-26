@@ -56,7 +56,7 @@
 
       <template #cell(status)="data">
         <div class="text-dark">
-          <bib-input
+          <!-- <bib-input
             type="select"
             :value="data.value.status"
             :options="timesheetStatusOptions"
@@ -64,7 +64,15 @@
             placeholder=""
             :disabled="false"
             @input="onStatusChange($event, data)"
-          ></bib-input>
+          ></bib-input> -->
+
+            <dropdown-menu-chip
+              :items="timesheetStatusOptions"
+              :selected="TIMESHEET_STATUS.past_due"
+              :button-config="TIMESHEET_STATUS.past_due"
+              @on-click="onStatusChange($event, data)"
+            ></dropdown-menu-chip>
+          
         </div>
       </template>
     </custom-table-day-view>

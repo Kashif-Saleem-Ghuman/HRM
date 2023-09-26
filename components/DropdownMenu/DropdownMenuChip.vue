@@ -1,33 +1,25 @@
 <template>
-  <div class="dropdown-menu">
+  <div class="dropdown-menu dropdown-menu-chip">
     <div class="d-flex align-center px-1 py-05">
       <div style="position: relative">
         <bib-button
-          :label="buttonLabel"
-          :variant="
-            buttonLabel === 'Approved'
-              ? 'success'
-              : '' || buttonLabel === 'Pending'
-              ? 'warning'
-              : '' || buttonLabel === 'Reject'
-              ? 'danger'
-              : ''
-          "
+          :label="buttonConfig.label"
+          :variant="buttonConfig.variant"
           size="lg"
           @click="show = !show"
-          :icon="buttonIconShow == true ? buttonIcon : false"
+          :icon="buttonConfig.icon ?? ''"
           v-click-outside="clickOutside"
           class="pr-05"
         ></bib-button>
         <div class="menu-items">
           <div v-if="show">
-            <div v-for="item in items">
+            <div v-for="item in items" :key="item.key">
               <bib-button
                 :label="item.label"
                 :variant="item.variant"
                 size="lg"
                 @click="$emit('on-click', item)"
-                :icon="buttonIconShow == true ? item.icon : false"
+                :icon="item.icon ?? ''"
                 v-click-outside="clickOutside"
                 style="min-width: 120px"
                 class="pr-05 mb-025"
@@ -42,28 +34,22 @@
 
 <script>
 export default {
+ 
   props: {
+    /**
+     * An object containing button config
+     * @typedef {Object} ButtonConfig
+     * @property {string} label - The button label
+     * @property {string} variant - The button color
+     * @property {string} icon - The button icon
+     */
+     buttonConfig: {
+      type: Object
+    },
+
     items: {
       type: Array,
-    },
-    buttonLabel: {
-      type: String,
-    },
-    buttonIconShow: {
-      type: Boolean,
-    },
-    buttonVariant: {
-      type: String,
-    },
-    buttonIcon: {
-      type: String,
-    },
-    listIcon: {
-      type: String,
-    },
-    listIconVariant: {
-      type: String,
-    },
+    }, 
   },
   data() {
     return {

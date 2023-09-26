@@ -34,41 +34,32 @@
       };
     },
     methods: {
-      viewChange(event) {
-        if (e == "today") {
-          this.todayListView = true;
-          this.weekListView = false;
-          this.monthListView = false;
-          this.ViewTitle = "Today";
+      viewChange(e) {
+        if (e.key == "today") {
+          this.ViewTitle = e.label;
         }
-        if (e == "week") {
-          this.todayListView = false;
-          this.weekListView = true;
-          this.monthListView = false;
-          this.ViewTitle = "Week";
+        if (e.key == "week") {
+          this.ViewTitle = e.label;
         }
-        if (e == "month") {
-          this.todayListView = false;
-          this.monthListView = true;
-          this.weekListView = false;
-          this.ViewTitle = "Month";
+        if (e.key == "month") {
+          this.ViewTitle = e.label;
         }
-        if (e == "year") {
+        if (e.key == "year") {
           alert("No list Found");
         }
       },
       leaveStatus(e) {
-        console.log(e, "vihange");
         if (e.key == "approve") {
-          this.buttonTitle = "Approved";
+          this.buttonTitle = e.label;
+          this.buttonIcon = e.icon
         }
         if (e.key == "pending") {
-          this.buttonTitle = "Pending";
-          this.buttonIcon = "add";
+          this.buttonTitle = e.label;
+          this.buttonIcon = e.icon
         }
         if (e.key == "reject") {
-          this.buttonTitle = "Reject";
-          this.buttonIcon = "output";
+          this.buttonTitle = e.label;
+          this.buttonIcon = e.icon
         }
         if (e == "year") {
           alert("No list Found");

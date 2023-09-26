@@ -23,7 +23,7 @@
                 class="mr-05"
               ></bib-icon>
               <span
-                @click.stop="$emit('on-click', item.key)"
+                @click="$emit('on-click', item)"
                 style="cursor: pointer"
                 >{{ item.label }}</span
               >

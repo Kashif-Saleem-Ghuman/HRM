@@ -10,8 +10,11 @@
           @click="show = !show"
           :icon="buttonConfig?.icon ?? ''"
           :class="className"
+          v-click-outside="clickOutside"
         ></bib-button>
-        <div class="btn-overlay" v-show="show">
+
+        //@click.stop is to prevent v-click-outside to trigger
+        <div class="btn-overlay" v-show="show" @click.stop="() => {}">
           <slot :close="clickOutside"></slot>
         </div>
       </div>

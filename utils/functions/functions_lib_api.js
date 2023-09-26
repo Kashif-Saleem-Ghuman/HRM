@@ -15,7 +15,10 @@ import {
     startTimer,
     stopTimer,
   } from "./api_call/timeattendance/timer";
-  
+  import {
+    makeTimeEntry,
+  } from "./api_call/timeattendance/time-entires"
+
   import {
     getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
@@ -59,8 +62,9 @@ import {
     stopTimer,
     getTimeAttendanceDaily,
     getTimeAttendanceCustomRange,
+    makeTimeEntry,
 
     // my profile
-  addFiles,
-  getFiles,
+    addFiles,
+    getFiles,
   };

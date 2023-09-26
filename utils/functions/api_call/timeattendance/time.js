@@ -199,7 +199,18 @@ export async function approveTimesheet({ id }) {
     const { data } = await hrmApiAxiosInstance.post(url, {}, config);
     return data
   } catch (error) {
-    // console.error(error);
+    console.error(error);
+  }
+}
+
+export async function approvePastDueTimesheet({ id, date, employeeId }) {
+  try {
+    const url = `/timesheets/admin/approve/past-due/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.post(url, { date, employeeId }, config);
+    return data
+  } catch (error) {
+    console.error(error);
   }
 }
 

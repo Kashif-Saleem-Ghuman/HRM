@@ -57,10 +57,10 @@ export const actions = {
     this.loading = false;
   },
 
-  async setDailyTimeEntries(ctx) {
+  async setDailyTimeEntries(ctx, date = new Date()) {
     try {
-      const startOfDay = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
-      const endOfDay = new Date(new Date().setHours(23, 59, 59, 59)).toISOString();
+      const startOfDay = new Date(date.setHours(0, 0, 0, 0)).toISOString();
+      const endOfDay = new Date(date.setHours(23, 59, 59, 59)).toISOString();
       const { data } = await axios.get(
         process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
         {

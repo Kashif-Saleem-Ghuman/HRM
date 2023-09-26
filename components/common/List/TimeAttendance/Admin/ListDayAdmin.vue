@@ -1,5 +1,6 @@
 <template>
   <custom-table
+    v-if="listToday.length"
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="listToday"
@@ -44,6 +45,7 @@
       </div>
     </template>
   </custom-table>
+  <div v-else class="no-record-found">No Records Found</div>
 </template>
 
 <script>
@@ -80,6 +82,24 @@ export default {
   },
   methods: {
   },
+  created() {
+    console.log('this.listToday', this.listToday)
+  }
 };
 </script>
-
+<style lang="scss">
+.no-record-found {
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  padding: 50px 0;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  color: rgb(173, 173, 172);
+  padding: 20px 0;
+}
+</style>

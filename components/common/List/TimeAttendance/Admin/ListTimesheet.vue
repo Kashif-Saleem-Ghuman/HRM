@@ -16,11 +16,22 @@
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
+          <bib-avatar
+              variant="secondary-sub3"
+              :text="
+                data.value.firstName.slice(0, 1) +
+                data.value.lastName.slice(0, 1)
+              "
+              text-variant="primary"
+              size="3rem"
+              v-show="data.value.photo === null"
+            ></bib-avatar>
             <bib-avatar
               class="mt-auto mb-auto"
               shape="circle"
               :src="data.value.photo"
-              size="2.5rem"
+              v-show="data.value.photo != null"
+              size="3rem"
             >
             </bib-avatar>
             <div :id="'id_' + data.value.id" style="" class="userCard">

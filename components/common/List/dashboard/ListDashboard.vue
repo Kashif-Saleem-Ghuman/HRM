@@ -106,7 +106,7 @@
                 : data.value?.activityReport.out
             "
             :className="[
-              data.value?.activityReport.out ? 'chip-wrapper__bgout' : '',
+              data.value?.activityReport.out ? 'chip-wrapper__bgsucess' : '',
               data.value?.activityReport.out == null
                 ? 'chip-wrapper__bggray'
                 : '',

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div class="d-flex">
+    <div class="d-flex" v-on:click="$emit('viewProfile')">
       <bib-avatar
         class="mr-1"
         shape="circle"
         :src="src"
         size="5rem"
+        
       ></bib-avatar>
       <div>
         <div class="user_card_detail align-center d-flex">
@@ -81,6 +82,7 @@ export default {
     employee() {
       alert("import called");
     },
+    
   },
 };
 </script>

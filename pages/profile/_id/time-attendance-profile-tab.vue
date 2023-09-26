@@ -1,21 +1,21 @@
 <template>
   <div id="time-attendance-wrapper">
     <div class="scroll_wrapper" id="scroll_wrapper">
-      <!-- <dropdown-menu-custom
+      <dropdown-menu-custom
         sectionLabel="View : "
         :items="dropMenu"
         :buttonLabel="ViewTitle"
         :buttonIconShow="false"
         buttonIcon="add"
         @on-click="viewChange($event)"
-      ></dropdown-menu-custom> -->
-      <dropdown-menu-chip
+      ></dropdown-menu-custom>
+      <!-- <dropdown-menu-chip
         :items="dropMenuChip"
         :buttonLabel="buttonTitle"
         :buttonIconShow="true"
         :buttonIcon="buttonIcon"
         @on-click="leaveStatus($event)"
-      ></dropdown-menu-chip>
+      ></dropdown-menu-chip> -->
       <div class="px-1 py-05">
         <div
           class="d-grid d-flex gap-1 py-05"

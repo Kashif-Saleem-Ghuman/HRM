@@ -3,11 +3,21 @@
     <div
       class="d-flex justify-between align-center px-075 bottom_border_wrapper"
     >
-      <div class="d-flex align-center">
-        <div class="custom_date_picker">
-          <week-date-picker :dates.sync="weekDates"></week-date-picker>
+        <div class="pt-1 pb-1">
+          <button-with-overlay
+            :items="dropMenuChip"
+            sectionLabel="View: "
+            :button-config="{ label: dateBtnLabel, variant: light, }"
+            @on-click="leaveStatus($event)"
+            v-slot="scope"
+          >
+            <div class="pt-1 pb-1 pl-05 pr-0">
+              <week-date-picker @close="scope.close" :dates.sync="weekDates"></week-date-picker>
+            </div>
+        
+          </button-with-overlay>
         </div>
-      </div>
+
 
       <div class="d-flex align-center">
         <div class="d-flex align-center mr-05">
@@ -48,6 +58,7 @@
 <script>
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
+import { DateTime } from "luxon";
 export default {
   data() {
     return {
@@ -55,10 +66,23 @@ export default {
       loading: true,
       employees: [],
       timesheetsList: [],
+      showDatePicker: false
     };
   },
 
+  computed: {
+    dateBtnLabel() {
+      const weekDates = this.weekDates
+      if (!weekDates || !weekDates?.from || !weekDates?.to) return ""
+      const { from, to } = weekDates
+      return this.formatDates({ from, to })
+    }    
+  },
+
   methods: {
+    dateBtnClick() {
+      this.showDatePicker = !this.showDatePicker
+    },
     async generateWeekDaysEntries() {
       this.loading = true;
       const { from, to } = this.weekDates;
@@ -70,13 +94,19 @@ export default {
       this.timesheetsList = timesheets;
       this.loading = false;
     },
+
+    formatDates({ from, to }) {
+      const fromFormat = DateTime.fromISO(from).toUTC().toFormat('MMMM d, yyyy');
+      const toFormat = DateTime.fromISO(to).toUTC().toFormat('MMMM d, yyyy');
+      return `${fromFormat} -> ${toFormat}`
+    }
   },
 
   watch: {
     weekDates: {
       deep: true,
       handler: function (newVal, oldVal) {
-        console.log({ newVal, oldVal });
+        this.showDatePicker = false;
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
           this.generateWeekDaysEntries();
         }
@@ -86,4 +116,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.week-picker-wrapper {
+  .vdp-datepicker {
+    input {
+      font-size: .7rem;
+    }
+  }
+}
+</style>

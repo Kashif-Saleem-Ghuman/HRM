@@ -1,0 +1,106 @@
+<template>
+  <div class="dropdown-menu">
+    <div class="d-flex align-center">
+      <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
+      <div style="position: relative">
+        <bib-button
+          :label="buttonConfig?.label"
+          :variant="buttonConfig?.variant || 'light'"
+          size="lg"
+          @click="show = !show"
+          :icon="buttonConfig?.icon ?? ''"
+          :class="className"
+        ></bib-button>
+        <div class="btn-overlay" v-show="show">
+          <slot :close="clickOutside"></slot>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    /**
+     * An object containing button config
+     * @typedef {Object} ButtonConfig
+     * @property {string} label - The button label
+     * @property {string} variant - The button color
+     * @property {string} icon - The button icon
+     */
+    buttonConfig: {
+      type: Object,
+    },
+    sectionLabel: {
+      type: String,
+    },
+    className: {
+      type: String,
+    },
+  },
+  data() {
+    return {
+      viewChange: "Today",
+      show: false,
+    };
+  },
+  methods: {
+    clickOutside() {
+      this.show = false;
+    },
+  },
+};
+</script>
+<style lang="scss">
+.dropdown-menu {
+  z-index: 99999;
+  .button-items {
+    display: flex;
+    align-items: center;
+
+    label {
+      padding-right: 5px;
+      font-size: 14px;
+    }
+    select {
+      font-size: 14px;
+      width: 100%;
+      border: 1px solid #f2f2f5;
+      border-radius: 0.2rem;
+      background-color: #f2f2f5;
+      color: #6d7278;
+      padding: 10px;
+      border-radius: 10px;
+      border-right: 10px solid transparent;
+      option {
+        background-color: #fff;
+        color: #6d7278;
+      }
+    }
+  }
+  .btn-overlay {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: absolute;
+    background-color: white;
+    border-radius: 5%;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
+  .button-wrapper {
+    &__bgblack {
+      background-color: #000 !important;
+      color: #fff !important;
+      svg {
+        fill: #fff !important;
+      }
+      span {
+        color: #fff !important;
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+  }
+}
+</style>

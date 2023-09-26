@@ -5,7 +5,7 @@
     >
       <section-header-left
         :title="
-          name == undefined
+          name.first || name.lastName == undefined
             ? '---'
             : name.firstName + ' ' + name.lastName
         "
@@ -66,8 +66,9 @@ export default {
     //    this.$store.dispatch("employee/setUser", this.id);
     // this.form = this.getUser;
       this.topNav += 1;
-      console.log("this.topNav", this.getActiveUserData)
       this.name = this.getActiveUserData
+      console.log("this.topNav", this.name)
+
     });
   },
   computed: {

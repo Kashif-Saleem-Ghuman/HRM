@@ -7,7 +7,15 @@
         v-show="requestListData.length ? true : false"
       >
         <div class="d-flex align-center">
-          <button-green
+          <bib-button
+            icon="add"
+            variant="success--outline"
+            :scale="1"
+            label="Approve"
+            class="mr-05"
+            @click="pendingApproveRequest('approve')"
+          ></bib-button>
+          <!-- <button-green
             icon="add"
             variant="success"
             :scale="1"
@@ -15,7 +23,7 @@
             class="mr-05"
             className="button button-custom--lightsuccess"
             :disabled="disabled"
-            @on-click="pendingApproveRequest('approve')"
+            @on-click="rejectItem()"
           ></button-green>
           <button-green
             icon="add"
@@ -25,7 +33,7 @@
             className="button-custom--pending"
             disabled
             @on-click="pendingApproveRequest('approve')"
-          ></button-green>
+          ></button-green> -->
           <!-- <button-green
                     icon="add"
                     variant="warning"
@@ -186,7 +194,7 @@ export default {
       if (event == "approve") {
         await this.getApproveLeaveVacationsAdmin();
         await this.getPendingLeaveVacationsAdmin();
-      } else if (event == "pending") {
+      } else if (event == "reject") {
         this.getPendingLeaveVacationsAdmin();
       }
     },

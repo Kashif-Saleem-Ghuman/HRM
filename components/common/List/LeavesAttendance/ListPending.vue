@@ -87,25 +87,23 @@
     </template>
     <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
-        <button-green
-          icon="add"
-          variant="success"
-          :scale="1"
-          title="Approved"
-          class="mr-05"
-          className="button-custom button-custom--lightsuccess"
-          size="sm"
-          @on-click="$emit('approve-item', data.value.id)"
-        ></button-green>
-        <button-green
-          icon="add"
-          variant="danger"
-          :scale="1"
-          title="Reject"
-          size="sm"
-          className="button-custom button-custom--pending"
-          @on-click="$emit('reject-item', data.value.id)"
-        ></button-green>
+        <bib-button
+                icon="add"
+                variant="success--outline"
+                :scale="1"
+                label="Approve"
+                class="mr-05"
+                @click="$emit('approve-item', data.value.id)"
+              ></bib-button>
+              <bib-button
+                icon="add"
+                variant="danger--outline"
+                :scale="1"
+                label="Reject"
+                class="mr-05"
+                @click="$emit('reject-item', data.value.id)"
+              ></bib-button>
+        
         <!-- <chips
             :title="data.value.status == null ? 'N/A' : data.value.status"
             iconShow="iconShow"

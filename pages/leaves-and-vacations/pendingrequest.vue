@@ -11,7 +11,7 @@
             icon="add"
             variant="success--outline"
             :scale="1"
-            label="Approved"
+            label="Approve"
             class="mr-05"
             @click="pendingApproveRequest('approve')"
           ></bib-button>

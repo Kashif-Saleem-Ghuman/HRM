@@ -3,15 +3,25 @@
     <div
       class="d-flex justify-between align-center px-075 bottom_border_wrapper"
     >
-      <div class="d-flex align-center">
-        <div class="mr-05">Date:</div>
-        <bib-datetime-picker
-          v-model="date"
-          @input="onDateChange"
-          :maxDate="maxDate"
-          class="custom-date-picker"
-        ></bib-datetime-picker>
-      </div>
+        <div class="day-date-picker-wrapper pt-1 pb-1" >
+          <button-with-overlay
+            sectionLabel="View: "
+            :button-config="{ label: dateBtnLabel, variant: 'light', }"
+            v-slot="scope"
+          >
+          <div class="pt-05 pb-05 pl-05 pr-05">
+            <bib-datepicker
+              v-model="date"
+              @input="onDateChange($event); scope.close()"
+              class="custom-date-picker"
+              size="sm"
+              format="yyyy-MM-dd"
+              style="min-width: 7vw;"
+              :maxDate="maxDate"
+            ></bib-datepicker>
+          </div>
+        </button-with-overlay>
+        </div>
 
       <div class="d-flex">
         <div class="d-flex align-center">
@@ -36,39 +46,43 @@
 </template>
 
 <script>
-import fecha, { format } from "fecha";
 import { getTimeAttendance } from "../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      format: "dddd, DD, MMMM, YYYY",
-      date: format(new Date(), "dddd, DD, MMMM, YYYY"),
+      date: DateTime.now().toISO(),
       loading: true,
       employees: [],
-      maxDate: DateTime.now().endOf("day").toISO(),
+      maxDate: DateTime.now().toJSDate()
     };
   },
 
+  computed: {
+    dateBtnLabel() {
+      if (this.isDateToday(this.date)) {
+        return `Today, ${this.formatDate(this.date)}`
+      }
+      return this.formatDate(this.date)
+    }
+  },
+
   methods: {
-    parseDate(dateString, format) {
-      return fecha.parse(dateString, format);
+    isDateToday(date) {
+      return DateTime.fromISO(date).hasSame(DateTime.local(), 'day')
     },
-    formatDate(dateObj, format) {
-      return fecha.format(dateObj, format);
+    formatDate(isoDate) {
+      return DateTime.fromISO(isoDate).toFormat('EEEE, LLLL d, yyyy');
     },
-
     onDateChange(value) {
-      let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-      this.date = date;
-      this.generateOrganizationEntries();
+      this.date = DateTime.fromJSDate(value).toUTC().toISO();
+      this.generateOrganizationEntries(this.date);
     },
 
-    async generateOrganizationEntries() {
+    async generateOrganizationEntries(isoDate) {
       this.loading = true;
-      let date = format(new Date(this.date), "YYYY-MM-DD")
-      const { employees } = await getTimeAttendance({ date });
+      const { employees = [] } = await getTimeAttendance({ date: isoDate });
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");
@@ -80,7 +94,8 @@ export default {
   },
 
   created() {
-    this.generateOrganizationEntries();
+    const nowIso = DateTime.now().toUTC().toISO()
+    this.generateOrganizationEntries(nowIso);
   },
 };
 </script>
@@ -89,5 +104,9 @@ export default {
 .vdpComponent__input{
   background-color: #F2F2F5 !important;
   width: 300px !important;
+}
+
+.day-date-picker-wrapper .bib-datepicker .bib-datepicker__close-icon {
+    display: none;
 }
 </style>

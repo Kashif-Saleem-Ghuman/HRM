@@ -8,11 +8,14 @@
           placeholder="Choose Start Of Week Date"
           :maxDate="maxDate"
           @input="onDateChange"
+          size="sm"
+          icon=""
+          format="dd-MM-yyyy"
         ></bib-datepicker>
       </div>
       <div class="picker">
         <label for="end-date">To</label>
-        <bib-datepicker v-model="to" :disabled="true"></bib-datepicker>
+        <bib-datepicker v-model="to" :disabled="true" size="sm" format="dd-MM-yyyy"></bib-datepicker>
       </div>
     </div>
   </div>
@@ -46,6 +49,7 @@ export default {
       this.$emit("update:dates", {
         ...this.formatDatesToStartEndDayUTC(this.from, this.to),
       });
+      this.$emit("close")
     },
 
     setCurrentWeek() {
@@ -56,6 +60,7 @@ export default {
       this.$emit("update:dates", {
         ...this.formatDatesToStartEndDayUTC(this.from, this.to),
       });
+      this.$emit("close")
     },
     setToPreviousDates() {
       this.from = this.previousFrom;
@@ -75,7 +80,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .pickers {
   display: flex;
   .picker {
@@ -87,6 +92,12 @@ export default {
       color: #b1b1b4;
       padding-right: 0.5rem;
     }
+  }
+}
+
+.week-date-picker {
+  .bib-datepicker .bib-datepicker__close-icon {
+    display: none;
   }
 }
 </style>

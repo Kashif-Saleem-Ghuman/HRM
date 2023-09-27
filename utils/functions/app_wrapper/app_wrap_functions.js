@@ -18,7 +18,7 @@ export function handleToggleWrapperTheme(value) {
   export function logout() {
     localStorage.removeItem("accessToken") ;
     this.$cookies.remove("b_ssojwt");
-    window.location.href = process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+    window.location.href = `${process.env.AUTH_REDIRECT_URL}${process.env.HRM_APP_URL}`
 }
 export function myProfile() {
     window.open(process.env.USER_PROFILE_URL, "_blank")

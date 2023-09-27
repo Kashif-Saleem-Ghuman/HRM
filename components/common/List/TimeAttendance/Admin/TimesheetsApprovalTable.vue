@@ -161,7 +161,7 @@ export default {
       const confirm = window.confirm(
         `Are you sure you want to ${event.value} the selected timesheet?`
       );
-
+      event = event?.value ?? event
       if (confirm) {
         if (event == TIMESHEET_STATUS["approved"].value) {
 

@@ -47,7 +47,7 @@ export async function getAdminTimesheets(payload) {
 }
 
 export async function getPendingTimesheets(payload) {
-  const { from, to } = payload
+  const { from, to, searchString } = payload
   const url = '/timesheets/admin/pending'
   if (!from || !to ) throw new Error(`'from' and 'to' params required for ${url}`)
 
@@ -56,6 +56,7 @@ export async function getPendingTimesheets(payload) {
     const params = {
       from,
       to, 
+      searchString
     }
     config.params = params
     const { data } = await hrmApiAxiosInstance.get(
@@ -64,14 +65,14 @@ export async function getPendingTimesheets(payload) {
     );
     return data
   } catch (e) {
-    // console.log(`Error while fetching ${url}` );
-    // console.error(e);
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
   }
 }
 
 
 export async function getPastDueTimesheets(payload) {
-  const { from, to } = payload
+  const { from, to, searchString } = payload
   const url = '/timesheets/admin/past-due'
   if (!from || !to ) throw new Error(`'from' and 'to' params required for ${url}`)
 
@@ -79,7 +80,8 @@ export async function getPastDueTimesheets(payload) {
     const config = createConfig();
     const params = {
       from,
-      to, 
+      to,
+      searchString
     }
     config.params = params
     const { data } = await hrmApiAxiosInstance.get(
@@ -88,8 +90,8 @@ export async function getPastDueTimesheets(payload) {
     );
     return data
   } catch (e) {
-    // console.log(`Error while fetching ${url}` );
-    // console.error(e);
+    console.log(`Error while fetching ${url}` );
+    console.error(e);
   }
 }
 

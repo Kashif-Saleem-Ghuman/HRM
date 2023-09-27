@@ -109,6 +109,10 @@ export default {
       type: String,
       required: true,
     },
+    searchString: {
+      type: String,
+      default: null
+    }
   },
 
   data() {
@@ -179,6 +183,8 @@ export default {
     },
 
     async getAndParseTimesheets() {
+      const { searchString } = this
+
       this.loading = true;
       const { from, to } = this.dates
       if (!from || !to) return 
@@ -186,6 +192,7 @@ export default {
       const employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
         to,
+        searchString
       });
 
       employees.forEach((employee) => {
@@ -269,6 +276,10 @@ export default {
           this.getAndParseTimesheets()
         }
       }
+    },
+    
+    searchString(value) {
+      this.getAndParseTimesheets()
     }
   },
 };

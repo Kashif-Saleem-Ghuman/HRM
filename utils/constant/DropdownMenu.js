@@ -26,7 +26,7 @@ export const DropdownMenu = {
           label: "Approved",
           key: "approve",
           variant:'success',
-          icon:"check-circle-solid"
+          icon:"check-circle-solid",
         },
         {
           label: "Pending",
@@ -51,6 +51,7 @@ export const DropdownMenu = {
           key: "month",
         },
       ],
+      
       monthList : [
         { label: "Jan", key: "01", selected: false },
         { label: "Feb", key: "02", selected: false },
@@ -72,4 +73,24 @@ export const DropdownMenu = {
         { label: "2023", key: "2023", selected: false },
       ]
   };
-  
+  export const dropButtonChip = {
+    "approved": {
+      label: "Approved",
+      key: "approved",
+      variant:'success',
+      icon:"check-circle-solid",      
+    },
+    "pending": {
+      label: "Pending",
+      key: "pending",
+      variant:'warning',
+      icon:"eye-open"
+    },
+    "rejected": {
+      label: "Rejected",
+      key: "rejected",
+      variant:'danger',
+      icon:"close"
+    },
+
+  }

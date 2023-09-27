@@ -55,7 +55,7 @@
       </template>
 
       <template #cell(status)="data">
-        <div class="text-dark">
+        <div class="text-dark px-05">
           <!-- <bib-input
             type="select"
             :value="data.value.status"
@@ -68,7 +68,6 @@
 
             <dropdown-menu-chip
               :items="timesheetStatusOptions"
-              :selected="TIMESHEET_STATUS.past_due"
               :button-config="TIMESHEET_STATUS.past_due"
               @on-click="onStatusChange($event, data)"
             ></dropdown-menu-chip>
@@ -160,7 +159,7 @@ export default {
       const id = data?.value?.id;
       const status = data?.value?.status
       const confirm = window.confirm(
-        `Are you sure you want to ${event} the selected timesheet?`
+        `Are you sure you want to ${event.value} the selected timesheet?`
       );
 
       if (confirm) {

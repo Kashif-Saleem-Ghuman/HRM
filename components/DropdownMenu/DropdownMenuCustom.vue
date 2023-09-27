@@ -1,8 +1,8 @@
 <template>
-  <div class="dropdown-menu">
+  <div class="dropdown-menu" style="z-index: 99;">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
-      <div style="position: relative">
+      <div style="position: relative; z-index: 99;">
         <bib-button
           :label="buttonLabel"
           :variant="buttonVariant || 'light'"
@@ -81,7 +81,6 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
-  z-index: 99999;
   .button-items {
     display: flex;
     align-items: center;

@@ -13,7 +13,7 @@
           v-click-outside="clickOutside"
         ></bib-button>
 
-        //@click.stop is to prevent v-click-outside to trigger
+        <!-- @click.stop is to prevent v-click-outside to trigger -->
         <div class="btn-overlay" v-show="show" @click.stop="() => {}">
           <slot :close="clickOutside"></slot>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown-menu dropdown-menu-chip">
-    <div class="d-flex align-center px-1 py-05">
+    <div class="d-flex align-center">
       <div style="position: relative">
         <bib-button
           :label="buttonConfig.label"
@@ -11,8 +11,8 @@
           v-click-outside="clickOutside"
           class="pr-05"
         ></bib-button>
-        <div class="menu-items">
-          <div v-if="show">
+        <div class="menu-items chip-wrapper-com">
+          <div v-if="show" class="chip-wrapper-inner">
             <div v-for="item in items" :key="item.key">
               <bib-button
                 :label="item.label"
@@ -21,8 +21,8 @@
                 @click="$emit('on-click', item)"
                 :icon="item.icon ?? ''"
                 v-click-outside="clickOutside"
-                style="min-width: 120px"
-                class="pr-05 mb-025"
+                style="min-width: 140px"
+                class="pr-05 mb-05"
               ></bib-button>
             </div>
           </div>
@@ -34,7 +34,6 @@
 
 <script>
 export default {
- 
   props: {
     /**
      * An object containing button config
@@ -43,13 +42,13 @@ export default {
      * @property {string} variant - The button color
      * @property {string} icon - The button icon
      */
-     buttonConfig: {
-      type: Object
+    buttonConfig: {
+      type: Object,
     },
 
     items: {
-      type: Array,
-    }, 
+      type: Object,
+    },
   },
   data() {
     return {
@@ -65,5 +64,18 @@ export default {
 };
 </script>
 <style lang="scss">
+.chip-wrapper-com {
+  background-color: #fff !important;
+  width: 157px !important;
+  z-index: 99999999999;
+  border-radius: 6px !important;
 
+  // padding: 10px;
+  .chip-wrapper-inner {
+    box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
+    // box-shadow: 0 1rem 0.8rem 0.8rem #000, 0.3 !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+  }
+}
 </style>

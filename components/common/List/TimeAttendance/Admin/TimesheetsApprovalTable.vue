@@ -1,13 +1,8 @@
 <template>
   <div class="timesheets-approval-table-container">
     <loader v-if="loading" :showloader="loading"></loader>
-
-    <div
-      v-if="showNoData"
-      class="no-data-container"
-    >
-      <p>No data available</p>
-    </div>
+    
+    <no-record v-if="showNoData"></no-record>
 
     <custom-table-day-view
       v-else-if="showTable"
@@ -68,7 +63,7 @@
 
             <dropdown-menu-chip
               :items="timesheetStatusOptions"
-              :button-config="TIMESHEET_STATUS.past_due"
+              :button-config="statusButtonConfig"
               @on-click="onStatusChange($event, data)"
             ></dropdown-menu-chip>
           
@@ -137,6 +132,10 @@ export default {
     },
     showNoData() {
       return !this.loading && (!this.employees || !this.employees?.length)
+    },
+    statusButtonConfig() {
+      if (!this.type) return {}
+      return TIMESHEET_STATUS[this.type]
     }
   },
   
@@ -290,14 +289,5 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: $black;
-}
-
-.no-data-container {
-  width: 100%;
-  height: 10vh;
-  text-align: center;
-  font-size: 5vh;
-  padding-top: 5vh;
-  color: #eee;
 }
 </style>

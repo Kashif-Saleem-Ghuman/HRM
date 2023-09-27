@@ -5,9 +5,8 @@
     >
         <div class="pt-1 pb-1">
           <button-with-overlay
-            :items="dropMenuChip"
             sectionLabel="View: "
-            :button-config="{ label: dateBtnLabel, variant: light, }"
+            :button-config="{ label: dateBtnLabel }"
             @on-click="leaveStatus($event)"
             v-slot="scope"
           >
@@ -22,7 +21,7 @@
       <div class="d-flex align-center">
         <div class="d-flex align-center mr-05">
           <span class="mr-05">Search:</span>
-          <bib-input size="sm" type="text" test_id="srchInput01"> </bib-input>
+          <bib-input v-model="searchString" size="sm" type="text" test_id="srchInput01" @input="onSearchChange"></bib-input>
         </div>
         <div class="d-flex align-center">
           <div style="" class="mr-05">Show:</div>
@@ -59,6 +58,7 @@
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
 import { DateTime } from "luxon";
+import { debounce } from "lodash"
 export default {
   data() {
     return {
@@ -66,7 +66,8 @@ export default {
       loading: true,
       employees: [],
       timesheetsList: [],
-      showDatePicker: false
+      showDatePicker: false,
+      searchString: null,
     };
   },
 
@@ -80,13 +81,21 @@ export default {
   },
 
   methods: {
+
+    onSearchChange: debounce(function(event) {
+      if (this.loading) return;
+      this.generateWeekDaysEntries()
+    }, 300),
+
     dateBtnClick() {
       this.showDatePicker = !this.showDatePicker
     },
     async generateWeekDaysEntries() {
+      const { searchString } = this
+
       this.loading = true;
       const { from, to } = this.weekDates;
-      let timesheets = await getTimeAttendanceCustomRange({ from, to });
+      let timesheets = await getTimeAttendanceCustomRange({ from, to, searchString });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("weekDays");

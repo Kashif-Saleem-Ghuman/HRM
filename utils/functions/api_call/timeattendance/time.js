@@ -166,10 +166,10 @@ export async function getTimeAttendanceDaily(date) {
   this.loading = false;
 }
 
-export async function getTimeAttendanceCustomRange({ from, to }) {
+export async function getTimeAttendanceCustomRange({ from, to, searchString }) {
   try {
     const config = createConfig();
-    config.params = { from, to };
+    config.params = { from, to, searchString };
     const { data } = await hrmApiAxiosInstance.get(
       "/timesheets/admin",
       config

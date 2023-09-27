@@ -45,7 +45,7 @@
       </div>
     </template>
   </custom-table>
-  <div v-else class="no-record-found">No Records Found</div>
+  <no-record v-else />
 </template>
 
 <script>

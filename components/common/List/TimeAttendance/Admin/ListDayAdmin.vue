@@ -80,10 +80,5 @@ export default {
       tableFields: TABLE_HEAD.tHeadMyTimeAttendance,
     };
   },
-  methods: {
-  },
-  created() {
-    console.log('this.listToday', this.listToday)
-  }
 };
 </script>

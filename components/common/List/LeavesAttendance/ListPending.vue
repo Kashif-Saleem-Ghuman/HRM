@@ -38,12 +38,7 @@
           </bib-avatar>
           <div :id="'id_' + data.value.employee.id" style="" class="userCard">
             <user-info-card
-              :src="data.value.employee.photo"
-              :firstName="data.value.employee.firstName"
-              :lastName="data.value.employee.lastName"
-              :jobTitle="data.value.employee.jobTitle"
-              :email="data.value.employee.email"
-              :phone="data.value.employee.phone"
+              :user="data.value.employee"
               @viewProfile="viewProfile(data.value.employee.id)"
               @sendInvite="sendInvite"
             ></user-info-card>

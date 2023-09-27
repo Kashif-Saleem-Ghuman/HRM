@@ -4,26 +4,26 @@
       <bib-avatar
         class="mr-1"
         shape="circle"
-        :src="src"
+        :src="user.photo"
         size="5rem"
         
       ></bib-avatar>
       <div>
         <div class="user_card_detail align-center d-flex">
           <label
-            >{{ firstName }} {{ lastName }}
+            >{{ user.firstName }} {{ user.lastName }}
             <span>
-            {{ jobTitle }}
+            {{ user.jobTitle }}
             </span>
           </label>
           <div class="card_info">
-            <div class="button-wrapper-punch" style="margin-left: -3px;">
-              <span v-on:click="$emit('punchedIn')"> Punched in (online)</span>
+            <div class="button-wrapper-punch">
+              <span :class="{online: isOnline}" v-on:click="$emit('punchedIn')">{{  isOnline ? 'Punched in (online)' : 'Offline' }}</span>
             </div>
             <p class="email">
-              {{ email }}
+              {{ user.email }}
             </p>
-            <p class="phone_color">{{ phone }}</p>
+            <p class="phone_color">{{ user.phone }}</p>
           </div>
         </div>
       </div>
@@ -56,34 +56,34 @@
 export default {
   name: "UserCardInfo",
   props: {
-    src: {
-      type: String,
-    },
-    firstName: {
-      type: String,
-    },
-    lastName: {
-      type: String,
-    },
-    jobTitle: {
-      type: String,
-    },
-    email: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
+  /**
+     * A user object
+     * @typedef {Object} User
+     * @property {string} firstName - 
+     * @property {string} lastName - 
+     * @property {string} jobTitle - 
+     * @property {string} email - 
+     * @property {string} phone - 
+     * @property {string} photo - 
+     * @property {string} active - 
+  */
+    user: {
+      required: true,
+      type: Object
+    }
+
   },
-  methods: {
-    employeModal() {
-      alert("employe called");
-    },
-    employee() {
-      alert("import called");
-    },
-    
+
+  computed: {
+    isOnline() {
+      if (!this.user) return false
+      if (this.user.presence && this.user.presence == 'in' ) return true
+      if (this.user.active) return true
+
+      return false
+    }
   },
+  methods: {},
 };
 </script>
 <style lang="scss">
@@ -132,11 +132,18 @@ export default {
       }
       .button-wrapper-punch {
         padding: 3px 0;
+        margin-left: -3px;
         span {
-          background-color: #D6F6D5;
           border-radius: 16px;
           padding: 4px 8px;
-          color: #2ba026;
+          background-color: #eee;
+
+          &.online {
+            background-color: #D6F6D5;
+            color: #2ba026;
+          }
+
+          
         }
       }
     }

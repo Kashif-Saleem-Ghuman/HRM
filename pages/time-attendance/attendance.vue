@@ -56,7 +56,7 @@ import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      date: DateTime.now().toISO(),
+      date: DateTime.now().startOf('day').toUTC().toISO(),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toJSDate(),
@@ -92,7 +92,6 @@ export default {
 
     async generateOrganizationEntries(isoDate) {
       const { searchString } = this
-      
       this.loading = true;
       const { employees = [] } = await getTimeAttendance({ date: isoDate, searchString });
       employees.forEach((employee) => {
@@ -106,7 +105,7 @@ export default {
   },
 
   created() {
-    const nowIso = DateTime.now().toUTC().toISO()
+    const nowIso = DateTime.now().startOf('day').toUTC().toISO()
     this.generateOrganizationEntries(nowIso);
   },
 };

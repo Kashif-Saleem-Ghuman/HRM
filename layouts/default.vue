@@ -22,7 +22,7 @@
           @support-link="headerHelpClick()"
           @my-account-link="myProfile"
           :avatarLink="userPhoto"
-          @logout="$logout"
+          @logout="$signOut"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"

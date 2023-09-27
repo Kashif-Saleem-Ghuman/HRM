@@ -87,19 +87,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.no-record-found {
-  align-items: center;
-  justify-content: center;
-  display: grid;
-  padding: 50px 0;
-  text-align: center;
-  border-radius: 6px;
-  padding: 0;
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 500;
-  color: rgb(173, 173, 172);
-  padding: 20px 0;
-}
-</style>

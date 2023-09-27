@@ -39,6 +39,7 @@
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
                 @sendInvite="sendInvite"
+                :active="data.value.active"
               ></user-info-card>
             </div>
           </div>

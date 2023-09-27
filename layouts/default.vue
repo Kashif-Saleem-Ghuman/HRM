@@ -22,14 +22,14 @@
           @support-link="headerHelpClick()"
           @my-account-link="myProfile"
           :avatarLink="userPhoto"
-          @logout="logout"
+          @logout="$logout"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
         >
           <!-- <template #avatar_menu>
             <avatar-sub-menu
-              @logout="logout"
+              @logout="$logout"
               @openAccountPage="openAccountPage"
               @myProfile="myProfile"
             ></avatar-sub-menu>

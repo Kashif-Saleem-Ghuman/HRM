@@ -1,5 +1,5 @@
 export default async (context, inject) => {
-    const logout = () => {
+    const signOut = () => {
       return new Promise((resolve, reject) => {
         context.app.$cookies.remove(process.env.SSO_COOKIE_NAME, {
           domain: "business-in-a-box.com",
@@ -12,8 +12,22 @@ export default async (context, inject) => {
         resolve();
       });
     };
-  
     // Inject $logout() in Vue, context and store.
-  
-    inject("logout", logout);
+    inject("signOut", signOut);
   };
+  // export default (context, inject) => {
+  //   inject('signOut', () => {
+  //       console.log('remove')
+  //       return new Promise((resolve, reject) => {
+  //           context.app.$cookies.remove(process.env.SSO_COOKIE_NAME, {
+  //             domain: "business-in-a-box.com",
+  //           });
+      
+  //           context.app.$cookies.remove(process.env.SSO_COOKIE_NAME);
+      
+  //           window.location.href = `${process.env.AUTH_REDIRECT_URL}${process.env.VUE_APP_URL}`;
+      
+  //           resolve();
+  //         });
+  //   })
+  // }

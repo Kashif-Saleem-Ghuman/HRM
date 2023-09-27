@@ -35,7 +35,7 @@ export default {
 <style lang="scss" scoped>
 $btn-aspect-ratio: 4;
 $date-btn-width: 6vw;
-$date-btn-height: $date-btn-width / $btn-aspect-ratio;
+$date-btn-height: calc($date-btn-width / $btn-aspect-ratio);
 $padding-value: 10px;
 $border-radius-value: 5%;
 $disabled-background: #e7e7e7;

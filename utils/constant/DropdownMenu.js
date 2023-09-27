@@ -73,6 +73,30 @@ export const DropdownMenu = {
         { label: "2023", key: "2023", selected: false },
       ]
   };
+  export const viewType = {
+    sectionLabel: "sectionLabel",
+    "today": {
+      label: "Today",
+      key: "today",
+      class:'drop-item-wrapper__bgsucess',
+    },
+    "week": {
+      label: "Week",
+      key: "week",
+      class:'drop-item-wrapper__bgabsent'
+    },
+    "month": {
+      label: "Month",
+      key: "month",
+      class:'drop-item-wrapper__bgabsentpink'
+    },
+    "year": {
+      label: "Year",
+      key: "year",
+      class:'drop-item-wrapper__bgsucess'
+    },
+
+  }
   export const dropButtonChip = {
     "approved": {
       label: "Approved",

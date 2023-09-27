@@ -5,9 +5,7 @@
       <dropdown-menu-custom
         sectionLabel="View : "
         :items="dropMenu"
-        :buttonLabel="ViewTitle"
-        :buttonIconShow="false"
-        buttonIcon="add"
+        :button-config="dropMenuChipObject"
         @on-click="viewChange($event)"
       ></dropdown-menu-custom>
     </div>
@@ -76,13 +74,13 @@ import {
   WEEK_VIEW_DATA,
   ACTIVITY_DICTIONARY,
 } from "../../../utils/constant/TimesheetData.js";
-import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
+import { DropdownMenu, viewType } from "../../../utils/constant/DropdownMenu";
 export default {
   data() {
     return {
       id: "",
-      dropMenu: DropdownMenu.tableListView,
-      dropMenuChip: DropdownMenu.dropButtonChip,
+      dropMenu: viewType,
+      dropMenuChipObject:viewType.today,
       timesheetData: [],
       ViewTitle: "Today",
       buttonTitle: "Approved",
@@ -118,26 +116,26 @@ export default {
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
     },
-    viewChange(event) {
-      if (e == "today") {
+    viewChange(e) {
+      if (e.key == "today") {
         this.todayListView = true;
         this.weekListView = false;
         this.monthListView = false;
-        this.ViewTitle = "Today";
+        this.dropMenuChipObject = viewType.today
       }
-      if (e == "week") {
+      if (e.key == "week") {
         this.todayListView = false;
         this.weekListView = true;
         this.monthListView = false;
-        this.ViewTitle = "Week";
+        this.dropMenuChipObject = viewType.week
       }
-      if (e == "month") {
+      if (e.key == "month") {
         this.todayListView = false;
         this.monthListView = true;
         this.weekListView = false;
-        this.ViewTitle = "Month";
+        this.dropMenuChipObject = viewType.month
       }
-      if (e == "year") {
+      if (e.key == "year") {
         alert("No list Found");
       }
     },

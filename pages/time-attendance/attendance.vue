@@ -22,18 +22,6 @@
           </div>
         </button-with-overlay>
         </div>
-
-      <div class="d-flex">
-        <div class="d-flex align-center">
-          <div class="mr-05">Show:</div>
-          <button
-            type="button"
-            class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
-          >
-            All
-          </button>
-        </div>
-      </div>
     </div>
 
     <div class="scroll_wrapper">

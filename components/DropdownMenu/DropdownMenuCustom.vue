@@ -1,14 +1,13 @@
 <template>
-  <div class="dropdown-menu">
+  <div class="dropdown-menu" style="z-index: 99;">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
-      <div style="position: relative">
+      <div style="position: relative; z-index: 99;">
         <bib-button
-          :label="buttonLabel"
-          :variant="buttonVariant || 'light'"
+          :label="buttonConfig.label"
+          :variant="buttonConfig.variant ?? 'light'"
           size="lg"
           @click="show = !show"
-          :icon="buttonIconShow == true ? buttonIcon : false"
           v-click-outside="clickOutside"
           :class="className"
         ></bib-button>
@@ -38,23 +37,24 @@
 <script>
 export default {
   props: {
+    /**
+     * An object containing button config
+     * @typedef {Object} ButtonConfig
+     * @property {string} label - The button label
+     * @property {string} variant - The button color
+     * @property {string} icon - The button icon
+     */
+    buttonConfig: {
+      type: Object,
+    },
     sectionLabel: {
       type: String,
     },
+    className: {
+      type: String,
+    },
     items: {
-      type: Array,
-    },
-    buttonLabel: {
-      type: String,
-    },
-    buttonIconShow: {
-      type: Boolean,
-    },
-    buttonVariant: {
-      type: String,
-    },
-    buttonIcon: {
-      type: String,
+      type: Object,
     },
     listIcon: {
       type: String,
@@ -62,10 +62,37 @@ export default {
     listIconVariant: {
       type: String,
     },
-    className:{
-      type:String
-    }
+
   },
+  // props: {
+  //   sectionLabel: {
+  //     type: String,
+  //   },
+  //   items: {
+  //     type: Array,
+  //   },
+  //   buttonLabel: {
+  //     type: String,
+  //   },
+  //   buttonIconShow: {
+  //     type: Boolean,
+  //   },
+  //   buttonVariant: {
+  //     type: String,
+  //   },
+  //   buttonIcon: {
+  //     type: String,
+  //   },
+  //   listIcon: {
+  //     type: String,
+  //   },
+  //   listIconVariant: {
+  //     type: String,
+  //   },
+  //   className:{
+  //     type:String
+  //   }
+  // },
   data() {
     return {
       viewChange: "Today",
@@ -81,7 +108,6 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
-  z-index: 99999;
   .button-items {
     display: flex;
     align-items: center;

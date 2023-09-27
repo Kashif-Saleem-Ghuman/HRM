@@ -3,11 +3,15 @@ import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 import { DateTime } from "luxon"
 
 export async function getTimeAttendance(payload) {
-  const { date } = payload
+  const { date, searchString } = payload
   
   try {
-    const url = `/timesheets/admin/daily?date=${date}`
+    const url = `/timesheets/admin/daily`
     const config = createConfig();
+    config.params = {
+      date,
+      searchString
+    }
     const { data } = await hrmApiAxiosInstance.get(
       url,
       config

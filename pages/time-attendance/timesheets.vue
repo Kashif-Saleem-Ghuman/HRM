@@ -19,10 +19,9 @@
 
 
       <div class="d-flex align-center">
-        <div class="d-flex align-center mr-05">
-          <span class="mr-05">Search:</span>
-          <bib-input v-model="searchString" size="sm" type="text" test_id="srchInput01" @input="onSearchChange"></bib-input>
-        </div>
+
+        <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+
         <div class="d-flex align-center">
           <div style="" class="mr-05">Show:</div>
           <button
@@ -82,10 +81,11 @@ export default {
 
   methods: {
 
-    onSearchChange: debounce(function(event) {
+    onSearchChange(event) {
+      this.searchString = event
       if (this.loading) return;
       this.generateWeekDaysEntries()
-    }, 300),
+    },
 
     dateBtnClick() {
       this.showDatePicker = !this.showDatePicker

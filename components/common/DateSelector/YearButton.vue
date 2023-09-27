@@ -2,7 +2,7 @@
   <div class="drop-menu">
     <div style="position: relative">
       <bib-button
-        :label="selected"
+        :label="selected?.toString()"
         variant="light"
         @click="toggleDropdown"
         v-click-outside="clickOutside"

@@ -64,35 +64,6 @@ export default {
     },
 
   },
-  // props: {
-  //   sectionLabel: {
-  //     type: String,
-  //   },
-  //   items: {
-  //     type: Array,
-  //   },
-  //   buttonLabel: {
-  //     type: String,
-  //   },
-  //   buttonIconShow: {
-  //     type: Boolean,
-  //   },
-  //   buttonVariant: {
-  //     type: String,
-  //   },
-  //   buttonIcon: {
-  //     type: String,
-  //   },
-  //   listIcon: {
-  //     type: String,
-  //   },
-  //   listIconVariant: {
-  //     type: String,
-  //   },
-  //   className:{
-  //     type:String
-  //   }
-  // },
   data() {
     return {
       viewChange: "Today",

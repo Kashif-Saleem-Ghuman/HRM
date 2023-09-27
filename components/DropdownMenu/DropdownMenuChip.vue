@@ -1,7 +1,6 @@
 <template>
-  <div class="dropdown-menu dropdown-menu-chip">
+  <div class="dropdown-chip-menu">
     <div class="d-flex align-center">
-      <div style="position: relative">
         <bib-button
           :label="buttonConfig.label"
           :variant="buttonConfig.variant"
@@ -27,7 +26,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -64,6 +62,18 @@ export default {
 };
 </script>
 <style lang="scss">
+.dropdown-chip-menu {
+  position: relative;
+  .menu-items {
+    background-color: #fff;
+    width: 107px;
+    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
+    border-radius: 10px;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+}
 .chip-wrapper-com {
   background-color: #fff !important;
   width: 157px !important;

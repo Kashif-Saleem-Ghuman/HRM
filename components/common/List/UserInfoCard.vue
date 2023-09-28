@@ -145,12 +145,6 @@ export default {
 
           
         }
-        .offline-span {
-          background-color: #D6F6D5;
-          border-radius: 16px;
-          padding: 4px 8px;
-          color: #6A6D76;
-        }
       }
     }
   }

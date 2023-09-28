@@ -22,16 +22,14 @@
                 @click="actionBY('vacationAdmin')"
               ></bib-button>
             </div>
-            <dropdown-menu-custom
+            <!-- <dropdown-menu-custom
               :items="dropMenu"
-              :buttonLabel="ViewTitle"
-              :buttonIconShow="true"
-              buttonIcon="close"
+              :buttonConfig="dropMenuMonth"
               @on-click="monthView($event)"
               class="mr-05"
               className="button-wrapper__bgblack"
-            ></dropdown-menu-custom>
-            <dropdown-menu-custom
+            ></dropdown-menu-custom> -->
+            <!-- <dropdown-menu-custom
               :items="dropMenuMonth"
               :buttonLabel="selectedMonth"
               :buttonIconShow="true"
@@ -48,7 +46,7 @@
               @on-click="changeYearView($event)"
               class="mr-05"
               className="button-wrapper__bgblack"
-            ></dropdown-menu-custom>
+            ></dropdown-menu-custom> -->
           </div>
         </div>
       </div>
@@ -227,7 +225,7 @@
 <script>
 import FullCalendar from "../../../modules/@fullcalendar/vue";
 import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
-import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
+import {DropdownMenu} from "../../../utils/constant/DropdownMenu";
 
 import {
   MONTH_LIST,

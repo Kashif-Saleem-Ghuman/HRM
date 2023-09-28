@@ -10,10 +10,8 @@
       </div>
 
       <div class="d-flex align-center">
-        <div class="d-flex align-center mr-05">
-          <span class="mr-05">Search:</span>
-          <bib-input size="sm" type="text" test_id="srchInput01"> </bib-input>
-        </div>
+        <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+        
         <div class="d-flex align-center">
           <div style="font-size: 14px" class="mr-05">Show:</div>
           <button
@@ -31,6 +29,7 @@
         <timesheets-approval-table
           type="past_due"
           :dates.sync="dates"
+          :searchString="searchString"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -42,8 +41,15 @@ export default {
   data() {
     return {
       dates: { from: null, to: null },
+      searchString: null
     };
   },
+
+  methods: {
+    onSearchChange(value) {
+      this.searchString = value
+    }
+  }
 };
 </script>
 

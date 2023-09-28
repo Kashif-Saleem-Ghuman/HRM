@@ -23,17 +23,21 @@
         </button-with-overlay>
         </div>
 
-      <div class="d-flex">
         <div class="d-flex align-center">
-          <div class="mr-05">Show:</div>
-          <button
-            type="button"
-            class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
-          >
-            All
-          </button>
+
+          <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+
+          <div class="d-flex align-center">
+            <div style="" class="mr-05">Show:</div>
+            <button
+              type="button"
+              @click="$emit('on-click')"
+              class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
+            >
+              All
+            </button>
+          </div>
         </div>
-      </div>
     </div>
 
     <div class="scroll_wrapper">
@@ -52,10 +56,11 @@ import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      date: DateTime.now().toISO(),
+      date: DateTime.now().startOf('day').toUTC().toISO(),
       loading: true,
       employees: [],
-      maxDate: DateTime.now().toJSDate()
+      maxDate: DateTime.now().toJSDate(),
+      searchString: null
     };
   },
 
@@ -69,6 +74,11 @@ export default {
   },
 
   methods: {
+    onSearchChange(event) {
+      this.searchString = event
+      if (this.loading) return;
+      this.generateOrganizationEntries(this.date)
+    },
     isDateToday(date) {
       return DateTime.fromISO(date).hasSame(DateTime.local(), 'day')
     },
@@ -81,8 +91,9 @@ export default {
     },
 
     async generateOrganizationEntries(isoDate) {
+      const { searchString } = this
       this.loading = true;
-      const { employees = [] } = await getTimeAttendance({ date: isoDate });
+      const { employees = [] } = await getTimeAttendance({ date: isoDate, searchString });
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");
@@ -94,7 +105,7 @@ export default {
   },
 
   created() {
-    const nowIso = DateTime.now().toUTC().toISO()
+    const nowIso = DateTime.now().startOf('day').toUTC().toISO()
     this.generateOrganizationEntries(nowIso);
   },
 };

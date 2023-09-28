@@ -426,7 +426,7 @@ export default {
         });
     } else {
       window.location.href =
-        process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+        `${process.env.AUTH_REDIRECT_URL}${process.env.HRM_APP_URL}`;
     }
     await this.$store.dispatch("employee/setActiveUser").then((user) => {
       var activeId = user.id;

@@ -88,7 +88,7 @@
         v-for="(items, keyI) in sections[keyI]?.timesheets"
         :id="keyI"
         class="timesheet-table"
-        :key="keyI"
+        :key="`${item.id}-${keyI}`"
       >
 
        <td v-if="!hideNoColumn" class="table__irow-count p-1">
@@ -143,7 +143,6 @@ import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { WEEK_DAY } from '../../utils/constant/Constant';
 
 export default {
-  name: "BibTable",
   props: {
     resizableColumns: {
       type: Boolean,

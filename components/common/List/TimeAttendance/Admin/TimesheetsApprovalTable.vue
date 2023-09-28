@@ -1,13 +1,8 @@
 <template>
   <div class="timesheets-approval-table-container">
     <loader v-if="loading" :showloader="loading"></loader>
-
-    <div
-      v-if="showNoData"
-      class="no-data-container"
-    >
-      <p>No data available</p>
-    </div>
+    
+    <no-record v-if="showNoData"></no-record>
 
     <custom-table-day-view
       v-else-if="showTable"
@@ -68,7 +63,7 @@
 
             <dropdown-menu-chip
               :items="timesheetStatusOptions"
-              :button-config="TIMESHEET_STATUS.past_due"
+              :button-config="statusButtonConfig"
               @on-click="onStatusChange($event, data)"
             ></dropdown-menu-chip>
           
@@ -114,6 +109,10 @@ export default {
       type: String,
       required: true,
     },
+    searchString: {
+      type: String,
+      default: null
+    }
   },
 
   data() {
@@ -137,6 +136,10 @@ export default {
     },
     showNoData() {
       return !this.loading && (!this.employees || !this.employees?.length)
+    },
+    statusButtonConfig() {
+      if (!this.type) return {}
+      return TIMESHEET_STATUS[this.type]
     }
   },
   
@@ -161,7 +164,7 @@ export default {
       const confirm = window.confirm(
         `Are you sure you want to ${event.value} the selected timesheet?`
       );
-
+      event = event?.value ?? event
       if (confirm) {
         if (event == TIMESHEET_STATUS["approved"].value) {
 
@@ -180,6 +183,8 @@ export default {
     },
 
     async getAndParseTimesheets() {
+      const { searchString } = this
+
       this.loading = true;
       const { from, to } = this.dates
       if (!from || !to) return 
@@ -187,6 +192,7 @@ export default {
       const employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
         to,
+        searchString
       });
 
       employees.forEach((employee) => {
@@ -270,6 +276,10 @@ export default {
           this.getAndParseTimesheets()
         }
       }
+    },
+    
+    searchString(value) {
+      this.getAndParseTimesheets()
     }
   },
 };
@@ -290,14 +300,5 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: $black;
-}
-
-.no-data-container {
-  width: 100%;
-  height: 10vh;
-  text-align: center;
-  font-size: 5vh;
-  padding-top: 5vh;
-  color: #eee;
 }
 </style>

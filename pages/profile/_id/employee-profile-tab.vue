@@ -43,13 +43,9 @@
             <div id="my-profile-wrapper">
               <div class="py-cus row-custom">
                 <employee-profile
-                  :firstName="form.firstName"
-                  :lastName="form.lastName"
-                  :maritalStatus="form.maritalStatus"
                   :maritalOptions="maritalOptions"
                   :genderOptions="genderOptions"
-                  :gender="form.gender"
-                  :dob="form.dateOfBirth"
+                  :ProfileConfig="form"
                   @input="handleInput"
                 ></employee-profile>
               </div>
@@ -66,10 +62,7 @@
                 ></tabs-title>
               </div>
               <contact-info
-                :primaryEmail="form?.email"
-                :seondaryEmail="form?.seondaryEmail"
-                :homePhone="form?.homePhone"
-                :cellPhone="form?.phone"
+                :ContactConfig="form"
                 :errorMsgPrimaryEmail="errorMsgPrimaryEmail"
                 @input="handleInput"
               >
@@ -87,15 +80,10 @@
               </div>
               <div>
                 <address-detail
-                  :street="form?.address?.addressLine1"
-                  :suitApartment="form?.address?.addressLine2"
-                  :country="form?.address?.country"
+                :AddressConfig="form"
                   :countryOptions="countries"
-                  :state="form?.address?.state"
-                  :city="form?.address?.city"
                   :stateOptions="currentState"
                   :stateVisible="stateVisible"
-                  :postalCode="form?.address?.postalCode"
                   :errorMsgStreet="errorMsgStreet"
                   :errorMsgSuit="errorMsgSuit"
                   :errorMsgCountry="errorMsgCountry"
@@ -180,6 +168,7 @@ export default {
       genderOptions: SELECT_OPTIONS.genderOptions,
       errorMsgPrimaryEmail: false,
       countries: COUNTRIES,
+      states: STATES,
       currentState: STATES,
       stateVisible: true,
       errorMsgStreet: false,
@@ -199,12 +188,12 @@ export default {
     handleInputObject,
     updateAllData,
     sendMeet,
-  sendMessage,
+    sendMessage,
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
-      getActiveUserData:"token/getActiveUserData"
+      getActiveUserData: "token/getActiveUserData",
     }),
   },
   async created() {

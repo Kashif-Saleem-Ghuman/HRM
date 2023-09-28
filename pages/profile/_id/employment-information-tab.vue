@@ -8,12 +8,8 @@
           <div id="my-profile-wrapper">
             <div class="py-cus row-custom">
               <add-employement-info
-                :employeeStatus="form?.employeeStatus"
                 :esstatusOptions="statusOptions"
-                :employeeNumber="form?.employeeNo"
-                :socialInsuranceNumber="form?.sin"
-                :hireDate="form?.hireDate"
-                :employeeType="form?.sin"
+                :EmployeementConfig="form"
                 @input="handleInput"
               ></add-employement-info>
             </div>
@@ -34,13 +30,8 @@
               </div>
               <div>
                 <placement
-                  :workTitle="form?.jobTitle"
-                  :department="form?.department"
-                  :reportsTo="form?.managerId"
-                  :reportOptions="reportOptions"
-                  :workEmail="form?.email"
-                  :workTelephone="form?.phone"
-                  :workExt="form?.workExt"
+                :reportOptions="reportOptions"
+                :PlacementConfig="form"
                   @input="handleInput"
                 ></placement>
               </div>
@@ -88,7 +79,7 @@
 import { mapGetters } from "vuex";
 import { SELECT_OPTIONS } from '../../../utils/constant/Constant';
 import { handleInput, updateAllData, } from '../../../utils/functions/functions_lib'
-
+import dayjs from "dayjs";
 export default {
   data() {
     return {
@@ -97,6 +88,7 @@ export default {
       form: {},
       id: '',
       updateForm:{},
+      date:'',
     };
   },
   methods: {
@@ -107,9 +99,15 @@ export default {
     this.id = this.$route.params.id;
     await this.$store.dispatch("employee/setUser", this.id);
     this.form = this.getUser;
+    this.date = this.form.hireDate
+    this.date = dayjs(this.date).format("DD-MMM-YYYY");
+    console.log(this.date, "this.form.hireDatethis.form.hireDate")
     await this.$store.dispatch("employee/setReportsToList").then((result) => {
       this.reportOptions = result;
     });
+  },
+  mounted(){
+    this.form.hireDate = this.date
   },
   computed: {
     ...mapGetters({

@@ -5,7 +5,7 @@
         <bib-input
           type="select"
           label="Employee Status"
-          :value="employeeStatus"
+          :value="EmployeementConfig.employeeStatus"
           :options="esstatusOptions"
           placeholder="Select your employee status"
           @input="$emit('input', $event, 'status')"
@@ -16,7 +16,7 @@
         <bib-input
           type="text"
           label="Employee number"
-          :value="employeeNumber"
+          :value="EmployeementConfig.employeeNumber"
           placeholder=""
           @change="$emit('input', $event, 'employeeNo')"
           :disabled="inActive"
@@ -28,7 +28,7 @@
         <bib-input
           type="text"
           label="Social Insurance Number"
-          :value="socialInsuranceNumber"
+          :value="EmployeementConfig.sin"
           placeholder=""
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
@@ -38,7 +38,7 @@
         <bib-input
           type="date"
           label="Hire Date"
-          :value="hireDate"
+          :value="EmployeementConfig.hireDate"
           placeholder="Select your Hire Date"
           @change="$emit('input', $event, 'hireDate')"
           :disabled="inActive"
@@ -50,7 +50,7 @@
         <bib-input
           type="text"
           label="Employment Type"
-          :value="employeeType"
+          :value="EmployeementConfig.employeeType"
           placeholder=""
           @change="$emit('input', $event, 'sin')"
           :disabled="inActive"
@@ -63,20 +63,17 @@
 export default {
   name: "AddEmployeeInformation",
   props: {
-    hireDate: {
-      type: String,
-    },
-    socialInsuranceNumber: {
-      type: String,
-    },
-    employeeNumber: {
-      type: String,
-    },
-    employeeStatus: {
-      type: String,
-    },
-    employeeType:{
-      type:String
+    /**
+     * An object containing employeement config
+     * @typedef {Object} EmployeementConfig
+     * @property {string} hireDate 
+     * @property {string} sin 
+     * @property {string} employeeNumber 
+     * @property {string} employeeStatus 
+     * @property {string} employeeType 
+     */
+     EmployeementConfig: {
+      type: Object,
     },
     esstatusOptions: {
       type: Array,

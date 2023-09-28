@@ -5,7 +5,7 @@
         <bib-input
           type="email"
           label="Primary email"
-          :value="primaryEmail"
+          :value="ContactConfig.primaryEmail"
           placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'primaryEmail')"
@@ -21,7 +21,7 @@
         <bib-input
           type="email"
           label="Secondary email"
-          :value="seondaryEmail"
+          :value="ContactConfig.seondaryEmail"
           placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'seondaryEmail')"
@@ -33,7 +33,7 @@
         <bib-input
           type="text"
           label="Home phone"
-          :value="homePhone"
+          :value="ContactConfig.homePhone"
           placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'homePhone')"
@@ -43,7 +43,7 @@
         <bib-input
           type="text"
           label="Cell phone"
-          :value="cellPhone"
+          :value="ContactConfig.cellPhone"
           placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'cellPhone')"
@@ -56,20 +56,19 @@
 export default {
   name: "ContactInformation",
   props: {
+    /**
+     * An object containing profile config
+     * @typedef {Object} ContactConfig
+     * @property {string} primaryEmail
+     * @property {string} seondaryEmail
+     * @property {string} homePhone
+     * @property {string} cellPhone
+     */
+     ContactConfig: {
+      type: Object,
+    },
     inActive: {
       type: String,
-    },
-    primaryEmail:{
-      type:String
-    },
-    seondaryEmail:{
-      type:String
-    },
-    homePhone:{
-      type:String
-    },
-    cellPhone:{
-      type:String
     },
     errorMsgPrimaryEmail:{
       type:[String, Boolean]

@@ -6,7 +6,7 @@
           type="text"
           label="Street number and name"
           placeholder=""
-          :value="street"
+          :value="AddressConfig.addressLine1"
           :disabled="inActive"
           indicator
           @input="$emit('input', $event, 'addressLine1', 'addresses')"
@@ -23,7 +23,7 @@
       <div class="col-12">
         <bib-input
           type="text"
-          :value="suitApartment"
+          :value="AddressConfig.addressLine2"
           label="Suite/Apartment"
           placeholder=""
           :disabled="inActive"
@@ -43,7 +43,7 @@
           type="select"
           label="Country"
           :options="countryOptions"
-          :value="country"
+          :value="AddressConfig.country"
           placeholder=""
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
@@ -60,7 +60,7 @@
           type="select"
           label="Province/State"
           :options="stateOptions"
-          :value="state"
+          :value="AddressConfig.state"
           placeholder="Please select state"
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
@@ -76,7 +76,7 @@
         <bib-input
           type="text"
           label="Other"
-          :value="otherState"
+          :value="AddressConfig.otherState"
           placeholder=""
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
@@ -86,7 +86,7 @@
         <bib-input
           type="text"
           label="City"
-          :value="city"
+          :value="AddressConfig.city"
           placeholder=""
           :disabled="inActive"
           @change="$emit('input', $event, 'city', 'addresses')"
@@ -103,7 +103,7 @@
       <div class="col-12">
         <bib-input
           type="text"
-          :value="postalCode"
+          :value="AddressConfig.postalCode"
           label="Postal Code"
           placeholder=""
           :disabled="inActive"
@@ -123,35 +123,31 @@
 export default {
   name: "AddressDetail",
   props: {
-    street: {
-      type: String,
+    /**
+     * An object containing profile config
+     * @typedef {Object} AddressConfig
+     * @property {string} addressLine1
+     * @property {string} country
+     * @property {string} state
+     * @property {string} city
+     * @property {string} postalCode
+     * @property {string} addressLine2
+     * @property {string} otherState
+     * @property {string} otherState
+     * @property {string} otherState
+     * @property {string} otherState
+     */
+     AddressConfig: {
+      type: Object,
     },
-    country: {
+    inActive: {
       type: String,
     },
     countryOptions: {
       type: Array,
     },
-    state: {
-      type: String,
-    },
     stateOptions: {
       type: Array,
-    },
-    city: {
-      type: String,
-    },
-    postalCode: {
-      type: String,
-    },
-    stateVisible: {
-      type: Boolean,
-    },
-    suitApartment:{
-      type:String
-    },
-    otherState:{
-      type:String
     },
     otherStateShow:{
       type:Boolean
@@ -174,19 +170,12 @@ export default {
     errorMsgCity: {
       type: Boolean,
     },
+    stateVisible: {
+      type: Boolean,
+    },
     inActive: {
       type: String,
     },
-  },
-  data() {
-    return {
-      // streetState:this.street,
-      // suitApartmentState:this.suitApartment,
-      // countryState:this.country,
-      // stateState:this.state,
-      // otherStateState:this.otherState,
-      // postalCodeState:this.postalCode
-    };
   },
 };
 </script>

@@ -22,7 +22,7 @@
           @support-link="headerHelpClick()"
           @my-account-link="myProfile"
           :avatarLink="userPhoto"
-          @logout="$signOut"
+          @logout="$signOut()"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
@@ -130,6 +130,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+
 import {
   addLeaveVacations,
   getAllowanceDays,
@@ -149,7 +150,6 @@ import {
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
-  logout,
   headerHelpClick,
   headerActionCall,
   openPopupNotification,
@@ -426,7 +426,7 @@ export default {
         });
     } else {
       window.location.href =
-        `${process.env.AUTH_REDIRECT_URL}${process.env.HRM_APP_URL}`;
+        process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
     }
     await this.$store.dispatch("employee/setActiveUser").then((user) => {
       var activeId = user.id;
@@ -460,6 +460,9 @@ export default {
     this.loading = false;
   },
   methods: {
+    logout(){
+      this.$signOut
+    },
     isThemeCheck,
     getBusinessId,
     handleToggleWrapperTheme,
@@ -469,7 +472,6 @@ export default {
     getUserLeavesDetail,
     openAccountPage,
     myProfile,
-    logout,
     headerHelpClick,
     headerActionCall,
     openPopupNotification,

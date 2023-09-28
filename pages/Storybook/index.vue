@@ -3,20 +3,9 @@
     <div class="p-1">Custom Components</div>
     <div class="d-flex">
       <dropdown-menu-custom
-        sectionLabel="Without Icon : "
+        sectionLabel="View : "
         :items="dropMenu"
-        :buttonLabel="ViewTitle"
-        :buttonIconShow="false"
-        buttonIcon="check-circle-solid"
-        @on-click="viewChange($event)"
-      ></dropdown-menu-custom>
-      <dropdown-menu-custom
-        sectionLabel="With Icon : "
-        :items="dropMenu"
-        :buttonLabel="ViewTitle"
-        :buttonIconShow="true"
-        buttonIcon="add"
-        listIcon="add"
+        :button-config="dropMenuChipObject2"
         @on-click="viewChange($event)"
       ></dropdown-menu-custom>
       <dropdown-menu-chip
@@ -33,6 +22,7 @@
 import {
   DropdownMenu,
   dropButtonChip,
+  viewType,
 } from "../../utils/constant/DropdownMenu";
 
 export default {
@@ -41,21 +31,23 @@ export default {
       ViewTitle: "Today",
       buttonTitle: "Approved",
       buttonIcon: "check-circle-solid",
-      dropMenu: DropdownMenu.tableListView,
+      dropMenu: viewType,
       dropMenuChip: dropButtonChip,
-      dropMenuChipObject:dropButtonChip.approved
+      dropMenuChipObject:dropButtonChip.approved,
+      dropMenuChipObject2:viewType.today,
+
     };
   },
   methods: {
     viewChange(e) {
       if (e.key == "today") {
-        this.ViewTitle = e.label;
+        this.dropMenuChipObject2 = e;
       }
       if (e.key == "week") {
-        this.ViewTitle = e.label;
+        this.dropMenuChipObject2 = e;
       }
       if (e.key == "month") {
-        this.ViewTitle = e.label;
+        this.dropMenuChipObject2 = e;
       }
       if (e.key == "year") {
         alert("No list Found");
@@ -68,7 +60,7 @@ export default {
       if (e.key == "pending") {
         this.dropMenuChipObject = dropButtonChip.pending
       }
-      if (e.key == "reject") {
+      if (e.key == "rejected") {
         this.dropMenuChipObject = dropButtonChip.rejected
       }
       if (e == "year") {

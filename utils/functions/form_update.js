@@ -1,11 +1,13 @@
+import dayjs from "dayjs";
+
 export async function vfileAdded(file, name, event) {
   this.isFlag = true;
   this.fileDetail = file;
   let formData = new FormData();
-  formData.append('width', file.width)
-  formData.append('height', file.height)
-  formData.append('left', '0')
-  formData.append('top', '0')
+  formData.append("width", file.width);
+  formData.append("height", file.height);
+  formData.append("left", "0");
+  formData.append("top", "0");
   formData.append("file", this.fileDetail);
   await this.$axios
     .$post(
@@ -78,24 +80,27 @@ export async function updateAllData() {
     .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     })
     .then((res) => {
-      console.log(res.maritalStatus, this.updateForm, "http://dev-hrm.business-in-a-box.com/");
+      console.log(
+        res.maritalStatus,
+        this.updateForm,
+        "http://dev-hrm.business-in-a-box.com/"
+      );
       // this.openPopupNotification(1);
       // this.$store.dispatch("token/setActiveUserData" ,  res )
-      this.name = res
+      this.name = res;
       this.form = res;
       this.loading = false;
       this.isFlag = false;
-      this.$nuxt.$emit('top-nav-key')
+      this.$nuxt.$emit("top-nav-key");
 
       this.updateForm = {};
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);
-      
     });
   this.loading = false;
 }
@@ -111,7 +116,7 @@ export function handleInput(event, name, addresses) {
   }
   if (addresses === "addresses") {
     if (event == "USA") {
-      this.cureentState = this.states.filter((item, index) => {
+      this.currentState = this.states.filter((item, index) => {
         if (item.code == event) {
           // this.stateVisible = true;
           this.isFlag = true;
@@ -120,7 +125,7 @@ export function handleInput(event, name, addresses) {
       });
     }
     if (event == "Canada") {
-      this.cureentState = this.states.filter((item, index) => {
+      this.currentState = this.states.filter((item, index) => {
         if (item.code == event) {
           this.stateVisible = true;
           this.isFlag = true;
@@ -131,9 +136,9 @@ export function handleInput(event, name, addresses) {
     if (event == "Other") {
       // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
-      this.otherStateVisible = true
+      this.otherStateVisible = true;
     }
-    
+
     add[name] = event;
     this.updateForm.address = this.updateForm.address || [];
     this.updateForm.address = {
@@ -174,62 +179,60 @@ export function handleInputObject(event, name, emContact) {
     //   ...add,
     // };
     console.log(this.updateForm, "aslkdnalsdjlk");
-  
   }
 }
 export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
   this.addForm[name] = event;
   // this.form[name] = event;
-  if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
+  if (
+    this.addForm.start != "" ||
+    this.addForm.endDate != "" ||
+    this.addForm.type != ""
+  ) {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
     this.errorMsgSelect = false;
   }
 }
-export async function  selectUserHandle(event, name) {
+export async function selectUserHandle(event, name) {
   this.userId = event;
-  await this.getUserLeavesDetail(this.userId).then((result)=>{
-    this.activeUserAllowanceData = result
-  })
+  await this.getUserLeavesDetail(this.userId).then((result) => {
+    this.activeUserAllowanceData = result;
+  });
   this.isFlag = true;
   this.addForm[name] = event;
-  if(this.leaveType == 'leave'){
-    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed
+  if (this.leaveType == "leave") {
+    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
     this.allowanceDays = 12;
-   }
-   if(this.leaveType == 'medical'){     
-     this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed
+  }
+  if (this.leaveType == "medical") {
+    this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
 
     this.allowanceDays = 10;
-  
-   }
-   if(this.leaveType == 'vacation'){
-    this.useDaysData = this.activeUserAllowanceData.vacationsUsed
+  }
+  if (this.leaveType == "vacation") {
+    this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
     this.allowanceDays = 30;
-   }   
-    
+  }
 }
 export function selectLeaveTypeHandle(event, name, addresses) {
-this.leaveType = event;
+  this.leaveType = event;
   this.isFlag = true;
   this.addForm[name] = event;
- if(this.leaveType == 'leave'){
-  this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed
-  this.allowanceDays = 12;
-
- }
- if(this.leaveType == 'medical'){
-  this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed
-  this.allowanceDays = 10;
-
- }
- if(this.leaveType == 'vacation'){
-  this.useDaysData = this.activeUserAllowanceData.vacationsUsed
-  this.allowanceDays = 30;
-
- }
- console.log(this.addForm, "this.addFormthis.addForm")
+  if (this.leaveType == "leave") {
+    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
+    this.allowanceDays = 12;
+  }
+  if (this.leaveType == "medical") {
+    this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
+    this.allowanceDays = 10;
+  }
+  if (this.leaveType == "vacation") {
+    this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
+    this.allowanceDays = 30;
+  }
+  console.log(this.addForm, "this.addFormthis.addForm");
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;
@@ -268,7 +271,7 @@ export function handleOrgProfile(event, name, addresses) {
     if (event == "Other") {
       // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
-      this.otherStateVisible = true
+      this.otherStateVisible = true;
     }
     this.updateForm[name] = event;
     this.form[name] = event;

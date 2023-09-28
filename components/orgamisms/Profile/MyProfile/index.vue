@@ -71,13 +71,9 @@
                       <div id="my-profile-wrapper">
                         <div class="py-cus row-custom">
                           <employee-profile
-                           :firstName="form.firstName"
-                  :lastName="form.lastName"
-                  :maritalStatus="form.maritalStatus"
-                  :maritalOptions="maritalOption"
-                  :genderOptions="genderOptions"
-                  :gender="form.gender"
-                  :dob="form.dateOfBirth"
+                            :maritalOptions="maritalOption"
+                            :genderOptions="genderOptions"
+                            :ProfileConfig="form"
                             @input="handleInput"
                           ></employee-profile>
                         </div>
@@ -97,14 +93,11 @@
                           ></tabs-title>
                         </div>
                         <contact-info
-                          :primaryEmail="form?.email"
-                          :seondaryEmail="form?.seondaryEmail"
-                          :homePhone="form?.homePhone"
-                          :cellPhone="form?.phone"
+                          :ContactConfig="form"
                           :errorMsgPrimaryEmail="errorMsgPrimaryEmail"
                           @input="handleInput"
                         >
-                        </contact-info>
+                        </contact-info>Z
                       </div>
 
                       <!-- address Info Wrapper Start Here  -->
@@ -119,15 +112,10 @@
                         </div>
                         <div>
                           <address-detail
-                            :street="form?.address?.addressLine1"
-                            :suitApartment="form?.address?.addressLine2"
-                            :country="form?.address?.country"
+                            :AddressConfig="form"
                             :countryOptions="countries"
-                            :state="form?.address?.state"
-                            :city="form?.address?.city"
-                            :stateOptions="cureentState"
+                            :stateOptions="currentState"
                             :stateVisible="stateVisible"
-                            :postalCode="form?.address?.postalCode"
                             :errorMsgStreet="errorMsgStreet"
                             :errorMsgSuit="errorMsgSuit"
                             :errorMsgCountry="errorMsgCountry"
@@ -209,12 +197,8 @@
                       <div id="my-profile-wrapper">
                         <div class="py-cus row-custom">
                           <add-employement-info
-                            :employeeStatus="form?.employeeStatus"
                             :esstatusOptions="statusOptions"
-                            :employeeNumber="form?.employeeNo"
-                            :socialInsuranceNumber="form?.sin"
-                            :hireDate="form?.hireDate"
-                            :employeeType="form?.sin"
+                            :EmployeementConfig="form"
                             @input="handleInput"
                           ></add-employement-info>
                         </div>
@@ -235,13 +219,8 @@
                           </div>
                           <div>
                             <placement
-                              :workTitle="form?.jobTitle"
-                              :department="form?.department"
-                              :reportsTo="form?.managerId"
                               :reportOptions="reportOptions"
-                              :workEmail="form?.email"
-                              :workTelephone="form?.phone"
-                              :workExt="form?.workExt"
+                              :PlacementConfig="form"
                               @input="handleInput"
                             ></placement>
                           </div>
@@ -396,7 +375,7 @@ export default {
       statusOptions: SELECT_OPTIONS.esstatusOptions,
       countries: COUNTRIES,
       states: STATES,
-      cureentState: STATES,
+      currentState: STATES,
       teamOptions: "",
       emContact: false,
       activeTab: "Employee Profile",
@@ -441,22 +420,24 @@ export default {
 
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
-      await this.$store.dispatch("employee/setUser", this.getUser.id);
-      var users = this.getUser;
+    await this.$store.dispatch("employee/setUser", this.getUser.id);
+    var users = this.getUser;
 
-      this.form = users;
-      this.id = this.getUser.id;
-      this.name = users;
-      this.getFiles(this.id).then((result) => {
-        this.filesUploaded = result;
-        this.filesUploaded.reverse();
-        //  this.fileList += 1;
-      });
+    this.form = users;
+    this.id = this.getUser.id;
+    this.name = users;
+    this.getFiles(this.id).then((result) => {
+      this.filesUploaded = result;
+      this.filesUploaded.reverse();
+      //  this.fileList += 1;
+    });
     this.$root.$on("top-nav-key", () => {
-      this.$store.dispatch("employee/setUser", this.getUser.id).then((result)=>{
-        this.name = result;
-        this.topNav += 1;
-      });
+      this.$store
+        .dispatch("employee/setUser", this.getUser.id)
+        .then((result) => {
+          this.name = result;
+          this.topNav += 1;
+        });
     });
   },
 

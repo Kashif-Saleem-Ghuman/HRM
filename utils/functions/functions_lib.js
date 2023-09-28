@@ -4,7 +4,6 @@ import {
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
-  logout,
   isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
 import {
@@ -43,7 +42,6 @@ export {
   openPopupNotification,
   openAccountPage,
   myProfile,
-  logout,
   isThemeCheck,
   vfileAdded,
   updateAllData,

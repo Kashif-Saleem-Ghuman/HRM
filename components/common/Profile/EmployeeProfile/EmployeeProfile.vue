@@ -5,7 +5,7 @@
         <bib-input
           type="text"
           label="First Name"
-          :value="firstName"
+          :value="ProfileConfig.firstName"
           placeholder=""
           @change="$emit('input', $event, 'firstName')"
           :disabled="inActive"
@@ -15,7 +15,7 @@
         <bib-input
           type="text"
           label="Last Name"
-          :value="lastName"
+          :value="ProfileConfig.lastName"
           placeholder=""
           @change="$emit('input', $event, 'lastName')"
           :disabled="inActive"
@@ -27,7 +27,7 @@
         <bib-input
           type="date"
           label="Date of birth"
-          :value="dob"
+          :value="ProfileConfig.dateOfBirth"
           placeholder=""
           @change="$emit('input', $event, 'dateOfBirth')"
           :disabled="inActive"
@@ -37,7 +37,7 @@
         <bib-input
           type="select"
           label="Gender"
-          :value="gender"
+          :value="ProfileConfig.gender"
           :options="genderOptions"
           placeholder=""
           @input="$emit('input', $event, 'gender')"
@@ -50,7 +50,7 @@
         <bib-input
           type="select"
           label="Marital Status"
-          :value="maritalStatus"
+          :value="ProfileConfig.maritalStatus"
           :options="maritalOptions"
           placeholder="Please select employee status"
           @input="$emit('input', $event, 'maritalStatus')"
@@ -64,42 +64,27 @@
 export default {
   name: "EmployeeProfile",
   props: {
-    firstName: {
-      type: String,
+    /**
+     * An object containing profile config
+     * @typedef {Object} ProfileConfig
+     * @property {string} firstName
+     * @property {string} lastName
+     * @property {string} dateOfBirth
+     * @property {string} gender
+     * @property {string} maritalStatus
+     */
+     ProfileConfig: {
+      type: Object,
     },
-    lastName: {
-      type: String,
-    },
-    dob: {
-      type: String,
-    },
-    gender: {
-      type: String,
-    },
-    genderOptions: {
-      type: Array,
-    },
-    maritalStatus: {
+    inActive: {
       type: String,
     },
     maritalOptions: {
       type: Array,
     },
-    input: {
-      type: Function,
+    genderOptions: {
+      type: Array,
     },
-    inActive: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-      // firstNameState:this.firstName,
-      // lastNameState:this.lastName,
-      // dobState:this.dob,
-      // genderState:this.gender,
-      // maritalStatusState:this.maritalStatus
-    };
   },
 };
 </script>

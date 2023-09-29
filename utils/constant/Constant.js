@@ -638,10 +638,10 @@ export const SELECT_OPTIONS = {
   ],
   leaveType:[
     // { label: "Please Select Leave Type", value: null },
-    { label: "Vacation", value: "vacation" },
-    { label: "Leave", value: "leave" },
-    { label: "Medical/sick", value: "medical" },
-    { label: "Absent", value: "absent" },
+    { label: "Personal Leave", value: "leave" },
+    { label: "Vacation Leave", value: "vacation" },
+    { label: "Medical Leave", value: "medical" },
+    // { label: "Absent", value: "absent" },
   ]
 };
 

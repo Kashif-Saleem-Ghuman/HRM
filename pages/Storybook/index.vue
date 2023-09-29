@@ -21,7 +21,7 @@
 <script>
 import {
   DropdownMenu,
-  dropButtonChip,
+  buttonVariant,
   viewType,
 } from "../../utils/constant/DropdownMenu";
 
@@ -32,8 +32,8 @@ export default {
       buttonTitle: "Approved",
       buttonIcon: "check-circle-solid",
       dropMenu: viewType,
-      dropMenuChip: dropButtonChip,
-      dropMenuChipObject:dropButtonChip.approved,
+      dropMenuChip: buttonVariant,
+      dropMenuChipObject:buttonVariant.approved,
       dropMenuChipObject2:viewType.today,
 
     };
@@ -55,13 +55,13 @@ export default {
     },
     leaveStatus(e) {
       if (e.key == "approve") {
-        this.dropMenuChipObject = dropButtonChip.approved
+        this.dropMenuChipObject = buttonVariant.approved
       }
       if (e.key == "pending") {
-        this.dropMenuChipObject = dropButtonChip.pending
+        this.dropMenuChipObject = buttonVariant.pending
       }
       if (e.key == "rejected") {
-        this.dropMenuChipObject = dropButtonChip.rejected
+        this.dropMenuChipObject = buttonVariant.rejected
       }
       if (e == "year") {
         alert("No list Found");

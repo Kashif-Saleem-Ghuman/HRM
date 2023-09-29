@@ -41,6 +41,7 @@
                 @viewProfile="viewProfile(data.value.id)"
                 @sendMeet="sendMeet(data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
+                :active="data.value.active"
               ></user-info-card>
             </div>
           </div>

@@ -1,5 +1,6 @@
 <template>
   <custom-table
+    v-if="listToday.length"
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="listToday"
@@ -44,6 +45,7 @@
       </div>
     </template>
   </custom-table>
+  <no-record v-else />
 </template>
 
 <script>
@@ -78,8 +80,5 @@ export default {
       tableFields: TABLE_HEAD.tHeadMyTimeAttendance,
     };
   },
-  methods: {
-  },
 };
 </script>
-

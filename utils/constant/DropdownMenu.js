@@ -21,26 +21,7 @@ export const DropdownMenu = {
         class:'drop-item-wrapper__bgsucess'
       },
     ],
-    dropButtonChip: [
-        {
-          label: "Approved",
-          key: "approve",
-          variant:'success',
-          icon:"check-circle-solid",
-        },
-        {
-          label: "Pending",
-          key: "pending",
-          variant:'warning',
-          icon:"eye-open"
-        },
-        {
-          label: "Reject",
-          key: "reject",
-          variant:'danger',
-          icon:"close"
-        },
-      ],
+
       calendarViewType: [
         {
           label: "Week",
@@ -79,24 +60,27 @@ export const DropdownMenu = {
     },
 
   }
-  export const dropButtonChip = {
+  export const buttonVariant = {
     "approved": {
       label: "Approved",
       key: "approved",
       variant:'success',
-      icon:"check-circle-solid",      
+      icon:"check-circle-solid", 
+      scale:'1'     
     },
     "pending": {
       label: "Pending",
       key: "pending",
       variant:'warning',
-      icon:"eye-open"
+      icon:"eye-open",
+      scale:'1'  
     },
     "rejected": {
       label: "Rejected",
       key: "rejected",
       variant:'danger',
-      icon:"close"
+      icon:"close",
+      scale:'1'  
     },
 
   }

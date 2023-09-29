@@ -7,46 +7,46 @@
             <div class="d-flex align-center">
               <bib-button
                 icon="add"
-                variant="success--outline"
+                variant="success"
                 :scale="1"
-                label="Add leave"
+                label="Add Leave"
                 class="mr-05"
                 @click="actionBY('leaveAdmin')"
               ></bib-button>
-              <bib-button
+              <!-- <bib-button
                 icon="add"
                 variant="success--outline"
                 :scale="1"
                 label="Add vacation"
                 class="mr-05"
                 @click="actionBY('vacationAdmin')"
-              ></bib-button>
+              ></bib-button> -->
             </div>
-            <!-- <dropdown-menu-custom
+            <dropdown-menu-calendar
               :items="dropMenu"
-              :buttonConfig="dropMenuMonth"
+              :label="ViewTitle"
+              :buttonIconShow="true"
+              icon="close"
               @on-click="monthView($event)"
               class="mr-05"
               className="button-wrapper__bgblack"
-            ></dropdown-menu-custom> -->
-            <!-- <dropdown-menu-custom
+            ></dropdown-menu-calendar>
+            <dropdown-menu-calendar
               :items="dropMenuMonth"
-              :buttonLabel="selectedMonth"
-              :buttonIconShow="true"
-              buttonIcon="arrowhead-down"
+              :label="selectedMonth"
+              icon="arrowhead-down"
               @on-click="changeMonthView($event)"
               class="mr-05"
               className="button-wrapper__bgblack"
-            ></dropdown-menu-custom>
-            <dropdown-menu-custom
+            ></dropdown-menu-calendar>
+            <dropdown-menu-calendar
               :items="dropMenuYear"
-              :buttonLabel="selectedYear"
-              :buttonIconShow="true"
-              buttonIcon="arrowhead-down"
+              :label="selectedYear"
+              icon="arrowhead-down"
               @on-click="changeYearView($event)"
               class="mr-05"
               className="button-wrapper__bgblack"
-            ></dropdown-menu-custom> -->
+            ></dropdown-menu-calendar>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
                 " " +
                 arg.event.extendedProps.employee.lastName
               }}</label>
-              <span>{{ arg.event.extendedProps.type }}</span>
+              <span>{{ arg.event.extendedProps.type == 'leave' ? 'Personal Leave' : arg.event.extendedProps.type + ' ' + "Leave" }}</span>
             </div>
           </a>
         </template>
@@ -225,7 +225,7 @@
 <script>
 import FullCalendar from "../../../modules/@fullcalendar/vue";
 import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
-import {DropdownMenu} from "../../../utils/constant/DropdownMenu";
+import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
 
 import {
   MONTH_LIST,
@@ -332,8 +332,8 @@ export default {
       employeeNameSelectShow: false,
       weekendsButtonView: "Show Weekdays",
       dropMenu: DropdownMenu.calendarViewType,
-      dropMenuMonth: DropdownMenu.monthList,
-      dropMenuYear: DropdownMenu.yearList,
+      dropMenuMonth: MONTH_LIST,
+      dropMenuYear: YEAR_LIST,
       selectedMonth: "",
       selectedYear: "2023",
       yearTitle: "2023",
@@ -398,8 +398,8 @@ export default {
     },
     change(event) {},
     searchLeavesType(event) {
-      this.getSearchKey = event;
-      //  console.log(this.getSearchKey, event,  "this.getSearchKey")
+      this.getSearchKey = event.target.value;
+       console.log(this.getSearchKey, event,  "this.getSearchKey")
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,

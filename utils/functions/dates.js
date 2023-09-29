@@ -36,3 +36,32 @@ export const getDateDiffInHHMM = (start, end) => {
   const endDate = DateTime.fromISO(end);
   return endDate.diff(startDate, ["hour", "minute"]).toFormat("hh:mm");
 }
+
+export const parseInputTimeIntoArray = (timeInput) => {
+  const [hours, minutes] = timeInput.trim().split(/\s*:\s*/).map(Number);
+  if (
+    (hours || hours === 0)
+    && (minutes || minutes === 0)
+    && hours < 24
+    && hours >= 0
+    && minutes < 60
+    && minutes >=0
+    && hours === Math.floor(hours)
+    && minutes === Math.floor(minutes)
+  ) {
+    return [hours, minutes];
+  }
+  throw new Error('Invalid Input');
+}
+
+export const numberToClockDigits = (number) => {
+  return `${number < 10 ? '0' : ''}${number}`
+}
+
+export const hoursAndMinutesToJSDate = (hours, minutes) => {
+  return new Date(
+    new Date(
+      new Date(this.date).setHours(hours)
+    ).setMinutes(minutes)
+  );
+}

@@ -65,7 +65,10 @@
             v-model="newActivity.end"
           ></bib-input>
         </div>
-        <div class="cell"><div class="uneditable-cell">{{ newActivityTotal }}</div></div>
+        <div class="cell">
+          <div class="uneditable-cell">{{ newActivityTotal }}</div>
+          <bib-button @click="makeNewTimeEntry" v-if="timeEntryIsValid" label="Enter" variant="secondary"></bib-button>
+        </div>
       </div>
     </div>
   </div>
@@ -171,7 +174,7 @@ export default {
   },
   computed: {
     newActivityTotal() {
-      if (!this.newActivity.start || !this.newActivity.end) return '--:--'
+      if (!this.timeEntryIsValid) return '--:--'
       let endHours, endMinutes, startHours, startMinutes;
       try {
         [endHours, endMinutes] = this.parseInputTimeIntoArray(this.newActivity.end);
@@ -184,6 +187,9 @@ export default {
       const totalHours = Math.floor(totalTimeInMinutes / 60);
       const totalMinutes = totalTimeInMinutes - totalHours * 60;
       return `${this.numberToClockDigits(totalHours)}:${this.numberToClockDigits(totalMinutes)}`;
+    },
+    timeEntryIsValid() {
+      return this.newActivity.start && this.newActivity.end;
     }
   }
 };

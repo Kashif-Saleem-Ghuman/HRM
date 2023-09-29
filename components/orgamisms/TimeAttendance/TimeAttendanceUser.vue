@@ -127,7 +127,9 @@
             :listToday="todayData"
             v-show="todayListView"
             @new-entry="handleNewEntry"
+            @edit-entry="handleEditEntry"
             :date="new Date(todayDate)"
+            v-if="!loading"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month
@@ -200,15 +202,6 @@ export default {
       timesheetStatus: '',
     };
   },
-  async created() {
-    this.getCurrentDate = this.todayDate;
-    // await this.getTimeAttandance();
-    console.log(this.getCurrentDate, "getCurrentDategetCurrentDate");
-
-    await this.$store.dispatch("employee/setActiveUser");
-    var users = this.getUser;
-    this.id = users.id;
-  },
   computed: {
     ...mapGetters({
       getActiveUser: "employee/GET_USER",
@@ -249,10 +242,12 @@ export default {
     handleNewEntry(timeEntry) { 
       this.todayData.push({
         activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
+        activity: timeEntry.activity,
         start: getTimeFromDate(timeEntry.start),
         end: getTimeFromDate(timeEntry.end),
         total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
         status: timeEntry.status,
+        id: timeEntry.id,
       });
       if (timeEntry.activity === 'in') {
         this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
@@ -260,6 +255,10 @@ export default {
         this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
       }
       this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
+    },
+    async handleEditEntry() {
+      await this.fillTimeEntries();
+      await this.getTimesheetWidget()
     },
     async getTimesheetWidget() {
       const widget = await getUserTimesheetWidget()
@@ -306,12 +305,14 @@ export default {
       this.clockModal = false;
     },
     async fillTimeEntries() {
+      this.loading = true;
       await this.$store.dispatch("timeattendance/setDailyTimeEntries", new Date(this.todayDate));
       this.todayData = [];
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
+      this.loading = false;
     },
     async dateSelection(event){
       await this.fillTimeEntries();      

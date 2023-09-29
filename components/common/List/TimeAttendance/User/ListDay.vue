@@ -1,30 +1,24 @@
 <template>
   <div>
     <div class="table">
-      <div class="table__thead">
-        <div class="cell checkbox">
-          <bib-checkbox size="md"></bib-checkbox>
-        </div>
+      <div class="thead row">
         <div class="cell">New Activity</div>
         <div class="cell">Start</div>
         <div class="cell">End</div>
         <div class="cell">Total</div>
       </div>
       <div v-for="activity in listToday" :key="activity.id" class="row">
-        <div class="cell checkbox">
-          <bib-checkbox size="md"></bib-checkbox>
-        </div>
-        <div class="cell">{{ activity.activityTitle }}</div>
+        <div class="cell activity">{{ activity.activityTitle }}</div>
         <div class="cell">
           <bib-input
-            type="text"
+            type="time"
             :value="activity.start"
             name="name"
           ></bib-input>
         </div>
         <div class="cell">
           <bib-input
-            type="text"
+            type="time"
             :value="activity.end"
             name="name"
             placeholder="Type your name"
@@ -33,31 +27,31 @@
         <div class="cell"><div class="uneditable-cell">{{ activity.total }}</div></div>
       </div>
       <div class="row" @keyup.enter="makeNewTimeEntry">
-        <div class="cell checkbox">
-          <bib-checkbox size="md"></bib-checkbox>
-        </div>
-        <div class="cell">
+        <div class="cell activity">
           <bib-button
             dropdown=""
             :label="newActivity.activity.label || 'Select Activity Type'"
-            tooltip-title="Dropdown"
             v-model="newActivity.activity.label"
           >
             <template v-slot:menu>
               <ul>
-                <li @click="newActivityTypeReset">{{ 'Select an activity type' }}</li>
+                <li @click="newActivityTypeReset">
+                  <span class="activity">{{ 'Select an activity type' }}</span>
+                </li>
                 <li
                   v-for="activityType in activityTypes"
                   :key="activityType.value"
                   @click="newActivityTypeSelected(activityType.value)"
-                >{{ activityType.label }}</li>
+                >
+                  <span class="activity">{{ activityType.label }}</span>
+                </li>
               </ul>
             </template>
           </bib-button>
         </div>
         <div class="cell">
           <bib-input
-            type="text"
+            type="time"
             :value="newActivity.start || 'start'"
             name="start"
             v-model="newActivity.start"
@@ -65,7 +59,7 @@
         </div>
         <div class="cell">
           <bib-input
-            type="text"
+            type="time"
             :value="newActivity.end || 'end'"
             name="end"
             v-model="newActivity.end"
@@ -196,50 +190,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.time-list {
-  ul {
-    margin: 0px;
-    padding: 0;
-  }
-  .time-list-item {
-    display: flex;
-    color: #000;
-    li {
-      list-style: none;
-      padding: 0 10px;
-      border-right: 1px solid #eee;
-      font-weight: normal;
-      font-size: 11px;
-      &:last-child {
-        border-right: 0px;
-        padding-right: 0px;
-      }
-      label {
-        display: block;
-        font-weight: normal;
-        font-size: 14px;
-        font-weight: 600;
-      }
-    }
-  }
-}
 .table {
   display: table;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   border-collapse: collapse;
-  &__thead {
-    display: table-row;
-    color: $gray5;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-top: 1px solid $gray3;
-    border-collapse: collapse;
-  }
-  .checkbox {
-    width: 40px;
-  }
   .row {
     display: table-row;
   }
@@ -249,6 +204,22 @@ export default {
     border-right: 1px solid $gray3;
     text-align: center;
     padding: 0px 10px;
+  }
+  .activity {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .thead {
+    display: table-row;
+    color: $gray5;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-top: 1px solid $gray3;
+    border-collapse: collapse;
+    .cell {
+      padding: 10px;
+    }
   }
 }
 </style>

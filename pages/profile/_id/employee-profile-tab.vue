@@ -372,7 +372,11 @@ import {
   isValidUSZIP,
   isValidCanadianPostalCode,
 } from "../../../utils/form-validations/string-validations";
+
+import formWithValidationMixin from "../../../mixins/form-with-validation-mixin";
 export default {
+  mixins: [formWithValidationMixin],
+
   data() {
     return {
       contactFormFieds,
@@ -403,24 +407,6 @@ export default {
   },
   methods: {
     vfileAdded,
-    setErrors(errors) {
-      this.errors = { ...errors };
-    },
-
-    resetFieldError(fieldKey) {
-      if (get(this.errors, fieldKey)) {
-        set(this.errors, fieldKey, null);
-      }
-    },
-    handleInput(event) {
-      const { value, fieldKey } = event;
-      this.resetFieldError(fieldKey);
-
-      set(this.updateForm, fieldKey, value);
-
-      //force update
-      this.updateForm = { ...this.updateForm };
-    },
 
     customValidation() {
       const isPostalCodeValid = this.validatePostalCode();
@@ -457,16 +443,11 @@ export default {
 
       return true;
     },
-    async submit(e) {
-      console.log("befreo vlaid");
-      const valid = this.customValidation();
-      console.log("after", valid);
 
-      if (!valid) return;
-      await updateEmployee({ id: this.form.id, employee: this.updateForm });
-      this.updateForm = {};
+    submitToApi() {
+      return updateEmployee({ id: this.form.id, employee: this.updateForm });
     },
-
+    
     sendMeet,
     sendMessage,
   },

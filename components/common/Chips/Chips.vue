@@ -4,10 +4,11 @@
       :class="[
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
         shapeRound ? 'chip-wrapper' + shapeRound : '',
+        defaultPointer ? '' : 'cursor-pointer',
         variant,
         className,
       ]"
-      class="cursor-pointer chip-wrapper"
+      class="chip-wrapper"
       
       @click="$emit('on-click')"
     >
@@ -63,6 +64,10 @@ export default {
     titleClass: {
       type: String,
     },
+    defaultPointer: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {};

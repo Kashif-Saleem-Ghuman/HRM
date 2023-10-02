@@ -1,148 +1,351 @@
 <template>
-  <div id="employee-information-wrapper">
-    <div id="scroll-wrapper" class="scroll-wrapper">
-      <div class="py-cus px-1 d-flex align-center">
-        <drop-zone
-          :src="form.photo"
-          :className="form.photo != null ? 'hide' : ''"
-          :customRemove="form.photo == null ? 'hide' : 'hide'"
-          @vfileAdded="vfileAdded"
-        ></drop-zone>
-        <div v-show="form.photo == null ? false : true">
-          <aside style="font-weight: bold; font-size: 18px">
-            {{ form.firstName }} {{ form.lastName }}
-          </aside>
-          <aside style="font-weight: 400; font-size: 14px">
-            {{ form.jobTitle }}
-          </aside>
+  <form-with-validation
+    :fields="fields"
+    :form="updateForm"
+    @errors="setErrors"
+    @on-submit-valid="submit"
+  >
+    <div id="employee-information-wrapper">
+      <div id="scroll-wrapper" class="scroll-wrapper">
+        <div class="py-cus px-1 d-flex align-center">
+          <drop-zone
+            :src="form.photo"
+            :className="form.photo != null ? 'hide' : ''"
+            :customRemove="form.photo == null ? 'hide' : 'hide'"
+            @vfileAdded="vfileAdded"
+          ></drop-zone>
+          <div v-show="form.photo == null ? false : true">
+            <aside style="font-weight: bold; font-size: 18px">
+              {{ form.firstName }} {{ form.lastName }}
+            </aside>
+            <aside style="font-weight: 400; font-size: 14px">
+              {{ form.jobTitle }}
+            </aside>
+          </div>
         </div>
-      </div>
-      <div class="d-flex px-1" style="margin-top: -10px">
-        <button-gray
-          @on-click="sendMessage(form.userId)"
-          icon="mail-new"
-          variant="gray1"
-          class="mr-05"
-          :scale="0.8"
-          title="Send Message"
-          titleClass="button-title"
-        ></button-gray>
-        <button-gray
-          @on-click="sendMeet(form.userId)"
-          icon="device-mobile"
-          variant="gray1"
-          :scale="0.8"
-          title="Make a call"
-          titleClass="button-title"
-        ></button-gray>
-      </div>
-      <div class="px-1">
-        <div class="row">
-          <div class="col-6">
-            <!-- my profile Info Wrapper Start Here  -->
-            <div id="my-profile-wrapper">
-              <div class="py-cus row-custom">
-                <employee-profile
-                  :maritalOptions="maritalOptions"
-                  :genderOptions="genderOptions"
-                  :ProfileConfig="form"
-                  @input="handleInput"
-                ></employee-profile>
-              </div>
-            </div>
+        <div class="d-flex px-1" style="margin-top: -10px">
+          <button-gray
+            @on-click="sendMessage(form.userId)"
+            icon="mail-new"
+            variant="gray1"
+            class="mr-05"
+            :scale="0.8"
+            title="Send Message"
+            titleClass="button-title"
+          ></button-gray>
+          <button-gray
+            @on-click="sendMeet(form.userId)"
+            icon="device-mobile"
+            variant="gray1"
+            :scale="0.8"
+            title="Make a call"
+            titleClass="button-title"
+          ></button-gray>
+        </div>
 
-            <!-- Contact Info Wrapper Start Here  -->
-            <div id="contact-info-wrapper" class="info-wrapper border-wrapper">
-              <div class="col-6">
-                <tabs-title
-                  title="Contact"
-                  variant="gray"
-                  :scale="0.9"
-                  class="py-1"
-                ></tabs-title>
+        <div class="px-1">
+          <div class="row">
+            <div class="col-6">
+              <!-- 
+              FIRST NAME
+              LAST NAME
+              DATE OF BIRTH
+              GENDER
+              MARITAL STATUS
+          -->
+              <div id="my-profile-wrapper">
+                <div class="py-cus row-custom">
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <form-input
+                          type="text"
+                          label="First Name"
+                          field-key="firstName"
+                          :value="form.firstName"
+                          :error="errors.firstName"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-6">
+                        <form-input
+                          type="text"
+                          label="Last Name"
+                          field-key="lastName"
+                          :value="form?.lastName"
+                          :error="errors?.lastName"
+                          placeholder="my place holder"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <form-input
+                          type="date"
+                          label="Date of birth"
+                          field-key="dateOfBirth"
+                          :value="form.dateOfBirth"
+                          :error="errors.dateOfBirth"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-6">
+                        <form-input
+                          type="select"
+                          label="Gender"
+                          field-key="gender"
+                          :value="form?.gender"
+                          :error="errors?.gender"
+                          :options="genderOptions"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <form-input
+                          type="select"
+                          label="Marital Status"
+                          field-key="maritalStatus"
+                          :value="form?.maritalStatus"
+                          :error="errors?.maritalStatus"
+                          :options="maritalOptions"
+                          placeholder="Please select employee status"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <contact-info
-                :ContactConfig="form"
-                :errorMsgPrimaryEmail="errorMsgPrimaryEmail"
-                @input="handleInput"
+
+              <!-- Contact Info Wrapper Start Here  -->
+              <div
+                id="contact-info-wrapper"
+                class="info-wrapper border-wrapper"
               >
-              </contact-info>
-            </div>
-            <!-- address Info Wrapper Start Here  -->
-            <div id="address-wrapper" class="border-wrapper">
-              <div class="col-6">
-                <tabs-title
-                  title="Address"
-                  variant="gray"
-                  :scale="0.9"
-                  class="py-1"
-                ></tabs-title>
+                <div class="col-6">
+                  <tabs-title
+                    title="Contact"
+                    variant="gray"
+                    :scale="0.9"
+                    class="py-1"
+                  ></tabs-title>
+                </div>
+
+                <div>
+                  <div class="row mx-0">
+                    <div class="col-6">
+                      <form-input
+                        type="email"
+                        label="Primary email"
+                        field-key="primaryEmail"
+                        :value="form.primaryEmail"
+                        :error="errors.primaryEmail"
+                        @input="handleInput"
+                      ></form-input>
+                    </div>
+                    <div class="col-6">
+                      <form-input
+                        type="email"
+                        label="Secondary email"
+                        field-key="secondaryEmail"
+                        :value="form.secondaryEmail"
+                        :error="errors.secondaryEmail"
+                        @input="handleInput"
+                      ></form-input>
+                    </div>
+                  </div>
+                  <div class="row mx-0">
+                    <div class="col-6">
+                      <form-input
+                        type="text"
+                        label="Home phone"
+                        field-key="homePhone"
+                        :value="form.homePhone"
+                        :error="errors?.homePhone"
+                        @input="handleInput"
+                      ></form-input>
+                    </div>
+                    <div class="col-6">
+                      <form-input
+                        type="text"
+                        label="Cell phone"
+                        field-key="cellPhone"
+                        :value="form.cellPhone"
+                        :error="errors.cellPhone"
+                        @input="handleInput"
+                      ></form-input>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <address-detail
-                :AddressConfig="form"
-                  :countryOptions="countries"
-                  :stateOptions="currentState"
-                  :stateVisible="stateVisible"
-                  :errorMsgStreet="errorMsgStreet"
-                  :errorMsgSuit="errorMsgSuit"
-                  :errorMsgCountry="errorMsgCountry"
-                  :errorMsgState="errorMsgState"
-                  :otherStateShow="otherStateVisible"
-                  :errorMsgPostalCode="errorMsgPostalCode"
-                  @input="handleInput"
-                ></address-detail>
+              <!-- address Info Wrapper Start Here  -->
+              <div id="address-wrapper" class="border-wrapper">
+                <div class="col-6">
+                  <tabs-title
+                    title="Address"
+                    variant="gray"
+                    :scale="0.9"
+                    class="py-1"
+                  ></tabs-title>
+                </div>
+                <div>
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Street number and name"
+                          field-key="address.addressLine1"
+                          :value="form.address?.addressLine1"
+                          :error="errors.address?.addressLine1"
+                          indicator
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Suite/Apartment"
+                          field-key="address.addressLine2"
+                          :value="form.address?.addressLine2"
+                          :error="errors.address?.addressLine2"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+
+                    <!-- address  -->
+                    <div class="row mx-0">
+                      <div class="col-4">
+                        <form-input
+                          type="select"
+                          label="Country"
+                          field-key="address.country"
+                          :options="countries"
+                          :value="form.address?.country"
+                          :error="errors.address?.country"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-4">
+                        <form-input
+                          type="select"
+                          label="Province/State"
+                          field-key="address.state"
+                          :options="states"
+                          :value="form.address?.state"
+                          :error="errors.address?.state"
+                          placeholder="Please select state"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+
+                      <div class="col-4">
+                        <form-input
+                          type="text"
+                          label="City"
+                          field-key="address.city"
+                          :value="form.address?.city"
+                          :error="errors.address?.city"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Postal Code"
+                          field-key="address.postalCode"
+                          :value="form.address?.postalCode"
+                          :error="errors?.address?.postalCode"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <!-- emergency detail Info Wrapper Start Here  -->
-            <div class="address-info-wrapper border-wrapper">
-              <div class="col-6">
-                <tabs-title
-                  title="Emergency Contact"
-                  variant="gray"
-                  :scale="0.9"
-                  class="py-1"
-                ></tabs-title>
-              </div>
-              <div>
-                <emergency-conta
-                  :fullName="form?.emergencyContact?.name"
-                  :releationships="form?.emergencyContact?.relationship"
-                  :telephone="form?.emergencyContact?.phone"
-                  :email="form?.emergencyContact?.email"
-                  @input="handleInputObject"
-                ></emergency-conta>
+              
+              <!-- emergency detail Info Wrapper Start Here  -->
+              <div class="address-info-wrapper border-wrapper">
+                <div class="col-6">
+                  <tabs-title
+                    title="Emergency Contact"
+                    variant="gray"
+                    :scale="0.9"
+                    class="py-1"
+                  ></tabs-title>
+                </div>
+                <div>
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Contact name"
+                          field-key="emergencyContact.name"
+                          :value="form.emergencyContact?.name"
+                          :error="errors.emergencyContact?.name"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+
+                    <div class="row mx-0">
+                      <div class="col-4">
+                        <form-input
+                          type="text"
+                          label="Releationship"
+                          field-key="emergencyContact.relationship"
+                          :value="form.emergencyContact?.relationship"
+                          :error="errors.emergencyContact?.relationship"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-4">
+                        <form-input
+                          type="text"
+                          label="Telephone"
+                          field-key="emergencyContact.phone"
+                          :value="form.emergencyContact?.phone"
+                          :error="errors.emergencyContact?.phone"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-4">
+                        <form-input
+                          type="email"
+                          label="Email"
+                          field-key="emergencyContact.email"
+                          :value="form.emergencyContact?.email"
+                          :error="errors.emergencyContact?.email"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="action-button">
-      <div class="row mx-0 pl-1 pb-2 pt-1">
-        <div class="col-6 row-custom">
-          <div
-            class="d-flex justify-between align-center button-custom-wrapper"
-          >
-            <bib-button
-              label="Cancle"
-              variant="gray"
-              size="lg"
-              class="mr-1"
-              style="width: 50%; display: flex; justify-content: center"
-            ></bib-button>
-            <bib-button
-              label="Save"
-              variant="success"
-              size="lg"
-              @click="updateAllData"
-              style="width: 50%; display: flex; justify-content: center"
-            ></bib-button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </form-with-validation>
 </template>
 
 <script>
@@ -154,43 +357,139 @@ import {
 } from "../../../utils/constant/Constant";
 import {
   vfileAdded,
-  handleInput,
-  handleInputObject,
-  updateAllData,
   sendMeet,
   sendMessage,
 } from "../../../utils/functions/functions_lib";
 
+import contactFormFieds from "./forms/contact-form-fieds";
+import employeeProfileFields from "./forms/employee-profile-fields";
+import employeeAddressFields from "./forms/employee-address-fields";
+import emergencyContactFields from "./forms/emergency-contact-fields";
+import { updateEmployee } from "@/utils/functions/api_call/employees";
+import { set, get } from "lodash";
+import { validateFormField } from "../../../utils/form-validations/validate-form-field";
+import {
+  isValidUSZIP,
+  isValidCanadianPostalCode,
+} from "../../../utils/form-validations/string-validations";
 export default {
   data() {
     return {
-      maritalOptions: SELECT_OPTIONS.maritalStatusOptions,
-      genderOptions: SELECT_OPTIONS.genderOptions,
-      errorMsgPrimaryEmail: false,
+      contactFormFieds,
+      employeeProfileFields,
+      employeeAddressFields,
+      fields: {
+        ...contactFormFieds,
+        ...employeeProfileFields,
+        ...employeeAddressFields,
+        ...emergencyContactFields,
+      },
+      maritalOptions: [
+        { label: "", value: "" },
+        ...SELECT_OPTIONS.maritalStatusOptions,
+      ],
+      genderOptions: [
+        { label: "", value: "" },
+        ...SELECT_OPTIONS.genderOptions,
+      ],
       countries: COUNTRIES,
-      states: STATES,
+      STATES,
       currentState: STATES,
-      stateVisible: true,
-      errorMsgStreet: false,
-      errorMsgSuit: false,
-      errorMsgCountry: false,
-      errorMsgState: false,
-      otherStateVisible: false,
-      errorMsgPostalCode: false,
       id: "",
       form: {},
       updateForm: {},
+      errors: {},
     };
   },
   methods: {
     vfileAdded,
-    handleInput,
-    handleInputObject,
-    updateAllData,
+    setErrors(errors) {
+      this.errors = { ...errors };
+    },
+
+    resetFieldError(fieldKey) {
+      if (get(this.errors, fieldKey)) {
+        set(this.errors, fieldKey, null);
+      }
+    },
+    handleInput(event) {
+      const { value, fieldKey } = event;
+      this.resetFieldError(fieldKey);
+
+      set(this.updateForm, fieldKey, value);
+
+      //force update
+      this.updateForm = { ...this.updateForm };
+    },
+
+    customValidation() {
+      const isPostalCodeValid = this.validatePostalCode();
+
+      return [isPostalCodeValid].every((validation) => validation == true);
+    },
+
+    validatePostalCode() {
+      if (this.updateForm?.address?.postalCode) {
+        const country =
+          this.updateForm?.address?.country ?? this.form?.address?.country;
+        const isUsa = country == "USA";
+        const isCanada = country == "Canada";
+        if (isCanada || isUsa) {
+          const validations = [];
+
+          if (isCanada) {
+            validations.push(isValidCanadianPostalCode);
+          } else if (isUsa) {
+            validations.push(isValidUSZIP);
+          }
+          const valid = validateFormField(
+            this.updateForm?.address?.postalCode,
+            validations
+          );
+          if (valid !== true) {
+            let errors = { ...this.errors };
+            set(errors, "address.postalCode", valid);
+            this.setErrors(errors);
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
+    async submit(e) {
+      console.log("befreo vlaid");
+      const valid = this.customValidation();
+      console.log("after", valid);
+
+      if (!valid) return;
+      await updateEmployee({ id: this.form.id, employee: this.updateForm });
+      this.updateForm = {};
+    },
+
     sendMeet,
     sendMessage,
   },
   computed: {
+    states() {
+      if (this.updatedCountry) {
+        return [
+          { label: "", value: "" },
+          ...STATES.filter((s) => s.code == this.updatedCountry),
+        ];
+      }
+
+      return [
+        { label: "", value: "" },
+        ...STATES.filter((s) => s.code == this.originalCountry),
+      ];
+    },
+    originalCountry() {
+      return this.form?.address?.country;
+    },
+    updatedCountry() {
+      return this.updateForm.address?.country;
+    },
     ...mapGetters({
       getUser: "employee/GET_USER",
       getActiveUserData: "token/getActiveUserData",

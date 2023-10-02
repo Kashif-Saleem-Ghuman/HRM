@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="newData.id" class="cell activity">{{ newData.activityTitle }}</div>
+    <div v-if="newData.id" class="cell activity">{{ newData.activity.label }}</div>
     <bib-button
       v-else
       dropdown=""
@@ -15,7 +15,7 @@
           <li
             v-for="activityType in activityTypes"
             :key="activityType.value"
-            @click="newDataTypeSelected(activityType.value)"
+            @click="newDataTypeSelected(activityType)"
           >
             <span class="activity">{{ activityType.label }}</span>
           </li>
@@ -121,7 +121,7 @@ export default {
         start: startDate,
         end: endDate,
         id: this.entry.id,
-        activity: this.newData.activity,
+        activity: this.newData.activity.value,
       });
       if (editedEntry) {
         this.$emit('edit-entry', editedEntry);
@@ -147,8 +147,8 @@ export default {
         this.clearData()
       }
     },
-    newDataTypeSelected(typeLabel) {
-      this.newData.activity = { ...this.activityTypes.find(({value}) => value === typeLabel) };
+    newDataTypeSelected(activity) {
+      this.newData.activity = activity;
     },
     newDataTypeReset() {
       this.newData.activity.label = '';
@@ -189,8 +189,10 @@ export default {
       return `${this.numberToClockDigits(totalHours)}:${this.numberToClockDigits(totalMinutes)}`;
     },
     showEnterButton() {
+      console.log('this.newData.activity: ',this.newData.activity)
       return this.timeEntryIsValid
         && this.totalTimeInMinutes > 0
+        && this.newData.activity.value
         && this.mutated;
     }
   }

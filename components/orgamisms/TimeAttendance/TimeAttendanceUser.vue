@@ -241,8 +241,10 @@ export default {
     },
     handleNewEntry(timeEntry) { 
       this.todayData.push({
-        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
-        activity: timeEntry.activity,
+        activity: {
+          label: ACTIVITY_DICTIONARY[timeEntry.activity],
+          value: timeEntry.activity,
+        },
         start: getTimeFromDate(timeEntry.start),
         end: getTimeFromDate(timeEntry.end),
         total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),

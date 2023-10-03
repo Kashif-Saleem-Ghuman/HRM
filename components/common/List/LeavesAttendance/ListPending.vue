@@ -83,18 +83,18 @@
     <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
         <bib-button
-                :icon="$button.approve.icon"
-                :variant="$button.approve.variant"
-                :scale="$button.approve.scale"
-                :label="$button.approve.label"
+                :icon="$button.approved.icon"
+                :variant="$button.approved.variant"
+                :scale="$button.approved.scale"
+                :label="$button.approved.label"
                 class="mr-05"
                 @click="$emit('approve-item', data.value.id)"
               ></bib-button>
               <bib-button
-                :icon="$button.reject.icon"
-                :variant="$button.reject.variant"
-                :scale="$button.reject.scale"
-                :label="$button.reject.label"
+                :icon="$button.rejected.icon"
+                :variant="$button.rejected.variant"
+                :scale="$button.rejected.scale"
+                :label="$button.rejected.label"
                 class="mr-05"
                 @click="$emit('reject-item', data.value.id)"
               ></bib-button>

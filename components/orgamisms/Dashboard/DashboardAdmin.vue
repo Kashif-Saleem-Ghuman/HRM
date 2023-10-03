@@ -8,6 +8,7 @@
           :title="`Welcome to your HR dashboard ` + activeUserName"
           :avatar="getUser.photo"
           headerRight="headerRight"
+          back="back"
         ></section-header-left>
       </div>
       <div class="tab-wrapper">

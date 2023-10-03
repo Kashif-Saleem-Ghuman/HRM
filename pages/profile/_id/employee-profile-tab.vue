@@ -345,6 +345,7 @@
         </div>
       </div>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </form-with-validation>
 </template>
 
@@ -360,7 +361,8 @@ import {
   sendMeet,
   sendMessage,
 } from "../../../utils/functions/functions_lib";
-
+import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import contactFormFieds from "./forms/contact-form-fieds";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
@@ -403,11 +405,13 @@ export default {
       form: {},
       updateForm: {},
       errors: {},
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
     };
   },
   methods: {
     vfileAdded,
-
+    openPopupNotification,
     customValidation() {
       const isPostalCodeValid = this.validatePostalCode();
 
@@ -445,7 +449,12 @@ export default {
     },
 
     submitToApi() {
-      return updateEmployee({ id: this.form.id, employee: this.updateForm });
+      // this.openPopupNotification(1)
+      updateEmployee({ id: this.form.id, employee: this.updateForm }).then((data)=>{
+        this.openPopupNotification(1)
+        this.$nuxt.$emit('top-nav-key')
+        this.form = data
+      });
     },
     
     sendMeet,

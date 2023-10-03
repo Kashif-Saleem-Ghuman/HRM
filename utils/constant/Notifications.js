@@ -11,4 +11,8 @@ export const popupNotificationMsgs = [
     text: "Leave has been Approved...",
     variant: "success",
   },
+  {
+    text: "Leave has been Rejected...",
+    variant: "success",
+  },
 ];

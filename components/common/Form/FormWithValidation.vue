@@ -1,37 +1,39 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <slot></slot>
-    <div id="action-button">
-      <div class="row mx-0 pl-1 pb-2 pt-1">
-        <div class="col-6 row-custom">
-          <div
-            class="d-flex justify-between align-center button-custom-wrapper"
-          >
-            <bib-button
-              label="Cancel"
-              variant="gray"
-              size="lg"
-              class="mr-1"
-              style="width: 50%; display: flex; justify-content: center"
-            ></bib-button>
-            <bib-button
-              label="Save"
-              variant="success"
-              size="lg"
-              @click="handleSubmit"
-              style="width: 50%; display: flex; justify-content: center"
-            ></bib-button>
+  <div>
+    <form @submit.prevent="handleSubmit">
+      <slot></slot>
+      <div id="action-button">
+        <div class="row mx-0 pl-1 pb-1 pt-05">
+          <div class="col-6 row-custom">
+            <div
+              class="d-flex justify-between align-center button-custom-wrapper"
+            >
+              <bib-button
+                label="Cancel"
+                variant="gray"
+                size="lg"
+                class="mr-1"
+                style="width: 50%; display: flex; justify-content: center"
+              ></bib-button>
+              <bib-button
+                label="Save"
+                variant="success"
+                size="lg"
+                @click="handleSubmit"
+                style="width: 50%; display: flex; justify-content: center"
+              ></bib-button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
-
 
 <script>
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { forOwn, get, set } from "lodash";
+
 export default {
   props: {
     fields: {
@@ -106,5 +108,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -340,7 +340,6 @@ export default {
     background-color: #F8F8F9;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
-    font-size: 30px;
     &-count {
       width: 60px;
     }

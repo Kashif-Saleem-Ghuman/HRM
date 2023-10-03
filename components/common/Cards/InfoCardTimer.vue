@@ -25,6 +25,7 @@
     <div
       class="button-wrapper button-wrapper__bgsucess"
       @click="$emit('clock')"
+      style="cursor:default;"
     >
       <bib-icon :icon="icon"  class="mr-05"></bib-icon>
       <span>{{ buttonLable }}</span>

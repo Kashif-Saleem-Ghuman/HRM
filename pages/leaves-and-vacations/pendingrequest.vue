@@ -8,10 +8,10 @@
       >
         <div class="d-flex align-center">
           <bib-button
-            :icon="$button.approve.icon"
-            :variant="$button.approve.variant"
-            :scale="$button.approve.scale"
-            :label="$button.approve.label"
+            :icon="$button.approved.icon"
+            :variant="$button.approved.variant"
+            :scale="$button.approved.scale"
+            :label="$button.approved.label"
             class="mr-05"
             @click="pendingApproveRequest('approve')"
           ></bib-button>
@@ -84,12 +84,11 @@ import {
 import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
-import {buttonVariant} from '../../utils/constant/DropdownMenu'
+// import { buttonVariant } from "../../utils/constant/DropdownMenu";
 
 export default {
   data() {
     return {
-      buttonVariant,
       componentKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: null,
@@ -101,10 +100,10 @@ export default {
       requestListApproveData: [],
       checked: false,
       checkedAll: false,
-      popupNotificationMsgs: popupNotificationMsgs,
-      popupMessages: [],
       noRecord: false,
       disabled: true,
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
     };
   },
   computed: {

@@ -67,7 +67,8 @@ export async function addLeaveVacations() {
   }
   this.loading = false;
 }
-export async function getAllowanceDays() {
+export async function getAllowanceDays(leaveType) {
+  alert(leaveType)
   this.loading = true;
   try {
     const allowanceDays = await axios.get(
@@ -77,7 +78,7 @@ export async function getAllowanceDays() {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         params: {
-          type: this.leaveType, // This is the body part
+          type: leaveType, // This is the body part
         },
       }
     );

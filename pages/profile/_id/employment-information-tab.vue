@@ -210,7 +210,9 @@ export default {
   },
   methods: {
     submitToApi() {
-      return updateEmployee({ id: this.form.id, employee: this.updateForm });
+      return updateEmployee({ id: this.form.id, employee: this.updateForm }).the(()=>{
+        this.openPopupNotification(1)
+      });
     },
 
     customValidation() {

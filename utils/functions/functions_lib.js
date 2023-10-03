@@ -17,6 +17,7 @@ import {
   getCurrentWeek,
   sendMeet,
   sendMessage,
+  handleItemClick_Table,
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -56,4 +57,5 @@ export {
   getCurrentWeek,
   sendMeet,
   sendMessage,
+  handleItemClick_Table,
 };

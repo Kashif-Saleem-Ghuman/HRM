@@ -139,7 +139,7 @@ export default {
     },
     statusButtonConfig() {
       if (!this.type) return {}
-      return TIMESHEET_STATUS[this.type]
+      return this.$button[this.type]
     }
   },
   

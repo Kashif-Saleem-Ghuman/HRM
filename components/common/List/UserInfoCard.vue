@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex" v-on:click="$emit('viewProfile')">
+    <div class="d-flex">
       <bib-avatar
         class="mr-1"
         shape="circle"
@@ -20,7 +20,7 @@
             <div class="button-wrapper-punch">
               <span :class="{online: isOnline}" v-on:click="$emit('punchedIn')">{{  isOnline ? 'Punched in (online)' : 'Offline' }}</span>
             </div>
-            <p class="email">
+            <p class="email" @click="sendMail(user.email)">
               {{ user.email }}
             </p>
             <p class="phone_color">{{ user.phone }}</p>
@@ -83,7 +83,11 @@ export default {
       return false
     }
   },
-  methods: {},
+  methods: {
+    sendMail(mail){
+      window.location.href= 'mailTo:'+mail
+    }
+  },
 };
 </script>
 <style lang="scss">

@@ -107,8 +107,8 @@ export default {
 }
 @media screen and (max-width: 1600px) {
   .side-panel {
-    // max-width: $sidebar-width - 120px;
-    width: 35rem;
+    max-width: $sidebar-width - 120px;
+    // width: 25rem;
   }
 }
 @media (min-width: 1200px) {

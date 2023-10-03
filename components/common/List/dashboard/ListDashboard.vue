@@ -25,7 +25,7 @@
               text-variant="primary"
               size="3rem"
               v-show="data.value.photo === null"
-              style="font-weight: 500;"
+              style="font-weight: 500"
             ></bib-avatar>
             <bib-avatar
               class="mt-auto mb-auto"
@@ -45,7 +45,11 @@
               ></user-info-card>
             </div>
           </div>
-          <div class="info_wrapper">
+          <div
+            class="info_wrapper"
+            style="width: 100%"
+            @click="handleItemClick_Table(data.value.id, $event)"
+          >
             <div class="title">
               {{ data.value.firstName }} {{ data.value.lastName }}
             </div>
@@ -151,6 +155,7 @@ import { formatHoursToHHMM } from "../../../../utils/functions/time";
 import {
   sendMeet,
   sendMessage,
+  handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
 export default {
   props: {
@@ -177,6 +182,7 @@ export default {
     dateCheck,
     sendMeet,
     sendMessage,
+    handleItemClick_Table,
     close() {
       this.timesheetModal = false;
     },
@@ -185,22 +191,8 @@ export default {
       const hours = minutes / 60;
       return formatHoursToHHMM(hours);
     },
-    itemCliked(item) {
-      document.querySelector("#timesheetid_" + item).style = "display:none";
-      this.timesheetModal = true;
-      var users = this.localData.find((items) => items.employeeId === item);
-      console.log(users.employeeId, item, "asdkskahkdhshadakdhaskhk");
-      this.filteredData = users;
-    },
-    handleItemClick_Table(event, keyI, item) {
-      event.preventDefault();
-      this.$router.push("/profile/" + item.id);
-    },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
-    },
-    vclick() {
-      alert("callled");
     },
     mouseover() {
       this.showTooltip = true;

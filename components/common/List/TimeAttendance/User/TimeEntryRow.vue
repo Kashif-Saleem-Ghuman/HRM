@@ -89,20 +89,15 @@ export default {
     newDataMutated() {
       this.mutated = true;
     },
-    hoursAndMinutesToJSDate(hours, minutes) {
-      return new Date(
-        new Date(
-          new Date(this.date).setHours(hours)
-        ).setMinutes(minutes)
-      );
-    },
     calculateDates() {
       return {
         startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.newData.start),
+          this.date,
         ).toISOString(),
         endDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.newData.end),
+          this.date,
         ).toISOString(),
         date: new Date(this.date).toISOString(),
       };

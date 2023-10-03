@@ -128,7 +128,7 @@
             v-show="todayListView"
             @new-entry="handleNewEntry"
             @edit-entry="handleEditEntry"
-            :date="new Date(todayDate)"
+            :date="new Date(todayDate + ' 00:00')"
             v-if="!loading"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>

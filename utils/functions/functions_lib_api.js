@@ -17,6 +17,7 @@ import {
   } from "./api_call/timeattendance/timer";
   import {
     makeTimeEntry,
+    editTimeEntry,
   } from "./api_call/timeattendance/time-entires"
 
   import {
@@ -63,6 +64,7 @@ import {
     getTimeAttendanceDaily,
     getTimeAttendanceCustomRange,
     makeTimeEntry,
+    editTimeEntry,
 
     // my profile
     addFiles,

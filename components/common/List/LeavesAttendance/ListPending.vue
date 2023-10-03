@@ -30,10 +30,21 @@
           class="ml-05"
         >
           <bib-avatar
+            variant="secondary-sub3"
+            :text="
+              data.value.employee.firstName.slice(0, 1) + data.value.employee.lastName.slice(0, 1)
+            "
+            text-variant="primary"
+            size="2.7rem"
+            v-show="data.value.employee.photo === null"
+            style="font-weight: 500"
+          ></bib-avatar>
+          <bib-avatar
             class="mt-auto mb-auto"
             shape="circle"
             :src="data.value.employee.photo"
-            size="3rem"
+            v-show="data.value.employee.photo != null"
+            size="2.7rem"
           >
           </bib-avatar>
           <div :id="'id_' + data.value.employee.id" style="" class="userCard">
@@ -83,22 +94,22 @@
     <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
         <bib-button
-                :icon="$button.approved.icon"
-                :variant="$button.approved.variant"
-                :scale="$button.approved.scale"
-                :label="$button.approved.label"
-                class="mr-05"
-                @click="$emit('approve-item', data.value.id)"
-              ></bib-button>
-              <bib-button
-                :icon="$button.rejected.icon"
-                :variant="$button.rejected.variant"
-                :scale="$button.rejected.scale"
-                :label="$button.rejected.label"
-                class="mr-05"
-                @click="$emit('reject-item', data.value.id)"
-              ></bib-button>
-        
+          :icon="$button.approved.icon"
+          :variant="$button.approved.variant"
+          :scale="$button.approved.scale"
+          :label="$button.approved.label"
+          class="mr-05"
+          @click="$emit('approve-item', data.value.id)"
+        ></bib-button>
+        <bib-button
+          :icon="$button.rejected.icon"
+          :variant="$button.rejected.variant"
+          :scale="$button.rejected.scale"
+          :label="$button.rejected.label"
+          class="mr-05"
+          @click="$emit('reject-item', data.value.id)"
+        ></bib-button>
+
         <!-- <chips
             :title="data.value.status == null ? 'N/A' : data.value.status"
             iconShow="iconShow"

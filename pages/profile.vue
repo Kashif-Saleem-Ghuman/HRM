@@ -3,7 +3,7 @@
   <div v-if="isAdmin">
     <user-profile></user-profile>
   </div>
-  <div v-else>
+  <div v-if="isUser">
     <my-profile></my-profile>
   </div>
 </div>
@@ -20,6 +20,9 @@ export default {
   computed: {
     isAdmin() {
       return this.getUserRole == USER_ROLES.ADMIN
+    },
+    isUser() {
+      return this.getUserRole == USER_ROLES.USER
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",

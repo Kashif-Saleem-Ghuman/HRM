@@ -98,7 +98,7 @@
               : ''
           "
           class="mr-05"
-          @click="pendingApproveRequest('approve')"
+          style="cursor: auto;"
         ></bib-button>
         <!-- <bib-button
           label="Delete"

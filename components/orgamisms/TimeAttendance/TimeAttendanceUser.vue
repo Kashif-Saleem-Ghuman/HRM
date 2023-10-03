@@ -155,11 +155,9 @@ import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
 import { getTimeFromDate, getDateDiffInHHMM } from "../../../utils/functions/dates";
 import { formatTime } from "../../../utils/functions/clock_functions"
-import fecha, { format } from "fecha";
-
-import getJson from "../../../utils/dataJson/app_wrap_data";
+import fecha from "fecha";
 import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
-const appWrapItems = getJson();
+import { DateTime } from "luxon";
 
 const VIEWS = [
   { label: "Day", value: 'day' },
@@ -308,7 +306,7 @@ export default {
     },
     async fillTimeEntries() {
       this.loading = true;
-      await this.$store.dispatch("timeattendance/setDailyTimeEntries", new Date(this.todayDate));
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries", DateTime.fromISO(this.todayDate).toUTC().toISO());
       this.todayData = [];
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);

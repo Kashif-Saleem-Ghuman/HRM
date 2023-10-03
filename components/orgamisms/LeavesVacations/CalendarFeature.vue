@@ -54,7 +54,7 @@
         <div class="serach-item pr-05">
           <label>Search:</label>
           <template>
-            <input type="text" name="name" @change="searchLeavesType($event)" />
+            <input type="text" name="name" @change="searchLeavesType($event)" @focusout="searchLeavesType($event)" />
           </template>
         </div>
         <bib-button
@@ -357,6 +357,7 @@ export default {
 
   mounted() {
     this.selectedMonth = this.currentMonth;
+    
     this.getCurrentDateMonth();
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
@@ -566,16 +567,16 @@ export default {
             item.employee.firstName + " " + item.employee.lastName;
           setTimeout(() => {
             if (item.type == "vacation") {
-              this.allowanceData = 30;
+              this.allowanceData = this.allowanceLeavesDetailedData.vacationsAllowance;
               this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
             }
             if (item.type == "leave") {
-              this.allowanceData = 12;
+              this.allowanceData = this.allowanceLeavesDetailedData.otherLeavesAllowance;
               this.useDaysData =
-                this.allowanceLeavesDetailedData.otherLeavesUsed;
+                this.allowanceLeavesDetailedData.vacationsUsed;
             }
             if (item.type == "medical") {
-              this.allowanceData = 10;
+              this.allowanceData = this.allowanceLeavesDetailedData.medicalLeavesAllowance;
               this.useDaysData =
                 this.allowanceLeavesDetailedData.medicalLeavesUsed;
             }

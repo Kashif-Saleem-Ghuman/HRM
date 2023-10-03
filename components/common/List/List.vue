@@ -13,31 +13,30 @@
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
-        style="position: relative; width: 220px"
+        style="position: relative;"
       >
         <div
           style="cursor: pointer"
           v-on:mouseover="profiletab('id_' + data.value.id)"
           v-on:mouseleave="profiletab('id_' + data.value.id, true)"
         >
-        <bib-avatar
-              variant="secondary-sub3"
-              :text="
-                data.value.firstName.slice(0, 1) +
-                data.value.lastName.slice(0, 1)
-              "
-              text-variant="primary"
-              size="3rem"
-              v-show="data.value.photo === null"
-            ></bib-avatar>
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
-              :src="data.value.photo"
-              v-show="data.value.photo != null"
-              size="3rem"
-            >
-            </bib-avatar>
+          <bib-avatar
+            variant="secondary-sub3"
+            :text="
+              data.value.firstName.slice(0, 1) + data.value.lastName.slice(0, 1)
+            "
+            text-variant="primary"
+            size="3rem"
+            v-show="data.value.photo === null"
+          ></bib-avatar>
+          <bib-avatar
+            class="mt-auto mb-auto"
+            shape="circle"
+            :src="data.value.photo"
+            v-show="data.value.photo != null"
+            size="3rem"
+          >
+          </bib-avatar>
           <div :id="'id_' + data.value.id" style="" class="userCard">
             <user-info-card
               :user="data.value"
@@ -48,7 +47,11 @@
             ></user-info-card>
           </div>
         </div>
-        <div class="info_wrapper">
+        <div
+          class="info_wrapper"
+          style="width: 100%;"
+          @click="handleItemClick_Table(data.value.id, $event)"
+        >
           <div class="title">
             {{ data.value.firstName }} {{ data.value.lastName }}
           </div>
@@ -67,7 +70,13 @@
     </template>
     <template #cell(telephone)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.phone === null ? "---" : data.value.phone || data.value.phone != "" ? data.value.phone : "---" }}</span>
+        <span>{{
+          data.value.phone === null
+            ? "---"
+            : data.value.phone || data.value.phone != ""
+            ? data.value.phone
+            : "---"
+        }}</span>
       </div>
     </template>
     <template #cell(department)="data">
@@ -80,7 +89,7 @@
     <template #cell(hiredate)="data">
       <div class="justify-between text-dark">
         <span>{{
-          data.value.hireDate == null ? "---" :  onLoad(data.value.hireDate)
+          data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
         }}</span>
       </div>
     </template>
@@ -103,6 +112,7 @@ import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
 import {
   sendMeet,
   sendMessage,
+  handleItemClick_Table,
 } from "../../../utils/functions/functions_lib";
 export default {
   props: {
@@ -139,24 +149,13 @@ export default {
     }),
   },
   methods: {
-    // test(item) {
-    //   var teamNames = "";
-    //   this.getTeamListOptions.forEach((element) => {
-    //     if (element.value == item) {
-    //       teamNames = element.label;
-    //     }
-    //   });
-    //   return teamNames;
-    // },
     sendMeet,
-  sendMessage,
+    sendMessage,
+    handleItemClick_Table,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MM-YYYY");
     },
-    // handleItemClick_Table($event, keyI, item) {
-    //   localStorage.setItem('clickedUserId', item.id)
-    //   this.$router.push("/profile/" + item.id);
-    // },
+
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },
@@ -187,7 +186,6 @@ export default {
     font-size: 11px;
   }
 }
-
 
 @media (min-width: 1400px) {
   body {

@@ -252,7 +252,7 @@ export default {
         this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
         this.sidebarHeading = "Request Leave";
         this.addForm.type = "leave";
-        this.allowanceDays = 12;
+        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
@@ -260,23 +260,23 @@ export default {
       if (payload == "vacation") {
         this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
-        this.allowanceDays = 30;
+        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
         setTimeout(() => {
-          this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
         }, 1000);
       }
 
       if (payload == "medical") {
         this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
-        this.allowanceDays = 10;
+        this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
         this.openSidebar = true;
         this.employeeNameInput = true;
+        this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
 
         setTimeout(() => {
-          this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
         }, 1000);
       }
       this.employeeName =
@@ -296,39 +296,33 @@ export default {
         this.sidebarHeading = "Request Leave";
         this.addForm.employeeId = userId;
         this.addForm.type = "leave";
-        this.allowanceDays = 12;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
-        setTimeout(() => {
-          this.useDaysData = this.getLeaveAllowance?.otherLeavesUsed;
-        }, 1000);
+        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
+        this.useDaysData = this.getLeaveAllowance?.otherLeavesUsed;
         return true;
       }
       if (payload == "vacation") {
         this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
-        this.allowanceDays = 30;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
         this.addLeaveKey += 1;
-        setTimeout(() => {
-          this.useDaysData = this.getLeaveAllowance?.vacationsUsed;
-        }, 1000);
+        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+        this.useDaysData = this.getLeaveAllowance?.vacationsUsed;
         return true;
       }
 
       if (payload == "medical") {
         this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
-        this.allowanceDays = 10;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
-        setTimeout(() => {
-          this.useDaysData = this.getLeaveAllowance?.medicalLeavesUsed;
-        }, 1000);
+        this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
+        this.useDaysData = this.getLeaveAllowance?.medicalLeavesUsed;
         return true;
       }
       if (payload == "leaveAdmin") {
@@ -348,13 +342,10 @@ export default {
         this.addForm.type = "leave";
         this.leaveTypeSelect = true;
         this.leaveType = "leave";
-        this.allowanceDays = 12;
         this.employeeNameSelectShow = true;
         this.$nuxt.$emit("add-leave");
-        setTimeout(() => {
-          this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
-        }, 1000);
-
+        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
+        this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
         return true;
       }
       if (payload == "vacationAdmin") {
@@ -362,11 +353,9 @@ export default {
           var activeId = user.id;
           this.activeUserData = user;
           this.employeeNameSelect = activeId;
-          console.log(this.activeUserData, "getActiveUser");
         });
         this.employeeNameSelect = this.getActiveUser.id;
         this.sidebarHeading = "Request Vacation";
-        this.allowanceDays = 30;
         this.openSidebar = true;
         this.addForm.type = "vacation";
         this.leaveTypeSelect = true;
@@ -374,6 +363,8 @@ export default {
         this.employeeNameSelectShow = true;
         this.$nuxt.$emit("add-leave");
         this.useDaysData = this.activeUserAllowanceData?.vacationsUsed;
+        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+
         return true;
       }
     });

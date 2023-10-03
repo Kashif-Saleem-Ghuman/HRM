@@ -54,7 +54,7 @@ export default {
       type: String,
     },
     items: {
-      type: Array,
+      type: [Array, Object],
     },
     listIcon: {
       type: String,

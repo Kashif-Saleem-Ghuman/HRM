@@ -42,38 +42,6 @@ export async function updateAllData() {
     alert("No data to Update");
     return true;
   }
-  // if (!/^[^@]+@\w+(\.\w+)+\w$/.test(this.updateForm.primaryEmail)) {
-  //   this.errorMsgPrimaryEmail = true;
-  //   return true;
-  // }else{
-  //   this.errorMsgPrimaryEmail = false;
-  // }
-  // this.errorMsgStreet = false;
-  // if (!this.updateForm.address.street) {
-  //   this.errorMsgStreet = true;
-  //   return true;
-  // }
-  // this.errorMsgSuit = false;
-  // if (!this.updateForm.address.suit) {
-  //   this.errorMsgSuit = true;
-  //   return true;
-  // }
-  // this.errorMsgSuit = false;
-  // if (!this.updateForm.address.country) {
-  //   this.errorMsgCountry = true;
-  //   return true;
-  // }
-  // this.errorMsgCountry = false;
-  // if (!this.updateForm.address.state) {
-  //   this.errorMsgState = true;
-  //   return true;
-  // }
-  // this.errorMsgState = false;
-  // if (!this.updateForm.address.postalCode) {
-  //   this.errorMsgPostalCode = true;
-  //   return true;
-  // }
-  // this.errorMsgPostalCode = false;
   this.loading = true;
   var data = JSON.stringify(this.updateForm);
   await this.$axios
@@ -89,12 +57,14 @@ export async function updateAllData() {
         this.updateForm,
         "http://dev-hrm.business-in-a-box.com/"
       );
-      // this.openPopupNotification(1);
+      
       // this.$store.dispatch("token/setActiveUserData" ,  res )
       this.name = res;
       this.form = res;
       this.loading = false;
       this.isFlag = false;
+      this.openPopupNotification(1);
+      
       this.$nuxt.$emit("top-nav-key");
 
       this.updateForm = {};

@@ -11,7 +11,7 @@
           <info-card-leave-vacation
             title="Vacation"
             :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
-            totalAllowance="30"
+            :totalAllowance=allowanceLeavesDetailedData.vacationsAllowance
             buttonLable="Request Vacation"
             icon="airplane-solid"
             className="button-wrapper__bgsucess"
@@ -23,7 +23,7 @@
             :daysUsed="
                 allowanceLeavesDetailedData.medicalLeavesUsed
             "
-            totalAllowance="10"
+            :totalAllowance="allowanceLeavesDetailedData.medicalLeavesAllowance"
             buttonLable="Request Medical Leave"
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
@@ -33,7 +33,7 @@
             <info-card-leave-vacation
             title="Request Personal leave"
             :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-            totalAllowance="12"
+            :totalAllowance="allowanceLeavesDetailedData.otherLeavesAllowance"
             buttonLable="Request Personal Leave"
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"

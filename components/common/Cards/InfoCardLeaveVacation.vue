@@ -13,8 +13,8 @@
         </div>
         <div>
           <progress-circle
-            :progressCount="getpercentageValue"
-            :progressPercentage="getpercentageValue + '%'"
+            :progressCount="getpercentageValue == 'Infinity' ? '0' : getpercentageValue"
+            :progressPercentage="getpercentageValue == 'Infinity' ? '0' : getpercentageValue + '%'"
             :fill="fill"
             emptyfill="#f1f1f1"
           ></progress-circle>
@@ -73,7 +73,7 @@ export default {
       type: String,
     },
     totalAllowance: {
-      type: String,
+      type: [String, Number],
     },
     daysUsed:{
       type:Number
@@ -88,7 +88,7 @@ export default {
   },
   computed:{
     getpercentageValue(){
-      return ( this.daysUsed / this.totalAllowance).toFixed(2) * 100
+      return ( this.daysUsed / this.totalAllowance).toFixed(2) * 100 || '0'
     },
     balanceLeaveValue(){
       return this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;

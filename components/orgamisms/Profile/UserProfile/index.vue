@@ -5,11 +5,11 @@
     >
       <section-header-left
         :title="
-          name.first || name.lastName == undefined
-            ? '---'
-            : name.firstName + ' ' + name.lastName
+          form.firstName || form.lastName != undefined
+            ? form.firstName + ' ' + form.lastName
+            : '---'
         "
-        :avatar="name.photo"
+        :avatar="form.photo"
         :key="topNav"
       ></section-header-left>
     </div>
@@ -30,23 +30,16 @@
         <NuxtChild />
       </div>
     </div>
-
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
     <!-- <loader v-bind:showloader="loading"></loader> -->
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { USER_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
-import getJson from "../../../../utils/dataJson/app_wrap_data";
-
-const appWrapItems = getJson();
 
 export default {
   data() {
     return {
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
-      popupMessages: [],
       personalTabItem: USER_PROFILE_TAB,
       activeTab: null,
       form: {},
@@ -58,15 +51,18 @@ export default {
   async created() {
     this.id = this.$route.params.id;
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
-    await this.$store.dispatch("employee/setUser", this.id);
-    this.form = this.getUser;
-    this.name = this.getUser
+    await this.$store.dispatch("employee/setUser", this.id).then((result)=>{
+      this.form = result;
+    this.name = result
+    });
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
-    //    this.$store.dispatch("employee/setUser", this.id);
-    // this.form = this.getUser;
+       this.$store.dispatch("employee/setUser", this.id).then((result)=>{
+        console.log(result, "setUsersetUsersetUsersetUser")
+        this.name = this.getUser
+        this.form = this.getUser;
+       });
       this.topNav += 1;
-      this.name = this.getActiveUserData
       console.log("this.topNav", this.name)
 
     });
@@ -74,7 +70,6 @@ export default {
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
-      getActiveUserData:"token/getActiveUserData"
     }),
 
   },
@@ -133,7 +128,7 @@ export default {
 .border-wrapper {
   border: solid 1px $light;
   border-radius: 5px;
-  padding: 0px 10px 1rem 10px;
+  padding: 0px 10px 0rem 10px !important;
   margin-bottom: 16px;
 }
 .time-attendance-wrapper {

@@ -108,3 +108,7 @@ export function sendMessage(userId) {
     "_blank"
   );
 }
+export function handleItemClick_Table(item, event) {
+  event.preventDefault();
+  this.$router.push("/profile/" + item);
+}

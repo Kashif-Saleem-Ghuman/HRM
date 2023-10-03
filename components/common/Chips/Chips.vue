@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex p-05">
+  <div class="d-flex">
     <div
       :class="[
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
@@ -281,9 +281,9 @@ export default {
 
   &__bgsucess {
     // background-color: #d5e8d4;
-    svg {
-      fill: #2ba026 !important;
-    }
+    // svg {
+    //   fill: #2ba026 !important;
+    // }
     span {
       // color: #2ba026;
       // font-weight: 500;
@@ -292,9 +292,9 @@ export default {
   }
   &__bgabsent {
     // background-color: rgba(255, 171, 0, 0.16);
-    svg {
-      fill: #ffab00 !important;
-    }
+    // svg {
+    //   fill: #ffab00 !important;
+    // }
     span {
       // color: #ffab00;
       // font-weight: 500;
@@ -303,9 +303,9 @@ export default {
   }
   &__bgrejected {
     // background-color: rgba(31, 66, 162, 0.16);
-    svg {
-      fill: #000 !important;
-    }
+    // svg {
+    //   fill: #000 !important;
+    // }
     span {
       // color: #1f42a2;
       // font-weight: 500;
@@ -314,9 +314,9 @@ export default {
   }
   &__bgabsentpink {
     // background-color: rgba(230, 0, 14, 0.16);
-    svg {
-      fill: #e6000e !important;
-    }
+    // svg {
+    //   fill: #e6000e !important;
+    // }
     span {
       // color: #e6000e;
       // font-weight: 500;

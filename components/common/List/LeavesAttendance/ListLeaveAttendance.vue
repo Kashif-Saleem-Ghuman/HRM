@@ -24,28 +24,15 @@
               ? 'sun-solid'
               : ''
           "
-          
           :variantIcon="
             data.value.status == 'approved'
               ? 'success'
               : '' || data.value.status == 'pending'
-              ? 'danger'
-              : '' || data.value.status == 'rejected'
               ? 'warning'
+              : '' || data.value.status == 'rejected'
+              ? 'danger'
               : ''
           "
-          :className="[
-            data.value?.status === 'approved'
-              ? 'chip-wrapper-without-bg__bgsucess'
-              : '',
-            data.value?.status === 'pending'
-              ? 'chip-wrapper-without-bg__bgabsentpink'
-              : '',
-            data.value?.status === 'rejected'
-              ? 'chip-wrapper-without-bg__bgrejected'
-              : '',
-            data.value?.status == null ? 'chip-wrapper-without-bg__bggray' : '',
-          ]"
         ></chips>
       </div>
     </template>
@@ -80,33 +67,39 @@
         </div>
       </template> -->
     <template #cell(status)="data">
-      <div
-        class="d-flex align-center"
-      >
-        <chips
-          :title="data.value.status == null ? 'N/A' : data.value.status"
-          iconShow="iconShow"
+      <div class="d-flex align-center">
+        <bib-button
           :icon="
             data.value.status == 'approved'
-              ? 'check-square-solid'
-              : '' || data.value.status == 'pending'
-              ? 'check-square-solid'
-              : '' || data.value.status == 'rejected'
-              ? 'check-square-solid'
+              ? $button.approved.icon
+              : '' || data.value?.status === 'pending'
+              ? $button.pending.icon
+              : '' || data.value?.status === 'rejected'
+              ? $button.rejected.icon
               : ''
           "
-          class="upper-case"
-          :className="
-          [
-            data.value?.status == 'approved' ? 'chip-wrapper__bgsucess' : '',
-            data.value?.status === 'pending'
-              ? 'chip-wrapper__bgabsentpink'
-              : '',
-            data.value?.status === 'rejected' ? 'chip-wrapper__bggray' : '',
-            data.value?.status == null ? 'chip-wrapper__bggray' : '',
-          ]"
-          style="min-width: 130px !important;"
-        ></chips>
+          :variant="
+            data.value.status == 'approved'
+              ? $button.approved.variant
+              : '' || data.value?.status === 'pending'
+              ? $button.pending.variant
+              : '' || data.value?.status === 'rejected'
+              ? $button.rejected.variant
+              : ''
+          "
+          :scale="$button.approved.scale"
+          :label="
+            data.value.status == 'approved'
+              ? $button.approved.label
+              : '' || data.value?.status === 'pending'
+              ? $button.pending.label
+              : '' || data.value?.status === 'rejected'
+              ? $button.rejected.label
+              : ''
+          "
+          class="mr-05"
+          @click="pendingApproveRequest('approve')"
+        ></bib-button>
         <!-- <bib-button
           label="Delete"
           variant="danger--outline"

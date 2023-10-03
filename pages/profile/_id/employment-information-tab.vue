@@ -171,10 +171,13 @@
           </div>
         </div>
       </div>
+      <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
   </form-with-validation>
 </template>
 <script>
+import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
 import employmentInfo from "./forms/employment-info-fields";
@@ -206,11 +209,14 @@ export default {
       updateForm: {},
       date: "",
       errors: {},
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
     };
   },
   methods: {
+    openPopupNotification,
     submitToApi() {
-      return updateEmployee({ id: this.form.id, employee: this.updateForm }).the(()=>{
+      return updateEmployee({ id: this.form.id, employee: this.updateForm }).then(()=>{
         this.openPopupNotification(1)
       });
     },

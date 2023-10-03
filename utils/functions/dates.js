@@ -58,10 +58,10 @@ export const numberToClockDigits = (number) => {
   return `${number < 10 ? '0' : ''}${number}`
 }
 
-export const hoursAndMinutesToJSDate = (hours, minutes) => {
+export const hoursAndMinutesToJSDate = (hours, minutes, date) => {
   return new Date(
     new Date(
-      new Date(this.date).setHours(hours)
+      new Date(date).setHours(hours)
     ).setMinutes(minutes)
   );
 }

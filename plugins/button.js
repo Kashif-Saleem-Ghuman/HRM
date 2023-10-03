@@ -3,27 +3,43 @@ export default ({ app }, inject) => {
   inject(
     "button",
     Vue.observable({
-      approve: {
-        label: "Approved",
-        key: "approved",
-        variant: "success",
-        icon: "check-circle-solid",
-        scale: "1",
+      not_submitted: {
+        label: "Not submitted",
+        value: "not_submitted",
       },
       pending: {
         label: "Pending",
+        value: "pending",
         key: "pending",
         variant: "warning",
         icon: "eye-open",
-        scale: "1",
       },
-      reject: {
+      vacation: {
+        label: "Vacation",
+        value: "vacation",
+        key: "vacation",
+      },
+      approved: {
+        label: "Approved",
+        value: "approved",
+        key: "approved",
+        variant: "success",
+        icon: "check-circle-solid",
+      },
+      rejected: {
         label: "Rejected",
+        value: "rejected",
         key: "rejected",
         variant: "danger",
         icon: "close",
-        scale: "1",
       },
-    }),
+      past_due: {
+        label: "Past Due",
+        value: "past_due",
+        key: "past_due",
+        variant: "danger",
+        icon: "urgent-solid",
+      },
+    })
   );
 };

@@ -15,7 +15,39 @@
         style="grid-template-columns: repeat(3, 1fr)"
         v-if="is_data_fetched"
       >
-        <info-card-leave-vacation
+      <info-card-leave-vacation
+            title="Vacation"
+            :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
+            :totalAllowance=allowanceLeavesDetailedData.vacationsAllowance
+            buttonLable="Request Vacation"
+            icon="airplane-solid"
+            className="button-wrapper__bgsucess"
+            variant="white"
+            @on-click="addLeaves('vacation')"
+          ></info-card-leave-vacation>
+          <info-card-leave-vacation
+            title="Medical/sick"
+            :daysUsed="
+                allowanceLeavesDetailedData.medicalLeavesUsed
+            "
+            :totalAllowance="allowanceLeavesDetailedData.medicalLeavesAllowance"
+            buttonLable="Request Medical Leave"
+            icon="medical-clinic-solid"
+            className="button-wrapper__bgalert"
+            variant="white"
+            @on-click="addLeaves('medical')"
+            ></info-card-leave-vacation>
+            <info-card-leave-vacation
+            title="Request Personal leave"
+            :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
+            :totalAllowance="allowanceLeavesDetailedData.otherLeavesAllowance"
+            buttonLable="Request Personal Leave"
+            icon="accessibility-cognitive-disability-solid"
+            className="button-wrapper__bgwarnning"
+            variant="white"
+            @on-click="addLeaves('leave')"
+          ></info-card-leave-vacation>
+        <!-- <info-card-leave-vacation
           title="Vacation"
           :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
           totalAllowance="30"
@@ -44,7 +76,7 @@
           className="button-wrapper__bgwarnning"
           variant="white"
           @on-click="addLeaves('leave')"
-        ></info-card-leave-vacation>
+        ></info-card-leave-vacation> -->
       </div>
     </div>
     <div class="d-flex justify-between align-center px-075">

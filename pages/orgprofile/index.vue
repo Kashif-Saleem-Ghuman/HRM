@@ -1,188 +1,277 @@
 <template>
-  <div class="employee_wrapper">
-    <div
-      class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
-    >
-      <section-header-left
-        title="Org Profile"
-        headerRight="headerRight"
-      ></section-header-left>
-    </div>
-    <div>
-      <div class="px-1">
-        <div id="info-wrapper">
-          <div class="row mx-0 pt-2">
-            <div class="col-6">
-              <tabs-title
-                title="Employee Detail"
-                variant="gray"
-                icon="info"
-                :scale="0.9"
-              ></tabs-title>
-            </div>
-          </div>
-          <div class="py-cus px-05">
-            <div class="company-info">
-              <div class="company-logo">
-                <bib-icon icon="bib-logo" :scale="5"></bib-icon>
-              </div>
-              <div class="company-items">
-                <label>{{ org.CompanyName }}</label>
-                <span>{{ org.BizStage }}</span>
+  <form-with-validation
+    :fields="fields"
+    :form="updateForm"
+    @errors="setErrors"
+    @on-submit-valid="submit"
+  >
+    <div class="employee_wrapper">
+      <div
+        class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
+      >
+        <section-header-left
+          title="Org Profile"
+          headerRight="headerRight"
+        ></section-header-left>
+      </div>
+      <div>
+        <div class="px-1">
+          <div id="info-wrapper">
+            <div class="row mx-0 pt-2">
+              <div class="col-6">
+                <tabs-title
+                  title="Employee Detail"
+                  variant="gray"
+                  icon="info"
+                  :scale="0.9"
+                ></tabs-title>
               </div>
             </div>
-            <!-- <drop-zone
-              :src="org.Website"
-              :className="org.Website != null ? 'hide' : ''"
-              :customRemove="org.Website == null ? 'hide' : 'hide'"
-              @vfileAdded="vfileAdded"
-              style="pointer-events: none; cursor: default"
-            ></drop-zone> -->
-          </div>
-          <div class="main-wrapper custom-input">
-            <div class="row mx-0">
-              <div class="col-6 row-custom">
-                <org-info
-                  :companyName="org.CompanyName"
-                  :orgType="org.BizStage"
-                  :estDate="org.SourceQParam"
-                  :businessCategory="org.BizStage"
-                  :location="org.City"
-                  :inActive="inActiveCommon"
-                  @input="handleOrgProfile"
-                ></org-info>
+            <div class="py-cus px-05">
+              <div class="company-info">
+                <div class="company-logo">
+                  <bib-icon icon="bib-logo" :scale="5"></bib-icon>
+                </div>
+                <div class="company-items">
+                  <label>{{ org.CompanyName }}</label>
+                  <span>{{ org.BizStage }}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div id="info-wrapper">
-          <div class="row mx-0 pt-1">
-            <div class="col-6">
-              <tabs-title
-                title="Contact"
-                variant="gray"
-                :scale="0.9"
-              ></tabs-title>
-            </div>
-          </div>
-          <div class="main-wrapper custom-input pt-1">
-            <div class="row mx-0">
-              <div class="col-6 row-custom">
-                <company-contact-info
-                  :website="org.Website"
-                  :contactEmail="org.ContactEmail"
-                  :contactPhone="org.ContactPhone"
-                  @input="handleOrgProfile"
-                  :inActive="inActiveCommon"
-                ></company-contact-info>
+            <div class="main-wrapper custom-input">
+              <div class="row mx-0">
+                <div class="col-6 row-custom">
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Organization Name"
+                          field-key="CompanyName"
+                          :value="org.CompanyName"
+                          :error="errors.CompanyName"
+                          placeholder="Type your name"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+
+                    <div class="row mx-0"></div>
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <form-input
+                          type="text"
+                          label="Business category"
+                          form-field="Industry"
+                          :value="org.Industry"
+                          :error="errors.Industry"
+                          placeholder=""
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div id="info-wrapper">
-          <div class="row mx-0 pt-1">
-            <div class="col-6">
-              <tabs-title
-                title="Contact"
-                variant="gray"
-                :scale="0.9"
-              ></tabs-title>
+          <div id="info-wrapper">
+            <div class="row mx-0 pt-1">
+              <div class="col-6">
+                <tabs-title
+                  title="Contact"
+                  variant="gray"
+                  :scale="0.9"
+                ></tabs-title>
+              </div>
+            </div>
+            <div class="main-wrapper custom-input pt-1">
+              <div class="row mx-0">
+                <div class="col-6 row-custom">
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Website"
+                          field-key="Website"
+                          :value="org.Website"
+                          :error="errors.Website"
+                          @input="handleInput"
+                        ></form-input>
+                        <form-input
+                          type="email"
+                          label="Email address"
+                          field-key="ContactEmail"
+                          :value="org.ContactEmail"
+                          :error="errors.ContactEmail"
+                          @input="handleInput"
+                        ></form-input>
+                        <form-input
+                          type="text"
+                          label="Telephone"
+                          field-key="ContactPhone"
+                          :value="org.ContactPhone"
+                          :error="errors.ContactPhone"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="main-wrapper custom-input pt-1">
-            <div class="row mx-0">
-              <div class="col-6 row-custom">
-                <org-address
-                  :address1="org.AddressL1"
-                  :address2="org.AddressL2 == null ? 'Null' : org.AddressL2"
-                  :country="org.Country"
-                  :state="org.StateProvince"
-                  :city="org.City"
-                  :postalCode="org.PostalCode"
-                  :countryOptions="countries"
-                  :stateOptions="cureentState"
-                  :stateVisible="stateVisible"
-                  :inActive="inActiveCommon"
-                  @input="handleOrgProfile"
-                ></org-address>
+          <div id="info-wrapper">
+            <div class="row mx-0 pt-1">
+              <div class="col-6">
+                <tabs-title
+                  title="Contact"
+                  variant="gray"
+                  :scale="0.9"
+                ></tabs-title>
               </div>
             </div>
-            <!-- <div class="row mx-0 pb-2 pt-05 pl-05">
-              <div class="d-flex">
-                <bib-button
-                  label="Cancel"
-                  size="xl"
-                  variant="light"
-                  class="mr-05"
-                  @click="updateBusinessId"
-                ></bib-button>
-                <bib-button
-                  label="Save"
-                  size="xl"
-                  variant="success"
-                  @click="updateBusinessId"
-                ></bib-button>
+            <div class="main-wrapper custom-input pt-1">
+              <div class="row mx-0">
+                <div class="col-6 row-custom">
+                  <div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Address 1"
+                          :value="org.AddressL1"
+                          :error="errors.AddressL1"
+                          field-key="AddressL1"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                    <div class="row mx-0">
+                      <div class="col-12">
+                        <form-input
+                          type="text"
+                          label="Address 2"
+                          field-key="AddressL2"
+                          :value="org.AddressL2"
+                          :error="errors.AddressL2"
+                          placeholder="Address 2"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                    <div class="row mx-0">
+                      <div class="col-4">
+                        <form-input
+                          type="select"
+                          label="Country"
+                          field-key="Country"
+                          :options="countries"
+                          :value="org.Country"
+                          :error="errors.Country"
+                          placeholder="Please select country"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-4" v-show="regions">
+                        <form-input
+                          type="select"
+                          label="Province/State"
+                          :options="regions"
+                          :value="org.State"
+                          :error="errors.State"
+                          field-key="State"
+                          placeholder="Please select state"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                      <div class="col-4">
+                        <form-input
+                          type="text"
+                          label="City"
+                          :value="org.City"
+                          :error="errors.City"
+                          field-key="City"
+                          placeholder="Enter your city"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                    <div class="row mx-0">
+                      <div class="col-6">
+                        <form-input
+                          type="text"
+                          label="Postal Code"
+                          field-key="PostalCode"
+                          :value="org.PostalCode"
+                          :error="errors.PostalCode"
+                          placeholder="Postal Code"
+                          @input="handleInput"
+                        ></form-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
+      <bib-notification :popupMessages="popupMessages"></bib-notification>
+      <loader v-bind:showloader="loading"></loader>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <loader v-bind:showloader="loading"></loader>
-  </div>
+  </form-with-validation>
 </template>
 <script>
 import getJson from "../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import { COUNTRIES, STATES } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 import {
-  openPopupNotification,
   vfileAdded,
   getBusinessId,
-  updateBusinessId,
-  handleOrgProfile,
 } from "../../utils/functions/functions_lib.js";
+import formWithValidationMixin from "../../mixins/form-with-validation-mixin";
+import organizationFields from "./organization-fields";
+import countries from "../../utils/constant/countries";
+import regions from "../../utils/constant/regions";
+import { updateOrganization } from "@/utils/functions/api_call/business.js";
 export default {
+  mixins: [formWithValidationMixin],
   data() {
     return {
+      fields: { ...organizationFields },
+      countries,
       id: this.$route.params.id,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
       popupMessages: [],
       org: {},
-      msg: [],
-      avatarUrl: "",
       updateForm: {},
-      isFlag: false,
-      infoUpdateOrgProfile: false,
-      inActive: "enabled",
+      errors: {},
       loading: false,
-      countries: COUNTRIES,
-      states: STATES,
-      cureentState: STATES,
-      stateVisible: true,
-      inActiveCommon:"disabled"
     };
   },
   created() {},
   computed: {
+    regions() {
+      const country = this.updateForm.Country ?? this.org.Country;
+      return regions[country];
+    },
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
     }),
   },
   async mounted() {
     this.getBusinessId();
-    console.log(this.org, "this.businessData");
   },
   methods: {
     getBusinessId,
     vfileAdded,
-    updateBusinessId,
-    handleOrgProfile,
-    openPopupNotification,
-    chnage(event, name) {
-      this.updateForm[name] = event;
+    async submitToApi() {
+      const payload = {
+        id: this.org.Id,
+        organization: { ...this.org, ...this.updateForm },
+      };
+      await updateOrganization(payload);
     },
   },
 };

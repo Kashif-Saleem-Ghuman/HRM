@@ -284,11 +284,9 @@ export default {
       this.$router.push("/profile/" + id);
     },
     parseDate(dateString, format) {
-      console.log({dateString})
       return fecha.parse(dateString, format);
     },
     formatDate(dateObj, format) {
-      console.log({dateObj})
       return fecha.format(dateObj, format);
     },
     async handleChange_Tabs(tab) {

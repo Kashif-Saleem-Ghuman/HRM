@@ -29,6 +29,7 @@
         name="name"
         @change="newDataMutated"
         v-model="newData.start"
+        @blur="timeInputBlur"
       ></bib-input>
     </div>
     <div class="cell">
@@ -38,16 +39,11 @@
         name="name"
         @change="newDataMutated"
         v-model="newData.end"
+        @blur="timeInputBlur"
       ></bib-input>
     </div>
     <div class="cell">
       <div class="uneditable-cell">{{ entryTotal }}</div>
-      <bib-button
-        @click="buttonClicked"
-        v-if="showEnterButton"
-        :label="entry.id ? 'Edit' : 'Create'"
-        variant="secondary"
-      ></bib-button>
     </div>
   </div>
 </template>
@@ -103,9 +99,10 @@ export default {
       };
     },
     async editThisEntry() {
-      if (!this.showEnterButton) {
-        return alert('invalid activity');
+      if (this.totalTimeInMinutes < 0) {
+        return alert('end date should be greater than start date');
       }
+      if (!this.timeEntryReady) return;
       const {
         startDate,
         endDate,
@@ -123,9 +120,10 @@ export default {
       }
     },
     async makeNewTimeEntry() {
-      if (!this.showEnterButton) {
-        return alert('invalid activity');
+      if (this.totalTimeInMinutes < 0) {
+        return alert('end date should be greater than start date');
       }
+      if (!this.timeEntryReady) return;
       const {
         startDate,
         endDate,
@@ -144,6 +142,9 @@ export default {
     },
     newDataTypeSelected(activity) {
       this.newData.activity = activity;
+      if (this.timeEntryReady) {
+        this.makeNewTimeEntry();
+      }
     },
     newDataTypeReset() {
       this.newData.activity.label = '';
@@ -152,6 +153,14 @@ export default {
     buttonClicked() {
       if (this.newData.id) return this.editThisEntry()
       return this.makeNewTimeEntry()
+    },
+    timeInputBlur() {
+      console.log('timeInputFocusOut')
+      if (this.newData.id) {
+        this.editThisEntry();
+      } else {
+        this.makeNewTimeEntry();
+      }
     },
     clearData() {
       this.newData = {
@@ -183,8 +192,7 @@ export default {
       const totalMinutes = this.totalTimeInMinutes - totalHours * 60;
       return `${this.numberToClockDigits(totalHours)}:${this.numberToClockDigits(totalMinutes)}`;
     },
-    showEnterButton() {
-      console.log('this.newData.activity: ',this.newData.activity)
+    timeEntryReady() {
       return this.timeEntryIsValid
         && this.totalTimeInMinutes > 0
         && this.newData.activity.value

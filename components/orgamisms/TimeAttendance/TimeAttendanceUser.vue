@@ -124,6 +124,7 @@
         </div>
         <div>
           <list-day
+            v-if="!loading"
             :listToday="todayData"
             v-show="todayListView"
             @new-entry="handleNewEntry"
@@ -131,7 +132,6 @@
             @delete-entry="handleDeleteEntry"
             :date="new Date(todayDate + ' 00:00')"
             :total="totalWork"
-            v-if="!loading"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month

@@ -128,6 +128,7 @@
             v-show="todayListView"
             @new-entry="handleNewEntry"
             @edit-entry="handleEditEntry"
+            @delete-entry="handleDeleteEntry"
             :date="new Date(todayDate + ' 00:00')"
             v-if="!loading"
           ></list-day>
@@ -259,6 +260,15 @@ export default {
     async handleEditEntry() {
       await this.fillTimeEntries();
       await this.getTimesheetWidget()
+    },
+    async handleDeleteEntry(id) {
+      const timeEntry = this.todayData.find((entry) => entry.id === id);
+      if (timeEntry.activity === 'in') {
+        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      } else if (timeEntry.activity === 'break') {
+        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      }
+      this.todayData = this.todayData.filter((entry) => entry.id !== id);
     },
     async getTimesheetWidget() {
       const widget = await getUserTimesheetWidget()

@@ -1,27 +1,28 @@
 <template>
   <div>
     <div v-if="newData.id" class="cell activity">{{ newData.activity.label }}</div>
-    <bib-button
-      v-else
-      dropdown=""
-      :label="newData.activity.label || 'Select Activity Type'"
-      v-model="newData.activity.label"
-    >
-      <template v-slot:menu>
-        <ul>
-          <li @click="newDataTypeReset">
-            <span class="activity">{{ 'Select an activity type' }}</span>
-          </li>
-          <li
-            v-for="activityType in activityTypes"
-            :key="activityType.value"
-            @click="newDataTypeSelected(activityType)"
-          >
-            <span class="activity">{{ activityType.label }}</span>
-          </li>
-        </ul>
-      </template>
-    </bib-button>
+    <div v-else class="cell activity">
+      <bib-button
+        dropdown=""
+        :label="newData.activity.label || 'Select Activity Type'"
+        v-model="newData.activity.label"
+      >
+        <template v-slot:menu>
+          <ul>
+            <li @click="newDataTypeReset">
+              <span class="activity">{{ 'Select an activity type' }}</span>
+            </li>
+            <li
+              v-for="activityType in activityTypes"
+              :key="activityType.value"
+              @click="newDataTypeSelected(activityType)"
+            >
+              <span class="activity">{{ activityType.label }}</span>
+            </li>
+          </ul>
+        </template>
+      </bib-button>
+    </div>
     <div class="cell">
       <bib-input
         type="time"
@@ -45,10 +46,24 @@
     <div class="cell">
       <div class="uneditable-cell">{{ entryTotal }}</div>
     </div>
+    <div
+      class="cell cursor-pointer trash"
+      v-if="newData.id"
+      @click="deleteEntry"
+    >
+      <bib-icon
+        icon="trash-solid"
+        :scale="1"
+      ></bib-icon>
+    </div>
   </div>
 </template>
 <script>
-import { makeTimeEntry, editTimeEntry } from '../../../../../utils/functions/functions_lib_api';
+import {
+  makeTimeEntry,
+  editTimeEntry,
+  deleteTimeEntry
+} from '../../../../../utils/functions/functions_lib_api';
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
@@ -79,6 +94,7 @@ export default {
   methods: {
     makeTimeEntry,
     editTimeEntry,
+    deleteTimeEntry,
     parseInputTimeIntoArray,
     numberToClockDigits,
     hoursAndMinutesToJSDate,
@@ -140,6 +156,12 @@ export default {
         this.clearData()
       }
     },
+    async deleteEntry() {
+      const response = await this.deleteTimeEntry(this.newData.id);
+      if (response) {
+        this.$emit('delete-entry', this.newData.id);
+      }
+    },
     newDataTypeSelected(activity) {
       this.newData.activity = activity;
       if (this.timeEntryReady) {
@@ -155,7 +177,6 @@ export default {
       return this.makeNewTimeEntry()
     },
     timeInputBlur() {
-      console.log('timeInputFocusOut')
       if (this.newData.id) {
         this.editThisEntry();
       } else {

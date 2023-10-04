@@ -17,41 +17,43 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   // there is no out time before there is a timeEntry record
   let outTime = null;
 
-  const filteredTimeEntries = timeEntries?.filter?.((t) => t.end) || [];
-  const timeEntriesLength = filteredTimeEntries?.length;
+  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in');
 
-  if(timeEntriesLength) {
-    // when there is a record in daily entries, override inTime
-    // with starting time of the first record
-    inTime = new Date(filteredTimeEntries[0].start)
-      .toTimeString()
-      .split(' ')
-      [0];
-
-    // when there is a record in daily entries, outTime is the
-    // ending time of the last record
-    outTime = new Date(filteredTimeEntries[timeEntriesLength - 1].end)
-      .toTimeString()
-      .split(' ')
-      [0];
-  }
   let breaksSeconds = 0;
   let totalSeconds = 0;
 
-  for (let i = 0; i < timeEntriesLength; i++) {
-    totalSeconds += Math.floor(
+  if (clockInTimeEntry) {
+    // when there is a record in daily entries, override inTime
+    // with starting time of the first record
+    inTime = new Date(clockInTimeEntry.start)
+      .toTimeString()
+      .split(' ')
+      [0];
+
+    outTime = new Date(clockInTimeEntry.end)
+      .toTimeString()
+      .split(' ')
+      [0];
+    
+    totalSeconds = Math.floor(
       (
-        new Date(filteredTimeEntries[i].end).getTime()
-        - new Date(filteredTimeEntries[i].start).getTime()
-      ) / 1000
-    );
-    if (i > 0) breaksSeconds += Math.floor(
-      (
-        new Date(filteredTimeEntries[i].start).getTime()
-        - new Date(filteredTimeEntries[i - 1].end).getTime()
+        new Date(clockInTimeEntry.end).getTime()
+        - new Date(clockInTimeEntry.start).getTime()
       ) / 1000
     );
   }
+
+  const breaks = timeEntries.filter((t) => t.activity === 'break');
+
+  console.log({totalSeconds})
+  for (let entry of breaks) {
+    console.log({break: entry})
+    breaksSeconds += Math.floor(
+      (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000
+    );
+    totalSeconds -= breaksSeconds;
+  }
+
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
     out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),

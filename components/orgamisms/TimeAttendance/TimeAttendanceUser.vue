@@ -128,7 +128,7 @@
             v-show="todayListView"
             @new-entry="handleNewEntry"
             @edit-entry="handleEditEntry"
-            :date="new Date(todayDate)"
+            :date="new Date(todayDate + ' 00:00')"
             v-if="!loading"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
@@ -155,11 +155,9 @@ import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
 import { getTimeFromDate, getDateDiffInHHMM } from "../../../utils/functions/dates";
 import { formatTime } from "../../../utils/functions/clock_functions"
-import fecha, { format } from "fecha";
-
-import getJson from "../../../utils/dataJson/app_wrap_data";
+import fecha from "fecha";
 import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
-const appWrapItems = getJson();
+import { DateTime } from "luxon";
 
 const VIEWS = [
   { label: "Day", value: 'day' },
@@ -241,8 +239,10 @@ export default {
     },
     handleNewEntry(timeEntry) { 
       this.todayData.push({
-        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
-        activity: timeEntry.activity,
+        activity: {
+          label: ACTIVITY_DICTIONARY[timeEntry.activity],
+          value: timeEntry.activity,
+        },
         start: getTimeFromDate(timeEntry.start),
         end: getTimeFromDate(timeEntry.end),
         total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
@@ -284,11 +284,9 @@ export default {
       this.$router.push("/profile/" + id);
     },
     parseDate(dateString, format) {
-      console.log({dateString})
       return fecha.parse(dateString, format);
     },
     formatDate(dateObj, format) {
-      console.log({dateObj})
       return fecha.format(dateObj, format);
     },
     async handleChange_Tabs(tab) {
@@ -306,7 +304,7 @@ export default {
     },
     async fillTimeEntries() {
       this.loading = true;
-      await this.$store.dispatch("timeattendance/setDailyTimeEntries", new Date(this.todayDate));
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries", DateTime.fromISO(this.todayDate).toUTC().toISO());
       this.todayData = [];
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);

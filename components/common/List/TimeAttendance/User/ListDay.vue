@@ -2,10 +2,10 @@
   <div>
     <div class="table">
       <div class="thead row">
-        <div class="cell">New Activity</div>
-        <div class="cell">Start</div>
-        <div class="cell">End</div>
-        <div class="cell">Total</div>
+        <div class="cell">ACTIVITY</div>
+        <div class="cell">START</div>
+        <div class="cell">END</div>
+        <div class="cell">TOTAL HRS</div>
       </div>
       <time-entry-row
         v-for="entry in listToday"

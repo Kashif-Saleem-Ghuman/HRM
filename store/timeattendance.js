@@ -1,5 +1,6 @@
 import axios from "axios";
 import fecha from "fecha";
+import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 export const state = () => ({
@@ -57,10 +58,11 @@ export const actions = {
     this.loading = false;
   },
 
-  async setDailyTimeEntries(ctx, date = new Date()) {
+  async setDailyTimeEntries(ctx, date = new Date().toISOString()) {
     try {
-      const startOfDay = new Date(date.setHours(0, 0, 0, 0)).toISOString();
-      const endOfDay = new Date(date.setHours(23, 59, 59, 59)).toISOString();
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
+      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
+
       const { data } = await axios.get(
         process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
         {

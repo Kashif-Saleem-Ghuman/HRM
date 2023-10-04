@@ -4,6 +4,7 @@
     class="border-gray4 bg-white"
     :sections="userList"
     :hide-no-column="true"
+    @item-clicked="tableItemClick"
   >
     <!-- <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -152,6 +153,13 @@ export default {
     sendMeet,
     sendMessage,
     handleItemClick_Table,
+
+    tableItemClick(event, key, item) {
+      const id = item?.id
+      if (id) {
+        this.viewProfile(id)
+      }
+    },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MM-YYYY");
     },

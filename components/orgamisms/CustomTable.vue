@@ -334,6 +334,7 @@ export default {
   }
 
   &__irow {
+    cursor: pointer;
     color: $gray6;
     font-weight: 400;
     background-color: #F8F8F9;

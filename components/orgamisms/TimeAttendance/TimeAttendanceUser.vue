@@ -271,6 +271,7 @@ export default {
         this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
       }
       this.todayData = this.todayData.filter((entry) => entry.id !== id);
+      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
     async getTimesheetWidget() {
       const widget = await getUserTimesheetWidget()
@@ -318,6 +319,7 @@ export default {
       this.loading = true;
       await this.$store.dispatch("timeattendance/setDailyTimeEntries", DateTime.fromISO(this.todayDate).toUTC().toISO());
       this.todayData = [];
+      this.totalWorkInMS = 0;
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }

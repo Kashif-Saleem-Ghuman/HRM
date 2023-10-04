@@ -27,7 +27,6 @@
       @click="$emit('clock')"
       style="cursor:default;"
     >
-      <bib-icon :icon="icon"  class="mr-05"></bib-icon>
       <span>{{ buttonLable }}</span>
     </div>
     </div>
@@ -45,9 +44,6 @@ export default {
       default: false,
     },
     label: {
-      type: String,
-    },
-    icon: {
       type: String,
     },
     activeUserRole: {

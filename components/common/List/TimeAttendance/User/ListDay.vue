@@ -25,6 +25,12 @@
         :date="date"
         :listToday="listToday"
       ></time-entry-row>
+      <div class="row total">
+        <div class="cell no-border"></div>
+        <div class="cell no-border"></div>
+        <div class="cell label">Day Total</div>
+        <div class="cell">{{ total }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +46,10 @@ export default {
     date: {
       type: Date,
       required: true,
+    },
+    total: {
+      type: String,
+      default: '--:--'
     },
   },
   data() {
@@ -87,6 +97,14 @@ export default {
   .row {
     display: table-row;
   }
+  .total {
+    .cell {
+      padding: 10px;
+    }
+    .label {
+      text-align: right;
+    }
+  }
   .cell {
     display: table-cell;
     border-bottom: 1px solid $gray3;
@@ -94,12 +112,18 @@ export default {
     text-align: center;
     padding: 0px 10px;
     vertical-align: middle;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .no-border {
+    border-right: 0px;
+    border-left: 0px;
   }
   .trash {
     width: 0.5em;
   }
   .activity {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
   }
   .thead {

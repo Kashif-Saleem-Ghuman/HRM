@@ -47,7 +47,6 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
 
   console.log({totalSeconds})
   for (let entry of breaks) {
-    console.log({break: entry})
     breaksSeconds += Math.floor(
       (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000
     );

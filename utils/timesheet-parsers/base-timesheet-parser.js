@@ -2,6 +2,7 @@ import { groupBy, keyBy } from "lodash";
 import { DateTime } from "luxon";
 import { getDateDiffInMinutes, getTimeFromDate } from "../functions/dates";
 import { sumBy } from "lodash";
+import { formatHoursToHHMM } from "../functions/time";
 export default class BaseTimesheetParser {
   constructor(timesheets = []) {
     this.timesheets = timesheets;
@@ -50,12 +51,16 @@ export default class BaseTimesheetParser {
         timeEntriesByActivity.in?.start,
         timeEntriesByActivity.in?.end
       );
-    }
+
+      if ( timeEntryBreak ) {
+        total -= timeEntryBreak
+      }
+    } 
 
     const activityReport = {
       in: timeEntryIn,
       out: timeEntryOut,
-      break: timeEntryBreak,
+      break: timeEntryBreak && timeEntryBreak > 0 ?  formatHoursToHHMM(timeEntryBreak / 60) : "00:00",
       total,
     };
 

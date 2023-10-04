@@ -132,7 +132,6 @@
             @delete-entry="handleDeleteEntry"
             :date="new Date(todayDate + ' 00:00')"
             :total="totalWork"
-            :disabled="true"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month

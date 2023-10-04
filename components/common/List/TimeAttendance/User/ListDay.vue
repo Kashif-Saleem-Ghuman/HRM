@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="table">
+    <div class="table" :class="{'disabled-table': disabled}">
       <div class="thead row">
         <div class="cell">ACTIVITY</div>
         <div class="cell">START</div>
@@ -41,6 +41,10 @@ export default {
       type: Date,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -79,6 +83,10 @@ export default {
 </script>
 
 <style lang="scss">
+.disabled-table * {
+  pointer-events: none;
+  background: #F2F2F5;
+}
 .table {
   display: table;
   border-top: 1px solid #eee;

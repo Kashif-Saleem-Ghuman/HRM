@@ -124,13 +124,15 @@
         </div>
         <div>
           <list-day
+            v-if="!loading"
             :listToday="todayData"
             v-show="todayListView"
             @new-entry="handleNewEntry"
             @edit-entry="handleEditEntry"
             @delete-entry="handleDeleteEntry"
             :date="new Date(todayDate + ' 00:00')"
-            v-if="!loading"
+            :total="totalWork"
+            :disabled="true"
           ></list-day>
           <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
           <list-month

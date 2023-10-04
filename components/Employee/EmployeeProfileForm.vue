@@ -370,7 +370,7 @@ import contactFormFieds from "./forms/contact-form-fieds";
 import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
-
+import { getEmployee } from "@/utils/functions/api_call/employees.js"
 import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
 export default {
   mixins: [formWithValidationMixin],
@@ -397,7 +397,7 @@ export default {
       countries: COUNTRIES,
       STATES,
       currentState: STATES,
-      id: "",
+      id: null,
       form: {},
       updateForm: {},
       errors: {},
@@ -408,6 +408,17 @@ export default {
   methods: {
     vfileAdded,
     openPopupNotification,
+
+    async fetchEmployee() {
+      const id = this.$route.params.id ?? this.getUser?.id
+
+      if (id) {
+        this.id = id
+        const employee = await getEmployee({ id })
+        this.form = employee
+      }
+    },
+
     customValidation() {
       const isPostalCodeValid = this.validatePostalCode();
 
@@ -483,10 +494,16 @@ export default {
       getActiveUserData: "token/getActiveUserData",
     }),
   },
-  async created() {
-    this.id = this.$route.params.id;
-    await this.$store.dispatch("employee/setUser", this.id);
-    this.form = this.getUser;
+
+  mounted() {
+    this.fetchEmployee()
+  },
+
+  watch: {
+    getUser() {
+      if (this.id) return
+      this.fetchEmployee()
+    }
   },
 };
 </script>

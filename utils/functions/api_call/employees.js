@@ -18,3 +18,20 @@ export async function updateEmployee(payload) {
     console.error(e);
   }
 }
+
+export async function getEmployee(payload) {
+  const { id } = payload
+  
+  try {
+    const url = `/employees/${id}`
+    const config = createConfig();
+    
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.error(e);
+  }
+}

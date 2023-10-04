@@ -189,6 +189,8 @@ import { updateEmployee } from "@/utils/functions/api_call/employees";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { set } from "lodash";
 import { mapGetters } from "vuex";
+import { getEmployee } from "@/utils/functions/api_call/employees.js"
+
 export default {
   mixins: [formWithValidationMixin],
   data() {
@@ -256,11 +258,18 @@ export default {
 
       return true;
     },
+    async fetchEmployee() {
+      const id = this.$route.params.id ?? this.getUser?.id
+
+      if (id) {
+        this.id = id
+        const employee = await getEmployee({ id })
+        this.form = employee
+      }
+    },
   },
   async created() {
-    this.id = this.$route.params.id;
-    await this.$store.dispatch("employee/setUser", this.id);
-    this.form = this.getUser;
+    this.fetchEmployee()
 
     await this.$store.dispatch("employee/setReportsToList").then((result) => {
       const employees = result.filter((e) => e.id != this.form.id);
@@ -272,6 +281,13 @@ export default {
     ...mapGetters({
       getUser: "employee/GET_USER",
     }),
+  },
+
+  watch: {
+    getUser() {
+      if (this.id) return
+      this.fetchEmployee()
+    }
   },
 };
 </script>

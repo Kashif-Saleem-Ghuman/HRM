@@ -49,7 +49,7 @@
         </div>
         <div
           class="info_wrapper"
-          style="width: 100%;"
+          style="width: 100%; cursor: pointer;"
           @click="handleItemClick_Table(data.value.id, $event)"
         >
           <div class="title">

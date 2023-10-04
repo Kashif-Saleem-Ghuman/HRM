@@ -15,38 +15,36 @@
         style="grid-template-columns: repeat(3, 1fr)"
         v-if="is_data_fetched"
       >
-      <info-card-leave-vacation
-            title="Vacation"
-            :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
-            :totalAllowance=allowanceLeavesDetailedData.vacationsAllowance
-            buttonLable="Request Vacation"
-            icon="airplane-solid"
-            className="button-wrapper__bgsucess"
-            variant="white"
-            @on-click="addLeaves('vacation')"
-          ></info-card-leave-vacation>
-          <info-card-leave-vacation
-            title="Medical/sick"
-            :daysUsed="
-                allowanceLeavesDetailedData.medicalLeavesUsed
-            "
-            :totalAllowance="allowanceLeavesDetailedData.medicalLeavesAllowance"
-            buttonLable="Request Medical Leave"
-            icon="medical-clinic-solid"
-            className="button-wrapper__bgalert"
-            variant="white"
-            @on-click="addLeaves('medical')"
-            ></info-card-leave-vacation>
-            <info-card-leave-vacation
-            title="Request Personal leave"
-            :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-            :totalAllowance="allowanceLeavesDetailedData.otherLeavesAllowance"
-            buttonLable="Request Personal Leave"
-            icon="accessibility-cognitive-disability-solid"
-            className="button-wrapper__bgwarnning"
-            variant="white"
-            @on-click="addLeaves('leave')"
-          ></info-card-leave-vacation>
+        <info-card-leave-vacation
+          title="Vacation"
+          :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
+          :totalAllowance="allowanceLeavesDetailedData.vacationsAllowance"
+          buttonLable="Request Vacation"
+          icon="airplane-solid"
+          className="button-wrapper__bgsucess"
+          variant="white"
+          @on-click="addLeaves('vacation')"
+        ></info-card-leave-vacation>
+        <info-card-leave-vacation
+          title="Medical/sick"
+          :daysUsed="allowanceLeavesDetailedData.medicalLeavesUsed"
+          :totalAllowance="allowanceLeavesDetailedData.medicalLeavesAllowance"
+          buttonLable="Request Medical Leave"
+          icon="medical-clinic-solid"
+          className="button-wrapper__bgalert"
+          variant="white"
+          @on-click="addLeaves('medical')"
+        ></info-card-leave-vacation>
+        <info-card-leave-vacation
+          title="Request Personal leave"
+          :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
+          :totalAllowance="allowanceLeavesDetailedData.otherLeavesAllowance"
+          buttonLable="Request Personal Leave"
+          icon="accessibility-cognitive-disability-solid"
+          className="button-wrapper__bgwarnning"
+          variant="white"
+          @on-click="addLeaves('leave')"
+        ></info-card-leave-vacation>
         <!-- <info-card-leave-vacation
           title="Vacation"
           :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
@@ -165,7 +163,7 @@ export default {
       deleteItemId: "",
       modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       allowanceLeavesDetailedData: [],
-      is_data_fetched: false
+      is_data_fetched: false,
     };
   },
   computed: {
@@ -185,16 +183,16 @@ export default {
         to: this.getformToDate.to,
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
-      console.log(this.getActiveUser.id, "getActiveUsergetActiveUser")
+      console.log(this.getActiveUser.id, "getActiveUsergetActiveUser");
       // this.getUserLeavesDetail(item.employee.id)
     });
   },
   async mounted() {
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
-    this.getUserLeavesDetailUser().then((result)=>{
-      this.allowanceLeavesDetailedData = result
-      this.is_data_fetched = true
+    this.getUserLeavesDetailUser().then((result) => {
+      this.allowanceLeavesDetailedData = result;
+      this.is_data_fetched = true;
     });
     this.activeUserData = this.getActiveUser;
     this.getCurrentYear();

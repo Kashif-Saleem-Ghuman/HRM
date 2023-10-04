@@ -130,6 +130,7 @@ export default {
         this.dropMenuChipObject = viewType.week
       }
       if (e.key == "month") {
+        alert("called")
         this.todayListView = false;
         this.monthListView = true;
         this.weekListView = false;
@@ -137,6 +138,10 @@ export default {
       }
       if (e.key == "year") {
         alert("No list Found");
+      }
+      if (e == "month") {
+        this.$router.push("/time-attendance/timesheets/");
+          return;
       }
     },
     leaveStatus(e) {

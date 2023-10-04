@@ -7,14 +7,18 @@
       <div class="info-card-items mt-05">
         <div>
           <div class="subheading">Available</div>
-          <span>{{ balanceLeaveValue || '00' }}</span>
+          <span>{{ balanceLeaveValue || "00" }}</span>
 
           <div class="subheading_footer">Days</div>
         </div>
         <div>
           <progress-circle
-            :progressCount="getpercentageValue == 'Infinity' ? '0' : getpercentageValue"
-            :progressPercentage="getpercentageValue == 'Infinity' ? '0' : getpercentageValue + '%'"
+            :progressCount="
+              getpercentageValue == 'Infinity' ? '0' : getpercentageValue
+            "
+            :progressPercentage="
+              getpercentageValue == 'Infinity' ? '0' : getpercentageValue + '%'
+            "
             :fill="fill"
             emptyfill="#f1f1f1"
           ></progress-circle>
@@ -33,22 +37,30 @@
           <span>{{ daysUsed }}</span>
         </div>
       </div>
-      <div
+      <bib-button
+        :icon="icon"
+        :variant="variant"
+        :scale="$button.approved.scale"
+        :label="buttonLable"
+        class="mr-05 button-wrapper-align"
+        style="width: 100%"
+        @click="$emit('on-click')"
+      ></bib-button>
+      <!-- <div
         class="button-wrapper"
         :class="className"
         @click.stop="$emit('on-click')"
       >
         <bib-icon :icon="icon" :variant="variant" class="mr-05"></bib-icon>
         <span>{{ buttonLable }}</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
-
 export default {
   props: {
-    label: {
+    title: {
       type: String,
     },
     hashItem: {
@@ -75,33 +87,34 @@ export default {
     totalAllowance: {
       type: [String, Number],
     },
-    daysUsed:{
-      type:Number
-    }
+    daysUsed: {
+      type: Number,
+    },
   },
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
-      balanceLeave: '00',
-      progress:'0%'
+      balanceLeave: "00",
+      progress: "0%",
     };
   },
-  computed:{
-    getpercentageValue(){
-      return ( this.daysUsed / this.totalAllowance).toFixed(2) * 100 || '0'
+  computed: {
+    getpercentageValue() {
+      return (this.daysUsed / this.totalAllowance).toFixed(2) * 100 || "0";
     },
-    balanceLeaveValue(){
-      return this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
-    }
+    balanceLeaveValue() {
+      return (this.balanceLeave = ""
+        ? "00"
+        : this.totalAllowance - this.daysUsed);
+    },
   },
-  async created(){
+  async created() {
     // setTimeout(()=>{
     //   this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
     // },1000)
   },
-  mounted(){
-    
-    console.log(this.daysUsed, "this.balanceLeave")
+  mounted() {
+    console.log(this.daysUsed, "this.balanceLeave");
   },
   methods: {
     buttonAction(item) {
@@ -111,5 +124,19 @@ export default {
 };
 </script>
 <style lang="scss">
-
+.button-wrapper-align {
+  div {
+    display: flex;
+    justify-content: center;
+    .btn_icon {
+      display: flex;
+      justify-content: center !important;
+      width: 0.8rem;
+      height: 0.8rem;
+      display: flex;
+      position: relative !important;
+      margin-right: 20px;
+    }
+  }
+}
 </style>

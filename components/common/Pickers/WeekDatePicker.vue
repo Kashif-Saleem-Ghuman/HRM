@@ -11,11 +11,12 @@
           size="sm"
           icon=""
           format="dd-MM-yyyy"
+          style="width: 100%;"
         ></bib-datepicker>
       </div>
       <div class="picker">
         <label for="end-date">To</label>
-        <bib-datepicker v-model="to" :disabled="true" size="sm" format="dd-MM-yyyy"></bib-datepicker>
+        <bib-datepicker v-model="to" :disabled="true" size="sm" format="dd-MM-yyyy" style="width: 100%;"></bib-datepicker>
       </div>
     </div>
   </div>
@@ -88,6 +89,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding-right: 0.5rem;
+    width: 250px;
     label {
       color: #b1b1b4;
       padding-right: 0.5rem;

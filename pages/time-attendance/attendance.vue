@@ -27,7 +27,7 @@
 
           <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
 
-          <div class="d-flex align-center">
+          <!-- <div class="d-flex align-center">
             <div style="" class="mr-05">Show:</div>
             <button
               type="button"
@@ -36,7 +36,7 @@
             >
               All
             </button>
-          </div>
+          </div> -->
         </div>
     </div>
 

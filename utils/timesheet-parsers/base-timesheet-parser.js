@@ -1,7 +1,7 @@
 import { groupBy, keyBy } from "lodash";
 import { DateTime } from "luxon";
 import { getDateDiffInMinutes, getTimeFromDate } from "../functions/dates";
-
+import { sumBy } from "lodash";
 export default class BaseTimesheetParser {
   constructor(timesheets = []) {
     this.timesheets = timesheets;
@@ -88,9 +88,8 @@ export default class BaseTimesheetParser {
   };
 
   getDayTotalWorkHours(timeEntries = []) {
-    const timeEntry = timeEntries.find(
-      (timeEntry) => timeEntry.activity == "in"
-    );
-    return timeEntry?.total ?? 0;
+    const timeEntriesInSum = sumBy(timeEntries.filter( t => t.activity == 'in'), 'total') ?? 0
+    const timeEntriesBreakSum = sumBy(timeEntries.filter( t => t.activity == 'break'), 'total') ?? 0
+    return timeEntriesInSum > timeEntriesBreakSum ? timeEntriesInSum - timeEntriesBreakSum : 0
   }
 }

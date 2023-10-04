@@ -65,17 +65,20 @@ export default {
       type: Date,
       required: true,
     },
+    listToday: {
+      type: Array,
+      required: true
+    }
   },
   data() {
     return {
       newData: { ...this.entry },
       mutated: false,
-      activityTypes: [
-        { label: 'CLOCK-IN -> CLOCK-OUT', value: 'in' },
-        { label: 'BREAK', value: 'break' },
-      ],
+      activityTypeIn: { label: 'CLOCK-IN -> CLOCK-OUT', value: 'in' },
+      activityTypeBreak: { label: 'BREAK', value: 'break' },
     };
   },
+ 
   methods: {
     makeTimeEntry,
     editTimeEntry,
@@ -171,6 +174,18 @@ export default {
     },
   },
   computed: {
+    activityTypes() {
+      if (this.listToday?.length) {
+        const activities = []
+        const todayActivities = this.listToday.map( item => item.activity?.value)
+        if (!todayActivities.includes('in')) activities.push(this.activityTypeIn)
+        if (!todayActivities.includes('break')) activities.push(this.activityTypeBreak)
+
+        return activities
+      }
+
+      return [this.activityTypeIn, this.activityTypeBreak]
+    },
     timeEntryIsValid() {
       return this.newData.start && this.newData.end;
     },

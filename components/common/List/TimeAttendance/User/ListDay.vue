@@ -16,10 +16,12 @@
         :date="date"
       ></time-entry-row>
       <time-entry-row
+        v-if="showNewEntryRow"
         :entry="newEntry"
         class="row"
         @new-entry="makeNewTimeEntry"
         :date="date"
+        :listToday="listToday"
       ></time-entry-row>
     </div>
   </div>
@@ -46,6 +48,18 @@ export default {
         end: null,
       },
       ACTIVITY_DICTIONARY,
+    }
+  },
+  
+  computed: {
+    showNewEntryRow() {
+      if (this.listToday?.length) {
+        const activities = this.listToday.map( item => item.activity?.value)
+        if (activities.includes('in') && activities.includes('break')) {
+          return false
+        }
+      }
+      return true
     }
   },
   methods: {

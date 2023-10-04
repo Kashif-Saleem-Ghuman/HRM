@@ -2,7 +2,7 @@
   <div class="d-flex">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div>
-        <label>My status</label>
+        <label>Active User Status</label>
       </div>
       <div class="info-card-items mt-05">
         <div>

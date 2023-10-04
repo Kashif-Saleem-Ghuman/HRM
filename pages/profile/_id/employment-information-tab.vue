@@ -176,20 +176,20 @@
   </form-with-validation>
 </template>
 <script>
-import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
-import { mapGetters } from "vuex";
-import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
-import employmentInfo from "./forms/employment-info-fields";
-import placementFields from "./forms/placement-fields";
-import formWithValidationMixin from "../../../mixins/form-with-validation-mixin";
-import { updateEmployee } from "@/utils/functions/api_call/employees";
-import { validateFormField } from "../../../utils/form-validations/validate-form-field";
-import { set } from "lodash";
+import employmentInfo from "@/components/Employee/forms/employment-info-fields";
+import placementFields from "@/components/Employee/forms/placement-fields";
+import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
+import { SELECT_OPTIONS } from "@/utils/constant/Constant";
+import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import {
   isValidSIN,
   isValidSSN,
-} from "../../../utils/form-validations/string-validations";
+} from "@/utils/form-validations/string-validations";
+import { validateFormField } from "@/utils/form-validations/validate-form-field";
+import { updateEmployee } from "@/utils/functions/api_call/employees";
+import { openPopupNotification } from "@/utils/functions/functions_lib.js";
+import { set } from "lodash";
+import { mapGetters } from "vuex";
 export default {
   mixins: [formWithValidationMixin],
   data() {

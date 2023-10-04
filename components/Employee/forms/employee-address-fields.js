@@ -1,4 +1,4 @@
-import { isRequired } from "../../../../utils/form-validations/string-validations";
+import { isRequired } from "@/utils/form-validations/string-validations";
 
 import { COUNTRIES, STATES } from "@/utils/constant/Constant";
 import { generateEmptyOptions } from "./form-helpers";

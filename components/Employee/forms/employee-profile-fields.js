@@ -1,6 +1,6 @@
 import {
   isRequired
-} from "../../../../utils/form-validations/string-validations";
+} from "@/utils/form-validations/string-validations";
 
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
 import { generateEmptyOptions } from "./form-helpers";

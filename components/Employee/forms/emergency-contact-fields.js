@@ -2,7 +2,7 @@ import {
   isEmail,
   isPhoneNumber,
   isRequired,
-} from "../../../../utils/form-validations/string-validations";
+} from "@/utils/form-validations/string-validations";
 
 export default {
   emergencyContact: {

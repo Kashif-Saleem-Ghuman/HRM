@@ -10,15 +10,14 @@
             v-slot="scope"
           >
           <div class="pt-05 pb-05 pl-05 pr-05">
-            <bib-datepicker
+            <bib-datetime-picker
               v-model="date"
               @input="onDateChange($event); scope.close()"
               class="custom-date-picker"
               size="sm"
-              format="yyyy-MM-dd"
               style="min-width: 7vw;"
               :maxDate="maxDate"
-            ></bib-datepicker>
+            ></bib-datetime-picker>
           </div>
         </button-with-overlay>
         </div>
@@ -56,10 +55,10 @@ import { DateTime } from "luxon";
 export default {
   data() {
     return {
-      date: DateTime.now().startOf('day').toUTC().toISO(),
+      date: DateTime.now().startOf('day').toUTC().toFormat("yyyy-MM-dd"),
       loading: true,
       employees: [],
-      maxDate: DateTime.now().toJSDate(),
+      maxDate: DateTime.now().toISO(),
       searchString: null
     };
   },
@@ -86,8 +85,8 @@ export default {
       return DateTime.fromISO(isoDate).toFormat('EEEE, LLLL d, yyyy');
     },
     onDateChange(value) {
-      this.date = DateTime.fromJSDate(value).toUTC().toISO();
-      this.generateOrganizationEntries(this.date);
+      this.date = value
+      this.generateOrganizationEntries(DateTime.fromISO(value).toUTC().toISO());
     },
 
     async generateOrganizationEntries(isoDate) {

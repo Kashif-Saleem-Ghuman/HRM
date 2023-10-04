@@ -3,20 +3,19 @@
     <div class="pickers">
       <div class="picker">
         <label for="start-date">From</label>
-        <bib-datepicker
+        <bib-datetime-picker
           v-model="from"
           placeholder="Choose Start Of Week Date"
           :maxDate="maxDate"
           @input="onDateChange"
           size="sm"
           icon=""
-          format="dd-MM-yyyy"
           style="width: 100%;"
-        ></bib-datepicker>
+        ></bib-datetime-picker>
       </div>
-      <div class="picker">
+      <div class="picker" id="to-date">
         <label for="end-date">To</label>
-        <bib-datepicker v-model="to" :disabled="true" size="sm" format="dd-MM-yyyy" style="width: 100%;"></bib-datepicker>
+        <bib-datetime-picker v-model="to" :disabled="true" size="sm"  style="width: 100%;"></bib-datetime-picker>
       </div>
     </div>
   </div>
@@ -31,22 +30,22 @@ export default {
     return {
       from: "",
       to: "",
-      maxDate: new Date()
+      maxDate: DateTime.now().toISO()
     };
   },
 
   methods: {
-    onDateChange() {
+    onDateChange(value) {
       //When user clicks X button
       if (!this.from) {
        return  this.setCurrentWeek()
       }
 
       const { from, to } = getWeekStartEndDates(
-        DateTime.fromJSDate(this.from).toISO()
+        DateTime.fromISO(value).toUTC().toISO()
       );
-      this.from = DateTime.fromISO(from).toJSDate();
-      this.to = DateTime.fromISO(to).toJSDate();
+      this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
+      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd")
       this.$emit("update:dates", {
         ...this.formatDatesToStartEndDayUTC(this.from, this.to),
       });
@@ -56,8 +55,9 @@ export default {
     setCurrentWeek() {
       const now = DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
-      this.from = DateTime.fromISO(from).toJSDate();
-      this.to = DateTime.fromISO(to).toJSDate();
+      this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
+      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd");
+
       this.$emit("update:dates", {
         ...this.formatDatesToStartEndDayUTC(this.from, this.to),
       });
@@ -69,8 +69,8 @@ export default {
     },
     formatDatesToStartEndDayUTC(from, to) {
       return  {
-        from: DateTime.fromJSDate(from).toUTC().startOf("day").toISO(),
-        to: DateTime.fromJSDate(to).toUTC().endOf("day").toISO(),
+        from: DateTime.fromISO(from).toUTC().startOf("day").toISO(),
+        to: DateTime.fromISO(to).toUTC().endOf("day").toISO(),
       };
     },
   },
@@ -82,6 +82,12 @@ export default {
 </script>
 
 <style lang="scss">
+
+#to-date * {
+  //because :disabled props doesn't work on bib-datetime-picker
+  pointer-events: none;
+}
+
 .pickers {
   display: flex;
   .picker {

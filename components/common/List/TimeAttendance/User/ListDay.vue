@@ -6,6 +6,7 @@
         <div class="cell">START</div>
         <div class="cell">END</div>
         <div class="cell">TOTAL HRS</div>
+        <div class="cell trash"></div>
       </div>
       <time-entry-row
         v-for="entry in listToday"
@@ -13,6 +14,7 @@
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
+        @delete-entry="deleteSpecificEntry"
         :date="date"
       ></time-entry-row>
       <time-entry-row
@@ -68,7 +70,10 @@ export default {
     },
     editSpecificEntry(entry) {
       this.$emit('edit-entry', entry)
-    }
+    },
+    deleteSpecificEntry(id) {
+      this.$emit('delete-entry', id)
+    },
   },
 };
 </script>
@@ -88,6 +93,10 @@ export default {
     border-right: 1px solid $gray3;
     text-align: center;
     padding: 0px 10px;
+    vertical-align: middle;
+  }
+  .trash {
+    width: 0.5em;
   }
   .activity {
     font-size: 14px;

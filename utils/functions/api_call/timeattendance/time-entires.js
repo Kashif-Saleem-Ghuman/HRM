@@ -35,3 +35,19 @@ export async function editTimeEntry(
     alert(e);
   }
 }
+
+export async function deleteTimeEntry(id) {
+  try {
+    const response = await axios.delete(
+      `${process.env.API_URL}/time-entries/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    alert(e);
+  }
+}

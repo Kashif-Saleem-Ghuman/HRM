@@ -1,11 +1,19 @@
 <template>
+  <bib-datetime-picker
+    v-if="$attrs.type == 'date'"
+    :label="$attrs.label"
+    class="form-date-picker"
+    v-model="value"
+    @input="onInput"
+  ></bib-datetime-picker>
+
   <bib-input
+    v-else
     v-model="value"
     v-bind="{ value, ...$attrs }"
     :instruction="error"
     @input="onInput"
     :variant="error ? 'alert' : ''"
-    ref="bibInput"
   ></bib-input>
 </template>
 
@@ -48,4 +56,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.form-date-picker {
+  width: 100%;
+}
+</style>

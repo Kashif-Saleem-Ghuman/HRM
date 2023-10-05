@@ -1,16 +1,16 @@
 <template>
   <div>
     <div
-      class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+      class="d-flex justify-between align-center bottom_border_wrapper"
     >
-        <div class="pt-1 pb-1">
+        <div class="px-1 py-05">
           <button-with-overlay
             sectionLabel="View: "
             :button-config="{ label: dateBtnLabel }"
             @on-click="leaveStatus($event)"
             v-slot="scope"
           >
-            <div class="pt-1 pb-1 pl-05 pr-0">
+            <div class="pl-05">
               <week-date-picker @close="scope.close" :dates.sync="weekDates"></week-date-picker>
             </div>
         

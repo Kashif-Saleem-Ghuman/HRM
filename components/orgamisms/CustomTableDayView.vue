@@ -53,23 +53,40 @@
     <template v-for="(item, keyI) in sections">
       <tr>
         <td colspan="6">
-          <div class="d-flex justify-between align-center py-05">
+          <div class="d-flex justify-between align-center py-025">
             <div class="" style="text-align: left">
               <div
                 class="d-flex align-center text-left gap-05"
                 style="position: relative"
               >
-                <div style="cursor: pointer" class="px-05">
+                <div style="cursor: pointer" class="pl-05">
                   <bib-avatar
+                    variant="secondary-sub3"
+                    :text="
+                      item.firstName.slice(0, 1) + item.lastName.slice(0, 1)
+                    "
+                    text-variant="primary"
+                    size="2.7rem"
+                    v-show="item.photo === null"
+                  ></bib-avatar>
+                  <bib-avatar
+                    class="mt-auto mb-auto"
+                    shape="circle"
+                    :src="item.photo"
+                    v-show="item.photo != null"
+                    size="2.7rem"
+                  >
+                  </bib-avatar>
+                  <!-- <bib-avatar
                     class="mt-auto mb-auto"
                     shape="circle"
                     :src="item.photo"
                     size="3rem"
                   >
-                  </bib-avatar>
+                  </bib-avatar> -->
                 </div>
                 <div class="info_wrapper">
-                  <div class="title">
+                  <div class="title" style="text-transform: capitalize;">
                     {{ item.firstName }} {{ item.lastName }}
                   </div>
                   <div class="description">
@@ -82,7 +99,6 @@
         </td>
       </tr>
 
-
       <!-- ROW FOR EACH EMPLOYEE TIMESHEET -->
       <tr
         v-for="(items, keyI) in sections[keyI]?.timesheets"
@@ -90,8 +106,7 @@
         class="timesheet-table"
         :key="`${item.id}-${keyI}`"
       >
-
-       <td v-if="!hideNoColumn" class="table__irow-count p-1">
+        <td v-if="!hideNoColumn" class="table__irow-count p-1">
           {{ keyI + 1 }}
         </td>
         <td v-if="$scopedSlots.cell_title" colspan="1" style="width: 50px">
@@ -127,7 +142,7 @@
             v-bind:keyI="keyI"
             v-bind:value="sections[keyI]"
           ></slot>
-        </td> 
+        </td>
       </tr>
       <!-- <tr>
         <td colspan="6">
@@ -140,7 +155,7 @@
 
 <script>
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
-import { WEEK_DAY } from '../../utils/constant/Constant';
+import { WEEK_DAY } from "../../utils/constant/Constant";
 
 export default {
   props: {
@@ -216,7 +231,9 @@ export default {
   data() {
     return {
       // WEEK_DAY starts with sunday but need to start with monday
-      weekDays: [...WEEK_DAY.slice(1), WEEK_DAY[0]].map( day => day.value.substring(0,3)),
+      weekDays: [...WEEK_DAY.slice(1), WEEK_DAY[0]].map((day) =>
+        day.value.substring(0, 3)
+      ),
       cols: [],
       item: {},
       isCollapsed: this.collapseObj ? this.collapseObj.collapsed : false,
@@ -296,9 +313,55 @@ export default {
 }
 
 .timesheet-table {
-  
+  cursor: pointer;
+  color: $gray6;
+  font-weight: 400;
+  background-color: #f8f8f9;
+  outline: 1px solid transparent;
+  transition: background-color 0.3s linear, outline-color 0.3s linear;
   td {
-    border: 1px solid #eee;
+    border: 1px solid $light;
+    padding: 6px;
+    span {
+      font-size: 14px;
+      color: #1d1d20;
+    }
+
+    &:first-child {
+      border-left: 0;
+    }
+    &:not(:last-child) {
+      border-right: none;
+    }
+    color: $gray5;
+    &:first-child {
+      text-align: center;
+    }
+  }
+  &:nth-child(2) td {
+    border-top: none;
+  }
+  &:not(:last-child) td {
+    border-bottom: none;
+  }
+  &:hover {
+    cursor: default;
+    background-color: white;
+    td {
+      border-left: #eee 1px solid;
+      &:first-child {
+        border-left: 0;
+      }
+    }
+  }
+  &:active {
+    cursor: default;
+    background-color: $light;
+    outline: 1px solid $gray4;
+  }
+  &.active {
+    background-color: $light;
+    outline: 1px solid $gray4;
   }
 }
 

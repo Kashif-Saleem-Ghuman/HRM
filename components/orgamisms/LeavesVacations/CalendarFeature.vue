@@ -54,7 +54,9 @@
         <div class="serach-item pr-05">
           <label>Search:</label>
           <template>
-            <input type="text" name="name" @change="searchLeavesType($event)" @focusout="searchLeavesType($event)" />
+            <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+
+            <!-- <input type="text" name="name" @change="searchLeavesType($event)" @focusout="searchLeavesType($event)" /> -->
           </template>
         </div>
         <bib-button
@@ -338,6 +340,7 @@ export default {
       selectedYear: "2023",
       yearTitle: "2023",
       ViewTitle: "Month",
+      searchString: null
     };
   },
   computed: {
@@ -393,24 +396,25 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     getUserLeavesDetail,
-    scrolltoId() {
-      var access = document.getElementById("currentDay");
-      access.scrollIntoView();
-    },
-    change(event) {},
-    searchLeavesType(event) {
-      this.getSearchKey = event.target.value;
-       console.log(this.getSearchKey, event,  "this.getSearchKey")
-      this.$store.dispatch("leavevacation/setLeaveVacations", {
+    onSearchChange(value) {
+      this.searchString = value
+      if(this.searchString == ''){
+        this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
-        search: this.getSearchKey,
+        search: this.searchString,
       });
       setTimeout(() => {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
+      }else{
+        this.searchString = value
+      }
     },
-
+    scrolltoId() {
+      var access = document.getElementById("currentDay");
+      access.scrollIntoView();
+    },
     fullData() {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
@@ -424,14 +428,6 @@ export default {
       this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
-    // getCurrentDateMonth() {
-    //   var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
-    //   let date = new Date(cuDate);
-    //   let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    //   let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    //   this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DD");
-    //   this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DD");
-    // },
     changeMonthView(e) {
       var year;
       this.selectedMonth = e.label;
@@ -609,6 +605,18 @@ export default {
       this.calendarOptions.weekends = !this.calendarOptions.weekends;
     },
   },
+  watch: {
+    searchString(value) {
+      this.$store.dispatch("leavevacation/setLeaveVacations", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+        search: this.searchString,
+      });
+      setTimeout(() => {
+        this.calendarOptions.events = this.getLeaveVacation;
+      }, 1000);
+    }
+  },
 };
 </script>
 
@@ -780,6 +788,10 @@ export default {
   a {
     border: none !important;
   }
+}
+
+.fc-icon-x::before {
+  font-family: "fcicons" !important;
 }
 
 .fc-icon-chevrons-left::before {

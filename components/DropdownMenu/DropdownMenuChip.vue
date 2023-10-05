@@ -45,7 +45,7 @@ export default {
     },
 
     items: {
-      type: Object,
+      type: [Object, Array],
     },
   },
   data() {

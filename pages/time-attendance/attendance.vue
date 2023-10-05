@@ -3,13 +3,13 @@
     <div
       class="d-flex justify-between align-center px-075 bottom_border_wrapper"
     >
-        <div class="day-date-picker-wrapper pt-1 pb-1" >
+        <div class="day-date-picker-wrapper py-05" >
           <button-with-overlay
             sectionLabel="View: "
             :button-config="{ label: dateBtnLabel, variant: 'light', }"
             v-slot="scope"
           >
-          <div class="pt-05 pb-05 pl-05 pr-05">
+          <div class="pl-05 pr-05">
             <bib-datetime-picker
               v-model="date"
               @input="onDateChange($event); scope.close()"
@@ -112,8 +112,8 @@ export default {
 
 <style lang="scss">
 .vdpComponent__input{
-  background-color: #F2F2F5 !important;
-  width: 300px !important;
+  // background-color: #F2F2F5 !important;
+  // width: 300px !important;
 }
 
 .day-date-picker-wrapper .bib-datepicker .bib-datepicker__close-icon {

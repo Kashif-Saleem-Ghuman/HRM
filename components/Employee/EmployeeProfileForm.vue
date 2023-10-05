@@ -87,7 +87,7 @@
                           type="date"
                           label="Date of birth"
                           field-key="dateOfBirth"
-                          :value="form.dateOfBirth"
+                          :value="dateFormat"
                           :error="errors.dateOfBirth"
                           placeholder=""
                           @input="handleInput"
@@ -350,6 +350,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import {
@@ -403,6 +404,7 @@ export default {
       errors: {},
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
+      dateFormat:'',
     };
   },
   methods: {
@@ -416,6 +418,7 @@ export default {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
+        this.dateFormat = dayjs(this.form.dateOfBirth).format("DD-MMM-YYYY")
       }
     },
 
@@ -497,6 +500,7 @@ export default {
 
   mounted() {
     this.fetchEmployee()
+    console.log(this.form.dateOfBirth, "this.form.dateOfBirth")
   },
 
   watch: {

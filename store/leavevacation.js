@@ -36,6 +36,8 @@ export const mutations = {
 
 export const  actions = {
     async setLeaveVacations(ctx, payload) {
+    const { from, to, search, status } = payload
+
     this.loading = true;
     try {
       const leaveVacations = await axios.get(
@@ -45,9 +47,10 @@ export const  actions = {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
           params: {
-            from: payload?.from,
-            to:payload?.to,
-            search:payload?.search
+            from,
+            to,
+            search,
+            status
           },
         }
       );

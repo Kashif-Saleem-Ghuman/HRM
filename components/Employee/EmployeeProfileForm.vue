@@ -87,7 +87,7 @@
                           type="date"
                           label="Date of birth"
                           field-key="dateOfBirth"
-                          :value="dateFormat"
+                          :value="form.dateOfBirth"
                           :error="errors.dateOfBirth"
                           placeholder=""
                           @input="handleInput"
@@ -404,7 +404,6 @@ export default {
       errors: {},
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
-      dateFormat:'',
     };
   },
   methods: {
@@ -418,7 +417,6 @@ export default {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
-        this.dateFormat = dayjs(this.form.dateOfBirth).format("DD-MMM-YYYY")
       }
     },
 

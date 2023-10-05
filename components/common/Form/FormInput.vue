@@ -40,6 +40,12 @@ export default {
     };
   },
 
+  computed: {
+    isDate() {
+      return this.$attrs.type == 'date'
+    }
+  },
+
   methods: {
     parseDate(dateString, format) {
       return new Date(dateString);
@@ -60,6 +66,11 @@ export default {
   watch: {
     "$attrs.value": {
       handler: function (val, old) {
+        if (this.isDate) {
+          const dateValue = val ?? ""
+          this.value = dateValue ? this.formatDate(dateValue, this.format) : ""
+          return
+        }
         this.value = val;
       },
     },

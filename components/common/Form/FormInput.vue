@@ -4,6 +4,9 @@
     :label="$attrs.label"
     class="form-date-picker"
     v-model="value"
+    :format="format"
+    :parseDate="parseDate"
+    :formatDate="formatDate"
     @input="onInput"
   ></bib-datetime-picker>
 
@@ -18,6 +21,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
   props: {
     fieldKey: {
@@ -32,10 +36,17 @@ export default {
   data() {
     return {
       value: null,
+      format: "DD-MMM-YYYY",
     };
   },
 
   methods: {
+    parseDate(dateString, format) {
+      return new Date(dateString);
+    },
+    formatDate(dateObj, format) {
+      return dayjs(dateObj).format(format);
+    },
     onInput(value) {
       const { fieldKey } = this;
       this.$emit("input", { fieldKey, value });
@@ -59,5 +70,14 @@ export default {
 <style lang="scss">
 .form-date-picker {
   width: 100%;
+  .vdpComponent__input{
+    background-color: #fff !important;
+    border: 1px solid $gray4 !important;
+    display: flex;
+    align-items: center;
+  }
+  .vdpComponent__input:hover {
+    border-color: var(--bib-gray6) !important;
+}
 }
 </style>

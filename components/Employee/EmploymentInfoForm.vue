@@ -57,7 +57,7 @@
                           type="date"
                           label="Hire Date"
                           field-key="hireDate"
-                          :value="form.hireDate"
+                          :value="dateFormat"
                           :error="errors.hireDate"
                           placeholder="Select your Hire Date"
                           @input="handleInput"
@@ -175,6 +175,7 @@
   </form-with-validation>
 </template>
 <script>
+import dayjs from "dayjs";
 import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
 import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
@@ -212,6 +213,7 @@ export default {
       errors: {},
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
+      dateFormat:'',
     };
   },
   methods: {
@@ -265,12 +267,12 @@ export default {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
+        this.dateFormat = dayjs(this.form.hireDate).format("DD-MMM-YYYY")
       }
     },
   },
   async created() {
     this.fetchEmployee()
-
     await this.$store.dispatch("employee/setReportsToList").then((result) => {
       const employees = result.filter((e) => e.id != this.form.id);
       this.reportOptions = [{ label: "", value: "" }, ...employees];

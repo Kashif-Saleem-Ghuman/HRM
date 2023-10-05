@@ -1,7 +1,7 @@
 <template>
   <div class="week-date-picker">
     <div class="pickers">
-      <div class="picker">
+      <div class="picker mr-05">
         <label for="start-date">From</label>
         <bib-datetime-picker
           v-model="from"
@@ -10,12 +10,12 @@
           @input="onDateChange"
           size="sm"
           icon=""
-          style="width: 100%;"
+        
         ></bib-datetime-picker>
       </div>
       <div class="picker" id="to-date">
         <label for="end-date">To</label>
-        <bib-datetime-picker v-model="to" :disabled="true" size="sm"  style="width: 100%;"></bib-datetime-picker>
+        <bib-datetime-picker v-model="to" :disabled="true" size="sm"></bib-datetime-picker>
       </div>
     </div>
   </div>
@@ -90,12 +90,20 @@ export default {
 
 .pickers {
   display: flex;
+  justify-content: center;
+  .vdpComponent__input{
+    // background-color: #fff !important;
+    border: 1px solid $gray4 !important;
+    min-width: 180px !important;
+  }
+  .vdpComponent__input:hover {
+    border-color: var(--bib-gray6) !important;
+}
   .picker {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding-right: 0.5rem;
-    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     label {
       color: #b1b1b4;
       padding-right: 0.5rem;

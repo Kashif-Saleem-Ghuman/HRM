@@ -83,13 +83,16 @@ export default {
     }
   }
   .btn-overlay {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    // box-shadow: rgba(133, 132, 132, 0.16) 1px 1px 2px;
+    border-radius: 6px;
     position: absolute;
-    background-color: white;
-    border-radius: 5%;
+    background-color: $light;
     top: 0;
+    bottom: 0;
     min-width: 100%;
-    min-height: 100%;
+    height: 50px;
+    border: solid 1px $light;
+    padding: 0px;
   }
   .button-wrapper {
     &__bgblack {

@@ -373,7 +373,7 @@ export default {
       cursor: default;
       background-color: white;
       td {
-        border-left: $gray4 1px solid;
+        border-left: #eee 1px solid;
         &:first-child {
           border-left: 0;
         }

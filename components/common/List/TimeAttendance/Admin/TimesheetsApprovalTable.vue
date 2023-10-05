@@ -287,8 +287,9 @@ export default {
   
 <style lang="scss" scoped>
 .info_wrapper {
-  color: $black;
-  font-weight: normal;
+  color: $dark;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .title {

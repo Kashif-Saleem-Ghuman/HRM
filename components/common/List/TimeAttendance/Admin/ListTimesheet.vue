@@ -8,7 +8,7 @@
     >
       <template #cell(name)="data">
         <div
-          class="d-flex px-1 align-center text-left gap-05"
+          class="d-flex px-1 align-center text-left gap-05 py-025"
           style="position: relative; width: 220px"
         >
           <div
@@ -23,7 +23,7 @@
                 data.value.lastName.slice(0, 1)
               "
               text-variant="primary"
-              size="3rem"
+              size="2.7rem"
               v-show="data.value.photo === null"
             ></bib-avatar>
             <bib-avatar
@@ -31,19 +31,21 @@
               shape="circle"
               :src="data.value.photo"
               v-show="data.value.photo != null"
-              size="3rem"
+              size="2.7rem"
             >
             </bib-avatar>
             <div :id="'id_' + data.value.id" style="" class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
-                @sendInvite="sendInvite"
+                @sendMeet="sendMeet(data.value.userId)"
+                @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.active"
               ></user-info-card>
             </div>
           </div>
-          <div class="info_wrapper">
+          <div class="info_wrapper"  style="width: 100%; cursor: pointer;"
+            @click="handleItemClick_Table(data.value.id, $event)">
             <div class="title">
               {{ data.value.firstName }} {{ data.value.lastName }}
             </div>
@@ -76,6 +78,7 @@
             :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
             :variant="[getStatusVariant(data.value.timesheets?.[0]?.status)]"
             :defaultPointer="true"
+            class=""
           ></chips>
         </div>
       </template>
@@ -89,6 +92,11 @@
 </template>
   
   <script>
+  import {
+  sendMeet,
+  sendMessage,
+  handleItemClick_Table,
+} from "../../../../../utils/functions/functions_lib";
 import {
   TABLE_HEAD,
   TIMESHEET_STATUS,
@@ -124,6 +132,9 @@ export default {
     formatHoursToHHMM,
     getStatusIcon,
     getStatusVariant,
+    sendMeet,
+    sendMessage,
+    handleItemClick_Table,
     getWeekdayValue(data) {
       if (!data) return "--";
 

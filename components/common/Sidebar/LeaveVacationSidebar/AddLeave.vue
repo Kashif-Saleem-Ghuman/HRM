@@ -1,34 +1,25 @@
 <template>
-  <div>
+    <form-with-validations
+      :fields="fields"
+      :form="updateForm"
+      :is-create-form="!form?.id"
+      :submit-fn="submitRequestForm"
+    >
     <div class="add-leave-wrapper">
-      <div v-show="employeeNameInput">
-        <div>
-          <bib-input
-            type="text"
-            label="Employee"
-            :value="employeeName"
-            icon-left="user"
-            placeholder="Employee"
-            disabled
-            style="padding-right: 0 !important;"
-            @change="$emit('input', $event, 'employeeId')"
-          ></bib-input>
-        </div>
-      </div>
       <div>
         <div  v-show="employeeNameSelectShow">
-          <bib-input
+          <form-input
             type="select"
             label="Employee"
-            :value="employeeNameSelect"
+            field-key="employeeId"
+            :value="form.employeeId"
             :options="employeesOptions"
             icon-left="user"
             avatar-right=""
             placeholder="Employee"
             :disabled="inActive"
-            @input="$emit('selectUser', $event, 'employeeId')"
             style="padding-right: 0px"
-          ></bib-input>
+          ></form-input>
         </div>
       </div>
 
@@ -36,15 +27,15 @@
         <div style="padding: 0px;">
           <div style="padding: 0px;">
           <div  v-show="leaveTypeSelect" class="pb-05">
-            <bib-input
+            <form-input
               type="select"
               label="Leave type"
-              :value="leaveType"
+              field-key="type"
+              :value="form.type"
               :options="leaveTypeOptions"
               placeholder="Select your Leave type"
               :disabled="inActive"
-              @input="$emit('selectLeaveType', $event, 'type')"
-            ></bib-input>
+            ></form-input>
             <small
               class="text-danger"
               style="margin-top: -0.25rem; display: block"
@@ -83,14 +74,14 @@
       </div>
         <div class="d-flex">
         <div class="items-width">
-          <bib-input
+          <form-input
             type="date"
             label="Start date"
-            :value="startDate"
+            field-key="start"
+            :value="form.start"
             placeholder="Select your start date"
-            @change="$emit('input', $event, 'start')"
             :disabled="inActive"
-          ></bib-input>
+          ></form-input>
           <small
             class="text-danger"
             style="margin-top: -0.25rem; display: block"
@@ -99,14 +90,14 @@
           >
         </div>
         <div class="last-child">
-          <bib-input
+          <form-input
             type="date"
             label="End date"
+            field-key="end"
             placeholder="Select your end date"
-            @change="$emit('input', $event, 'end')"
-            :value="endDate"
+            :value="form.end"
             :disabled="inActive"
-          ></bib-input>
+          ></form-input>
           <small
             class="text-danger"
             style="margin-top: -0.25rem; display: block"
@@ -119,27 +110,45 @@
     </div>
     <div>
       <div>
-        <bib-input
+        <form-input
           type="textarea"
           label="Reason"
+          field-key="note"
           placeholder="Enter text"
-          :value="note"
-          @change="$emit('input', $event, 'note')"
+          :value="form.note"
           :disabled="inActive"
-        ></bib-input>
+          name="note"
+        ></form-input>
       </div>
     </div>
-    <!-- <div>
-      <div>
-        <info-card-success></info-card-success>
-      </div>
-    </div> -->
-  </div>
+    
+    <template v-slot:form-action-buttons="scope">
+        <div class="position-absolute pb-1 pr-1" style="bottom: 0;right: 0;">
+          <div style="text-align: right">
+            <bib-button
+              label="Cancel"
+              variant="gray"
+              size="lg"
+              v-on:click="closeSidebar"
+            ></bib-button>
+            <bib-button
+              label="Save"
+              variant="success"
+              size="lg"
+              v-on:click="scope.submit"
+            ></bib-button>
+          </div>
+        </div>
+    </template>
+    </form-with-validations>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { createRequest } from "@/utils/functions/api_call/requests"
+import { isRequired } from "@/utils/form-validations/string-validations"
 export default {
+
   props: {
     employeeNameInput: {
       type: Boolean,
@@ -196,16 +205,32 @@ export default {
     errorMsgEndDate: {
       type: Boolean,
     },
+    request: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
-      // ltype: this.leaveType,
-      // dateStart: this.startDate,
-      // dateEnd: this.endDate,
-      // reason: this.note,
       usedDayLeave: 0,
+      form: {},
+      fields: {
+        employeeId:  {validations: [isRequired]},
+        type: {validations: [isRequired]},
+        start: {validations: [isRequired]},
+        end: {validations: [isRequired]},
+        note:{validations: []}
+      }
     };
   },
+
+  methods: {
+    async submitRequestForm(form) {
+      const request = await createRequest({ request: form })
+    },
+  },
+
+  
   created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
@@ -217,7 +242,9 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
-  mounted() {},
+  mounted() {
+    this.form = this.request
+  },
 };
 </script>
 <style lang="scss">

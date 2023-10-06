@@ -2,8 +2,8 @@
   <form-with-validation
     :fields="fields"
     :form="updateForm"
-    @errors="setErrors"
-    @on-submit-valid="submit"
+    :is-create-form="!org?.id"
+    :submit-fn="submitToApi"
   >
     <div class="employee_wrapper">
       <div
@@ -49,9 +49,7 @@
                           label="Organization Name"
                           field-key="CompanyName"
                           :value="org.CompanyName"
-                          :error="errors.CompanyName"
                           placeholder="Type your name"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -64,9 +62,7 @@
                           label="Business category"
                           form-field="Industry"
                           :value="org.Industry"
-                          :error="errors.Industry"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -96,24 +92,18 @@
                           label="Website"
                           field-key="Website"
                           :value="org.Website"
-                          :error="errors.Website"
-                          @input="handleInput"
                         ></form-input>
                         <form-input
                           type="email"
                           label="Email address"
                           field-key="ContactEmail"
                           :value="org.ContactEmail"
-                          :error="errors.ContactEmail"
-                          @input="handleInput"
                         ></form-input>
                         <form-input
                           type="text"
                           label="Telephone"
                           field-key="ContactPhone"
                           :value="org.ContactPhone"
-                          :error="errors.ContactPhone"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -142,9 +132,8 @@
                           type="text"
                           label="Address 1"
                           :value="org.AddressL1"
-                          :error="errors.AddressL1"
+                          
                           field-key="AddressL1"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -155,9 +144,8 @@
                           label="Address 2"
                           field-key="AddressL2"
                           :value="org.AddressL2"
-                          :error="errors.AddressL2"
+                          
                           placeholder="Address 2"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -169,9 +157,8 @@
                           field-key="Country"
                           :options="countries"
                           :value="org.Country"
-                          :error="errors.Country"
+                          
                           placeholder="Please select country"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-4" v-show="regions">
@@ -180,10 +167,9 @@
                           label="Province/State"
                           :options="regions"
                           :value="org.State"
-                          :error="errors.State"
+                          
                           field-key="State"
                           placeholder="Please select state"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-4">
@@ -191,10 +177,9 @@
                           type="text"
                           label="City"
                           :value="org.City"
-                          :error="errors.City"
+                          
                           field-key="City"
                           placeholder="Enter your city"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -205,9 +190,8 @@
                           label="Postal Code"
                           field-key="PostalCode"
                           :value="org.PostalCode"
-                          :error="errors.PostalCode"
+                          
                           placeholder="Postal Code"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -231,13 +215,12 @@ import {
   vfileAdded,
   getBusinessId,
 } from "../../utils/functions/functions_lib.js";
-import formWithValidationMixin from "../../mixins/form-with-validation-mixin";
 import organizationFields from "./organization-fields";
 import countries from "../../utils/constant/countries";
 import regions from "../../utils/constant/regions";
 import { updateOrganization } from "@/utils/functions/api_call/business.js";
 export default {
-  mixins: [formWithValidationMixin],
+
   data() {
     return {
       fields: { ...organizationFields },

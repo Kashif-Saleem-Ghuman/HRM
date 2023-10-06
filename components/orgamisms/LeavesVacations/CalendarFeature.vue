@@ -513,6 +513,7 @@ export default {
           .dispatch("leavevacation/setLeaveVacations", {
             from: this.getformToDate.from,
             to: this.getformToDate.to,
+            search: this.searchString,
           })
           .then((result) => {
             this.calendarOptions.events = result;
@@ -533,6 +534,7 @@ export default {
           .dispatch("leavevacation/setLeaveVacations", {
             from: this.getformToDate.from,
             to: this.getformToDate.to,
+            search: this.searchString,
           })
           .then((result) => {
             this.calendarOptions.events = result;

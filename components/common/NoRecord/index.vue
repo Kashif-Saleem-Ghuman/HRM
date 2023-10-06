@@ -1,6 +1,6 @@
 <template>
   <div class="no-record-found">
-    <label>No Records Founds</label>
+    <label>No Records Found</label>
     <!-- <div class="d-flex justify-center">
       <button-green
                     icon="add"

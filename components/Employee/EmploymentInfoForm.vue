@@ -1,7 +1,6 @@
 <template>
-  <form-with-validation
+  <form-with-validations
     :fields="fields"
-    :form="updateForm"
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
   >
@@ -51,7 +50,7 @@
                           type="date"
                           label="Hire Date"
                           field-key="hireDate"
-                          :value="dateFormat"
+                          :value="form.hireDate"
                           placeholder="Select your Hire Date"
                         ></form-input>
                       </div>
@@ -154,10 +153,9 @@
       </div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
-  </form-with-validation>
+  </form-with-validations>
 </template>
 <script>
-import dayjs from "dayjs";
 import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
@@ -198,10 +196,10 @@ export default {
   },
   methods: {
     openPopupNotification,
-    submitToApi() {
+    submitToApi(form) {
       return updateEmployee({
         id: this.form.id,
-        employee: this.updateForm,
+        employee: form,
       }).then(() => {
         this.openPopupNotification(1);
       });
@@ -247,7 +245,6 @@ export default {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
-        this.dateFormat = dayjs(this.form.hireDate).format("DD-MMM-YYYY")
       }
     },
   },

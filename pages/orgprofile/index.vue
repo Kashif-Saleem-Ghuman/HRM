@@ -1,7 +1,6 @@
 <template>
-  <form-with-validation
+  <form-with-validations
     :fields="fields"
-    :form="updateForm"
     :is-create-form="!org?.id"
     :submit-fn="submitToApi"
   >
@@ -205,11 +204,9 @@
       <bib-notification :popupMessages="popupMessages"></bib-notification>
       <loader v-bind:showloader="loading"></loader>
     </div>
-  </form-with-validation>
+  </form-with-validations>
 </template>
 <script>
-import getJson from "../../utils/dataJson/app_wrap_data";
-const appWrapItems = getJson();
 import { mapGetters } from "vuex";
 import {
   vfileAdded,

@@ -371,6 +371,7 @@ export default {
       .dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
+        status: 'approved'
       })
       .then((result) => {
         this.calendarOptions.events = result;

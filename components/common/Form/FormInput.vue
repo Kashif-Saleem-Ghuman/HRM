@@ -19,6 +19,7 @@
 
 <script>
 import dayjs from "dayjs";
+import { get } from "lodash"
 export default {
   inject: ['emitFormInput', "formErrors"],
   props: {
@@ -39,7 +40,7 @@ export default {
       return this.$attrs.type == 'date'
     },
     error() {
-      return this.errors[this.fieldKey]
+      return get(this.errors, this.fieldKey)
     },
 
     errors() {

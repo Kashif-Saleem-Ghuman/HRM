@@ -26,7 +26,7 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-x" style="height: 72vh">
+      <div class="of-scroll-x" :style="show=='true'? 'height: 72vh' : '100vh'">
         <div style="padding: 24px"><slot name="sidebar-body"></slot></div>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
@@ -38,6 +38,7 @@
           justify-content: end;
           align-items: end;
         "
+        v-if="show == 'true'"
       >
         <slot name="sidebar-footer">
           <!-- <div class="d-flex align-center" v-if="copyLink">
@@ -67,6 +68,9 @@ export default {
     copyLink: {
       type: String,
     },
+    show:{
+      type: String,
+    }
   },
   data() {
     return {

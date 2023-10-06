@@ -1416,44 +1416,43 @@ export const PAY_ACTION_MENU = [
 
 
 export const TIMESHEET_STATUS = {
-  "not_submitted": {
+  not_submitted: {
     label: "Not submitted",
     value: "not_submitted",
   },
-  "pending": {
+  pending: {
     label: "Pending",
     value: "pending",
     key: "pending",
-    variant:'warning',
-    icon:"eye-open"
+    variant: "warning",
+    icon: "eye-open",
   },
-  "vacation": {
+  vacation: {
     label: "Vacation",
     value: "vacation",
-    key: "vacation"
+    key: "vacation",
   },
-  "approved": {
-    label: "Approved",
+  approved: {
+    label: "Approve",
     value: "approved",
     key: "approved",
-    variant:'success',
-    icon:"check-circle-solid",
-    
+    variant: "success",
+    icon: "check-circle-solid",
   },
-  "rejected": {
-    label: "Rejected",
+  rejected: {
+    label: "Reject",
     value: "rejected",
     key: "rejected",
-    variant:'danger',
-    icon:"close"
+    variant: "danger",
+    icon: "close",
   },
-  "past_due": {
+  past_due: {
     label: "Past Due",
     value: "past_due",
     key: "past_due",
-    variant: "danger",
-    icon: "urgent-solid"
-  }
+    variant: "warning",
+    icon: "eye-open",
+  },
 }
 
 export const TIMESHEET_STATUSES = {

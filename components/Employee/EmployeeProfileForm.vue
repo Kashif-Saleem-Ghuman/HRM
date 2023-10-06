@@ -23,24 +23,20 @@
             </aside>
           </div>
         </div>
-        <div class="d-flex px-1" style="margin-top: -10px">
-          <button-gray
-            @on-click="sendMessage(form.userId)"
-            icon="mail-new"
-            variant="gray1"
-            class="mr-05"
-            :scale="0.8"
-            title="Send Message"
-            titleClass="button-title"
-          ></button-gray>
-          <button-gray
-            @on-click="sendMeet(form.userId)"
+        <div class="d-flex px-1" style="margin-top: 1px">
+          <bib-button
+            label="Send Message"
+            variant="light"
             icon="device-mobile"
-            variant="gray1"
-            :scale="0.8"
-            title="Make a call"
-            titleClass="button-title"
-          ></button-gray>
+            class="mr-05"
+            @click="sendMessage(form.userId)"
+          ></bib-button>
+          <bib-button
+            label="Make a Call"
+            variant="light"
+            icon="mail-new"
+            @click="sendMessage(form.userId)"
+          ></bib-button>
         </div>
 
         <div class="px-1">
@@ -354,15 +350,15 @@ import dayjs from "dayjs";
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import {
-isValidCanadianPostalCode,
-isValidUSZIP,
+  isValidCanadianPostalCode,
+  isValidUSZIP,
 } from "@/utils/form-validations/string-validations";
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import {
-sendMeet,
-sendMessage,
-vfileAdded,
+  sendMeet,
+  sendMessage,
+  vfileAdded,
 } from "@/utils/functions/functions_lib";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { set } from "lodash";
@@ -371,7 +367,7 @@ import contactFormFieds from "./forms/contact-form-fieds";
 import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
-import { getEmployee } from "@/utils/functions/api_call/employees.js"
+import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
 export default {
   mixins: [formWithValidationMixin],
@@ -411,12 +407,12 @@ export default {
     openPopupNotification,
 
     async fetchEmployee() {
-      const id = this.$route.params.id ?? this.getUser?.id
+      const id = this.$route.params.id ?? this.getUser?.id;
 
       if (id) {
-        this.id = id
-        const employee = await getEmployee({ id })
-        this.form = employee
+        this.id = id;
+        const employee = await getEmployee({ id });
+        this.form = employee;
       }
     },
 
@@ -497,15 +493,15 @@ export default {
   },
 
   mounted() {
-    this.fetchEmployee()
-    console.log(this.form.dateOfBirth, "this.form.dateOfBirth")
+    this.fetchEmployee();
+    console.log(this.form.dateOfBirth, "this.form.dateOfBirth");
   },
 
   watch: {
     getUser() {
-      if (this.id) return
-      this.fetchEmployee()
-    }
+      if (this.id) return;
+      this.fetchEmployee();
+    },
   },
 };
 </script>

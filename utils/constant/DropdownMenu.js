@@ -53,11 +53,11 @@ export const DropdownMenu = {
       key: "month",
       class:'drop-item-wrapper__bgabsentpink'
     },
-    "year": {
-      label: "Year",
-      key: "year",
-      class:'drop-item-wrapper__bgsucess'
-    },
+    // "year": {
+    //   label: "Year",
+    //   key: "year",
+    //   class:'drop-item-wrapper__bgsucess'
+    // },
 
   }
   export const buttonVariant = {

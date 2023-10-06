@@ -65,6 +65,7 @@
             :className="slideClass"
             :heading="sidebarHeading"
             v-show="openSidebar"
+            show='true'
           >
             <template v-slot:sidebar-body>
               <div>
@@ -88,6 +89,7 @@
                   :errorMsgSelect="errorMsgSelect"
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
+                  
                 ></add-leave>
               </div>
             </template>

@@ -1,8 +1,8 @@
 <template>
-  <div class="dropdown-menu" style="z-index: 99;">
+  <div class="dropdown-menu" style="z-index: 99">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
-      <div style="position: relative; z-index: 99;">
+      <div style="position: relative; z-index: 99">
         <bib-button
           :label="buttonConfig.label"
           :variant="buttonConfig.variant ?? 'light'"
@@ -11,9 +11,14 @@
           v-click-outside="clickOutside"
           :class="className"
         ></bib-button>
-        <div class="menu-items">
+        <div class="menu-itemss">
           <ul v-if="show">
-            <li class="d-flex align-center" v-for="item in items">
+            <li
+              class="d-flex align-center"
+              v-for="item in items"
+              @click="$emit('on-click', item)"
+              style="cursor: pointer"
+            >
               <bib-icon
                 :icon="listIcon"
                 :scale="0.7"
@@ -21,11 +26,7 @@
                 v-show="listIcon == null ? false : true"
                 class="mr-05"
               ></bib-icon>
-              <span
-                @click="$emit('on-click', item)"
-                style="cursor: pointer"
-                >{{ item.label }}</span
-              >
+              <span>{{ item.label }}</span>
             </li>
           </ul>
         </div>
@@ -62,7 +63,6 @@ export default {
     listIconVariant: {
       type: String,
     },
-
   },
   data() {
     return {
@@ -103,7 +103,7 @@ export default {
       }
     }
   }
-  .menu-items {
+  .menu-itemss {
     background-color: #fff;
     width: 107px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
@@ -119,24 +119,24 @@ export default {
       box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
       background: var(--bib-white);
       li {
-        padding: 0.5rem;
+        padding: 0px 0.5rem 0.7rem 0.5rem !important;
+        margin: 0px;
       }
     }
   }
   .button-wrapper {
-  &__bgblack {
-    background-color: #000 !important;
-    color: #fff !important;
-    svg {
-      fill: #fff !important;
-    }
-    span {
+    &__bgblack {
+      background-color: #000 !important;
       color: #fff !important;
-      font-weight: 400;
-      font-size: 14px;
+      svg {
+        fill: #fff !important;
+      }
+      span {
+        color: #fff !important;
+        font-weight: 400;
+        font-size: 14px;
+      }
     }
   }
-
-}
 }
 </style>

@@ -52,7 +52,7 @@
       </div>
       <div class="rtl-wrapper d-flex align-center">
         <div class="serach-item pr-05">
-          <label>Search:</label>
+          <!-- <label>Search:</label> -->
           <template>
             <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
 
@@ -450,6 +450,7 @@ export default {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
+        search: this.searchString,
       });
       setTimeout(() => {
         this.calendarOptions.events = this.getLeaveVacation;
@@ -477,6 +478,7 @@ export default {
       this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
+        search: this.searchString,
       });
       setTimeout(() => {
         this.calendarOptions.events = this.getLeaveVacation;

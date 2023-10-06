@@ -20,14 +20,14 @@ export default ({ app }, inject) => {
         key: "vacation",
       },
       approved: {
-        label: "Approved",
+        label: "Approve",
         value: "approved",
         key: "approved",
         variant: "success",
         icon: "check-circle-solid",
       },
       rejected: {
-        label: "Rejected",
+        label: "Reject",
         value: "rejected",
         key: "rejected",
         variant: "danger",
@@ -37,8 +37,8 @@ export default ({ app }, inject) => {
         label: "Past Due",
         value: "past_due",
         key: "past_due",
-        variant: "danger",
-        icon: "urgent-solid",
+        variant: "warning",
+        icon: "eye-open",
       },
     })
   );

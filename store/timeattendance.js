@@ -1,7 +1,5 @@
 import axios from "axios";
-import fecha from "fecha";
 import { DateTime } from "luxon";
-import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 export const state = () => ({
   timer: {
@@ -77,20 +75,25 @@ export const actions = {
     }
   },
 
-  async setEmployeeDailyTimeEntry(ctx, employeeId) {
+  async setEmployeeDailyTimeEntry(ctx, { date, employeeId }) {
     try {
-      const date = fecha.format(new Date(), "YYYY-MM-DD")
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
+      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
       const { data } = await axios.get(
-        process.env.API_URL + "/timesheets/admin/daily?date=" + date,
+        process.env.API_URL
+          + "/timesheets/daily?from="
+          + startOfDay
+          + "&to="
+          + endOfDay
+          + "&employeeId="
+          + employeeId,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         },
       );
-      const employee = data.employees.find((a) => a.id === employeeId);
-      const timeEntries = employee.timeEntries || [];
-      ctx.commit("SET_DAILY_TIME_ENTRIES", timeEntries.map((te) => ({
+      ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries.map((te) => ({
         start: te.start,
         end: te.end,
         total: te.total,

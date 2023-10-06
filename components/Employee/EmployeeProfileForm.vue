@@ -4,6 +4,7 @@
     :form="updateForm"
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
+    :update-form.sync="updateForm"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">

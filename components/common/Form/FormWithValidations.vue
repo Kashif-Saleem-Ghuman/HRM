@@ -194,6 +194,7 @@ export default {
 
       //force update
       this.updateForm = { ...this.updateForm };
+      this.$emit("update:update-form", this.updateForm)
     },
 
     setErrors(errors) {

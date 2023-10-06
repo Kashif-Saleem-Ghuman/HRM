@@ -52,6 +52,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@types/crypto-js": "^4.1.1",
     "@types/jquery": "^3.5.16",
+    "@types/luxon": "^3.3.2",
     "@vue/test-utils": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^26.3.0",

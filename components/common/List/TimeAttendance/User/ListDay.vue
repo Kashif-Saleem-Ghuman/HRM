@@ -6,7 +6,7 @@
         <div class="cell">START</div>
         <div class="cell">END</div>
         <div class="cell">TOTAL HRS</div>
-        <div class="cell trash"></div>
+        <div class="cell trash" v-if="!disabled"></div>
       </div>
       <time-entry-row
         v-for="entry in listToday"
@@ -18,7 +18,7 @@
         :date="date"
       ></time-entry-row>
       <time-entry-row
-        v-if="showNewEntryRow"
+        v-if="showNewEntryRow && !disabled"
         :entry="newEntry"
         class="row"
         @new-entry="makeNewTimeEntry"

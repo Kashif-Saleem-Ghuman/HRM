@@ -31,17 +31,39 @@
           ></info-card-one>
 
           <!-- <info-card-help
-          custumBg="help-wrapper__bg-black"
-        ></info-card-help> -->
+            custumBg="help-wrapper__bg-black"
+          ></info-card-help> -->
+          
+          <div
+            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+          >
+            <div class="d-flex align-center">
+              <div class="custom_date_picker">
+                <!-- <div class="mr-05">Date:</div> -->
+                <bib-datetime-picker
+                  v-model="todayDate"
+                  :format="format"
+                  :parseDate="parseDate"
+                  :formatDate="formatDate"
+                  class="custom_date_picker"
+                  @input="dateSelection($event)"
+                ></bib-datetime-picker>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div>
-        <list-day-admin
+        <list-day
+          v-if="todayData.length"
           :listToday="todayData"
           v-show="todayListView"
-          :totalWork="totalWork"
+          :total="totalWork"
           :status="timesheetStatus"
-        ></list-day-admin>
+          :date="new Date(todayDate + ' 00:00')"
+          disabled="true"
+        ></list-day>
+        <no-record v-else />
         <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
         <list-month
           :listMonth="MonthViewData"
@@ -54,16 +76,11 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha from "fecha";
+import { DateTime } from "luxon";
 import {
   getTimeAttendanceDaily,
   getTimeAttendanceCustomRange,
-  getTimesheet,
 } from "../../../utils/functions/functions_lib_api";
-import {
-  getCurrentDateMonth,
-  getCurrentWeek,
-  getCurrentYear,
-} from "../../../utils/functions/functions_lib";
 import {
   getDateDiffInHHMM,
   getTimeFromDate,
@@ -86,8 +103,8 @@ export default {
       buttonTitle: "Approved",
       buttonIcon: "check-circle-solid",
       show: false,
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
-      format: "MMM D, YYYY",
+      format: "DD-MMM-YYYY",
+      todayDate: fecha.format(new Date(), "DD-MMM-YYYY"),
       ACTIVITY_DICTIONARY,
       TIMESHEET_DATA,
       WEEK_VIEW_DATA,
@@ -106,10 +123,6 @@ export default {
   methods: {
     getTimeAttendanceDaily,
     getTimeAttendanceCustomRange,
-    getTimesheet,
-    getCurrentYear,
-    getCurrentDateMonth,
-    getCurrentWeek,
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
     },
@@ -143,6 +156,25 @@ export default {
           return;
       }
     },
+    handleNewEntry(timeEntry) { 
+      this.todayData.push({
+        activity: {
+          label: ACTIVITY_DICTIONARY[timeEntry.activity],
+          value: timeEntry.activity,
+        },
+        start: getTimeFromDate(timeEntry.start),
+        end: getTimeFromDate(timeEntry.end),
+        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
+        status: timeEntry.status,
+        id: timeEntry.id,
+      });
+      if (timeEntry.activity === 'in') {
+        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      } else if (timeEntry.activity === 'break') {
+        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      }
+      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
+    },
     leaveStatus(e) {
       console.log(e, "vihange");
       if (e.key == "approve") {
@@ -163,16 +195,29 @@ export default {
     clickOutside() {
       this.show = false;
     },
-    dateSelection(event) {
-      var date = fecha.format(new Date(event), "YYYY-MM-DD");
-      this.todayDate = date;
-      this.getTimeAttendanceDaily(date);
+    async dateSelection(event) {
+      await this.fillTimeEntries();
     },
     openClock() {
       this.clockModal = true;
     },
     closeClock() {
       this.clockModal = false;
+    },
+    async fillTimeEntries() {
+      await this.$store.dispatch(
+        "timeattendance/setEmployeeDailyTimeEntry",
+        {
+          date: new Date(this.todayDate).toISOString(),
+          employeeId: this.id,
+        },
+      );
+      this.todayData = [];
+      this.totalWorkInMS = 0;
+      for (const timeEntry of this.getDailyTimeEntries) {
+        this.handleNewEntry(timeEntry);
+      }
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
     },
   },
   computed: {
@@ -181,38 +226,9 @@ export default {
       activeUserRole: "token/getUserRole",
     }),
   },
-  async created() {
+  async mounted() {
     this.id = this.$route.params.id;
-    this.getCurrentYear();
-    this.getCurrentDateMonth();
-    this.getCurrentWeek();
-    await this.getTimesheet();
-    await this.$store.dispatch(
-      "timeattendance/setEmployeeDailyTimeEntry",
-      Number(this.id)
-    );
-    this.todayData = [];
-    let work = 0; // miliseconds
-    for (const timeEntry of this.getDailyTimeEntries) {
-      this.todayData.push({
-        activityTitle: ACTIVITY_DICTIONARY[timeEntry.activity],
-        start: getTimeFromDate(timeEntry.start),
-        end: getTimeFromDate(timeEntry.end),
-        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
-        status: timeEntry.status,
-      });
-      if (timeEntry.activity === "in") {
-        work +=
-          new Date(timeEntry.end).getTime() -
-          new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === "break") {
-        work -=
-          new Date(timeEntry.end).getTime() -
-          new Date(timeEntry.start).getTime();
-      }
-    }
-    this.totalWork = formatTime(work / 1000, false);
-    this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
+    await this.fillTimeEntries();
   },
   components: { DropdownMenu },
 };

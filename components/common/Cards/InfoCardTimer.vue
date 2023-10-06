@@ -91,7 +91,10 @@ export default {
     if (this.activeUserRole === 'USER') {
       await this.$store.dispatch('timeattendance/setDailyTimeEntries');
     } else {
-      await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', this.employeeId)
+      await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', {
+        employeeId: this.employeeId,
+        date: new Date().toISOString(),
+      })
     }
     this.timeEntriesLoading = false;
   },

@@ -216,6 +216,8 @@ import organizationFields from "./organization-fields";
 import countries from "../../utils/constant/countries";
 import regions from "../../utils/constant/regions";
 import { updateOrganization } from "@/utils/functions/api_call/business.js";
+import { popupNotificationMsgs } from "../../utils/constant/Notifications";
+import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 export default {
 
   data() {
@@ -223,6 +225,7 @@ export default {
       fields: { ...organizationFields },
       countries,
       id: this.$route.params.id,
+      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       org: {},
       updateForm: {},
@@ -246,12 +249,15 @@ export default {
   methods: {
     getBusinessId,
     vfileAdded,
+    openPopupNotification,
     async submitToApi() {
       const payload = {
         id: this.org.Id,
         organization: { ...this.org, ...this.updateForm },
       };
-      await updateOrganization(payload);
+      await updateOrganization(payload).then(()=>{
+        this.openPopupNotification(4);
+      });
     },
   },
 };

@@ -4,17 +4,7 @@
       :navigationCollapsed="collapseNavigation1"
       :isLightTheme="lightThemeChecked"
     >
-      <template #notification v-if="showNotification">
-        <bib-notification-persistent
-          @dismiss="
-            () => {
-              showNotification = false;
-            }
-          "
-          :label="notificationText"
-          :variant="notificationVariant"
-        ></bib-notification-persistent>
-      </template>
+
       <template #topbar>
         <bib-header
           :mainAction="accountType"

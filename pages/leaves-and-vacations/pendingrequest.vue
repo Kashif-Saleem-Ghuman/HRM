@@ -6,7 +6,7 @@
         class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
         v-show="requestListData.length ? true : false"
       >
-        <div class="d-flex align-center">
+        <div class="d-flex align-center py-05">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"
@@ -15,39 +15,6 @@
             class="mr-05"
             @click="pendingApproveRequest('approve')"
           ></bib-button>
-          <!-- <button-green
-            icon="add"
-            variant="success"
-            :scale="1"
-            title="Approved"
-            class="mr-05"
-            className="button button-custom--lightsuccess"
-            :disabled="disabled"
-            @on-click="rejectItem()"
-          ></button-green>
-          <button-green
-            icon="add"
-            variant="danger"
-            :scale="1"
-            title="Reject"
-            className="button-custom--pending"
-            disabled
-            @on-click="pendingApproveRequest('approve')"
-          ></button-green> -->
-          <!-- <button-green
-                    icon="add"
-                    variant="warning"
-                    :scale="1"
-                    title="Reject"
-                    @on-click="pendingApproveRequest('approve')"
-                  ></button-green>
-                  <button-warning
-                    icon="add"
-                    variant="success"
-                    :scale="1"
-                    title="Pending"
-                    @on-click="pendingApproveRequest('pending')"
-                  ></button-warning> -->
         </div>
       </div>
       <div class="scroll_wrapper">
@@ -185,13 +152,13 @@ export default {
           this.checked = true;
         });
       }
-      if (this.addIds != "") {
-        this.disabled = false;
-      } else {
-        this.disabled = true;
-      }
     },
     async pendingApproveRequest(event) {
+      if(this.addIds == ''){
+        alert("Please Select Leave Request")
+        this.disabled = true;
+        return
+      }
       if (event == "approve") {
         await this.getApproveLeaveVacationsAdmin();
         await this.getPendingLeaveVacationsAdmin();

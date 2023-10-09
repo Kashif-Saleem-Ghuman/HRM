@@ -66,7 +66,7 @@
                       item.firstName.slice(0, 1) + item.lastName.slice(0, 1)
                     "
                     text-variant="primary"
-                    size="2.7rem"
+                    size="2.3rem"
                     v-show="item.photo === null"
                   ></bib-avatar>
                   <bib-avatar
@@ -74,7 +74,7 @@
                     shape="circle"
                     :src="item.photo"
                     v-show="item.photo != null"
-                    size="2.7rem"
+                    size="2.3rem"
                   >
                   </bib-avatar>
                   <!-- <bib-avatar

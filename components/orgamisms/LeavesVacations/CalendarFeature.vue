@@ -227,6 +227,7 @@ import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
 import {
   MONTH_LIST,
   YEAR_LIST,
+  MONTHS_LABEL_VALUE,
 } from "../../../utils/constant/Calander";
 import {
   addHandleInput,
@@ -313,7 +314,7 @@ export default {
         eventRemove: this.handleEventRemove,
       },
       currentDate: fecha.format(new Date(), "DD"),
-      currentMonth: fecha.format(new Date(), "MMM"),
+      currentMonth: fecha.format(new Date(), "MMMM"),
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
         "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
@@ -329,7 +330,7 @@ export default {
       employeeNameSelectShow: false,
       weekendsButtonView: "Show Weekdays",
       dropMenu: DropdownMenu.calendarViewType,
-      dropMenuMonth: MONTH_LIST,
+      dropMenuMonth: MONTHS_LABEL_VALUE,
       dropMenuYear: YEAR_LIST,
       selectedMonth: "",
       selectedYear: "2023",
@@ -427,7 +428,7 @@ export default {
         .getApi()
         .changeView(
           this.calendarOptions.initialView,
-          year + e.key + this.currentDate
+          year + e.value + this.currentDate
         );
       this.getCurrentDateMonth();
       this.$store.dispatch("leavevacation/setActiveFromToDate", {

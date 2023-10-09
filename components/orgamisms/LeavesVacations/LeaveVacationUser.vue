@@ -22,7 +22,7 @@
           buttonLable="Request Vacation"
           icon="airplane-solid"
           className="button-wrapper__bgsucess"
-          variant="white"
+          :variant="$button.approved.variant"
           @on-click="addLeaves('vacation')"
         ></info-card-leave-vacation>
         <info-card-leave-vacation
@@ -32,7 +32,7 @@
           buttonLable="Request Medical Leave"
           icon="medical-clinic-solid"
           className="button-wrapper__bgalert"
-          variant="white"
+          :variant="$button.rejected.variant"
           @on-click="addLeaves('medical')"
         ></info-card-leave-vacation>
         <info-card-leave-vacation
@@ -42,7 +42,7 @@
           buttonLable="Request Personal Leave"
           icon="accessibility-cognitive-disability-solid"
           className="button-wrapper__bgwarnning"
-          variant="white"
+          :variant="$button.pending.variant"
           @on-click="addLeaves('leave')"
         ></info-card-leave-vacation>
         <!-- <info-card-leave-vacation

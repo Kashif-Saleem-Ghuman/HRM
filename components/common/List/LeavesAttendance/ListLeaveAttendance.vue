@@ -97,7 +97,7 @@
               ? $button.rejected.label
               : ''
           "
-          class="mr-05"
+          class="mr-05 w-50"
           style="cursor: auto;"
         ></bib-button>
         <!-- <bib-button

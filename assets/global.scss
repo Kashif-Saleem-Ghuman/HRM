@@ -130,9 +130,9 @@ $validation-star-color: #fa0f00;
   background-color: #f0f9ef;
 }
 
-.nav-section{
-  border: 0px !important;
-}
+// .nav-section{
+//   border: 0px !important;
+// }
 .drawer-enter-active {
   animation: slidein-right 0.2s;
 }
@@ -140,9 +140,9 @@ $validation-star-color: #fa0f00;
 .drawer-leave-active {
   animation: slidein-right 0.2s reverse;
 }
-.nav_wrapper{
-  height: 3rem;
-}
+// .nav_wrapper{
+//   height: 3rem;
+// }
 .tab-wrapper{
   .tabs{
     height: 3rem !important;
@@ -315,4 +315,6 @@ $validation-star-color: #fa0f00;
       font-size: 14px;
     }
   }
+}.app-wrapper__navigation--collapsed{
+  padding: 0;
 }

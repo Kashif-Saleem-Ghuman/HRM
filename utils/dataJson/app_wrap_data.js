@@ -55,51 +55,6 @@ const data = () => {
         href: process.env.BIB_TEMPLATES_APP_URL,
       }
     ],
-    avatarMenu: [
-      {
-        img: "user-canonical",
-        color: "gray5",
-        active: false,
-        text: "My Profile",
-        href: '',
-
-      },
-    ],
-    bibTabs: [
-      {
-        title: "Personal",
-        value: "personal",
-      },
-      {
-        title: "Work",
-        value: "work",
-      },
-      {
-        title: "Tasks",
-        value: "tasks",
-      },
-      {
-        title: "Team",
-        value: "team",
-      },
-      {
-        title: "Documents",
-        value: "documents",
-      },
-      {
-        title: "Work Week",
-        value: "Workweek",
-      },
-
-      {
-        title: "Payroll",
-        value: "payroll",
-      },
-      {
-        title: "File Manager",
-        value: "filemanager",
-      },
-    ],
     navItemsUser: [
       { label: "Time & Attendance", icon: "add", key: "time-attendance", selected: false},
       { label: "Leave & Vacations", icon: "add", key: "leave-vacations",  selected: false},

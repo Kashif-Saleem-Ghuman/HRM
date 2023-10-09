@@ -15,4 +15,8 @@ export const popupNotificationMsgs = [
     text: "Leave has been Rejected...",
     variant: "success",
   },
+  {
+    text: "Organization profile data update successfully...",
+    variant: "success",
+  },
 ];

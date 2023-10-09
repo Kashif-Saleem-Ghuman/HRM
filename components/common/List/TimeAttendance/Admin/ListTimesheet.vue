@@ -23,7 +23,7 @@
                 data.value.lastName.slice(0, 1)
               "
               text-variant="primary"
-              size="2.7rem"
+              size="2.3rem"
               v-show="data.value.photo === null"
             ></bib-avatar>
             <bib-avatar
@@ -31,7 +31,7 @@
               shape="circle"
               :src="data.value.photo"
               v-show="data.value.photo != null"
-              size="2.7rem"
+              size="2.3rem"
             >
             </bib-avatar>
             <div :id="'id_' + data.value.id" style="" class="userCard">

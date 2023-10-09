@@ -1,10 +1,7 @@
 <template>
   <div>
      <!-- Admin Menu  -->
-     <div v-if="adminMenu" class="mt-1">
-      <!-- <div :class="sectionHead" class="section-head">
-        <span v-on:click="changeDashboard()" style="cursor: pointer; ">Organization admin</span>
-      </div> -->
+     <div v-if="adminMenu">
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
         @click="
@@ -12,6 +9,8 @@
             menuClick(item);
           }
         "
+        isLightTheme
+        class="mt-05"
       ></bib-app-navigation>
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(1)"
@@ -20,6 +19,8 @@
             menuClick(item);
           }
         "
+        isLightTheme
+        class="mt-05"
       ></bib-app-navigation>
     </div>
 
@@ -35,6 +36,7 @@
             menuClick(item);
           }
         "
+        class="mt-05"
       ></bib-app-navigation>
       <div class="section-head">
         <span style="cursor: pointer; color: #86868a;">Shortcuts</span>
@@ -47,6 +49,7 @@
             menuClick(item);
           }
         "
+        class="mt-05"
       ></bib-app-navigation>
     </div>
     </div>

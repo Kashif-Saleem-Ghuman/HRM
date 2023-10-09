@@ -119,7 +119,6 @@ export function handleInput(event, name, addresses) {
     //   ...this.form.address,
     //   ...add,
     // };
-    console.log(this.updateForm, "updateFormmmmmmmmmmmmmmmmmmmmmmm");
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;
@@ -153,17 +152,9 @@ export function handleInputObject(event, name, emContact) {
 }
 export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
-  this.addForm[name] = event;
-  // this.form[name] = event;
-  if (
-    this.addForm.start != "" ||
-    this.addForm.endDate != "" ||
-    this.addForm.type != ""
-  ) {
-    this.errorMsgStartDate = false;
-    this.errorMsgEndDate = false;
-    this.errorMsgSelect = false;
-  }
+  // this.addForm[name] = event;
+  this.addForm[event.fieldKey] = event.value 
+  console.log(this.addForm, "onInput")
 }
 export async function selectUserHandle(event, name) {
   this.userId = event;
@@ -174,16 +165,16 @@ export async function selectUserHandle(event, name) {
   this.addForm[name] = event;
   if (this.leaveType == "leave") {
     this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
-    this.allowanceDays = 12;
+    this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
   }
   if (this.leaveType == "medical") {
     this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
 
-    this.allowanceDays = 10;
+    this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
   }
   if (this.leaveType == "vacation") {
     this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = 30;
+    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;;
   }
 }
 export function selectLeaveTypeHandle(event, name, addresses) {
@@ -192,15 +183,15 @@ export function selectLeaveTypeHandle(event, name, addresses) {
   this.addForm[name] = event;
   if (this.leaveType == "leave") {
     this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
-    this.allowanceDays = 12;
+    this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
   }
   if (this.leaveType == "medical") {
     this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
-    this.allowanceDays = 10;
+    this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
   }
   if (this.leaveType == "vacation") {
     this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = 30;
+    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;;
   }
   console.log(this.addForm, "this.addFormthis.addForm");
 }

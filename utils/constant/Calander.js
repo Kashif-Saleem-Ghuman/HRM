@@ -96,18 +96,18 @@ export const MONTH_LIST = [
 ];
 
 export const MONTHS_LABEL_VALUE = [
-  { label: 'January', value: 1 },
-  { label: 'February', value: 2 },
-  { label: 'March', value: 3 },
-  { label: 'April', value: 4 },
-  { label: 'May', value: 5 },
-  { label: 'June', value: 6 },
-  { label: 'July', value: 7 },
-  { label: 'August', value: 8 },
-  { label: 'September', value: 9 },
-  { label: 'October', value: 10 },
-  { label: 'November', value: 11 },
-  { label: 'December', value: 12 }
+  { label: 'January', value: 1, selected: false },
+  { label: 'February', value: 2, selected: false },
+  { label: 'March', value: 3, selected: false },
+  { label: 'April', value: 4, selected: false },
+  { label: 'May', value: 5, selected: false },
+  { label: 'June', value: 6, selected: false },
+  { label: 'July', value: 7, selected: false },
+  { label: 'August', value: 8, selected: false },
+  { label: 'September', value: 9, selected: false },
+  { label: 'October', value: 10, selected: false },
+  { label: 'November', value: 11, selected: false },
+  { label: 'December', value: 12, selected: false }
 ];
 export const YEAR_LIST = [
   { label: "2020", key: "2020", selected: false },

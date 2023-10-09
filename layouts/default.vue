@@ -83,24 +83,6 @@
                 ></add-leave>
               </div>
             </template>
-            <template v-slot:sidebar-footer>
-              <div class="">
-                <div style="text-align: right">
-                  <bib-button
-                    label="Cancel"
-                    variant="gray"
-                    size="lg"
-                    v-on:click="closeSidebar"
-                  ></bib-button>
-                  <bib-button
-                    label="Save"
-                    variant="success"
-                    size="lg"
-                    v-on:click="addLeaveVacations()"
-                  ></bib-button>
-                </div>
-              </div>
-            </template>
           </action-sidebar>
         </div>
         <bib-notification :popupMessages="popupMessages"></bib-notification>
@@ -172,7 +154,7 @@ export default {
       useDaysData: "",
       leaveType: "vacation",
       employeeName: "",
-      leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      leaveTypeOptions: [{label: "", value: ""}, ...SELECT_OPTIONS.leaveType],
       leaveType: "",
       addForm: {
         employeeId: "",
@@ -439,7 +421,7 @@ export default {
         }
       );
     }
-    this.employeesOptions = this.getReportList;
+    this.employeesOptions = [{label: "", value: ""}, ...this.getReportList];
     this.loading = false;
   },
   methods: {

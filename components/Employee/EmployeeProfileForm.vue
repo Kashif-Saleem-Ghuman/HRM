@@ -1,9 +1,10 @@
 <template>
-  <form-with-validation
+  <form-with-validations
     :fields="fields"
     :form="updateForm"
-    @errors="setErrors"
-    @on-submit-valid="submit"
+    :is-create-form="!form?.id"
+    :submit-fn="submitToApi"
+    :update-form.sync="updateForm"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">
@@ -59,9 +60,7 @@
                           label="First Name"
                           field-key="firstName"
                           :value="form.firstName"
-                          :error="errors.firstName"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -70,9 +69,7 @@
                           label="Last Name"
                           field-key="lastName"
                           :value="form?.lastName"
-                          :error="errors?.lastName"
                           placeholder="my place holder"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -84,9 +81,7 @@
                           label="Date of birth"
                           field-key="dateOfBirth"
                           :value="form.dateOfBirth"
-                          :error="errors.dateOfBirth"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -95,10 +90,8 @@
                           label="Gender"
                           field-key="gender"
                           :value="form?.gender"
-                          :error="errors?.gender"
                           :options="genderOptions"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -110,10 +103,8 @@
                           label="Marital Status"
                           field-key="maritalStatus"
                           :value="form?.maritalStatus"
-                          :error="errors?.maritalStatus"
                           :options="maritalOptions"
                           placeholder="Please select employee status"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -143,8 +134,6 @@
                         label="Primary email"
                         field-key="primaryEmail"
                         :value="form.primaryEmail"
-                        :error="errors.primaryEmail"
-                        @input="handleInput"
                       ></form-input>
                     </div>
                     <div class="col-6">
@@ -153,8 +142,6 @@
                         label="Secondary email"
                         field-key="secondaryEmail"
                         :value="form.secondaryEmail"
-                        :error="errors.secondaryEmail"
-                        @input="handleInput"
                       ></form-input>
                     </div>
                   </div>
@@ -165,8 +152,6 @@
                         label="Home phone"
                         field-key="homePhone"
                         :value="form.homePhone"
-                        :error="errors?.homePhone"
-                        @input="handleInput"
                       ></form-input>
                     </div>
                     <div class="col-6">
@@ -175,8 +160,6 @@
                         label="Cell phone"
                         field-key="cellPhone"
                         :value="form.cellPhone"
-                        :error="errors.cellPhone"
-                        @input="handleInput"
                       ></form-input>
                     </div>
                   </div>
@@ -201,9 +184,7 @@
                           label="Street number and name"
                           field-key="address.addressLine1"
                           :value="form.address?.addressLine1"
-                          :error="errors.address?.addressLine1"
                           indicator
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -214,8 +195,6 @@
                           label="Suite/Apartment"
                           field-key="address.addressLine2"
                           :value="form.address?.addressLine2"
-                          :error="errors.address?.addressLine2"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -229,9 +208,7 @@
                           field-key="address.country"
                           :options="countries"
                           :value="form.address?.country"
-                          :error="errors.address?.country"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-4">
@@ -241,9 +218,7 @@
                           field-key="address.state"
                           :options="states"
                           :value="form.address?.state"
-                          :error="errors.address?.state"
                           placeholder="Please select state"
-                          @input="handleInput"
                         ></form-input>
                       </div>
 
@@ -253,9 +228,7 @@
                           label="City"
                           field-key="address.city"
                           :value="form.address?.city"
-                          :error="errors.address?.city"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -266,9 +239,7 @@
                           label="Postal Code"
                           field-key="address.postalCode"
                           :value="form.address?.postalCode"
-                          :error="errors?.address?.postalCode"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -295,8 +266,6 @@
                           label="Contact name"
                           field-key="emergencyContact.name"
                           :value="form.emergencyContact?.name"
-                          :error="errors.emergencyContact?.name"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -308,8 +277,6 @@
                           label="Releationship"
                           field-key="emergencyContact.relationship"
                           :value="form.emergencyContact?.relationship"
-                          :error="errors.emergencyContact?.relationship"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-4">
@@ -318,8 +285,6 @@
                           label="Telephone"
                           field-key="emergencyContact.phone"
                           :value="form.emergencyContact?.phone"
-                          :error="errors.emergencyContact?.phone"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-4">
@@ -328,8 +293,6 @@
                           label="Email"
                           field-key="emergencyContact.email"
                           :value="form.emergencyContact?.email"
-                          :error="errors.emergencyContact?.email"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -342,11 +305,10 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-  </form-with-validation>
+  </form-with-validations>
 </template>
 
 <script>
-import dayjs from "dayjs";
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import {
@@ -368,9 +330,7 @@ import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
-import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
 export default {
-  mixins: [formWithValidationMixin],
 
   data() {
     return {
@@ -452,9 +412,8 @@ export default {
       return true;
     },
 
-    submitToApi() {
-      // this.openPopupNotification(1)
-      updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
+    submitToApi(form) {
+      updateEmployee({ id: this.form.id, employee: form }).then(
         (data) => {
           this.openPopupNotification(1);
           this.$nuxt.$emit("top-nav-key");

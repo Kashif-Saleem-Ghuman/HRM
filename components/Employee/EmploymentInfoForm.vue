@@ -1,9 +1,8 @@
 <template>
-  <form-with-validation
+  <form-with-validations
     :fields="fields"
-    :form="updateForm"
-    @errors="setErrors"
-    @on-submit-valid="submit"
+    :is-create-form="!form?.id"
+    :submit-fn="submitToApi"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">
@@ -21,10 +20,8 @@
                           label="Employee Status"
                           field-key="employeeStatus"
                           :value="form.employeeStatus"
-                          :error="errors.employeeStatus"
                           :options="statusOptions"
                           placeholder="Select your employee status"
-                          @input="handleInput"
                           disabled
                         ></form-input>
                       </div>
@@ -34,9 +31,7 @@
                           label="Employee number"
                           field-key="employeeNo"
                           :value="form.employeeNo"
-                          :error="errors.employeeNo"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -47,9 +42,7 @@
                           label="Social Insurance Number"
                           field-key="sin"
                           :value="form.sin"
-                          :error="errors.sin"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -57,10 +50,8 @@
                           type="date"
                           label="Hire Date"
                           field-key="hireDate"
-                          :value="dateFormat"
-                          :error="errors.hireDate"
+                          :value="form.hireDate"
                           placeholder="Select your Hire Date"
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -71,10 +62,8 @@
                           label="Employment Type"
                           field-key="employmentType"
                           :value="form.employmentType"
-                          :error="errors.employmentType"
                           :options="employmentTypeOptions"
                           placeholder=""
-                          @input="handleInput"
                         ></form-input>
                       </div>
                     </div>
@@ -105,9 +94,7 @@
                             label="Work Title"
                             field-key="jobTitle"
                             :value="form.jobTitle"
-                            :error="errors.jobTitle"
                             placeholder=""
-                            @input="handleInput"
                           ></form-input>
                         </div>
                         <div class="col-6">
@@ -128,9 +115,7 @@
                             field-key="managerId"
                             :options="reportOptions"
                             :value="form.managerId"
-                            :error="errors.managerId"
                             placeholder="Please select reporting manager"
-                            @input="handleInput"
                             icon-left="file"
                           ></form-input>
                         </div>
@@ -142,9 +127,7 @@
                             label="Work email"
                             field-key="email"
                             :value="form.email"
-                            :error="errors.email"
                             placeholder=""
-                            @input="handleInput"
                             icon-left="file"
                           ></form-input>
                         </div>
@@ -156,9 +139,7 @@
                             label="Work telephone"
                             field-key="phone"
                             :value="form.phone"
-                            :error="errors.phone"
                             placeholder=""
-                            @input="handleInput"
                           ></form-input>
                         </div>
                       </div>
@@ -172,13 +153,11 @@
       </div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
-  </form-with-validation>
+  </form-with-validations>
 </template>
 <script>
-import dayjs from "dayjs";
 import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
-import formWithValidationMixin from "@/mixins/form-with-validation-mixin";
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import {
@@ -193,7 +172,6 @@ import { mapGetters } from "vuex";
 import { getEmployee } from "@/utils/functions/api_call/employees.js"
 
 export default {
-  mixins: [formWithValidationMixin],
   data() {
     return {
       fields: { ...employmentInfo, ...placementFields },
@@ -218,10 +196,10 @@ export default {
   },
   methods: {
     openPopupNotification,
-    submitToApi() {
+    submitToApi(form) {
       return updateEmployee({
         id: this.form.id,
-        employee: this.updateForm,
+        employee: form,
       }).then(() => {
         this.openPopupNotification(1);
       });
@@ -267,7 +245,6 @@ export default {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
-        this.dateFormat = dayjs(this.form.hireDate).format("DD-MMM-YYYY")
       }
     },
   },

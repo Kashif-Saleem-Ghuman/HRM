@@ -139,24 +139,19 @@
     >
       <template v-slot:sidebar-body>
         <add-leave
+          :request="form"
           :leaveTypeOptions="leaveTypeOptions"
           @input="addHandleInput"
           @change="addHandleInput"
           style="z-index: 100000"
-          :employeeName="employeeName"
           :allowanceDays="allowanceData"
           :usedDays="useDaysDataValue"
-          :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
           :errorMsgSelect="errorMsgSelect"
           :errorMsgStartDate="errorMsgStartDate"
           :errorMsgEndDate="errorMsgEndDate"
-          :leaveType="form.type"
-          :startDate="startDate"
-          :endDate="endDate"
-          :note="form.note"
           inActive="disabled"
         ></add-leave>
         <div class="row">
@@ -376,18 +371,9 @@ export default {
       })
       .then((result) => {
         this.calendarOptions.events = result;
-        const att = document.createAttribute("id");
-        att.value = "currentDay";
-        var el = document.querySelectorAll(".fc-day-today");
-        el[0].setAttributeNode(att);
-        for (let i = 0; i < el.length; i++) {
-          // el[i].id = 'currentDay' + i;
-          el[0].setAttributeNode(att);
-        }
-        this.scrolltoId();
       });
     this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
-      this.employeesOptions = reportTo;
+      this.employeesOptions = [{label: "", value: ""}, ...reportTo];
       this.employeeNameSelectShow = true;
     });
   },

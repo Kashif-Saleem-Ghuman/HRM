@@ -54,12 +54,15 @@
             @close="closeSidebar"
             :className="slideClass"
             :heading="sidebarHeading"
-            v-show="openSidebar"
+            v-if="openSidebar"
             show='true'
           >
             <template v-slot:sidebar-body>
               <div>
+                <!-- TODO cleanup props -->
                 <add-leave
+                  :request="addForm"
+                  :form="addForm"
                   :employeeName="employeeName"
                   :leaveTypeOptions="leaveTypeOptions"
                   :leaveType="leaveType"
@@ -80,6 +83,7 @@
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
                   :addForm="addForm"
+                  :activeUserAllowanceData="activeUserAllowanceData"
                 ></add-leave>
               </div>
             </template>

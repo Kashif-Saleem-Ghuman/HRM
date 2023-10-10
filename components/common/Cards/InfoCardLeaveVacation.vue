@@ -7,7 +7,7 @@
       <div class="info-card-items mt-05">
         <div>
           <div class="subheading">Available</div>
-          <span>{{ balanceLeaveValue || "00" }}</span>
+          <span>{{ balanceLeaveValue }}</span>
 
           <div class="subheading_footer">Days</div>
         </div>
@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
-      balanceLeave: "00",
+      balanceLeave: null, 
       progress: "0%",
     };
   },
@@ -103,22 +103,20 @@ export default {
       return (this.daysUsed / this.totalAllowance).toFixed(2) * 100 || "0";
     },
     balanceLeaveValue() {
-      return (this.balanceLeave = ""
-        ? "00"
-        : this.totalAllowance - this.daysUsed);
+      if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
+        const balance = this.totalAllowance - this.daysUsed
+        return balance < 0 ? 0 : balance
+      }
+      return 0
     },
   },
   async created() {
-    // setTimeout(()=>{
-    //   this.balanceLeave = '' ? '00' : this.totalAllowance - this.daysUsed;
-    // },1000)
+
   },
   mounted() {
-    console.log(this.daysUsed, "this.balanceLeave");
   },
   methods: {
     buttonAction(item) {
-      alert("Called", item);
     },
   },
 };

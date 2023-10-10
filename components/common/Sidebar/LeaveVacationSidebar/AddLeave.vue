@@ -4,10 +4,11 @@
       :form="addForm"
       :is-create-form="!form?.id"
       :submit-fn="submitRequestForm"
+      :update-form.sync="updateForm"
     >
     <div class="add-leave-wrapper">
       <div>
-        <div  v-show="employeeNameSelectShow">
+        <div v-show="employeeNameSelectShow">
           <form-input
             type="select"
             label="Employee"
@@ -49,19 +50,19 @@
             <div class="items-width">
               <div class="d-flex input-display-wrapper">
                 <span>Allowance</span>
-                <span>{{ allowanceDays }}</span>
+                <span>{{ allowanceData?.allowedDays }}</span>
               </div>
             </div>
             <div class="items-width" :key="usedDayLeave">
               <div class="d-flex input-display-wrapper">
                 <span>Used</span>
-                <span>{{ usedDays }}</span>
+                <span>{{ allowanceData?.usedDays }}</span>
               </div>
             </div>
             <div class="last-child">
               <div class="d-flex input-display-wrapper">
                 <span>Available</span>
-                <span>{{ allowanceDays - usedDays }}</span>
+                <span>{{ allowanceData?.availableDays }}</span>
               </div>
             </div>
           </div>
@@ -147,6 +148,7 @@
 import { mapGetters } from "vuex";
 import { createRequest } from "@/utils/functions/api_call/requests"
 import { isRequired } from "@/utils/form-validations/string-validations"
+import { REQUEST_TYPES }  from "@/utils/constant/Constant";
 export default {
 
   props: {
@@ -177,13 +179,6 @@ export default {
     employeesOptions: {
       type: [Array, Object],
     },
-    allowanceDays: {
-      type: [Number, String],
-    },
-    usedDays: {
-      type: [Number, String],
-      default: "00",
-    },
     startDate: {
       type: String,
     },
@@ -212,6 +207,9 @@ export default {
     addForm:{
       type: Object,
       default: () => ({})
+    },
+    activeUserAllowanceData: {
+      type: Object
     }
   },
   data() {
@@ -224,14 +222,47 @@ export default {
         start: {validations: [isRequired]},
         end: {validations: [isRequired]},
         note:{validations: []}
-      }
+      },
+      updateForm: {}
     };
   },
 
   methods: {
     async submitRequestForm(form) {
       const request = await createRequest({ request: form })
+      this.closeSidebar()
     },
+
+    closeSidebar() {
+      this.$nuxt.$emit("close-sidebar");  
+    },
+
+    setDefaultEmployee() {
+      if (!this.form?.employeeId) {
+        this.form.employeeId = this.currentEmployee?.id ?? null
+      } 
+    },
+
+    getAllowanceDataForType(type) {
+      if (!type) return {}
+      const { activeUserAllowanceData } = this
+      const dataMapper = {
+        [REQUEST_TYPES.VACATION]: [activeUserAllowanceData?.vacationsAllowance, activeUserAllowanceData?.vacationsUsed],
+        [REQUEST_TYPES.MEDICAL]: [activeUserAllowanceData?.medicalLeavesAllowance, activeUserAllowanceData?.medicalLeavesUsed],
+        [REQUEST_TYPES.LEAVE]: [activeUserAllowanceData?.otherLeavesAllowance, activeUserAllowanceData?.otherLeavesUsed],
+      }
+
+      const [allowedDays, usedDays] = dataMapper[type]
+
+      let availableDays = 0
+
+      if (!Number.isNaN(allowedDays) && !Number.isNaN(usedDays)) {
+        const balance = allowedDays - usedDays
+        availableDays = balance < 0 ? 0 : balance
+      }
+
+      return {allowedDays, usedDays, availableDays }
+    }
   },
 
   
@@ -243,11 +274,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUserRole: "token/getUserRole",
+      currentEmployee: "employee/GET_USER"
     }),
+
+    allowanceData() {
+      const type = this.updateForm?.type ?? this.form?.type
+      return this.getAllowanceDataForType(type)
+    },
   },
   mounted() {
-    this.form = this.request
+    if (this.request) {
+      this.form = this.request
+    }
+
+    this.form = this.form ?? {}
+
+    this.setDefaultEmployee()
+    
   },
 };
 </script>

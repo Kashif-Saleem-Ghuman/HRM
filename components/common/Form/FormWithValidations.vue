@@ -219,7 +219,17 @@ export default {
 
       this.updateForm = {};
     },
+
+    setDefaultValuesToCreateForm() {
+      if (this.isCreateForm) {
+        this.updateForm = { ...this.form, ...this.updateForm }
+      }
+    }
   },
+
+  mounted() {
+    this.setDefaultValuesToCreateForm()
+  }
 };
 </script>
 

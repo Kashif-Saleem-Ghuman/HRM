@@ -5,6 +5,7 @@
     class="form-date-picker"
     v-model="value"
     @input="onInput"
+    :display-format="displayFormat ?? 'DD-MM-YYYY'"
   ></bib-datetime-picker>
 
   <bib-input
@@ -19,46 +20,63 @@
 
 <script>
 import dayjs from "dayjs";
-import { get } from "lodash"
+import { get } from "lodash";
+import { DateTime } from "luxon";
 export default {
-  inject: ['emitFormInput', "formErrors"],
+  inject: ["emitFormInput", "formErrors"],
   props: {
     fieldKey: {
       type: String,
+    },
+
+    displayFormat: {
+      type: String,
+      required: false,
     },
   },
 
   data() {
     return {
       value: null,
-      format: "DD-MMM-YYYY",
     };
   },
 
   computed: {
     isDate() {
-      return this.$attrs.type == 'date'
+      return this.$attrs.type == "date";
     },
     error() {
-      return get(this.errors, this.fieldKey)
+      return get(this.errors, this.fieldKey);
     },
 
     errors() {
-      return this.formErrors()
-    }
-
+      return this.formErrors();
+    },
   },
 
   methods: {
     parseDate(dateString, format) {
       return new Date(dateString);
     },
+
     formatDate(dateObj, format) {
       return dayjs(dateObj).format(format);
     },
+    
+    formatDateToIso(value) {
+      let dateTimeDate = DateTime.fromISO(value);
+      if (dateTimeDate.isValid) {
+        const isoDate = dateTimeDate.toUTC().toISO();
+        return isoDate;
+      }
+      return value;
+    },
     onInput(value) {
       const { fieldKey } = this;
-      this.emitFormInput({ fieldKey, value})
+      if (this.isDate) {
+        value = this.formatDateToIso(value);
+      }
+      this.emitFormInput({ fieldKey, value });
     },
   },
 
@@ -69,11 +87,6 @@ export default {
   watch: {
     "$attrs.value": {
       handler: function (val, old) {
-        // if (this.isDate) {
-        //   const dateValue = val ?? ""
-        //   this.value = dateValue ? this.formatDate(dateValue, this.format) : ""
-        //   return
-        // }
         this.value = val;
       },
     },
@@ -84,7 +97,7 @@ export default {
 <style lang="scss">
 .form-date-picker {
   width: 100%;
-  .vdpComponent__input{
+  .vdpComponent__input {
     background-color: #fff !important;
     border: 1px solid $gray4 !important;
     display: flex;
@@ -92,6 +105,6 @@ export default {
   }
   .vdpComponent__input:hover {
     border-color: var(--bib-gray6) !important;
-}
+  }
 }
 </style>

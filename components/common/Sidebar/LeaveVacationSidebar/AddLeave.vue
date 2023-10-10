@@ -231,7 +231,12 @@ export default {
   methods: {
     async submitRequestForm(form) {
       const request = await createRequest({ request: form })
+      this.closeSidebar()
     },
+
+    closeSidebar() {
+      this.$nuxt.$emit("close-sidebar");  
+    }
   },
 
   

@@ -133,10 +133,10 @@
             :date="new Date(todayDate + ' 00:00')"
             :total="totalWork"
           ></list-day>
-          <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
+          <list-week :listWeek="weekDataView" v-if="weekListView"></list-week>
           <list-month
             :listMonth="MonthViewData"
-            v-show="monthListView"
+            v-if="monthListView"
           ></list-month>
         </div>
       </div>
@@ -316,7 +316,11 @@ export default {
     },
     async fillTimeEntries() {
       this.loading = true;
-      await this.$store.dispatch("timeattendance/setDailyTimeEntries", DateTime.fromISO(this.todayDate).toUTC().toISO());
+      await this.$store.dispatch(
+        "timeattendance/setDailyTimeEntries",
+        new Date(this.todayDate).toISOString()
+        || DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
+      );
       this.todayData = [];
       this.totalWorkInMS = 0;
       for (const timeEntry of this.getDailyTimeEntries) {

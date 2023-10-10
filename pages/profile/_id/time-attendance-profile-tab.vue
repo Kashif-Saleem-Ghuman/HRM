@@ -76,11 +76,6 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha from "fecha";
-import { DateTime } from "luxon";
-import {
-  getTimeAttendanceDaily,
-  getTimeAttendanceCustomRange,
-} from "../../../utils/functions/functions_lib_api";
 import {
   getDateDiffInHHMM,
   getTimeFromDate,
@@ -121,8 +116,6 @@ export default {
     };
   },
   methods: {
-    getTimeAttendanceDaily,
-    getTimeAttendanceCustomRange,
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
     },

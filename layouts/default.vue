@@ -54,12 +54,13 @@
             @close="closeSidebar"
             :className="slideClass"
             :heading="sidebarHeading"
-            v-show="openSidebar"
+            v-if="openSidebar"
             show='true'
           >
             <template v-slot:sidebar-body>
               <div>
                 <add-leave
+                  :form="addForm"
                   :employeeName="employeeName"
                   :leaveTypeOptions="leaveTypeOptions"
                   :leaveType="leaveType"

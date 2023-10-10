@@ -7,7 +7,7 @@
     >
     <div class="add-leave-wrapper">
       <div>
-        <div  v-show="employeeNameSelectShow">
+        <div v-show="employeeNameSelectShow">
           <form-input
             type="select"
             label="Employee"
@@ -236,6 +236,12 @@ export default {
 
     closeSidebar() {
       this.$nuxt.$emit("close-sidebar");  
+    },
+
+    setDefaultEmployee() {
+      if (!this.form?.employeeId) {
+        this.form.employeeId = this.currentEmployee?.id ?? null
+      } 
     }
   },
 
@@ -248,11 +254,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUserRole: "token/getUserRole",
+      currentEmployee: "employee/GET_USER"
     }),
   },
   mounted() {
-    this.form = this.request
+    if (this.request) {
+      this.form = this.request
+    }
+
+    this.form = this.form ?? {}
+    
+    this.setDefaultEmployee()
+    
   },
 };
 </script>

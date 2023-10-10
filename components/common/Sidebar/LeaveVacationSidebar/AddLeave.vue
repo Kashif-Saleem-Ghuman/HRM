@@ -1,7 +1,7 @@
 <template>
     <form-with-validations
       :fields="fields"
-      :form="updateForm"
+      :form="addForm"
       :is-create-form="!form?.id"
       :submit-fn="submitRequestForm"
     >
@@ -208,6 +208,10 @@ export default {
     request: {
       type: Object,
       default: () => ({})
+    },
+    addForm:{
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -266,13 +270,17 @@ export default {
   padding: 0.75rem;
   border-radius: 6px;
   border: solid 1px var(--bib-gray4);
-  display: block;
+  display: flex;
   justify-content: space-between;
   span {
     display: block;
     font-size: 14px;
     color: #999;
   }
+  :nth-child(2){
+      font-weight: 600;
+      color: #000;
+    }
 }
 .pad-remove {
   // padding: 0px;

@@ -79,7 +79,7 @@
                   :errorMsgSelect="errorMsgSelect"
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
-                  
+                  :addForm="addForm"
                 ></add-leave>
               </div>
             </template>

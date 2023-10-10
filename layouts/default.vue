@@ -59,7 +59,9 @@
           >
             <template v-slot:sidebar-body>
               <div>
+                <!-- TODO cleanup props -->
                 <add-leave
+                  :request="addForm"
                   :form="addForm"
                   :employeeName="employeeName"
                   :leaveTypeOptions="leaveTypeOptions"

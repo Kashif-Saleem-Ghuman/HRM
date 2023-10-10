@@ -83,6 +83,7 @@
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
                   :addForm="addForm"
+                  :activeUserAllowanceData="activeUserAllowanceData"
                 ></add-leave>
               </div>
             </template>

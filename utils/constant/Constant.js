@@ -1488,3 +1488,10 @@ export const USER_ROLES = {
   USER: "USER",
   ADMIN: "ADMIN"
 }
+
+
+export const REQUEST_TYPES = {
+  MEDICAL: 'medical',
+  VACATION: 'vacation',
+  LEAVE: 'leave'
+}

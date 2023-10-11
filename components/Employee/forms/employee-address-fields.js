@@ -1,4 +1,7 @@
-import { isRequired } from "@/utils/form-validations/string-validations";
+import {
+  isRequired,
+  validatePostalCode,
+} from "@/utils/form-validations/string-validations";
 
 import { COUNTRIES, STATES } from "@/utils/constant/Constant";
 import { generateEmptyOptions } from "./form-helpers";
@@ -25,11 +28,11 @@ export default {
       options: [generateEmptyOptions(), ...STATES],
       validations: [isRequired],
     },
-    city: {
+    postalCode: {
       type: "text",
       label: "Postal code",
       model: "address.postalCode",
-      validations: [isRequired],
+      validations: [validatePostalCode],
     },
   },
 };

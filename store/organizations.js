@@ -10,7 +10,6 @@ export const getters = {
 
 export const mutations = {
   SET_ORGANIZATION_ID: (state, payload) => {
-    console.log("settings organization id?", payload);
     const { organizationId } = payload;
     state.organizationId = organizationId;
   },

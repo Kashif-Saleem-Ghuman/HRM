@@ -372,7 +372,7 @@ export default {
         .then((res) => {
           if (res) {
             this.token = res.data.jwt;
-            var businessId = res?.data?.u?.subb;
+            const businessId = res?.data?.u?.subb;
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
             this.accountType =

@@ -1,6 +1,7 @@
 <template>
   <form-with-validations
     :fields="fields"
+    :form="form"
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
   >
@@ -205,39 +206,6 @@ export default {
       });
     },
 
-    customValidation() {
-      const isSinValid = this.validateSin();
-      return [isSinValid].every((validation) => validation == true);
-    },
-
-    validateSin() {
-      if (this.updateForm?.sin) {
-        const country =
-          this.updateForm?.address?.country ?? this.form?.address?.country;
-
-        console.log({ country });
-        const isUsa = country == "USA";
-        const isCanada = country == "Canada";
-        if (isCanada || isUsa) {
-          const validations = [];
-
-          if (isCanada) {
-            validations.push(isValidSIN);
-          } else if (isUsa) {
-            validations.push(isValidSSN);
-          }
-          const valid = validateFormField(this.updateForm?.sin, validations);
-          if (valid !== true) {
-            let errors = { ...this.errors };
-            set(errors, "sin", valid);
-            this.setErrors(errors);
-            return false;
-          }
-        }
-      }
-
-      return true;
-    },
     async fetchEmployee() {
       const id = this.$route.params.id ?? this.getUser?.id
 

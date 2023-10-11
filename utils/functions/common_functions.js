@@ -39,6 +39,7 @@ export async function getBusinessId() {
     alert(e);
   }
 }
+
 export async function updateBusinessId() {
   this.loading = true;
   let businessId = localStorage.getItem("businessId");

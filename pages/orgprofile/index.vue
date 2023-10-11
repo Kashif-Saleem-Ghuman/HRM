@@ -9,7 +9,7 @@
     <div class="employee_wrapper">
       <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left
-          :title="'Org Profile - ' + org.CompanyName"
+          :title="'Org Profile - ' + org.companyName"
           back="back"
         ></section-header-left>
       </div>
@@ -59,7 +59,7 @@
                         <form-input
                           type="text"
                           label="Business category"
-                          form-field="Industry"
+                          field-key="industry"
                           :value="org.industry"
                           placeholder=""
                         ></form-input>

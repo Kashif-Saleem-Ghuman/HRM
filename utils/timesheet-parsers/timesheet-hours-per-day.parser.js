@@ -26,7 +26,7 @@ export default class TimesheetHoursPerDayParser extends BaseTimesheetParser {
         totalHours,
       };
     });
-    
+    timesheet.total = total
     return { ...timesheet, dailyTimeEntries, total };
   }
 }

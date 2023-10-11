@@ -16,16 +16,6 @@
       <div>
         <div class="px-1">
           <div id="info-wrapper">
-            <div class="row mx-0 pt-2">
-              <div class="col-6">
-                <tabs-title
-                  title="Employee Detail"
-                  variant="gray"
-                  icon="info"
-                  :scale="0.9"
-                ></tabs-title>
-              </div>
-            </div>
             <div class="py-cus px-05">
               <div class="company-info">
                 <div class="company-logo">
@@ -45,7 +35,7 @@
                       <div class="col-12">
                         <form-input
                           type="text"
-                          label="Organization Name"
+                          label="Company Name"
                           field-key="companyName"
                           :value="org.companyName"
                           placeholder="Type your name"
@@ -129,7 +119,7 @@
                       <div class="col-12">
                         <form-input
                           type="text"
-                          label="Address 1"
+                          label="Street number and name"
                           :value="org.addressL1"
                           field-key="addressL1"
                         ></form-input>
@@ -139,7 +129,7 @@
                       <div class="col-12">
                         <form-input
                           type="text"
-                          label="Address 2"
+                          label="Suite/Appartment"
                           field-key="addressL2"
                           :value="org.addressL2"
                           placeholder="Address 2"

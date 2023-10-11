@@ -1,13 +1,13 @@
 <template>
   <form-with-validations
     :fields="fields"
+    :form="org"
     :is-create-form="!org?.id"
     :submit-fn="submitToApi"
+    :update-form.sync="updateForm"
   >
     <div class="employee_wrapper">
-      <div
-        class="d-flex justify-between align-center bottom_border_wrapper"
-      >
+      <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left
           :title="'Org Profile - ' + org.CompanyName"
           back="back"
@@ -32,7 +32,7 @@
                   <bib-icon icon="bib-logo" :scale="5"></bib-icon>
                 </div>
                 <div class="company-items">
-                  <label>{{ org.CompanyName }}</label>
+                  <label>{{ org.companyName }}</label>
                   <span>{{ org.BizStage }}</span>
                 </div>
               </div>
@@ -46,8 +46,8 @@
                         <form-input
                           type="text"
                           label="Organization Name"
-                          field-key="CompanyName"
-                          :value="org.CompanyName"
+                          field-key="companyName"
+                          :value="org.companyName"
                           placeholder="Type your name"
                         ></form-input>
                       </div>
@@ -60,7 +60,7 @@
                           type="text"
                           label="Business category"
                           form-field="Industry"
-                          :value="org.Industry"
+                          :value="org.industry"
                           placeholder=""
                         ></form-input>
                       </div>
@@ -89,20 +89,20 @@
                         <form-input
                           type="text"
                           label="Website"
-                          field-key="Website"
-                          :value="org.Website"
+                          field-key="website"
+                          :value="org.website"
                         ></form-input>
                         <form-input
                           type="email"
                           label="Email address"
-                          field-key="ContactEmail"
-                          :value="org.ContactEmail"
+                          field-key="contactEmail"
+                          :value="org.contactEmail"
                         ></form-input>
                         <form-input
                           type="text"
                           label="Telephone"
-                          field-key="ContactPhone"
-                          :value="org.ContactPhone"
+                          field-key="contactPhone"
+                          :value="org.contactPhone"
                         ></form-input>
                       </div>
                     </div>
@@ -130,9 +130,8 @@
                         <form-input
                           type="text"
                           label="Address 1"
-                          :value="org.AddressL1"
-                          
-                          field-key="AddressL1"
+                          :value="org.addressL1"
+                          field-key="addressL1"
                         ></form-input>
                       </div>
                     </div>
@@ -141,9 +140,8 @@
                         <form-input
                           type="text"
                           label="Address 2"
-                          field-key="AddressL2"
-                          :value="org.AddressL2"
-                          
+                          field-key="addressL2"
+                          :value="org.addressL2"
                           placeholder="Address 2"
                         ></form-input>
                       </div>
@@ -153,10 +151,9 @@
                         <form-input
                           type="select"
                           label="Country"
-                          field-key="Country"
+                          field-key="country"
                           :options="countries"
-                          :value="org.Country"
-                          
+                          :value="org.country"
                           placeholder="Please select country"
                         ></form-input>
                       </div>
@@ -165,9 +162,8 @@
                           type="select"
                           label="Province/State"
                           :options="regions"
-                          :value="org.State"
-                          
-                          field-key="State"
+                          :value="org.stateProvince"
+                          field-key="stateProvince"
                           placeholder="Please select state"
                         ></form-input>
                       </div>
@@ -175,9 +171,8 @@
                         <form-input
                           type="text"
                           label="City"
-                          :value="org.City"
-                          
-                          field-key="City"
+                          :value="org.city"
+                          field-key="city"
                           placeholder="Enter your city"
                         ></form-input>
                       </div>
@@ -187,9 +182,8 @@
                         <form-input
                           type="text"
                           label="Postal Code"
-                          field-key="PostalCode"
-                          :value="org.PostalCode"
-                          
+                          field-key="postalCode"
+                          :value="org.postalCode"
                           placeholder="Postal Code"
                         ></form-input>
                       </div>
@@ -208,18 +202,17 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import {
-  vfileAdded,
-  getBusinessId,
-} from "../../utils/functions/functions_lib.js";
+import { vfileAdded } from "../../utils/functions/functions_lib.js";
 import organizationFields from "./organization-fields";
 import countries from "../../utils/constant/countries";
 import regions from "../../utils/constant/regions";
-import { updateOrganization } from "@/utils/functions/api_call/business.js";
 import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
+import {
+  getOrganization,
+  updateOrganization,
+} from "../../utils/functions/api_call/organizations";
 export default {
-
   data() {
     return {
       fields: { ...organizationFields },
@@ -236,28 +229,45 @@ export default {
   created() {},
   computed: {
     regions() {
-      const country = this.updateForm.Country ?? this.org.Country;
+      const country = this.updateForm.country ?? this.org.country;
       return regions[country];
     },
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
+      organizationId: "organizations/organizationId",
     }),
   },
   async mounted() {
-    this.getBusinessId();
+    this.fetchOrganization();
   },
   methods: {
-    getBusinessId,
     vfileAdded,
     openPopupNotification,
-    async submitToApi() {
+
+    async fetchOrganization() {
+      const organizationId = this.organizationId;
+      if (!organizationId) return;
+
+      const organization = await getOrganization({ id: organizationId });
+      this.org = organization;
+    },
+
+    async submitToApi(form) {
       const payload = {
-        id: this.org.Id,
-        organization: { ...this.org, ...this.updateForm },
+        id: this.org.id,
+        organization: form,
       };
-      await updateOrganization(payload).then(()=>{
+      await updateOrganization(payload).then(() => {
         this.openPopupNotification(4);
       });
+    },
+  },
+
+  watch: {
+    organizationId(val) {
+      if (val && !this.org?.id) {
+        this.fetchOrganization();
+      }
     },
   },
 };

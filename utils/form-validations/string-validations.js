@@ -34,3 +34,18 @@ export function isValidSIN(sin) {
   const regex = /^(\d{9}|\d{3}-\d{3}-\d{3})$/;
   return regex.test(sin) || "Invalid social security number"
 }
+
+export function validatePostalCode(value, form = {}) {
+    const country = form.country ?? form.address?.country
+    const isUsa = country == "United States" || country == 'USA'
+    const isCanada = country == "Canada";
+    if (isCanada || isUsa) {
+      if (isCanada) {
+        return isValidCanadianPostalCode(value)
+      } else if (isUsa) {
+        return isValidUSZIP(value)
+      }
+    }
+
+    return true
+}

@@ -2,37 +2,38 @@ import {
   isEmail,
   isPhoneNumber,
   isRequired,
+  validatePostalCode,
 } from "@/utils/form-validations/string-validations";
 
 export default {
-  CompanyName: {
+  companyName: {
     validations: [isRequired],
   },
-  Industry: {
+  industry: {
     validations: [isRequired],
   },
-  Website: {
+  website: {
     validations: [isRequired],
   },
-  ContactEmail: {
+  contactEmail: {
     validations: [isEmail],
   },
-  ContactPhone: {
+  contactPhone: {
     validations: [isPhoneNumber],
   },
-  AddressL1: {
+  addressL1: {
     validations: [isRequired],
   },
-  AddressL2: {
+  addressL2: {
     validations: [isRequired],
   },
-  State: {
+  state: {
     validations: [isRequired],
   },
-  Country: {
+  country: {
     validations: [isRequired],
   },
-  PostalCode: {
-    validations: [isRequired],
+  postalCode: {
+    validations: [validatePostalCode],
   },
 };

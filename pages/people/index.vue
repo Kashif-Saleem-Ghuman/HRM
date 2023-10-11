@@ -1,15 +1,10 @@
 <template>
   <div id="people-action-wrapper">
     <div
-      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
+      class="d-flex justify-between align-center pl-05 bottom_border_wrapper"
     >
       <section-header-left
         title="People"
-        :avatar="userPhoto"
-        headerRight="headerRight"
-        :items="items"
-        :icon="items.icon"
-        @vclick="clickAction"
       ></section-header-left>
       <!-- <div class="d-flex justify-between">
         <template v-for="user in userList.slice(0, 4)">

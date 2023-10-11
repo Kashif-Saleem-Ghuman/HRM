@@ -6,7 +6,7 @@
         class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
         v-show="requestListData.length ? true : false"
       >
-        <div class="d-flex align-center py-05">
+        <div class="d-flex align-center pt-05 pb-05">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"

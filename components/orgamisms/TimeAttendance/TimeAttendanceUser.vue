@@ -2,12 +2,11 @@
   <div id="time-attendance-wrapper">
     <div class="scroll_wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
+        class="d-flex justify-between align-center bottom_border_wrapper"
       >
       <section-header-left
         :title="activeUserName"
         :avatar="activeUserData.photo"
-        headerRight="headerRight"
       ></section-header-left>
       </div>
       <div class="time-attandance-wrapper">

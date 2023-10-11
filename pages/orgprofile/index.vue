@@ -6,11 +6,11 @@
   >
     <div class="employee_wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper py-075 px-025 bottom_border_wrapper"
+        class="d-flex justify-between align-center bottom_border_wrapper"
       >
         <section-header-left
-          title="Org Profile"
-          headerRight="headerRight"
+          :title="'Org Profile - ' + org.CompanyName"
+          back="back"
         ></section-header-left>
       </div>
       <div>

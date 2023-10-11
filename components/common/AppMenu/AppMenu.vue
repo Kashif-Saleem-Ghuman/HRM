@@ -2,7 +2,7 @@
   <div>
      <!-- Admin Menu  -->
      <div v-if="adminMenu">
-      <bib-app-navigation
+      <!-- <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
         @click="
           ($event, item) => {
@@ -11,9 +11,9 @@
         "
         isLightTheme
         class="mt-05"
-      ></bib-app-navigation>
+      ></bib-app-navigation> -->
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(1)"
+        :items="appWrapItems.navItemsAdmin"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -26,9 +26,10 @@
 
     <!-- User Menu  -->
     <div v-if="userMenu" class="mt-1">
-      <div :class="sectionHead" class="section-head">
+      <!-- <div :class="sectionHead" class="section-head">
+        <bib-icon icon="home" :scale="1"></bib-icon>
         <span v-on:click="changeDashboard" style="cursor: pointer; color: #86868a;">Home</span>
-      </div>
+      </div> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
         @click="
@@ -91,11 +92,18 @@ export default {
     // console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
     if (process.client) {
       
-      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
+      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length ; i++) {
         if (this.appWrapItems.navItemsAdmin[i].url == this.$router.history.current.fullPath) {
           this.appWrapItems.navItemsAdmin[i].selected = true;
         } else {
           this.appWrapItems.navItemsAdmin[i].selected = false;
+        }
+      }
+      for (let i = 0; i < this.appWrapItems.navItemsUser.length ; i++) {
+        if (this.appWrapItems.navItemsUser[i].url == this.$router.history.current.fullPath) {
+          this.appWrapItems.navItemsUser[i].selected = true;
+        } else {
+          this.appWrapItems.navItemsUser[i].selected = false;
         }
       }
     }
@@ -105,12 +113,21 @@ export default {
       this.$router.push("/dashboard")
     },
     menuClick(item) {
-      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
+      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length ; i++) {
         if (this.appWrapItems.navItemsAdmin[i].key == item.key) {
           this.appWrapItems.navItemsAdmin[i].selected = true;
         } else {
           this.appWrapItems.navItemsAdmin[i].selected = false;
         }
+        
+      }
+      for (let i = 0; i < this.appWrapItems.navItemsUser.length ; i++) {
+        if (this.appWrapItems.navItemsUser[i].key == item.key) {
+          this.appWrapItems.navItemsUser[i].selected = true;
+        } else {
+          this.appWrapItems.navItemsUser[i].selected = false;
+        }
+        
       }
       if (process.client) {
         // admin menu actions
@@ -147,6 +164,10 @@ export default {
         }
 
         // user menu actions
+        if (item.key == "home") {
+          this.$router.push("/dashboard");
+          return;
+        }
         if (item.key == "requestVacation") {
           this.$nuxt.$emit("open-sidebar", 'vacation')
           return;
@@ -180,9 +201,12 @@ export default {
   font-weight: 500;
   margin: 8px;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
   span{
     // font-size: 30px;
     margin: 0px;
+    padding-left: 6px;
   }
   &_light{
     // background-color: #f2f2f5;

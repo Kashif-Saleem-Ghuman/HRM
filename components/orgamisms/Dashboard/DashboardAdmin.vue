@@ -1,14 +1,12 @@
 <template>
     <div id="dashborad-wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075"
+        class="d-flex justify-between align-center"
       >
       
         <section-header-left
           :title="`Welcome to your HR dashboard ` + activeUserName"
           :avatar="getUser.photo"
-          headerRight="headerRight"
-          back="back"
         ></section-header-left>
       </div>
       <div class="tab-wrapper">

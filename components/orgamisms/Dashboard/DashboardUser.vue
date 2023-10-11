@@ -1,73 +1,12 @@
 <template>
-  <div id="people-action-wrapper">
-    <div
-      class="d-flex justify-between align-center bottom_border_wrapper"
-    >
-      <section-header-left
-        :title="activeUserName"
-        :avatar="activeUserData.photo"
-      ></section-header-left>
-    </div>
-    <div class="pl-1 py-1">
-      <div
-              class="d-grid d-flex gap-1"
-              style="grid-template-columns: repeat(3, 1fr)"
-            >
-              <info-card-one
-                :item="infoCardData[0]"
-                buttonLable="Clock in"
-                icon="table"
-                profilePic="profilePic"
-                buttonVariant="light"
-              ></info-card-one>
-              <info-card-one
-                :item="infoCardData[1]"
-                buttonLable="View Timesheet"
-                icon="table"
-                buttonVariant="light"
-                profilePic="profilePic"
-              ></info-card-one>
-              <info-card-help
-                  custumBg="help-wrapper__bg-black"
-                ></info-card-help>
-            </div>
-    </div>
-  </div>
+  <time-attendance-user></time-attendance-user>
 </template>
 <script>
-import {
-  INFO_CARD_DATA,
-} from "../../../utils/constant/DashboardData";
-import { mapGetters } from "vuex";
-export default {
-  data() {
-    return {
-      id: "",
-      activeTab: "Dashborad",
-      activeUserData: "",
-      activeUserName: "",
-      infoCardData: INFO_CARD_DATA,
-    };
-  },
-  async created() {
-    await this.$store.dispatch("employee/setUserList");
-    await this.$store.dispatch("employee/setActiveUser");
-    this.activeUserData = this.getActiveUser;
-    this.activeUserName =
-      this.activeUserData.firstName + " " + this.activeUserData.lastName +  ' / ' + 'Time & Attendance';
-  },
-  computed: {
-    ...mapGetters({
-      userList: "employee/GET_USERS_LIST",
-      getActiveUser: "employee/GET_USER",
-    }),
-  },
-  async mounted() {},
-  methods: {
-  },
-};
+
+export default {};
 </script>
-<style lang="scss">
+<!-- commented just in case it's used somewhere, to erase if not. -->
+<!-- <style lang="scss">
 .pagination {
   display: flex;
   justify-content: flex-end;
@@ -128,4 +67,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

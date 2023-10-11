@@ -35,3 +35,20 @@ export async function getEmployee(payload) {
     console.error(e);
   }
 }
+
+export async function downloadEmployeeFile(payload) {
+  const { employeeId, fileId } = payload
+  
+  try {
+    const url = `/employees/${employeeId}/files/${fileId}/download`
+    const config = createConfig();
+    config.responseType = 'blob'
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.error(e);
+  }
+}

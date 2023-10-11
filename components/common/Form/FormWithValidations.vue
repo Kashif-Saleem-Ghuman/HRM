@@ -36,6 +36,7 @@
 <script>
 import { forOwn, get, set } from "lodash";
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
+import { merge } from "lodash"
 export default {
   provide() {
     return {
@@ -119,7 +120,8 @@ export default {
         if (objectValidations) {
           const validate = validateFormField(
             get(this.updateForm, `${objectKey}`),
-            objectValidations
+            objectValidations,
+            merge(this.form, this.updateForm)
           );
           if (validate !== true) {
             set(errors, objectKey, validate);
@@ -143,7 +145,8 @@ export default {
           if (get(this.fields, `${key}.validations`)) {
             const validate = validateFormField(
               value,
-              this.fields[key].validations
+              this.fields[key].validations,
+              merge(this.form, this.updateForm)
             );
 
             if (validate !== true) {
@@ -169,7 +172,8 @@ export default {
         if (value?.validations?.length) {
           const validate = validateFormField(
             get(this.updateForm, key),
-            this.fields[key].validations
+            this.fields[key].validations,
+            merge(this.form, this.updateForm)
           );
 
           if (validate !== true) {
@@ -208,11 +212,6 @@ export default {
     },
 
     async submit(e) {
-      if (this.customValidation) {
-        const valid = this.customValidation();
-        if (!valid) return;
-      }
-
       if (this.submitFn) {
         await this.submitFn(this.updateForm);
       }

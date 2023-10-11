@@ -1,7 +1,7 @@
 <template>
   <form-with-validations
     :fields="fields"
-    :form="updateForm"
+    :form="form"
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
     :update-form.sync="updateForm"
@@ -10,9 +10,9 @@
       <div id="scroll-wrapper" class="scroll-wrapper">
         <div class="py-cus px-1 d-flex align-center">
           <drop-zone
-            :src="form.photo"
-            :className="form.photo != null ? 'hide' : ''"
-            :customRemove="form.photo == null ? 'hide' : 'hide'"
+            :src="form?.photo"
+            :className="form?.photo != null ? 'hide' : ''"
+            :customRemove="form?.photo == null ? 'hide' : 'hide'"
             @vfileAdded="vfileAdded"
           ></drop-zone>
           <div v-show="form.photo == null ? false : true">
@@ -374,42 +374,6 @@ export default {
         const employee = await getEmployee({ id });
         this.form = employee;
       }
-    },
-
-    customValidation() {
-      const isPostalCodeValid = this.validatePostalCode();
-
-      return [isPostalCodeValid].every((validation) => validation == true);
-    },
-
-    validatePostalCode() {
-      if (this.updateForm?.address?.postalCode) {
-        const country =
-          this.updateForm?.address?.country ?? this.form?.address?.country;
-        const isUsa = country == "USA";
-        const isCanada = country == "Canada";
-        if (isCanada || isUsa) {
-          const validations = [];
-
-          if (isCanada) {
-            validations.push(isValidCanadianPostalCode);
-          } else if (isUsa) {
-            validations.push(isValidUSZIP);
-          }
-          const valid = validateFormField(
-            this.updateForm?.address?.postalCode,
-            validations
-          );
-          if (valid !== true) {
-            let errors = { ...this.errors };
-            set(errors, "address.postalCode", valid);
-            this.setErrors(errors);
-            return false;
-          }
-        }
-      }
-
-      return true;
     },
 
     submitToApi(form) {

@@ -372,7 +372,8 @@ export default {
         .then((res) => {
           if (res) {
             this.token = res.data.jwt;
-            var businessId = res?.data?.u?.subb;
+            const businessId = res?.data?.u?.subb;
+            this.$store.commit("organizations/SET_ORGANIZATION_ID", { organizationId: businessId })
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
             this.accountType =

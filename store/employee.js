@@ -95,7 +95,7 @@ export const actions = {
     }
   },
  
-  async setUser(ctx, payload) {
+  async setUser({ commit }, payload) {
     try {
       const user = await this.$axios.$get(
         `${process.env.API_URL}/employees/${payload}`,
@@ -106,7 +106,8 @@ export const actions = {
         }
       );
       if (user) {
-        ctx.commit("SET_USER", user);
+        commit("SET_USER", user);
+        commit("organizations/SET_ORGANIZATION_ID", { organizationId: user?.organizationId })
         return user;
       }
     } catch (e) {

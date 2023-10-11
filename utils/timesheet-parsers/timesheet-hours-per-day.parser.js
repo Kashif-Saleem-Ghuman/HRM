@@ -18,7 +18,7 @@ export default class TimesheetHoursPerDayParser extends BaseTimesheetParser {
       total += totalHours;
 
       timesheet[
-        WEEK_DAY[DateTime.fromISO(date).weekday - 1].value.substring(0, 3)
+        WEEK_DAY[DateTime.fromISO(date).weekday].value.substring(0, 3)
       ] = totalHours
 
       dailyTimeEntries[date] = {

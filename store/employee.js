@@ -107,7 +107,6 @@ export const actions = {
       );
       if (user) {
         commit("SET_USER", user);
-        commit("organizations/SET_ORGANIZATION_ID", { organizationId: user?.organizationId })
         return user;
       }
     } catch (e) {

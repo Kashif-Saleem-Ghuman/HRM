@@ -65,9 +65,11 @@
                       class="d-grid gap-1"
                       style="grid-template-columns: repeat(4, 1fr)"
                     >
-                      <template v-for="(file, key) in filesUploaded">
                         <div
-                          class="shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+                          v-for="file in filesUploaded"
+                          class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+                          @click="handleFileClick(file)"
+                          :key="file.id"
                         >
                           <div class="d-flex align-center">
                             <bib-icon
@@ -90,7 +92,6 @@
                             </h5>
                           </div>
                         </div>
-                      </template>
                     </div>
                   </div>
                 </div>
@@ -108,30 +109,31 @@
 <script>
 import { mapGetters } from "vuex";
 import {
-  EMPLOYEE_PROFILE_TAB,
-  SELECT_OPTIONS,
-  COUNTRIES,
-  STATES,
-  WEEK_DAY,
+COUNTRIES,
+EMPLOYEE_PROFILE_TAB,
+SELECT_OPTIONS,
+STATES
 } from "../../../../utils/constant/Constant.js";
 
 import {
-  addFiles,
-  getFiles,
-} from "../../../../utils/functions/functions_lib_api";
-import {
-  openPopupNotification,
-  vfileAdded,
-  updateAllData,
-  handleInput,
-  handleInputObject,
-  sendMeet,
-  sendMessage,
+handleInput,
+handleInputObject,
+openPopupNotification,
+sendMeet,
+sendMessage,
+updateAllData,
+vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
+import {
+addFiles,
+getFiles,
+} from "../../../../utils/functions/functions_lib_api";
 
+import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
+
+import fecha from "fecha";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
 const appWrapItems = getJson();
-import fecha from "fecha";
 export default {
   data() {
     return {
@@ -229,6 +231,25 @@ export default {
     getFiles,
     sendMeet,
     sendMessage,
+
+    handleFileClick(file) {
+      this.downloadFile(file)
+    },
+
+    async downloadFile(file) {
+      try {
+        const blob = await downloadEmployeeFile({ employeeId: this.id, fileId: file.id })
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = file.name;
+        a.click();
+        window.URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error('Error downloading file', error);
+      }
+    },
     async handleChange__FileInput(files) {
       this.files = files;
     },

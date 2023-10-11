@@ -373,6 +373,7 @@ export default {
           if (res) {
             this.token = res.data.jwt;
             const businessId = res?.data?.u?.subb;
+            this.$store.commit("organizations/SET_ORGANIZATION_ID", { organizationId: businessId })
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
             this.accountType =

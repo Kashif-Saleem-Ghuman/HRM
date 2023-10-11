@@ -8,7 +8,7 @@
     >
     <div class="add-leave-wrapper">
       <div>
-        <div v-show="employeeNameSelectShow">
+        <div v-show="displayEmployeeField">
           <form-input
             type="select"
             label="Employee"
@@ -18,7 +18,7 @@
             icon-left="user"
             avatar-right=""
             placeholder="Employee"
-            :disabled="inActive"
+            :disabled="disableEmployeeField"
             style="padding-right: 0px"
           ></form-input>
         </div>
@@ -281,6 +281,15 @@ export default {
       const type = this.updateForm?.type ?? this.form?.type
       return this.getAllowanceDataForType(type)
     },
+
+    displayEmployeeField() {
+      return this.currentEmployee?.role == "ADMIN"
+    },
+
+    disableEmployeeField() {
+      return this.$route.path.includes("leave-vacations-profile-tab")
+    }
+
   },
   mounted() {
     if (this.request) {

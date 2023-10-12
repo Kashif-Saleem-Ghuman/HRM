@@ -16,6 +16,7 @@
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteSpecificEntry"
         :date="date"
+        :listToday="listToday"
       ></time-entry-row>
       <time-entry-row
         v-if="showNewEntryRow && !disabled"
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { ACTIVITY_DICTIONARY } from '../../../../../utils/constant/TimesheetData';
+import { ACTIVITY_DICTIONARY } from '@/utils/constant/TimesheetData';
 export default {
   props: {
     listToday: {

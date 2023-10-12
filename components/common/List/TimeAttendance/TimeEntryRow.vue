@@ -63,12 +63,12 @@ import {
   makeTimeEntry,
   editTimeEntry,
   deleteTimeEntry
-} from '../../../../../utils/functions/functions_lib_api';
+} from '@/utils/functions/functions_lib_api';
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
   hoursAndMinutesToJSDate,
-} from '../../../../../utils/functions/dates';
+} from '@/utils/functions/dates';
 
 export default {
   props: {

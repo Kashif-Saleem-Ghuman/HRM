@@ -88,6 +88,7 @@
               :value="startDate"
               fieldKey="start"
               @change="menuClick"
+              :inActive="editable"
             >
             </form-datepicker>
             <small
@@ -117,6 +118,7 @@
               :value="startDate"
               fieldKey="end"
               @change="menuClick"
+              :inActive="editable"
             >
             </form-datepicker>
             <small
@@ -167,6 +169,9 @@
 import { mapGetters } from "vuex";
 export default {
   props: {
+    editable: {
+      type: Boolean,
+    },
     employeeNameInput: {
       type: Boolean,
     },

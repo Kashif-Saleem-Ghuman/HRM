@@ -158,6 +158,8 @@
           :endDate="endDate"
           :note="form.note"
           inActive="disabled"
+          editable
+
         ></add-leave>
         <div class="row">
           <div class="col-12">

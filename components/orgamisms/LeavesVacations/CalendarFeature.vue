@@ -139,19 +139,24 @@
     >
       <template v-slot:sidebar-body>
         <add-leave
-          :request="form"
           :leaveTypeOptions="leaveTypeOptions"
           @input="addHandleInput"
           @change="addHandleInput"
           style="z-index: 100000"
+          :employeeName="employeeName"
           :allowanceDays="allowanceData"
           :usedDays="useDaysDataValue"
+          :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
           :errorMsgSelect="errorMsgSelect"
           :errorMsgStartDate="errorMsgStartDate"
           :errorMsgEndDate="errorMsgEndDate"
+          :leaveType="form.type"
+          :startDate="startDate"
+          :endDate="endDate"
+          :note="form.note"
           inActive="disabled"
         ></add-leave>
         <div class="row">
@@ -215,6 +220,24 @@
           </div>
         </div>
       </template>
+      <!-- <template v-slot:sidebar-footer>
+        <div class="">
+          <div style="text-align: right">
+            <bib-button
+              label="Cancel"
+              variant="gray"
+              size="lg"
+              v-on:click="closeSidebar()"
+            ></bib-button>
+            <bib-button
+              label="Save"
+              variant="success"
+              size="lg"
+              v-on:click="addLeaveVacations()"
+            ></bib-button>
+          </div>
+        </div>
+      </template> -->
     </action-sidebar>
   </div>
 </template>
@@ -572,9 +595,9 @@ export default {
           // console.log(this.allowanceLeavesDetailedData, "allowanceLeavesDetailedDataallowanceLeavesDetailedDataallowanceLeavesDetailedData")
           this.startDate = fecha.format(
             new Date(this.form.start),
-            "YYYY-MM-DD"
+            "DD-MMM-YYYY"
           );
-          this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
+          this.endDate = fecha.format(new Date(this.form.end), "DD-MMM-YYYY");
           // console.log(this.form, "clickInfo.event._def.publicId");
           return item;
         }

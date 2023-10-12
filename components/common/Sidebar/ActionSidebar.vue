@@ -26,14 +26,14 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-x" :style="show=='true'? 'height: 72vh' : '100vh'">
-        <div style="padding: 24px"><slot name="sidebar-body"></slot></div>
+      <div class="of-scroll-y" :style="show=='true'? 'height: 71vh' : '100vh'">
+        <div style="padding: 24px 24px 12px 24px"><slot name="sidebar-body"></slot></div>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
       <div
-        class="sidebar-footer p-1"
+        class="sidebar-footer px-1"
         style="
-          height: 10vh;
+          height: 7vh;
           display: flex;
           justify-content: end;
           align-items: end;

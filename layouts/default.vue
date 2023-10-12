@@ -55,7 +55,7 @@
             :className="slideClass"
             :heading="sidebarHeading"
             v-if="openSidebar"
-            show='true'
+            show="true"
           >
             <template v-slot:sidebar-body>
               <div>
@@ -85,6 +85,24 @@
                   :addForm="addForm"
                   :activeUserAllowanceData="activeUserAllowanceData"
                 ></add-leave>
+              </div>
+            </template>
+            <template v-slot:sidebar-footer>
+              <div class="">
+                <div style="text-align: right">
+                  <bib-button
+                    label="Cancel"
+                    variant="gray"
+                    size="lg"
+                    v-on:click="closeSidebar"
+                  ></bib-button>
+                  <bib-button
+                    label="Save"
+                    variant="success"
+                    size="lg"
+                    v-on:click="addLeaveVacations()"
+                  ></bib-button>
+                </div>
               </div>
             </template>
           </action-sidebar>
@@ -158,7 +176,7 @@ export default {
       useDaysData: "",
       leaveType: "vacation",
       employeeName: "",
-      leaveTypeOptions: [{label: "", value: ""}, ...SELECT_OPTIONS.leaveType],
+      leaveTypeOptions: SELECT_OPTIONS.leaveType,
       leaveType: "",
       addForm: {
         employeeId: "",
@@ -426,7 +444,7 @@ export default {
         }
       );
     }
-    this.employeesOptions = [{label: "", value: ""}, ...this.getReportList];
+    this.employeesOptions = this.getReportList
     this.loading = false;
   },
   methods: {

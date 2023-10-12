@@ -152,9 +152,16 @@ export function handleInputObject(event, name, emContact) {
 }
 export function addHandleInput(event, name, addresses) {
   this.isFlag = true;
-  // this.addForm[name] = event;
-  this.addForm[event.fieldKey] = event.value 
-  console.log(this.addForm, "onInput")
+  this.isFlag = true;
+  this.addForm[name] = event;
+  // console.log(this.addForm, "sldnalksdlkasjdlkajdl")
+
+  // this.form[name] = event;
+  if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
+    this.errorMsgStartDate = false;
+    this.errorMsgEndDate = false;
+    this.errorMsgSelect = false;
+  }
 }
 export async function selectUserHandle(event, name) {
   this.userId = event;

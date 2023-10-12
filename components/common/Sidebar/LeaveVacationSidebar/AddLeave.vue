@@ -254,6 +254,15 @@ export default {
       this.$emit('change', value, fieldKey)
 
     },
+
+    displayEmployeeField() {
+      return this.currentEmployee?.role == "ADMIN"
+    },
+
+    disableEmployeeField() {
+      return this.$route.path.includes("leave-vacations-profile-tab")
+    }
+
   },
   mounted() {},
 };

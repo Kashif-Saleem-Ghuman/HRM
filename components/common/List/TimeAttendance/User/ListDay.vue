@@ -86,7 +86,9 @@ export default {
       this.$emit('edit-entry', entry)
     },
     deleteSpecificEntry(id) {
-      this.$emit('delete-entry', id)
+      if(confirm("Are you sure you want to delete this time entry?")) {
+        this.$emit('delete-entry', id)
+      }
     },
   },
 };

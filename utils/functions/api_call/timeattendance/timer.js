@@ -1,39 +1,33 @@
 import axios from "axios";
+import { DateTime } from "luxon";
+import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
+import { createConfig } from "../config";
 
 export async function startTimer() {
-  this.loading = true
+  const config = createConfig();
   try {
-    const timer = await axios.post(
-      process.env.API_URL + "/timers/start",
-      {},
+    const url = "/timers/start";
+    const timer = await hrmApiAxiosInstance.post(
+      url,
       {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
+        date: DateTime.now().startOf("day").toUTC().toISO(),
+        start: DateTime.now().toUTC().toISO(),
+      },
+      config
     );
-    this.timer = timer.data;
+    return timer.data;
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
-  this.loading = false
 }
 
 export async function stopTimer() {
-  this.loading = true
+  const config = createConfig();
+  const url = "/timers/stop";
   try {
-    const timer = await axios.put(
-      process.env.API_URL + "/timers/stop",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
-    this.timer = timer.data;
+    const timer = await axios.put(url, {}, config);
+    return timer.data;
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
-  this.loading = false
 }

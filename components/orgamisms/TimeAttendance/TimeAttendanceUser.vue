@@ -19,15 +19,10 @@
             <info-card-timer
               activeUserRole="USER"
               @clock="openClock"
+              @timer-stop="fillTimeEntries"
+              :disabled="hasInEntry"
             ></info-card-timer>
-            <bib-clock-wrapper
-              @close="closeClock"
-              @click:outside="closeClock"
-              title="Business in box / Timer"
-              :clockModal="clockModal"
-              v-if="clockModal"
-            >
-            </bib-clock-wrapper>
+
             <info-card-one
               :item="timesheetWidgetData"
               title="View Timesheet"
@@ -143,7 +138,7 @@
   </div>
 </template>
 <script>
-import { TIME_ATTENDANCE_TAB } from "../../../utils/constant/Constant.js";
+import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "../../../utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "../../../utils/constant/TimesheetData"
 import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
 import {
@@ -204,11 +199,14 @@ export default {
   computed: {
     ...mapGetters({
       getActiveUser: "employee/GET_USER",
-      getAccessToken: "token/getAccessToken",
-      activeDate: "date/getActiveDate",
-      getformToDate: "leavevacation/getformToDate",
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
+    hasInEntry() {
+      const entries = this.getDailyTimeEntries
+      return entries.some( entry => {
+        return entry.activity === ACTIVITY_TYPE.IN && entry.end
+      })
+    },
     todayListView() {
       return this.view === 'day';
     },
@@ -270,6 +268,8 @@ export default {
       }
       this.todayData = this.todayData.filter((entry) => entry.id !== id);
       this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
+
+      this.fillTimeEntries()
     },
     async getTimesheetWidget() {
       const widget = await getUserTimesheetWidget()
@@ -320,13 +320,18 @@ export default {
         new Date(this.todayDate).toISOString()
         || DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
       );
+
+      this.parseTimeEntries()
+      this.loading = false;
+    },
+
+    parseTimeEntries() {
       this.todayData = [];
       this.totalWorkInMS = 0;
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
-      this.loading = false;
     },
     async dateSelection(event){
       await this.fillTimeEntries();      
@@ -337,6 +342,13 @@ export default {
     '$route.query.view'(newVal) {
       this.view = newVal || 'day';
     },
+
+    getDailyTimeEntries(val, old) {
+      if (val && old) {
+        this.parseTimeEntries()
+      }
+      
+    }
   },
 };
 </script>

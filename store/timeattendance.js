@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DateTime } from "luxon";
+import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance/timer";
 
 export const state = () => ({
   timer: {
@@ -9,6 +10,8 @@ export const state = () => ({
     active: null,
   },
   dailyTimeEntries: [],
+  chronometer: 0,
+  isTimerRunning: false
 });
 
 export const getters = {
@@ -31,10 +34,41 @@ export const mutations = {
 
   SET_DAILY_TIME_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = payload;
+  },
+
+  SET_CHRONOMETER: (state, payload) => {
+    const { chronometer } = payload
+    state.chronometer = chronometer
+  },
+
+  SET_IS_TIMER_RUNNING: (state, payload) => {
+    const { status } = payload
+    state.isTimerRunning = status
   }
 };
 
 export const actions = {
+  async stopTimer({ commit }) {
+    try {
+      await stopTimer()
+    } catch (error) {
+      console.error(error);
+    }
+    commit("SET_TIMER_DATA", {})
+  },
+
+
+  async startTimer({ commit, dispatch }) {
+    try {
+      await startTimer()
+      dispatch("setTimerData")
+    } catch (error) {
+      console.error(error);
+    }
+    commit("SET_TIMER_DATA", {})
+    commit("SET_IS_TIMER_RUNNING", { status: false });
+  },
+  
   async setTimerData(ctx, employeeId = '') {
     this.loading = true;
     const defaultUrl = `${process.env.API_URL}/timers`;

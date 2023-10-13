@@ -50,8 +50,8 @@
           </div>
         </div>
       </div>
-      <div class="rtl-wrapper d-flex align-center">
-        <div class="serach-item pr-05">
+      <div class="rtl-wrapper d-flex align-center" style="justify-content: end;">
+        <div class="serach-item">
           <!-- <label>Search:</label> -->
           <template>
             <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
@@ -64,7 +64,6 @@
           :scale="1"
           :label="weekendsButtonView"
           @click="weekData()"
-          style="height: 2rem"
         ></bib-button>
       </div>
     </div>
@@ -134,7 +133,8 @@
     <action-sidebar
       @close="closeSidebar"
       :className="slideClass"
-      heading="Leave details"
+      heading="Leave Details"
+      icon="pencil"
       v-show="openSidebar"
     >
       <template v-slot:sidebar-body>
@@ -158,8 +158,7 @@
           :endDate="endDate"
           :note="form.note"
           inActive="disabled"
-          editable
-
+          :edit="false"
         ></add-leave>
         <div class="row">
           <div class="col-12">
@@ -189,7 +188,7 @@
                     : '' || leaveStatus == 'pending'
                     ? 'pencil'
                     : '' || leaveStatus == 'rejected'
-                    ? 'file'
+                    ? 'close'
                     : ''
                 "
                 :variant="
@@ -203,13 +202,13 @@
                 "
                 :className="[
                   leaveStatus == 'approved'
-                    ? 'text-success bg-success-sub6 bg-hover-success-sub3'
+                    ? 'text-success bg-success-sub6'
                     : '',
                   leaveStatus == 'pending'
-                    ? 'text-warning bg-warning bg-hover-warning-sub3'
+                    ? 'text-warning bg-warning'
                     : '',
                   leaveStatus == 'rejected'
-                    ? 'text-danger bg-danger bg-hover-danger-sub3'
+                    ? 'text-danger bg-danger'
                     : '',
                 ]"
                 :classNameWrapper="[
@@ -392,7 +391,7 @@ export default {
       .dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
-        status: 'approved'
+        // status: 'approved'
       })
       .then((result) => {
         this.calendarOptions.events = result;

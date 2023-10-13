@@ -19,8 +19,10 @@ import {
     makeTimeEntry,
     editTimeEntry,
     deleteTimeEntry,
-  } from "./api_call/timeattendance/time-entires"
-
+  } from "./api_call/timeattendance/time-entires";
+  import {
+    submitTimesheet,
+  } from "./api_call/timeattendance/timesheets";
   import {
     getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
@@ -67,6 +69,7 @@ import {
     makeTimeEntry,
     editTimeEntry,
     deleteTimeEntry,
+    submitTimesheet,
 
     // my profile
     addFiles,

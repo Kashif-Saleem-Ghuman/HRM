@@ -6,7 +6,7 @@
     :parseDate="parseDate"
     :formatDate="formatDate"
     @input="onChange"
-    :editable="inActive"
+    :editable="dis"
   ></bib-datetime-picker>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     value: {
       type: String,
     },
-    inActive: {
+    dis: {
       type: Boolean,
     },
   },
@@ -31,9 +31,16 @@ export default {
     return {
     //   value: null,
       format: "DD-MMM-YYYY",
+      disable:true,
     };
   },
-
+  computed: {
+    isDisable() {
+      console.log(this.inActive, "console.log(this.inActive)console.log(this.inActive)console.log(this.inActive)")
+      return this.disable = this.dis;
+      
+    }
+  },
   methods: {
     parseDate(dateString, format) {
       return new Date(dateString);

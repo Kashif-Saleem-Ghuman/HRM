@@ -1,5 +1,7 @@
 import axios from "axios";
 import { DateTime } from "luxon";
+import fecha, { format } from "fecha";
+
 
 export async function addLeaveVacations() {
   if (this.getUserRole == "ADMIN") {
@@ -21,8 +23,8 @@ export async function addLeaveVacations() {
   this.errorMsgEndDate = false;
   this.loading = true;
   var data = this.addForm;
-  var startDate = DateTime.fromISO(data.start).startOf('day').toUTC().toISO()
-  var endDate = DateTime.fromISO(data.end).endOf('day').toUTC().toISO()
+  var startDate = fecha.format(new Date(data.start), "YYYY-MM-DDT00:00:00.000Z"); // '2015-11-20'data.start.toISOString();
+  var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
 
   this.addForm.start = startDate;
   this.addForm.end = endDate;

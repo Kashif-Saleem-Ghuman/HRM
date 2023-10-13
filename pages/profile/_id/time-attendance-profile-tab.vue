@@ -2,14 +2,6 @@
   <div id="time-attendance-wrapper">
     <div class="scroll_wrapper" id="scroll_wrapper">
       <div class="px-1 py-05">
-      <dropdown-menu-custom
-        sectionLabel="View : "
-        :items="dropMenu"
-        :button-config="dropMenuChipObject"
-        @on-click="viewChange($event)"
-      ></dropdown-menu-custom>
-    </div>
-      <div class="px-1 py-05">
         <div
           class="d-grid d-flex gap-1 py-05"
           style="grid-template-columns: repeat(2, 1fr)"
@@ -18,6 +10,7 @@
             :activeUserRole="activeUserRole"
             @clock="openClock"
             :employeeId="Number(this.id)"
+            v-if="view === 'day'"
           ></info-card-timer>
           <info-card-one
             :item="timesheetData"
@@ -26,28 +19,47 @@
             icon="table"
             profilePic="profilePic"
             buttonVariant="light"
-            @on-click="viewChange('month')"
+            @on-click="onViewTimesheetsClick"
             className="button-wrapper__bgwarnning"
+            v-if="view === 'day'"
           ></info-card-one>
-
-          <!-- <info-card-help
-            custumBg="help-wrapper__bg-black"
-          ></info-card-help> -->
-          
-          <div
-            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-          >
-            <div class="d-flex align-center">
-              <div class="custom_date_picker">
-                <!-- <div class="mr-05">Date:</div> -->
-                <bib-datetime-picker
-                  v-model="todayDate"
-                  :format="format"
-                  :parseDate="parseDate"
-                  :formatDate="formatDate"
-                  class="custom_date_picker"
-                  @input="dateSelection($event)"
-                ></bib-datetime-picker>
+          <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
+            <label class="pr-05">View:</label>
+            <bib-input
+              type="select"
+              v-model="view"
+              :options="VIEWS"
+              label=""
+              placeholder=""
+              :disabled="false"
+              @input="onViewChange"
+              style="width: 10vw;"
+            ></bib-input>
+            <div
+              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+            >
+              <div class="d-flex align-center">
+                <div class="custom_date_picker">
+                  <!-- <div class="mr-05">Date:</div> -->
+                  <bib-datetime-picker
+                    v-if="view === 'day'"
+                    v-model="todayDate"
+                    :format="format"
+                    :parseDate="parseDate"
+                    :formatDate="formatDate"
+                    class="custom_date_picker"
+                    @input="dateSelection($event)"
+                  ></bib-datetime-picker>
+                </div>
+                <div class="custom_date_picker">
+                  <week-date-picker 
+                    v-if="view === 'week'"
+                    :dates.sync="weekDates"
+                    class="custom_date_picker"
+                    @close="weekSelection"
+                    :format="format"
+                  ></week-date-picker>
+                </div>
               </div>
             </div>
           </div>
@@ -55,38 +67,50 @@
       </div>
       <div>
         <list-day
-          v-if="todayData.length"
+          v-if="!loading && todayData.length && todayListView"
           :listToday="todayData"
           v-show="todayListView"
           :total="totalWork"
           :status="timesheetStatus"
           :date="new Date(todayDate + ' 00:00')"
-          disabled="true"
+          :disabled="true"
         ></list-day>
-        <no-record v-else />
-        <list-week :listWeek="weekDataView" v-show="weekListView"></list-week>
-        <list-month
-          :listMonth="MonthViewData"
-          v-show="monthListView"
-        ></list-month>
+        <no-record v-else-if="!loading && todayListView" />
+        <list-week
+          :activityReports="weekDataActivityReports"
+          :totalWork="weekDataTotalWork"
+          :status="weekDataStatus"
+          :id="timesheetId"
+          :adminRole="true"
+          v-if="!loading && weekListView"
+        ></list-week>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import fecha from "fecha";
 import {
   getDateDiffInHHMM,
   getTimeFromDate,
-} from "../../../utils/functions/dates";
-import { formatTime } from "../../../utils/functions/clock_functions";
+} from "@/utils/functions/dates";
+import { formatTime } from "@/utils/functions/clock_functions";
 import {
   TIMESHEET_DATA,
   WEEK_VIEW_DATA,
   ACTIVITY_DICTIONARY,
-} from "../../../utils/constant/TimesheetData.js";
-import { DropdownMenu, viewType } from "../../../utils/constant/DropdownMenu";
+} from "@/utils/constant/TimesheetData.js";
+import { viewType } from "@/utils/constant/DropdownMenu";
+import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
+import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+
+const VIEWS = [
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week" },
+]
+
 export default {
   data() {
     return {
@@ -108,46 +132,30 @@ export default {
       todayData: [],
       totalWork: "--:--",
       timesheetStatus: "",
-      todayListView: true,
-      weekListView: false,
-      monthListView: false,
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
+      VIEWS,
+      view: "",
+      weekDates: { 
+        from: DateTime.fromJSDate(new Date()).startOf("week"), 
+        to: DateTime.fromJSDate(new Date()).endOf("week"),
+      },
+      weekDataActivityReports: [],
+      weekDataTotalWork: "--:--",
+      weekDataStatus: "",
+      timesheetId: -1,
+      loading: false,
     };
   },
   methods: {
+    setView() {
+      this.view = this.$route.query.view ?? VIEWS[0].value
+    },
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
     },
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
-    },
-    viewChange(e) {
-      if (e.key == "today") {
-        this.todayListView = true;
-        this.weekListView = false;
-        this.monthListView = false;
-        this.dropMenuChipObject = viewType.today
-      }
-      if (e.key == "week") {
-        this.todayListView = false;
-        this.weekListView = true;
-        this.monthListView = false;
-        this.dropMenuChipObject = viewType.week
-      }
-      if (e.key == "month") {
-        this.todayListView = false;
-        this.monthListView = true;
-        this.weekListView = false;
-        this.dropMenuChipObject = viewType.month
-      }
-      if (e.key == "year") {
-        alert("No list Found");
-      }
-      if (e == "month") {
-        this.$router.push("/time-attendance/timesheets/");
-          return;
-      }
     },
     handleNewEntry(timeEntry) { 
       this.todayData.push({
@@ -161,9 +169,9 @@ export default {
         status: timeEntry.status,
         id: timeEntry.id,
       });
-      if (timeEntry.activity === 'in') {
+      if (timeEntry.activity === "in") {
         this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === 'break') {
+      } else if (timeEntry.activity === "break") {
         this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
       }
       this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
@@ -188,8 +196,17 @@ export default {
     clickOutside() {
       this.show = false;
     },
-    async dateSelection(event) {
-      await this.fillTimeEntries();
+    onViewChange(e) {
+      this.$router.push({ query: { view: e } });
+    },
+    onViewTimesheetsClick() {
+      this.$router.push({ query: { view: "week" } });
+    },
+    async dateSelection() {
+      await this.fillDailyTimeEntries();
+    },
+    async weekSelection() {
+      await this.fillWeeklyTimeEntries();
     },
     openClock() {
       this.clockModal = true;
@@ -197,7 +214,8 @@ export default {
     closeClock() {
       this.clockModal = false;
     },
-    async fillTimeEntries() {
+    async fillDailyTimeEntries() {
+      this.loading = true;
       await this.$store.dispatch(
         "timeattendance/setEmployeeDailyTimeEntry",
         {
@@ -210,7 +228,21 @@ export default {
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
-      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ""
+      this.loading = false;
+    },
+    async fillWeeklyTimeEntries() {
+      this.loading = true;
+      const weekData = (
+        new TimesheetParser(
+          await getTimesheets({ ...this.weekDates, employeeId: this.id })
+        )
+      ).parse("week");
+      this.weekDataActivityReports = weekData.activityReports || [];
+      this.weekDataTotalWork = formatTime((weekData.total || 0) * 60 * 60, false);
+      this.weekDataStatus = weekData.status || "";
+      this.timesheetId = weekData.id || "";
+      this.loading = false;
     },
   },
   computed: {
@@ -218,11 +250,17 @@ export default {
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
       activeUserRole: "token/getUserRole",
     }),
+    todayListView() {
+      return this.view === "day";
+    },
+    weekListView() {
+      return this.view === "week";
+    },
   },
-  async mounted() {
+  async created() {
+    this.setView();
     this.id = this.$route.params.id;
-    await this.fillTimeEntries();
-  },
-  components: { DropdownMenu },
+    if (this.todayListView) await this.fillDailyTimeEntries();
+    else if (this.weekListView) await this.fillWeeklyTimeEntries();  },
 };
 </script>

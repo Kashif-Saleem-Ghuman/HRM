@@ -9,7 +9,7 @@
         :colspan="4"
         :totalValue="totalValue"
         :status="TIMESHEET_STATUS[status]?.label"
-        :buttonLable="status === 'not_submitted' ? 'Submit Timesheet' : ''"
+        :buttonLable="status === 'not_submitted' && !adminRole ? 'Submit Timesheet' : ''"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
       >
@@ -60,7 +60,9 @@ export default {
   props: {
     activityReports: {
       type: Array,
-      default: [],
+      default() {
+        return [];
+      },
     },
     totalWork: {
       type: String,
@@ -74,6 +76,10 @@ export default {
       type: Number,
       default: -1,
     },
+    adminRole: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

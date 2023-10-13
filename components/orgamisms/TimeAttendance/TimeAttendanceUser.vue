@@ -93,7 +93,7 @@
             :status="weekDataStatus"
             :id="timesheetId"
             @timesheet-submitted="onTimesheetSubmitted"
-            v-if="weekListView"
+            v-if="!loading && weekListView"
           ></list-week>
         </div>
       </div>
@@ -101,22 +101,22 @@
   </div>
 </template>
 <script>
+import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
-import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "../../../utils/constant/Constant.js";
-import { ACTIVITY_DICTIONARY } from "../../../utils/constant/TimesheetData"
-import { INFO_CARD_DATA } from "../../../utils/constant/DashboardData";
+import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "@/utils/constant/Constant.js";
+import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData"
+import { INFO_CARD_DATA } from "@/utils/constant/DashboardData";
 import {
   TIMESHEET_DATA,
-} from "../../../utils/constant/TimesheetData.js";
-import { YEAR_LIST } from "../../../utils/constant/Calander";
+} from "@/utils/constant/TimesheetData.js";
+import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
-import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
-import { getTimeFromDate, getDateDiffInHHMM } from "../../../utils/functions/dates";
-import { formatTime } from "../../../utils/functions/clock_functions"
-import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
-import { DateTime } from "luxon";
+import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
+import { getTimeFromDate, getDateDiffInHHMM } from "@/utils/functions/dates";
+import { formatTime } from "@/utils/functions/clock_functions"
+import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
 
 const VIEWS = [
   { label: "Day", value: 'day' },
@@ -255,9 +255,8 @@ export default {
     onViewChange(e) {
       this.$router.push({ query: { view: e } });
     },
-
     onViewTimesheetsClick() {
-      this.$router.push({ query: { view: "year" } });
+      this.$router.push({ query: { view: "week" } });
     },
     getCurrentDateMonth,
 

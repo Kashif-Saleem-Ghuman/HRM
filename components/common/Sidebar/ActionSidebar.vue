@@ -10,7 +10,7 @@
     >
       <div class="d-flex justify-between align-center">
         <bib-icon
-          icon="add"
+          :icon="icon"
           :scale="0.9"
           class="mr-05"
           @click="$emit('close')"
@@ -64,6 +64,9 @@ export default {
     },
     heading: {
       type: String,
+    },
+    icon:{
+      type:String
     },
     copyLink: {
       type: String,

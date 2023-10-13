@@ -75,7 +75,7 @@ export default {
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,
       });
-      clearInterval(this.chronometerInterval);
+      this.clearChronometerInterval()
     }
   },
 

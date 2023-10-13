@@ -1,4 +1,3 @@
-import axios from "axios";
 import { DateTime } from "luxon";
 import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 import { createConfig } from "../config";
@@ -25,7 +24,7 @@ export async function stopTimer() {
   const config = createConfig();
   const url = "/timers/stop";
   try {
-    const timer = await axios.put(url, {}, config);
+    const timer = await hrmApiAxiosInstance.put(url, {}, config);
     return timer.data;
   } catch (e) {
     console.error(e);

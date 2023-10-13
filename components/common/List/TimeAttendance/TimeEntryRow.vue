@@ -10,7 +10,7 @@
         <template v-slot:menu>
           <ul>
             <li @click="newDataTypeReset">
-              <span class="activity">{{ 'Select an activity type' }}</span>
+              <span class="activity">{{ "Select an activity type" }}</span>
             </li>
             <li
               v-for="activityType in activityTypes"
@@ -63,12 +63,12 @@ import {
   makeTimeEntry,
   editTimeEntry,
   deleteTimeEntry
-} from '@/utils/functions/functions_lib_api';
+} from "@/utils/functions/functions_lib_api";
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
   hoursAndMinutesToJSDate,
-} from '@/utils/functions/dates';
+} from "@/utils/functions/dates";
 
 export default {
   props: {
@@ -89,8 +89,8 @@ export default {
     return {
       newData: { ...this.entry },
       mutated: false,
-      activityTypeIn: { label: 'CLOCK-IN -> CLOCK-OUT', value: 'in' },
-      activityTypeBreak: { label: 'BREAK', value: 'break' },
+      activityTypeIn: { label: "CLOCK-IN -> CLOCK-OUT", value: "in" },
+      activityTypeBreak: { label: "BREAK", value: "break" },
     };
   },
  
@@ -119,7 +119,7 @@ export default {
     },
     async editThisEntry() {
       if (this.totalTimeInMinutes < 0) {
-        return alert('end date should be greater than start date');
+        return alert("end date should be greater than start date");
       }
       if (!this.timeEntryReady) return;
       const {
@@ -135,12 +135,12 @@ export default {
         activity: this.newData.activity.value,
       });
       if (editedEntry) {
-        this.$emit('edit-entry', editedEntry);
+        this.$emit("edit-entry", editedEntry);
       }
     },
     async makeNewTimeEntry() {
       if (this.totalTimeInMinutes < 0) {
-        return alert('end date should be greater than start date');
+        return alert("end date should be greater than start date");
       }
       if (!this.timeEntryReady) return;
       const {
@@ -155,14 +155,14 @@ export default {
         endDate,
       );
       if (newEntry) {
-        this.$emit('new-entry', newEntry);
+        this.$emit("new-entry", newEntry);
         this.clearData()
       }
     },
     async deleteEntry() {
       const response = await this.deleteTimeEntry(this.newData.id);
       if (response) {
-        this.$emit('delete-entry', this.newData.id);
+        this.$emit("delete-entry", this.newData.id);
       }
     },
     newDataTypeSelected(activity) {
@@ -172,8 +172,8 @@ export default {
       }
     },
     newDataTypeReset() {
-      this.newData.activity.label = '';
-      this.newData.activity.value = '';
+      this.newData.activity.label = "";
+      this.newData.activity.value = "";
     },
     buttonClicked() {
       if (this.newData.id) return this.editThisEntry()
@@ -188,7 +188,7 @@ export default {
     },
     clearData() {
       this.newData = {
-        activity: { label: '', value: '' },
+        activity: { label: "", value: "" },
         start: null,
         end: null,
       };
@@ -199,8 +199,8 @@ export default {
       if (this.listToday?.length) {
         const activities = []
         const todayActivities = this.listToday.map( item => item.activity?.value)
-        if (!todayActivities.includes('in')) activities.push(this.activityTypeIn)
-        if (!todayActivities.includes('break')) activities.push(this.activityTypeBreak)
+        if (!todayActivities.includes("in")) activities.push(this.activityTypeIn)
+        if (!todayActivities.includes("break")) activities.push(this.activityTypeBreak)
 
         return activities
       }
@@ -222,8 +222,8 @@ export default {
     },
     entryTotal() {
       if (this.newData.total && !this.mutated) return this.newData.total;
-      if (!this.timeEntryIsValid) return '--:--'
-      if (this.totalTimeInMinutes <= 0) return 'Invalid Input';
+      if (!this.timeEntryIsValid) return "--:--"
+      if (this.totalTimeInMinutes <= 0) return "Invalid Input";
       const totalHours = Math.floor(this.totalTimeInMinutes / 60);
       const totalMinutes = this.totalTimeInMinutes - totalHours * 60;
       return `${this.numberToClockDigits(totalHours)}:${this.numberToClockDigits(totalMinutes)}`;

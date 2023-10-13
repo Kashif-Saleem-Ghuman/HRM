@@ -10,7 +10,6 @@
       ></section-header-left>
       </div>
       <div class="time-attandance-wrapper">
-       
         <div class="px-1 py-05">
           <div
             class="d-grid d-flex gap-1 py-05"
@@ -39,11 +38,9 @@
               className="button-wrapper__bgwarnning"
               @on-click="onViewTimesheetsClick"
             ></info-card-one>
-
             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
           </div>
         </div>
-
         <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
           <label class="pr-05">View:</label>
           <bib-input
@@ -56,54 +53,6 @@
             @input="onViewChange"
             style="width: 10vw;"
           ></bib-input>
-          <!-- <div style="position: relative">
-            <button-gray
-              variant="light"
-              :scale="1"
-              :title="ViewTitle"
-              style="height: 2.5rem; color: #000"
-              @on-click="show = !show"
-              v-click-outside="clickOutside"
-              class="pr-05"
-            ></button-gray>
-            <div class="menu-items">
-              <ul v-if="show">
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="viewChange('Today')"
-                    style="cursor: pointer"
-                    >Today</span
-                  >
-                </li>
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="viewChange('Week')"
-                    style="cursor: pointer"
-                    >Week</span
-                  >
-                </li>
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="viewChange('Month')"
-                    style="cursor: pointer"
-                    >Month</span
-                  >
-                </li>
-                <li class="d-flex align-center">
-                  <span
-                    class="ml-05"
-                    @click="viewChange('Year')"
-                    style="cursor: pointer"
-                    >Year</span
-                  >
-                </li>
-              </ul>
-            </div>
-          </div> -->
-
           <div
             class="d-flex justify-between align-center px-075 bottom_border_wrapper"
           >
@@ -171,7 +120,6 @@ import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "../../../utils/functions/functions_lib.js";
 import { getTimeFromDate, getDateDiffInHHMM } from "../../../utils/functions/dates";
 import { formatTime } from "../../../utils/functions/clock_functions"
-import fecha from "fecha";
 import { getUserTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time.js';
 import { DateTime } from "luxon";
 
@@ -276,9 +224,9 @@ export default {
         status: timeEntry.status,
         id: timeEntry.id,
       });
-      if (timeEntry.activity === 'in') {
+      if (timeEntry.activity === "in") {
         this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === 'break') {
+      } else if (timeEntry.activity === "break") {
         this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
       }
       this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
@@ -342,20 +290,19 @@ export default {
       this.loading = true;
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
-        new Date(this.todayDate).toISOString()
-        || DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
+        DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
       );
       this.todayData = [];
       this.totalWorkInMS = 0;
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
-      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || '';
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekData = (new TimesheetParser(await getTimesheets(this.weekDates))).parse('week');
+      const weekData = (new TimesheetParser(await getTimesheets(this.weekDates))).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;

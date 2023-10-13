@@ -218,7 +218,7 @@ export default {
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
       weekDataStatus: "",
-      timesheetId: "",
+      timesheetId: -1,
     };
   },
   computed: {
@@ -350,7 +350,7 @@ export default {
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
-      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ''
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || '';
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {

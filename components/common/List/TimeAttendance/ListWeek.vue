@@ -11,35 +11,33 @@
         :status="TIMESHEET_STATUS[status]?.label"
         :buttonLable="status === 'not_submitted' ? 'Submit Timesheet' : ''"
         @button-clicked="submitButtonClicked"
+        v-if="id >= 0"
       >
         <template #cell(name)="data">
           <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <div class="title">
-              {{ data.value.weekday }}
-            </div>
             <div class="description">
-              {{ getWeekdayString(data.value.date) }}
+              {{ data.value.weekDayLabel }}
             </div>
           </div>
         </template>
         <template #cell(in)="data">
           <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.activityReport.in }}</span>
+            <span>{{ data.value.in }}</span>
           </div>
         </template>
         <template #cell(out)="data">
           <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.activityReport.out }}</span>
+            <span>{{ data.value.out }}</span>
           </div>
         </template>
         <template #cell(break)="data">
           <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.activityReport.break }}</span>
+            <span>{{ data.value.break }}</span>
           </div>
         </template>
         <template #cell(total)="data">
           <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ formatTime(data.value.activityReport.total * 60, false) }}</span>
+            <span>{{ formatTime(data.value.total * 60, false) }}</span>
           </div>
         </template>
       </custom-table>
@@ -90,11 +88,23 @@ export default {
       filteredData: [],
       submitTimesheet,
       TIMESHEET_STATUS,
+      WEEK_DAY,
     };
   },
   computed: {
     activityReportsList() {
-      return this.activityReports || []
+      return WEEK_DAY.map(({ label, value }) => {
+        const report = this.activityReports
+          .find((ar) => this.getWeekdayString(ar.date) === value)
+          ?.activityReport;
+        return {
+          weekDayLabel: label,
+          in: report?.in || "--:--",
+          out: report?.out || "--:--",
+          break: report?.break || "--:--",
+          total: report?.total || 0,
+        };
+      });
     },
     totalValue() {
       return this.totalWork || "--:--"
@@ -107,7 +117,12 @@ export default {
     formatTime,
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
-      return WEEK_DAY[DateTime.fromISO(date).weekday - 1].label
+      return WEEK_DAY[
+        DateTime
+          .fromJSDate(new Date(date + " 00:00"))
+          .weekday
+          % 7
+      ].value
     },
     close() {
       alert("sadjlaksjdlasldkjlasjdl");

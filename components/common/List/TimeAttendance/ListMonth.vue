@@ -235,9 +235,9 @@
 </template>
 
 <script>
-import { TABLE_HEAD } from "../../../../../utils/constant/Constant.js";
+import { TABLE_HEAD } from "@/utils/constant/Constant.js";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getTimeAttendanceCustomRange } from "../../../../../utils/functions/functions_lib_api";
+import { getTimeAttendanceCustomRange } from "@/utils/functions/functions_lib_api";
 export default {
   props: {
     listMonth: {

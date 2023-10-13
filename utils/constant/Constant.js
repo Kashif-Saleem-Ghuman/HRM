@@ -1347,6 +1347,9 @@ export const WEEK_DAY = [
     value: "saturday",
   },
 ];
+
+export const WEEK_DAYS_START_MONDAY = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
 export const DEPARTMENT_ITEMS = [
   {
     label: "Operational Management",

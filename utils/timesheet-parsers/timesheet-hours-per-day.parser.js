@@ -1,4 +1,4 @@
-import { WEEK_DAY } from "@/utils/constant/Constant.js";
+import { WEEK_DAYS_START_MONDAY } from "@/utils/constant/Constant.js";
 import { forOwn } from "lodash";
 import { DateTime } from "luxon";
 import BaseTimesheetParser from "./base-timesheet-parser";
@@ -18,7 +18,7 @@ export default class TimesheetHoursPerDayParser extends BaseTimesheetParser {
       total += totalHours;
 
       timesheet[
-        WEEK_DAY[DateTime.fromISO(date).weekday].value.substring(0, 3)
+        WEEK_DAYS_START_MONDAY[DateTime.fromISO(date).weekday - 1 ].substring(0, 3)
       ] = totalHours
 
       dailyTimeEntries[date] = {

@@ -38,7 +38,7 @@
             <template v-if="field.header_icon">
               <div
                 v-if="field.header_icon.icon"
-                class="ml-05 shape-circle bg-white border-0 bg-hover-gray2 width-105 height-105 d-flex justify-center align-center cursor-pointer""
+                class="ml-05 shape-circle bg-white border-0 bg-hover-gray2 width-105 height-105 d-flex justify-center align-center cursor-pointer"
                 :class="{ 'bg-black': field.header_icon.isActive }"
                 @click="
                   field.header_icon.event && $emit(field.header_icon.event)
@@ -74,46 +74,44 @@
         </bib-detail-collapse>
       </td>
     </tr>
-    <template v-for="(item, keyI) in sections">
-      <tr
-        :key="'item-' + keyI"
-        :style="{ visibility: isCollapsed ? 'collapse' : '' }"
-        class="table__irow"
-        @contextmenu.stop="rightClickItem($event, keyI)"
-        @click="$emit('item-clicked', $event, keyI, item)"
-        @dblclick="clickItem(keyI)"
-        :id="keyI"
-      >
-        <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
-        <td v-if="$scopedSlots.cell_action" style="width: 50px">
+    <tr
+      v-for="(item, keyI) in sections" :key="'item-' + keyI"
+      :style="{ visibility: isCollapsed ? 'collapse' : '' }"
+      class="table__irow"
+      @contextmenu.stop="rightClickItem($event, keyI)"
+      @click="$emit('item-clicked', $event, keyI, item)"
+      @dblclick="clickItem(keyI)"
+      :id="keyI"
+    >
+      <td v-if="!hideNoColumn" class="table__irow-count">{{ keyI + 1 }}</td>
+      <td v-if="$scopedSlots.cell_action" style="width: 50px">
+        <slot
+          name="cell_action"
+          v-bind:keyI="keyI"
+          v-bind:value="sections[keyI]"
+        ></slot>
+      </td>
+      <td v-for="(col, key) in cols" :key="key">
+        <div
+          v-if="$scopedSlots['cell(' + col + ')']"
+          :class="{ 'h-100 align-center': centerCellY }"
+        >
           <slot
-            name="cell_action"
+            :name="'cell(' + col + ')'"
             v-bind:keyI="keyI"
             v-bind:value="sections[keyI]"
-          ></slot>
-        </td>
-        <td v-for="(col, key) in cols" :key="key">
-          <div
-            v-if="$scopedSlots['cell(' + col + ')']"
-            :class="{ 'h-100 align-center': centerCellY }"
           >
-            <slot
-              :name="'cell(' + col + ')'"
-              v-bind:keyI="keyI"
-              v-bind:value="sections[keyI]"
-            >
-            </slot>
-          </div>
-        </td>
-        <td v-if="$scopedSlots.cell_action_right" style="width: 50px">
-          <slot
-            name="cell_action_right"
-            v-bind:keyI="keyI"
-            v-bind:value="sections[keyI]"
-          ></slot>
-        </td>
-      </tr>
-    </template>
+          </slot>
+        </div>
+      </td>
+      <td v-if="$scopedSlots.cell_action_right" style="width: 50px">
+        <slot
+          name="cell_action_right"
+          v-bind:keyI="keyI"
+          v-bind:value="sections[keyI]"
+        ></slot>
+      </td>
+    </tr>
     <tr v-show="showTotal" style="padding: 16px !important;" >
       <td :colspan="colspan" class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
       <td class="" style="text-align: left; font-weight: bold;">{{ totalValue }}</td>
@@ -121,8 +119,20 @@
     <tr v-show="showTotal" style="padding: 16px !important;">
       
       <!-- <td></td> -->
-      <td :colspan="colspan" class="pl-1 " style="text-align: right; padding: 16px !important;" >Status</td>
+      <td :colspan="colspan" class="pl-1 " style="text-align: right; padding: 16px !important;">Status</td>
       <td class="" style="text-align: left; font-weight: bold;">{{ status }}</td>
+    </tr>
+    <tr v-if="buttonLable" v-show="showTotal" style="padding: 16px !important;">
+      <td colspan="4" class="pl-1 " style="text-align: right; padding: 16px !important;"></td>
+      <td class="" style="text-align: left; font-weight: bold;">
+        <bib-button
+          :label="buttonLable"
+          size="md"
+          variant="primary"
+          @click="buttonClicked"
+          pill
+        ></bib-button>
+      </td>
     </tr>
   </table>
 </template>
@@ -211,6 +221,9 @@ export default {
     },
     status: {
       type: String,
+    },
+    buttonLable: {
+      type: String,
     }
   },
   data() {
@@ -248,6 +261,9 @@ export default {
         column: this.cols[key],
       });
     },
+    buttonClicked() {
+      this.$emit("button-clicked");
+    }
   },
   computed: {
     activeClass() {

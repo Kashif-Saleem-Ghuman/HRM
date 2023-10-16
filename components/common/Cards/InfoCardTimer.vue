@@ -23,9 +23,9 @@
       </div>
     </div>
     <div
-      class="button-wrapper button-wrapper__bgsucess"
-      @click="$emit('clock')"
-      :style="activeUserRole=='ADMIN' ? 'cursor:default':''"
+      class="button-wrapper button-wrapper__bgsucess cursor-pointer"
+      :class="{'button-custom--disabled': disabled, 'bg-secondary-sub3': disabled}"
+      @click="handleClockInOutClick"
     >
       <span>{{ buttonLable }}</span>
     </div>
@@ -35,9 +35,11 @@
 <script>
 import { calculateActivityDetails, formatTime } from '../../../utils/functions/clock_functions';
 import { mapGetters } from "vuex";
+import timerMixin from '../../../mixins/timer-mixin';
 
 export default {
-  name: "Chips",
+  mixins: [timerMixin],
+
   props: {
     clockModal: {
       type: Boolean,
@@ -51,6 +53,10 @@ export default {
     },
     employeeId: {
       type: Number,
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -59,35 +65,14 @@ export default {
       localData: [],
       activityReport: {},
       loading: true,
-      time: '',
-      date: '',
       timerLoading: false,
-      chronometer: 0,
     };
   },
   async mounted() {
-    // update the time every second
-    this.timerLoading = true;
-    this.interval = setInterval(() => {
-      this.time = new Date().toTimeString().split(' ')[0];
-      this.date = new Date().toDateString();
-      if (this.active) {
-        this.chronometer = !this.getTimerData.start
-          ? 0
-          : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
-      } else if (this.getDailyTimeEntries?.[0]?.end) {
-        this.chronometer = Math.floor(
-          (
-            new Date(this.getDailyTimeEntries?.[0]?.end).getTime() 
-            - new Date(this.getDailyTimeEntries?.[0]?.start).getTime()
-          ) / 1000,
-        )
-      };
-      this.timerLoading = false;
-    }, 1000)
-    this.time = new Date().toTimeString().split(' ')[0];
-    this.date = new Date().toDateString();
+    this.startTimerInterval()
+
     await this.$store.dispatch('timeattendance/setTimerData', this.employeeId);
+
     if (this.activeUserRole === 'USER') {
       await this.$store.dispatch('timeattendance/setDailyTimeEntries');
     } else {
@@ -102,23 +87,28 @@ export default {
     close() {
       this.clockModal = false;
     },
+
+    async handleClockInOutClick() {
+      if (this.active) {
+        await this.stopTimer()
+        this.$emit("timer-stop")
+      } else {
+        await this.startTimer()
+      }
+    }
   },
   computed: {
     ...mapGetters({
-      getAccessToken: "token/getAccessToken",
-      getTimerData: 'timeattendance/getTimerData',
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     stopWatchTime() {
-      if (this.timerLoading) return '--:--:--';
+      if (this.timerLoading) return '00:00:00';
       return formatTime(this.chronometer);
     },
     activityDetails() {
       return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
     },
-    active() {
-      return this?.getTimerData?.active || false
-    },
+
     buttonLable() {
       if (this.activeUserRole === 'USER') {
         if (this?.active) return 'Clock Out';
@@ -129,7 +119,7 @@ export default {
         else return 'Offline';
       }
     }
-  }
+  },
 };
 </script>
 <style lang="scss">

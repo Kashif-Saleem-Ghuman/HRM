@@ -16,6 +16,7 @@
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteSpecificEntry"
         :date="date"
+        :listToday="listToday"
       ></time-entry-row>
       <time-entry-row
         v-if="showNewEntryRow && !disabled"
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { ACTIVITY_DICTIONARY } from '../../../../../utils/constant/TimesheetData';
+import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 export default {
   props: {
     listToday: {
@@ -49,7 +50,7 @@ export default {
     },
     total: {
       type: String,
-      default: '--:--'
+      default: "--:--"
     },
     disabled: {
       type: Boolean,
@@ -59,7 +60,7 @@ export default {
   data() {
     return {
       newEntry: {
-        activity: { label: '', value: '' },
+        activity: { label: "", value: "" },
         start: null,
         end: null,
       },
@@ -71,7 +72,7 @@ export default {
     showNewEntryRow() {
       if (this.listToday?.length) {
         const activities = this.listToday.map( item => item.activity?.value)
-        if (activities.includes('in') && activities.includes('break')) {
+        if (activities.includes("in") && activities.includes("break")) {
           return false
         }
       }
@@ -80,13 +81,15 @@ export default {
   },
   methods: {
     async makeNewTimeEntry(newEntry) {
-      this.$emit('new-entry', newEntry);
+      this.$emit("new-entry", newEntry);
     },
     editSpecificEntry(entry) {
-      this.$emit('edit-entry', entry)
+      this.$emit("edit-entry", entry)
     },
     deleteSpecificEntry(id) {
-      this.$emit('delete-entry', id)
+      if(confirm("Are you sure you want to delete this time entry?")) {
+        this.$emit('delete-entry', id)
+      }
     },
   },
 };

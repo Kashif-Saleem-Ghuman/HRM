@@ -57,11 +57,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { startTimer, stopTimer } from "../../../../utils/functions/api_call/timeattendance/timer";
+import timerMixin from '../../../../mixins/timer-mixin';
 import { formatTime, calculateActivityDetails } from '../../../../utils/functions/clock_functions';
-
+import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 export default {
   name: "BibClockWrapper",
+  mixins: [timerMixin],
   props: {
     clockModal: {
       type: Boolean,
@@ -75,55 +76,26 @@ export default {
     },
   },
   methods: {
-    startTimer,
-    stopTimer,
     close() {
       this.$emit("close");
     },
     async stopWatchClicked() {
       if (!this.active) await this.startStopWatch();
-      else await this.stopStopWatch();
+      else {
+        await this.stopTimer();
+        await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+      }
     },
     async startStopWatch() {
-      this.active = true;
-      this.chronometer = 0;
-      await this.startTimer();
-      await this.$store.dispatch('timeattendance/setTimerData');
+      await this.$store.dispatch("timeattendance/startTimer")      
     },
-    async stopStopWatch() {
-      this.active = false;
-      await this.stopTimer();
-      await this.$store.dispatch('timeattendance/setDailyTimeEntries');
-    }
   },
-  beforeDestroy() {
-    // prevent memory leak
-    clearInterval(this.interval);
-  },
+
   created() {
     this.timeEntriesLoading = true;
   },
   async mounted() {
-    // update the time every second
-    this.timerLoading = true;
-    this.interval = setInterval(() => {
-      this.time = new Date().toTimeString().split(' ')[0];
-      this.date = new Date().toDateString();
-      if (this.active) {
-        this.chronometer = !this.getTimerData.start
-          ? 0
-          : Math.floor((new Date().getTime() - new Date(this.getTimerData.start).getTime()) / 1000);
-      } else if (this.getDailyTimeEntries?.[0]?.end) {
-        this.chronometer = Math.floor(
-          (
-            new Date(this.getDailyTimeEntries?.[0]?.end).getTime() 
-            - new Date(this.getDailyTimeEntries?.[0]?.start).getTime()
-          ) / 1000,
-        )
-      };
-      this.timerLoading = false;
-    }, 1000)
-    this.active = this.getTimerData.active;
+    this.startTimerInterval()
     this.time = new Date().toTimeString().split(' ')[0];
     this.date = new Date().toDateString();
     await this.$store.dispatch('timeattendance/setTimerData');
@@ -132,17 +104,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getTimerData: 'timeattendance/getTimerData',
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     buttonLable() {
       return this.active ? 'CLOCK OUT' : 'CLOCK IN'
     },
     activeButton() {
-      return !this.getDailyTimeEntries?.[0]?.end
+      return !this.getDailyTimeEntries.some( entry =>  entry.activity === ACTIVITY_TYPE.IN && entry.end )
     },
     stopWatchTime() {
-      if (this.timerLoading) return '--:--:--';
+      if (this.timerLoading) return '00:00:00';
       return formatTime(this.chronometer);
     },
     borderClass() {
@@ -154,13 +125,11 @@ export default {
   },
   data() {
     return {
-      chronometer: 0,
       time: '',
       date: '',
-      active: false,
       timerLoading: false,
     }
-  }
+  },
 };
 </script>
 

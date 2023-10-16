@@ -25,7 +25,7 @@
     <div
       class="button-wrapper button-wrapper__bgsucess"
       @click="$emit('clock')"
-      style="cursor:default;"
+      :style="activeUserRole=='ADMIN' ? 'cursor:default':''"
     >
       <span>{{ buttonLable }}</span>
     </div>

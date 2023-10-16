@@ -1,9 +1,14 @@
+import { USER_ROLES } from "../utils/constant/Constant"
+
 export const state = () => ({
   accessToken: "",
   activeTab:'Employee Profile',
   userRole:'',
   userId:'',
   activeUserData:[],
+  isAdmin: false,
+  isUser: false,
+  subr: null
 })
 export const getters = {
   getAccessToken(state) {
@@ -39,6 +44,16 @@ export const mutations = {
   SET_ACTIVE_USER_DATA(state, value) {
     state.activeUserData = value
   },
+  SET_IS_ADMIN(state, value) {
+    state.isAdmin = value
+  },
+  SET_IS_USER(state, value) {
+    state.isUser = value
+  },
+
+  SET_SUBR(state, value) {
+    state.subr = value
+  }
 }
 
 export const actions = {
@@ -48,8 +63,10 @@ export const actions = {
   setActiveTab(context, activetab) {
     context.commit('SET_ACTIVE_TAB', activetab)
   },
-  setActiveUserRole(context, activeUser) {
-    context.commit('SET_ACTIVE_USER_ROLE', activeUser)
+  setActiveUserRole({ commit }, value) {
+    commit('SET_ACTIVE_USER_ROLE', value)
+    commit('SET_IS_ADMIN', value === USER_ROLES.ADMIN) 
+    commit('SET_IS_USER', value === USER_ROLES.USER)
   },
   setActiveUserId(context, userId) {
     context.commit('SET_ACTIVE_USER_ID', userId)

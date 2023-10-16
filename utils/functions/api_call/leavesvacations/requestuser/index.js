@@ -1,10 +1,9 @@
 import axios from "axios";
-import { DateTime } from "luxon";
-import fecha, { format } from "fecha";
+import fecha from "fecha";
 
 
 export async function addLeaveVacations() {
-  if (this.getUserRole == "ADMIN") {
+  if (this.$store.state.token.isAdmin) {
     if (this.addForm.type == "") {
       this.errorMsgSelect = true;
       return true;
@@ -40,7 +39,7 @@ export async function addLeaveVacations() {
       }
     );
     this.leaveVacationData = addLeaveVacations.data;
-    if (this.getUserRole == "ADMIN") {
+    if (this.$store.state.token.isAdmin) {
       this.$store
         .dispatch("leavevacation/setLeaveVacations", {
           from: this.getformToDate.from,
@@ -65,7 +64,6 @@ export async function addLeaveVacations() {
       this.openPopupNotification(0);
     }, 700);
   } catch (e) {
-    console.log(e.response.data.message, "tttttttttttttttttttttttttttttttttt")
     alert(e.response.data.message);
   }
   this.loading = false;

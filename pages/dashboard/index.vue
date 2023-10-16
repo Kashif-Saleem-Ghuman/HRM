@@ -1,10 +1,10 @@
 !
 <template>
   <div>
-    <template v-if="getUserRole === 'ADMIN'">
+    <template v-if="$store.state.token.isAdmin">
       <dashboard-admin></dashboard-admin>
     </template>
-    <template v-if="getUserRole === 'USER'">
+    <template v-if="$store.state.token.isUser">
       <dashboard-user></dashboard-user>
     </template>
   </div>

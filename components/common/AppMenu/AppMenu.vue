@@ -1,7 +1,7 @@
 <template>
   <div>
      <!-- Admin Menu  -->
-     <div v-if="adminMenu">
+     <div v-if="isAdmin">
       <!-- <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(0, 1)"
         @click="
@@ -22,10 +22,12 @@
         isLightTheme
         class="mt-05"
       ></bib-app-navigation>
+
+      <bib-button label="My account" variant="secondary--outline" class="mt-1 ml-1" @click="myAccountClick"></bib-button>
     </div>
 
     <!-- User Menu  -->
-    <div v-if="userMenu" class="mt-1">
+    <div v-if="isUser" class="mt-1">
       <!-- <div :class="sectionHead" class="section-head">
         <bib-icon icon="home" :scale="1"></bib-icon>
         <span v-on:click="changeDashboard" style="cursor: pointer; color: #86868a;">Home</span>
@@ -53,12 +55,16 @@
         class="mt-05"
       ></bib-app-navigation>
     </div>
+
+    <bib-button v-if="isOrganizationAdmin" label="Organization admin" variant="secondary--outline" class="mt-1 ml-1"  @click="organizationAdminClick"></bib-button>
     </div>
    
   </div>
 </template>
 <script>
+import { USER_ROLES } from '../../../utils/constant/Constant.js';
 import getJson from "../../../utils/dataJson/app_wrap_data.js";
+import { mapState } from "vuex"
 const appWrapItems = getJson();
 export default {
   props: {
@@ -68,12 +74,6 @@ export default {
     seprator: {
       type: String,
     },
-    adminMenu: {
-      type: String,
-    },
-    userMenu: {
-      type: String,
-    },
     className:{
       type:String
     },
@@ -81,6 +81,14 @@ export default {
       type:String
     }
   },
+
+  computed: {
+    ...mapState('token', ['isAdmin', 'isUser', 'subr']),
+    isOrganizationAdmin() {
+      return this.subr === USER_ROLES.ADMIN
+    }
+  },
+
   data() {
     return {
       lightThemeChecked: false,
@@ -112,6 +120,20 @@ export default {
     changeDashboard(){
       this.$router.push("/dashboard")
     },
+
+    myAccountClick() {
+      this.changeRole(USER_ROLES.USER)
+    },
+
+    organizationAdminClick() {
+      this.changeRole(USER_ROLES.ADMIN)
+    },
+
+    changeRole(role) {
+      this.$store.dispatch("token/setActiveUserRole", role)
+      this.$router.push("/")
+    },
+
     menuClick(item) {
       for (let i = 0; i < this.appWrapItems.navItemsAdmin.length ; i++) {
         if (this.appWrapItems.navItemsAdmin[i].key == item.key) {

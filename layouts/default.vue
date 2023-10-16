@@ -42,8 +42,6 @@
           :sectionHead="
             lightThemeChecked ? 'section-head_light' : 'section-head_dark'
           "
-          :adminMenu="userRole === 'ADMIN' ? 'adminMenu' : ''"
-          :userMenu="userRole === 'USER' ? 'userMenu' : ''"
         ></app-menu>
       </template>
       <template #content>
@@ -397,13 +395,14 @@ export default {
             var userRole = res?.data?.u?.subr;
             var userId = res?.data?.u?.sub;
             this.accountType =
-              res?.data?.u?.subbs == "FREETRAIL"
+              res?.data?.u?.subbs == "FREETRIAL"
                 ? "See Plans & Pricing"
                 : "Upgrade";
             localStorage.setItem("businessId", businessId);
             localStorage.setItem("userRole", userRole);
             localStorage.setItem("userId", userId);
             this.userRole = userRole;
+            this.$store.commit("token/SET_SUBR", userRole)
             this.$store.dispatch("token/setActiveUserRole", userRole);
           }
           // this.getUser();
@@ -424,7 +423,7 @@ export default {
       this.employeeNameSelect = activeId;
       console.log(this.activeUserData, "getActiveUser");
     });
-    if (this.getUserRole == "ADMIN") {
+    if (this.$store.state.token.isAdmin) {
       if (this.$route.params.id) {
         await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
           this.activeUserAllowanceData = result;

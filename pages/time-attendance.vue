@@ -11,19 +11,20 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { USER_ROLES } from "../utils/constant/Constant";
+
 export default {
   
   data() {
     return {
     };
   },
+  
   computed: {
     isAdmin() {
-      return this.getUserRole == USER_ROLES.ADMIN
+      return this.$store.state.token.isAdmin
     },
     isUser() {
-      return this.getUserRole == USER_ROLES.USER
+      return this.$store.state.token.isUser
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",

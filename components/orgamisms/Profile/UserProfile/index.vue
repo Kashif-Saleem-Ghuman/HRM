@@ -82,7 +82,7 @@ export default {
       const activeTab = USER_PROFILE_TAB.find((tab) =>
         route.includes(tab.route)
       );
-      this.activeTab = activeTab.value;
+      this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value
     },
   },
 };

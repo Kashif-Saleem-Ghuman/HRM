@@ -81,7 +81,6 @@
           :totalWork="weekDataTotalWork"
           :status="weekDataStatus"
           :id="timesheetId"
-          :adminRole="true"
           v-if="!loading && weekListView"
         ></list-week>
       </div>
@@ -137,8 +136,8 @@ export default {
       VIEWS,
       view: "",
       weekDates: { 
-        from: DateTime.fromJSDate(new Date()).startOf("week"), 
-        to: DateTime.fromJSDate(new Date()).endOf("week"),
+        from: DateTime.now().startOf("week"), 
+        to: DateTime.now().endOf("week"),
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",

@@ -9,7 +9,7 @@
         :colspan="4"
         :totalValue="totalValue"
         :status="TIMESHEET_STATUS[status]?.label"
-        :buttonLable="status === 'not_submitted' && !adminRole ? 'Submit Timesheet' : ''"
+        :buttonLable="status === 'not_submitted' && getUserRole !== 'ADMIN' ? 'Submit Timesheet' : ''"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
       >
@@ -50,6 +50,7 @@
   </template>
   
 <script>
+import { mapGetters } from "vuex"
 import { DateTime } from "luxon";
 import { TABLE_HEAD, WEEK_DAY, TIMESHEET_STATUS } from "@/utils/constant/Constant.js";
 import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData";
@@ -75,10 +76,6 @@ export default {
     id: {
       type: Number,
       default: -1,
-    },
-    adminRole: {
-      type: Boolean,
-      default: false,
     }
   },
   data() {
@@ -98,6 +95,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      getUserRole: "token/getUserRole",
+    }),
     activityReportsList() {
       return WEEK_DAY.map(({ label, value }) => {
         const report = this.activityReports

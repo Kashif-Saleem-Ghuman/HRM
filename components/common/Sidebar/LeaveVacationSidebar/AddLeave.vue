@@ -258,7 +258,7 @@ export default {
     },
 
     displayEmployeeField() {
-      return this.currentEmployee?.role == "ADMIN"
+      return this.$store.state.token.isAdmin
     },
 
     disableEmployeeField() {

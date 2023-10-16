@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     isAdmin() {
-      return this.getUserRole == USER_ROLES.ADMIN
+      return this.$store.state.token.isAdmin
     },
     isUser() {
-      return this.getUserRole == USER_ROLES.USER
+      return this.$store.state.token.isUser
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",

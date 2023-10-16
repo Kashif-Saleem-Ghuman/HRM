@@ -48,9 +48,6 @@ export default {
     label: {
       type: String,
     },
-    activeUserRole: {
-      type: String,
-    },
     employeeId: {
       type: Number,
     },
@@ -73,7 +70,7 @@ export default {
 
     await this.$store.dispatch('timeattendance/setTimerData', this.employeeId);
 
-    if (this.activeUserRole === 'USER') {
+    if (this.$store.state.token.isUser) {
       await this.$store.dispatch('timeattendance/setDailyTimeEntries');
     } else {
       await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', {
@@ -110,11 +107,11 @@ export default {
     },
 
     buttonLable() {
-      if (this.activeUserRole === 'USER') {
+      if (this.$store.state.token.isUser) {
         if (this?.active) return 'Clock Out';
         else return 'Clock In';
       }
-      else if (this.activeUserRole === 'ADMIN') {
+      else if (this.$store.state.token.isAdmin) {
         if (this?.active) return 'Online';
         else return 'Offline';
       }

@@ -9,7 +9,7 @@
         :colspan="4"
         :totalValue="totalValue"
         :status="TIMESHEET_STATUS[status]?.label"
-        :buttonLable="status === 'not_submitted' && getUserRole !== 'ADMIN' ? 'Submit Timesheet' : ''"
+        :buttonLable="status === 'not_submitted' && $store.state.token.isUser ? 'Submit Timesheet' : ''"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
       >

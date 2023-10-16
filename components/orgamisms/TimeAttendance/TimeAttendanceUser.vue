@@ -17,7 +17,6 @@
             v-if="view === 'day'"
           >
             <info-card-timer
-              activeUserRole="USER"
               @clock="openClock"
               @timer-stop="fillDailyTimeEntries"
               :disabled="hasInEntry"

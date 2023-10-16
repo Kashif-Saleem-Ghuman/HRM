@@ -7,7 +7,6 @@
           style="grid-template-columns: repeat(2, 1fr)"
         >
           <info-card-timer
-            :activeUserRole="activeUserRole"
             @clock="openClock"
             :employeeId="Number(this.id)"
             v-if="view === 'day'"

@@ -115,7 +115,7 @@
           <div class="last-child">
             <form-datepicker
               label="End Date"
-              :value="startDate"
+              :value="endDate"
               fieldKey="end"
               @change="menuClick"
               :dis="disable"

@@ -137,7 +137,9 @@
       icon="pencil"
       v-show="openSidebar"
     >
+   
       <template v-slot:sidebar-body>
+        
         <add-leave
           :leaveTypeOptions="leaveTypeOptions"
           @input="addHandleInput"

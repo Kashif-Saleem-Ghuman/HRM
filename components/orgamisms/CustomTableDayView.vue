@@ -312,58 +312,58 @@ export default {
   }
 }
 
-.timesheet-table {
-  cursor: pointer;
-  color: $gray6;
-  font-weight: 400;
-  background-color: #f8f8f9;
-  outline: 1px solid transparent;
-  transition: background-color 0.3s linear, outline-color 0.3s linear;
-  td {
-    border: 1px solid $light;
-    padding: 6px;
-    span {
-      font-size: 14px;
-      color: #1d1d20;
-    }
+// .timesheet-table {
+//   cursor: pointer;
+//   color: $gray6;
+//   font-weight: 400;
+//   background-color: #f8f8f9;
+//   outline: 1px solid transparent;
+//   transition: background-color 0.3s linear, outline-color 0.3s linear;
+//   td {
+//     border: 1px solid $light;
+//     padding: 6px;
+//     span {
+//       font-size: 14px;
+//       color: #1d1d20;
+//     }
 
-    &:first-child {
-      border-left: 0;
-    }
-    &:not(:last-child) {
-      border-right: none;
-    }
-    color: $gray5;
-    &:first-child {
-      text-align: center;
-    }
-  }
-  &:nth-child(2) td {
-    border-top: none;
-  }
-  &:not(:last-child) td {
-    border-bottom: none;
-  }
-  &:hover {
-    cursor: default;
-    background-color: white;
-    td {
-      border-left: #eee 1px solid;
-      &:first-child {
-        border-left: 0;
-      }
-    }
-  }
-  &:active {
-    cursor: default;
-    background-color: $light;
-    outline: 1px solid $gray4;
-  }
-  &.active {
-    background-color: $light;
-    outline: 1px solid $gray4;
-  }
-}
+//     &:first-child {
+//       border-left: 0;
+//     }
+//     &:not(:last-child) {
+//       border-right: none;
+//     }
+//     color: $gray5;
+//     &:first-child {
+//       text-align: center;
+//     }
+//   }
+//   &:nth-child(2) td {
+//     border-top: none;
+//   }
+//   &:not(:last-child) td {
+//     border-bottom: none;
+//   }
+//   &:hover {
+//     cursor: default;
+//     background-color: white;
+//     td {
+//       border-left: #eee 1px solid;
+//       &:first-child {
+//         border-left: 0;
+//       }
+//     }
+//   }
+//   &:active {
+//     cursor: default;
+//     background-color: $light;
+//     outline: 1px solid $gray4;
+//   }
+//   &.active {
+//     background-color: $light;
+//     outline: 1px solid $gray4;
+//   }
+// }
 
 .table_day {
   width: 100%;

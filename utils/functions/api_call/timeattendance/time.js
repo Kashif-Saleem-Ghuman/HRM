@@ -184,11 +184,12 @@ export async function getTimeAttendanceCustomRange({ from, to, searchString }) {
   } catch {}
 }
 
-export async function getTimesheets({ from, to }) {
+export async function getTimesheets({ from, to, employeeId }) {
   try {
     const url = "/timesheets";
     const config = createConfig();
     config.params = { from, to };
+    if (employeeId) config.params.employeeId = employeeId;
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data?.timesheets || [];
   } catch (error) {

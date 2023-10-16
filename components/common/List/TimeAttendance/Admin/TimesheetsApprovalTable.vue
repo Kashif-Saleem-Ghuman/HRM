@@ -10,7 +10,7 @@
       class="border-gray4 bg-white"
       :sections="employees"
       :hide-no-column="true"
-      classTypeHead="table__hrow__default"
+      classTypeHead="table__hrow__custom"
       classTypeBody=""
       customTitle="custom-title"
     >

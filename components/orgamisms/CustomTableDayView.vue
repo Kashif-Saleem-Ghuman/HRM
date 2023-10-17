@@ -371,6 +371,7 @@ export default {
   margin: 0;
   border: none !important;
   color: #1d1d20;
+  
   .bold-text {
     input {
       font-weight: bold;
@@ -403,7 +404,7 @@ export default {
   }
 
   &__hrow__default {
-    background-color: $white;
+    background-color: #F8F8F9;
     color: $gray5;
     font-size: 12px;
     font-weight: 600;
@@ -415,6 +416,7 @@ export default {
       text-align: left;
       height: 48px !important;
       padding: 0px !important;
+      
 
       &.cell_action_header {
         width: 0rem;
@@ -431,11 +433,12 @@ export default {
 
       td {
         border: 1px solid $light;
+        
       }
 
       &:hover {
         cursor: default;
-        background-color: none;
+        background-color: white;
         border-color: $gray4;
         td {
           border-left: $gray4 1px solid;

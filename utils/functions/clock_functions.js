@@ -1,5 +1,5 @@
 export function formatTime(timeInSeconds, includeSeconds = true) {
-  if (timeInSeconds <= 0) return "00:00:00"
+  if (timeInSeconds <= 0) return includeSeconds ? "00:00:00" : "00:00"
   const hours = Math.floor(timeInSeconds / 3600);
   const formattedHours = hours < 10 ? `0${hours}` : hours;
   const minutes = Math.floor((timeInSeconds % 3600) / 60);

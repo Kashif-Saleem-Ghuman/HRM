@@ -50,14 +50,17 @@
                     @input="dateSelection($event)"
                   ></bib-datetime-picker>
                 </div>
-                <div class="custom_date_picker">
-                  <week-date-picker 
-                    v-if="view === 'week'"
-                    :dates.sync="weekDates"
-                    class="custom_date_picker"
-                    @close="weekSelection"
-                    :format="format"
-                  ></week-date-picker>
+                <div class="px-1 py-05" v-if="view === 'week'">
+                  <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                    <div class="pl-05">
+                      <week-date-picker
+                        :dates.sync="weekDates"
+                        class="custom_date_picker"
+                        :format="format"
+                        @close="() => {scope.close(); weekSelection();}"
+                      ></week-date-picker>
+                    </div>
+                  </button-with-overlay>
                 </div>
               </div>
             </div>
@@ -65,23 +68,26 @@
         </div>
       </div>
       <div>
-        <list-day
-          v-if="!loading && todayData.length && todayListView"
-          :listToday="todayData"
-          v-show="todayListView"
-          :total="totalWork"
-          :status="timesheetStatus"
-          :date="new Date(todayDate + ' 00:00')"
-          :disabled="true"
-        ></list-day>
-        <no-record v-else-if="!loading && todayListView" />
-        <list-week
-          :activityReports="weekDataActivityReports"
-          :totalWork="weekDataTotalWork"
-          :status="weekDataStatus"
-          :id="timesheetId"
-          v-if="!loading && weekListView"
-        ></list-week>
+        <template v-if="!loading">
+          <list-day
+            v-if="todayListView && todayData.length"
+            :listToday="todayData"
+            v-show="todayListView"
+            :total="totalWork"
+            :status="timesheetStatus"
+            :date="new Date(todayDate + ' 00:00')"
+            :disabled="true"
+          ></list-day>
+          <list-week
+            v-else-if="weekListView && timesheetId"
+            :activityReports="weekDataActivityReports"
+            :totalWork="weekDataTotalWork"
+            :status="weekDataStatus"
+            :id="timesheetId"
+            :startOfWeek="weekDates.from"
+          ></list-week>
+          <no-record v-else />
+        </template>
       </div>
     </div>
   </div>
@@ -242,6 +248,11 @@ export default {
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
+    formatDates({ from, to }) {
+      const fromFormat = fecha.format(new Date(from), this.format);
+      const toFormat = fecha.format(new Date(to), this.format);
+      return `${fromFormat} -> ${toFormat}`
+    },
   },
   computed: {
     ...mapGetters({
@@ -253,6 +264,11 @@ export default {
     },
     weekListView() {
       return this.view === "week";
+    },
+    dateBtnLabel() {
+      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to) return "";
+      const { from, to } = this.weekDates;
+      return this.formatDates({ from, to });
     },
   },
   async created() {

@@ -63,37 +63,43 @@
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="custom_date_picker">
-                <week-date-picker 
-                  v-if="view === 'week'"
-                  :dates.sync="weekDates"
-                  class="custom_date_picker"
-                  @close="weekSelection"
-                  :format="format"
-                ></week-date-picker>
+              <div class="px-1 py-05" v-if="view === 'week'">
+                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                  <div class="pl-05">
+                    <week-date-picker
+                      :dates.sync="weekDates"
+                      class="custom_date_picker"
+                      :format="format"
+                      @close="() => {scope.close(); weekSelection();}"
+                    ></week-date-picker>
+                  </div>
+                </button-with-overlay>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <list-day
-            v-if="!loading"
-            :listToday="todayData"
-            v-show="todayListView"
-            @new-entry="handleNewEntry"
-            @edit-entry="handleEditEntry"
-            @delete-entry="handleDeleteEntry"
-            :date="new Date(todayDate + ' 00:00')"
-            :total="totalWork"
-          ></list-day>
-          <list-week
-            :activityReports="weekDataActivityReports"
-            :totalWork="weekDataTotalWork"
-            :status="weekDataStatus"
-            :id="timesheetId"
-            @timesheet-submitted="onTimesheetSubmitted"
-            v-if="!loading && weekListView"
-          ></list-week>
+          <template v-if="!loading">
+            <list-day
+              :listToday="todayData"
+              v-if="todayListView"
+              @new-entry="handleNewEntry"
+              @edit-entry="handleEditEntry"
+              @delete-entry="handleDeleteEntry"
+              :date="new Date(todayDate + ' 00:00')"
+              :total="totalWork"
+            ></list-day>
+            <list-week
+              v-else-if="weekListView && timesheetId"
+              :activityReports="weekDataActivityReports"
+              :totalWork="weekDataTotalWork"
+              :status="weekDataStatus"
+              :id="timesheetId"
+              :startOfWeek="weekDates.from"
+              @timesheet-submitted="onTimesheetSubmitted"
+            ></list-week>
+            <no-record v-else />
+          </template>
         </div>
       </div>
     </div>
@@ -321,6 +327,11 @@ export default {
     },
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
+    },
+    formatDates({ from, to }) {
+      const fromFormat = DateTime.fromISO(from).toUTC().toFormat(this.format);
+      const toFormat = DateTime.fromISO(to).toUTC().toFormat(this.format);
+      return `${fromFormat} -> ${toFormat}`
     }
   },
 

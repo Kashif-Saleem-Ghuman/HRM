@@ -8,35 +8,56 @@
         :showTotal=true
         :colspan="4"
         :totalValue="totalValue"
-        :status="TIMESHEET_STATUS[status]?.label"
-        :buttonLable="status === 'not_submitted' && $store.state.token.isUser ? 'Submit Timesheet' : ''"
+        :status="$store.state.token.isUser ? '' : TIMESHEET_STATUS[status]?.label"
+        :buttonLable="buttonLable"
+        :buttonDisabled="this.status !== 'not_submitted'"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
       >
         <template #cell(name)="data">
-          <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <div class="description">
+          <div class="d-flex mx-05 my-025 align-center text-left justify-left">
+            <div class="description text-left font-w-400">
               {{ data.value.weekDayLabel }}
+            </div>
+          </div>
+          <div class="d-flex mx-05 my-025 align-left text-left justify-left">
+            <div class="text-left text-gray1 font-w-400">
+              {{ data.value.date }}
             </div>
           </div>
         </template>
         <template #cell(in)="data">
-          <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.in }}</span>
-          </div>
-        </template>
-        <template #cell(out)="data">
-          <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.out }}</span>
+          <div class="d-flex w-100 m-0 align-center text-center justify-center">
+            <chips
+              :defaultPointer="true"
+              :title="data.value.in"
+              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+            ></chips>
           </div>
         </template>
         <template #cell(break)="data">
-          <div class="d-flex px-1 align-center text-left gap-05 py-025">
-            <span>{{ data.value.break }}</span>
+          <div class="d-flex m-0 align-center text-center justify-center">
+            <chips
+              :defaultPointer="true"
+              :title="data.value.break"
+              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+            ></chips>
+          </div>
+        </template>
+        <template #cell(out)="data">
+          <div class="d-flex m-0 align-center text-center justify-center">
+            <chips
+              :defaultPointer="true"
+              :title="data.value.out"
+              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+            ></chips>
           </div>
         </template>
         <template #cell(total)="data">
-          <div class="d-flex px-1 align-center text-left gap-05 py-025">
+          <div class="d-flex m-0 px-1 align-center text-center justify-center">
             <span>{{ formatTime(data.value.total * 60, false) }}</span>
           </div>
         </template>
@@ -76,7 +97,11 @@ export default {
     id: {
       type: Number,
       default: -1,
-    }
+    },
+    startOfWeek: {
+      type: String,
+      default: DateTime.now().startOf("week")
+    },
   },
   data() {
     return {
@@ -99,16 +124,18 @@ export default {
       getUserRole: "token/getUserRole",
     }),
     activityReportsList() {
-      return WEEK_DAY.map(({ label, value }) => {
+      return WEEK_DAY.map(({ label, value }, index) => {
         const report = this.activityReports
           .find((ar) => this.getWeekdayString(ar.date) === value)
           ?.activityReport;
         return {
           weekDayLabel: label,
-          in: report?.in || "--:--",
-          out: report?.out || "--:--",
-          break: report?.break || "--:--",
+          in: report?.in || "00:00",
+          out: report?.out || "00:00",
+          break: report?.break || "00:00",
           total: report?.total || 0,
+          entryExists: Boolean(report),
+          date: DateTime.fromISO(this.startOfWeek).plus({days: index}).toFormat("yyyy-MM-dd"),
         };
       });
     },
@@ -117,6 +144,12 @@ export default {
     },
     statusValue() {
       return this.status;
+    },
+    buttonLable() {
+      if (this.$store.state.token.isUser) return this.status === "not_submitted"
+        ? "Submit"
+        : TIMESHEET_STATUS[this.status]?.label;
+      return "";
     },
   },
   methods: {

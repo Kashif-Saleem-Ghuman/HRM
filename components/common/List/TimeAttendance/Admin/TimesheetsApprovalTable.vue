@@ -7,10 +7,10 @@
     <custom-table-day-view
       v-else-if="showTable"
       :fields="tableFields"
-      class="border-gray4 bg-white"
+      class="border-gray4"
       :sections="employees"
       :hide-no-column="true"
-      classTypeHead="table__hrow__custom"
+      classTypeHead="table__hrow__default"
       classTypeBody=""
       customTitle="custom-title"
     >

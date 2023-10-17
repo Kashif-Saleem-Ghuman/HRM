@@ -208,6 +208,7 @@ export default {
 .title {
   font-size: 14px;
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .description {

@@ -119,7 +119,7 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import { getTimeFromDate, getDateDiffInHHMM } from "@/utils/functions/dates";
+import { getTimeFromDate, getDateDiffInHHMM, weekToUTCWeek } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions"
 import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
 
@@ -160,8 +160,8 @@ export default {
       totalWork: "--:--",
       timesheetStatus: "",
       weekDates: { 
-        from: DateTime.now().startOf("week"), 
-        to: DateTime.now().endOf("week"),
+        from: DateTime.now().startOf("week").toISO(),
+        to: DateTime.now().endOf("week").toISO(),
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
@@ -212,10 +212,11 @@ export default {
     this.getTimesheetWidget()
   },
   methods: {
+    weekToUTCWeek,
     setView() {
       this.view = this.$route.query.view ?? VIEWS[0].value
     },
-    handleNewEntry(timeEntry) { 
+    handleNewEntry(timeEntry) {
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],
@@ -312,7 +313,11 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekData = (new TimesheetParser(await getTimesheets(this.weekDates))).parse("week");
+      const weekRange = this.weekToUTCWeek({
+        from: new Date(this.weekDates.from),
+        to: new Date(this.weekDates.to),
+      })
+      const weekData = (new TimesheetParser(await getTimesheets(weekRange))).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
@@ -332,7 +337,7 @@ export default {
       const fromFormat = DateTime.fromISO(from).toLocal().toFormat("MMMM d, yyyy");
       const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
       return `${fromFormat} -> ${toFormat}`
-    }
+    },
   },
 
   watch: {

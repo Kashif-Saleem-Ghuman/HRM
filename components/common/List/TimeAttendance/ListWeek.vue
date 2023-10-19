@@ -100,7 +100,7 @@ export default {
     },
     startOfWeek: {
       type: String,
-      default: DateTime.now().startOf("week")
+      default: DateTime.now().startOf("week").toISO(),
     },
   },
   data() {

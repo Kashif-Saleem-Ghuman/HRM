@@ -63,37 +63,43 @@
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="custom_date_picker">
-                <week-date-picker 
-                  v-if="view === 'week'"
-                  :dates.sync="weekDates"
-                  class="custom_date_picker"
-                  @close="weekSelection"
-                  :format="format"
-                ></week-date-picker>
+              <div class="px-1 py-05" v-if="view === 'week'">
+                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                  <div class="pl-05">
+                    <week-date-picker
+                      :dates.sync="weekDates"
+                      class="custom_date_picker"
+                      :format="format"
+                      @close="() => {scope.close(); weekSelection();}"
+                    ></week-date-picker>
+                  </div>
+                </button-with-overlay>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <list-day
-            v-if="!loading"
-            :listToday="todayData"
-            v-show="todayListView"
-            @new-entry="handleNewEntry"
-            @edit-entry="handleEditEntry"
-            @delete-entry="handleDeleteEntry"
-            :date="new Date(todayDate + ' 00:00')"
-            :total="totalWork"
-          ></list-day>
-          <list-week
-            :activityReports="weekDataActivityReports"
-            :totalWork="weekDataTotalWork"
-            :status="weekDataStatus"
-            :id="timesheetId"
-            @timesheet-submitted="onTimesheetSubmitted"
-            v-if="!loading && weekListView"
-          ></list-week>
+          <template v-if="!loading">
+            <list-day
+              :listToday="todayData"
+              v-if="todayListView"
+              @new-entry="handleNewEntry"
+              @edit-entry="handleEditEntry"
+              @delete-entry="handleDeleteEntry"
+              :date="new Date(todayDate + ' 00:00')"
+              :total="totalWork"
+            ></list-day>
+            <list-week
+              v-else-if="weekListView && timesheetId"
+              :activityReports="weekDataActivityReports"
+              :totalWork="weekDataTotalWork"
+              :status="weekDataStatus"
+              :id="timesheetId"
+              :startOfWeek="weekDates.from"
+              @timesheet-submitted="onTimesheetSubmitted"
+            ></list-week>
+            <no-record v-else />
+          </template>
         </div>
       </div>
     </div>
@@ -113,7 +119,7 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import { getTimeFromDate, getDateDiffInHHMM } from "@/utils/functions/dates";
+import { getTimeFromDate, getDateDiffInHHMM, weekToUTCWeek } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions"
 import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
 
@@ -154,8 +160,8 @@ export default {
       totalWork: "--:--",
       timesheetStatus: "",
       weekDates: { 
-        from: DateTime.now().startOf("week"), 
-        to: DateTime.now().endOf("week"),
+        from: DateTime.now().startOf("week").toISO(),
+        to: DateTime.now().endOf("week").toISO(),
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
@@ -206,10 +212,11 @@ export default {
     this.getTimesheetWidget()
   },
   methods: {
+    weekToUTCWeek,
     setView() {
       this.view = this.$route.query.view ?? VIEWS[0].value
     },
-    handleNewEntry(timeEntry) { 
+    handleNewEntry(timeEntry) {
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],
@@ -306,7 +313,11 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekData = (new TimesheetParser(await getTimesheets(this.weekDates))).parse("week");
+      const weekRange = this.weekToUTCWeek({
+        from: new Date(this.weekDates.from),
+        to: new Date(this.weekDates.to),
+      })
+      const weekData = (new TimesheetParser(await getTimesheets(weekRange))).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
@@ -321,7 +332,12 @@ export default {
     },
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
-    }
+    },
+    formatDates({ from, to }) {
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat("MMMM d, yyyy");
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
+      return `${fromFormat} -> ${toFormat}`
+    },
   },
 
   watch: {

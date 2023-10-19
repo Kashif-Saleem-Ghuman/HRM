@@ -42,7 +42,7 @@ export default {
       }
 
       const { from, to } = getWeekStartEndDates(
-        DateTime.fromISO(value).toUTC().toISO()
+        DateTime.fromFormat(value, "yyyy-MM-dd").toUTC().toISO()
       );
       this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
       this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd")
@@ -69,8 +69,8 @@ export default {
     },
     formatDatesToStartEndDayUTC(from, to) {
       return  {
-        from: DateTime.fromISO(from).toUTC().startOf("day").toISO(),
-        to: DateTime.fromISO(to).toUTC().endOf("day").toISO(),
+        from: DateTime.fromISO(from).startOf("day").toUTC().toISO(),
+        to: DateTime.fromISO(to).endOf("day").toUTC().toISO(),
       };
     },
   },

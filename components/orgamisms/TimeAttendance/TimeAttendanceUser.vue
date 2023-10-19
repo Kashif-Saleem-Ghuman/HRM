@@ -329,8 +329,8 @@ export default {
       await this.fillWeeklyTimeEntries();
     },
     formatDates({ from, to }) {
-      const fromFormat = DateTime.fromISO(from).toUTC().toFormat(this.format);
-      const toFormat = DateTime.fromISO(to).toUTC().toFormat(this.format);
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat("MMMM d, yyyy");
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
       return `${fromFormat} -> ${toFormat}`
     }
   },

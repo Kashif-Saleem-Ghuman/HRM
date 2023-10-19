@@ -105,8 +105,8 @@ export default {
     },
 
     formatDates({ from, to }) {
-      const fromFormat = DateTime.fromISO(from).toUTC().toFormat('MMMM d, yyyy');
-      const toFormat = DateTime.fromISO(to).toUTC().toFormat('MMMM d, yyyy');
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat('MMMM d, yyyy');
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat('MMMM d, yyyy');
       return `${fromFormat} -> ${toFormat}`
     }
   },

@@ -401,26 +401,32 @@ export const TABLE_HEAD = {
     {
       key: "",
       label: "#",
+      center: false
     },
     {
       key: "name",
       label: "Day of week",
+      center: false
     },
     {
       key: "in",
       label: "IN",
+      center: true
     },
     {
       key: "break",
       label: "Break",
+      center: true
     },
     {
       key: "out",
       label: "Out",
+      center: true
     },
     {
       key: "total",
       label: "Total",
+      center: true
     },
     
   ],

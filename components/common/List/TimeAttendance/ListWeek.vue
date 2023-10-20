@@ -16,7 +16,7 @@
       >
         <template #cell(name)="data">
           <div class="d-flex mx-05 my-025 align-center text-left justify-left">
-            <div class="description text-left font-w-400">
+            <div class="text-black font-md text-left font-w-500">
               {{ data.value.weekDayLabel }}
             </div>
           </div>
@@ -32,7 +32,7 @@
               :defaultPointer="true"
               :title="data.value.in"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
             ></chips>
           </div>
         </template>
@@ -42,7 +42,7 @@
               :defaultPointer="true"
               :title="data.value.break"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
             ></chips>
           </div>
         </template>
@@ -52,12 +52,22 @@
               :defaultPointer="true"
               :title="data.value.out"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess' : 'chip-wrapper__bggray', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
             ></chips>
           </div>
         </template>
         <template #cell(total)="data">
-          <div class="d-flex m-0 px-1 align-center text-center justify-center">
+          <div
+            :class="[
+              'd-flex',
+              'm-0',
+              'px-1',
+              'align-center',
+              'text-center',
+              'justify-center',
+              data.value.entryExists ? 'text-bold' : 'disabled'
+            ]"
+          >
             <span>{{ formatTime(data.value.total * 60, false) }}</span>
           </div>
         </template>

@@ -27,6 +27,7 @@
           :class="{
             table__hrow__custom__active:
               field.header_icon && field.header_icon.isActive,
+            th_center:  field.center,
           }"
         >
           <div
@@ -413,6 +414,10 @@ export default {
     .table__hrow__custom {
       visibility: collapse;
     }
+  }
+
+  .th_center {
+    text-align: center;
   }
 }
 

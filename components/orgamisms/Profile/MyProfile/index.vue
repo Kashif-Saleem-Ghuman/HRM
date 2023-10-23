@@ -65,33 +65,33 @@
                       class="d-grid gap-1"
                       style="grid-template-columns: repeat(4, 1fr)"
                     >
-                        <div
-                          v-for="file in filesUploaded"
-                          class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
-                          @click="handleFileClick(file)"
-                          :key="file.id"
-                        >
-                          <div class="d-flex align-center">
-                            <bib-icon
-                              :icon="
-                                file.name.split('.').pop() == 'pdf'
-                                  ? 'pdf'
-                                  : '' || file.name.split('.').pop() == 'docx'
-                                  ? 'word'
-                                  : '' || file.name.split('.').pop() == 'word'
-                                  ? 'excel'
-                                  : ''
-                              "
-                              variant="gray5"
-                            ></bib-icon>
+                      <div
+                        v-for="file in filesUploaded"
+                        class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+                        @click="handleFileClick(file)"
+                        :key="file.id"
+                      >
+                        <div class="d-flex align-center">
+                          <bib-icon
+                            :icon="
+                              file.name.split('.').pop() == 'pdf'
+                                ? 'pdf'
+                                : '' || file.name.split('.').pop() == 'docx'
+                                ? 'word'
+                                : '' || file.name.split('.').pop() == 'word'
+                                ? 'excel'
+                                : ''
+                            "
+                            variant="gray5"
+                          ></bib-icon>
 
-                            <h5
-                              class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
-                            >
-                              {{ file.name }}
-                            </h5>
-                          </div>
+                          <h5
+                            class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+                          >
+                            {{ file.name }}
+                          </h5>
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -101,32 +101,30 @@
         </div>
       </div>
     </div>
-
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <!-- <loader v-bind:showloader="loading"></loader> -->
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import {
-COUNTRIES,
-EMPLOYEE_PROFILE_TAB,
-SELECT_OPTIONS,
-STATES
+  COUNTRIES,
+  EMPLOYEE_PROFILE_TAB,
+  SELECT_OPTIONS,
+  STATES,
 } from "../../../../utils/constant/Constant.js";
 
 import {
-handleInput,
-handleInputObject,
-openPopupNotification,
-sendMeet,
-sendMessage,
-updateAllData,
-vfileAdded,
+  handleInput,
+  handleInputObject,
+  openPopupNotification,
+  sendMeet,
+  sendMessage,
+  updateAllData,
+  vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
 import {
-addFiles,
-getFiles,
+  addFiles,
+  getFiles,
 } from "../../../../utils/functions/functions_lib_api";
 
 import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
@@ -204,7 +202,6 @@ export default {
     this.getFiles(this.id).then((result) => {
       this.filesUploaded = result;
       this.filesUploaded.reverse();
-      //  this.fileList += 1;
     });
     this.$root.$on("top-nav-key", () => {
       this.$store
@@ -233,21 +230,24 @@ export default {
     sendMessage,
 
     handleFileClick(file) {
-      this.downloadFile(file)
+      this.downloadFile(file);
     },
 
     async downloadFile(file) {
       try {
-        const blob = await downloadEmployeeFile({ employeeId: this.id, fileId: file.id })
+        const blob = await downloadEmployeeFile({
+          employeeId: this.id,
+          fileId: file.id,
+        });
         const blobUrl = window.URL.createObjectURL(blob);
 
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = blobUrl;
         a.download = file.name;
         a.click();
         window.URL.revokeObjectURL(blobUrl);
       } catch (error) {
-        console.error('Error downloading file', error);
+        console.error("Error downloading file", error);
       }
     },
     async handleChange__FileInput(files) {
@@ -308,11 +308,6 @@ export default {
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;
       if (this.activeTab == "Time & Attendance") this.getTimesheet();
-      // this.getTimeAttendanceDaily(this.todayDate).then((result)=>{
-      //   this.todayData = result
-      //   console.log(this.todayData, "getformToDate");
-
-      // });
     },
     viewChange(e) {
       if (e == "Today") {
@@ -355,7 +350,6 @@ export default {
 }
 .custom-dropzone {
   width: 50%;
-  // height: auto;
   display: flex;
   border: 1px dotted #2ba026 !important;
   justify-content: space-between;
@@ -365,7 +359,6 @@ export default {
   padding: 10px;
   margin: 20px 0;
   .input--file {
-    // border: 1px dotted #dcdcdf !important;
     background: #fff;
     margin: 0 10px;
     border-radius: 6px;

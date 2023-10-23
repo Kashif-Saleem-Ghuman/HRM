@@ -24,16 +24,11 @@
           ></info-card-one>
           <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
             <label class="pr-05">View:</label>
-            <bib-input
-              type="select"
-              v-model="view"
-              :options="VIEWS"
-              label=""
-              placeholder=""
-              :disabled="false"
-              @input="onViewChange"
-              style="width: 10vw;"
-            ></bib-input>
+            <dropdown-menu-chip
+              :items="VIEWS"
+              :button-config="changeViewButtonConfig"
+              @on-click="onViewChange"
+            ></dropdown-menu-chip>
             <div
               class="d-flex justify-between align-center px-075 bottom_border_wrapper"
             >
@@ -41,7 +36,7 @@
                 <div class="custom_date_picker">
                   <!-- <div class="mr-05">Date:</div> -->
                   <bib-datetime-picker
-                    v-if="view === 'day'"
+                    v-if="view.value === 'day'"
                     v-model="todayDate"
                     :format="format"
                     :parseDate="parseDate"
@@ -50,14 +45,17 @@
                     @input="dateSelection($event)"
                   ></bib-datetime-picker>
                 </div>
-                <div class="custom_date_picker">
-                  <week-date-picker 
-                    v-if="view === 'week'"
-                    :dates.sync="weekDates"
-                    class="custom_date_picker"
-                    @close="weekSelection"
-                    :format="format"
-                  ></week-date-picker>
+                <div class="px-1 py-05" v-if="view.value === 'week'">
+                  <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                    <div class="pl-05">
+                      <week-date-picker
+                        :dates.sync="weekDates"
+                        class="custom_date_picker"
+                        :format="format"
+                        @close="() => {scope.close(); weekSelection();}"
+                      ></week-date-picker>
+                    </div>
+                  </button-with-overlay>
                 </div>
               </div>
             </div>
@@ -65,23 +63,26 @@
         </div>
       </div>
       <div>
-        <list-day
-          v-if="!loading && todayData.length && todayListView"
-          :listToday="todayData"
-          v-show="todayListView"
-          :total="totalWork"
-          :status="timesheetStatus"
-          :date="new Date(todayDate + ' 00:00')"
-          :disabled="true"
-        ></list-day>
-        <no-record v-else-if="!loading && todayListView" />
-        <list-week
-          :activityReports="weekDataActivityReports"
-          :totalWork="weekDataTotalWork"
-          :status="weekDataStatus"
-          :id="timesheetId"
-          v-if="!loading && weekListView"
-        ></list-week>
+        <template v-if="!loading">
+          <list-day
+            v-if="todayListView && todayData.length"
+            :listToday="todayData"
+            v-show="todayListView"
+            :total="totalWork"
+            :status="timesheetStatus"
+            :date="new Date(todayDate + ' 00:00')"
+            :disabled="true"
+          ></list-day>
+          <list-week
+            v-else-if="weekListView && timesheetId"
+            :activityReports="weekDataActivityReports"
+            :totalWork="weekDataTotalWork"
+            :status="weekDataStatus"
+            :id="timesheetId"
+            :startOfWeek="weekDates.from"
+          ></list-week>
+          <no-record v-else />
+        </template>
       </div>
     </div>
   </div>
@@ -105,8 +106,8 @@ import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 const VIEWS = [
-  { label: "Day", value: "day" },
-  { label: "Week", value: "week" },
+  { label: "Day", value: 'day', variant: 'light' },
+  { label: "Week", value: 'week', variant: 'light' },
 ]
 
 export default {
@@ -133,7 +134,7 @@ export default {
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
       VIEWS,
-      view: "",
+      view: VIEWS[0],
       weekDates: { 
         from: DateTime.now().startOf("week"), 
         to: DateTime.now().endOf("week"),
@@ -147,7 +148,8 @@ export default {
   },
   methods: {
     setView() {
-      this.view = this.$route.query.view ?? VIEWS[0].value
+      const viewValue = this.$route.query.view ?? VIEWS[0].value;
+      this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
     },
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
@@ -195,7 +197,7 @@ export default {
       this.show = false;
     },
     onViewChange(e) {
-      this.$router.push({ query: { view: e } });
+      this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
@@ -242,6 +244,11 @@ export default {
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
+    formatDates({ from, to }) {
+      const fromFormat = fecha.format(new Date(from), this.format);
+      const toFormat = fecha.format(new Date(to), this.format);
+      return `${fromFormat} -> ${toFormat}`
+    },
   },
   computed: {
     ...mapGetters({
@@ -249,16 +256,35 @@ export default {
       activeUserRole: "token/getUserRole",
     }),
     todayListView() {
-      return this.view === "day";
+      return this.view.value === "day";
     },
     weekListView() {
-      return this.view === "week";
+      return this.view.value === "week";
+    },
+    dateBtnLabel() {
+      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to) return "";
+      const { from, to } = this.weekDates;
+      return this.formatDates({ from, to });
+    },
+    changeViewButtonConfig() {
+      if (!this.view) return {};
+      return {
+        ...this.VIEWS.find((v) => v.value === this.view.value),
+        icon: "arrowhead-down"
+      };
     },
   },
   async created() {
     this.setView();
     this.id = this.$route.params.id;
     if (this.todayListView) await this.fillDailyTimeEntries();
-    else if (this.weekListView) await this.fillWeeklyTimeEntries();  },
+    else if (this.weekListView) await this.fillWeeklyTimeEntries();
+  },
+  watch: {
+    '$route.query.view'(newVal) {
+      this.view.value = newVal || 'day';
+      this.view.label = this.VIEWS.find((v) => v.value === this.view.value).label;
+    },
+  },
 };
 </script>

@@ -27,6 +27,7 @@
           :class="{
             table__hrow__custom__active:
               field.header_icon && field.header_icon.isActive,
+            th_center:  field.center,
           }"
         >
           <div
@@ -114,23 +115,22 @@
     </tr>
     <tr v-show="showTotal" style="padding: 16px !important;" >
       <td :colspan="colspan" class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
-      <td class="" style="text-align: left; font-weight: bold;">{{ totalValue }}</td>
+      <td class="" style="text-align: center; font-weight: bold;">{{ totalValue }}</td>
     </tr>
-    <tr v-show="showTotal" style="padding: 16px !important;">
+    <tr v-if="status" v-show="showTotal" style="padding: 16px !important;">
       
       <!-- <td></td> -->
       <td :colspan="colspan" class="pl-1 " style="text-align: right; padding: 16px !important;">Status</td>
-      <td class="" style="text-align: left; font-weight: bold;">{{ status }}</td>
+      <td class="" style="text-align: center; font-weight: bold;">{{ status }}</td>
     </tr>
     <tr v-if="buttonLable" v-show="showTotal" style="padding: 16px !important;">
-      <td colspan="4" class="pl-1 " style="text-align: right; padding: 16px !important;"></td>
-      <td class="" style="text-align: left; font-weight: bold;">
+      <td colspan="4" class="pl-1 " style="text-align: right; padding: 16px !important;">Submit your weekly timesheet</td>
+      <td class="" style="text-align: center; font-weight: bold;">
         <bib-button
           :label="buttonLable"
-          size="md"
-          variant="primary"
+          size="lg"
+          :variant="buttonDisabled ? 'secondary' : 'success'"
           @click="buttonClicked"
-          pill
         ></bib-button>
       </td>
     </tr>
@@ -224,7 +224,10 @@ export default {
     },
     buttonLable: {
       type: String,
-    }
+    },
+    buttonDisabled: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -411,6 +414,10 @@ export default {
     .table__hrow__custom {
       visibility: collapse;
     }
+  }
+
+  .th_center {
+    text-align: center;
   }
 }
 

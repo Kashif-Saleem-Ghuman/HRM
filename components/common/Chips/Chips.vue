@@ -330,4 +330,15 @@ export default {
     }
   }
 }
+.text-bold {
+  span {
+    font-weight: 800;
+  }
+}
+.disabled {
+  span {
+    color: gray !important;
+    font-weight: 400;
+  }
+}
 </style>

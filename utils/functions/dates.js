@@ -1,5 +1,7 @@
 import { DateTime } from "luxon";
 
+//
+
 export const formatIsoDateToYYYYMMDD = (date) => {
   return DateTime.fromISO(date).toUTC().toFormat("dd-MMM-yyyy");
 };
@@ -9,6 +11,26 @@ export const getWeekStartEndDates = (dateIso) => {
   const from = date.minus({ days: date.weekday % 7 });
   const to = from.plus({ days: 6 });
   return { from: from.toISO(), to: to.toISO() };
+};
+
+/**
+ * @typedef { Object } DateRange
+ * @property { Date } from
+ * @property { Date } to
+ */
+
+/**
+ * @param { DateRange } param
+ * @returns { DateRange }
+ */
+export const weekToUTCWeek = ({ from, to }) => {
+  let utcFrom = DateTime.fromJSDate(from).toUTC().startOf("day");
+  if (utcFrom.weekday === 6) utcFrom = utcFrom.plus({ days: 1 });
+
+  let utcTo = DateTime.fromJSDate(to).toUTC().endOf("day");
+  if (utcTo.weekday == 7) utcTo = utcTo.minus({ days: 1 });
+  console.log({utcFrom, utcTo})
+  return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 
 export const isDateOnSunday = (date) => {

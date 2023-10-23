@@ -14,7 +14,7 @@
           <div
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
-            v-if="view === 'day'"
+            v-if="view.value === 'day'"
           >
             <info-card-timer
               @clock="openClock"
@@ -37,16 +37,11 @@
         </div>
         <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
           <label class="pr-05">View:</label>
-          <bib-input
-            type="select"
-            v-model="view"
-            :options="VIEWS"
-            label=""
-            placeholder=""
-            :disabled="false"
-            @input="onViewChange"
-            style="width: 10vw;"
-          ></bib-input>
+          <dropdown-menu-chip
+            :items="VIEWS"
+            :button-config="changeViewButtonConfig"
+            @on-click="onViewChange"
+          ></dropdown-menu-chip>
           <div
             class="d-flex justify-between align-center px-075 bottom_border_wrapper"
           >
@@ -54,7 +49,7 @@
               <div class="custom_date_picker">
                 <!-- <div class="mr-05">Date:</div> -->
                 <bib-datetime-picker
-                  v-if="view === 'day'"
+                  v-if="view.value === 'day'"
                   v-model="todayDate"
                   :format="format"
                   :parseDate="parseDate"
@@ -63,37 +58,43 @@
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="custom_date_picker">
-                <week-date-picker 
-                  v-if="view === 'week'"
-                  :dates.sync="weekDates"
-                  class="custom_date_picker"
-                  @close="weekSelection"
-                  :format="format"
-                ></week-date-picker>
+              <div class="px-1 py-05" v-if="view.value === 'week'">
+                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                  <div class="pl-05">
+                    <week-date-picker
+                      :dates.sync="weekDates"
+                      class="custom_date_picker"
+                      :format="format"
+                      @close="() => {scope.close(); weekSelection();}"
+                    ></week-date-picker>
+                  </div>
+                </button-with-overlay>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <list-day
-            v-if="!loading"
-            :listToday="todayData"
-            v-show="todayListView"
-            @new-entry="handleNewEntry"
-            @edit-entry="handleEditEntry"
-            @delete-entry="handleDeleteEntry"
-            :date="new Date(todayDate + ' 00:00')"
-            :total="totalWork"
-          ></list-day>
-          <list-week
-            :activityReports="weekDataActivityReports"
-            :totalWork="weekDataTotalWork"
-            :status="weekDataStatus"
-            :id="timesheetId"
-            @timesheet-submitted="onTimesheetSubmitted"
-            v-if="!loading && weekListView"
-          ></list-week>
+          <template v-if="!loading">
+            <list-day
+              :listToday="todayData"
+              v-if="todayListView"
+              @new-entry="handleNewEntry"
+              @edit-entry="handleEditEntry"
+              @delete-entry="handleDeleteEntry"
+              :date="new Date(todayDate + ' 00:00')"
+              :total="totalWork"
+            ></list-day>
+            <list-week
+              v-else-if="weekListView && timesheetId"
+              :activityReports="weekDataActivityReports"
+              :totalWork="weekDataTotalWork"
+              :status="weekDataStatus"
+              :id="timesheetId"
+              :startOfWeek="weekDates.from"
+              @timesheet-submitted="onTimesheetSubmitted"
+            ></list-week>
+            <no-record v-else />
+          </template>
         </div>
       </div>
     </div>
@@ -106,6 +107,7 @@ import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData"
 import { INFO_CARD_DATA } from "@/utils/constant/DashboardData";
+
 import {
   TIMESHEET_DATA,
 } from "@/utils/constant/TimesheetData.js";
@@ -113,20 +115,20 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import { getTimeFromDate, getDateDiffInHHMM } from "@/utils/functions/dates";
+import { getTimeFromDate, getDateDiffInHHMM, weekToUTCWeek } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions"
 import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
 
 const VIEWS = [
-  { label: "Day", value: 'day' },
-  { label: "Week", value: 'week' },
+  { label: "Day", value: 'day', variant: 'light' },
+  { label: "Week", value: 'week', variant: 'light' },
 ]
 
 export default {
   data() {
     return {
       VIEWS,
-      view: "",
+      view: VIEWS[0],
       activeUserData: "",
       activeUserName: "",
       ViewTitle: "Today",
@@ -154,8 +156,8 @@ export default {
       totalWork: "--:--",
       timesheetStatus: "",
       weekDates: { 
-        from: DateTime.now().startOf("week"), 
-        to: DateTime.now().endOf("week"),
+        from: DateTime.now().startOf("week").toISO(),
+        to: DateTime.now().endOf("week").toISO(),
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
@@ -175,18 +177,25 @@ export default {
       })
     },
     todayListView() {
-      return this.view === "day";
+      return this.view.value === "day";
     },
     weekListView() {
-      return this.view === "week";
+      return this.view.value === "week";
     },
     monthListView() {
-      return this.view === "month";
+      return this.view.value === "month";
     },
     dateBtnLabel() {
       if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to) return "";
       const { from, to } = this.weekDates;
       return this.formatDates({ from, to });
+    },
+    changeViewButtonConfig() {
+      if (!this.view) return {};
+      return {
+        ...this.VIEWS.find((v) => v.value === this.view.value),
+        icon: "arrowhead-down"
+      };
     },
   },
   async created() {
@@ -206,10 +215,12 @@ export default {
     this.getTimesheetWidget()
   },
   methods: {
+    weekToUTCWeek,
     setView() {
-      this.view = this.$route.query.view ?? VIEWS[0].value
+      const viewValue = this.$route.query.view ?? VIEWS[0].value;
+      this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
     },
-    handleNewEntry(timeEntry) { 
+    handleNewEntry(timeEntry) {
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],
@@ -252,7 +263,7 @@ export default {
       this.show = false;
     },
     onViewChange(e) {
-      this.$router.push({ query: { view: e } });
+      this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
@@ -261,7 +272,6 @@ export default {
 
     change(event, name) {
       this.updateForm[name] = event;
-      console.log(this.updateForm, "switchLabelweekStarts");
     },
     userId(id) {
       this.$router.push("/profile/" + id);
@@ -306,7 +316,11 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekData = (new TimesheetParser(await getTimesheets(this.weekDates))).parse("week");
+      const weekRange = this.weekToUTCWeek({
+        from: new Date(this.weekDates.from),
+        to: new Date(this.weekDates.to),
+      })
+      const weekData = (new TimesheetParser(await getTimesheets(weekRange))).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
@@ -321,20 +335,25 @@ export default {
     },
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
-    }
+    },
+    formatDates({ from, to }) {
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat("MMMM d, yyyy");
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
+      return `${fromFormat} -> ${toFormat}`
+    },
   },
 
   watch: {
     '$route.query.view'(newVal) {
-      this.view = newVal || 'day';
+      this.view.value = newVal || 'day';
+      this.view.label = this.VIEWS.find((v) => v.value === this.view.value).label;
     },
 
     getDailyTimeEntries(val, old) {
       if (val && old) {
-        this.parseTimeEntries()
+        this.parseTimeEntries();
       }
-      
-    }
+    },
   },
 };
 </script>

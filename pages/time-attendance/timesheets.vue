@@ -56,6 +56,7 @@
 <script>
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
+import { weekToUTCWeek } from "../../utils/functions/dates"
 import { DateTime } from "luxon";
 import { debounce } from "lodash"
 export default {
@@ -80,7 +81,7 @@ export default {
   },
 
   methods: {
-
+    weekToUTCWeek,
     onSearchChange(event) {
       this.searchString = event
       if (this.loading) return;
@@ -94,7 +95,10 @@ export default {
       const { searchString } = this
 
       this.loading = true;
-      const { from, to } = this.weekDates;
+      const { from, to } = this.weekToUTCWeek({
+        from: new Date(this.weekDates.from),
+        to: new Date(this.weekDates.to),
+      });
       let timesheets = await getTimeAttendanceCustomRange({ from, to, searchString });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser(employee);
@@ -105,8 +109,8 @@ export default {
     },
 
     formatDates({ from, to }) {
-      const fromFormat = DateTime.fromISO(from).toUTC().toFormat('MMMM d, yyyy');
-      const toFormat = DateTime.fromISO(to).toUTC().toFormat('MMMM d, yyyy');
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat('MMMM d, yyyy');
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat('MMMM d, yyyy');
       return `${fromFormat} -> ${toFormat}`
     }
   },

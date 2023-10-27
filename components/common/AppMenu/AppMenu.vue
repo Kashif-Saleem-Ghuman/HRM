@@ -203,7 +203,7 @@ export default {
           return;
         }
         if (item.key == "sendNotification") {
-          window.open('https://dev-chat.business-in-a-box.com/', "_blank")
+          window.open(process.env.BIB_CHAT_APP_URL, "_blank")
           return;
         }
         if (item.key == "profile") {

@@ -36,7 +36,7 @@
             label="Make a Call"
             variant="light"
             icon="mail-new"
-            @click="sendMessage(form.userId)"
+            @click="sendMeet(form.userId)"
           ></bib-button>
         </div>
 

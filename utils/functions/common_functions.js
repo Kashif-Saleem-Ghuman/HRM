@@ -97,15 +97,14 @@ export function sendMeet(userId) {
   var id = meetId.match(/.{1,6}/g);
   var newValue = id.join("-");
   window.open(
-    "https://dev-connect.business-in-a-box.com/" +
-      newValue +
-      "?webcam=inactive",
+    process.env.VIDEO_CONF_APP_URL+'/'+
+      newValue ,
     "_blank"
   );
 };
 export function sendMessage(userId) {
   window.open(
-    "https://dev-chat.business-in-a-box.com/directs/" + userId,
+    process.env.BIB_CHAT_APP_URL + "/directs/" + userId,
     "_blank"
   );
 }

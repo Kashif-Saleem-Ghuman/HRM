@@ -175,13 +175,14 @@
           || buttonLable == 'Pending' ? $button.pending.label : ''"
           class="mr-05 w-50"
           @click="buttonClicked"
+          :style="buttonDisabled"
         ></bib-button>
-        <bib-button
+        <!-- <bib-button
           :label="buttonLable"
           size="lg"
           :variant="buttonDisabled ? 'warning' : 'success'"
           @click="buttonClicked"
-        ></bib-button>
+        ></bib-button> -->
       </td>
     </tr>
   </table>
@@ -315,7 +316,10 @@ export default {
       });
     },
     buttonClicked() {
-      this.$emit("button-clicked");
+      if(this.buttonLable !== 'Submit'){
+      }else{
+        this.$emit("button-clicked");
+      }
     },
   },
   computed: {

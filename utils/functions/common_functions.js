@@ -97,7 +97,7 @@ export function sendMeet(userId) {
   var id = meetId.match(/.{1,6}/g);
   var newValue = id.join("-");
   window.open(
-    process.env.VIDEO_CONF_APP_URL+'/'+
+    process.env.VIDEO_CONF_APP_URL+
       newValue ,
     "_blank"
   );

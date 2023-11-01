@@ -15,7 +15,11 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-checkbox size="md" @change="$emit('input', $event)" :checked="allChecked"></bib-checkbox>
+            <bib-checkbox
+              size="md"
+              @change="$emit('input', $event)"
+              :checked="allChecked"
+            ></bib-checkbox>
           </div>
         </th>
 
@@ -27,7 +31,7 @@
           :class="{
             table__hrow__custom__active:
               field.header_icon && field.header_icon.isActive,
-            th_center:  field.center,
+            th_center: field.center,
           }"
         >
           <div
@@ -44,7 +48,7 @@
                 @click="
                   field.header_icon.event && $emit(field.header_icon.event)
                 "
-                style="border: 0;"
+                style="border: 0"
               >
                 <bib-icon
                   :icon="field.header_icon.icon"
@@ -76,7 +80,8 @@
       </td>
     </tr>
     <tr
-      v-for="(item, keyI) in sections" :key="'item-' + keyI"
+      v-for="(item, keyI) in sections"
+      :key="'item-' + keyI"
       :style="{ visibility: isCollapsed ? 'collapse' : '' }"
       class="table__irow"
       @contextmenu.stop="rightClickItem($event, keyI)"
@@ -113,23 +118,68 @@
         ></slot>
       </td>
     </tr>
-    <tr v-show="showTotal" style="padding: 16px !important;" >
-      <td :colspan="colspan" class="pl-1" style="text-align: right; padding: 16px !important;">Work Total</td>
-      <td class="" style="text-align: center; font-weight: bold;">{{ totalValue }}</td>
+    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px">
+      <td
+        :colspan="colspan"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        Work Total
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        {{ totalValue }}
+      </td>
     </tr>
-    <tr v-if="status" v-show="showTotal" style="padding: 16px !important;">
-      
+    <tr
+      v-if="status"
+      v-show="showTotal"
+      style="padding: 16px !important; font-size: 14px"
+    >
       <!-- <td></td> -->
-      <td :colspan="colspan" class="pl-1 " style="text-align: right; padding: 16px !important;">Status</td>
-      <td class="" style="text-align: center; font-weight: bold;">{{ status }}</td>
+      <td
+        :colspan="colspan"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        Status
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        {{ status }}
+      </td>
     </tr>
-    <tr v-if="buttonLable" v-show="showTotal" style="padding: 16px !important;">
-      <td colspan="4" class="pl-1 " style="text-align: right; padding: 16px !important;">Submit your weekly timesheet</td>
-      <td class="" style="text-align: center; font-weight: bold;">
+    <tr
+      v-if="buttonLable"
+      v-show="showTotal"
+      style="padding: 16px !important; font-size: 14px"
+    >
+      <td
+        colspan="4"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        Submit your weekly timesheet
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        <bib-button
+          :icon="buttonLable == 'Submit' ? $button.approved.icon : '' 
+          || buttonLable == 'Past Due' ? $button.past_due.icon : '' 
+          || buttonLable == 'Pending' ? $button.pending.icon : ''"
+          :variant="
+          buttonLable == 'Submit' ? $button.approved.variant : '' 
+          || buttonLable == 'Past Due' ? $button.past_due.variant : '' 
+          || buttonLable == 'Pending' ? $button.pending.variant : ''"
+          
+          :scale="$button.pending.scale"
+          :label="buttonLable == 'Submit' ? $button.approved.label : '' 
+          || buttonLable == 'Past Due' ? $button.past_due.label : '' 
+          || buttonLable == 'Pending' ? $button.pending.label : ''"
+          class="mr-05 w-50"
+          @click="buttonClicked"
+        ></bib-button>
         <bib-button
           :label="buttonLable"
           size="lg"
-          :variant="buttonDisabled ? 'secondary' : 'success'"
+          :variant="buttonDisabled ? 'warning' : 'success'"
           @click="buttonClicked"
         ></bib-button>
       </td>
@@ -157,8 +207,8 @@ export default {
         return false;
       },
     },
-    colspan:{
-      type:Number
+    colspan: {
+      type: Number,
     },
     checkBox: {
       type: String,
@@ -209,12 +259,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    allChecked:{
+    allChecked: {
       type: Boolean,
       default: false,
     },
-    showTotal:{
-      type:Boolean
+    showTotal: {
+      type: Boolean,
     },
     totalValue: {
       type: String,
@@ -266,7 +316,7 @@ export default {
     },
     buttonClicked() {
       this.$emit("button-clicked");
-    }
+    },
   },
   computed: {
     activeClass() {
@@ -305,13 +355,13 @@ export default {
       text-align: left;
       height: 40px !important;
       text-transform: uppercase !important;
-      
-      color: #1D1D20;
-      
-      span{
+
+      color: #1d1d20;
+
+      span {
         font-size: 12px;
         font-weight: 500;
-        color: #B1B1B4;
+        color: #b1b1b4;
       }
       &:first-child {
         border-left: none;
@@ -356,7 +406,7 @@ export default {
     cursor: pointer;
     color: $gray6;
     font-weight: 400;
-    background-color: #F8F8F9;
+    background-color: #f8f8f9;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
     &-count {
@@ -366,9 +416,9 @@ export default {
     td {
       border: 1px solid $light;
       padding: 6px;
-      span{
+      span {
         font-size: 14px;
-        color: #1D1D20;
+        color: #1d1d20;
       }
 
       &:first-child {

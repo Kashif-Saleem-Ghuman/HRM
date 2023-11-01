@@ -4,7 +4,7 @@
         <bib-button
           :label="buttonConfig.label"
           :variant="buttonConfig.variant"
-          size="lg"
+          :size="size || 'lg'"
           @click="show = !show"
           :icon="buttonConfig.icon ?? ''"
           v-click-outside="clickOutside"
@@ -42,7 +42,9 @@ export default {
     buttonConfig: {
       type: Object,
     },
-
+    size: {
+      type: String,
+    },
     items: {
       type: [Object, Array],
     },

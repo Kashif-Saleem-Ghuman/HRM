@@ -25,7 +25,7 @@
             <info-card-one
               :item="timesheetWidgetData"
               title="View Timesheet"
-              buttonLable="View timesheets"
+              buttonLable="View Timesheets"
               icon="table"
               profilePic="profilePic"
               buttonVariant="light"
@@ -35,15 +35,17 @@
             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
           </div>
         </div>
-        <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
+        <div class="d-flex align-center px-1 pb-05">
           <label class="pr-05">View:</label>
           <dropdown-menu-chip
             :items="VIEWS"
             :button-config="changeViewButtonConfig"
             @on-click="onViewChange"
+            size="lg"
+            class="pr-05"
           ></dropdown-menu-chip>
           <div
-            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+            class="d-flex justify-between align-center"
           >
             <div class="d-flex align-center">
               <div class="custom_date_picker">
@@ -55,10 +57,11 @@
                   :parseDate="parseDate"
                   :formatDate="formatDate"
                   class="custom_date_picker"
+                  size="sm"
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="px-1 py-05" v-if="view.value === 'week'">
+              <div class="py-05" v-if="view.value === 'week'">
                 <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
                   <div class="pl-05">
                     <week-date-picker
@@ -357,65 +360,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 5px;
-  > li {
-    display: inline; // Remove list-style and block-level defaults
-    > a,
-    > span {
-      position: relative;
-      float: left; // Collapse white-space
-      padding: 5px 10px;
-      line-height: 30px;
-      text-decoration: none;
-      color: #000;
-      background-color: #d5e8d4;
-      border: 1px solid #8dd488;
-      margin-left: -1px;
-    }
-    &:first-child {
-      > a,
-      > span {
-        margin-left: 0;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-      }
-    }
-    &:last-child {
-      > a,
-      > span {
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-      }
-    }
-  }
-  > li > a,
-  > li > span {
-    &:hover {
-      z-index: 2;
-      color: #31a22c;
-      background-color: #f2f5f1;
-      // border-color: @pagination-hover-border;
-    }
-  }
 
-  > .active > a,
-  > .active > span {
-    &,
-    &:hover,
-    &:focus {
-      z-index: 3;
-      color: #fff;
-      background-color: #31a22c;
-      // border-color: @pagination-active-border;
-      cursor: default;
-    }
-  }
-}
-</style>

@@ -200,9 +200,14 @@ $validation-star-color: #fa0f00;
 }
 .custom_date_picker {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  .vdpComponent__input {
+    display: flex;
+    align-items: center;
+  }
   input {
     border: none !important;
     background-color: $light;

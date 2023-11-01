@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table" :class="{'disabled-table': disabled}">
-      <div class="thead row">
+      <div class="thead">
         <div class="cell">ACTIVITY</div>
         <div class="cell">START</div>
         <div class="cell">END</div>
@@ -29,7 +29,7 @@
       <div class="row total">
         <div class="cell no-border"></div>
         <div class="cell no-border"></div>
-        <div class="cell label">Day Total</div>
+        <div class="cell label">Day Total Hours</div>
         <div class="cell">{{ total }}</div>
       </div>
     </div>
@@ -98,7 +98,6 @@ export default {
 <style lang="scss">
 .disabled-table * {
   pointer-events: none;
-  background: #F2F2F5;
 }
 .table {
   display: table;
@@ -121,10 +120,14 @@ export default {
     border-bottom: 1px solid $gray3;
     border-right: 1px solid $gray3;
     text-align: center;
-    padding: 0px 10px;
+    padding: 0px 0px;
+    margin: 0 10px;
     vertical-align: middle;
     font-weight: 600;
     font-size: 12px;
+    input{
+      border: 0px !important;
+    }
   }
   .no-border {
     border-right: 0px;
@@ -145,6 +148,7 @@ export default {
     text-transform: uppercase;
     border-top: 1px solid $gray3;
     border-collapse: collapse;
+    background-color: #fff !important;
     .cell {
       padding: 10px;
     }

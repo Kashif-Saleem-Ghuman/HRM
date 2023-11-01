@@ -1,8 +1,53 @@
 <template>
   <div id="time-attendance-wrapper">
     <div class="scroll_wrapper" id="scroll_wrapper">
-      <div class="px-1 py-05">
-        <div
+      <div class="px-1">
+        <div class="d-flex align-center">
+          <div class="d-flex align-center pr-05">
+            <label class="pr-05">View:</label>
+            <dropdown-menu-chip
+              :items="VIEWS"
+              :button-config="changeViewButtonConfig"
+              @on-click="onViewChange"
+              size="lg"
+            ></dropdown-menu-chip>
+          </div>
+
+          <div class="d-flex align-center">
+            <bib-datetime-picker
+              v-if="view.value === 'day'"
+              v-model="todayDate"
+              :format="format"
+              :parseDate="parseDate"
+              :formatDate="formatDate"
+              class="custom_date_picker"
+              style="margin-bottom: -7px;"
+              size="sm"
+              @input="dateSelection($event)"
+            ></bib-datetime-picker>
+            <div class="py-05" v-if="view.value === 'week'">
+              <button-with-overlay
+                :button-config="{ label: dateBtnLabel }"
+                v-slot="scope"
+              >
+                <div>
+                  <week-date-picker
+                    :dates.sync="weekDates"
+                    class="custom_date_picker"
+                    :format="format"
+                    @close="
+                      () => {
+                        scope.close();
+                        weekSelection();
+                      }
+                    "
+                  ></week-date-picker>
+                </div>
+              </button-with-overlay>
+            </div>
+          </div>
+        </div>
+        <!-- <div
           class="d-grid d-flex gap-1 py-05"
           style="grid-template-columns: repeat(2, 1fr)"
         >
@@ -22,45 +67,7 @@
             className="button-wrapper__bgwarnning"
             v-if="view === 'day'"
           ></info-card-one>
-          <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
-            <label class="pr-05">View:</label>
-            <dropdown-menu-chip
-              :items="VIEWS"
-              :button-config="changeViewButtonConfig"
-              @on-click="onViewChange"
-            ></dropdown-menu-chip>
-            <div
-              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <div class="custom_date_picker">
-                  <!-- <div class="mr-05">Date:</div> -->
-                  <bib-datetime-picker
-                    v-if="view.value === 'day'"
-                    v-model="todayDate"
-                    :format="format"
-                    :parseDate="parseDate"
-                    :formatDate="formatDate"
-                    class="custom_date_picker"
-                    @input="dateSelection($event)"
-                  ></bib-datetime-picker>
-                </div>
-                <div class="px-1 py-05" v-if="view.value === 'week'">
-                  <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
-                    <div class="pl-05">
-                      <week-date-picker
-                        :dates.sync="weekDates"
-                        class="custom_date_picker"
-                        :format="format"
-                        @close="() => {scope.close(); weekSelection();}"
-                      ></week-date-picker>
-                    </div>
-                  </button-with-overlay>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div> -->
       </div>
       <div>
         <template v-if="!loading">
@@ -91,10 +98,7 @@
 import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import fecha from "fecha";
-import {
-  getDateDiffInHHMM,
-  getTimeFromDate,
-} from "@/utils/functions/dates";
+import { getDateDiffInHHMM, getTimeFromDate } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions";
 import {
   TIMESHEET_DATA,
@@ -106,16 +110,16 @@ import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 const VIEWS = [
-  { label: "Day", value: 'day', variant: 'light' },
-  { label: "Week", value: 'week', variant: 'light' },
-]
+  { label: "Day", value: "day", variant: "light" },
+  { label: "Week", value: "week", variant: "light" },
+];
 
 export default {
   data() {
     return {
       id: "",
       dropMenu: viewType,
-      dropMenuChipObject:viewType.today,
+      dropMenuChipObject: viewType.today,
       timesheetData: [],
       ViewTitle: "Today",
       buttonTitle: "Approved",
@@ -135,8 +139,8 @@ export default {
       weekDataView: WEEK_VIEW_DATA,
       VIEWS,
       view: VIEWS[0],
-      weekDates: { 
-        from: DateTime.now().startOf("week"), 
+      weekDates: {
+        from: DateTime.now().startOf("week"),
         to: DateTime.now().endOf("week"),
       },
       weekDataActivityReports: [],
@@ -149,7 +153,7 @@ export default {
   methods: {
     setView() {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
-      this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
+      this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
     },
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
@@ -157,7 +161,7 @@ export default {
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
     },
-    handleNewEntry(timeEntry) { 
+    handleNewEntry(timeEntry) {
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],
@@ -170,9 +174,13 @@ export default {
         id: timeEntry.id,
       });
       if (timeEntry.activity === "in") {
-        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+        this.totalWorkInMS +=
+          new Date(timeEntry.end).getTime() -
+          new Date(timeEntry.start).getTime();
       } else if (timeEntry.activity === "break") {
-        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+        this.totalWorkInMS -=
+          new Date(timeEntry.end).getTime() -
+          new Date(timeEntry.start).getTime();
       }
       this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
@@ -216,30 +224,28 @@ export default {
     },
     async fillDailyTimeEntries() {
       this.loading = true;
-      await this.$store.dispatch(
-        "timeattendance/setEmployeeDailyTimeEntry",
-        {
-          date: new Date(this.todayDate).toISOString(),
-          employeeId: this.id,
-        },
-      );
+      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
+        date: new Date(this.todayDate).toISOString(),
+        employeeId: this.id,
+      });
       this.todayData = [];
       this.totalWorkInMS = 0;
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }
-      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || ""
+      this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekData = (
-        new TimesheetParser(
-          await getTimesheets({ ...this.weekDates, employeeId: this.id })
-        )
+      const weekData = new TimesheetParser(
+        await getTimesheets({ ...this.weekDates, employeeId: this.id })
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
-      this.weekDataTotalWork = formatTime((weekData.total || 0) * 60 * 60, false);
+      this.weekDataTotalWork = formatTime(
+        (weekData.total || 0) * 60 * 60,
+        false
+      );
       this.weekDataStatus = weekData.status || "";
       this.timesheetId = weekData.id || "";
       this.loading = false;
@@ -247,7 +253,7 @@ export default {
     formatDates({ from, to }) {
       const fromFormat = fecha.format(new Date(from), this.format);
       const toFormat = fecha.format(new Date(to), this.format);
-      return `${fromFormat} -> ${toFormat}`
+      return `${fromFormat} -> ${toFormat}`;
     },
   },
   computed: {
@@ -262,7 +268,8 @@ export default {
       return this.view.value === "week";
     },
     dateBtnLabel() {
-      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to) return "";
+      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to)
+        return "";
       const { from, to } = this.weekDates;
       return this.formatDates({ from, to });
     },
@@ -270,7 +277,7 @@ export default {
       if (!this.view) return {};
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
-        icon: "arrowhead-down"
+        icon: "arrowhead-down",
       };
     },
   },
@@ -281,9 +288,11 @@ export default {
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
   },
   watch: {
-    '$route.query.view'(newVal) {
-      this.view.value = newVal || 'day';
-      this.view.label = this.VIEWS.find((v) => v.value === this.view.value).label;
+    "$route.query.view"(newVal) {
+      this.view.value = newVal || "day";
+      this.view.label = this.VIEWS.find(
+        (v) => v.value === this.view.value
+      ).label;
     },
   },
 };

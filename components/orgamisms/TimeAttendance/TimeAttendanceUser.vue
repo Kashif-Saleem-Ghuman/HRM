@@ -25,7 +25,7 @@
             <info-card-one
               :item="timesheetWidgetData"
               title="View Timesheet"
-              buttonLable="View timesheets"
+              buttonLable="View Timesheets"
               icon="table"
               profilePic="profilePic"
               buttonVariant="light"
@@ -35,15 +35,17 @@
             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
           </div>
         </div>
-        <div class="d-flex align-center bottom_border_wrapper px-1 py-05">
+        <div class="d-flex align-center px-1 pb-05">
           <label class="pr-05">View:</label>
           <dropdown-menu-chip
             :items="VIEWS"
             :button-config="changeViewButtonConfig"
             @on-click="onViewChange"
+            size="lg"
+            class="pr-05"
           ></dropdown-menu-chip>
           <div
-            class="d-flex justify-between align-center px-075 bottom_border_wrapper"
+            class="d-flex justify-between align-center"
           >
             <div class="d-flex align-center">
               <div class="custom_date_picker">
@@ -55,10 +57,11 @@
                   :parseDate="parseDate"
                   :formatDate="formatDate"
                   class="custom_date_picker"
+                  size="sm"
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="px-1 py-05" v-if="view.value === 'week'">
+              <div class="py-05" v-if="view.value === 'week'">
                 <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
                   <div class="pl-05">
                     <week-date-picker

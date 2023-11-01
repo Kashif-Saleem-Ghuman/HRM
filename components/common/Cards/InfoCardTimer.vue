@@ -90,7 +90,8 @@ export default {
         await this.stopTimer()
         this.$emit("timer-stop")
       } else {
-        await this.startTimer()
+        await this.startTimer();
+        this.$emit("timer-stop")
       }
     }
   },

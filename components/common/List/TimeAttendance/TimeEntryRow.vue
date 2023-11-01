@@ -74,6 +74,9 @@ import {
   numberToClockDigits,
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
+import { calculateActivityDetails } from '@/utils/functions/clock_functions';
+import { mapGetters } from "vuex";
+import { startTimer } from "../../../../utils/functions/functions_lib_api"; 
 
 export default {
   props: {
@@ -104,6 +107,7 @@ export default {
   methods: {
     makeTimeEntry,
     editTimeEntry,
+    startTimer,
     deleteTimeEntry,
     parseInputTimeIntoArray,
     numberToClockDigits,
@@ -181,11 +185,12 @@ export default {
       if (this.newData.id) return this.editThisEntry();
       return this.makeNewTimeEntry();
     },
-    timeInputBlur() {
+    async timeInputBlur() {
       if (this.newData.id) {
         this.editThisEntry();
       } else {
         this.makeNewTimeEntry();
+        // await this.startTimer();
       }
     },
     clearData() {
@@ -197,6 +202,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      getTimerData: "timeattendance/getTimerData",
+      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
+    }),
     activityTypes() {
       if (this.listToday?.length) {
         const activities = [];
@@ -245,6 +254,9 @@ export default {
         this.newData.activity.value &&
         this.mutated
       );
+    },
+    activityDetails() {
+      return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
     },
   },
   mounted(){

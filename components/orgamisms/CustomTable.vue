@@ -144,7 +144,24 @@
         Status
       </td>
       <td class="" style="text-align: center; font-weight: bold">
-        {{ status }}
+        <!-- {{ status }} -->
+        <bib-button
+          :icon="status == 'Submit' ? $button.approved.icon : '' 
+          || status == 'Past Due' ? $button.past_due.icon : '' 
+          || status == 'Pending' ? $button.pending.icon : ''"
+          :variant="
+          status == 'Submit' ? $button.approved.variant : '' 
+          || status == 'Past Due' ? $button.past_due.variant : '' 
+          || status == 'Pending' ? $button.pending.variant : ''"
+          
+          :scale="$button.pending.scale"
+          :label="status == 'Submit' ? $button.approved.label : '' 
+          || status == 'Past Due' ? $button.past_due.label : '' 
+          || status == 'Pending' ? $button.pending.label : ''"
+          class="mr-05 w-50"
+          @click="buttonClicked"
+          :style="buttonDisabled"
+        ></bib-button>
       </td>
     </tr>
     <tr

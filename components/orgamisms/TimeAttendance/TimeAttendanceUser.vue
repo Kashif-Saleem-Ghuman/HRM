@@ -20,6 +20,7 @@
               @clock="openClock"
               @timer-stop="fillDailyTimeEntries"
               :disabled="hasInEntry"
+              :key="timer"
             ></info-card-timer>
 
             <info-card-one
@@ -166,6 +167,8 @@ export default {
       weekDataTotalWork: "--:--",
       weekDataStatus: "",
       timesheetId: -1,
+      disabled:true,
+      timer:1
     };
   },
   computed: {
@@ -174,6 +177,9 @@ export default {
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     hasInEntry() {
+      if(this.getCurrentDate > this.todayData){
+        return this.disabled = true
+      }
       const entries = this.getDailyTimeEntries
       return entries.some( entry => {
         return entry.activity === ACTIVITY_TYPE.IN && entry.end
@@ -216,6 +222,10 @@ export default {
       "Time & Attendance";
 
     this.getTimesheetWidget()
+    this.$root.$on("timer", () => {
+      this.timer += 1;
+      console.log(this.timer, "timerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    });
   },
   methods: {
     weekToUTCWeek,
@@ -280,6 +290,7 @@ export default {
       this.$router.push("/profile/" + id);
     },
     parseDate(dateString, format) {
+      
       return DateTime.fromFormat(dateString, format).toJSDate();
     },
     formatDate(dateObj, format) {
@@ -330,7 +341,8 @@ export default {
       this.timesheetId = weekData.id;
       this.loading = false;
     },
-    async dateSelection(){
+    async dateSelection(event){
+      this.getCurrentDate = event
       await this.fillDailyTimeEntries();      
     },
     async weekSelection() {

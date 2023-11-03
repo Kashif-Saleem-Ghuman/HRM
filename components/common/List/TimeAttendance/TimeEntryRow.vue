@@ -5,7 +5,7 @@
       {{ newData.activity.label }}
     </div>
     <div v-else class="cell menu-drop">
-      <div style="min-width:300px; display: flex; justify-content: center">
+      <div style="display: flex; justify-content: center">
         <bib-button
           :label="newData.activity.label || 'Select Activity Type'"
           v-model="newData.activity.label"
@@ -188,9 +188,11 @@ export default {
     async timeInputBlur() {
       if (this.newData.id) {
         this.editThisEntry();
+        this.$nuxt.$emit("timer");
       } else {
         this.makeNewTimeEntry();
-        // await this.startTimer();
+        this.$nuxt.$emit("timer");
+        await this.startTimer();
       }
     },
     clearData() {

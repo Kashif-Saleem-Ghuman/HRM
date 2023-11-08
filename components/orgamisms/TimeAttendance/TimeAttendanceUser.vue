@@ -229,6 +229,7 @@ export default {
       this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
     },
     handleNewEntry(timeEntry) {
+      this.$nuxt.$emit('timer');
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],

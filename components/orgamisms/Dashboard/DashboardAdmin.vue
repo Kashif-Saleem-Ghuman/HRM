@@ -46,14 +46,14 @@
                 </div>
               </div>
             </div> -->
-            <div class="px-1 py-05">
+            <!-- <div class="px-1 py-05">
           <div
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
             
           >
                 <absent-present-card
-                  :item="infoCardData[0]"
+                  :item="employees"
                   buttonLable="Active Users"
                   icon="table"
                   title="Active User"
@@ -76,7 +76,7 @@
                   buttonVariant="light"
                 ></info-card-one>
               </div>
-            </div>
+            </div> -->
             <div class="scroll_wrapper">
               <div style="z-index: 1">
                 <list-dashboard :userList="employees"></list-dashboard>

@@ -168,7 +168,7 @@ export default {
     getWeekdayString(date) {
       return WEEK_DAY[
         DateTime
-          .fromJSDate(new Date(date))
+        .fromJSDate(new Date(date + " 00:00"))
           .weekday
           % 7
       ].value

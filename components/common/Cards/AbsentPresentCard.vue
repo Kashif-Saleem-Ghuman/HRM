@@ -2,12 +2,12 @@
   <div class="d-flex">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div>
-        <label>{{ title }}</label>
+        <label>{{ item }}</label>
       </div>
       <div class="info-card-items mt-05">
         <div>
-          <div class="subheading">{{ item.numLabel }}</div>
-          <span>{{ item.numberData }}</span>
+          <div class="subheading">{{ item.length }}</div>
+          <span>{{ item.length }}</span>
         </div>
         <div></div>
       </div>
@@ -42,9 +42,7 @@ export default {
     };
   },
   methods: {
-    buttonAction(item) {
-      alert("Called", item);
-    },
+    
   },
 };
 </script>

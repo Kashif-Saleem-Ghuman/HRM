@@ -9,7 +9,7 @@ export const formatIsoDateToYYYYMMDD = (date) => {
 export const getWeekStartEndDates = (dateIso) => {
   console.log(dateIso, "dateIso")
   const date = DateTime.fromISO(dateIso);
-  const from = date.minus({ days: date.weekday -1 });
+  const from = date.minus({ days: date.weekday % 7 });
   const to = from.plus({ days: 7 });
   return { from: from.toISO(), to: to.toISO() };
 };

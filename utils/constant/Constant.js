@@ -1324,10 +1324,7 @@ export const ACTION_MENU = [
   },
 ];
 export const WEEK_DAY = [
-  {
-    label: "Sunday",
-    value: "sunday",
-  },
+  
   {
     label: "Monday",
     value: "monday",
@@ -1351,6 +1348,10 @@ export const WEEK_DAY = [
   {
     label: "Saturday",
     value: "saturday",
+  },
+  {
+    label: "Sunday",
+    value: "sunday",
   },
 ];
 

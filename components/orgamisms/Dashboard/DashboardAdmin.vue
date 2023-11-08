@@ -1,7 +1,7 @@
 <template>
     <div id="dashborad-wrapper">
       <div
-        class="d-flex justify-between align-center"
+        class="d-flex justify-between align-center bottom_border_wrapper"
       >
       
         <section-header-left
@@ -46,21 +46,24 @@
                 </div>
               </div>
             </div> -->
-            <div class="pl-1">
-              <!-- <div
-                class="d-grid d-flex gap-1"
-                style="grid-template-columns: repeat(4, 1fr)"
-              >
-                <info-card-one
+            <div class="px-1 py-05">
+          <div
+            class="d-grid d-flex gap-1 py-05"
+            style="grid-template-columns: repeat(3, 1fr)"
+            
+          >
+                <absent-present-card
                   :item="infoCardData[0]"
-                  buttonLable="View Attendance"
+                  buttonLable="Active Users"
                   icon="table"
+                  title="Active User"
                   profilePic="profilePic"
                   buttonVariant="light"
-                ></info-card-one>
+                ></absent-present-card>
                 <info-card-one
                   :item="infoCardData[1]"
                   buttonLable="Timesheet"
+                  title="Birthday"
                   icon="table"
                   buttonVariant="light"
                   profilePic="profilePic"
@@ -72,14 +75,7 @@
                   profilePic="profilePic"
                   buttonVariant="light"
                 ></info-card-one>
-                <info-card-one
-                  :item="infoCardData[3]"
-                  buttonLable="Send Message"
-                  icon="setting"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-one>
-              </div> -->
+              </div>
             </div>
             <div class="scroll_wrapper">
               <div style="z-index: 1">

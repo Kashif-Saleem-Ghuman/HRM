@@ -10,9 +10,9 @@
       ></section-header-left>
       </div>
       <div class="time-attandance-wrapper">
-        <div class="px-1 py-05">
+        <div class="px-1">
           <div
-            class="d-grid d-flex gap-1 py-05"
+            class="d-grid d-flex gap-1 py-1"
             style="grid-template-columns: repeat(3, 1fr)"
             v-if="view.value === 'day'"
           >
@@ -26,7 +26,7 @@
             <info-card-one
               :item="timesheetWidgetData"
               title="View Timesheet"
-              buttonLable="View Timesheets"
+              buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"
               buttonVariant="light"
@@ -36,13 +36,12 @@
             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
           </div>
         </div>
-        <div class="d-flex align-center px-1 pb-05">
+        <div class="d-flex align-center px-1">
           <label class="pr-05">View:</label>
           <dropdown-menu-chip
             :items="VIEWS"
             :button-config="changeViewButtonConfig"
             @on-click="onViewChange"
-            size="lg"
             class="pr-05"
           ></dropdown-menu-chip>
           <div
@@ -57,12 +56,13 @@
                   :format="format"
                   :parseDate="parseDate"
                   :formatDate="formatDate"
+                  :maxDate="maxDate"
                   class="custom_date_picker"
                   size="sm"
                   @input="dateSelection($event)"
                 ></bib-datetime-picker>
               </div>
-              <div class="py-05" v-if="view.value === 'week'">
+              <div v-if="view.value === 'week'" class="py-05">
                 <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
                   <div class="pl-05">
                     <week-date-picker
@@ -167,8 +167,8 @@ export default {
       weekDataTotalWork: "--:--",
       weekDataStatus: "",
       timesheetId: -1,
-      disabled:true,
-      timer:1
+      timer:1,
+      maxDate: DateTime.now().toISO()
     };
   },
   computed: {
@@ -177,9 +177,6 @@ export default {
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     hasInEntry() {
-      if(this.getCurrentDate > this.todayData){
-        return this.disabled = true
-      }
       const entries = this.getDailyTimeEntries
       return entries.some( entry => {
         return entry.activity === ACTIVITY_TYPE.IN && entry.end
@@ -220,12 +217,10 @@ export default {
       this.activeUserData.lastName +
       " / " +
       "Time & Attendance";
-
-    this.getTimesheetWidget()
-    this.$root.$on("timer", () => {
+      this.$root.$on("timer", () => {
       this.timer += 1;
-      console.log(this.timer, "timerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     });
+    this.getTimesheetWidget()
   },
   methods: {
     weekToUTCWeek,
@@ -290,7 +285,6 @@ export default {
       this.$router.push("/profile/" + id);
     },
     parseDate(dateString, format) {
-      
       return DateTime.fromFormat(dateString, format).toJSDate();
     },
     formatDate(dateObj, format) {
@@ -341,8 +335,7 @@ export default {
       this.timesheetId = weekData.id;
       this.loading = false;
     },
-    async dateSelection(event){
-      this.getCurrentDate = event
+    async dateSelection(){
       await this.fillDailyTimeEntries();      
     },
     async weekSelection() {
@@ -372,4 +365,65 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 5px;
+  > li {
+    display: inline; // Remove list-style and block-level defaults
+    > a,
+    > span {
+      position: relative;
+      float: left; // Collapse white-space
+      padding: 5px 10px;
+      line-height: 30px;
+      text-decoration: none;
+      color: #000;
+      background-color: #d5e8d4;
+      border: 1px solid #8dd488;
+      margin-left: -1px;
+    }
+    &:first-child {
+      > a,
+      > span {
+        margin-left: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+  > li > a,
+  > li > span {
+    &:hover {
+      z-index: 2;
+      color: #31a22c;
+      background-color: #f2f5f1;
+      // border-color: @pagination-hover-border;
+    }
+  }
 
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      z-index: 3;
+      color: #fff;
+      background-color: #31a22c;
+      // border-color: @pagination-active-border;
+      cursor: default;
+    }
+  }
+}
+</style>

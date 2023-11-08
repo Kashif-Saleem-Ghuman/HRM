@@ -2,7 +2,7 @@
   <div class="d-flex">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div>
-        <label>Active User Status</label>
+        <label>User Status</label>
       </div>
       <div class="info-card-items mt-05">
         <div>
@@ -36,6 +36,7 @@
 import { calculateActivityDetails, formatTime } from '../../../utils/functions/clock_functions';
 import { mapGetters } from "vuex";
 import timerMixin from '../../../mixins/timer-mixin';
+import { DateTime } from "luxon";
 
 export default {
   mixins: [timerMixin],
@@ -63,6 +64,7 @@ export default {
       activityReport: {},
       loading: true,
       timerLoading: false,
+      // currentDate: DateTime.now().toFormat("DDD")
     };
   },
   async mounted() {

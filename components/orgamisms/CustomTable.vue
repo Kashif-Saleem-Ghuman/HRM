@@ -146,18 +146,34 @@
       <td class="" style="text-align: center; font-weight: bold">
         <!-- {{ status }} -->
         <bib-button
-          :icon="status == 'Submit' ? $button.approved.icon : '' 
-          || status == 'Past Due' ? $button.past_due.icon : '' 
-          || status == 'Pending' ? $button.pending.icon : ''"
+          :icon="
+            status == 'Submit'
+              ? $button.approved.icon
+              : '' || status == 'Past Due'
+              ? $button.past_due.icon
+              : '' || status == 'Pending'
+              ? $button.pending.icon
+              : ''
+          "
           :variant="
-          status == 'Submit' ? $button.approved.variant : '' 
-          || status == 'Past Due' ? $button.past_due.variant : '' 
-          || status == 'Pending' ? $button.pending.variant : ''"
-          
+            status == 'Submit'
+              ? $button.approved.variant
+              : '' || status == 'Past Due'
+              ? $button.past_due.variant
+              : '' || status == 'Pending'
+              ? $button.pending.variant
+              : ''
+          "
           :scale="$button.pending.scale"
-          :label="status == 'Submit' ? $button.approved.label : '' 
-          || status == 'Past Due' ? $button.past_due.label : '' 
-          || status == 'Pending' ? $button.pending.label : ''"
+          :label="
+            status == 'Submit'
+              ? $button.approved.label
+              : '' || status == 'Past Due'
+              ? $button.past_due.label
+              : '' || status == 'Pending'
+              ? $button.pending.label
+              : ''
+          "
           class="mr-05 w-50"
           @click="buttonClicked"
           :style="buttonDisabled"
@@ -174,22 +190,46 @@
         class="pl-1"
         style="text-align: right; padding: 16px !important"
       >
-        Submit your weekly timesheet
+        {{
+          buttonLable == "Submit"
+            ? "Submit your weekly timesheet"
+            : "" || buttonLable == "Pending"
+            ? "Timesheet is pending"
+            : "" || buttonLable == "Past Due"
+            ? "Timesheet is past due"
+            : ""
+        }}
       </td>
       <td class="" style="text-align: center; font-weight: bold">
         <bib-button
-          :icon="buttonLable == 'Submit' ? $button.approved.icon : '' 
-          || buttonLable == 'Past Due' ? $button.past_due.icon : '' 
-          || buttonLable == 'Pending' ? $button.pending.icon : ''"
+          :icon="
+            buttonLable == 'Submit'
+              ? $button.approved.icon
+              : '' || buttonLable == 'Past Due'
+              ? $button.past_due.icon
+              : '' || buttonLable == 'Pending'
+              ? $button.pending.icon
+              : ''
+          "
           :variant="
-          buttonLable == 'Submit' ? $button.approved.variant : '' 
-          || buttonLable == 'Past Due' ? $button.past_due.variant : '' 
-          || buttonLable == 'Pending' ? $button.pending.variant : ''"
-          
+            buttonLable == 'Submit'
+              ? $button.approved.variant
+              : '' || buttonLable == 'Past Due'
+              ? $button.past_due.variant
+              : '' || buttonLable == 'Pending'
+              ? $button.pending.variant
+              : ''
+          "
           :scale="$button.pending.scale"
-          :label="buttonLable == 'Submit' ? $button.approved.label : '' 
-          || buttonLable == 'Past Due' ? $button.past_due.label : '' 
-          || buttonLable == 'Pending' ? $button.pending.label : ''"
+          :label="
+            buttonLable == 'Submit'
+              ? $button.approved.label
+              : '' || buttonLable == 'Past Due'
+              ? $button.past_due.label
+              : '' || buttonLable == 'Pending'
+              ? $button.pending.label
+              : ''
+          "
           class="mr-05 w-50"
           @click="buttonClicked"
           :style="buttonDisabled"
@@ -333,8 +373,8 @@ export default {
       });
     },
     buttonClicked() {
-      if(this.buttonLable !== 'Submit'){
-      }else{
+      if (this.buttonLable !== "Submit") {
+      } else {
         this.$emit("button-clicked");
       }
     },

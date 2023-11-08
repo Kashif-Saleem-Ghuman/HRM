@@ -110,7 +110,7 @@ export default {
     },
     startOfWeek: {
       type: String,
-      default: DateTime.now().startOf("week").toISO(),
+      default: DateTime.now().startOf('week').toISODate(),
     },
   },
   data() {
@@ -168,52 +168,10 @@ export default {
     getWeekdayString(date) {
       return WEEK_DAY[
         DateTime
-          .fromJSDate(new Date(date + " 00:00"))
+        .fromJSDate(new Date(date + " 00:00"))
           .weekday
           % 7
       ].value
-    },
-    close() {
-      alert("sadjlaksjdlasldkjlasjdl");
-      this.timesheetModal = false;
-    },
-    itemCliked(item) {
-      document.querySelector("#timesheetid_" + item).style = "display:none";
-      this.timesheetModal = true;
-      var users = this.localData.find((items) => items.id === item);
-      this.filteredData = users;
-    },
-    handleItemClick_Table(event, keyI, item) {
-      event.preventDefault();
-      this.$router.push("/profile/" + item.id);
-    },
-    viewProfile(id) {
-      this.$router.push("/profile/" + id);
-    },
-    vclick() {
-      alert("callled");
-    },
-    mouseover() {
-      this.showTooltip = true;
-    },
-    mouseleave() {
-      this.showTooltip = false;
-    },
-    sendInvite() {
-      alert("send invite api call");
-    },
-    timeInfotab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
-    handleAction_Table(data) {
-      console.log(data);
     },
     async submitButtonClicked() {
       const response = await this.submitTimesheet(this.id);

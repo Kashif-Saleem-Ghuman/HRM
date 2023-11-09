@@ -28,14 +28,14 @@
           <bib-button
             label="Send Message"
             variant="light"
-            icon="device-mobile"
+            icon="chat"
             class="mr-05"
             @click="sendMessage(form.userId)"
           ></bib-button>
           <bib-button
             label="Make a Call"
             variant="light"
-            icon="mail-new"
+            icon="phone"
             @click="sendMeet(form.userId)"
           ></bib-button>
         </div>
@@ -330,6 +330,8 @@ import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
+import { DateTime } from "luxon";
+
 export default {
 
   data() {

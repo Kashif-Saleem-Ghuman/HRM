@@ -4,6 +4,7 @@
     :label="$attrs.label"
     class="form-date-picker"
     v-model="value"
+    :maxDate="maxDate"
     @input="onInput"
     :display-format="displayFormat ?? 'DD-MM-YYYY'"
   ></bib-datetime-picker>
@@ -38,6 +39,7 @@ export default {
   data() {
     return {
       value: null,
+      maxDate: DateTime.now().toISO()
     };
   },
 

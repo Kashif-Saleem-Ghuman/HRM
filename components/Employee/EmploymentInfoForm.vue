@@ -87,7 +87,7 @@
                   </div>
                   <div>
                     <!-- "Employment Information" -->
-                    <div>
+                    <div >
                       <div class="row mx-0">
                         <div class="col-6">
                           <form-input
@@ -116,6 +116,7 @@
                             field-key="managerId"
                             :options="reportOptions"
                             :value="form.managerId"
+                            class="mb-05"
                             placeholder="Please select reporting manager"
                             icon-left="file"
                           ></form-input>

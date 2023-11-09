@@ -202,6 +202,7 @@ export default {
       activeUserAllowanceData: [],
       is_leave_data_fetched: false,
       apiCall: true,
+      id:'',
       token: "",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
       // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2OTI4NTE5NDE2NzIsImV4cCI6MTcwMDYyNzk0MTY3MiwianRpIjoiMzU2YmM4OTUtNjE3Mi00NjE3LTk2NzEtNWI5NmU0OWIzMGEwIn0.0zMvHg45zgJ6L51qGICZRa31xzA3t9OzyKPXp5YuqTs",
@@ -279,7 +280,7 @@ export default {
         this.activeUserData.firstName + " " + this.activeUserData.lastName;
     });
     this.$root.$on("open-sidebar-admin", (payload) => {
-      var userId = this.$route.params.id;
+       this.id = this.$route.params.id;
       // this.employeeNameSelect = this.activeUserData.id;
       // use case people page
       this.useDaysData = "";
@@ -290,7 +291,7 @@ export default {
       this.slideClass = "slide-in";
       if (payload === "leave") {
         this.sidebarHeading = "Request Leave";
-        this.addForm.employeeId = userId;
+        this.addForm.employeeId = this.id;
         this.addForm.type = "leave";
         this.openSidebar = true;
         this.employeeNameInput = true;
@@ -302,6 +303,7 @@ export default {
       if (payload == "vacation") {
         this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
+        this.addForm.employeeId = this.id;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
@@ -314,6 +316,7 @@ export default {
       if (payload == "medical") {
         this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
+        this.addForm.employeeId = this.id;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
@@ -324,6 +327,7 @@ export default {
       if (payload == "leaveAdmin") {
         this.$store.dispatch("employee/setActiveUser").then((user) => {
           var activeId = user.id;
+          this.addForm.employeeId = this.id === '' ? this.id : user.id;
           this.activeUserData = user;
           this.employeeNameSelect = activeId;
           console.log(this.activeUserData, "getActiveUser");
@@ -379,6 +383,7 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    this.addForm.employeeId ="";
     let accessToken = localStorage.getItem("accessToken");
     let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
     this.isThemeCheck();

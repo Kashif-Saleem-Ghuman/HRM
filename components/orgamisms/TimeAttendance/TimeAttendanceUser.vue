@@ -217,9 +217,6 @@ export default {
       this.activeUserData.lastName +
       " / " +
       "Time & Attendance";
-      this.$root.$on("timer", () => {
-      this.timer += 1;
-    });
     this.getTimesheetWidget()
   },
   methods: {
@@ -229,7 +226,6 @@ export default {
       this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
     },
     handleNewEntry(timeEntry) {
-      this.$nuxt.$emit('timer');
       this.todayData.push({
         activity: {
           label: ACTIVITY_DICTIONARY[timeEntry.activity],

@@ -50,7 +50,6 @@
     <div class="py-1">
       <list-leave-attendance
         :leaveData="leaveVacationDataUser"
-        :key="leave"
         @delete-item="deleteItemConfirmation($event)"
         v-show="leaveVacationDataUser?.length ? true : false"
       ></list-leave-attendance>
@@ -99,7 +98,6 @@ export default {
       selectedYear: "2023",
       fromDate: "",
       toDate: "",
-      leave: 0,
       loading: false,
       allChecked: false,
       checked: false,
@@ -120,8 +118,7 @@ export default {
     }),
   },
   async created() {
-    this.$root.$on("applied-leave-key", () => {
-      this.leave += 1;
+    this.$root.$on("update-leave-key", () => {
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,

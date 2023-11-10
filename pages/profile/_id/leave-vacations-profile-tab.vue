@@ -44,7 +44,6 @@
         <div class="py-1">
           <list-leave-attendance
             :leaveData="leaveVacationDataUser"
-            :key="leave"
             @delete-item="deleteItemConfirmation($event)"
             v-show="leaveVacationDataUser?.length ? true : false"
           ></list-leave-attendance>
@@ -79,7 +78,6 @@ export default {
       leaveVacationDataUser: [],
       allowanceLeavesDetailedData: [],
       id: '',
-      leave: 0,
       modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       confirmastionMessageModal: false,
       loading: false,
@@ -119,7 +117,6 @@ export default {
       this.leaveVacationDataUser = result
     });
     this.$root.$on("update-leave-key", () => {
-      this.leave += 1;
        this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,

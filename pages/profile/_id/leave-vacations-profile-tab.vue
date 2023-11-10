@@ -118,7 +118,7 @@ export default {
     }).then((result) => {
       this.leaveVacationDataUser = result
     });
-    this.$root.$on("applied-leave-key", () => {
+    this.$root.$on("update-leave-key", () => {
       this.leave += 1;
        this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,

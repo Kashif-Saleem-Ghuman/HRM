@@ -217,9 +217,6 @@ export default {
       this.activeUserData.lastName +
       " / " +
       "Time & Attendance";
-      this.$root.$on("timer", () => {
-      this.timer += 1;
-    });
     this.getTimesheetWidget()
   },
   methods: {

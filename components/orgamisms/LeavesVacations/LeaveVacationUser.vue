@@ -118,7 +118,7 @@ export default {
     }),
   },
   async created() {
-    this.$root.$on("update-leave-key", () => {
+    this.$root.$on("fetched-leave-vacation", () => {
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
       from: this.getformToDate.from,
       to: this.getformToDate.to,

@@ -79,8 +79,10 @@ export const  actions = {
           },
         }
       );
-      ctx.commit("SET_LEAVEVACATION_LIST_USER", leaveVacations.data.requests);
-      return leaveVacations.data.requests
+      var leave = leaveVacations.data.requests.sort((a, b) => b.id - a.id);
+      ctx.commit("SET_LEAVEVACATION_LIST_USER", leave);
+      // var data = leave.data.requests
+      return leave
     } catch (e) {
       alert(e);
     }

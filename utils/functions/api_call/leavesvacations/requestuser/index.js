@@ -1,7 +1,6 @@
 import axios from "axios";
 import fecha from "fecha";
 
-
 export async function addLeaveVacations() {
   if (this.$store.state.token.isAdmin) {
     if (this.addForm.type == "") {
@@ -22,12 +21,15 @@ export async function addLeaveVacations() {
   this.errorMsgEndDate = false;
   this.loading = true;
   var data = this.addForm;
-  var startDate = fecha.format(new Date(data.start), "YYYY-MM-DDT00:00:00.000Z"); // '2015-11-20'data.start.toISOString();
+  var startDate = fecha.format(
+    new Date(data.start),
+    "YYYY-MM-DDT00:00:00.000Z"
+  ); // '2015-11-20'data.start.toISOString();
   var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
 
   this.addForm.start = startDate;
   this.addForm.end = endDate;
-  console.log( this.addForm, "toISOString()")
+  console.log(this.addForm, "toISOString()");
   try {
     const addLeaveVacations = await axios.post(
       process.env.API_URL + "/requests",
@@ -40,13 +42,20 @@ export async function addLeaveVacations() {
     );
     this.leaveVacationData = addLeaveVacations.data;
     if (this.$store.state.token.isAdmin) {
-      this.$store
-        .dispatch("leavevacation/setLeaveVacations", {
+      await this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
           from: this.getformToDate.from,
           to: this.getformToDate.to,
+          employeeId: this.addForm.employeeId,
         })
-        .then(() => {
+        .then((result) => {
           this.$nuxt.$emit("update-key");
+          this.$nuxt.$emit("fetched-leave-vacation");
+          this.slideClass = "slide-out";
+          setTimeout(() => {
+            this.openSidebar = false;
+            this.openPopupNotification(0);
+          }, 700);
         });
     } else {
       this.$store
@@ -56,20 +65,21 @@ export async function addLeaveVacations() {
         })
         .then(() => {
           this.$nuxt.$emit("leaves-list");
+          this.$nuxt.$emit("fetched-leave-vacation");
+          this.slideClass = "slide-out";
+          setTimeout(() => {
+            this.openSidebar = false;
+            this.openPopupNotification(0);
+          }, 700);
         });
     }
-    this.slideClass = "slide-out";
-    setTimeout(() => {
-      this.openSidebar = false;
-      this.openPopupNotification(0);
-    }, 700);
   } catch (e) {
     alert(e.response.data.message);
   }
   this.loading = false;
 }
 export async function getAllowanceDays(leaveType) {
-  alert(leaveType)
+  alert(leaveType);
   this.loading = true;
   try {
     const allowanceDays = await axios.get(
@@ -200,14 +210,11 @@ export async function deleteLevaeVacation(value) {
 export async function getUserLeavesDetailUser() {
   this.loading = true;
   try {
-    const result = await axios.get(
-      process.env.API_URL + "/widgets/request/",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
+    const result = await axios.get(process.env.API_URL + "/widgets/request/", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
     this.loading = false;
     // this.allowanceLeavesDetailedData = allowanceDays.data;
     return result.data;

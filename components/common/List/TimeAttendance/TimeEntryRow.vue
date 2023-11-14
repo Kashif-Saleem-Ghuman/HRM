@@ -119,7 +119,7 @@ export default {
     },
     async editThisEntry() {
       if (this.totalTimeInMinutes < 0) {
-        return alert("end date should be greater than start date");
+        return alert("start time should be before the end time");
       }
       if (!this.timeEntryReady) return;
       const {
@@ -140,7 +140,7 @@ export default {
     },
     async makeNewTimeEntry() {
       if (this.totalTimeInMinutes < 0) {
-        return alert("end date should be greater than start date");
+        return alert("start time should be before the end time");
       }
       if (!this.timeEntryReady) return;
       const {

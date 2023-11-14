@@ -130,6 +130,7 @@ export default {
   border-radius: 5px;
   padding: 0px 10px 0rem 10px !important;
   margin-bottom: 16px;
+  margin-right: -5px;
 }
 .time-attendance-wrapper {
   .button-items {

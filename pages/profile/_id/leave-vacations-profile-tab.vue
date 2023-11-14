@@ -44,7 +44,6 @@
         <div class="py-1">
           <list-leave-attendance
             :leaveData="leaveVacationDataUser"
-            :key="componentKeyUser"
             @delete-item="deleteItemConfirmation($event)"
             v-show="leaveVacationDataUser?.length ? true : false"
           ></list-leave-attendance>
@@ -79,7 +78,6 @@ export default {
       leaveVacationDataUser: [],
       allowanceLeavesDetailedData: [],
       id: '',
-      componentKeyUser: 0,
       modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       confirmastionMessageModal: false,
       loading: false,
@@ -107,7 +105,6 @@ export default {
         this.is_data_fetched = true;
       });
 
-    this.componentKeyUser += 1;
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
@@ -116,8 +113,18 @@ export default {
       from: this.getformToDate.from,
       to: this.getformToDate.to,
       employeeId: this.id,
+    }).then((result) => {
+      this.leaveVacationDataUser = result
     });
-    this.leaveVacationDataUser = this.getLeaveVacationUser;
+    this.$root.$on("fetched-leave-vacation", () => {
+       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+      employeeId: this.id,
+    }).then((result) => {
+      this.leaveVacationDataUser = result
+    });
+    });
   },
   methods: {
     getCurrentYear,

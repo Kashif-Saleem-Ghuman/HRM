@@ -258,12 +258,12 @@ export default {
 //     }
 //   }
 // }
-.border-wrapper {
-  border: solid 1px $light;
-  border-radius: 5px;
-  padding: 0px 10px 1rem 10px;
-  margin-bottom: 16px;
-}
+// .border-wrapper {
+//   border: solid 1px $light;
+//   border-radius: 5px;
+//   padding: 0px 10px 1rem 10px;
+//   margin-bottom: 16px;
+// }
 .custom-tabs {
   .tabs {
     border: none !important;

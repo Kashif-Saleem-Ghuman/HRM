@@ -50,7 +50,6 @@
     <div class="py-1">
       <list-leave-attendance
         :leaveData="leaveVacationDataUser"
-        :key="componentKeyUser"
         @delete-item="deleteItemConfirmation($event)"
         v-show="leaveVacationDataUser?.length ? true : false"
       ></list-leave-attendance>
@@ -59,13 +58,13 @@
           v-show="leaveVacationDataUser?.length ? false : true"
         ></no-record>
       </div>
-      <confirmation-modal
+      <!-- <confirmation-modal
         :title="modalContent[0].title"
         :confirmationMessage="modalContent[0].message"
         :confirmastionMessageModal="confirmastionMessageModal"
         @close="closeconfirmastionMessageModal"
         @deleteLeave="deleteItem()"
-      ></confirmation-modal>
+      ></confirmation-modal> -->
       <loader v-bind:showloader="loading"></loader>
     </div>
   </div>
@@ -99,7 +98,6 @@ export default {
       selectedYear: "2023",
       fromDate: "",
       toDate: "",
-      componentKeyUser: 0,
       loading: false,
       allChecked: false,
       checked: false,
@@ -120,14 +118,13 @@ export default {
     }),
   },
   async created() {
-    this.$root.$on("leaves-list", () => {
-      this.componentKeyUser += 1;
+    this.$root.$on("fetched-leave-vacation", () => {
       this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      });
-      this.leaveVacationDataUser = this.getLeaveVacationUser;
-      console.log(this.getActiveUser.id, "getActiveUsergetActiveUser");
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    }).then((result) => {
+      this.leaveVacationDataUser = result
+    });
     });
   },
   async mounted() {
@@ -173,18 +170,7 @@ export default {
       this.deleteItemId = event;
       console.log(this.deleteItemId, "this.deleteItemId ");
     },
-    async deleteItem() {
-      await this.deleteLevaeVacation(this.deleteItemId);
-      await this.getCurrentYear();
-      this.$store
-        .dispatch("leavevacation/setLeaveVacationsUser", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-        })
-        .then(() => {
-          this.$nuxt.$emit("leaves-list");
-        });
-    },
+    
     filterItem(event) {
       console.log(event, "filterItem");
       // if(event.key=='all'){

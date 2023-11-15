@@ -1,6 +1,6 @@
 <template>
-  <div class="search-content">
-    <ul v-for="item in searchResults" class="search-items" :key="item.id">
+  <div class="search-items">
+    <ul v-for="item in searchResults"  :key="item.id">
       <component v-if="item?.type" :is="getSearchItemComponent(item?.type)" :item="item"></component>
     </ul>
   </div>
@@ -38,13 +38,26 @@ export default {
 
 <style lang="scss">
 .search-items {
+  padding-top: 10px;
+  font-size: 14px;
+ul{
   padding: 0;
-
-  .search-item {
+  margin: 0;
+  li{
+    list-style: none;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    border-bottom: 1px solid $light;
+    padding: 0.25rem 0;
+    margin: 0 -14px;
     cursor: pointer;
+    border-radius: 6px;
+    text-transform: capitalize;
   }
+  :hover{
+      background-color: $light;
+      color: #000;
+    }
+}
 }
 </style>

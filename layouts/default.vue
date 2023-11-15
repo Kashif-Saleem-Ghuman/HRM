@@ -18,6 +18,7 @@
           noResultText="No result"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
+          :hideSearchBox="$store.state.token.isUser"
         >
         <template>
           <search-content></search-content>

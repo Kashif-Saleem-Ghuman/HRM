@@ -85,6 +85,17 @@ export default {
       this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value
     },
   },
+
+  watch: {
+    //Added this watcher because when client is already on another profile, searching for another employee will not update the page.
+    '$route.params.id': {
+      handler: function(val, old) {
+        if ((val && old) && val != old) {
+          window.location.reload()
+        }
+      }
+    }
+  },
 };
 </script>
 <style lang="scss">

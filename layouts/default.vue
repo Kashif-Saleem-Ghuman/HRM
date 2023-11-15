@@ -16,14 +16,13 @@
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
+          @search-change="handleSearchChange"
+          :search-data="$store.state.app.searchResults || []"
+          :hideSearchBox="$store.state.token.isUser"
         >
-          <!-- <template #avatar_menu>
-            <avatar-sub-menu
-              @logout="$logout"
-              @openAccountPage="openAccountPage"
-              @myProfile="myProfile"
-            ></avatar-sub-menu>
-          </template> -->
+        <template>
+          <search-content></search-content>
+        </template>
         </bib-header>
       </template>
       <template #switcher>
@@ -126,6 +125,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import { debounce } from "lodash"
 
 import {
   addLeaveVacations,
@@ -157,6 +157,7 @@ import routesCheck from "../middleware/routes.client";
 export default {
   data() {
     return {
+      debouncedSearch: null, 
       openSidebar: false,
       openSidebar2: false,
       clockModal: false,
@@ -204,11 +205,7 @@ export default {
       apiCall: true,
       id:'',
       token: "",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJES2dsOWF2Mk53bmFHMXZ6Iiwic3ViZSI6InZpc2h3YWplZXQubWFuZGFsQHFzc3RlY2hub3NvZnQuY29tIiwic3VicyI6IkFDVElWRSIsInN1YmIiOiJPM0dXcG1iazVlekpuNEtSIiwic3ViYnMiOiJDTElFTlQiLCJzdWJyIjoiVVNFUiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2ODg0NDk2Nzg2NzUsImV4cCI6MTY5NjIyNTY3ODY3NSwianRpIjoiNjA0OTU1ZTEtZjc2OC00YmUzLTkxYzgtYmI0ZGM2NWM5NzBhIn0.kiUQRmE4VSwFx3augkQtUAEdpuzGkmV7GVBKt7VDifg",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2OTI4NTE5NDE2NzIsImV4cCI6MTcwMDYyNzk0MTY3MiwianRpIjoiMzU2YmM4OTUtNjE3Mi00NjE3LTk2NzEtNWI5NmU0OWIzMGEwIn0.0zMvHg45zgJ6L51qGICZRa31xzA3t9OzyKPXp5YuqTs",
-      token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE2OTcxNzA3MjA1NjUsImV4cCI6MTcwNDk0NjcyMDU2NSwianRpIjoiMDYzZjgyZmItNWQ0OS00MzViLWFmNTItMjk3OTU0M2I5ZDJlIn0.cvTV9h5NDw1bjaa7_3KQK8BayLZMFe3GeEcXNBtglWg",
-      // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRUxZcWFRV1FHOWRuamsyIiwic3ViZSI6InJhamVldi5zaGFybWFAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJVU0VSIiwic3ViYyI6IkNhbmFkYSIsImVudiI6ImRldiIsImlhdCI6MTY5MjI4NTc0MDgwNiwiZXhwIjoxNzAwMDYxNzQwODA2LCJqdGkiOiI3NzkwMWFiMy1hMTlhLTRhMjItYjA4My1lZmIyODlkZTk5ZGQifQ.RlizfkgCHRqfHMf0PzIgBPxdqcL0pz3TA8PrnBdJXFk"
-    };
+      };
   },
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
@@ -452,8 +449,24 @@ export default {
     }
     this.employeesOptions = this.getReportList
     this.loading = false;
+    
+    this.setDebouncedSearch()
   },
   methods: {
+    setDebouncedSearch() {
+      if (!this.debouncedSearch) {
+        this.debouncedSearch = debounce((event) => {
+          this.performSearch(event)
+        }, 300);
+      }
+    },
+    performSearch(event) {
+      const search = event
+      this.$store.dispatch('app/performSearch', { search })
+    },
+    handleSearchChange(event) {
+      if (this.debouncedSearch) this.debouncedSearch(event);
+    },
     logout(){
       this.$signOut
     },

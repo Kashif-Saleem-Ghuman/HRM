@@ -5,34 +5,13 @@
     :sections="leaveData"
     :hide-no-column="true"
   >
-    <!-- <template #cell_action="data">
-        <div class="d-flex justify-center align-center">
-          <bib-checkbox size="md"></bib-checkbox>
-        </div>
-      </template> -->
     <template #cell(leavetype)="data">
-      <div class="text-dark upper-case" style="margin-left: -8px">
+      <div class="text-dark upper-case minus-ml">
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
-          :icon="
-            data.value.type == 'medical'
-              ? 'medical-clinic-solid'
-              : '' || data.value.type == 'leave'
-              ? 'accessibility-cognitive-disability-Solid'
-              : '' || data.value.type == 'vacation'
-              ? 'sun-solid'
-              : ''
-          "
-          :variantIcon="
-            data.value.status == 'approved'
-              ? 'success'
-              : '' || data.value.status == 'pending'
-              ? 'warning'
-              : '' || data.value.status == 'rejected'
-              ? 'danger'
-              : ''
-          "
+          :icon="getLeaveTypeIcon(data.value.type)"
+          :variantIcon="getStatusIconVariant(data.value.status)"
         ></chips>
       </div>
     </template>
@@ -60,90 +39,18 @@
         }}</span>
       </div>
     </template>
-    <!--       
-      <template #cell(paid)="data">
-        <div class="justify-left text-dark">
-          <span>{{ data.value.paid == null ? 'Null value found' : data.value.paid }}</span>
-        </div>
-      </template> -->
     <template #cell(status)="data">
       <div class="d-flex align-center">
-        <div class="font-md d-flex align-center" :class="data.value.status == 'approved'
-              ? 'text-success'
-              : '' || data.value?.status === 'pending'
-              ? 'text-warning'
-              : '' || data.value?.status === 'rejected'
-              ? 'text-danger'
-              : ''">
+        <div class="font-md d-flex align-center">
           <bib-icon
-            :icon="
-              data.value.status == 'approved'
-                ? $button.approved.icon
-                : '' || data.value?.status === 'pending'
-                ? $button.pending.icon
-                : '' || data.value?.status === 'rejected'
-                ? $button.rejected.icon
-                : ''
-            "
-            :variant="
-              data.value.status == 'approved'
-                ? $button.approved.variant
-                : '' || data.value?.status === 'pending'
-                ? $button.pending.variant
-                : '' || data.value?.status === 'rejected'
-                ? $button.rejected.variant
-                : ''
-            "
+            :icon="getStatusIcon(data.value.status)"
+            :variant="getStatusIconVariant(data.value.status)"
             class="mr-025"
           ></bib-icon>
-          <spna>{{ data.value.status == 'approved'
-              ? 'Approved'
-              : '' || data.value?.status === 'pending'
-              ? $button.pending.label
-              : '' || data.value?.status === 'rejected'
-              ? 'Rejected'
-              : '' }}</spna>
+          <aside :class="getTextVariant(data.value.status)">
+            {{ getStatusLabel(data.value.status) }}
+          </aside>
         </div>
-        <!-- <bib-button
-          :icon="
-            data.value.status == 'approved'
-              ? $button.approved.icon
-              : '' || data.value?.status === 'pending'
-              ? $button.pending.icon
-              : '' || data.value?.status === 'rejected'
-              ? $button.rejected.icon
-              : ''
-          "
-          :variant="
-            data.value.status == 'approved'
-              ? $button.approved.variant
-              : '' || data.value?.status === 'pending'
-              ? $button.pending.variant
-              : '' || data.value?.status === 'rejected'
-              ? $button.rejected.variant
-              : ''
-          "
-          :scale="$button.approved.scale"
-          :label="
-            data.value.status == 'approved'
-              ? $button.approved.label
-              : '' || data.value?.status === 'pending'
-              ? $button.pending.label
-              : '' || data.value?.status === 'rejected'
-              ? $button.rejected.label
-              : ''
-          "
-          class="mr-05 w-50"
-          style="cursor: auto;"
-        ></bib-button> -->
-        <!-- <bib-button
-          label="Delete"
-          variant="danger--outline"
-          icon="trash-solid"
-          size="xl"
-          class="px-1"
-          @click="$emit('delete-item', data.value.id)"
-        ></bib-button> -->
       </div>
     </template>
   </custom-table>
@@ -152,7 +59,13 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-
+import {
+  getStatusIcon,
+  getLeaveTypeIcon,
+  getStatusIconVariant,
+  getStatusLabel,
+  getTextVariant,
+} from "@/utils/functions/check_variant";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 export default {
   props: {
@@ -173,75 +86,29 @@ export default {
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
   },
-  mounted() {
-    // this.onLoad();
-  },
-  // created() {
-  //   if (this.$router.history.current.fullPath == "/people") {
-  //     this.tableFields = TABLE_HEAD.tHeadPeople;
-  //     return;
-  //   }
 
-  //   if (this.$router.history.current.fullPath == "/people/directory") {
-  //     this.tableFields = TABLE_FIELDS_DIR;
-  //     return;
-  //   }
-  // },
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
     }),
   },
   methods: {
+    getStatusIcon,
+    getLeaveTypeIcon,
+    getStatusIconVariant,
+    getStatusLabel,
+    getTextVariant,
+    getTextVariant,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
-    },
-    test(item) {
-      var teamNames = "";
-      this.getTeamListOptions.forEach((element) => {
-        if (element.value == item) {
-          teamNames = element.label;
-        }
-      });
-      return teamNames;
-    },
-    handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/profile/" + item.id);
-    },
-    viewProfile(id) {
-      this.$router.push("/profile/" + id);
-    },
-    sendInvite() {
-      alert("send invite api call");
-    },
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
-
-    handleAction_Table(data) {
-      // console.log(data);
     },
   },
 };
 </script>
 
 <style lang="scss">
-.info_wrapper {
-  color: $black;
-  font-weight: normal;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.description {
-  font-size: 14px;
-  font-weight: normal;
-  color: $black;
+.minus-ml {
+  margin-left: -8px;
 }
 .upper-case {
   text-transform: capitalize;

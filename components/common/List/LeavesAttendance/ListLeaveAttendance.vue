@@ -11,7 +11,7 @@
         </div>
       </template> -->
     <template #cell(leavetype)="data">
-      <div class="text-dark upper-case" style="margin-left: -8px;">
+      <div class="text-dark upper-case" style="margin-left: -8px">
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
@@ -68,7 +68,43 @@
       </template> -->
     <template #cell(status)="data">
       <div class="d-flex align-center">
-        <bib-button
+        <div class="font-md d-flex align-center" :class="data.value.status == 'approved'
+              ? 'text-success'
+              : '' || data.value?.status === 'pending'
+              ? 'text-warning'
+              : '' || data.value?.status === 'rejected'
+              ? 'text-danger'
+              : ''">
+          <bib-icon
+            :icon="
+              data.value.status == 'approved'
+                ? $button.approved.icon
+                : '' || data.value?.status === 'pending'
+                ? $button.pending.icon
+                : '' || data.value?.status === 'rejected'
+                ? $button.rejected.icon
+                : ''
+            "
+            :variant="
+              data.value.status == 'approved'
+                ? $button.approved.variant
+                : '' || data.value?.status === 'pending'
+                ? $button.pending.variant
+                : '' || data.value?.status === 'rejected'
+                ? $button.rejected.variant
+                : ''
+            "
+            class="mr-025"
+          ></bib-icon>
+          <spna>{{ data.value.status == 'approved'
+              ? 'Approved'
+              : '' || data.value?.status === 'pending'
+              ? $button.pending.label
+              : '' || data.value?.status === 'rejected'
+              ? 'Rejected'
+              : '' }}</spna>
+        </div>
+        <!-- <bib-button
           :icon="
             data.value.status == 'approved'
               ? $button.approved.icon
@@ -99,7 +135,7 @@
           "
           class="mr-05 w-50"
           style="cursor: auto;"
-        ></bib-button>
+        ></bib-button> -->
         <!-- <bib-button
           label="Delete"
           variant="danger--outline"

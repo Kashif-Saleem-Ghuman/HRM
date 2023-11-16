@@ -16,14 +16,13 @@
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
+          @search-change="handleSearchChange"
+          :search-data="$store.state.app.searchResults || []"
+          :hideSearchBox="$store.state.token.isUser"
         >
-          <!-- <template #avatar_menu>
-            <avatar-sub-menu
-              @logout="$logout"
-              @openAccountPage="openAccountPage"
-              @myProfile="myProfile"
-            ></avatar-sub-menu>
-          </template> -->
+        <template>
+          <search-content></search-content>
+        </template>
         </bib-header>
       </template>
       <template #switcher>
@@ -126,6 +125,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import { debounce } from "lodash"
 
 import {
   addLeaveVacations,
@@ -157,6 +157,7 @@ import routesCheck from "../middleware/routes.client";
 export default {
   data() {
     return {
+      debouncedSearch: null, 
       openSidebar: false,
       openSidebar2: false,
       clockModal: false,
@@ -203,7 +204,7 @@ export default {
       is_leave_data_fetched: false,
       apiCall: true,
       id:'',
-      token:"",
+      token: "",
       };
   },
   fetch() {
@@ -448,8 +449,24 @@ export default {
     }
     this.employeesOptions = this.getReportList
     this.loading = false;
+    
+    this.setDebouncedSearch()
   },
   methods: {
+    setDebouncedSearch() {
+      if (!this.debouncedSearch) {
+        this.debouncedSearch = debounce((event) => {
+          this.performSearch(event)
+        }, 300);
+      }
+    },
+    performSearch(event) {
+      const search = event
+      this.$store.dispatch('app/performSearch', { search })
+    },
+    handleSearchChange(event) {
+      if (this.debouncedSearch) this.debouncedSearch(event);
+    },
     logout(){
       this.$signOut
     },

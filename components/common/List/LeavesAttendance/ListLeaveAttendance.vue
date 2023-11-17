@@ -10,7 +10,7 @@
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
-          :icon="getLeaveTypeIcon(data.value.type)"
+          :icon="getLeaveStatusIconVariant(data.value.type)"
           :variantIcon="getStatusIconVariant(data.value.status)"
         ></chips>
       </div>
@@ -43,7 +43,7 @@
       <div class="d-flex align-center">
         <div class="font-md d-flex align-center">
           <bib-icon
-            :icon="getStatusIcon(data.value.status)"
+            :icon="getLeaveStatusIcon(data.value.status)"
             :variant="getStatusIconVariant(data.value.status)"
             class="mr-025"
           ></bib-icon>
@@ -60,13 +60,13 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import {
-  getStatusIcon,
-  getLeaveTypeIcon,
+  getLeaveStatusIcon,
+  getLeaveStatusIconVariant,
   getStatusIconVariant,
   getStatusLabel,
   getTextVariant,
-} from "@/utils/functions/check_variant";
-import { TABLE_HEAD } from "../../../../utils/constant/Constant";
+} from "@/utils/functions/status-helpers";
+import { TABLE_HEAD } from "@/utils/constant/Constant";
 export default {
   props: {
     leaveData: {
@@ -93,8 +93,8 @@ export default {
     }),
   },
   methods: {
-    getStatusIcon,
-    getLeaveTypeIcon,
+    getLeaveStatusIcon,
+    getLeaveStatusIconVariant,
     getStatusIconVariant,
     getStatusLabel,
     getTextVariant,

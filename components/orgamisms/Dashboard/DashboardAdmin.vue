@@ -11,72 +11,21 @@
       </div>
       <div class="tab-wrapper">
         <div id="dashboard-inner-wrapper">
-          <div class="" id="tab_info_wrapper">
-            <!-- <div
-              class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <div class="custom_date_picker">
-                  <div class="mr-05">Date:</div>
-                  <bib-datetime-picker
-                    v-model="date2"
-                    :format="format"
-                    :parseDate="parseDate"
-                    :formatDate="formatDate"
-                    @input="onChange"
-                    class="custom_date_picker"
-                  ></bib-datetime-picker>
+          <div id="tab_info_wrapper">
+            <div class="container pt-1 pb-1 pl-1 pr-1">
+              <div class="row">
+                <div class="col-4">
+                  <attendance-admin-widget></attendance-admin-widget>
+                </div>
+                <div class="col-4">
+                  <timesheets-admin-widget></timesheets-admin-widget>
+                </div>
+                <div class="col-4">
+                  <celebrations-widget></celebrations-widget>
                 </div>
               </div>
-              <div class="d-flex align-center">
-                <div class="d-flex align-center mr-05">
-                  <span class="mr-05">Search:</span>
-                  <bib-input size="sm" type="text" test_id="srchInput01">
-                  </bib-input>
-                </div>
-                <div class="d-flex align-center">
-                  <div style="font-size: 14px" class="mr-05">Show:</div>
-                  <button
-                    type="button"
-                    @click="$emit('on-click')"
-                    class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
-                  >
-                    All
-                  </button>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="px-1 py-05">
-          <div
-            class="d-grid d-flex gap-1 py-05"
-            style="grid-template-columns: repeat(3, 1fr)"
-            
-          >
-                <absent-present-card
-                  :item="employees"
-                  buttonLable="Active Users"
-                  icon="table"
-                  title="Active User"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></absent-present-card>
-                <info-card-one
-                  :item="infoCardData[1]"
-                  buttonLable="Timesheet"
-                  title="Birthday"
-                  icon="table"
-                  buttonVariant="light"
-                  profilePic="profilePic"
-                ></info-card-one>
-                <info-card-one
-                  :item="infoCardData[2]"
-                  buttonLable="Open inbox"
-                  icon="mail-new"
-                  profilePic="profilePic"
-                  buttonVariant="light"
-                ></info-card-one>
-              </div>
-            </div> -->
+            </div>
+
             <div class="scroll_wrapper">
               <div style="z-index: 1">
                 <list-dashboard :userList="employees"></list-dashboard>

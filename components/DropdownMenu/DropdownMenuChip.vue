@@ -18,7 +18,6 @@
                 :variant="item.variant"
                 size="lg"
                 :icon="item.icon ?? ''"
-                v-click-outside="clickOutside"
                 style="min-width: 140px"
                 class="pr-05 mb-05"
               ></bib-button>

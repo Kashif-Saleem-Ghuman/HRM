@@ -332,7 +332,8 @@ export default {
       this.timesheetId = weekData.id;
       this.loading = false;
     },
-    async dateSelection(){
+    async dateSelection(event){
+      if (!event) return 
       await this.fillDailyTimeEntries();      
     },
     async weekSelection() {

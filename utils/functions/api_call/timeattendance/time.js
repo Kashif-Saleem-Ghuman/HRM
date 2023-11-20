@@ -132,6 +132,19 @@ export async function getAdminTimesheetWidget() {
   }
 }
 
+export async function getAdminCelebrationWidget() {
+  try {
+    const config = createConfig();
+    const timesheetData = await hrmApiAxiosInstance.get(
+      "/widgets/admin/celebration/",
+      config
+    );
+      return timesheetData.data
+  } catch (e) {
+    alert(e);
+  }
+}
+
 
 export async function getUserTimesheetWidget() {
   try {

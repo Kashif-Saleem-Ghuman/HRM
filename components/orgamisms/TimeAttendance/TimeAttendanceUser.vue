@@ -107,7 +107,7 @@
 <script>
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
+import { getWeekTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData"
 import { INFO_CARD_DATA } from "@/utils/constant/DashboardData";
@@ -325,7 +325,7 @@ export default {
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),
       })
-      const weekData = (new TimesheetParser(await getTimesheets(weekRange))).parse("week");
+      const weekData = (new TimesheetParser(await getWeekTimesheets(weekRange))).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;

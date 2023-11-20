@@ -198,6 +198,18 @@ export async function getTimesheets({ from, to, employeeId }) {
   }
 }
 
+export async function getWeekTimesheets({ from, to, employeeId }) {
+  try {
+    const url = "/timesheets/week";
+    const config = createConfig();
+    config.params = { from, to };
+    if (employeeId) config.params.employeeId = employeeId;
+    const { data } = await hrmApiAxiosInstance.get(url, config);
+    return data?.timesheets || [];
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export async function approveTimesheet({ id }) {
   try {

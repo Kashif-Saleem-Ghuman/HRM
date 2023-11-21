@@ -21,7 +21,7 @@
                   <timesheets-admin-widget></timesheets-admin-widget>
                 </div>
                 <div class="col-4">
-                  <celebrations-widget></celebrations-widget>
+                  <celebrations-widget avatars-position="center"></celebrations-widget>
                 </div>
               </div>
             </div>

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { DateTime } from "luxon";
 import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance/timer";
+import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/time";
+import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 
 export const state = () => ({
   timer: {
@@ -11,7 +13,8 @@ export const state = () => ({
   },
   dailyTimeEntries: [],
   chronometer: 0,
-  isTimerRunning: false
+  isTimerRunning: false,
+  employeesAttendance: null
 });
 
 export const getters = {
@@ -24,6 +27,10 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_EMPLOYEE_ATTENDANCE(state, payload) {
+    state.employeesAttendance = payload
+  },
+
   SET_TIMER_DATA: (state, payload) => {
     const { start, end, type, active } = payload;
     state.timer.start = start || 0;
@@ -48,6 +55,21 @@ export const mutations = {
 };
 
 export const actions = {
+  async getEmployeesAttendance({ state, commit }, payload) {
+    try {
+      const { date, searchString } = payload
+      const { employees = [] } = await getTimeAttendance({ date, searchString });
+      employees.forEach((employee) => {
+        const parser = new TimesheetParser(employee);
+        return parser.parse("day");
+      });
+      commit("SET_EMPLOYEE_ATTENDANCE", employees)
+      return employees
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async stopTimer({ commit }) {
     try {
       await stopTimer()

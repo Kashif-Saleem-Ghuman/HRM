@@ -20,7 +20,6 @@
               @clock="openClock"
               @timer-stop="fillDailyTimeEntries"
               :disabled="hasInEntry"
-              :key="timer"
             ></info-card-timer>
 
             <info-card-one

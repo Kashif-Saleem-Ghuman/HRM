@@ -10,9 +10,12 @@
           <span>{{ value }}</span>
         </div>
 
-        <div v-if="avatars" class="widget-avatars-container">
+        <div v-if="avatars && avatarsPosition === 'center'" class="widget-avatars-container">
           <div v-for="avatar in avatars" class="widget-avatars" :key="avatar.id">
-            <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"></bib-avatar>
+            <NuxtLink :to="`/profile/${avatar.id}`">
+              <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"
+                :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -25,18 +28,37 @@
       </div>
 
 
+      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom cursor-pointer pt-05">
+        <div v-for="avatar in avatars" :key="avatar.id">
+          <NuxtLink :to="`/profile/${avatar.id}`">
+            <bib-avatar :src="avatar.photo" size="1.5rem"
+              :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
+          </NuxtLink>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import { getEmployeeInitials } from '../../../utils/functions/common_functions';
+
 export default {
+  props: {
+    avatarsPosition: {
+      type: String,
+      default: 'bottom'
+    }
+  },
 
   data() {
     return {
       data: {},
       subData: null,
-      avatars: null
+      avatars: null,
+      loading: false,
+      avatarsBottom: null
     };
   },
 
@@ -53,6 +75,7 @@ export default {
   },
 
   methods: {
+    getEmployeeInitials,
     async fetchData() {
       throw new Error(`Widget fetchaData function needs to be implemented!`);
     },
@@ -66,8 +89,13 @@ export default {
 <style lang="scss">
 $text-font-size: 14px;
 
+.widget {
+  height: 100%;
+}
+
 .widget-container {
   width: 100%;
+  height: 100%;
   padding: 24px;
   font-size: $text-font-size;
   background: #fff;
@@ -177,5 +205,14 @@ $text-font-size: 14px;
       }
     }
   }
-}</style>
+
+  .widget-avatars-container-bottom {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    max-height: 2rem;
+    overflow: hidden;
+  }
+}
+</style>
   

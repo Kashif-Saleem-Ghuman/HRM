@@ -112,3 +112,9 @@ export function handleItemClick_Table(item, event) {
   event.preventDefault();
   this.$router.push("/profile/" + item);
 }
+
+export function getEmployeeInitials(employee) {
+  if (!employee) return ""
+  const { firstName, lastName } = employee
+  return firstName?.charAt(0) + lastName?.charAt(0)
+}

@@ -1,43 +1,33 @@
 <template>
   <div>
-    <div
-      class="d-flex justify-between align-center px-075 bottom_border_wrapper"
-    >
-        <div class="day-date-picker-wrapper py-05" >
-          <button-with-overlay
-            sectionLabel="View: "
-            :button-config="{ label: dateBtnLabel, variant: 'light', }"
-            v-slot="scope"
-          >
+    <div class="d-flex justify-between align-center px-075 bottom_border_wrapper">
+      <div class="day-date-picker-wrapper py-05">
+        <button-with-overlay sectionLabel="View: " :button-config="{ label: dateBtnLabel, variant: 'light', }"
+          v-slot="scope">
           <div class="pl-05 pr-05">
-            <bib-datetime-picker
-              v-model="date"
-              @input="onDateChange($event); scope.close()"
-              class="custom-date-picker"
-              size="sm"
-              style="min-width: 7vw;"
-              :maxDate="maxDate"
-            ></bib-datetime-picker>
+            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()" class="custom-date-picker"
+              size="sm" style="min-width: 7vw;" :maxDate="maxDate"></bib-datetime-picker>
           </div>
         </button-with-overlay>
-        </div>
-
-        <div class="d-flex align-center">
-
-          <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
-
-          <!-- <div class="d-flex align-center">
-            <div style="" class="mr-05">Show:</div>
-            <button
-              type="button"
-              @click="$emit('on-click')"
-              class="cursor-pointer shape-rounded d-flex align-center border-0 px-1 py-025"
-            >
-              All
-            </button>
-          </div> -->
-        </div>
+      </div>
+      <div class="d-flex align-center">
+        <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+      </div>
     </div>
+
+    <div class="attendance-widgets-container container pt-1 pb-1 pl-1 pr-1">
+      <div class="row">
+        <div class="col-4">
+          <present-widget avatars-position="bottom"></present-widget>
+        </div>
+
+        <div class="col-4">
+          <absent-widget avatars-position="bottom"></absent-widget>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+
 
     <div class="scroll_wrapper">
       <div>
@@ -45,14 +35,16 @@
         <loader :showloader="loading"></loader>
       </div>
     </div>
+
+
   </div>
 </template>
 
 <script>
-import { getTimeAttendance } from "../../utils/functions/api_call/timeattendance/time";
-import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { DateTime } from "luxon";
+import PresentWidget from '../../components/orgamisms/TimeAttendance/PresentWidget.vue';
 export default {
+  components: { PresentWidget },
   data() {
     return {
       date: DateTime.now().startOf('day').toUTC().toFormat("yyyy-MM-dd"),
@@ -92,13 +84,7 @@ export default {
     async generateOrganizationEntries(isoDate) {
       const { searchString } = this
       this.loading = true;
-      const { employees = [] } = await getTimeAttendance({ date: isoDate, searchString });
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("day");
-      });
-
-      this.employees = employees;
+      this.employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date: isoDate, searchString })
       this.loading = false;
     },
   },
@@ -111,12 +97,7 @@ export default {
 </script>
 
 <style lang="scss">
-.vdpComponent__input{
-  // background-color: #F2F2F5 !important;
-  // width: 300px !important;
-}
-
 .day-date-picker-wrapper .bib-datepicker .bib-datepicker__close-icon {
-    display: none;
+  display: none;
 }
 </style>

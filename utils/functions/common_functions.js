@@ -118,3 +118,9 @@ export function getEmployeeInitials(employee) {
   const { firstName, lastName } = employee
   return firstName?.charAt(0) + lastName?.charAt(0)
 }
+
+export function getEmployeeFullName(employee) {
+  if (!employee) return ""
+  const { firstName, lastName } = employee
+  return `${firstName} ${lastName}`
+}

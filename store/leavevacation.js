@@ -50,7 +50,8 @@ export const  actions = {
             from,
             to,
             search,
-            status
+            status,
+            split: true
           },
         }
       );

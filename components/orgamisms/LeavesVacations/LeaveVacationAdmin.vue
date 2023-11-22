@@ -64,10 +64,10 @@ export default {
 
 <style lang="scss">
 .author-display {
-  border-radius: 0.5rem;
+  // border-radius: 0.5rem;
   // background-color: #cdf784;
   color: black;
-  padding: 0.5rem;
+  // padding: 0.5rem;
   margin-bottom: 10px;
   opacity: 10 !important;
   z-index: 10000;

@@ -13,14 +13,6 @@
                 class="mr-05"
                 @click="actionBY('leaveAdmin')"
               ></bib-button>
-              <!-- <bib-button
-                icon="add"
-                variant="success--outline"
-                :scale="1"
-                label="Add vacation"
-                class="mr-05"
-                @click="actionBY('vacationAdmin')"
-              ></bib-button> -->
             </div>
             <dropdown-menu-calendar
               :items="dropMenu"
@@ -52,11 +44,8 @@
       </div>
       <div class="rtl-wrapper d-flex align-center" style="justify-content: end;">
         <div class="serach-item">
-          <!-- <label>Search:</label> -->
           <template>
             <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
-
-            <!-- <input type="text" name="name" @change="searchLeavesType($event)" @focusout="searchLeavesType($event)" /> -->
           </template>
         </div>
         <bib-button
@@ -94,39 +83,18 @@
         :key="reloadData"
       >
         <template v-slot:eventContent="arg">
-          <a
-            class="author-display d-flex"
-            :class="[
-              arg.event.extendedProps.type === 'vacation'
-                ? 'event_wrapper__bgvacations'
-                : '',
-              arg.event.extendedProps.type === 'leave'
-                ? 'event_wrapper__bgonleave'
-                : '',
-              arg.event.extendedProps.type == 'Absent'
-                ? 'event_wrapper__bgabsent'
-                : '',
-              arg.event.extendedProps.type == 'medical'
-                ? 'event_wrapper__bgabsent'
-                : '',
-            ]"
-            style="cursor: pointer; margin-bottom: 3px"
-          >
+          <div class="author-display"  :class="eventClass(arg.event.extendedProps.type)">
             <div>
               <bib-avatar
                 :src="arg.event.extendedProps.employee.photo"
-                size="2rem"
+                size="1.5rem"
               ></bib-avatar>
             </div>
-            <div class="pl-05">
-              <label>{{
-                arg.event.extendedProps.employee.firstName +
-                " " +
-                arg.event.extendedProps.employee.lastName
-              }}</label>
-              <span>{{ arg.event.extendedProps.type == 'leave' ? 'Personal Leave' : arg.event.extendedProps.type + ' ' + "Leave" }}</span>
+            <div class="pl-05 author-display__employee_info">
+              <label>{{ getEmployeeFullName(arg.event.extendedProps.employee) }}</label>
+              <span>{{ arg.event.extendedProps.type == 'leave' ? 'On Leave' : arg.event.extendedProps.type }}</span>
             </div>
-          </a>
+          </div>
         </template>
       </FullCalendar>
     </div>
@@ -223,24 +191,6 @@
           </div>
         </div>
       </template>
-      <!-- <template v-slot:sidebar-footer>
-        <div class="">
-          <div style="text-align: right">
-            <bib-button
-              label="Cancel"
-              variant="gray"
-              size="lg"
-              v-on:click="closeSidebar()"
-            ></bib-button>
-            <bib-button
-              label="Save"
-              variant="success"
-              size="lg"
-              v-on:click="addLeaveVacations()"
-            ></bib-button>
-          </div>
-        </div>
-      </template> -->
     </action-sidebar>
   </div>
 </template>
@@ -270,6 +220,7 @@ import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
+import { getEmployeeFullName } from "../../../utils/functions/common_functions"
 export default {
   components: {
     FullCalendar,
@@ -410,6 +361,7 @@ export default {
     getCurrentDateMonth,
     getCurrentYear,
     getUserLeavesDetail,
+    getEmployeeFullName,
     onSearchChange(value) {
       this.searchString = value
       if(this.searchString == ''){
@@ -567,46 +519,49 @@ export default {
       this.slideClass = "slide-in";
       this.employeeNameSelectShow = true;
       this.addLeaveKey += 1;
-      this.calendarOptions.events.filter((item, index) => {
-        if (item.id == clickInfo.event._def.publicId) {
-          this.getUserLeavesDetail(item.employee.id).then((result) => {
-            this.allowanceLeavesDetailedData = result;
-          });
-          console.log(item.employee.id, "allowanceLeavesDetailedData");
-          this.leaveStatus = item.status;
-          this.form = item;
-          this.employeeNameSelect = item.employee.id;
 
-          this.employeeName =
-            item.employee.firstName + " " + item.employee.lastName;
-          setTimeout(() => {
-            if (item.type == "vacation") {
-              this.allowanceData = this.allowanceLeavesDetailedData.vacationsAllowance;
-              this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
-            }
-            if (item.type == "leave") {
-              this.allowanceData = this.allowanceLeavesDetailedData.otherLeavesAllowance;
-              this.useDaysData =
-                this.allowanceLeavesDetailedData.vacationsUsed;
-            }
-            if (item.type == "medical") {
-              this.allowanceData = this.allowanceLeavesDetailedData.medicalLeavesAllowance;
-              this.useDaysData =
-                this.allowanceLeavesDetailedData.medicalLeavesUsed;
-            }
-          }, 1000);
-          // console.log(this.allowanceLeavesDetailedData, "allowanceLeavesDetailedDataallowanceLeavesDetailedDataallowanceLeavesDetailedData")
-          this.startDate = fecha.format(
-            new Date(this.form.start),
-            "DD-MMM-YYYY"
-          );
-          this.endDate = fecha.format(new Date(this.form.end), "DD-MMM-YYYY");
-          // console.log(this.form, "clickInfo.event._def.publicId");
-          return item;
-        }
+      const { id, groupId } = clickInfo.event
+      const item = this.calendarOptions.events.find( event => event.id == id)
+      if(!item) return
+
+      this.getUserLeavesDetail(item.employee.id).then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.setAllowanceData(item.type)
       });
+
+      this.leaveStatus = item.status;          
+      this.form = groupId ? item.request : item
+      this.employeeNameSelect = item.employee.id
+
+      this.employeeName = this.getEmployeeFullName(item.employee)
+      this.startDate = fecha.format(new Date(this.form.start),"DD-MMM-YYYY");
+      this.endDate = fecha.format(new Date(this.form.end), "DD-MMM-YYYY");
       this.openSidebar = true;
     },
+
+    setAllowanceData(type) {
+      if (type == "vacation") {
+        this.allowanceData = this.allowanceLeavesDetailedData.vacationsAllowance;
+        this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+      }
+      if (type == "leave") {
+        this.allowanceData = this.allowanceLeavesDetailedData.otherLeavesAllowance;
+        this.useDaysData = This.allowanceLeavesDetailedData.vacationsUsed;
+      }
+      if (type == "medical") {
+        this.allowanceData = this.allowanceLeavesDetailedData.medicalLeavesAllowance;
+        this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+      }
+    },
+
+    eventClass(type) {
+      return {
+        'event_wrapper__bgvacations': type === 'vacation',
+        'event_wrapper__bgonleave': type === 'leave',
+        'event_wrapper__bgabsent': type === 'Absent' || type === 'medical',
+      };
+    },
+
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {
@@ -712,11 +667,11 @@ export default {
 }
 
 .author-display {
-  border-radius: 0.5rem;
-  // background-color: #cdf784;
+  cursor: pointer;
+  height: 2rem !important;
+  border-radius: 3px;
   color: black;
-  padding: 0.5rem;
-  // padding-bottom: 120px;
+  padding: 0.2rem;
   opacity: 10 !important;
   z-index: 10000;
   display: flex;
@@ -725,10 +680,12 @@ export default {
   label {
     font-weight: 600;
     display: block;
-    font-size: 12px;
+    font-size: .6rem;
   }
   span {
-    font-size: 12px;
+    font-size: .55rem;
+    line-height: 5px;
+    text-transform: capitalize;
   }
   .fc-daygrid-event {
     border-radius: 13px !important;
@@ -736,6 +693,10 @@ export default {
     white-space: unset !important;
     word-wrap: break-word !important;
     background-color: #000;
+  }
+
+  &__employee_info {
+    line-height: 0.9;
   }
 }
 

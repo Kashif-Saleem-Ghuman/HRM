@@ -520,7 +520,7 @@ export default {
       this.employeeNameSelectShow = true;
       this.addLeaveKey += 1;
 
-      const { id, groupId } = clickInfo.event
+      const { id } = clickInfo.event
       const item = this.calendarOptions.events.find( event => event.id == id)
       if(!item) return
 
@@ -529,8 +529,8 @@ export default {
         this.setAllowanceData(item.type)
       });
 
-      this.leaveStatus = item.status;          
-      this.form = groupId ? item.request : item
+      this.leaveStatus = item.status;
+      this.form = item.request
       this.employeeNameSelect = item.employee.id
 
       this.employeeName = this.getEmployeeFullName(item.employee)

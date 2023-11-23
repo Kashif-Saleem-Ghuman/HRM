@@ -107,17 +107,17 @@ export default {
     async rejectItem(event) {
       this.addIds.push(event + "");
       await this.getRejectLeaveVacationsAdmin().then(() => {
-        this.$nuxt.$emit("pendingList");
+        this.getPendingLeaveVacationsAdmin();
       });
-      this.getPendingLeaveVacationsAdmin();
+      
     },
     async approveItem(event) {
       this.addIds.push(event + "");
       console.log(this.addIds, "item");
       await this.getApproveLeaveVacationsAdmin().then(() => {
-        this.$nuxt.$emit("pendingList");
+        this.getPendingLeaveVacationsAdmin();
       });
-      this.getPendingLeaveVacationsAdmin();
+      
     },
     async getIdValue(event) {
       this.checkedAll = false;

@@ -6,33 +6,6 @@
       <section-header-left
         title="People"
       ></section-header-left>
-      <!-- <div class="d-flex justify-between">
-        <template v-for="user in userList.slice(0, 4)">
-          <section-header-right
-            @click="userId(user.id)"
-            :avatar="
-              user.photo == null
-                ? 'http://localhost:3000/_nuxt/_/bib-shared/img/user-default.png'
-                : user.photo
-            "
-          >
-          </section-header-right>
-        </template>
-        <div
-          style="z-index: 1"
-          class="bg-gray3 shape-circle icon-size d-flex justify-center align-center border-0"
-        >
-          <span style="font-size: 14px; font-weight: 500">{{ totalUser }}</span>
-        </div>
-        <button-circle
-          icon="user-add"
-          :scale="1"
-          @click="addUser()"
-          variant="success"
-          class="ml-05"
-          icon_bg="light-green"
-        ></button-circle>
-      </div> -->
     </div>
     <div class="tab-wrapper">
       <div class="row mx-0">
@@ -48,19 +21,6 @@
       <div id="directory-wrapper">
         <div class="" id="tab_info_wrapper">
           <div v-if="activeTab == peopleTabItem[0].value">
-            <!-- <div
-              class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-            >
-              <div class="d-flex align-center">
-                <button-green
-                  icon="add"
-                  variant="success"
-                  :scale="1"
-                  title="Add employee"
-                  @on-click="userId()"
-                ></button-green>
-              </div>
-            </div> -->
             <div class="scroll_wrapper">
               <div>
                 <list :userList="localData"></list>

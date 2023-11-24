@@ -33,7 +33,7 @@
           icon="user-add"
           :scale="1"
           @click="addUser()"
-          variant="success"
+          variant="primary"
           class="ml-05"
           icon_bg="light-green"
         ></button-circle>

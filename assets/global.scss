@@ -298,6 +298,17 @@ $validation-star-color: #fa0f00;
       font-size: 14px;
     }
   }
+  &__bgprimary {
+    background-color: #1f42a2;
+    svg {
+      fill: #fff !important;
+    }
+    span {
+      color: #fff;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
   &__bgalert {
     background-color: #d9000d;
     svg {

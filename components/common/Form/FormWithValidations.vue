@@ -20,7 +20,7 @@
               ></bib-button>
               <bib-button
                 label="Save"
-                variant="success"
+                variant="primary"
                 size="lg"
                 @click="handleSubmit"
                 style="width: 50%; display: flex; justify-content: center"

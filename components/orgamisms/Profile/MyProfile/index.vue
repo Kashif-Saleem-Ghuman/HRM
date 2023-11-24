@@ -57,7 +57,7 @@
                       <bib-button
                         label="Upload"
                         size="lg"
-                        variant="success"
+                        variant="primary"
                         @click="fileUpload"
                       ></bib-button>
                     </div>

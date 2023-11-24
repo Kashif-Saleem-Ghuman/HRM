@@ -5,7 +5,6 @@
     >
       <section-header-left
       title="Leave & Vacations"
-      :avatar="getUser.photo"
       ></section-header-left>
     </div>
     <div class="tab-wrapper">

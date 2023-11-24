@@ -1,5 +1,5 @@
 <template>
-  <nav class="p-05 d-flex align-center gap-05">
+  <nav class="px-1 py-05 d-flex align-center gap-05">
     <bib-button
       variant="secondary--light"
       icon="arrow-left"
@@ -10,7 +10,7 @@
       v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-    <span class="mr-1 title-text" v-if="title">{{ title }}</span>
+    <span class="title-text" v-if="title">{{ title }}</span>
     <bib-button
     v-if="bookmark"
       :icon="bookmark"

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-items">
+  <div class="search-items" style="z-index: 999999999999999;">
     <ul v-for="item in searchResults"  :key="item.id">
       <component v-if="item?.type" :is="getSearchItemComponent(item?.type)" :item="item"></component>
     </ul>

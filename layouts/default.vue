@@ -19,6 +19,7 @@
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
           :hideSearchBox="$store.state.token.isUser"
+          class="overlap-zindex"
         >
         <template>
           <search-content></search-content>

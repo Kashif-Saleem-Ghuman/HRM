@@ -1,7 +1,7 @@
 <template>
   <div id="people-action-wrapper">
     <div
-      class="d-flex justify-between align-center pl-05 bottom_border_wrapper"
+      class="d-flex justify-between align-center bottom_border_wrapper"
     >
       <section-header-left
         title="People"

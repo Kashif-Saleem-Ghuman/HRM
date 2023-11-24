@@ -8,7 +8,7 @@
       >
         <div class="d-flex align-center mb-1 mt-1">
           <bib-icon
-            variant="success"
+            variant="primary"
             v-if="item.icon"
             :icon="item.icon"
             :scale="0.9"
@@ -31,7 +31,7 @@
             >
               <div class="d-flex align-center mb-1 mt-1">
                 <bib-icon
-                  variant="success"
+                  variant="primary"
                   v-if="item.icon"
                   :icon="item.icon"
                   :scale="0.9"

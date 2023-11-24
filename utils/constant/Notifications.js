@@ -1,22 +1,22 @@
 export const popupNotificationMsgs = [
   {
     text: "Leave Added successfully...",
-    variant: "success",
+    variant: "primary",
   },
   {
     text: "Employee data update successfully...",
-    variant: "success",
+    variant: "primary",
   },
   {
     text: "Leave has been Approved...",
-    variant: "success",
+    variant: "primary",
   },
   {
     text: "Leave has been Rejected...",
-    variant: "success",
+    variant: "primary",
   },
   {
     text: "Organization profile data update successfully...",
-    variant: "success",
+    variant: "primary",
   },
 ];

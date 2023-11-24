@@ -23,7 +23,7 @@
       </div>
     </div>
     <div
-      class="button-wrapper button-wrapper__bgsucess cursor-pointer"
+      class="button-wrapper button-wrapper__bgprimary cursor-pointer"
       :class="{'button-custom--disabled': disabled, 'bg-secondary-sub3': disabled}"
       @click="handleClockInOutClick"
     >

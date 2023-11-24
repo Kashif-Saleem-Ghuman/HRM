@@ -6,8 +6,8 @@
           <div class="d-flex pr-05">
             <div class="d-flex align-center">
               <bib-button
-                icon="add"
-                variant="success"
+                :icon="$button.approved.icon"
+                :variant="$button.approved.variant"
                 :scale="1"
                 label="Add Leave"
                 class="mr-05"

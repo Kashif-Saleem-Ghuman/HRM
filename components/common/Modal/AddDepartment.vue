@@ -109,7 +109,7 @@
           <bib-button label="Cancel" variant="light" pill></bib-button>
           <bib-button
             label="Create"
-            variant="success"
+            variant="primary"
             class="ml-auto"
             pill
           ></bib-button>

@@ -41,15 +41,6 @@
         v-if="show == 'true'"
       >
         <slot name="sidebar-footer">
-          <!-- <div class="d-flex align-center" v-if="copyLink">
-              <bib-icon
-                icon="attachment"
-                :scale="0.8"
-                variant="success"
-                style="margin-right: 5px"
-              ></bib-icon>
-              <span style="color: #2ba026; font-size: 14px">Copy Link</span>
-            </div> -->
         </slot>
       </div>
     </div>

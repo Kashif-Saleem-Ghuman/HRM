@@ -23,7 +23,7 @@ export default ({ app }, inject) => {
         label: "Approve",
         value: "approved",
         key: "approved",
-        variant: "success",
+        variant: "primary",
         icon: "check-circle-solid",
       },
       rejected: {

@@ -44,7 +44,7 @@
         ></bib-button>
         <bib-button
           label="Send Message"
-          variant="success"
+          variant="primary"
           v-on:click="$emit('sendMessage')"
         ></bib-button>
       </div>

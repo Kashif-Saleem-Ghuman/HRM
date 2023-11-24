@@ -17,7 +17,7 @@
       <div class="d-flex align-center">
         <button-green
           icon="add"
-          variant="success"
+          variant="primary"
           :scale="1"
           title="New Message"
           @on-click="actionBY()"

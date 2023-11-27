@@ -3,6 +3,7 @@ export const state = () => ({
   userList: [],
   departmentList: [],
   reportList: [],
+  selectedEmployeeId: null
 });
 
 export const getters = {
@@ -32,6 +33,10 @@ export const mutations = {
   },
   SET_REPORTS: (state, payload) => {
     state.reportList = payload;
+  },
+  SET_SELECTED_EMPLOYEE_ID: (state, payload) => {
+    const { employeeId } = payload
+    state.selectedEmployeeId = employeeId;
   },
 };
 

@@ -27,7 +27,7 @@
           <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
         </div> -->
       </div>
-      <div class="footer-item d-flex">
+      <div class="footer-item d-flex gap-2">
         <div class="items"
           v-if="$store.state.token.isAdmin"
           @mouseover="editAllowanceIcon = true"

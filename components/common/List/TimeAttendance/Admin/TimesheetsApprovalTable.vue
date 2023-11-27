@@ -39,28 +39,11 @@
       <template #cell(total)="data">
         <chips
           :title="data.value.total ? formatHoursToHHMM(data.value.total) : '--'"
-          :className="[
-            getTotalClassName(data.value.total),
-            data.value.status == TIMESHEET_STATUS['vacation'].value
-              ? 'chip-wrapper__bgvacation'
-              : '',
-            data.value.test == '--' ? 'chip-wrapper__bgabsentpink' : '',
-          ]"
         ></chips>
       </template>
 
       <template #cell(status)="data">
         <div class="text-dark px-05">
-          <!-- <bib-input
-            type="select"
-            :value="data.value.status"
-            :options="timesheetStatusOptions"
-            label=""
-            placeholder=""
-            :disabled="false"
-            @input="onStatusChange($event, data)"
-          ></bib-input> -->
-
             <dropdown-menu-chip
               :items="timesheetStatusOptions"
               :button-config="statusButtonConfig"

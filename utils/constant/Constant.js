@@ -671,10 +671,6 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "Employee Profile",
   },
   {
-    title: "Employment Information",
-    value: "Employment Information",
-  },
-  {
     title: "Files",
     value: "files",
   },

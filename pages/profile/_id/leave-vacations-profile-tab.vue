@@ -16,7 +16,9 @@
             icon="airplane-solid"
             className="button-wrapper__bgsucess"
             :variant="$button.approved.variant"
-            @on-click="addLeaves('vacation')"
+            @on-click="addLeaves(REQUEST_TYPES.VACATION)"
+            :type="REQUEST_TYPES.VACATION"
+            @update="setAllowance"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
             title="Medical/sick"
@@ -28,8 +30,11 @@
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
             :variant="$button.rejected.variant"
-            @on-click="addLeaves('medical')"
+            @on-click="addLeaves(REQUEST_TYPES.MEDICAL)"
+            :type="REQUEST_TYPES.MEDICAL"
+            @update="setAllowance"
             ></info-card-leave-vacation>
+
             <info-card-leave-vacation
             title="Personal leave"
             :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
@@ -38,7 +43,9 @@
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
             :variant="$button.pending.variant"
-            @on-click="addLeaves('leave')"
+            @on-click="addLeaves(REQUEST_TYPES.LEAVE)"
+            :type="REQUEST_TYPES.LEAVE"
+            @update="setAllowance"
           ></info-card-leave-vacation>
         </div>
         <div class="py-1">
@@ -70,10 +77,12 @@
 import { mapGetters } from 'vuex';
 import { getCurrentDateMonth, getCurrentWeek, getCurrentYear } from '../../../utils/functions/functions_lib';
 import { DELETE_MESSAGE } from '../../../utils/constant/ConfirmationMessage';
+import { REQUEST_TYPES } from "@/utils/constant/Constant"
 
 export default {
   data() {
     return {
+      REQUEST_TYPES,
       is_data_fetched: false,
       leaveVacationDataUser: [],
       allowanceLeavesDetailedData: [],
@@ -95,8 +104,9 @@ export default {
     this.selectedMonth = this.currentMonth;
     this.id = this.$route.params.id;
     this.getCurrentYear();
-    // this.getCurrentDateMonth();
     this.getCurrentWeek();
+    
+    this.$store.commit('employee/SET_SELECTED_EMPLOYEE_ID', { employeeId: this.id})
 
     await this.$store
       .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id))
@@ -137,6 +147,14 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
+    async setAllowance() {
+      return this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id))
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
+    }
   }
 }
 </script>

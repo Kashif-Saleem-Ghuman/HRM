@@ -6,13 +6,13 @@
       :options="dropzoneOptions"
       :use-custom-slot="true"
       @vdropzone-removed-file="openImage()"
-      @vdropzone-thumbnail="$emit('vfileAdded', $event, 'photo')"
+      @vdropzone-thumbnail="$emit('vfileAdded', $event)"
     >
       <div class="d-flex align-center">
         <div class="mr-1" style="position: relative">
           <bib-avatar size="100px" :src="src" class="avtar-border"></bib-avatar>
           <div class="custom-remove" :class="customRemove">
-            <span v-on:click="openImage()">Remove File</span>
+            <span v-on:click="openImage()">Remove image</span>
           </div>
         </div>
         <div :class="className">

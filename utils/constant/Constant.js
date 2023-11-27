@@ -1500,3 +1500,9 @@ export const REQUEST_TYPES = {
   VACATION: 'vacation',
   LEAVE: 'leave'
 }
+
+export const REQUEST_STATUS = {
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+  PENDING: 'pending'
+}

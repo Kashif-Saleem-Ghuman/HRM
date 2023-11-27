@@ -386,7 +386,7 @@ export default {
         this.openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
-        this.avatarUrl =''
+        this.avatarUrl = "";
       });
     },
 

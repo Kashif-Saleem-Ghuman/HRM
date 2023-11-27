@@ -333,7 +333,6 @@ import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { DateTime } from "luxon";
 
 export default {
-
   data() {
     return {
       contactFormFieds,
@@ -362,7 +361,7 @@ export default {
       errors: {},
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
-      avatarUrl:'',
+      avatarUrl: "",
     };
   },
   methods: {
@@ -380,15 +379,15 @@ export default {
     },
 
     submitToApi(form) {
-      form.photo= this.avatarUrl
-      console.log(form, this.avatarUrl, "avatarUrlavatarUrl")
-      updateEmployee({ id: this.form.id, employee: form }).then(
-        (data) => {
-          this.openPopupNotification(1);
-          this.$nuxt.$emit("top-nav-key");
-          this.form = data;
-        }
-      );
+      if (this.avatarUrl != "") {
+        form.photo = this.avatarUrl;
+      }
+      updateEmployee({ id: this.form.id, employee: form }).then((data) => {
+        this.openPopupNotification(1);
+        this.$nuxt.$emit("top-nav-key");
+        this.form = data;
+        this.avatarUrl =''
+      });
     },
 
     sendMeet,

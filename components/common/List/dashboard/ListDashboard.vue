@@ -62,7 +62,7 @@
       <template #cell(status)="data">
         <div class="text-dark pl-1">
           <chips-list
-            :title="data.value.active ? 'Online' : 'Absent'"
+            :title="data.value.active == true ? 'Online' : 'Absent'"
             iconShow="iconShow"
             icon="add"
             :className="[

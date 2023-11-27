@@ -58,13 +58,10 @@ export default {
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
        this.$store.dispatch("employee/setUser", this.id).then((result)=>{
-        console.log(result, "setUsersetUsersetUsersetUser")
         this.name = this.getUser
         this.form = this.getUser;
        });
       this.topNav += 1;
-      console.log("this.topNav", this.name)
-
     });
   },
   computed: {

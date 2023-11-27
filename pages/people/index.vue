@@ -23,7 +23,7 @@
           <div v-if="activeTab == peopleTabItem[0].value">
             <div class="scroll_wrapper">
               <div>
-                <list :userList="localData"></list>
+                <list :userList="employees"></list>
               </div>
             </div>
           </div>
@@ -33,99 +33,74 @@
   </div>
 </template>
 <script>
+import { getTimeAttendance } from "../../utils/functions/functions_lib_api";
 import {
   PEOPLE_TAB,
-  MORE_MENU,
-  SORTING_MENU,
-  DEPARTMENT_ITEMS,
-  ACCESS_ITEMS,
-  TABLE_HEAD,
-  SELECT_OPTIONS,
-  COUNTRIES,
-  STATES,
 } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
-import {
-  INBOX_DATA,
-  LEAVE_CARD_DATA,
-  INBOX_CARD_NEW_MESSAGE_DATA,
-} from "../../utils/constant/DashboardData";
 import {
   vfileAdded,
   updateAllData,
   handleInput,
   handleInputObject,
 } from "../../utils/functions/functions_lib.js";
-import { ADD_EMPLOYEE_TAB } from "../../utils/constant/Constant.js";
+import fecha, { format } from "fecha";
+import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+
+
 export default {
   data() {
     return {
-      infoCardData: LEAVE_CARD_DATA,
-      infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
-      openSidebar: false,
-      tableFields: TABLE_HEAD.tHeadDepartment,
-      tableFieldsTeam: TABLE_HEAD.tHeadTeam,
-      peopleTabItem: PEOPLE_TAB,
-      localData: [],
-      items: MORE_MENU,
-      departmentItems: DEPARTMENT_ITEMS,
-      actionMenu: SORTING_MENU.actionMenuPeople,
-      orderBy: "asc",
-      totalUser: "",
-      userPhoto: localStorage.getItem("userPhoto"),
-      departmentModel: false,
-      accessOptions: ACCESS_ITEMS,
-      teamOptions: "",
+      localData: [],      
       departmentOptions: "",
       newMessageSidebar: false,
-      slideClass: "slide-in",
-      personalTabItem: ADD_EMPLOYEE_TAB,
-      form: {},
+      peopleTabItem: PEOPLE_TAB,
       activeTab: "Directory",
-      dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
-      genderOptions: SELECT_OPTIONS.genderOptions,
-      maritalOptions: SELECT_OPTIONS.maritalStatusOptions,
-      countries: COUNTRIES,
-      states: STATES,
-      cureentState: STATES,
-      stateVisible:true,
-      otherStateVisible:false,
-      errorMsgStreet:false,
-      errorMsgCountry:false,
-      errorMsgPostalCode:false,
-      errorMsgState:false,
-      errorMsgSuit:false,
+      slideClass: "slide-in",
       updateForm: {},
       isFlag: false,
-      statusOptions: SELECT_OPTIONS.esstatusOptions,
+      date2: fecha.format(new Date(), "YYYY-MM-DD"),
+      getCurrentDate: "",
+      employees: []
     };
   },
   async created() {
-    localStorage.removeItem("clickedUserId");
-    await this.$store.dispatch("employee/setUserList");
-    this.localData = this.userList;
-    this.totalUser = this.localData.length;
-    // await this.$store.dispatch("employee/setTeamList");
-    this.$store.dispatch("teams/setTeamListOptions");
+    this.getCurrentDate = this.date2;
+
   },
 
   computed: {
     ...mapGetters({
-      userList: "employee/GET_USERS_LIST",
       getAccessToken: "token/getAccessToken",
       activeUserRole: "token/getUserRole",
       activeTabSidebar: "token/getActiveTab",
-      // getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-      getDepartment: "department/GET_DEPARTMENT_LIST",
     }),
   },
-  mounted() {},
+  mounted() {
+    this.getOrganizationEntries();
+
+  },
 
   methods: {
     vfileAdded,
     handleInput,
     handleInputObject,
     updateAllData,
+    async getOrganizationEntries() {
+        this.loading = true
+        const date = this.getCurrentDate
+        const data = await getTimeAttendance({ date });
+        const employees = data.employees
+
+        employees.forEach(employee => {
+          const parser = new TimesheetParser(employee)
+          return parser.parse('day')
+        });
+        
+        this.employees = employees
+        this.loading = false
+      },
+      
     handleChange__FileInput(files) {
       console.log(files);
     },

@@ -362,6 +362,7 @@ export default {
       errors: {},
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
+      avatarUrl:'',
     };
   },
   methods: {
@@ -379,6 +380,8 @@ export default {
     },
 
     submitToApi(form) {
+      form.photo= this.avatarUrl
+      console.log(form, this.avatarUrl, "avatarUrlavatarUrl")
       updateEmployee({ id: this.form.id, employee: form }).then(
         (data) => {
           this.openPopupNotification(1);
@@ -419,7 +422,6 @@ export default {
 
   mounted() {
     this.fetchEmployee();
-    console.log(this.form.dateOfBirth, "this.form.dateOfBirth");
   },
 
   watch: {

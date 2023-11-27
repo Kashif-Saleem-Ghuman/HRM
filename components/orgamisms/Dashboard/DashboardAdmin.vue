@@ -42,10 +42,6 @@
   import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
   import fecha, { format } from "fecha";
   import { mapGetters } from "vuex";
-  import {
-  DASHBOARD_DATA,
-  INFO_CARD_DATA,
-  } from "../../../utils/constant/DashboardData";
   import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
   
   export default {
@@ -53,8 +49,6 @@
       return {
         id: "",
         activeUserName: "",
-        infoCardData: INFO_CARD_DATA,
-        dashboardData: DASHBOARD_DATA,
         loading:false,
         localData: [],
         getCurrentDate: "",
@@ -67,7 +61,6 @@
   
     computed: {
       ...mapGetters({
-        userList: "employee/GET_USERS_LIST",
         getUser: "employee/GET_USER",
         getAccessToken: "token/getAccessToken",
         activeDate: "date/getActiveDate",

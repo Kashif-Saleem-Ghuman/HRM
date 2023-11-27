@@ -328,7 +328,6 @@ export default {
           this.addForm.employeeId = this.id === '' ? this.id : user.id;
           this.activeUserData = user;
           this.employeeNameSelect = activeId;
-          console.log(this.activeUserData, "getActiveUser");
         });
         this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
           this.activeUserAllowanceData = result;
@@ -424,7 +423,6 @@ export default {
       var activeId = user.id;
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
-      console.log(this.activeUserData, "getActiveUser");
     });
     if (this.$store.state.token.isAdmin) {
       if (this.$route.params.id) {

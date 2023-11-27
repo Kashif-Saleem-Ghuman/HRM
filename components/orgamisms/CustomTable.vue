@@ -204,7 +204,7 @@
         <bib-button
           :icon="
             buttonLable == 'Submit'
-              ? $button.approved.icon
+              ? ''
               : '' || buttonLable == 'Past Due'
               ? $button.past_due.icon
               : '' || buttonLable == 'Pending'
@@ -223,7 +223,7 @@
           :scale="$button.pending.scale"
           :label="
             buttonLable == 'Submit'
-              ? $button.approved.label
+              ? 'Submit'
               : '' || buttonLable == 'Past Due'
               ? $button.past_due.label
               : '' || buttonLable == 'Pending'

@@ -109,35 +109,6 @@
           class="mr-05 w-50"
           @click="$emit('reject-item', data.value.id)"
         ></bib-button>
-
-        <!-- <chips
-            :title="data.value.status == null ? 'N/A' : data.value.status"
-            iconShow="iconShow"
-            :icon="
-              data.value.status == 'approve'
-                ? 'check-all'
-                : '' || data.value.status == 'pending'
-                ? 'eye-open'
-                : '' || data.value.status == 'rejected'
-                ? 'help'
-                : ''
-            "
-            style="text-transform:capitalize;"
-            :className="[
-              data.value?.status == 'approve' ? 'chip-wrapper__bgsucess' : '',
-              data.value?.status === 'pending' ? 'chip-wrapper__bgabsentpink' : '',
-              data.value?.status === 'rejected' ? 'chip-wrapper__bgdefault' : '',
-              data.value?.status == null ? 'chip-wrapper__bggray' : '',
-            ]"
-          ></chips> -->
-        <!-- <bib-button
-          label="Reject"
-          variant="warning"
-          class="px-1"
-          style="height: 2.2rem; display: flex; align-items: center;"
-          @click="$emit('reject-item', data.value.id)"
-          
-        ></bib-button> -->
       </div>
     </template>
   </custom-table>
@@ -162,6 +133,7 @@ export default {
   },
   data() {
     return {
+      showRefusalModal: false,
       tableFields: TABLE_HEAD.tHeadLeaveVacationPending,
       attendanceClass: [],
       satisfaction: "",

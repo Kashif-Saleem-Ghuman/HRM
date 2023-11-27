@@ -26,7 +26,7 @@
             :key="pendingList"
             :checked="checked"
             :checkedAll="checkedAll"
-            @reject-item="rejectItem($event)"
+            @reject-item="enableRefusalModal"
             @approve-item="approveItem($event)"
             v-show="requestListData.length ? true : ''"
           ></list-pending>
@@ -37,6 +37,12 @@
         <bib-notification :popupMessages="popupMessages"></bib-notification>
       </div>
     </div>
+
+    <request-refusal-modal
+      v-if="showRefusalModal"
+      @cancel="cancelRejectRequest"
+      @confirm="rejectEmployeeRequest"
+    ></request-refusal-modal>
   </div>
 </template>
 
@@ -51,11 +57,14 @@ import {
 import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
-// import { buttonVariant } from "../../utils/constant/DropdownMenu";
+import { rejectRequest } from "@/utils/functions/api_call/requests"
 
 export default {
   data() {
     return {
+      showRefusalModal: false,
+      refusalReason: null,
+      rejectedRequestId: null,
       componentKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: null,
@@ -104,20 +113,27 @@ export default {
     getApproveLeaveVacationsAdmin,
     getRejectLeaveVacationsAdmin,
     openPopupNotification,
-    async rejectItem(event) {
-      this.addIds.push(event + "");
-      await this.getRejectLeaveVacationsAdmin().then(() => {
-        this.getPendingLeaveVacationsAdmin();
-      });
-      
+    cancelRejectRequest() {
+      this.addIds.pop()
+      this.showRefusalModal = false
     },
+    async enableRefusalModal(event) {
+      this.showRefusalModal = true 
+      this.rejectedRequestId = event
+    },
+    async rejectEmployeeRequest(request) {
+      await rejectRequest({id: this.rejectedRequestId, request}).then(() => {
+        this.getPendingLeaveVacationsAdmin();
+        this.showRefusalModal = false
+      });
+    },
+
     async approveItem(event) {
       this.addIds.push(event + "");
       console.log(this.addIds, "item");
       await this.getApproveLeaveVacationsAdmin().then(() => {
         this.getPendingLeaveVacationsAdmin();
       });
-      
     },
     async getIdValue(event) {
       this.checkedAll = false;

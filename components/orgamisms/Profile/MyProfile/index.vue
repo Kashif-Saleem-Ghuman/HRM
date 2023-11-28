@@ -32,14 +32,8 @@
             </div>
           </div>
 
-          <div id="employee-information-wrapper">
-            <div v-if="activeTab == personalTabItem[1].value">
-              <employment-info-form></employment-info-form>
-            </div>
-          </div>
-
           <div id="files-information-wrapper">
-            <div v-if="activeTab == personalTabItem[2].value">
+            <div v-if="activeTab == personalTabItem[1].value">
               <div id="scroll-wrapper" class="scroll-wrapper">
                 <div class="px-1">
                   <!-- my profile Info Wrapper Start Here  -->

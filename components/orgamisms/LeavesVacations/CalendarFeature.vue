@@ -216,7 +216,7 @@ import {
   getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
-import { SELECT_OPTIONS } from "../../../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_STATUS } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
@@ -344,7 +344,7 @@ export default {
       .dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
-        // status: 'approved'
+        status: REQUEST_STATUS.APPROVED
       })
       .then((result) => {
         this.calendarOptions.events = result;

@@ -19,3 +19,18 @@ export async function createRequest(payload) {
   }
 }
 
+
+export async function rejectRequest(payload) {
+  const { id, request } = payload;
+
+  try {
+    const url = `requests/admin/${id}/reject`;
+    const config = createConfig();
+
+    const { data } = await hrmApiAxiosInstance.put(url, { ...request }, config);
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+

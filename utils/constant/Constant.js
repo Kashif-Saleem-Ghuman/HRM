@@ -671,10 +671,6 @@ export const EMPLOYEE_PROFILE_TAB = [
     value: "Employee Profile",
   },
   {
-    title: "Employment Information",
-    value: "Employment Information",
-  },
-  {
     title: "Files",
     value: "files",
   },
@@ -1503,4 +1499,10 @@ export const REQUEST_TYPES = {
   MEDICAL: 'medical',
   VACATION: 'vacation',
   LEAVE: 'leave'
+}
+
+export const REQUEST_STATUS = {
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+  PENDING: 'pending'
 }

@@ -223,7 +223,7 @@
           :scale="$button.pending.scale"
           :label="
             buttonLable == 'Submit'
-              ? 'Submit'
+              ? buttonLable
               : '' || buttonLable == 'Past Due'
               ? $button.past_due.label
               : '' || buttonLable == 'Pending'

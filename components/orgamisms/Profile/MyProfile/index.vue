@@ -53,7 +53,9 @@
                         iconLeft="upload"
                         placeholder="Drop file here or click to upload"
                         style="margin-left: -8px"
+                        class="charanPal"
                       ></bib-input>
+                      
                       <bib-button
                         label="Upload"
                         size="lg"
@@ -466,4 +468,5 @@ export default {
     }
   }
 }
+
 </style>

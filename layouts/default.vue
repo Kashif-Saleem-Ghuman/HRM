@@ -16,6 +16,7 @@
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
+          placeholderSearchbox="Search employee by first name or last name"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
           :hideSearchBox="$store.state.token.isUser"

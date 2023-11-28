@@ -91,7 +91,7 @@
               ></bib-avatar>
             </div>
             <div class="pl-05 author-display__employee_info">
-              <label>{{ getEmployeeFullName(arg.event.extendedProps.employee) }}</label>
+              <label :title="getEmployeeFullName(arg.event.extendedProps.employee)">{{ getEmployeeFullName(arg.event.extendedProps.employee) | truncate(16, '...') }}</label>
               <span>{{ arg.event.extendedProps.type == 'leave' ? 'On Leave' : arg.event.extendedProps.type }}</span>
             </div>
           </div>

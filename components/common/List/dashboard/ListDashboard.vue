@@ -50,8 +50,8 @@
             style="width: 100%; cursor: pointer;"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="title">
-              {{ data.value.firstName }} {{ data.value.lastName }}
+            <div class="title" :title="data.value.firstName  + ' ' + data.value.lastName">
+              {{ data.value.firstName  + ' ' + data.value.lastName  | truncate(16, '...')}}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -62,7 +62,7 @@
       <template #cell(status)="data">
         <div class="text-dark pl-1">
           <chips-list
-            :title="data.value.active == true ? 'Online' : 'Absent'"
+            :title="data.value.active == true ? 'Online' : 'Offline'"
             iconShow="iconShow"
             icon="add"
             :className="[
@@ -177,7 +177,6 @@ export default {
       filteredData: [],
     };
   },
-
   methods: {
     dateCheck,
     sendMeet,

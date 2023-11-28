@@ -33,6 +33,7 @@
                           field-key="employeeNo"
                           :value="form.employeeNo"
                           placeholder=""
+                          disabled
                         ></form-input>
                       </div>
                     </div>
@@ -44,6 +45,7 @@
                           field-key="sin"
                           :value="form.sin"
                           placeholder=""
+                          disabled
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -53,6 +55,7 @@
                           field-key="hireDate"
                           :value="form.hireDate"
                           placeholder="Select your Hire Date"
+                          :editable="false"
                         ></form-input>
                       </div>
                     </div>
@@ -64,6 +67,7 @@
                           field-key="employmentType"
                           :value="form.employmentType"
                           :options="employmentTypeOptions"
+                          disabled
                           placeholder=""
                         ></form-input>
                       </div>
@@ -95,6 +99,7 @@
                             label="Work Title"
                             field-key="jobTitle"
                             :value="form.jobTitle"
+                            disabled
                             placeholder=""
                           ></form-input>
                         </div>
@@ -119,6 +124,7 @@
                             class="mb-05"
                             placeholder="Please select reporting manager"
                             icon-left="file"
+                            disabled
                           ></form-input>
                         </div>
                       </div>
@@ -131,6 +137,7 @@
                             :value="form.email"
                             placeholder=""
                             icon-left="file"
+                            disabled
                           ></form-input>
                         </div>
                       </div>
@@ -142,6 +149,7 @@
                             field-key="phone"
                             :value="form.phone"
                             placeholder=""
+                            disabled
                           ></form-input>
                         </div>
                       </div>

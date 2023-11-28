@@ -10,7 +10,6 @@
       class="border-gray4"
       :sections="employees"
       :hide-no-column="true"
-      classTypeHead="table__hrow__default"
       classTypeBody=""
       customTitle="custom-title"
     >

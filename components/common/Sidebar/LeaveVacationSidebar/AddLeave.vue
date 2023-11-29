@@ -82,7 +82,7 @@
           <label style="display: block">Dates</label>
         </div>
         <div class="d-flex">
-          <div class="items-width">
+          <div class="items-width end-date-wrapper">
             <form-datepicker
               label="Start Date"
               :value="startDate"
@@ -112,7 +112,7 @@
               >Please select start date</small
             > -->
           </div>
-          <div class="last-child">
+          <div class="last-child end-date-wrapper">
             <form-datepicker
               label="End Date"
               :value="endDate"
@@ -171,7 +171,7 @@ export default {
   props: {
     edit: {
       type: Boolean,
-      default:false,
+      default: false,
     },
     employeeNameInput: {
       type: Boolean,
@@ -236,7 +236,7 @@ export default {
       // dateEnd: this.endDate,
       // reason: this.note,
       usedDayLeave: 0,
-      disable:this.edit,
+      disable: this.edit,
     };
   },
   created() {
@@ -250,21 +250,19 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
-  methods:{
-    menuClick(value, fieldKey){
+  methods: {
+    menuClick(value, fieldKey) {
       // const  {fieldKey}  = this;
-      this.$emit('change', value, fieldKey)
-
+      this.$emit("change", value, fieldKey);
     },
 
     displayEmployeeField() {
-      return this.$store.state.token.isAdmin
+      return this.$store.state.token.isAdmin;
     },
 
     disableEmployeeField() {
-      return this.$route.path.includes("leave-vacations-profile-tab")
-    }
-
+      return this.$route.path.includes("leave-vacations-profile-tab");
+    },
   },
   mounted() {},
 };
@@ -310,5 +308,10 @@ export default {
     color: #85858f;
     padding-bottom: 0.7rem;
   }
+}
+.end-date-wrapper {
+  .vdpPositionBottom {
+    bottom: 68% !important;
+  }  
 }
 </style>

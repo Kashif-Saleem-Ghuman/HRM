@@ -1441,7 +1441,7 @@ export const TIMESHEET_STATUS = {
     label: "Approve",
     value: "approved",
     key: "approved",
-    variant: "primary",
+    variant: "primary-24",
     icon: "check-circle-solid",
   },
   rejected: {

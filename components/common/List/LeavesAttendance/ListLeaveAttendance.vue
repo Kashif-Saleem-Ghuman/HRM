@@ -29,13 +29,8 @@
       <div class="justify-left text-dark">
         <span>{{
           data.value.duration == null
-            ? "No record Found"
-            : data.value.duration / 24 + " days"
-        }}</span>
-        <span>{{
-          data.value.duration == 12
-            ? "Null value found"
-            : "(" + data.value.duration + " hrs)"
+            ? "N/A"
+            : `${data.value.duration} day${data.value.duration > 1 ? 's' : ''}`
         }}</span>
       </div>
     </template>

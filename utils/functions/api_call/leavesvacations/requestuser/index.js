@@ -1,5 +1,6 @@
 import axios from "axios";
 import fecha from "fecha";
+import { generateRequestSelectedDays } from "../../../../requests/request-selected-days";
 
 export async function addLeaveVacations() {
   if (this.$store.state.token.isAdmin) {
@@ -24,12 +25,13 @@ export async function addLeaveVacations() {
   var startDate = fecha.format(
     new Date(data.start),
     "YYYY-MM-DDT00:00:00.000Z"
-  ); // '2015-11-20'data.start.toISOString();
+  );
   var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
 
   this.addForm.start = startDate;
   this.addForm.end = endDate;
-  console.log(this.addForm, "toISOString()");
+  this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate)
+
   try {
     const addLeaveVacations = await axios.post(
       process.env.API_URL + "/requests",

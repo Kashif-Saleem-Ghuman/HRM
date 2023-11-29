@@ -88,3 +88,11 @@ export const hoursAndMinutesToJSDate = (hours, minutes, date) => {
     ).setMinutes(minutes)
   );
 }
+
+export function isDateInRange(dateToCheck, startDate, endDate) {
+  const luxonDateToCheck = DateTime.fromISO(dateToCheck);
+  const luxonStartDate = DateTime.fromJSDate(startDate);
+  const luxonEndDate = DateTime.fromJSDate(endDate);
+
+  return luxonDateToCheck >= luxonStartDate && luxonDateToCheck <= luxonEndDate;
+}

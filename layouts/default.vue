@@ -99,7 +99,7 @@
                   ></bib-button>
                   <bib-button
                     label="Save"
-                    variant="primary"
+                    variant="primary-24"
                     size="lg"
                     v-on:click="addLeaveVacations()"
                   ></bib-button>

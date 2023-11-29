@@ -216,7 +216,7 @@ export default {
 }
 .active-button {
   cursor: pointer;
-  background-color: #6bbf68;
+  background-color: #0741A3;
 }
 .disabled-button {
   background-color: gray;

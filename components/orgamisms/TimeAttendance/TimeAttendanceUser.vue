@@ -13,7 +13,7 @@
         <div class="px-1">
           <div
             class="d-grid d-flex gap-1 py-1"
-            style="grid-template-columns: repeat(3, 1fr)"
+            style="grid-template-columns: repeat(2, 1fr)"
             v-if="view.value === 'day'"
           >
             <info-card-timer
@@ -32,7 +32,7 @@
               className="button-wrapper__bgwarnning"
               @on-click="onViewTimesheetsClick"
             ></info-card-one>
-            <info-card-help custumBg="help-wrapper__bg-black"></info-card-help>
+            <!-- <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
           </div>
         </div>
         <div class="d-flex align-center px-1">

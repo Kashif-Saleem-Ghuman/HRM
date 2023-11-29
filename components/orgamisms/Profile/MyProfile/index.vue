@@ -46,7 +46,6 @@
                         variant="accepted"
                         iconLeft="upload"
                         placeholder="Drop file here or click to upload"
-                        style="margin-left: -8px"
                       ></bib-input>
                       <bib-button
                         label="Upload"
@@ -356,6 +355,15 @@ export default {
     background: #fff;
     margin: 0 10px;
     border-radius: 6px;
+    div{
+      background-color: #fff;
+      border-radius: 10px;
+      div:nth-child(1){
+      align-items: center;
+      display: flex;
+      
+    }
+    }
   }
   .border-gray4 {
     border: none !important;

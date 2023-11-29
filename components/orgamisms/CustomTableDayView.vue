@@ -1,7 +1,7 @@
 <template>
   <table
     v-click-outside="unselectAll"
-    class="table_day"
+    class="table"
     :class="{ table__headless: headless, resizableTable: resizableColumns }"
     cellspacing="0"
   >
@@ -9,7 +9,7 @@
    TABLE HEADERS
   */ -->
     <template>
-      <tr :class="classTypeHead">
+      <tr :class="classTypeHead" class="table__hrow__custom">
         <th v-if="!hideNoColumn" class="table__hrow__custom__no">
           {{ fields[0].label }}
         </th>
@@ -51,8 +51,8 @@
     </template>
 
     <template v-for="(item, keyI) in sections">
-      <tr>
-        <td colspan="6">
+      <tr class="table__irow">
+        <td colspan="10">
           <div class="d-flex justify-between align-center py-025">
             <div class="" style="text-align: left">
               <div
@@ -311,60 +311,58 @@ export default {
     height: unset !important;
   }
 }
+.timesheet-table {
+  cursor: pointer;
+  color: $gray6;
+  font-weight: 400;
+  background-color: #fff;
+  outline: 1px solid transparent;
+  transition: background-color 0.3s linear, outline-color 0.3s linear;
+  td {
+    border: 1px solid $light;
+    padding: 6px;
+    span {
+      font-size: 14px;
+      color: #1d1d20;
+    }
 
-// .timesheet-table {
-//   cursor: pointer;
-//   color: $gray6;
-//   font-weight: 400;
-//   background-color: #f8f8f9;
-//   outline: 1px solid transparent;
-//   transition: background-color 0.3s linear, outline-color 0.3s linear;
-//   td {
-//     border: 1px solid $light;
-//     padding: 6px;
-//     span {
-//       font-size: 14px;
-//       color: #1d1d20;
-//     }
-
-//     &:first-child {
-//       border-left: 0;
-//     }
-//     &:not(:last-child) {
-//       border-right: none;
-//     }
-//     color: $gray5;
-//     &:first-child {
-//       text-align: center;
-//     }
-//   }
-//   &:nth-child(2) td {
-//     border-top: none;
-//   }
-//   &:not(:last-child) td {
-//     border-bottom: none;
-//   }
-//   &:hover {
-//     cursor: default;
-//     background-color: white;
-//     td {
-//       border-left: #eee 1px solid;
-//       &:first-child {
-//         border-left: 0;
-//       }
-//     }
-//   }
-//   &:active {
-//     cursor: default;
-//     background-color: $light;
-//     outline: 1px solid $gray4;
-//   }
-//   &.active {
-//     background-color: $light;
-//     outline: 1px solid $gray4;
-//   }
-// }
-
+    &:first-child {
+      border-left: 0;
+    }
+    &:not(:last-child) {
+      border-right: none;
+    }
+    color: $gray5;
+    &:first-child {
+      text-align: center;
+    }
+  }
+  &:nth-child(2) td {
+    border-top: none;
+  }
+  &:not(:last-child) td {
+    border-bottom: none;
+  }
+  &:hover {
+    cursor: default;
+    background-color: white;
+    td {
+      border-left: #eee 1px solid;
+      &:first-child {
+        border-left: 0;
+      }
+    }
+  }
+  &:active {
+    cursor: default;
+    background-color: $light;
+    outline: 1px solid $gray4;
+  }
+  &.active {
+    background-color: $light;
+    outline: 1px solid $gray4;
+  }
+}
 .table_day {
   width: 100%;
   height: max-content;
@@ -377,7 +375,6 @@ export default {
       font-weight: bold;
     }
   }
-
   input {
     // border: none !important;
     margin: 0px !important;
@@ -397,10 +394,14 @@ export default {
   th {
     padding-left: 8px;
     padding-right: 6px;
+    border: $gray3 1px solid;
+
   }
   td {
     padding: 0;
     padding: 0;
+    border: $gray3 1px solid;
+
   }
 
   &__hrow__default {
@@ -432,7 +433,7 @@ export default {
       transition: background-color 0.3s linear, outline-color 0.3s linear;
 
       td {
-        border: 1px solid $light;
+        border: 1px solid #000;
         
       }
 

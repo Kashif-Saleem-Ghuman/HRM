@@ -17,14 +17,13 @@
 
     <div class="attendance-widgets-container container pt-1 pb-1 pl-1 pr-1">
       <div class="row">
-        <div class="col-4">
+        <div class="col-6">
           <present-widget avatars-position="bottom"></present-widget>
         </div>
 
-        <div class="col-4">
+        <div class="col-6">
           <absent-widget avatars-position="bottom"></absent-widget>
         </div>
-        <div class="col-4"></div>
       </div>
     </div>
 

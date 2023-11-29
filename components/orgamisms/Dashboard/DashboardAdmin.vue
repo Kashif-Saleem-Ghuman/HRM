@@ -5,8 +5,7 @@
       >
       
         <section-header-left
-          :title="`Welcome to your HR dashboard ` + activeUserName"
-          :avatar="getUser.photo"
+          :title="`Welcome to your HR dashboard `"
         ></section-header-left>
       </div>
       <div class="tab-wrapper">

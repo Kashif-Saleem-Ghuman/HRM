@@ -16,10 +16,11 @@
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="lightThemeChecked"
           noResultText="No result"
+          placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
           :hideSearchBox="$store.state.token.isUser"
-          class="overlap-zindex"
+          class="overlap-zindex app-wrapper--collapsed2"
         >
         <template>
           <search-content></search-content>

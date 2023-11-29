@@ -6,7 +6,6 @@
     v-model="value"
     :maxDate="maxDate"
     @input="onInput"
-    :editable="editable"
     :display-format="displayFormat ?? 'DD-MM-YYYY'"
   ></bib-datetime-picker>
 
@@ -35,9 +34,6 @@ export default {
       type: String,
       required: false,
     },
-    editable:{
-      type:Boolean
-    }
   },
 
   data() {

@@ -50,8 +50,8 @@
             style="width: 100%; cursor: pointer;"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="title" :title="data.value.firstName  + ' ' + data.value.lastName">
-              {{ data.value.firstName  + ' ' + data.value.lastName  | truncate(16, '...')}}
+            <div class="title" :title="getEmployeeFullName(data.value)">
+              {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -152,6 +152,8 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
+import { getEmployeeFullName } from "../../../../utils/functions/common_functions"
+
 import {
   sendMeet,
   sendMessage,
@@ -182,6 +184,7 @@ export default {
     sendMeet,
     sendMessage,
     handleItemClick_Table,
+    getEmployeeFullName,
     close() {
       this.timesheetModal = false;
     },

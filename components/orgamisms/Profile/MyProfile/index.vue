@@ -32,14 +32,8 @@
             </div>
           </div>
 
-          <!-- Employe Profile Wrapper Start Here  -->
-          <div id="employee-profile-wrapper">
-            <div v-if="activeTab == personalTabItem[1].value">
-              <employment-info-form></employment-info-form>
-            </div>
-          </div>
           <div id="files-information-wrapper">
-            <div v-if="activeTab == personalTabItem[2].value">
+            <div v-if="activeTab == personalTabItem[1].value">
               <div id="scroll-wrapper" class="scroll-wrapper">
                 <div class="px-1">
                   <!-- my profile Info Wrapper Start Here  -->
@@ -53,7 +47,6 @@
                         iconLeft="upload"
                         placeholder="Drop file here or click to upload"
                       ></bib-input>
-                      
                       <bib-button
                         label="Upload"
                         size="lg"
@@ -108,7 +101,7 @@
 import { mapGetters } from "vuex";
 import {
   COUNTRIES,
-  ADD_EMPLOYEE_TAB,
+  EMPLOYEE_PROFILE_TAB,
   SELECT_OPTIONS,
   STATES,
 } from "../../../../utils/constant/Constant.js";
@@ -142,7 +135,7 @@ export default {
       usersOptions: "",
       formOptions: {},
       departmentOptions: "",
-      personalTabItem: ADD_EMPLOYEE_TAB,
+      personalTabItem: EMPLOYEE_PROFILE_TAB,
       genderOptions: SELECT_OPTIONS.genderOptions,
       maritalOption: SELECT_OPTIONS.maritalStatusOptions,
       statusOptions: SELECT_OPTIONS.esstatusOptions,
@@ -217,8 +210,6 @@ export default {
     this.$store.dispatch("employee/setReportsToList").then((result) => {
       this.reportOptions = result;
     });
-    var list = document.getElementsByClassName(".d-flex");
-    list.style = "background-color:red"
   },
   methods: {
     openPopupNotification,
@@ -367,7 +358,6 @@ export default {
     div{
       background-color: #fff;
       border-radius: 10px;
-      
       div:nth-child(1){
       align-items: center;
       display: flex;
@@ -478,5 +468,4 @@ export default {
     }
   }
 }
-
 </style>

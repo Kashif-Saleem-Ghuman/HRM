@@ -55,10 +55,11 @@
 
 <script>
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
+import { processEmployeeRequests } from "../../utils/requests/employee-request-processor";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
 import { weekToUTCWeek } from "../../utils/functions/dates"
 import { DateTime } from "luxon";
-import { debounce } from "lodash"
+
 export default {
   data() {
     return {
@@ -104,6 +105,17 @@ export default {
         const parser = new TimesheetParser(employee);
         return parser.parse("weekDays");
       });
+
+
+      try {
+        timesheets.forEach( employee => {
+          processEmployeeRequests(employee, from, to)
+        })
+      } catch (error) {
+        console.error(error);
+      } 
+    
+
       this.timesheetsList = timesheets;
       this.loading = false;
     },

@@ -231,12 +231,10 @@ export default {
   },
   data() {
     return {
-      // ltype: this.leaveType,
-      // dateStart: this.startDate,
-      // dateEnd: this.endDate,
-      // reason: this.note,
       usedDayLeave: 0,
-      disable: this.edit,
+      disable:this.edit,
+      start: null,
+      end: null
     };
   },
   created() {
@@ -252,8 +250,8 @@ export default {
   },
   methods: {
     menuClick(value, fieldKey) {
-      // const  {fieldKey}  = this;
-      this.$emit("change", value, fieldKey);
+      this[fieldKey] = value
+      this.$emit('change', value, fieldKey)
     },
 
     displayEmployeeField() {

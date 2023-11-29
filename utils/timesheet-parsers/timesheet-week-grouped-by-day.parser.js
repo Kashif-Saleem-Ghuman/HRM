@@ -1,6 +1,5 @@
 import { forOwn } from "lodash";
 import BaseTimesheetParser from "./base-timesheet-parser";
-import { ACTIVITY_TYPE } from "../constant/Constant";
 
 export default class TimesheetWeekGroupedByDayParser extends BaseTimesheetParser {
   parse() {
@@ -18,8 +17,6 @@ export default class TimesheetWeekGroupedByDayParser extends BaseTimesheetParser
       weekData[date] = {
         timeEntries,
         totalHours,
-        vacation: timeEntries.some( timeEntry => timeEntry.activity == ACTIVITY_TYPE.VACATION),
-        leave: timeEntries.some( timeEntry => timeEntry.activity == ACTIVITY_TYPE.LEAVE)
       };
     });
 

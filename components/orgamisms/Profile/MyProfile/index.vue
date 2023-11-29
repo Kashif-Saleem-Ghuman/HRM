@@ -52,6 +52,7 @@
                         size="lg"
                         variant="primary"
                         @click="fileUpload"
+                        class="mt-025"
                       ></bib-button>
                     </div>
                     <div
@@ -347,7 +348,7 @@ export default {
   border: 1px dotted #2ba026 !important;
   justify-content: space-between;
   background-color: #eef7ee;
-  align-items: center;
+  align-items: flex-start;
   border-radius: 6px;
   padding: 10px;
   margin: 20px 0;
@@ -358,6 +359,7 @@ export default {
     div{
       background-color: #fff;
       border-radius: 10px;
+      max-height: 150px !important;
       div:nth-child(1){
       align-items: center;
       display: flex;

@@ -2,7 +2,8 @@ import {
   isEmail,
   isPhoneNumber,
   isRequired,
-  validatePostalCode,
+  isValidUrl,
+  validatePostalCode
 } from "@/utils/form-validations/string-validations";
 
 export default {
@@ -13,7 +14,7 @@ export default {
     validations: [isRequired],
   },
   website: {
-    validations: [isRequired],
+    validations: [isValidUrl],
   },
   contactEmail: {
     validations: [isEmail],

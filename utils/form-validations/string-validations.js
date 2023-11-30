@@ -1,3 +1,6 @@
+
+import isUrl from 'is-url-superb';
+
 export const isRequired = (value) => (value ? true : "This field is required.");
 
 export const isEmail = (value) => {
@@ -48,4 +51,12 @@ export function validatePostalCode(value, form = {}) {
     }
 
     return true
+}
+
+export function isValidUrl(url) {
+  if (isUrl(url)) return true
+
+  const domainRegex = /^[a-zA-Z0-9_-]+(\.[a-zA-Z]{2,})+$/
+  return domainRegex.test(url) || "Invalid URL" 
+
 }

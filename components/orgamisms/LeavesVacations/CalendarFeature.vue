@@ -207,7 +207,6 @@ import {
 } from "../../../utils/constant/Calander";
 import {
   addHandleInput,
-  getCurrentDateMonth,
   getCurrentYear,
 } from "../../../utils/functions/functions_lib";
 
@@ -334,7 +333,7 @@ export default {
   mounted() {
     this.selectedMonth = this.currentMonth;
     
-    this.getCurrentDateMonth();
+    this.getCalendarCurrentRange()
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
@@ -358,7 +357,6 @@ export default {
     addHandleInput,
     getAllowanceDays,
     addLeaveVacations,
-    getCurrentDateMonth,
     getCurrentYear,
     getUserLeavesDetail,
     getEmployeeFullName,
@@ -394,6 +392,14 @@ export default {
       this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
+
+    getCalendarCurrentRange() {
+      const fullCalendarApi = this.$refs.fullCalendar.getApi()
+      const { start, end } = fullCalendarApi.currentData.dateProfile.activeRange
+      this.fromDate = start
+      this.toDate = end
+    },
+
     changeMonthView(e) {
       var year;
       this.selectedMonth = e.label;
@@ -408,7 +414,9 @@ export default {
           this.calendarOptions.initialView,
           year + e.value + this.currentDate
         );
-      this.getCurrentDateMonth();
+
+      this.getCalendarCurrentRange()
+
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
         to: this.toDate,
@@ -436,7 +444,9 @@ export default {
           this.calendarOptions.initialView,
           e.key + month + this.currentDate
         );
-      this.getCurrentDateMonth();
+
+      this.getCalendarCurrentRange()
+      
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
         to: this.toDate,

@@ -46,6 +46,7 @@ import {
 } from "../../utils/functions/functions_lib.js";
 import fecha, { format } from "fecha";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { getEmployees } from "../../utils/functions/api_call/employees";
 
 
 export default {
@@ -88,8 +89,7 @@ export default {
     updateAllData,
     async getOrganizationEntries() {
         this.loading = true
-        const date = this.getCurrentDate
-        const data = await getTimeAttendance({ date });
+        const data = await getEmployees()
         const employees = data.employees
 
         employees.forEach(employee => {

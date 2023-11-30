@@ -52,3 +52,16 @@ export async function downloadEmployeeFile(payload) {
     console.error(e);
   }
 }
+export async function getEmployees() {
+  try {
+    const config = createConfig();
+    const url = `/employees`
+    const { data } = await hrmApiAxiosInstance.get(
+      url,
+      config
+    );
+    return data
+  } catch (e) {
+    console.error(e);
+  }
+}

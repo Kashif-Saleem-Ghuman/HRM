@@ -59,14 +59,18 @@ export default {
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,
-        dictRemoveFile: 'Remove Image',
+        dictRemoveFile: "Remove Image",
         maxFilesize: 2,
         maxFiles: 1,
         clickable: true,
         init: function () {
-          this.on("maxfilesexceeded", function (file) {
-            this.removeAllFiles();
-            this.addFile(file);
+          this.on("addedfile", function (file) {
+            var fileSize = file.size / (1024 * 1024);
+            if (fileSize > 2) {
+              alert("File size exceeded");
+              this.removeFile(file);
+              return;
+            }
           });
         },
       },

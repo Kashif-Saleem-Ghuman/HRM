@@ -161,7 +161,7 @@ export default {
       clockModal: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
-      lightThemeChecked: true,
+      lightThemeChecked: this.$cookies.get("isLightTheme"),
       showNotification: false,
       showPopup: false,
       loading: false,

@@ -6,14 +6,14 @@ export function headerActionCall() {
 }
 export function handleToggleWrapperTheme(value) {
     this.lightThemeChecked = value;
-    // this.$cookies.set("isLightTheme", value, {
-    //   path: "/",
-    //   domain: location.host.includes("business-in-a-box.com")
-    //     ? ".business-in-a-box.com"
-    //     : undefined,
-    //   maxAge: 60 * 60 * 24 * 30,
-    // });
-    // this.$cookies.set("isLightTheme", value);
+    this.$cookies.set("isLightTheme", value, {
+      path: "/",
+      domain: location.host.includes("business-in-a-box.com")
+        ? ".business-in-a-box.com"
+        : undefined,
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    this.$cookies.set("isLightTheme", value);
   }
   export function logout() {
     localStorage.removeItem("accessToken") ;

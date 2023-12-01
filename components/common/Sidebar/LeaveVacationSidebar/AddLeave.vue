@@ -309,7 +309,7 @@ export default {
 }
 .end-date-wrapper {
   .vdpPositionBottom {
-    bottom: 68% !important;
+    bottom: 20% !important;
   }  
 }
 </style>

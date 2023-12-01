@@ -53,8 +53,8 @@
           style="width: 100%; cursor: pointer;"
           @click="handleItemClick_Table(data.value.id, $event)"
         >
-          <div class="title">
-            {{ data.value.firstName }} {{ data.value.lastName }}
+          <div class="title" :title="getEmployeeFullName(data.value)">
+            {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
           </div>
           <div class="description">
             {{ data.value.jobTitle }}
@@ -115,6 +115,8 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../utils/functions/functions_lib";
+import { getEmployeeFullName } from "../../../utils/functions/common_functions"
+
 export default {
   props: {
     userList: {
@@ -153,7 +155,7 @@ export default {
     sendMeet,
     sendMessage,
     handleItemClick_Table,
-
+    getEmployeeFullName,
     tableItemClick(event, key, item) {
       const id = item?.id
       if (id) {

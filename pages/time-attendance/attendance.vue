@@ -5,7 +5,7 @@
         <button-with-overlay sectionLabel="View: " :button-config="{ label: dateBtnLabel, variant: 'light', }"
           v-slot="scope">
           <div class="pl-05 pr-05">
-            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()"   :parseDate="parseDate" class="custom-date-picker"
+            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()" class="custom-date-picker"
               size="sm" style="min-width: 7vw;" :maxDate="maxDate"></bib-datetime-picker>
           </div>
         </button-with-overlay>

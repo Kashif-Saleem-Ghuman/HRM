@@ -60,7 +60,7 @@ export default {
         thumbnailHeight: 120,
         addRemoveLinks: true,
         dictRemoveFile: 'Remove Image',
-        maxFilesize: 1,
+        maxFilesize: 2,
         maxFiles: 1,
         clickable: true,
         init: function () {

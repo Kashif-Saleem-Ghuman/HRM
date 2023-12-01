@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="d-flex justify-between align-center bottom_border_wrapper"
+      class="d-flex justify-between align-center px-075 py-025 bottom_border_wrapper"
     >
-        <div class="px-1 py-05">
+        <div class="custom-date-picker">
           <button-with-overlay
             sectionLabel="View: "
             :button-config="{ label: dateBtnLabel }"

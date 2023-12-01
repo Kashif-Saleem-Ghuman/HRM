@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="d-flex justify-between align-center px-075 bottom_border_wrapper">
-      <div class="day-date-picker-wrapper py-05">
+    <div class="d-flex justify-between align-center py-025 px-075 bottom_border_wrapper">
+      <div class="day-date-picker-wrapper">
         <button-with-overlay sectionLabel="View: " :button-config="{ label: dateBtnLabel, variant: 'light', }"
           v-slot="scope">
           <div class="pl-05 pr-05">
-            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()" class="custom-date-picker"
+            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()"   :parseDate="parseDate" class="custom-date-picker"
               size="sm" style="min-width: 7vw;" :maxDate="maxDate"></bib-datetime-picker>
           </div>
         </button-with-overlay>
@@ -50,7 +50,8 @@ export default {
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
-      searchString: null
+      searchString: null,
+      todayDate:DateTime.now().startOf('day').toUTC().toFormat("yyyy-MM-dd"),
     };
   },
 
@@ -72,12 +73,14 @@ export default {
     isDateToday(date) {
       return DateTime.fromISO(date).hasSame(DateTime.local(), 'day')
     },
+    
     formatDate(isoDate) {
       return DateTime.fromISO(isoDate).toFormat('EEEE, LLLL d, yyyy');
     },
     onDateChange(value) {
-      this.date = value
-      this.generateOrganizationEntries(DateTime.fromISO(value).toUTC().toISO());
+      this.date = value === '' ? this.todayDate : value
+      console.log(this.date, "return `Today, ${this.formatDate(this.date)}`")
+      this.generateOrganizationEntries(DateTime.fromISO(this.date).toUTC().toISO());
     },
 
     async generateOrganizationEntries(isoDate) {

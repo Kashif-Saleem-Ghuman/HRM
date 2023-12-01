@@ -153,7 +153,9 @@
               ? $button.past_due.icon
               : '' || status == 'Pending'
               ? $button.pending.icon
-              : ''
+              : '' || status == 'Not submitted'
+              ? $button.not_submitted.icon
+              : '' 
           "
           :variant="
             status == 'Submit'
@@ -162,7 +164,9 @@
               ? $button.past_due.variant
               : '' || status == 'Pending'
               ? $button.pending.variant
-              : ''
+              : '' || status == 'Not submitted'
+              ? $button.not_submitted.variant
+              : '' 
           "
           :scale="$button.pending.scale"
           :label="
@@ -172,9 +176,9 @@
               ? $button.past_due.label
               : '' || status == 'Pending'
               ? $button.pending.label
-              : ''
+              : '' || status == 'Not submitted' ? $button.not_submitted.label : ''
           "
-          class="mr-05 w-50"
+          class="mr-05"
           @click="buttonClicked"
           :style="buttonDisabled"
         ></bib-button>

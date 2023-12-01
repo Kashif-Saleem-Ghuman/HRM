@@ -56,9 +56,8 @@
           </div>
         </div>
         <div class="info_wrapper">
-          <div class="title-user">
-            {{ data.value.employee.firstName }}
-            {{ data.value.employee.lastName }}
+          <div class="title-user" :title="getEmployeeFullName(data.value.employee)">
+            {{ getEmployeeFullName(data.value.employee) | truncate(16, '...')}}
           </div>
           <div class="description">
             {{ data.value.employee.jobTitle }}
@@ -117,6 +116,8 @@
 <script>
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
+import { getEmployeeFullName } from "../../../../utils/functions/common_functions"
+
 export default {
   props: {
     listPending: {
@@ -141,6 +142,7 @@ export default {
     };
   },
   methods: {
+    getEmployeeFullName,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

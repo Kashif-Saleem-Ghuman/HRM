@@ -6,7 +6,7 @@
       :options="dropzoneOptions"
       :use-custom-slot="true"
       @vdropzone-removed-file="openImage()"
-      @vdropzone-files-added="popAlert($event)"
+      @vdropzone-files-added="maxFileSize($event)"
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
     >
       <div class="d-flex align-center">
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     openPopupNotification,
-    popAlert(file) {
+    maxFileSize(file) {
       var fileSize = file[0].size / (1024 * 1024);
       if (fileSize > 2) {
         this.openPopupNotification(5);

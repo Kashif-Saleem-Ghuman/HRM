@@ -91,7 +91,6 @@ export default {
 
   data() {
     return {
-      lightThemeChecked: false,
       appWrapItems: appWrapItems,
     };
   },

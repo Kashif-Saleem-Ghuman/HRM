@@ -38,11 +38,7 @@
       </template>
       <template #navigation>
         <app-menu
-          :seprator="lightThemeChecked ? 'bg-secondary-sub3' : 'bg-dark-sub1'"
-          :className="lightThemeChecked ? 'custom-menu' : 'custom-menu-light'"
-          :sectionHead="
-            lightThemeChecked ? 'section-head_light' : 'section-head_dark'
-          "
+          
         ></app-menu>
       </template>
       <template #content>
@@ -165,7 +161,7 @@ export default {
       clockModal: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
-      lightThemeChecked: this.$cookies.get("isLightTheme") || false,
+      lightThemeChecked: this.$cookies.get("isLightTheme"),
       showNotification: false,
       showPopup: false,
       loading: false,

@@ -6,6 +6,7 @@
       :options="dropzoneOptions"
       :use-custom-slot="true"
       @vdropzone-removed-file="openImage()"
+      @vdropzone-files-added="maxFilesSize($event)"
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
     >
       <div class="d-flex align-center">
@@ -23,11 +24,15 @@
         </div>
       </div>
     </vue-dropzone>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
+
 export default {
   props: {
     className: {
@@ -52,6 +57,8 @@ export default {
     return {
       success: false,
       error: false,
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
       dropzoneOptions: {
         // previewTemplate: this.getTempalte(),
         url: "false",
@@ -59,20 +66,31 @@ export default {
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: true,
-        dictRemoveFile: 'Remove Image',
+        dictRemoveFile: "Remove Image",
         maxFilesize: 2,
         maxFiles: 1,
         clickable: true,
         init: function () {
-          this.on("maxfilesexceeded", function (file) {
-            this.removeAllFiles();
-            this.addFile(file);
+          this.on("addedfile", function (file) {
+            var fileSize = file.size / (1024 * 1024);
+            if (fileSize > 2) {
+              this.removeFile(file);
+              return;
+            }
           });
         },
       },
     };
   },
   methods: {
+    openPopupNotification,
+    maxFilesSize(file) {
+      var fileSize = file[0].size / (1024 * 1024);
+      if (fileSize > 2) {
+        this.openPopupNotification(5);
+        return;
+      }
+    },
     openImage: function () {
       this.$refs.myVueDropzone.dropzone.element.click();
     },

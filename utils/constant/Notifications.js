@@ -19,4 +19,8 @@ export const popupNotificationMsgs = [
     text: "Organization profile data update successfully...",
     variant: "primary",
   },
+  {
+    text: "File size has exceeded it max limit of 2MB...",
+    variant: "danger",
+  },
 ];

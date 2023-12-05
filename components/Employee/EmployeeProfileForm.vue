@@ -321,11 +321,6 @@
 <script>
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
-import {
-  isValidCanadianPostalCode,
-  isValidUSZIP,
-} from "@/utils/form-validations/string-validations";
-import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import {
   sendMeet,
@@ -333,14 +328,13 @@ import {
   vfileAdded,
 } from "@/utils/functions/functions_lib";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
-import { set } from "lodash";
 import { mapGetters } from "vuex";
 import contactFormFieds from "./forms/contact-form-fieds";
 import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
-import { DateTime } from "luxon";
+import { USER_ROLES } from '../../utils/constant/Constant';
 
 export default {
   data() {
@@ -363,7 +357,11 @@ export default {
         ...SELECT_OPTIONS.genderOptions,
       ],
 
-      hrmRoleOptions: [{ label: '', value: '' }, { label: 'User', value: 'USER' }, { label: 'HR Manager', value: 'MANAGER' }],
+      hrmRoleOptions: [
+        { label: 'Admin', value: USER_ROLES.ADMIN },
+        { label: 'User', value: USER_ROLES.USER },
+        { label: 'HR Manager', value: USER_ROLES.MANAGER }
+      ],
       countries: COUNTRIES,
       STATES,
       currentState: STATES,

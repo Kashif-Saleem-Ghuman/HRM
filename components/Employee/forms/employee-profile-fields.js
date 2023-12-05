@@ -38,4 +38,10 @@ export default {
     options: [generateEmptyOptions(), ...SELECT_OPTIONS.maritalStatusOptions],
     validations: [isRequired],
   },
+  hrmRole: {
+    type: "select",
+    label: "HRM Role",
+    model: "hrmRole",
+    validations: [isRequired],
+  },
 };

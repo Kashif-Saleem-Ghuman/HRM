@@ -85,7 +85,7 @@ export default {
   computed: {
     ...mapState('token', ['isAdmin', 'isUser', 'subr']),
     isOrganizationAdmin() {
-      return this.subr === USER_ROLES.ADMIN
+      return this.$store.state.token.hrmRole === USER_ROLES.ADMIN || this.$store.state.token.hrmRole === USER_ROLES.MANAGER 
     }
   },
 
@@ -129,7 +129,7 @@ export default {
     },
 
     changeRole(role) {
-      this.$store.dispatch("token/setActiveUserRole", role)
+      this.$store.dispatch("token/setViewRole", { role })
       this.$router.push("/")
     },
 

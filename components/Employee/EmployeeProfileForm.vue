@@ -107,6 +107,16 @@
                           placeholder="Please select employee status"
                         ></form-input>
                       </div>
+                      <div class="col-6" v-if="$isAccountAdmin()">
+                        <form-input
+                          type="select"
+                          label="HRM Role"
+                          field-key="hrmRole"
+                          :value="form.hrmRole"
+                          :options="hrmRoleOptions"
+                          placeholder=""
+                        ></form-input>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -352,6 +362,8 @@ export default {
         { label: "", value: "" },
         ...SELECT_OPTIONS.genderOptions,
       ],
+
+      hrmRoleOptions: [{ label: '', value: '' }, { label: 'User', value: 'USER' }, { label: 'HR Manager', value: 'MANAGER' }],
       countries: COUNTRIES,
       STATES,
       currentState: STATES,

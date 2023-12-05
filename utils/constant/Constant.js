@@ -1491,7 +1491,8 @@ export const ACTIVITY_TYPE_LABEL_VALUE = {
 
 export const USER_ROLES = {
   USER: "USER",
-  ADMIN: "ADMIN"
+  ADMIN: "ADMIN",
+  MANAGER: "MANAGER"
 }
 
 

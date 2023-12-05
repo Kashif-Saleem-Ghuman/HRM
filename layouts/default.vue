@@ -378,7 +378,7 @@ export default {
   async mounted() {
     this.loading = true;
     if (!this.getJwtToken()) {
-      window.location.href = process.env.AUTH_REDIRECT_URL + HRM_APP_URL;
+      this.redirectToLogin()
     }
     
     await this.loadUser()
@@ -421,6 +421,9 @@ export default {
     this.setDebouncedSearch()
   },
   methods: {
+    redirectToLogin() {
+      window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
+    },
     getJwtToken() {
       const accessToken = localStorage.getItem("accessToken");
       const cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);

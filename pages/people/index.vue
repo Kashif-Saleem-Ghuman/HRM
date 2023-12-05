@@ -73,7 +73,6 @@ export default {
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
-      activeUserRole: "token/getUserRole",
       activeTabSidebar: "token/getActiveTab",
     }),
   },

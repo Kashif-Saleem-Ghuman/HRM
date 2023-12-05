@@ -30,7 +30,7 @@ export default {
   css: ["~/assets/global.scss"],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ["~/plugins/plugins", "~/plugins/logout", "~/plugins/button", "~/plugins/truncate"],
+  plugins: ["~/plugins/plugins", "~/plugins/logout", "~/plugins/button", "~/plugins/truncate", "~/plugins/employees/employee-role"],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: [

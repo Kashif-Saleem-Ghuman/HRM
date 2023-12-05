@@ -131,6 +131,7 @@
                             :value="form.email"
                             placeholder=""
                             icon-left="file"
+                            :disabled="true"
                           ></form-input>
                         </div>
                       </div>

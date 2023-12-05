@@ -3,8 +3,12 @@
     <form @submit.prevent="handleSubmit">
       <slot></slot>
 
-      <slot name="form-action-buttons" :submit="handleSubmit" ref="formActionButtonsSlot"></slot>
-      
+      <slot
+        name="form-action-buttons"
+        :submit="handleSubmit"
+        ref="formActionButtonsSlot"
+      ></slot>
+
       <div v-if="!hasFormActionButtonsSlot" id="action-button">
         <div class="row mx-0 pl-1 pb-1 pt-05">
           <div class="col-6 row-custom">
@@ -30,13 +34,17 @@
         </div>
       </div>
     </form>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
 <script>
 import { forOwn, get, set } from "lodash";
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
-import { merge } from "lodash"
+import { merge } from "lodash";
+import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
+
 export default {
   provide() {
     return {
@@ -44,7 +52,6 @@ export default {
       formErrors: () => this.errors,
     };
   },
-
   props: {
     fields: {
       type: Object,
@@ -66,18 +73,24 @@ export default {
 
   computed: {
     hasFormActionButtonsSlot() {
-      return !!this.$slots['form-action-buttons'] || !!this.$scopedSlots['form-action-buttons']
-    }
+      return (
+        !!this.$slots["form-action-buttons"] ||
+        !!this.$scopedSlots["form-action-buttons"]
+      );
+    },
   },
 
   data() {
     return {
       updateForm: {},
       errors: {},
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
     };
   },
 
   methods: {
+    openPopupNotification,
     emitFormInput(event) {
       const { fieldKey, value } = event;
       this.handleInput(event);
@@ -198,7 +211,7 @@ export default {
 
       //force update
       this.updateForm = { ...this.updateForm };
-      this.$emit("update:update-form", this.updateForm)
+      this.$emit("update:update-form", this.updateForm);
     },
 
     setErrors(errors) {
@@ -213,6 +226,9 @@ export default {
 
     async submit(e) {
       if (this.submitFn) {
+        if (JSON.stringify(this.updateForm) === "{}") {
+          return this.openPopupNotification(6);
+        }
         await this.submitFn(this.updateForm);
       }
 
@@ -221,14 +237,14 @@ export default {
 
     setDefaultValuesToCreateForm() {
       if (this.isCreateForm) {
-        this.updateForm = { ...this.form, ...this.updateForm }
+        this.updateForm = { ...this.form, ...this.updateForm };
       }
-    }
+    },
   },
 
   mounted() {
-    this.setDefaultValuesToCreateForm()
-  }
+    this.setDefaultValuesToCreateForm();
+  },
 };
 </script>
 

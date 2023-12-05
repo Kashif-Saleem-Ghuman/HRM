@@ -107,13 +107,14 @@ export const TABLE_HEAD = {
       label: "Duration",
     },
 
-    // {
-    //   key: "paid",
-    //   label: "Paid",
-    // },
+    
     {
       key: "status",
       label: "Status",
+    },
+    {
+      key: "reason",
+      label: "Reason",
     },
   ],
   tHeadTimesheet: [

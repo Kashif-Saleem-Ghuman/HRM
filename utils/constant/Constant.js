@@ -697,10 +697,11 @@ export const USER_PROFILE_TAB = [
     value: "Leaves and Vacations",
     route: "leave-vacations-profile-tab",
   },
-  // {
-  //   title: "Files",
-  //   value: "files",
-  // },
+  {
+    title: "Files",
+    value: "files",
+    route: "files-profile-tab",
+  },
 ];
 export const ADD_EMPLOYEE_TAB = [
   {

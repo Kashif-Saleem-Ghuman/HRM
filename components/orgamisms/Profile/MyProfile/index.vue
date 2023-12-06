@@ -57,7 +57,7 @@
                     </div>
                     <div
                       class="d-grid gap-1"
-                      style="grid-template-columns: repeat(4, 1fr)"
+                      style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));"
                     >
                       <div
                         v-for="file in filesUploaded"
@@ -187,7 +187,7 @@ export default {
   },
 
   async created() {
-    this.id = this.$route.params.id;
+    this.id = this.getUser.id ;
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
@@ -239,7 +239,9 @@ export default {
         const a = document.createElement("a");
         a.href = blobUrl;
         a.download = file.name;
+        a.target = '_blank';
         a.click();
+        
         window.URL.revokeObjectURL(blobUrl);
       } catch (error) {
         console.error("Error downloading file", error);

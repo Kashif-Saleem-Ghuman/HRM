@@ -226,9 +226,6 @@ export default {
 
     async submit(e) {
       if (this.submitFn) {
-        if (JSON.stringify(this.updateForm) === "{}") {
-          return this.openPopupNotification(6);
-        }
         await this.submitFn(this.updateForm);
       }
 

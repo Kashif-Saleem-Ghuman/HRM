@@ -5,11 +5,11 @@
     >
       <section-header-left
         :title="
-          name.firstName == undefined
+          form.firstName == undefined
             ? '--'
-            : name.firstName + ' ' + name.lastName
+            : form.firstName + ' ' + form.lastName
         "
-        :avatar="name.photo"
+        :avatar="form.photo"
         :key="topNav"
       ></section-header-left>
     </div>
@@ -182,28 +182,29 @@ export default {
       activeUserRole: "token/getUserRole",
       getReportList: "employee/GET_REPORTS_LIST",
       getActiveUserData: "token/getActiveUserData",
+      getUserRole: "token/getUserRole",
     }),
   },
 
   async created() {
+    this.id = this.$route.params.id;
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
-
     this.form = users;
-    this.id = this.getUser.id;
-    this.name = users;
-    this.getFiles(this.id).then((result) => {
+    this.getFiles(this.form.id).then((result) => {
       this.filesUploaded = result;
       this.filesUploaded.reverse();
     });
     this.$root.$on("top-nav-key", () => {
-      this.$store
-        .dispatch("employee/setUser", this.getUser.id)
-        .then((result) => {
-          this.name = result;
-          this.topNav += 1;
-        });
+      if (this.getUserRole === "USER") {
+        this.$store
+          .dispatch("employee/setUser", this.getUser.id)
+          .then((result) => {
+            this.form = result;
+            this.topNav += 1;
+          });
+      }
     });
   },
 
@@ -356,15 +357,14 @@ export default {
     background: #fff;
     margin: 0 10px;
     border-radius: 6px;
-    div{
+    div {
       background-color: #fff;
       border-radius: 10px;
       max-height: 150px !important;
-      div:nth-child(1){
-      align-items: center;
-      display: flex;
-      
-    }
+      div:nth-child(1) {
+        align-items: center;
+        display: flex;
+      }
     }
   }
   .border-gray4 {

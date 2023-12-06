@@ -391,12 +391,17 @@ export default {
     submitToApi(form) {
       if (this.avatarUrl != "") {
         form.photo = this.avatarUrl;
+        this.updateForm.photo = this.avatarUrl;
       }
+        if (JSON.stringify(this.updateForm) === "{}") {
+          return this.openPopupNotification(6);
+        }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
         this.openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
         this.avatarUrl = "";
+        return
       });
     },
 

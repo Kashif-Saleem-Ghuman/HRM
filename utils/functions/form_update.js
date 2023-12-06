@@ -1,5 +1,7 @@
 export async function vfileAdded(file, name, event) {
-  this.isFlag = true;
+  if (file.size > 2000000) {
+    return true;
+  }
   this.fileDetail = file;
   let formData = new FormData();
   formData.append("width", file.width);
@@ -48,14 +50,14 @@ export async function updateAllData() {
         this.updateForm,
         "http://dev-hrm.business-in-a-box.com/"
       );
-      
+
       // this.$store.dispatch("token/setActiveUserData" ,  res )
       this.name = res;
       this.form = res;
       this.loading = false;
       this.isFlag = false;
       this.openPopupNotification(1);
-      
+
       this.$nuxt.$emit("top-nav-key");
 
       this.updateForm = {};
@@ -148,7 +150,11 @@ export function addHandleInput(event, name, addresses) {
   // console.log(this.addForm, "sldnalksdlkasjdlkajdl")
 
   // this.form[name] = event;
-  if (this.addForm.start != "" || this.addForm.endDate != "" || this.addForm.type != "") {
+  if (
+    this.addForm.start != "" ||
+    this.addForm.endDate != "" ||
+    this.addForm.type != ""
+  ) {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
     this.errorMsgSelect = false;
@@ -172,7 +178,7 @@ export async function selectUserHandle(event, name) {
   }
   if (this.leaveType == "vacation") {
     this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;;
+    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
   }
 }
 export function selectLeaveTypeHandle(event, name, addresses) {
@@ -189,7 +195,7 @@ export function selectLeaveTypeHandle(event, name, addresses) {
   }
   if (this.leaveType == "vacation") {
     this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;;
+    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
   }
   console.log(this.addForm, "this.addFormthis.addForm");
 }

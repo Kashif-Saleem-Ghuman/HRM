@@ -30,7 +30,7 @@
         <span>{{
           data.value.duration == null
             ? "N/A"
-            : `${data.value.duration} day${data.value.duration > 1 ? 's' : ''}`
+            : `${data.value.duration} day${data.value.duration > 1 ? "s" : ""}`
         }}</span>
       </div>
     </template>
@@ -46,6 +46,11 @@
             {{ getStatusLabel(data.value.status) }}
           </aside>
         </div>
+      </div>
+    </template>
+    <template #cell(reason)="data">
+      <div class="justify-left text-dark">
+        <span>{{ data.value.refusalReason }}</span>
       </div>
     </template>
   </custom-table>

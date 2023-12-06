@@ -23,4 +23,8 @@ export const popupNotificationMsgs = [
     text: "File size has exceeded it max limit of 2MB...",
     variant: "danger",
   },
+  {
+    text: "No data to update...",
+    variant: "danger",
+  },
 ];

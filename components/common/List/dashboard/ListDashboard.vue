@@ -62,11 +62,11 @@
       <template #cell(status)="data">
         <div class="text-dark pl-1">
           <chips-list
-            :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
+            :title="data.value?.presence === 'in' ? 'Online' : 'Offline'"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value?.timers[0]?.type
+              data.value?.presence === 'in'
                 ? 'chip-list-wrapper__sucess'
                 : 'chip-list-wrapper__light',
             ]"

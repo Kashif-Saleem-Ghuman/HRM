@@ -1,5 +1,6 @@
 import { USER_ROLES } from "../utils/constant/Constant"
-
+import { getEmployeeRole } from "../utils/employees/get-employee-role"
+import { validateToken } from "../utils/functions/api_call/auth"
 export const state = () => ({
   accessToken: "",
   activeTab:'Employee Profile',
@@ -8,7 +9,8 @@ export const state = () => ({
   activeUserData:[],
   isAdmin: false,
   isUser: false,
-  subr: null
+  subr: null,
+  hrmRole: null,
 })
 export const getters = {
   getAccessToken(state) {
@@ -25,7 +27,7 @@ export const getters = {
   },
   getActiveUserData(state){
     return state.activeUserData
-  }
+  },
 }
 export const mutations = {
   SET_TOKEN(state, value) {
@@ -37,6 +39,9 @@ export const mutations = {
   },
   SET_ACTIVE_USER_ROLE(state, value) {
     state.userRole = value
+  },
+  SET_ACTIVE_HRM_ROLE(state, value) {
+    state.hrmRole = value
   },
   SET_ACTIVE_USER_ID(state, value) {
     state.userId = value
@@ -51,9 +56,14 @@ export const mutations = {
     state.isUser = value
   },
 
+  SET_IS_ROLE(state, value) {
+    state.isUser = value == USER_ROLES.USER 
+    state.isAdmin = value == USER_ROLES.ADMIN
+  },
+
   SET_SUBR(state, value) {
     state.subr = value
-  }
+  },
 }
 
 export const actions = {
@@ -63,18 +73,43 @@ export const actions = {
   setActiveTab(context, activetab) {
     context.commit('SET_ACTIVE_TAB', activetab)
   },
-  setActiveUserRole({ commit }, value) {
-    commit('SET_ACTIVE_USER_ROLE', value)
-    commit('SET_IS_ADMIN', value === USER_ROLES.ADMIN) 
-    commit('SET_IS_USER', value === USER_ROLES.USER)
+  setActiveUserRole({ commit }, { employee }) {
+    const viewRole = getEmployeeRole(employee);
+    commit("SET_ACTIVE_USER_ROLE", employee.role);
+    commit(
+      "SET_ACTIVE_HRM_ROLE",
+      employee.role === USER_ROLES.ADMIN ? USER_ROLES.ADMIN : employee.hrmRole
+    );
+
+    commit("SET_IS_ROLE", viewRole);
+  },
+  setViewRole({ commit }, { role }) {
+    commit("SET_IS_ROLE", role);
   },
   setActiveUserId(context, userId) {
     context.commit('SET_ACTIVE_USER_ID', userId)
   },
   setActiveUserData(context, activeUserData) {
-    context.commit('SET_ACTIVE_USER_DATA', activeUserData)
-    console.log(activeUserData, "activeUserDataactiveUserDataactiveUserDataactiveUserData")
-  }
-}
+    context.commit("SET_ACTIVE_USER_DATA", activeUserData);
+  },
+  async validateJwtToken({ commit }, { token }) {
+    const u = await validateToken({ token });
+
+    const accountType =
+      u?.subbs == "FREETRIAL" ? "See Plans & Pricing" : "Upgrade";
+    u.accountType = accountType
+
+    const businessId = u?.subb;
+    const userId = u?.sub;
+    localStorage.setItem("businessId", businessId);
+    localStorage.setItem("userId", userId);
+    commit(
+      "organizations/SET_ORGANIZATION_ID",
+      { organizationId: businessId },
+      { root: true }
+    );
+    return u;
+  },
+};
 
 

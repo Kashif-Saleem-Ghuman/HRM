@@ -377,50 +377,22 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    this.addForm.employeeId ="";
-    let accessToken = localStorage.getItem("accessToken");
-    let cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-    this.isThemeCheck();
-    if (accessToken && cookies) {
-      axios
-        .post(process.env.USER_AUTH_API_ENDPOINT, {
-          ssojwt: accessToken,
-        })
-        .then((res) => {
-          if (res) {
-            this.token = res.data.jwt;
-            const businessId = res?.data?.u?.subb;
-            this.$store.commit("organizations/SET_ORGANIZATION_ID", { organizationId: businessId })
-            var userRole = res?.data?.u?.subr;
-            var userId = res?.data?.u?.sub;
-            this.accountType =
-              res?.data?.u?.subbs == "FREETRIAL"
-                ? "See Plans & Pricing"
-                : "Upgrade";
-            localStorage.setItem("businessId", businessId);
-            localStorage.setItem("userRole", userRole);
-            localStorage.setItem("userId", userId);
-            this.userRole = userRole;
-            this.$store.commit("token/SET_SUBR", userRole)
-            this.$store.dispatch("token/setActiveUserRole", userRole);
-          }
-          // this.getUser();
-          this.getBusinessId();
-          this.$store.dispatch("employee/setReportsToList");
-        })
-        .catch((err) => {
-          this.loading = false;
-          console.log(err);
-        });
-    } else {
-      window.location.href =
-        process.env.AUTH_REDIRECT_URL + "http://dev-hrm.business-in-a-box.com/";
+    if (!this.getJwtToken()) {
+      this.redirectToLogin()
     }
-    await this.$store.dispatch("employee/setActiveUser").then((user) => {
+    
+    await this.loadUser()
+
+    this.getBusinessId();
+    this.isThemeCheck();
+    this.$store.dispatch("employee/setReportsToList");
+    await this.$store.dispatch("employee/setActiveUser").then( async (user) => {
+      await this.$store.dispatch("token/setActiveUserRole", { employee: user});
       var activeId = user.id;
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
     });
+
     if (this.$store.state.token.isAdmin) {
       if (this.$route.params.id) {
         await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
@@ -449,6 +421,27 @@ export default {
     this.setDebouncedSearch()
   },
   methods: {
+    redirectToLogin() {
+      window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
+    },
+    getJwtToken() {
+      const accessToken = localStorage.getItem("accessToken");
+      const cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
+      return accessToken ?? cookies
+    },
+    async loadUser() {
+      const token = this.getJwtToken()
+      return this.$store.dispatch("token/validateJwtToken", { token })
+        .then((res) => {
+           if (res) {
+            this.accountType = res.accountType
+          }
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        });
+    },
     setDebouncedSearch() {
       if (!this.debouncedSearch) {
         this.debouncedSearch = debounce((event) => {

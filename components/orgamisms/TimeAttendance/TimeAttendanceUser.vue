@@ -248,15 +248,6 @@ export default {
       await this.getTimesheetWidget()
     },
     async handleDeleteEntry(id) {
-      const timeEntry = this.todayData.find((entry) => entry.id === id);
-      if (timeEntry.activity === "in") {
-        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === "break") {
-        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      }
-      this.todayData = this.todayData.filter((entry) => entry.id !== id);
-      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
-
       this.fillDailyTimeEntries()
     },
     async getTimesheetWidget() {
@@ -312,6 +303,7 @@ export default {
     parseTimeEntries() {
       this.todayData = [];
       this.totalWorkInMS = 0;
+      this.totalWork = '00:00'
       for (const timeEntry of this.getDailyTimeEntries) {
         this.handleNewEntry(timeEntry);
       }

@@ -76,9 +76,6 @@ export async function addLeaveVacations() {
         });
     }
   } catch (e) {
-    if(e.response.data.message == 'A request cannot have start date before end date.'){
-      alert("callled")
-    }
     alert(e.response.data.message);
   }
   this.loading = false;

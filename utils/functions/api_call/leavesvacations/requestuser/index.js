@@ -4,20 +4,19 @@ import { generateRequestSelectedDays } from "../../../../requests/request-select
 
 export async function addLeaveVacations() {
   if (this.$store.state.token.isAdmin) {
-    if (this.addForm.type == "") {
+    if (this.addForm.type == null) {
       this.errorMsgSelect = true;
-      return true;
     }
     this.errorMsgSelect = false;
   }
-  if (this.addForm.start == "") {
+  if (this.addForm.start == null) {
     this.errorMsgStartDate = true;
-    return true;
+    return
   }
   this.errorMsgStartDate = false;
-  if (this.addForm.end == "") {
+  if (this.addForm.end == null) {
     this.errorMsgEndDate = true;
-    return true;
+    return
   }
   this.errorMsgEndDate = false;
   this.loading = true;
@@ -42,6 +41,7 @@ export async function addLeaveVacations() {
         },
       }
     );
+    this.addForm = {};
     this.leaveVacationData = addLeaveVacations.data;
     if (this.$store.state.token.isAdmin) {
       await this.$store

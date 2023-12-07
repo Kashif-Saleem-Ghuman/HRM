@@ -12,6 +12,8 @@
 
 <script>
 import dayjs from "dayjs";
+import { DateTime } from "luxon";
+
 export default {
   props: {
     fieldKey: {
@@ -20,18 +22,16 @@ export default {
     label: {
       type: String,
     },
-    value: {
-      type: String,
-    },
     dis: {
       type: Boolean,
     },
   },
   data() {
     return {
-    //   value: null,
+      value: null,
       format: "DD-MMM-YYYY",
       disable:true,
+      
     };
   },
   computed: {
@@ -48,7 +48,16 @@ export default {
     formatDate(dateObj, format) {
       return dayjs(dateObj).format(format);
     },
+    formatDateToIso(value) {
+      let dateTimeDate = DateTime.fromISO(value);
+      if (dateTimeDate.isValid) {
+        const isoDate = dateTimeDate.toUTC().toISO();
+        return isoDate;
+      }
+      return value;
+    },
     onChange(value, repeatObj) {
+      value = this.formatDateToIso(value);
         const { fieldKey } = this;
       const d = dayjs(value);
       let date = value ? d.format("YYYY-MMM-DD") : null;

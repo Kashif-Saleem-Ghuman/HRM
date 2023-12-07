@@ -144,16 +144,11 @@ export function handleInputObject(event, name, emContact) {
   }
 }
 export function addHandleInput(event, name, addresses) {
-  this.isFlag = true;
-  this.isFlag = true;
   this.addForm[name] = event;
-  // console.log(this.addForm, "sldnalksdlkasjdlkajdl")
-
-  // this.form[name] = event;
   if (
-    this.addForm.start != "" ||
-    this.addForm.endDate != "" ||
-    this.addForm.type != ""
+    this.addForm.start != null ||
+    this.addForm.endDate != null ||
+    this.addForm.type != null
   ) {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;

@@ -27,7 +27,7 @@
           <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
         </div> -->
       </div>
-      <div class="footer-item d-flex gap-2">
+      <div class="footer-item d-flex gap-05">
         <div class="items"
           v-if="$store.state.token.isAdmin"
           @mouseover="editAllowanceIcon = true"
@@ -35,7 +35,7 @@
         >
           <label>Allowance</label>
           <div style="position: relative;">
-            <span v-show="!editAllowance">{{ totalAllowance }}</span>
+            <span class="pl-05" v-show="!editAllowance">{{ totalAllowance }}</span>
             <div v-show="editAllowance" class="edit-allowance">
               <bib-input
                 type="text"
@@ -51,12 +51,17 @@
         </div>
         <div v-else class="items">
           <label>Allowance</label>
-          <span>{{ totalAllowance }}</span>
+          <span class="pl-05">{{ totalAllowance }}</span>
         </div>
         
         <div class="items">
           <label>Used</label>
-          <span>{{ daysUsed }}</span>
+          <span class="pl-05">{{ daysUsed }}</span>
+        </div>
+
+        <div class="items">
+          <label>Scheduled</label>
+          <span class="pl-05">{{ scheduledDays }}</span>
         </div>
       </div>
       <bib-button
@@ -105,6 +110,9 @@ export default {
       type: [String, Number],
     },
     daysUsed: {
+      type: Number,
+    },
+    scheduledDays: {
       type: Number,
     },
     type: {

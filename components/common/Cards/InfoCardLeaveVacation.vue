@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex info-card-leave-container">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div style="display: flex; justify-content: space-between;">
         <label>{{ title }}</label>
@@ -41,7 +41,8 @@
                 type="text"
                 v-model="editAllowanceValue"
                 size="sm"
-                class="pt-05"
+                class="pt-05 edit-allowance__input"
+                
               ></bib-input>
               <bib-icon class="edit-allowance__action-icon" icon="save" hover-variant="primary" @click="saveAllowance"></bib-icon>
               <bib-icon class="edit-allowance__action-icon" icon="close" hover-variant="primary" @click="editAllowance = false"></bib-icon>
@@ -168,6 +169,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.info-card-leave-container {
+  overflow: hidden;
+}
+
 .button-wrapper-align {
   div {
     display: flex;
@@ -187,12 +192,15 @@ export default {
 .edit-allowance {
   display: flex;
   align-items: center;
-  padding-left: 1rem;
   width: 6rem;
 
   &__action-icon {
     cursor: pointer;
     margin-left: .1rem;
+  }
+
+  &__input {
+    max-width: 3rem;
   }
 }
 

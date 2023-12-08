@@ -51,7 +51,6 @@
             <user-info-card
               :user="data.value.employee"
               @viewProfile="viewProfile(data.value.employee.id)"
-              @sendInvite="sendInvite"
             ></user-info-card>
           </div>
         </div>
@@ -158,19 +157,12 @@ export default {
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },
-    vclick() {
-      alert("callled");
-    },
     mouseover() {
       this.showTooltip = true;
     },
     mouseleave() {
       this.showTooltip = false;
     },
-    sendInvite() {
-      alert("send invite api call");
-    },
-
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"

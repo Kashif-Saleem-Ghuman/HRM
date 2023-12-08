@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="newData.id" class="cell activity">{{ newData.activity.label }}</div>
-    <div v-else class="cell activity">
+    <div v-else class="cell activity activity-wrapper">
       <bib-button
-        dropdown=""
+        dropdown="arrowhead-down"
         :label="newData.activity.label || 'Select Activity Type'"
         v-model="newData.activity.label"
       >
@@ -237,3 +237,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.activity-wrapper{
+  .icon{
+    margin-right: -10px !important;
+  }
+}
+</style>

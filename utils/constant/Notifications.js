@@ -1,23 +1,23 @@
 export const popupNotificationMsgs = [
   {
     text: "Leave Added successfully...",
-    variant: "primary",
+    variant: "primary-24",
   },
   {
     text: "Employee data update successfully...",
-    variant: "primary",
+    variant: "primary-24",
   },
   {
     text: "Leave has been Approved...",
-    variant: "primary",
+    variant: "primary-24",
   },
   {
     text: "Leave has been Rejected...",
-    variant: "primary",
+    variant: "primary-24",
   },
   {
     text: "Organization profile data update successfully...",
-    variant: "primary",
+    variant: "primary-24",
   },
   {
     text: "File size has exceeded it max limit of 2MB...",
@@ -26,5 +26,13 @@ export const popupNotificationMsgs = [
   {
     text: "No data to update...",
     variant: "danger",
+  },
+  {
+    text: "No files to update...",
+    variant: "danger",
+  },
+  {
+    text: "The file has been deleted successfully...",
+    variant: "primary-24",
   },
 ];

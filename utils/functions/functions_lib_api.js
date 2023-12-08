@@ -1,6 +1,7 @@
 import {
   addFiles,
   getFiles,
+  deleteFiles,
   } from "./api_call/myprofile";
   import {
     employeeTime,
@@ -74,4 +75,5 @@ import {
     // my profile
     addFiles,
     getFiles,
+    deleteFiles,
   };

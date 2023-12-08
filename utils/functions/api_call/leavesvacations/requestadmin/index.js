@@ -101,10 +101,8 @@ export async function getUserLeavesDetail(id) {
       }
     );
     this.loading = false;
-    // this.allowanceLeavesDetailedData = allowanceDays.data;
     this.is_data_fetched = true
     return result.data;
-    // console.log(this.allowanceLeavesDetailedData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }

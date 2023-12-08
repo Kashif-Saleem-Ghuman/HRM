@@ -97,7 +97,6 @@ export async function getAllowanceDays(leaveType) {
     );
     this.loading = false;
     return allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }
@@ -119,7 +118,6 @@ export async function getAllowancVacationeDays() {
     );
     this.loading = false;
     this.allowanceVacationData = allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }
@@ -141,7 +139,6 @@ export async function getAllowancMedicalDays() {
     );
     this.loading = false;
     this.allowanceMedicalData = allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }
@@ -163,7 +160,6 @@ export async function getAllowanceLeaveDays() {
     );
     this.loading = false;
     this.allowanceLeaveData = allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }
@@ -185,7 +181,6 @@ export async function getAllowancOtherDays() {
     );
     this.loading = false;
     this.allowanceOtherData = allowanceDays.data;
-    // console.log(this.allowanceDaysData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }
@@ -218,9 +213,7 @@ export async function getUserLeavesDetailUser() {
       },
     });
     this.loading = false;
-    // this.allowanceLeavesDetailedData = allowanceDays.data;
     return result.data;
-    // console.log(this.allowanceLeavesDetailedData, "this.allowanceDaysData")
   } catch (e) {
     alert(e);
   }

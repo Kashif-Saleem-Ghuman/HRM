@@ -1,10 +1,11 @@
 import axios from "axios";
 export async function addFiles(payload, files) {
   let fd = new FormData();
-  
+  if (files.length === 0) {
+    return this.openPopupNotification(7);
+  }
   for (let i = 0; i < files.length; i++) {
-    fd.append("files", files[i])
-    console.log(files[i], "kasdjhkjahsdkjahskdjk")
+    fd.append("files", files[i]);
   }
 
   try {
@@ -18,29 +19,39 @@ export async function addFiles(payload, files) {
         },
       }
     );
-    // this.files = files;
-    console.log(files, "employeeTime");
   } catch (e) {
     alert(e);
   }
 }
 export async function getFiles(payload) {
-    try {
-      const files = await axios.get(
-        `${process.env.API_URL}/employees/${payload}/files`,
-        {
-          headers: {
-            Authorization: "Bearer " + this.getAccessToken,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    //   this.filesUploaded = files.data;
-    //   this.fileList += 1;
-      return files.data
-      console.log(files, "employeeTime");
-    } catch (e) {
-      alert(e);
-    }
+  try {
+    const files = await axios.get(
+      `${process.env.API_URL}/employees/${payload}/files`,
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return files.data;
+  } catch (e) {
+    alert(e);
   }
- 
+}
+export async function deleteFiles(payload) {
+  try {
+    const files = await axios.delete(
+      `${process.env.API_URL}/employees/${payload.employeeId}/files/${payload.id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + this.getAccessToken,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return files.data;
+  } catch (e) {
+    alert(e);
+  }
+}

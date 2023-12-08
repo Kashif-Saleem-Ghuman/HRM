@@ -183,9 +183,7 @@ export default {
     mouseleave() {
       this.showTooltip = false;
     },
-    sendInvite() {
-      alert("send invite api call");
-    },
+    
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"

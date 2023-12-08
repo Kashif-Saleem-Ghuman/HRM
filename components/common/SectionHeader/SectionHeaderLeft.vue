@@ -6,29 +6,19 @@
       pill
       @click="backRouter"
       icon_bg="bg-secondary-sub2"
-      style="cursor: pointer;"
+      style="cursor: pointer"
       v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
     <span class="title-text" v-if="title">{{ title }}</span>
     <bib-button
-    v-if="bookmark"
+      v-if="bookmark"
       :icon="bookmark"
       variant="secondary"
       icon_bg="bg-secondary-sub3"
       pill
-      style="cursor: pointer;"
+      style="cursor: pointer"
     ></bib-button>
-    <!-- <button-circle
-      v-if="bookmark"
-      :icon="bookmark"
-      :scale="0.8"
-      variant="secondary"
-      icon_bg="bg-secondary-sub3"
-      @on-click="bookmarkButton"
-    >
-    </button-circle> -->
-    <!-- <button-circle v-if="moreIcon" :icon="moreIcon" :scale="0.8" variant="secondary" icon_bg="bg-secondary-sub3" @on-click="moreButton"></button-circle> -->
     <div
       class="shape-circle bg-gray3 width-2 height-2 d-flex justify-center align-center"
       v-if="moreIcon"
@@ -88,25 +78,18 @@ export default {
     items: {
       type: Array,
     },
-    back:{
-      type:String
+    back: {
+      type: String,
     },
   },
   data() {
     return {};
   },
-  
+
   methods: {
-    bookmarkButton() {
-      // console.log(this.users, "calllled");
-    },
     backRouter() {
       this.$router.back();
     },
-    moreButton() {
-      alert("More Button called");
-    },
-    
   },
 };
 </script>

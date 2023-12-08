@@ -294,7 +294,6 @@ export default {
       this.parsedTimesheets = (new TimesheetParser(timesheets)).parse('month')
     },
     close() {
-      alert("sadjlaksjdlasldkjlasjdl");
       this.timesheetModal = false;
     },
     itemCliked(item) {
@@ -311,16 +310,12 @@ export default {
       this.$router.push("/profile/" + id);
     },
     vclick() {
-      alert("callled");
     },
     mouseover() {
       this.showTooltip = true;
     },
     mouseleave() {
       this.showTooltip = false;
-    },
-    sendInvite() {
-      alert("send invite api call");
     },
     timeInfotab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

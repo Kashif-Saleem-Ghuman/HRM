@@ -14,10 +14,6 @@ export async function employeeTime(payload) {
   }
   
   export async function updateEmployeeTime(payload) {
-    // if (this.isFlag == false) {
-    //   alert("No data to Update");
-    //   return true;
-    // }
     this.loading = true;
     await this.$axios
       .$put(`${process.env.API_URL}/employees/${payload}/settings/time`, this.updateForm, {

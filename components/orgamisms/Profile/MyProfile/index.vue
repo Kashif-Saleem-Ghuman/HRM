@@ -35,60 +35,7 @@
           <div id="files-information-wrapper">
             <div v-if="activeTab == personalTabItem[1].value">
               <div id="scroll-wrapper" class="scroll-wrapper">
-                <div class="px-1">
-                  <!-- my profile Info Wrapper Start Here  -->
-                  <div id="my-profile-wrapper">
-                    <div class="py-cus custom-dropzone" :key="fileList">
-                      <bib-input
-                        type="file"
-                        ref="filesUploaded"
-                        @files-dropped="handleChange__FileInput"
-                        variant="accepted"
-                        iconLeft="upload"
-                        placeholder="Drop file here or click to upload"
-                      ></bib-input>
-                      <bib-button
-                        label="Upload"
-                        size="lg"
-                        variant="primary"
-                        @click="fileUpload"
-                        class="mt-025"
-                      ></bib-button>
-                    </div>
-                    <div
-                      class="d-grid gap-1"
-                      style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));"
-                    >
-                      <div
-                        v-for="file in filesUploaded"
-                        class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
-                        @click="handleFileClick(file)"
-                        :key="file.id"
-                      >
-                        <div class="d-flex align-center">
-                          <bib-icon
-                            :icon="
-                              file.name.split('.').pop() == 'pdf'
-                                ? 'pdf'
-                                : '' || file.name.split('.').pop() == 'docx'
-                                ? 'word'
-                                : '' || file.name.split('.').pop() == 'word'
-                                ? 'excel'
-                                : ''
-                            "
-                            variant="gray5"
-                          ></bib-icon>
-
-                          <h5
-                            class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
-                          >
-                            {{ file.name }}
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <files-form></files-form>
               </div>
             </div>
           </div>
@@ -100,28 +47,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import {
-  COUNTRIES,
-  EMPLOYEE_PROFILE_TAB,
-  SELECT_OPTIONS,
-  STATES,
-} from "../../../../utils/constant/Constant.js";
+import { EMPLOYEE_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 
 import {
-  handleInput,
-  handleInputObject,
   openPopupNotification,
-  sendMeet,
-  sendMessage,
-  updateAllData,
   vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
-import {
-  addFiles,
-  getFiles,
-} from "../../../../utils/functions/functions_lib_api";
-
-import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
+import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 
 import fecha from "fecha";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
@@ -131,46 +63,18 @@ export default {
     return {
       id: "",
       loading: false,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
-      usersOptions: "",
-      formOptions: {},
-      departmentOptions: "",
       personalTabItem: EMPLOYEE_PROFILE_TAB,
-      genderOptions: SELECT_OPTIONS.genderOptions,
-      maritalOption: SELECT_OPTIONS.maritalStatusOptions,
-      statusOptions: SELECT_OPTIONS.esstatusOptions,
-      countries: COUNTRIES,
-      states: STATES,
-      currentState: STATES,
-      teamOptions: "",
-      emContact: false,
       activeTab: "Employee Profile",
-      // Employee profile state
       dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
       inactiveCommon: "disabled",
       form: {},
       formOptions: {},
       updateForm: {},
-      isFlag: false,
       confirmastionMessageModal: false,
-      componentKeyUser: 0,
-      stateVisible: true,
-      otherStateVisible: false,
-      errorMsgStreet: false,
-      errorMsgCountry: false,
-      errorMsgPostalCode: false,
-      errorMsgState: false,
-      errorMsgSuit: false,
-      reportOptions: "",
-      is_data_fetched: false,
-      format: "MMM D, YYYY",
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
-      todayDate: fecha.format(new Date(), "YYYY-MM-DD"),
+
       errorMsgPrimaryEmail: false,
-      files: [],
-      filesUploaded: "",
-      fileList: 0,
       topNav: 0,
       name: {},
     };
@@ -180,26 +84,20 @@ export default {
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
       activeUserRole: "token/getUserRole",
-      getReportList: "employee/GET_REPORTS_LIST",
       getActiveUserData: "token/getActiveUserData",
-      getUserRole: "token/getUserRole",
     }),
   },
 
   async created() {
-    this.id = this.getUser.id ;
+    this.id = this.getUser.id;
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
     this.form = users;
-    this.getFiles(this.form.id).then((result) => {
-      this.filesUploaded = result;
-      this.filesUploaded.reverse();
-    });
     this.$root.$on("top-nav-key", () => {
-      if (this.getUserRole === "USER") {
+      if (this.activeUserRole === "USER") {
         this.$store
-          .dispatch("employee/setUser", this.getUser.id)
+          .dispatch("employee/setUser", this.getUser?.id)
           .then((result) => {
             this.form = result;
             this.topNav += 1;
@@ -207,56 +105,11 @@ export default {
       }
     });
   },
-
-  async mounted() {
-    this.$store.dispatch("employee/setReportsToList").then((result) => {
-      this.reportOptions = result;
-    });
-  },
   methods: {
     openPopupNotification,
     vfileAdded,
-    updateAllData,
-    handleInput,
-    handleInputObject,
-    addFiles,
-    getFiles,
-    sendMeet,
-    sendMessage,
-
-    handleFileClick(file) {
-      this.downloadFile(file);
-    },
-
-    async downloadFile(file) {
-      try {
-        const blob = await downloadEmployeeFile({
-          employeeId: this.id,
-          fileId: file.id,
-        });
-        const blobUrl = window.URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = file.name;
-        a.target = '_blank';
-        a.click();
-        
-        window.URL.revokeObjectURL(blobUrl);
-      } catch (error) {
-        console.error("Error downloading file", error);
-      }
-    },
-    async handleChange__FileInput(files) {
-      this.files = files;
-    },
-    async fileUpload() {
-      await this.addFiles(this.id, this.files);
-      await this.getFiles(this.id).then((result) => {
-        this.filesUploaded = result;
-        this.fileList += 1;
-        this.filesUploaded.reverse();
-      });
+    async handleChange_Tabs(tab) {
+      this.activeTab = tab.value;
     },
     parseDate(dateString, format) {
       return fecha.parse(dateString, format);
@@ -288,51 +141,6 @@ export default {
         .then(() => {
           this.$nuxt.$emit("leaves-list");
         });
-    },
-    change(event, name) {
-      this.updateForm[name] = event;
-      console.log(this.updateForm, "switchLabelweekStarts");
-    },
-    addLeaves($event) {
-      this.$nuxt.$emit("open-sidebar-admin", $event);
-      this.$nuxt.$emit("add-leave");
-    },
-    showEmergency() {
-      this.showEmergencyContact = true;
-      this.emContact = false;
-    },
-
-    async handleChange_Tabs(tab) {
-      this.activeTab = tab.value;
-      if (this.activeTab == "Time & Attendance") this.getTimesheet();
-    },
-    viewChange(e) {
-      if (e == "Today") {
-        alert("called");
-        this.todayListView = true;
-        this.weekListView = false;
-        this.monthListView = false;
-        this.ViewTitle = "Today";
-        this.getTimeAttendanceDaily();
-      }
-      if (e == "Week") {
-        this.todayListView = false;
-        this.weekListView = true;
-        this.monthListView = false;
-        this.ViewTitle = "Week";
-      }
-      if (e == "Month") {
-        this.todayListView = false;
-        this.monthListView = true;
-        this.weekListView = false;
-        this.ViewTitle = "Month";
-      }
-      if (e == "Year") {
-        alert("No list Found");
-      }
-    },
-    clickOutside() {
-      this.show = false;
     },
   },
 };

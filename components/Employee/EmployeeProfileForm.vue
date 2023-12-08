@@ -284,7 +284,7 @@
                       <div class="col-4">
                         <form-input
                           type="text"
-                          label="Releationship"
+                          label="Relationship"
                           field-key="emergencyContact.relationship"
                           :value="form.emergencyContact?.relationship"
                         ></form-input>
@@ -320,13 +320,13 @@
 
 <script>
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import {
   sendMeet,
   sendMessage,
   vfileAdded,
 } from "@/utils/functions/functions_lib";
+import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import contactFormFieds from "./forms/contact-form-fieds";

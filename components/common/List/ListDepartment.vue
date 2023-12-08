@@ -48,26 +48,12 @@ export default {
       userPhotoClick: false,
     };
   },
-  // created() {
-  //   if (this.$router.history.current.fullPath == "/people") {
-  //     this.tableFields = TABLE_HEAD.tHeadPeople;
-  //     return;
-  //   }
-
-  //   if (this.$router.history.current.fullPath == "/people/directory") {
-  //     this.tableFields = TABLE_FIELDS_DIR;
-  //     return;
-  //   }
-  // },
   methods: {
     handleItemClick_Table($event, keyI, item) {
       this.$router.push("/profile/" + item.id);
     },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
-    },
-    sendInvite() {
-      alert("send invite api call");
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

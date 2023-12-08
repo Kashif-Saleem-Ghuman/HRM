@@ -551,16 +551,16 @@ export default {
 
     setAllowanceData(type) {
       if (type == "vacation") {
-        this.allowanceData = this.allowanceLeavesDetailedData.vacationsAllowance;
-        this.useDaysData = this.allowanceLeavesDetailedData.vacationsUsed;
+        this.allowanceData = this.allowanceLeavesDetailedData.vacationDaysAllowed;
+        this.useDaysData = this.allowanceLeavesDetailedData.vacationDaysUsed;
       }
       if (type == "leave") {
-        this.allowanceData = this.allowanceLeavesDetailedData.otherLeavesAllowance;
-        this.useDaysData = This.allowanceLeavesDetailedData.vacationsUsed;
+        this.allowanceData = this.allowanceLeavesDetailedData.leaveDaysAllowed;
+        this.useDaysData = This.allowanceLeavesDetailedData.vacationDaysUsed;
       }
       if (type == "medical") {
-        this.allowanceData = this.allowanceLeavesDetailedData.medicalLeavesAllowance;
-        this.useDaysData = this.allowanceLeavesDetailedData.medicalLeavesUsed;
+        this.allowanceData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
+        this.useDaysData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
       }
     },
 

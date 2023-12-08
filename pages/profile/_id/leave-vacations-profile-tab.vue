@@ -10,8 +10,9 @@
         >
           <info-card-leave-vacation
             title="Vacation"
-            :daysUsed="allowanceLeavesDetailedData.vacationsUsed"
-            :totalAllowance=allowanceLeavesDetailedData.vacationsAllowance
+            :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
+            :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
+            :totalAllowance=allowanceLeavesDetailedData.vacationDaysAllowed
             buttonLable="Request Vacation"
             icon="airplane-solid"
             className="button-wrapper__bgsucess"
@@ -22,10 +23,9 @@
           ></info-card-leave-vacation>
           <info-card-leave-vacation
             title="Medical/sick"
-            :daysUsed="
-                allowanceLeavesDetailedData.medicalLeavesUsed
-            "
-            :totalAllowance="allowanceLeavesDetailedData.medicalLeavesAllowance"
+            :daysUsed="allowanceLeavesDetailedData.medicalDaysAllowed"
+            :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
+            :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
             buttonLable="Request Medical Leave"
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
@@ -37,8 +37,9 @@
 
             <info-card-leave-vacation
             title="Personal leave"
-            :daysUsed="allowanceLeavesDetailedData.otherLeavesUsed"
-            :totalAllowance="allowanceLeavesDetailedData.otherLeavesAllowance"
+            :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
+            :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
+            :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
             buttonLable="Request Personal Leave"
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"

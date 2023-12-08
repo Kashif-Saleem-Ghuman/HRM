@@ -241,10 +241,10 @@ export default {
       this.slideClass = "slide-in";
 
       if (payload === "leave") {
-        this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
+        this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
         this.sidebarHeading = "Request Leave";
         this.addForm.type = "leave";
-        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
+        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
@@ -252,10 +252,10 @@ export default {
       if (payload == "vacation") {
         this.sidebarHeading = "Request Vacation";
         this.addForm.type = "vacation";
-        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
         this.openSidebar = true;
         this.employeeNameInput = true;
-        this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
+        this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
         setTimeout(() => {
         }, 1000);
       }
@@ -263,10 +263,10 @@ export default {
       if (payload == "medical") {
         this.sidebarHeading = "Request Medical/sick";
         this.addForm.type = "medical";
-        this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
+        this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
         this.openSidebar = true;
         this.employeeNameInput = true;
-        this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
+        this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
 
         setTimeout(() => {
         }, 1000);
@@ -291,8 +291,8 @@ export default {
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
-        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
-        this.useDaysData = this.getLeaveAllowance?.otherLeavesUsed;
+        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
+        this.useDaysData = this.getLeaveAllowance?.leaveDaysUsed;
         return true;
       }
       if (payload == "vacation") {
@@ -303,8 +303,8 @@ export default {
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
         this.addLeaveKey += 1;
-        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
-        this.useDaysData = this.getLeaveAllowance?.vacationsUsed;
+        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
+        this.useDaysData = this.getLeaveAllowance?.vacationDaysUsed;
         return true;
       }
 
@@ -315,8 +315,8 @@ export default {
         this.openSidebar = true;
         this.employeeNameInput = true;
         this.employeeNameSelectShow = false;
-        this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
-        this.useDaysData = this.getLeaveAllowance?.medicalLeavesUsed;
+        this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
+        this.useDaysData = this.getLeaveAllowance?.medicalDaysAllowed;
         return true;
       }
       if (payload == "leaveAdmin") {
@@ -338,8 +338,8 @@ export default {
         this.leaveType = "leave";
         this.employeeNameSelectShow = true;
         this.$nuxt.$emit("add-leave");
-        this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
-        this.useDaysData = this.activeUserAllowanceData?.otherLeavesUsed;
+        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
+        this.useDaysData = this.activeUserAllowanceData?.leaveDaysUsed;
         return true;
       }
       if (payload == "vacationAdmin") {
@@ -356,8 +356,8 @@ export default {
         this.leaveType = "vacation";
         this.employeeNameSelectShow = true;
         this.$nuxt.$emit("add-leave");
-        this.useDaysData = this.activeUserAllowanceData?.vacationsUsed;
-        this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+        this.useDaysData = this.activeUserAllowanceData?.vacationDaysUsed;
+        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
 
         return true;
       }

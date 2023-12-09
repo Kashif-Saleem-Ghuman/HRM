@@ -1,10 +1,5 @@
 <template>
   <div class="px-1 py-1 of-scroll-y">
-    <!-- <div class="d-grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));" >
-      <div v-for="file in filesUploaded" @click="handleFileClick(file)">
-      <files :files="file"></files>
-    </div>
-    </div> -->
     <div class="py-cus custom-dropzone" :key="fileList">
       <bib-input
         type="file"
@@ -39,18 +34,7 @@
           "
         >
           <div class="d-flex align-center" @click="handleFileClick(file)">
-            <bib-icon
-              :icon="
-                file.name.split('.').pop() == 'pdf'
-                  ? 'pdf'
-                  : '' || file.name.split('.').pop() == 'docx'
-                  ? 'word'
-                  : '' || file.name.split('.').pop() == 'word'
-                  ? 'excel'
-                  : 'pdf'
-              "
-              variant="gray5"
-            ></bib-icon>
+            <bib-icon :icon="getFileExtension(file)" variant="gray5"></bib-icon>
             <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap">
               {{ file.name }}
             </h5>
@@ -118,6 +102,19 @@ export default {
     getFiles,
     deleteFiles,
     openPopupNotification,
+    getFileExtension(file) {
+      var icon =
+        file.name.split(".").pop() == "pdf"
+          ? "pdf"
+          : "" || file.name.split(".").pop() == "docx"
+          ? "word"
+          : "user-solid" || file.name.split(".").pop() == "jpg"
+          ? "user-solid"
+          : "" || file.name.split(".").pop() == "xlsx"
+          ? "excel"
+          : "file";
+      return icon;
+    },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
@@ -132,33 +129,19 @@ export default {
     },
 
     async downloadFile(file) {
-      console.log(file, "image/jpeg");
-      const fileType =
-        file.name.split(".").pop() == "pdf"
-          ? "application/pdf"
-          : "" || file.name.split(".").pop() == "docx"
-          ? "docx"
-          : "" || file.name.split(".").pop() == "jpeg" || "png"
-          ? "image/jpeg"
-          : "";
       try {
         const blob = await downloadEmployeeFile({
           employeeId: this.id,
           fileId: file.id,
         });
-        if (fileType == "docx") {
-          const blobUrl = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = blobUrl;
-          a.download = file.name;
-          a.target = "_blank";
-          a.click();
-          return
-        }
-        const dataUrl = URL.createObjectURL(
-          new Blob([blob], { type: fileType })
-        );
+        const blobUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = file.name;
+        a.target = "_blank";
+        a.click();
         window.open(dataUrl, "_blank");
+        return;
       } catch (error) {
         console.error("Error downloading file", error);
       }

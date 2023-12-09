@@ -158,17 +158,17 @@ export async function selectUserHandle(event, name) {
   this.isFlag = true;
   this.addForm[name] = event;
   if (this.leaveType == "leave") {
-    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
-    this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
+    this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
+    this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
   }
   if (this.leaveType == "medical") {
-    this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
+    this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
 
-    this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
+    this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
   }
   if (this.leaveType == "vacation") {
-    this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+    this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
+    this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
   }
 }
 export function selectLeaveTypeHandle(event, name, addresses) {
@@ -176,16 +176,16 @@ export function selectLeaveTypeHandle(event, name, addresses) {
   this.isFlag = true;
   this.addForm[name] = event;
   if (this.leaveType == "leave") {
-    this.useDaysData = this.activeUserAllowanceData.otherLeavesUsed;
-    this.allowanceDays = this.activeUserAllowanceData.otherLeavesAllowance;
+    this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
+    this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
   }
   if (this.leaveType == "medical") {
-    this.useDaysData = this.activeUserAllowanceData.medicalLeavesUsed;
-    this.allowanceDays = this.activeUserAllowanceData.medicalLeavesAllowance;
+    this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
+    this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
   }
   if (this.leaveType == "vacation") {
-    this.useDaysData = this.activeUserAllowanceData.vacationsUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationsAllowance;
+    this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
+    this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
   }
 }
 export function editHandleInput(event, name, addresses) {

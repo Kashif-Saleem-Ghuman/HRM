@@ -134,12 +134,6 @@ export default {
     },
   },
   methods: {
-    employeModal() {
-      alert("employe called");
-    },
-    employee() {
-      alert("import called");
-    },
     showMenuItems() {
       this.showMenu = !this.showMenu;
     },

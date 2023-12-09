@@ -63,10 +63,5 @@ export default {
       fill: { gradient: ["#ffb700", "#47b801"] },
     };
   },
-  methods: {
-    buttonAction(item) {
-      alert("Called", item);
-    },
-  },
 };
 </script>

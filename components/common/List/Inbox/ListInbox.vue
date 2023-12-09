@@ -116,7 +116,6 @@
         document.querySelector("#timesheetid_" + item).style = "display:none";
         this.timesheetModal = true;
         var users = this.localData.find((items) => items.id === item);
-        console.log(users.id, item, "asdkskahkdhshadakdhaskhk");
         this.filteredData = users;
       },
       handleItemClick_Table(event, keyI, item) {
@@ -127,7 +126,6 @@
         this.$router.push("/profile/" + id);
       },
       vclick() {
-        alert("callled");
       },
       mouseover() {
         this.showTooltip = true;
@@ -136,7 +134,6 @@
         this.showTooltip = false;
       },
       sendInvite() {
-        alert("send invite api call");
       },
       timeInfotab(name, isLeave) {
         document.querySelector("#" + name).style.display = isLeave

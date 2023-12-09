@@ -62,11 +62,11 @@
       <template #cell(status)="data">
         <div class="text-dark pl-1">
           <chips-list
-            :title="data.value?.presence === 'in' ? 'Online' : 'Offline'"
+            :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
             iconShow="iconShow"
             icon="add"
             :className="[
-              data.value?.presence === 'in'
+              data.value?.timers[0]?.type
                 ? 'chip-list-wrapper__sucess'
                 : 'chip-list-wrapper__light',
             ]"
@@ -202,9 +202,7 @@ export default {
     mouseleave() {
       this.showTooltip = false;
     },
-    sendInvite() {
-      alert("send invite api call");
-    },
+    
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"

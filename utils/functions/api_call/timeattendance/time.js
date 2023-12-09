@@ -41,8 +41,7 @@ export async function getAdminTimesheets(payload) {
     );
     return data
   } catch (e) {
-    // console.log(`Error while fetching ${url}` );
-    // console.error(e);
+    console.error(e);
   }
 }
 

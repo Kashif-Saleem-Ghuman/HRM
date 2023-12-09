@@ -72,9 +72,7 @@ export function handleInput(event, name, addresses) {
   this.isFlag = true;
   if (addresses == "team") {
     this.updateForm.teams = this.updateForm.teams || [];
-    // console.log(this.updateform.teams, "calllled")
     this.updateForm.teams.push(event);
-    console.log(event, name, "calllled");
     return;
   }
   if (addresses === "addresses") {
@@ -122,11 +120,9 @@ export function handleInput(event, name, addresses) {
     // }else{
     //   this.errorMsgPrimaryEmail = false;
     // }
-    console.log(this.updateForm, "update");
   }
 }
 export function handleInputObject(event, name, emContact) {
-  console.log(event, name, emContact, "callled");
   let add = {};
   this.isFlag = true;
   if (emContact == "emContact") {
@@ -140,7 +136,6 @@ export function handleInputObject(event, name, emContact) {
     //   ...this.form.emergencyContacts,
     //   ...add,
     // };
-    console.log(this.updateForm, "aslkdnalsdjlk");
   }
 }
 export function addHandleInput(event, name, addresses) {
@@ -192,21 +187,17 @@ export function selectLeaveTypeHandle(event, name, addresses) {
     this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
     this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
   }
-  console.log(this.addForm, "this.addFormthis.addForm");
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;
   this.updateForm[name] = event;
   // this.form[name] = event;
-  console.log(this.updateForm, "update");
 }
 export function handleOrgProfile(event, name, addresses) {
   this.isFlag = true;
   if (addresses == "team") {
     this.updateForm.teams = this.updateForm.teams || [];
-    // console.log(this.updateform.teams, "calllled")
     this.updateForm.teams.push(event);
-    console.log(event, name, "calllled");
     return;
   }
   if (addresses === "addresses") {
@@ -235,11 +226,8 @@ export function handleOrgProfile(event, name, addresses) {
     }
     this.updateForm[name] = event;
     this.form[name] = event;
-    console.log(this.updateForm, "updateFormmmmmmmmmmmmmmmmmmmmmmm");
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;
-    // this.form[name] = event;
-    console.log(this.updateForm, "update");
   }
 }

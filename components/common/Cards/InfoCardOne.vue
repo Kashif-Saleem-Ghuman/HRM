@@ -84,12 +84,7 @@ export default {
     };
   },
   methods: {
-    buttonAction(item) {
-      alert("Called", item);
-    },
   },
 };
 </script>
-<!-- <style lang="scss">
 
-</style> -->

@@ -670,10 +670,14 @@ export const EMPLOYEE_PROFILE_TAB = [
   {
     title: "Employee Profile",
     value: "Employee Profile",
+    route: "employee-profile-tab",
+
   },
   {
     title: "Files",
     value: "files",
+    route: "files-profile-tab",
+
   },
 ];
 export const USER_PROFILE_TAB = [

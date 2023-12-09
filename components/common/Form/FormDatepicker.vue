@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     isDisable() {
-      console.log(this.inActive, "console.log(this.inActive)console.log(this.inActive)console.log(this.inActive)")
       return this.disable = this.dis;
       
     }

@@ -240,7 +240,6 @@ export default {
   created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
-      console.log(this.usedDayLeave, "this.$nuxt.$emit(");
     });
   },
   computed: {

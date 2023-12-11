@@ -151,42 +151,27 @@ export function addHandleInput(event, name, addresses) {
   }
 }
 export async function selectUserHandle(event, name) {
-  this.userId = event;
-  await this.getUserLeavesDetail(this.userId).then((result) => {
-    this.activeUserAllowanceData = result;
+  this.id = event;
+  this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
+    employeeId: this.id,
   });
+  await this.$store
+    .dispatch("leavesdata/setLeaveVacationsAllowance", this.id)
+    .then((result) => {
+      this.allowanceLeavesDetailedData = result;
+      this.is_data_fetched = true;
+    });
   this.isFlag = true;
   this.addForm[name] = event;
-  if (this.leaveType == "leave") {
-    this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
-    this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
-  }
-  if (this.leaveType == "medical") {
-    this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
-
-    this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
-  }
-  if (this.leaveType == "vacation") {
-    this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
-  }
+  const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+  return this.getLeaveAllowance[keyValue];
 }
-export function selectLeaveTypeHandle(event, name, addresses) {
-  this.leaveType = event;
+export function selectLeaveTypeHandle(event, name) {
+  this.leaveTypeActiveValue = event;
   this.isFlag = true;
   this.addForm[name] = event;
-  if (this.leaveType == "leave") {
-    this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
-    this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
-  }
-  if (this.leaveType == "medical") {
-    this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
-    this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
-  }
-  if (this.leaveType == "vacation") {
-    this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
-    this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
-  }
+  const keyValueAllowance = this.apiAllowdValue[this.leaveTypeActiveValue];
+  return this.getLeaveAllowance[keyValueAllowance];
 }
 export function editHandleInput(event, name, addresses) {
   // this.isFlag = true;

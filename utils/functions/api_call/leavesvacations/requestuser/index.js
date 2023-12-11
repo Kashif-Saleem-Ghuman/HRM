@@ -81,8 +81,6 @@ export async function addLeaveVacations() {
   this.loading = false;
 }
 export async function getAllowanceDays(leaveType) {
-  alert(leaveType);
-  this.loading = true;
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/requests/allowance-days",
@@ -95,8 +93,8 @@ export async function getAllowanceDays(leaveType) {
         },
       }
     );
-    this.loading = false;
     return allowanceDays.data;
+    
   } catch (e) {
     alert(e);
   }

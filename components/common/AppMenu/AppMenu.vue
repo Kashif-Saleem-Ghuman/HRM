@@ -190,11 +190,11 @@ export default {
           return;
         }
         if (item.key == "requestVacation") {
-          this.$nuxt.$emit("open-sidebar", 'vacation')
+          this.$nuxt.$emit("open-sidebar-admin", 'vacation')
           return;
         }
         if (item.key == "requestLeave") {
-          this.$nuxt.$emit("open-sidebar", 'leave')
+          this.$nuxt.$emit("open-sidebar-admin", 'leave')
           return;
         }
         if (item.key == "clockIn") {

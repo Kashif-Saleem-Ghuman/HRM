@@ -27,7 +27,6 @@ export const  actions = {
         }
       );
       ctx.commit("SET_LEAVEVACATION_ALLOWANCE", leaveVacationsAlowance.data);
-      console.log(leaveVacationsAlowance.data, "leaveVacationsAlowanceleaveVacationsAlowanceleaveVacationsAlowance")
       return leaveVacationsAlowance.data
     } catch (e) {
       alert(e);

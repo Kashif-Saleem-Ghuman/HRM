@@ -4,7 +4,6 @@
       :navigationCollapsed="collapseNavigation1"
       :isLightTheme="lightThemeChecked"
     >
-
       <template #topbar>
         <bib-header
           :mainAction="accountType"
@@ -22,9 +21,9 @@
           :hideSearchBox="$store.state.token.isUser"
           class="overlap-zindex app-wrapper--collapsed2"
         >
-        <template>
-          <search-content></search-content>
-        </template>
+          <template>
+            <search-content></search-content>
+          </template>
         </bib-header>
       </template>
       <template #switcher>
@@ -37,9 +36,7 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu
-          
-        ></app-menu>
+        <app-menu></app-menu>
       </template>
       <template #content>
         <div id="main-content">
@@ -48,7 +45,7 @@
           <action-sidebar
             @close="closeSidebar"
             :className="slideClass"
-            icon="airplane"
+            :icon="sidebarHeadingIcon"
             :heading="sidebarHeading"
             v-if="openSidebar"
             show="true"
@@ -71,7 +68,7 @@
                   :employeesOptions="employeesOptions"
                   :leaveTypeSelect="leaveTypeSelect"
                   style="z-index: 100000"
-                  :allowanceDays="allowanceDays"
+                  :allowanceDays="getAllownaceDataValue"
                   :usedDays="useDaysDataValue"
                   :employeeNameSelect="employeeNameSlectedValue"
                   :key="addLeaveKey"
@@ -79,7 +76,7 @@
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
                   :addForm="addForm"
-                  :activeUserAllowanceData="activeUserAllowanceData"
+                  :activeUserAllowanceData="getAllownaceDataValue"
                   :edit="true"
                 ></add-leave>
               </div>
@@ -121,26 +118,22 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { mapGetters } from "vuex";
-import { debounce } from "lodash"
+import { debounce } from "lodash";
 
 import {
   addLeaveVacations,
   getAllowanceDays,
-  getUserLeavesDetail,
-  getUserLeavesDetailUser,
 } from "../utils/functions/functions_lib_api";
 import {
   addHandleInput,
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../utils/functions/functions_lib";
-import { SELECT_OPTIONS } from "../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_TYPES } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
-  // getUser,
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
@@ -152,10 +145,23 @@ import {
 } from "../utils/functions/functions_lib.js";
 
 import routesCheck from "../middleware/routes.client";
+import { getEmployeeFullName } from "../utils/functions/common_functions";
+const apiKeyUsedValue = {
+  leave: "leaveDaysUsed",
+  vacation: "vacationDaysUsed",
+  medical: "medicalDaysUsed",
+  other: "otherDaysUsed",
+};
+const apiKeyAllowdValue = {
+  leave: "leaveDaysAllowed",
+  vacation: "vacationDaysAllowed",
+  medical: "medicalDaysAllowed",
+  other: "otherDaysAllowed",
+};
 export default {
   data() {
     return {
-      debouncedSearch: null, 
+      debouncedSearch: null,
       openSidebar: false,
       openSidebar2: false,
       clockModal: false,
@@ -170,10 +176,8 @@ export default {
       userPhoto: "",
       accountType: "",
       userRole: "",
-      addVacationSidebar: true,
       slideClass: "slide-in",
       useDaysData: "",
-      leaveType: "vacation",
       employeeName: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
       leaveType: "",
@@ -185,6 +189,7 @@ export default {
       },
       allowanceDays: "",
       sidebarHeading: "",
+      sidebarHeadingIcon: "",
       addLeaveKey: 0,
       errorMsgSelect: false,
       errorMsgStartDate: false,
@@ -195,16 +200,18 @@ export default {
       employeeNameSelect: "",
       employeeNameSelectShow: false,
       employeesOptions: [],
-      userId: "",
-      allowanceLeavesDetailedData: [],
       activeUserData: [],
       activeUserAllowanceData: [],
-      is_leave_data_fetched: false,
-      apiCall: true,
-      id:'',
+      id: "",
+      leaveRequestTypes: REQUEST_TYPES,
+      leaveTypeActiveValue: "",
+      flag: false,
+      apiUsedValue: apiKeyUsedValue,
+      apiAllowdValue: apiKeyAllowdValue,
       token: "",
-      };
+    };
   },
+
   fetch() {
     this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
   },
@@ -218,15 +225,27 @@ export default {
       getReportList: "employee/GET_REPORTS_LIST",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
-    useDaysDataValue(){
-      return this.useDaysData
+    useDaysDataValue() {
+      this.sidebarHeading =
+        this.leaveRequestTypes[this.leaveTypeActiveValue].label;
+      this.sidebarHeadingIcon =
+        this.leaveRequestTypes[this.leaveTypeActiveValue].icon;
+      this.addForm.employeeId = this.id;
+      this.addForm.type =
+        this.leaveRequestTypes[this.leaveTypeActiveValue].type;
+      const keyValue = apiKeyUsedValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValue];
     },
-    employeeNameSlectedValue(){
-      return this.employeeNameSelect
-    }
+    getAllownaceDataValue() {
+      const keyValueAllowance = apiKeyAllowdValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValueAllowance];
+    },
+    employeeNameSlectedValue() {
+      return this.employeeNameSelect;
+    },
   },
   async created() {
-    // this.routesCheck();
+    this.id = this.$route.params.id ?? this.getActiveUser?.id;
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -236,130 +255,29 @@ export default {
       localStorage.setItem("accessToken", this.token);
       this.$store.dispatch("token/setToken", this.token);
     }
-    this.$root.$on("open-sidebar", (payload) => {
-      this.employeeNameSelectShow = false;
+    this.$root.$on("open-sidebar-admin", (payload, key) => {
+      this.employeeName = getEmployeeFullName(this.getActiveUser);
       this.slideClass = "slide-in";
-
-      if (payload === "leave") {
-        this.useDaysData = this.activeUserAllowanceData.leaveDaysUsed;
-        this.sidebarHeading = "Request Leave";
-        this.addForm.type = "leave";
-        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-      }
-      if (payload == "vacation") {
-        this.sidebarHeading = "Request Vacation";
-        this.addForm.type = "vacation";
-        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.useDaysData = this.activeUserAllowanceData.vacationDaysUsed;
-        setTimeout(() => {
-        }, 1000);
-      }
-
-      if (payload == "medical") {
-        this.sidebarHeading = "Request Medical/sick";
-        this.addForm.type = "medical";
-        this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.useDaysData = this.activeUserAllowanceData.medicalDaysAllowed;
-
-        setTimeout(() => {
-        }, 1000);
-      }
-      this.employeeName =
-        this.activeUserData.firstName + " " + this.activeUserData.lastName;
-    });
-    this.$root.$on("open-sidebar-admin", (payload) => {
-       this.id = this.$route.params.id;
-      // this.employeeNameSelect = this.activeUserData.id;
-      // use case people page
-      this.useDaysData = "";
-      this.leaveTypeSelect = false;
-      this.employeeNameInput = false;
-      this.employeeName =
-        this.getActiveUser.firstName + " " + this.getActiveUser.lastName;
-      this.slideClass = "slide-in";
-      if (payload === "leave") {
-        this.sidebarHeading = "Request Leave";
-        this.addForm.employeeId = this.id;
-        this.addForm.type = "leave";
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
-        this.useDaysData = this.getLeaveAllowance?.leaveDaysUsed;
-        return true;
-      }
-      if (payload == "vacation") {
-        this.sidebarHeading = "Request Vacation";
-        this.addForm.type = "vacation";
-        this.addForm.employeeId = this.id;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-        this.addLeaveKey += 1;
-        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
-        this.useDaysData = this.getLeaveAllowance?.vacationDaysUsed;
-        return true;
-      }
-
-      if (payload == "medical") {
-        this.sidebarHeading = "Request Medical/sick";
-        this.addForm.type = "medical";
-        this.addForm.employeeId = this.id;
-        this.openSidebar = true;
-        this.employeeNameInput = true;
-        this.employeeNameSelectShow = false;
-        this.allowanceDays = this.activeUserAllowanceData.medicalDaysAllowed;
-        this.useDaysData = this.getLeaveAllowance?.medicalDaysAllowed;
-        return true;
-      }
-      if (payload == "leaveAdmin") {
-        this.$store.dispatch("employee/setActiveUser").then((user) => {
-          var activeId = user.id;
-          this.addForm.employeeId = this.id === '' ? this.id : user.id;
-          this.activeUserData = user;
-          this.employeeNameSelect = activeId;
-        });
-        this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
-          this.activeUserAllowanceData = result;
-          // this.employeeNameSelect = result.id;
-        });
-        this.addLeaveKey += 1;
-        this.sidebarHeading = "Request Leave";
-        this.openSidebar = true;
-        this.addForm.type = "leave";
-        this.leaveTypeSelect = true;
-        this.leaveType = "leave";
-        this.employeeNameSelectShow = true;
-        this.$nuxt.$emit("add-leave");
-        this.allowanceDays = this.activeUserAllowanceData.leaveDaysAllowed;
-        this.useDaysData = this.activeUserAllowanceData?.leaveDaysUsed;
-        return true;
-      }
-      if (payload == "vacationAdmin") {
-        this.$store.dispatch("employee/setActiveUser").then((user) => {
-          var activeId = user.id;
-          this.activeUserData = user;
-          this.employeeNameSelect = activeId;
-        });
-        this.employeeNameSelect = this.getActiveUser.id;
-        this.sidebarHeading = "Request Vacation";
-        this.openSidebar = true;
-        this.addForm.type = "vacation";
-        this.leaveTypeSelect = true;
-        this.leaveType = "vacation";
-        this.employeeNameSelectShow = true;
-        this.$nuxt.$emit("add-leave");
-        this.useDaysData = this.activeUserAllowanceData?.vacationDaysUsed;
-        this.allowanceDays = this.activeUserAllowanceData.vacationDaysAllowed;
-
-        return true;
+      if (payload === this.leaveRequestTypes[payload].type) {
+        if (key == "employeeDropdownKey") {
+          (this.leaveTypeActiveValue = payload),
+            (this.employeeNameInput = false);
+          this.employeeNameSelectShow = true;
+          this.leaveTypeSelect = true;
+          this.openSidebar = true;
+          this.addForm.type = this.leaveRequestTypes.leave.type;
+          this.addForm.employeeId = this.getActiveUser.id;
+          this.addLeaveKey += 1;
+          return true;
+        } else {
+          (this.leaveTypeActiveValue = payload), (this.openSidebar = true);
+          this.employeeNameInput = true;
+          this.employeeNameSelectShow = false;
+          this.leaveTypeSelect = false;
+          this.addForm.employeeId = this.id;
+          this.addLeaveKey += 1;
+          return true;
+        }
       }
     });
     this.$root.$on("close-sidebar", () => {
@@ -378,63 +296,41 @@ export default {
   async mounted() {
     this.loading = true;
     if (!this.getJwtToken()) {
-      this.redirectToLogin()
+      this.redirectToLogin();
     }
-    
-    await this.loadUser()
-
+    await this.loadUser();
     this.getBusinessId();
     this.isThemeCheck();
     this.$store.dispatch("employee/setReportsToList");
-    await this.$store.dispatch("employee/setActiveUser").then( async (user) => {
-      await this.$store.dispatch("token/setActiveUserRole", { employee: user});
+    await this.$store.dispatch("employee/setActiveUser").then(async (user) => {
+      await this.$store.dispatch("token/setActiveUserRole", { employee: user });
       var activeId = user.id;
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
     });
-
-    if (this.$store.state.token.isAdmin) {
-      if (this.$route.params.id) {
-        await this.getUserLeavesDetail(this.$route.params.id).then((result) => {
-          this.activeUserAllowanceData = result;
-          // this.employeeNameSelect = result.id;
-        });
-      } else {
-        await this.getUserLeavesDetail(this.getActiveUser.id).then((result) => {
-          this.activeUserAllowanceData = result;
-          // this.employeeNameSelect = result.id;
-        });
-      }
-    } else {
-      await this.getUserLeavesDetailUser(this.getActiveUser.id).then(
-        (result) => {
-          this.activeUserAllowanceData = result;
-          // this.employeeNameSelect = result.id;
-          console.log(this.activeUserAllowanceData, "data");
-          this.addForm.employeeId = this.getActiveUser.id;
-        }
-      );
-    }
-    this.employeesOptions = this.getReportList
+    this.employeesOptions = this.getReportList;
     this.loading = false;
-    
-    this.setDebouncedSearch()
+
+    this.setDebouncedSearch();
   },
   methods: {
+    getEmployeeFullName,
     redirectToLogin() {
-      window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
+      window.location.href =
+        process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
     },
     getJwtToken() {
       const accessToken = localStorage.getItem("accessToken");
       const cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      return accessToken ?? cookies
+      return accessToken ?? cookies;
     },
     async loadUser() {
-      const token = this.getJwtToken()
-      return this.$store.dispatch("token/validateJwtToken", { token })
+      const token = this.getJwtToken();
+      return this.$store
+        .dispatch("token/validateJwtToken", { token })
         .then((res) => {
-           if (res) {
-            this.accountType = res.accountType
+          if (res) {
+            this.accountType = res.accountType;
           }
         })
         .catch((err) => {
@@ -445,19 +341,19 @@ export default {
     setDebouncedSearch() {
       if (!this.debouncedSearch) {
         this.debouncedSearch = debounce((event) => {
-          this.performSearch(event)
+          this.performSearch(event);
         }, 300);
       }
     },
     performSearch(event) {
-      const search = event
-      this.$store.dispatch('app/performSearch', { search })
+      const search = event;
+      this.$store.dispatch("app/performSearch", { search });
     },
     handleSearchChange(event) {
       if (this.debouncedSearch) this.debouncedSearch(event);
     },
-    logout(){
-      this.$signOut
+    logout() {
+      this.$signOut;
     },
     isThemeCheck,
     getBusinessId,
@@ -465,7 +361,6 @@ export default {
     getAllowanceDays,
     addLeaveVacations,
     addHandleInput,
-    getUserLeavesDetail,
     openAccountPage,
     myProfile,
     headerHelpClick,
@@ -474,7 +369,6 @@ export default {
     routesCheck,
     selectUserHandle,
     selectLeaveTypeHandle,
-    getUserLeavesDetailUser,
     close() {
       this.clockModal = false;
     },

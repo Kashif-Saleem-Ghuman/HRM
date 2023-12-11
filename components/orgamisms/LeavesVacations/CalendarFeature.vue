@@ -11,7 +11,7 @@
                 :scale="1"
                 label="Add Leave"
                 class="mr-05"
-                @click="actionBY('leaveAdmin')"
+                @click="actionBY('leave', 'employeeDropdownKey')"
               ></bib-button>
             </div>
             <dropdown-menu-calendar
@@ -321,6 +321,7 @@ export default {
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
+      getActiveUser: "employee/GET_USER",
     }),
     useDaysDataValue() {
       return this.useDaysData;
@@ -329,7 +330,17 @@ export default {
       return this.employeeNameSelect;
     },
   },
+async created(){
+  this.id = this.getActiveUser.id
+  this.$store.commit('employee/SET_SELECTED_EMPLOYEE_ID', { employeeId: this.id})
 
+    await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", this.id)
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
+},
   mounted() {
     this.selectedMonth = this.currentMonth;
     
@@ -388,8 +399,8 @@ export default {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
-    actionBY($event) {
-      this.$nuxt.$emit("open-sidebar-admin", $event);
+    actionBY($event, key) {
+      this.$nuxt.$emit("open-sidebar-admin", $event, key);
       this.$nuxt.$emit("add-leave");
     },
 
@@ -544,8 +555,8 @@ export default {
       this.employeeNameSelect = item.employee.id
 
       this.employeeName = this.getEmployeeFullName(item.employee)
-      this.startDate = fecha.format(new Date(this.form.start),"DD-MMM-YYYY");
-      this.endDate = fecha.format(new Date(this.form.end), "DD-MMM-YYYY");
+      this.startDate = fecha.format(new Date(this.form.start),"YYYY-MM-DD");
+      this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
       this.openSidebar = true;
     },
 

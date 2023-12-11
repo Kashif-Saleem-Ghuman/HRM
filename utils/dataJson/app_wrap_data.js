@@ -3,11 +3,11 @@ const data = () => {
     popupNotificationMsgs: [
       {
         text: 'Leave Added successfully...',
-        variant: 'success'
+        variant: 'primary-24'
       },
       {
         text: 'Employee data update successfully...',
-        variant: 'success'
+        variant: 'primary-24'
       },
     ],
     appItems: [

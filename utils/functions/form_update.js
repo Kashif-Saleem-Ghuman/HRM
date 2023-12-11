@@ -170,7 +170,7 @@ export function selectLeaveTypeHandle(event, name) {
   this.leaveTypeActiveValue = event;
   this.isFlag = true;
   this.addForm[name] = event;
-  const keyValueAllowance = this.apiAllowdValue[this.leaveTypeActiveValue];
+  const keyValueAllowance = this.apiAllowanceValue[this.leaveTypeActiveValue];
   return this.getLeaveAllowance[keyValueAllowance];
 }
 export function editHandleInput(event, name, addresses) {

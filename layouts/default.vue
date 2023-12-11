@@ -152,7 +152,7 @@ const apiKeyUsedValue = {
   medical: "medicalDaysUsed",
   other: "otherDaysUsed",
 };
-const apiKeyAllowdValue = {
+const apiKeyAllowanceValue = {
   leave: "leaveDaysAllowed",
   vacation: "vacationDaysAllowed",
   medical: "medicalDaysAllowed",
@@ -207,7 +207,7 @@ export default {
       leaveTypeActiveValue: "",
       flag: false,
       apiUsedValue: apiKeyUsedValue,
-      apiAllowdValue: apiKeyAllowdValue,
+      apiAllowanceValue: apiKeyAllowanceValue,
       token: "",
     };
   },
@@ -233,11 +233,11 @@ export default {
       this.addForm.employeeId = this.id;
       this.addForm.type =
         this.leaveRequestTypes[this.leaveTypeActiveValue].type;
-      const keyValue = apiKeyUsedValue[this.leaveTypeActiveValue];
+      const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValue];
     },
     getAllownaceDataValue() {
-      const keyValueAllowance = apiKeyAllowdValue[this.leaveTypeActiveValue];
+      const keyValueAllowance = this.apiAllowanceValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValueAllowance];
     },
     employeeNameSlectedValue() {

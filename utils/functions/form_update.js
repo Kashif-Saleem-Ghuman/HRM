@@ -95,7 +95,6 @@ export function handleInput(event, name, addresses) {
       });
     }
     if (event == "Other") {
-      // this.updateForm.addresses[0]["state"] = "";
       this.stateVisible = false;
       this.otherStateVisible = true;
     }
@@ -106,20 +105,9 @@ export function handleInput(event, name, addresses) {
       ...this.updateForm.address,
       ...add,
     };
-    // this.form.address = {
-    //   ...this.form.address,
-    //   ...add,
-    // };
   } else {
     this.isFlag = true;
     this.updateForm[name] = event;
-    // this.form[name] = event;
-    // if (!/^[^@]+@\w+(\.\w+)+\w$/.test(this.updateForm.primaryEmail)) {
-    //   this.errorMsgPrimaryEmail = true;
-    //   return true;
-    // }else{
-    //   this.errorMsgPrimaryEmail = false;
-    // }
   }
 }
 export function handleInputObject(event, name, emContact) {
@@ -132,10 +120,6 @@ export function handleInputObject(event, name, emContact) {
       ...this.updateForm.emergencyContact,
       ...add,
     };
-    // this.form.emergencyContacts = {
-    //   ...this.form.emergencyContacts,
-    //   ...add,
-    // };
   }
 }
 export function addHandleInput(event, name, addresses) {

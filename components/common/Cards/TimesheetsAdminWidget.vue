@@ -1,12 +1,14 @@
 <script>
 import { getAdminTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time';
 import BaseWidget from './BaseWidget.vue';
-
+import { DateTime } from 'luxon';
 export default {
   extends: BaseWidget,
   methods: {
     async fetchData() {
-      const data = await getAdminTimesheetWidget()
+      const from = DateTime.now().minus({ months: 3 }).toJSDate()
+      const to = DateTime.now().toJSDate()
+      const data = await getAdminTimesheetWidget({ from, to })
       this.setData(data)
       this.setSubData(data)
     },

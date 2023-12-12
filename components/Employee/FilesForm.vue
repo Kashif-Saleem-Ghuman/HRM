@@ -108,9 +108,11 @@ export default {
           ? "pdf"
           : "" || file.name.split(".").pop() == "docx"
           ? "word"
-          : "user-solid" || file.name.split(".").pop() == "jpg"
+          : "" || file.name.split(".").pop() == "csv"
+          ? "excel"
+          : "" || file.name.split(".").pop() == "jpg"
           ? "user-solid"
-          : "" || file.name.split(".").pop() == "xlsx"
+          : "" || file.name.split(".").pop() == "xls"
           ? "excel"
           : "file";
       return icon;

@@ -90,10 +90,11 @@ const data = () => {
       { label: "People", icon: "user-group", key: "people", url:"/people/", selected: false, id:""},
       { label: "Time & Attendance", icon: "time-history", key: "time-attendance", url:'/time-attendance/', selected: false},
       { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations", url:'/leave-vacations/', selected: false},
-      // { label: "Settings", icon: "add", key: "settings", url:'/settings', selected: false},
+      // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],
     navItemsUserSwitch: [
-      { label: "My account", icon: "add", key: "my-account", selected: false, id:""},
+      { label: "My Account", icon: "add", key: "my-account", selected: false,},
+      { label: "Organization Admin", icon: "add", key: "organization-admin", selected: false,},
     ],
   }
   

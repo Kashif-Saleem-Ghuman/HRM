@@ -19,7 +19,7 @@
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
           :hideSearchBox="$store.state.token.isUser"
-          class="overlap-zindex app-wrapper--collapsed2"
+          class="app-wrapper--collapsed2"
         >
           <template>
             <search-content></search-content>
@@ -133,6 +133,8 @@ import {
 import { SELECT_OPTIONS, REQUEST_TYPES } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
+import { popupNotificationMsgs } from "../utils/constant/Notifications";
+
 import {
   handleToggleWrapperTheme,
   openAccountPage,
@@ -171,7 +173,7 @@ export default {
       showNotification: false,
       showPopup: false,
       loading: false,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
       accountType: "",
@@ -237,7 +239,8 @@ export default {
       return this.getLeaveAllowance[keyValue];
     },
     getAllownaceDataValue() {
-      const keyValueAllowance = this.apiAllowanceValue[this.leaveTypeActiveValue];
+      const keyValueAllowance =
+        this.apiAllowanceValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValueAllowance];
     },
     employeeNameSlectedValue() {
@@ -315,6 +318,7 @@ export default {
   },
   methods: {
     getEmployeeFullName,
+    
     redirectToLogin() {
       window.location.href =
         process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;

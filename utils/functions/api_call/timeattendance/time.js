@@ -114,12 +114,12 @@ export async function getTimesheet() {
 }
 
 
-export async function getAdminTimesheetWidget() {
+export async function getAdminTimesheetWidget({ from, to }) {
   try {
     const config = createConfig();
     config.params = {
-      from: DateTime.now().minus({ months: 3 }).toISO(),
-      to: DateTime.now().toISO()
+      from,
+      to,
     };
     const timesheetData = await hrmApiAxiosInstance.get(
       "/widgets/admin/timesheet/",
@@ -127,7 +127,7 @@ export async function getAdminTimesheetWidget() {
     );
       return timesheetData.data
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
 }
 

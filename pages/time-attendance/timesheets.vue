@@ -39,9 +39,9 @@
       style="grid-template-columns: repeat(2, 1fr)"
     >
 
-    <pending-timesheets-widget />
+    <pending-timesheets-widget :startDate="weekDates.from" :endDate="weekDates.to" />
 
-    <past-due-timesheets-widget />
+    <past-due-timesheets-widget  :startDate="weekDates.from" :endDate="weekDates.to" />
 
     </div>
     <div class="scroll_wrapper">

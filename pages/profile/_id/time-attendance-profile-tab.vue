@@ -108,6 +108,7 @@ import {
 import { viewType } from "@/utils/constant/DropdownMenu";
 import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
 
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
@@ -238,8 +239,10 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
+      const {from, to} = startOfDayEndOfDayRange({ startDate: this.weekDates.from, endDate: this.weekDates.to })
+
       const weekData = new TimesheetParser(
-        await getTimesheets({ ...this.weekDates, employeeId: this.id })
+        await getTimesheets({from, to, employeeId: this.id })
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
       this.weekDataTotalWork = formatTime(

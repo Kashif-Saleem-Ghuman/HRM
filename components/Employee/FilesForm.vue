@@ -38,7 +38,7 @@
               :icon="getFileExtension(extensionsName(file))"
               variant="gray5"
             ></bib-icon>
-            <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap">
+            <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap" :title="file.name">
               {{ file.name | truncate(65, '...') }}
             </h5>
           </div>

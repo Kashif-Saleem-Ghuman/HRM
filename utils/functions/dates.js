@@ -96,3 +96,9 @@ export function isDateInRange(dateToCheck, startDate, endDate) {
 
   return luxonDateToCheck >= luxonStartDate && luxonDateToCheck <= luxonEndDate;
 }
+
+export function startOfDayEndOfDayRange({ startDate, endDate }) {
+  const from = DateTime.fromISO(startDate).toUTC().startOf('day').toJSDate()
+  const to = DateTime.fromISO(endDate).toUTC().endOf('day').toJSDate()
+  return { from, to }
+}

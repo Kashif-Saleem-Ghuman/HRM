@@ -69,6 +69,7 @@ import {
   numberToClockDigits,
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
+import { DateTime } from "luxon";
 
 export default {
   props: {
@@ -138,10 +139,19 @@ export default {
         this.$emit("edit-entry", editedEntry);
       }
     },
+    async isEndDateGreatherThanNow() {
+      const [hours, minutes, seconds] = this.newData.end.split(':').map(Number);
+      return DateTime.fromJSDate(this.date).set({ hours, minutes, seconds }).toJSDate() > new Date()
+    },
     async makeNewTimeEntry() {
       if (this.totalTimeInMinutes < 0) {
         return alert("start time should be before the end time");
       }
+
+      if (this.isEndDateGreatherThanNow()) {
+        return alert("end time cannot be greater than current time")
+      }
+    
       if (!this.timeEntryReady) return;
       const {
         startDate,

@@ -47,7 +47,7 @@ export default {
       this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
       this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd")
       this.$emit("update:dates", {
-        ...this.formatDatesToStartEndDayUTC(this.from, this.to),
+        from, to
       });
       this.$emit("close")
     },
@@ -55,13 +55,13 @@ export default {
     setCurrentWeek() {
       const now = DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
-      console.log(from, to, "now")
       this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
       this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd");
 
       this.$emit("update:dates", {
-        ...this.formatDatesToStartEndDayUTC(this.from, this.to),
+        from, to
       });
+      
       this.$emit("close")
     },
     setToPreviousDates() {

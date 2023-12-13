@@ -86,6 +86,7 @@
             <form-datepicker
               label="Start Date"
               :value="startDate"
+              :dateValue="startDate"
               fieldKey="start"
               @change="menuClick"
               :dis="disable"
@@ -97,25 +98,12 @@
               v-show="errorMsgStartDate"
               >Please select start date</small
             >
-            <!-- <bib-input
-              type="date"
-              label="Start date"
-              :value="startDate"
-              placeholder="Select your start date"
-              @change="$emit('input', $event, 'start')"
-              :disabled="inActive"
-            ></bib-input>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem; display: block"
-              v-show="errorMsgStartDate"
-              >Please select start date</small
-            > -->
           </div>
           <div class="last-child end-date-wrapper">
             <form-datepicker
               label="End Date"
               :value="endDate"
+              :dateValue="endDate"
               fieldKey="end"
               @change="menuClick"
               :dis="disable"
@@ -127,20 +115,6 @@
               v-show="errorMsgEndDate"
               >Please select end date</small
             >
-            <!-- <bib-input
-              type="date"
-              label="End date"
-              placeholder="Select your end date"
-              @change="$emit('input', $event, 'end')"
-              :value="endDate"
-              :disabled="inActive"
-            ></bib-input>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem; display: block"
-              v-show="errorMsgEndDate"
-              >Please select end date</small
-            > -->
           </div>
         </div>
       </div>
@@ -240,7 +214,6 @@ export default {
   created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
-      console.log(this.usedDayLeave, "this.$nuxt.$emit(");
     });
   },
   computed: {

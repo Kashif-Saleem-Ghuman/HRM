@@ -30,11 +30,41 @@ export const getStatusLabel = (status) => {
   };
   return statusMap[status];
 };
+export const getLeaveTypeIconVariant = (status) => {
+  const statusMap = {
+    approved: "success",
+    pending: "gray3",
+    rejected: "white",
+  };
+  return statusMap[status];
+};
+export const getLeaveTypeClassName = (status) => {
+  const statusMap = {
+    approved: "text-success bg-success-sub6",
+    pending: "text-warning bg-warning",
+    rejected: "text-danger bg-danger",
+    other:"text-warning bg-warning"
+  };
+  return statusMap[status];
+};
 export const getLeaveStatusIconVariant = (type) => {
   const statusMap = {
     medical: "medical-clinic-solid",
     leave: "accessibility-cognitive-disability-Solid",
     vacation: "sun-solid",
+    other:'add'
   };
   return statusMap[type];
+};
+export const getFileExtension = (icon) => {
+  const statusMap = {
+    pdf: "pdf",
+    jpg: "user",
+    docx: "docx",
+    csv:'excel',
+    xls:'excel',
+    xlsx:'excel',
+    ppt:'powerpoint',
+  };
+  return statusMap[icon];
 };

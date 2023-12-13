@@ -34,7 +34,10 @@
           "
         >
           <div class="d-flex align-center" @click="handleFileClick(file)">
-            <bib-icon :icon="getFileExtension(file)" variant="gray5"></bib-icon>
+            <bib-icon
+              :icon="getFileExtension(extensionsName(file))"
+              variant="gray5"
+            ></bib-icon>
             <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap">
               {{ file.name }}
             </h5>
@@ -71,7 +74,7 @@ import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
-
+import { getFileExtension } from "../../utils/functions/status-helpers";
 export default {
   data() {
     return {
@@ -84,6 +87,7 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[0],
       deletedfileId: null,
+      fileName: "",
     };
   },
   computed: {
@@ -102,18 +106,9 @@ export default {
     getFiles,
     deleteFiles,
     openPopupNotification,
-    getFileExtension(file) {
-      var icon =
-        file.name.split(".").pop() == "pdf"
-          ? "pdf"
-          : "" || file.name.split(".").pop() == "docx"
-          ? "word"
-          : "user-solid" || file.name.split(".").pop() == "jpg"
-          ? "user-solid"
-          : "" || file.name.split(".").pop() == "xlsx"
-          ? "excel"
-          : "file";
-      return icon;
+    getFileExtension,
+    extensionsName(file) {
+      return (this.fileName = file.name.split(".").pop());
     },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;

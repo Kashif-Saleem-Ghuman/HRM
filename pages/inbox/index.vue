@@ -85,15 +85,14 @@ import {
   INBOX_CARD_NEW_MESSAGE_DATA,
 } from "../../utils/constant/DashboardData";
 import { mapGetters } from "vuex";
-import getJson from "../../utils/dataJson/app_wrap_data";
-const appWrapItems = getJson();
+import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 export default {
   data() {
     return {
       id: "",
       infoCardData: INBOX_CARD_DATA,
       infoCardV2Data: INBOX_CARD_NEW_MESSAGE_DATA,
-      popupNotificationMsgs: appWrapItems.popupNotificationMsgs,
+      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       inboxData: INBOX_DATA,
       items: MORE_MENU,

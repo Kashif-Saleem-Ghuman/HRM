@@ -34,10 +34,10 @@ export default {
       type: String,
     },
     className:{
-      type:Array
+      type:String
     },
     classNameWrapper:{
-      type:Array
+      type:String
     }
   },
   data() {

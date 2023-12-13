@@ -11,7 +11,7 @@
                 :scale="1"
                 label="Add Leave"
                 class="mr-05"
-                @click="actionBY('leaveAdmin')"
+                @click="actionBY('leave', 'employeeDropdownKey')"
               ></bib-button>
             </div>
             <dropdown-menu-calendar
@@ -105,25 +105,15 @@
       icon="pencil"
       v-show="openSidebar"
     >
-   
       <template v-slot:sidebar-body>
-        
         <add-leave
-          :leaveTypeOptions="leaveTypeOptions"
-          @input="addHandleInput"
-          @change="addHandleInput"
-          style="z-index: 100000"
           :employeeName="employeeName"
-          :allowanceDays="allowanceData"
+          :allowanceDays="getAllownaceDataValue"
           :usedDays="useDaysDataValue"
           :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
-          :errorMsgSelect="errorMsgSelect"
-          :errorMsgStartDate="errorMsgStartDate"
-          :errorMsgEndDate="errorMsgEndDate"
-          :leaveType="form.type"
           :startDate="startDate"
           :endDate="endDate"
           :note="form.note"
@@ -134,58 +124,15 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="
-                  leaveStatus == 'approved'
-                    ? 'Approved'
-                    : '' || leaveStatus == 'pending'
-                    ? 'Pending'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'Rejected'
-                    : ''
+                :label="getStatusLabel(leaveStatus)"
+                :message="getMessage(leaveStatus)
                 "
-                :message="
-                  leaveStatus == 'approved'
-                    ? 'Approved'
-                    : '' || leaveStatus == 'pending'
-                    ? 'Pending'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'Rejected'
-                    : ''
+                :icon="getLeaveStatusIcon(leaveStatus)"
+                :variant="getLeaveTypeIconVariant(leaveStatus)
+                 
                 "
-                :icon="
-                  leaveStatus == 'approved'
-                    ? 'tick'
-                    : '' || leaveStatus == 'pending'
-                    ? 'pencil'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'close'
-                    : ''
-                "
-                :variant="
-                  leaveStatus == 'approved'
-                    ? 'success'
-                    : '' || leaveStatus == 'pending'
-                    ? 'gray3'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'white'
-                    : ''
-                "
-                :className="[
-                  leaveStatus == 'approved'
-                    ? 'text-success bg-success-sub6'
-                    : '',
-                  leaveStatus == 'pending'
-                    ? 'text-warning bg-warning'
-                    : '',
-                  leaveStatus == 'rejected'
-                    ? 'text-danger bg-danger'
-                    : '',
-                ]"
-                :classNameWrapper="[
-                  leaveStatus == 'approved' ? 'text-success' : '',
-                  leaveStatus == 'pending' ? 'text-warning' : '',
-                  leaveStatus == 'rejected' ? 'text-danger' : '',
-                ]"
+                :className="getLeaveTypeClassName(leaveStatus)"
+                :classNameWrapper="getTextVariant(leaveStatus)"
               ></info-card-success>
             </div>
           </div>
@@ -209,13 +156,19 @@ import {
   addHandleInput,
   getCurrentYear,
 } from "../../../utils/functions/functions_lib";
-
+import {
+  getLeaveStatusIcon,
+  getStatusLabel,
+  getTextVariant,
+  getLeaveTypeIconVariant,
+  getLeaveTypeClassName,
+} from "@/utils/functions/status-helpers";
 import {
   addLeaveVacations,
   getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
-import { SELECT_OPTIONS, REQUEST_STATUS } from "../../../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_STATUS, apiKeyUsedValue, apiKeyAllowanceValue } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
@@ -229,7 +182,10 @@ export default {
       show: false,
       reloadData: 1,
       openSidebar: false,
+      leaveTypeActiveValue: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      apiUsedValue: apiKeyUsedValue,
+      apiAllowanceValue: apiKeyAllowanceValue,
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
@@ -237,7 +193,7 @@ export default {
       employeeName: "",
       employeesOptions: [],
       allowanceData: "",
-      startDate: "",
+      startDate: "2023-06-23",
       endDate: "",
       form: {},
       vacationType: "vacation",
@@ -276,7 +232,6 @@ export default {
         events: [],
         editable: false,
         selectable: false,
-        selectMirror: SVGComponentTransferFunctionElement,
         selectHelper: false,
         dayMaxEvents: 1,
         weekends: true,
@@ -321,15 +276,34 @@ export default {
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
+      getActiveUser: "employee/GET_USER",
+      getLeaveAllowance: "leavesdata/getLeaveAllowance",
+
     }),
     useDaysDataValue() {
-      return this.useDaysData;
+      const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValue];
+    },
+    getAllownaceDataValue() {
+      const keyValueAllowance =
+        this.apiAllowanceValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValueAllowance];
     },
     employeeNameSlectedValue() {
       return this.employeeNameSelect;
     },
   },
+async created(){
+  this.id = this.getActiveUser.id
+  this.$store.commit('employee/SET_SELECTED_EMPLOYEE_ID', { employeeId: this.id})
 
+    await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", this.id)
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
+},
   mounted() {
     this.selectedMonth = this.currentMonth;
     
@@ -360,6 +334,19 @@ export default {
     getCurrentYear,
     getUserLeavesDetail,
     getEmployeeFullName,
+    getLeaveStatusIcon,
+    getStatusLabel,
+    getTextVariant,
+    getLeaveTypeIconVariant,
+    getLeaveTypeClassName,
+    getMessage(MESSAGE){
+      const messageStatus={
+        approved : `Request approved by ${getEmployeeFullName(this.form.manager)}`,
+        pending:'Pending',
+        rejected:this.form.refusalReason
+      }
+      return MESSAGE = messageStatus[MESSAGE]
+    },
     onSearchChange(value) {
       this.searchString = value
       if(this.searchString == ''){
@@ -388,8 +375,8 @@ export default {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
     },
-    actionBY($event) {
-      this.$nuxt.$emit("open-sidebar-admin", $event);
+    actionBY($event, key) {
+      this.$nuxt.$emit("open-sidebar-admin", $event, key);
       this.$nuxt.$emit("add-leave");
     },
 
@@ -534,34 +521,21 @@ export default {
       const item = this.calendarOptions.events.find( event => event.id == id)
       if(!item) return
 
-      this.getUserLeavesDetail(item.employee.id).then((result) => {
+      await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", item.employee.id)
+      .then((result) => {
         this.allowanceLeavesDetailedData = result;
-        this.setAllowanceData(item.type)
+        this.leaveTypeActiveValue = item.type
+        this.is_data_fetched = true;
       });
-
       this.leaveStatus = item.status;
       this.form = item.request
       this.employeeNameSelect = item.employee.id
 
       this.employeeName = this.getEmployeeFullName(item.employee)
-      this.startDate = fecha.format(new Date(this.form.start),"DD-MMM-YYYY");
-      this.endDate = fecha.format(new Date(this.form.end), "DD-MMM-YYYY");
+      this.startDate = fecha.format(new Date(this.form.start),"YYYY-MM-DD");
+      this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
       this.openSidebar = true;
-    },
-
-    setAllowanceData(type) {
-      if (type == "vacation") {
-        this.allowanceData = this.allowanceLeavesDetailedData.vacationDaysAllowed;
-        this.useDaysData = this.allowanceLeavesDetailedData.vacationDaysUsed;
-      }
-      if (type == "leave") {
-        this.allowanceData = this.allowanceLeavesDetailedData.leaveDaysAllowed;
-        this.useDaysData = This.allowanceLeavesDetailedData.vacationDaysUsed;
-      }
-      if (type == "medical") {
-        this.allowanceData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
-        this.useDaysData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
-      }
     },
 
     eventClass(type) {

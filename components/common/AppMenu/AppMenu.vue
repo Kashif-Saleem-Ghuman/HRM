@@ -2,16 +2,6 @@
   <div>
      <!-- Admin Menu  -->
      <div v-if="isAdmin">
-      <!-- <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0, 1)"
-        @click="
-          ($event, item) => {
-            menuClick(item);
-          }
-        "
-        isLightTheme
-        class="mt-05"
-      ></bib-app-navigation> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin"
         @click="
@@ -22,16 +12,17 @@
         isLightTheme
         class="mt-05"
       ></bib-app-navigation>
-
-      <bib-button label="My account" variant="secondary--outline" class="mt-1 ml-1" @click="myAccountClick"></bib-button>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUserSwitch.slice(0,1)"
+        @click="myAccountClick"
+        isLightTheme
+        class="mt-05 custom-menu"
+      ></bib-app-navigation>
+      <!-- <bib-button label="My Account" variant="secondary--outline" class="mt-1 ml-1" @click="myAccountClick"></bib-button> -->
     </div>
 
     <!-- User Menu  -->
     <div v-if="isUser" class="mt-1">
-      <!-- <div :class="sectionHead" class="section-head">
-        <bib-icon icon="home" :scale="1"></bib-icon>
-        <span v-on:click="changeDashboard" style="cursor: pointer; color: #86868a;">Home</span>
-      </div> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
         @click="
@@ -54,9 +45,15 @@
         "
         class="mt-05"
       ></bib-app-navigation>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsUserSwitch.slice(-1)"
+        @click="organizationAdminClick"
+        isLightTheme
+        class="mt-05 custom-menu"
+        v-if="isOrganizationAdmin"
+      ></bib-app-navigation>
     </div>
-
-    <bib-button v-if="isOrganizationAdmin" label="Organization admin" variant="secondary--outline" class="mt-1 ml-1"  @click="organizationAdminClick"></bib-button>
+    <!-- <bib-button v-if="isOrganizationAdmin" label="Organization admin" variant="secondary--outline" class="mt-1 ml-1"  @click="organizationAdminClick"></bib-button> -->
     </div>
    
   </div>
@@ -190,11 +187,13 @@ export default {
           return;
         }
         if (item.key == "requestVacation") {
-          this.$nuxt.$emit("open-sidebar", 'vacation')
+          this.$nuxt.$emit("open-sidebar-admin", 'vacation')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "requestLeave") {
-          this.$nuxt.$emit("open-sidebar", 'leave')
+          this.$nuxt.$emit("open-sidebar-admin", 'leave')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "clockIn") {
@@ -243,13 +242,20 @@ export default {
   }
 }
 .custom-menu{
-  .nav-item__label{
-    color: #1F42A2  !important;
+  .nav-item{
+    border: 1px solid #999;
   }
+  .nav-item__label{
+    span{
+      font-size: 14px !important;
+      font-weight: normal;
+    }
+    }
  .custom-menu-light{
   .nav-item__label{
     color: #fff  !important;
   }
  } 
 }
+
 </style>

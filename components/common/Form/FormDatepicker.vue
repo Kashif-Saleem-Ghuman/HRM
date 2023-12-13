@@ -1,4 +1,5 @@
 <template>
+  <div>
   <bib-datetime-picker
     v-model="value"
     :label="label"
@@ -7,7 +8,19 @@
     :formatDate="formatDate"
     @input="onChange"
     :editable="dis"
+    v-if="dis"
   ></bib-datetime-picker>
+  <bib-datetime-picker
+    v-model="dateValue"
+    :label="label"
+    :format="format"
+    :parseDate="parseDate"
+    :formatDate="formatDate"
+    @input="onChange"
+    :editable="dis"
+    v-if="!dis"
+  ></bib-datetime-picker>
+  </div>
 </template>
 
 <script>
@@ -25,6 +38,9 @@ export default {
     dis: {
       type: Boolean,
     },
+    dateValue:{
+      type: String,
+    }
   },
   data() {
     return {
@@ -55,13 +71,20 @@ export default {
       }
       return value;
     },
-    onChange(value, repeatObj) {
+    onChange(value) {
+      const { fieldKey } = this;
       value = this.formatDateToIso(value);
-        const { fieldKey } = this;
       const d = dayjs(value);
       let date = value ? d.format("YYYY-MMM-DD") : null;
       this.$emit("change", date, fieldKey);
     },
+    // onChange(value, repeatObj) {
+    //   // value = this.formatDateToIso(value);
+    //     const { fieldKey } = this;
+    //   const d = dayjs(value);
+    //   let date = value ? d.format("YYYY-MMM-DD") : null;
+    //   this.$emit("change", date, fieldKey);
+    // },
   },
 };
 </script>

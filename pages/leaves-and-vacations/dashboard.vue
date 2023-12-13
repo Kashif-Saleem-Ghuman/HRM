@@ -1,4 +1,3 @@
-!
 <template>
   <div id="dashboard-wrapper">
     <div class="" id="dashboard_info_wrapper">
@@ -33,7 +32,6 @@ export default {
       toDate: "",
       getRequest: {},
       requestListData: [],
-      
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       noRecord: false,

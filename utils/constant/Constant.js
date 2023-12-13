@@ -648,7 +648,7 @@ export const SELECT_OPTIONS = {
     { label: "Personal Leave", value: "leave" },
     { label: "Vacation Leave", value: "vacation" },
     { label: "Medical Leave", value: "medical" },
-    // { label: "Absent", value: "absent" },
+    { label: "Other Leave", value: "other" },
   ]
 };
 
@@ -1505,11 +1505,76 @@ export const USER_ROLES = {
 export const REQUEST_TYPES = {
   MEDICAL: 'medical',
   VACATION: 'vacation',
-  LEAVE: 'leave'
+  LEAVE: 'leave',
+  OTHER: 'other',
 }
 
 export const REQUEST_STATUS = {
   APPROVED: 'approved',
   REJECTED: 'rejected',
-  PENDING: 'pending'
+  PENDING: 'pending',
 }
+
+export const REQUEST_TYPE_OPTIONS = {
+  [REQUEST_TYPES.LEAVE]: {
+    label: "Request Leave",
+    value: "request_leave",
+    icon:"exit-to-app-solid",
+    type: REQUEST_TYPES.LEAVE
+  },
+   [REQUEST_TYPES.VACATION]: {
+    label: "Request Vacation",
+    value: "request_vacation",
+    icon:"airplane",
+    type: REQUEST_TYPES.VACATION
+  },
+   [REQUEST_TYPES.MEDICAL]: {
+    label: "Request Medical/sick",
+    value: "request_medical",
+    icon:"medical-clinic-solid",
+    type: REQUEST_TYPES.MEDICAL
+  },
+   [REQUEST_TYPES.OTHER]: {
+    label: "Request Other Leave",
+    value: "request_other_leave",
+    icon:"exit-to-app-solid",
+    type:REQUEST_TYPES.OTHER
+  }}
+// export const REQUEST_TYPES = {
+//   leave: {
+//     label: "Request Leave",
+//     value: "request_leave",
+//     icon:"exit-to-app-solid",
+//     type:'leave'
+//   },
+//   vacation: {
+//     label: "Request Vacation",
+//     value: "request_vacation",
+//     icon:"airplane",
+//     type:'vacation'
+//   },
+//   medical: {
+//     label: "Request Medical/sick",
+//     value: "request_medical",
+//     icon:"medical-clinic-solid",
+//     type:'medical'
+//   },
+//   other: {
+//     label: "Request Other Leave",
+//     value: "request_other_leave",
+//     icon:"exit-to-app-solid",
+//     type:'other'
+//   },
+// }
+export const apiKeyUsedValue = {
+  leave: "leaveDaysUsed",
+  vacation: "vacationDaysUsed",
+  medical: "medicalDaysUsed",
+  other: "otherDaysUsed",
+};
+export const apiKeyAllowanceValue = {
+  leave: "leaveDaysAllowed",
+  vacation: "vacationDaysAllowed",
+  medical: "medicalDaysAllowed",
+  other: "otherDaysAllowed",
+};

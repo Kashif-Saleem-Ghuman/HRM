@@ -185,7 +185,7 @@ export default {
       // // event.selected = !event.selected
     },
     addLeaves($event) {
-      this.$nuxt.$emit("open-sidebar", $event);
+      this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("add-leave");
     },
   },

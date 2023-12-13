@@ -54,6 +54,18 @@
         <span>{{ data.value.refusalReason }}</span>
       </div>
     </template>
+    <template #cell(action)="data">
+      <div class="justify-left text-dark" v-if="data.value.status == 'pending'">
+        <bib-button
+          :icon="$button.delete.icon"
+          :variant="$button.delete.variant"
+          :scale="$button.delete.scale"
+          :label="$button.delete.label"
+          class="mr-05 w-50"
+          @click="$emit('delete-item', data.value.id)"
+        ></bib-button>
+      </div>
+    </template>
   </custom-table>
   <action-sidebar
       @close="closeSidebar"

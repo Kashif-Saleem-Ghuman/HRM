@@ -52,14 +52,8 @@
         <div class="py-1">
           <list-leave-attendance
             :leaveData="leaveVacationDataUser"
-            @delete-item="deleteItemConfirmation($event)"
             v-show="leaveVacationDataUser?.length ? true : false"
           ></list-leave-attendance>
-          <div>
-            <no-record
-                v-show="leaveVacationDataUser?.length ? false : true"
-            ></no-record>
-          </div>
           <confirmation-modal
             :title="modalContent[0].title"
             :confirmationMessage="modalContent[0].message"

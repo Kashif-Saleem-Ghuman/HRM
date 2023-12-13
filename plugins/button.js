@@ -42,6 +42,13 @@ export default ({ app }, inject) => {
         variant: "warning",
         icon: "eye-open",
       },
+      delete: {
+        label: "Delete",
+        value: "delete",
+        key: "delete",
+        variant: "danger",
+        icon: "close",
+      },
     })
   );
 };

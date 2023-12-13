@@ -116,6 +116,11 @@ export const TABLE_HEAD = {
       key: "reason",
       label: "Reason",
     },
+    {
+      key: "action",
+      label: "Action",
+    },
+    
   ],
   tHeadTimesheet: [
     {

@@ -51,6 +51,9 @@
           ></bib-icon>
         </div>
       </div>
+      <div>
+        <no-record v-show="filesUploaded?.length ? false : true"></no-record>
+      </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal

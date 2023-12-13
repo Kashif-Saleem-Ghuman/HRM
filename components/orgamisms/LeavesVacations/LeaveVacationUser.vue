@@ -53,7 +53,7 @@
     <div class="py-1">
       <list-leave-attendance
         :leaveData="leaveVacationDataUser"
-        @delete-item="deleteItemConfirmation($event)"
+        @delete-item="deleteConfirmation($event)"
         v-show="leaveVacationDataUser?.length ? true : false"
       ></list-leave-attendance>
       <div>
@@ -61,13 +61,13 @@
           v-show="leaveVacationDataUser?.length ? false : true"
         ></no-record>
       </div>
-      <!-- <confirmation-modal
-        :title="modalContent[0].title"
-        :confirmationMessage="modalContent[0].message"
-        :confirmastionMessageModal="confirmastionMessageModal"
-        @close="closeconfirmastionMessageModal"
-        @deleteLeave="deleteItem()"
-      ></confirmation-modal> -->
+      <confirmation-modal
+      :title="deleteModalContent.title"
+      :confirmationMessage="deleteModalContent.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @close="closeconfirmastionMessageModal"
+      @deleteLeave="deleteLevaeVacation(deletedfileId)"
+    ></confirmation-modal>
       <loader v-bind:showloader="loading"></loader>
     </div>
   </div>
@@ -106,9 +106,11 @@ export default {
       checked: false,
       confirmastionMessageModal: false,
       deleteItemId: "",
-      modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
       allowanceLeavesDetailedData: [],
       is_data_fetched: false,
+      confirmastionMessageModal: false,
+      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[0],
+      deletedfileId: null,
     };
   },
   computed: {
@@ -168,12 +170,10 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
-    deleteItemConfirmation(event) {
+    deleteConfirmation(id) {
+      this.deletedfileId = id;
       this.confirmastionMessageModal = true;
-      this.deleteItemId = event;
-      console.log(this.deleteItemId, "this.deleteItemId ");
     },
-    
     filterItem(event) {
       console.log(event, "filterItem");
       // if(event.key=='all'){

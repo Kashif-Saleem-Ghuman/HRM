@@ -187,7 +187,7 @@ export async function getAllowancOtherDays() {
 export async function deleteLevaeVacation(value) {
   this.loading = true;
   try {
-    const laeveDelete = await axios.delete(
+    const leaveDelete = await axios.delete(
       process.env.API_URL + "/requests/" + value,
       {
         headers: {
@@ -195,8 +195,11 @@ export async function deleteLevaeVacation(value) {
         },
       }
     );
+    this.$nuxt.$emit('fetched-leave-vacation')
+    this.$nuxt.$emit('leave-list-key')
     this.loading = false;
     this.confirmastionMessageModal = false;
+    return leaveDelete;
   } catch (e) {
     alert(e);
   }

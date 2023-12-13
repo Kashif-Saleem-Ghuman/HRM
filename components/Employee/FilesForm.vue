@@ -39,7 +39,7 @@
               variant="gray5"
             ></bib-icon>
             <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap">
-              {{ file.name }}
+              {{ file.name | truncate(65, '...') }}
             </h5>
           </div>
         </div>
@@ -51,6 +51,9 @@
           ></bib-icon>
         </div>
       </div>
+      <div>
+          <no-record v-show="filesUploaded.length ? '' : true"></no-record>
+        </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal

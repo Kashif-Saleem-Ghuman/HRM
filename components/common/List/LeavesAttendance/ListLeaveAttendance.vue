@@ -82,14 +82,7 @@
             <div>
               <info-card-success
                 :label="getStatusLabel(leaveStatus)"
-                :message="
-                  leaveStatus == 'approved'
-                    ? `Request approved by ${getEmployeeFullName(form.manager)}`
-                    : '' || leaveStatus == 'pending'
-                    ? 'Pending'
-                    : '' || leaveStatus == 'rejected'
-                    ? form.refusalReason
-                    : ''
+                :message="getMessage(leaveStatus)
                 "
                 :icon="getLeaveStatusIcon(leaveStatus)"
                 :variant="getLeaveTypeIconVariant(leaveStatus)
@@ -119,7 +112,6 @@ import {
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
 import { getEmployeeFullName } from "@/utils/functions/common_functions"
-
 import { TABLE_HEAD, apiKeyUsedValue, apiKeyAllowanceValue  } from "@/utils/constant/Constant";
 export default {
   props: {
@@ -148,7 +140,6 @@ export default {
       leaveStatus: "",
       addLeaveKey: 0,
       employeeNameSelectShow: false,
-
     };
   },
   created() {
@@ -183,10 +174,17 @@ export default {
     getStatusIconVariant,
     getStatusLabel,
     getTextVariant,
-    getTextVariant,
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     getEmployeeFullName,
+    getMessage(MESSAGE){
+      const messageStatus={
+        approved : `Request approved by ${getEmployeeFullName(this.form.manager)}`,
+        pending:'Pending',
+        rejected:this.form.refusalReason
+      }
+      return MESSAGE = messageStatus[MESSAGE]
+    },
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {

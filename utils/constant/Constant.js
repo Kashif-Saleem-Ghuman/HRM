@@ -1502,43 +1502,70 @@ export const USER_ROLES = {
 }
 
 
-// export const REQUEST_TYPES = {
-//   MEDICAL: 'medical',
-//   VACATION: 'vacation',
-//   LEAVE: 'leave'
-// }
+export const REQUEST_TYPES = {
+  MEDICAL: 'medical',
+  VACATION: 'vacation',
+  LEAVE: 'leave',
+  OTHER: 'other',
+}
 
 export const REQUEST_STATUS = {
   APPROVED: 'approved',
   REJECTED: 'rejected',
-  PENDING: 'pending'
+  PENDING: 'pending',
 }
-export const REQUEST_TYPES = {
-  leave: {
+
+export const REQUEST_TYPE_OPTIONS = {
+  [REQUEST_TYPES.LEAVE]: {
     label: "Request Leave",
     value: "request_leave",
     icon:"exit-to-app-solid",
-    type:'leave'
+    type: REQUEST_TYPES.LEAVE
   },
-  vacation: {
+   [REQUEST_TYPES.VACATION]: {
     label: "Request Vacation",
     value: "request_vacation",
     icon:"airplane",
-    type:'vacation'
+    type: REQUEST_TYPES.VACATION
   },
-  medical: {
+   [REQUEST_TYPES.MEDICAL]: {
     label: "Request Medical/sick",
     value: "request_medical",
     icon:"medical-clinic-solid",
-    type:'medical'
+    type: REQUEST_TYPES.MEDICAL
   },
-  other: {
+   [REQUEST_TYPES.OTHER]: {
     label: "Request Other Leave",
     value: "request_other_leave",
     icon:"exit-to-app-solid",
-    type:'other'
-  },
-}
+    type:REQUEST_TYPES.OTHER
+  }}
+// export const REQUEST_TYPES = {
+//   leave: {
+//     label: "Request Leave",
+//     value: "request_leave",
+//     icon:"exit-to-app-solid",
+//     type:'leave'
+//   },
+//   vacation: {
+//     label: "Request Vacation",
+//     value: "request_vacation",
+//     icon:"airplane",
+//     type:'vacation'
+//   },
+//   medical: {
+//     label: "Request Medical/sick",
+//     value: "request_medical",
+//     icon:"medical-clinic-solid",
+//     type:'medical'
+//   },
+//   other: {
+//     label: "Request Other Leave",
+//     value: "request_other_leave",
+//     icon:"exit-to-app-solid",
+//     type:'other'
+//   },
+// }
 export const apiKeyUsedValue = {
   leave: "leaveDaysUsed",
   vacation: "vacationDaysUsed",

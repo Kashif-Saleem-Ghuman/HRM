@@ -130,7 +130,7 @@ import {
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../utils/functions/functions_lib";
-import { SELECT_OPTIONS, REQUEST_TYPES, apiKeyUsedValue, apiKeyAllowanceValue } from "../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_TYPE_OPTIONS, apiKeyUsedValue, apiKeyAllowanceValue } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import { popupNotificationMsgs } from "../utils/constant/Notifications";
@@ -193,7 +193,7 @@ export default {
       activeUserData: [],
       activeUserAllowanceData: [],
       id: "",
-      leaveRequestTypes: REQUEST_TYPES,
+      leaveRequestTypes: REQUEST_TYPE_OPTIONS,
       leaveTypeActiveValue: "",
       flag: false,
       apiUsedValue: apiKeyUsedValue,
@@ -216,6 +216,7 @@ export default {
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
     useDaysDataValue() {
+      console.log(this.leaveRequestTypes[this.leaveTypeActiveValue], "leaveRequestTypesleaveRequestTypesleaveRequestTypes")
       this.sidebarHeading =
         this.leaveRequestTypes[this.leaveTypeActiveValue].label;
       this.sidebarHeadingIcon =
@@ -282,6 +283,8 @@ export default {
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey += 1;
+      this.errorMsgEndDate = false;
+      this.errorMsgStartDate = false;
     });
   },
   async mounted() {

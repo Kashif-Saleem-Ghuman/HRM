@@ -124,58 +124,15 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="
-                  leaveStatus == 'approved'
-                    ? 'Approved'
-                    : '' || leaveStatus == 'pending'
-                    ? 'Pending'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'Rejected'
-                    : ''
+                :label="getStatusLabel(leaveStatus)"
+                :message="getMessage(leaveStatus)
                 "
-                :message="
-                  leaveStatus == 'approved'
-                    ? 'Approved'
-                    : '' || leaveStatus == 'pending'
-                    ? 'Pending'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'Rejected'
-                    : ''
+                :icon="getLeaveStatusIcon(leaveStatus)"
+                :variant="getLeaveTypeIconVariant(leaveStatus)
+                 
                 "
-                :icon="
-                  leaveStatus == 'approved'
-                    ? 'tick'
-                    : '' || leaveStatus == 'pending'
-                    ? 'pencil'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'close'
-                    : ''
-                "
-                :variant="
-                  leaveStatus == 'approved'
-                    ? 'success'
-                    : '' || leaveStatus == 'pending'
-                    ? 'gray3'
-                    : '' || leaveStatus == 'rejected'
-                    ? 'white'
-                    : ''
-                "
-                :className="[
-                  leaveStatus == 'approved'
-                    ? 'text-success bg-success-sub6'
-                    : '',
-                  leaveStatus == 'pending'
-                    ? 'text-warning bg-warning'
-                    : '',
-                  leaveStatus == 'rejected'
-                    ? 'text-danger bg-danger'
-                    : '',
-                ]"
-                :classNameWrapper="[
-                  leaveStatus == 'approved' ? 'text-success' : '',
-                  leaveStatus == 'pending' ? 'text-warning' : '',
-                  leaveStatus == 'rejected' ? 'text-danger' : '',
-                ]"
+                :className="getLeaveTypeClassName(leaveStatus)"
+                :classNameWrapper="getTextVariant(leaveStatus)"
               ></info-card-success>
             </div>
           </div>
@@ -199,7 +156,13 @@ import {
   addHandleInput,
   getCurrentYear,
 } from "../../../utils/functions/functions_lib";
-
+import {
+  getLeaveStatusIcon,
+  getStatusLabel,
+  getTextVariant,
+  getLeaveTypeIconVariant,
+  getLeaveTypeClassName,
+} from "@/utils/functions/status-helpers";
 import {
   addLeaveVacations,
   getAllowanceDays,
@@ -371,6 +334,19 @@ async created(){
     getCurrentYear,
     getUserLeavesDetail,
     getEmployeeFullName,
+    getLeaveStatusIcon,
+    getStatusLabel,
+    getTextVariant,
+    getLeaveTypeIconVariant,
+    getLeaveTypeClassName,
+    getMessage(MESSAGE){
+      const messageStatus={
+        approved : `Request approved by ${getEmployeeFullName(this.form.manager)}`,
+        pending:'Pending',
+        rejected:this.form.refusalReason
+      }
+      return MESSAGE = messageStatus[MESSAGE]
+    },
     onSearchChange(value) {
       this.searchString = value
       if(this.searchString == ''){

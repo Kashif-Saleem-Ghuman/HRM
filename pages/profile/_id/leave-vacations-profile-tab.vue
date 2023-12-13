@@ -17,8 +17,8 @@
             icon="airplane-solid"
             className="button-wrapper__bgsucess"
             :variant="$button.approved.variant"
-            @on-click="addLeaves(REQUEST_TYPES.vacation.type)"
-            :type="REQUEST_TYPES.vacation.type"
+            @on-click="addLeaves(REQUEST_TYPES.VACATION)"
+            :type="REQUEST_TYPES.VACATION"
             @update="setAllowance"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
@@ -30,8 +30,8 @@
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
             :variant="$button.rejected.variant"
-            @on-click="addLeaves(REQUEST_TYPES.medical.type)"
-            :type="REQUEST_TYPES.medical.type"
+            @on-click="addLeaves(REQUEST_TYPES.MEDICAL)"
+            :type="REQUEST_TYPES.MEDICAL"
             @update="setAllowance"
             ></info-card-leave-vacation>
 
@@ -44,8 +44,8 @@
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
             :variant="$button.pending.variant"
-            @on-click="addLeaves(REQUEST_TYPES.leave.type)"
-            :type="REQUEST_TYPES.leave.type"
+            @on-click="addLeaves(REQUEST_TYPES.LEAVE)"
+            :type="REQUEST_TYPES.LEAVE"
             @update="setAllowance"
           ></info-card-leave-vacation>
         </div>

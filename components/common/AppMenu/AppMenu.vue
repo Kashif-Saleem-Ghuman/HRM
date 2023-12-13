@@ -188,10 +188,12 @@ export default {
         }
         if (item.key == "requestVacation") {
           this.$nuxt.$emit("open-sidebar-admin", 'vacation')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "requestLeave") {
           this.$nuxt.$emit("open-sidebar-admin", 'leave')
+          this.$nuxt.$emit("add-leave");
           return;
         }
         if (item.key == "clockIn") {

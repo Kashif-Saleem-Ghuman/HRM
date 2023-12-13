@@ -1,12 +1,13 @@
 <template>
-  <custom-table
+  <div>
+    <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="leaveData"
     :hide-no-column="true"
   >
     <template #cell(leavetype)="data">
-      <div class="text-dark upper-case minus-ml">
+      <div class="text-dark upper-case minus-ml" @click="leaveDetail(data.value)">
         <chips
           :title="data.value.type == null ? 'N/A' : data.value.type"
           iconShow="iconShow"
@@ -54,6 +55,55 @@
       </div>
     </template>
   </custom-table>
+  <action-sidebar
+      @close="closeSidebar"
+      :className="slideClass"
+      heading="Leave Details"
+      icon="pencil"
+      v-show="openSidebar"
+    >
+      <template v-slot:sidebar-body>
+        <add-leave
+          :employeeName="employeeName"
+          :allowanceDays="getAllownaceDataValue"
+          :usedDays="useDaysDataValue"
+          :employeeNameSelect="employeeNameSlectedValue"
+          :employeesOptions="employeesOptions"
+          :employeeNameSelectShow="employeeNameSelectShow"
+          :key="addLeaveKey"
+          :startDate="startDate"
+          :endDate="endDate"
+          :note="form.note"
+          inActive="disabled"
+          :edit="false"
+        ></add-leave>
+        <div class="row">
+          <div class="col-12">
+            <div>
+              <info-card-success
+                :label="getStatusLabel(leaveStatus)"
+                :message="
+                  leaveStatus == 'approved'
+                    ? `Request approved by ${getEmployeeFullName(form.manager)}`
+                    : '' || leaveStatus == 'pending'
+                    ? 'Pending'
+                    : '' || leaveStatus == 'rejected'
+                    ? form.refusalReason
+                    : ''
+                "
+                :icon="getLeaveStatusIcon(leaveStatus)"
+                :variant="getLeaveTypeIconVariant(leaveStatus)
+                 
+                "
+                :className="getLeaveTypeClassName(leaveStatus)"
+                :classNameWrapper="getTextVariant(leaveStatus)"
+              ></info-card-success>
+            </div>
+          </div>
+        </div>
+      </template>
+    </action-sidebar>
+  </div>
 </template>
 
 <script>
@@ -65,8 +115,12 @@ import {
   getStatusIconVariant,
   getStatusLabel,
   getTextVariant,
+  getLeaveTypeIconVariant,
+  getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
-import { TABLE_HEAD } from "@/utils/constant/Constant";
+import { getEmployeeFullName } from "@/utils/functions/common_functions"
+
+import { TABLE_HEAD, apiKeyUsedValue, apiKeyAllowanceValue  } from "@/utils/constant/Constant";
 export default {
   props: {
     leaveData: {
@@ -81,16 +135,47 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       startDate: "",
+      openSidebar: false,
+      form: {},
+      slideClass: "slide-in",
+      startDate: "",
+      endDate: "",
+      employeeNameSelect: "",
+      employeeName: "",
+      employeesOptions: [],
+      apiUsedValue: apiKeyUsedValue,
+      apiAllowanceValue: apiKeyAllowanceValue,
+      leaveStatus: "",
+      addLeaveKey: 0,
+      employeeNameSelectShow: false,
+
     };
   },
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
+    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
+      this.employeesOptions = [{label: "", value: ""}, ...reportTo];
+      this.employeeNameSelectShow = true;
+    });
   },
 
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+      getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    useDaysDataValue() {
+      const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValue];
+    },
+    getAllownaceDataValue() {
+      const keyValueAllowance =
+        this.apiAllowanceValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValueAllowance];
+    },
+    employeeNameSlectedValue() {
+      return this.employeeNameSelect;
+    },
   },
   methods: {
     getLeaveStatusIcon,
@@ -99,6 +184,35 @@ export default {
     getStatusLabel,
     getTextVariant,
     getTextVariant,
+    getLeaveTypeIconVariant,
+    getLeaveTypeClassName,
+    getEmployeeFullName,
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+      }, 700);
+    },
+    async leaveDetail(item){
+      this.slideClass = "slide-in";
+      this.employeeNameSelectShow = true;
+      this.addLeaveKey += 1;
+      this.leaveTypeActiveValue = item.type
+      await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", item.employeeId)
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
+      this.leaveStatus = item.status;
+      this.form = item
+      this.employeeNameSelect = item.employeeId
+      this.employeeName = this.getEmployeeFullName(item)
+      this.startDate = fecha.format(new Date(this.form.start),"YYYY-MM-DD");
+      this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
+      this.openSidebar = true;
+    },
+
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

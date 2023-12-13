@@ -130,7 +130,7 @@ import {
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../utils/functions/functions_lib";
-import { SELECT_OPTIONS, REQUEST_TYPES } from "../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_TYPES, apiKeyUsedValue, apiKeyAllowanceValue } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import { popupNotificationMsgs } from "../utils/constant/Notifications";
@@ -148,18 +148,6 @@ import {
 
 import routesCheck from "../middleware/routes.client";
 import { getEmployeeFullName } from "../utils/functions/common_functions";
-const apiKeyUsedValue = {
-  leave: "leaveDaysUsed",
-  vacation: "vacationDaysUsed",
-  medical: "medicalDaysUsed",
-  other: "otherDaysUsed",
-};
-const apiKeyAllowanceValue = {
-  leave: "leaveDaysAllowed",
-  vacation: "vacationDaysAllowed",
-  medical: "medicalDaysAllowed",
-  other: "otherDaysAllowed",
-};
 export default {
   data() {
     return {

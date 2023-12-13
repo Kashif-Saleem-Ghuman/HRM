@@ -648,7 +648,7 @@ export const SELECT_OPTIONS = {
     { label: "Personal Leave", value: "leave" },
     { label: "Vacation Leave", value: "vacation" },
     { label: "Medical Leave", value: "medical" },
-    // { label: "Absent", value: "absent" },
+    { label: "Other Leave", value: "other" },
   ]
 };
 
@@ -1539,3 +1539,15 @@ export const REQUEST_TYPES = {
     type:'other'
   },
 }
+export const apiKeyUsedValue = {
+  leave: "leaveDaysUsed",
+  vacation: "vacationDaysUsed",
+  medical: "medicalDaysUsed",
+  other: "otherDaysUsed",
+};
+export const apiKeyAllowanceValue = {
+  leave: "leaveDaysAllowed",
+  vacation: "vacationDaysAllowed",
+  medical: "medicalDaysAllowed",
+  other: "otherDaysAllowed",
+};

@@ -105,25 +105,15 @@
       icon="pencil"
       v-show="openSidebar"
     >
-   
       <template v-slot:sidebar-body>
-        
         <add-leave
-          :leaveTypeOptions="leaveTypeOptions"
-          @input="addHandleInput"
-          @change="addHandleInput"
-          style="z-index: 100000"
           :employeeName="employeeName"
-          :allowanceDays="allowanceData"
+          :allowanceDays="getAllownaceDataValue"
           :usedDays="useDaysDataValue"
           :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
-          :errorMsgSelect="errorMsgSelect"
-          :errorMsgStartDate="errorMsgStartDate"
-          :errorMsgEndDate="errorMsgEndDate"
-          :leaveType="form.type"
           :startDate="startDate"
           :endDate="endDate"
           :note="form.note"
@@ -215,7 +205,7 @@ import {
   getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
-import { SELECT_OPTIONS, REQUEST_STATUS } from "../../../utils/constant/Constant";
+import { SELECT_OPTIONS, REQUEST_STATUS, apiKeyUsedValue, apiKeyAllowanceValue } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
@@ -229,7 +219,10 @@ export default {
       show: false,
       reloadData: 1,
       openSidebar: false,
+      leaveTypeActiveValue: "",
       leaveTypeOptions: SELECT_OPTIONS.leaveType,
+      apiUsedValue: apiKeyUsedValue,
+      apiAllowanceValue: apiKeyAllowanceValue,
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
@@ -237,7 +230,7 @@ export default {
       employeeName: "",
       employeesOptions: [],
       allowanceData: "",
-      startDate: "",
+      startDate: "2023-06-23",
       endDate: "",
       form: {},
       vacationType: "vacation",
@@ -276,7 +269,6 @@ export default {
         events: [],
         editable: false,
         selectable: false,
-        selectMirror: SVGComponentTransferFunctionElement,
         selectHelper: false,
         dayMaxEvents: 1,
         weekends: true,
@@ -322,9 +314,17 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
       getActiveUser: "employee/GET_USER",
+      getLeaveAllowance: "leavesdata/getLeaveAllowance",
+
     }),
     useDaysDataValue() {
-      return this.useDaysData;
+      const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValue];
+    },
+    getAllownaceDataValue() {
+      const keyValueAllowance =
+        this.apiAllowanceValue[this.leaveTypeActiveValue];
+      return this.getLeaveAllowance[keyValueAllowance];
     },
     employeeNameSlectedValue() {
       return this.employeeNameSelect;
@@ -545,11 +545,13 @@ async created(){
       const item = this.calendarOptions.events.find( event => event.id == id)
       if(!item) return
 
-      this.getUserLeavesDetail(item.employee.id).then((result) => {
+      await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", item.employee.id)
+      .then((result) => {
         this.allowanceLeavesDetailedData = result;
-        this.setAllowanceData(item.type)
+        this.leaveTypeActiveValue = item.type
+        this.is_data_fetched = true;
       });
-
       this.leaveStatus = item.status;
       this.form = item.request
       this.employeeNameSelect = item.employee.id
@@ -558,21 +560,6 @@ async created(){
       this.startDate = fecha.format(new Date(this.form.start),"YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
       this.openSidebar = true;
-    },
-
-    setAllowanceData(type) {
-      if (type == "vacation") {
-        this.allowanceData = this.allowanceLeavesDetailedData.vacationDaysAllowed;
-        this.useDaysData = this.allowanceLeavesDetailedData.vacationDaysUsed;
-      }
-      if (type == "leave") {
-        this.allowanceData = this.allowanceLeavesDetailedData.leaveDaysAllowed;
-        this.useDaysData = This.allowanceLeavesDetailedData.vacationDaysUsed;
-      }
-      if (type == "medical") {
-        this.allowanceData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
-        this.useDaysData = this.allowanceLeavesDetailedData.medicalDaysAllowed;
-      }
     },
 
     eventClass(type) {

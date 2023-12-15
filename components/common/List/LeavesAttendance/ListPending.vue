@@ -5,8 +5,6 @@
     class="border-gray4 bg-white"
     :sections="listPending"
     :hide-no-column="true"
-    classTypeHead="table__hrow__custom"
-    classTypeBody="table__hrow__custom__irow"
     @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
   >

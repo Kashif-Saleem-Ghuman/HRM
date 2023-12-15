@@ -12,6 +12,7 @@ export const state = () => ({
     active: null,
   },
   dailyTimeEntries: [],
+  dailyTimeEntriesToday: [],
   chronometer: 0,
   isTimerRunning: false,
   employeesAttendance: null
@@ -41,6 +42,10 @@ export const mutations = {
 
   SET_DAILY_TIME_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = payload;
+  },
+
+  SET_DAILY_TIME_ENTRIES_TODAY: (state, payload) => {
+    state.dailyTimeEntriesToday = payload;
   },
 
   SET_CHRONOMETER: (state, payload) => {
@@ -126,6 +131,30 @@ export const actions = {
         },
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
+
+      if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
+        ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
+      }
+    } catch (e) {
+      alert(e);
+    }
+  },
+
+  async setDailyTimeEntriesToday(ctx, date = new Date().toISOString()) {
+    try {
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
+      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
+
+      const { data } = await axios.get(
+        process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      );
+
+      ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {
       alert(e);
     }

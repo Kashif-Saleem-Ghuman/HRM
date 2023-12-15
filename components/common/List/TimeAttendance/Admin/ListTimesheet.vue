@@ -73,6 +73,16 @@
       <template #cell(status)="data">
         <div class="text-dark">
           <chips
+            v-if="!data.value.timesheets?.length"
+            :title="TIMESHEET_STATUS[getEmptyTimesheetStatus()].label"
+            iconShow="iconShow"
+            :icon="getStatusIcon(getEmptyTimesheetStatus())"
+            :variant="[getStatusVariant(getEmptyTimesheetStatus())]"
+            :defaultPointer="true"
+            class=""
+          ></chips>
+          <chips
+            v-else
             :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
             iconShow="iconShow"
             :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
@@ -113,6 +123,12 @@ export default {
       type: Array,
       default: [],
     },
+    startDate: {
+      type: Date | String,
+    },
+    endDate: {
+      type: Date | String,
+    }
   },
   data() {
     return {
@@ -135,6 +151,15 @@ export default {
     sendMeet,
     sendMessage,
     handleItemClick_Table,
+    getEmptyTimesheetStatus() {
+      const endDate = new Date(this.endDate)
+      if (new Date() > endDate) {
+        return TIMESHEET_STATUS.past_due.value
+      }
+
+      return TIMESHEET_STATUS.not_submitted.value
+    },
+
     getWeekdayValue(data) {
       if (!data) return "--";
 

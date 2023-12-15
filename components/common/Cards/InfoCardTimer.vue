@@ -24,7 +24,7 @@
     </div>
     <div
       class="button-wrapper button-wrapper__bgprimary cursor-pointer"
-      :class="{'button-custom--disabled': disabled, 'bg-secondary-sub3': disabled}"
+      :class="{ 'button-custom--disabled': buttonDisabled, 'bg-secondary-sub3': buttonDisabled, 'bg-danger-sub1': active }"
       @click="handleClockInOutClick"
     >
       <span>{{ buttonLable }}</span>
@@ -36,7 +36,6 @@
 import { calculateActivityDetails, formatTime } from '../../../utils/functions/clock_functions';
 import { mapGetters } from "vuex";
 import timerMixin from '../../../mixins/timer-mixin';
-import { DateTime } from "luxon";
 
 export default {
   mixins: [timerMixin],
@@ -64,7 +63,7 @@ export default {
       activityReport: {},
       loading: true,
       timerLoading: false,
-      // currentDate: DateTime.now().toFormat("DDD")
+      stopClick: false,
     };
   },
   async mounted() {
@@ -89,11 +88,11 @@ export default {
 
     async handleClockInOutClick() {
       if (this.active) {
+        this.stopClick = true
         await this.stopTimer()
         this.$emit("timer-stop")
       } else {
         await this.startTimer();
-        this.$emit("timer-stop")
       }
     }
   },
@@ -101,6 +100,9 @@ export default {
     ...mapGetters({
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
+    buttonDisabled() {
+      return this.stopClick || this.disabled
+    },
     stopWatchTime() {
       if (this.timerLoading) return '00:00:00';
       return formatTime(this.chronometer);
@@ -120,6 +122,12 @@ export default {
       }
     }
   },
+
+  watch: {
+    disabled() {
+      this.stopClick = false;
+    }
+  }
 };
 </script>
 <style lang="scss">

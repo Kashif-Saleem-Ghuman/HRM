@@ -102,3 +102,16 @@ export function startOfDayEndOfDayRange({ startDate, endDate }) {
   const to = DateTime.fromISO(endDate).toUTC().endOf('day').toJSDate()
   return { from, to }
 }
+
+export function isSameDate(date1, date2) {
+  const luxonDate1 = typeof date1 === "string" ? DateTime.fromISO(date1) : DateTime.fromJSDate(date1);
+  const luxonDate2 = typeof date2 === "string" ? DateTime.fromISO(date2) : DateTime.fromJSDate(date2);
+
+  const isSame =  (
+    luxonDate1.year === luxonDate2.year &&
+    luxonDate1.month === luxonDate2.month &&
+    luxonDate1.day === luxonDate2.day
+  );
+
+  return isSame
+}

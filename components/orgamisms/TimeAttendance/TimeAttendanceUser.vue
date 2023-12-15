@@ -18,7 +18,7 @@
           >
             <info-card-timer
               @clock="openClock"
-              @timer-stop="fillDailyTimeEntries"
+              @timer-stop="handleTimerStop"
               :disabled="hasInEntryToday"
             ></info-card-timer>
 
@@ -120,10 +120,9 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import { getTimeFromDate, getDateDiffInHHMM, weekToUTCWeek } from "@/utils/functions/dates";
+import { isSameDate, weekToUTCWeek } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions"
 import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
-
 const VIEWS = [
   { label: "Day", value: 'day', variant: 'light' },
   { label: "Week", value: 'week', variant: 'light' },
@@ -241,6 +240,13 @@ export default {
   },
   methods: {
     weekToUTCWeek,
+
+   async handleTimerStop() {
+      await this.$store.dispatch('timeattendance/setDailyTimeEntriesToday')
+      if (isSameDate(this.todayDate, new Date())) {
+        this.fillDailyTimeEntries()
+      }
+    },
     setView() {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = {...this.VIEWS.find((v) => v.value === viewValue)};

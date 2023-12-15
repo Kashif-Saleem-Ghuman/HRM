@@ -43,9 +43,9 @@ export default ({ app }, inject) => {
         icon: "eye-open",
       },
       delete: {
-        label: "Delete",
-        value: "delete",
-        key: "delete",
+        label: "Cancel Request",
+        value: "cancel-request",
+        key: "cancel-request",
         variant: "danger",
         icon: "close",
       },

@@ -19,7 +19,7 @@
             <info-card-timer
               @clock="openClock"
               @timer-stop="fillDailyTimeEntries"
-              :disabled="hasInEntry"
+              :disabled="hasInEntryToday"
             ></info-card-timer>
 
             <info-card-one
@@ -59,6 +59,7 @@
                   class="custom_date_picker"
                   size="sm"
                   @input="dateSelection($event)"
+                  hide-quick-select
                 ></bib-datetime-picker>
               </div>
               <div v-if="view.value === 'week'" class="py-05">
@@ -75,13 +76,14 @@
               </div>
             </div>
           </div>
+          <bib-spinner v-if="loading" :scale="3"></bib-spinner>
         </div>
         <div>
-          <template v-if="!loading">
+          <template>
             <list-day
-              :listToday="todayData"
+              :listToday="getDailyTimeEntries"
               v-if="todayListView"
-              @new-entry="handleNewEntry"
+              @new-entry="handleNewEntryEvent"
               @edit-entry="handleEditEntry"
               @delete-entry="handleDeleteEntry"
               :date="new Date(todayDate + ' 00:00')"
@@ -156,7 +158,6 @@ export default {
       todayDate: DateTime.now().toFormat("yyyy-MM-dd"),
       ACTIVITY_DICTIONARY,
       totalWorkInMS: 0,
-      totalWork: "--:--",
       timesheetStatus: "",
       weekDates: { 
         from: DateTime.now().startOf("week").toISO(),
@@ -171,12 +172,32 @@ export default {
     };
   },
   computed: {
+    totalWork() {
+      if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0) return "";
+
+      const timeEntriesIn = this.getDailyTimeEntries.filter(entry => entry.activity === ACTIVITY_TYPE.IN);
+      const timeEntriesBreak = this.getDailyTimeEntries.filter(entry => entry.activity === ACTIVITY_TYPE.BREAK);
+
+      const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+      }, 0);
+
+      const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
+        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+      }, 0);
+
+      const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
+
+      return formatTime(netTotalWorkInMS / 1000, false);
+    },
+
     ...mapGetters({
       getActiveUser: "employee/GET_USER",
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
-    hasInEntry() {
-      const entries = this.getDailyTimeEntries
+    hasInEntryToday() {
+      const entries = this.$store.state.timeattendance.dailyTimeEntriesToday
+      if (!entries) return false
       return entries.some( entry => {
         return entry.activity === ACTIVITY_TYPE.IN && entry.end
       })
@@ -224,24 +245,11 @@ export default {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
     },
-    handleNewEntry(timeEntry) {
-      this.todayData.push({
-        activity: {
-          label: ACTIVITY_DICTIONARY[timeEntry.activity],
-          value: timeEntry.activity,
-        },
-        start: getTimeFromDate(timeEntry.start),
-        end: getTimeFromDate(timeEntry.end),
-        total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
-        status: timeEntry.status,
-        id: timeEntry.id,
-      });
-      if (timeEntry.activity === "in") {
-        this.totalWorkInMS += new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      } else if (timeEntry.activity === "break") {
-        this.totalWorkInMS -= new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
-      }
-      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
+    calculateTotalWorkMs({ timeEntry }) {
+      return new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+    },
+    handleNewEntryEvent() {
+      this.fillDailyTimeEntries()
     },
     async handleEditEntry() {
       await this.fillDailyTimeEntries();
@@ -303,10 +311,6 @@ export default {
     parseTimeEntries() {
       this.todayData = [];
       this.totalWorkInMS = 0;
-      this.totalWork = '00:00'
-      for (const timeEntry of this.getDailyTimeEntries) {
-        this.handleNewEntry(timeEntry);
-      }
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
       this.loading = false;
     },

@@ -9,22 +9,15 @@
         <div class="cell trash" v-if="!disabled"></div>
       </div>
       <time-entry-row
-        v-for="entry in listToday"
-        :key="entry.id"
+        v-for="entry in entries"
+        :key="entry.id ?? entry.activity"
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteSpecificEntry"
         :date="date"
         :listToday="listToday"
-      ></time-entry-row>
-      <time-entry-row
-        v-if="showNewEntryRow && !disabled"
-        :entry="newEntry"
-        class="row"
         @new-entry="makeNewTimeEntry"
-        :date="date"
-        :listToday="listToday"
       ></time-entry-row>
       <div class="row total">
         <div class="cell no-border"></div>
@@ -38,6 +31,8 @@
 
 <script>
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
+import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
+import { orderBy } from "lodash"
 export default {
   props: {
     listToday: {
@@ -60,7 +55,17 @@ export default {
   data() {
     return {
       newEntry: {
-        activity: { label: "", value: "" },
+        activity: "",
+        start: null,
+        end: null,
+      },
+      clockInEntry: {
+        activity: ACTIVITY_TYPE.IN,
+        start: null,
+        end: null,
+      },
+      breakEntry: {
+        activity: ACTIVITY_TYPE.BREAK,
         start: null,
         end: null,
       },
@@ -69,15 +74,14 @@ export default {
   },
   
   computed: {
-    showNewEntryRow() {
-      if (this.listToday?.length) {
-        const activities = this.listToday.map( item => item.activity?.value)
-        if (activities.includes("in") && activities.includes("break")) {
-          return false
-        }
-      }
-      return true
-    }
+    entries() {
+      return orderBy([...this.defaultEntries, ...this.listToday], entry => entry.activity , 'desc')
+    },
+    defaultEntries() {
+      const entries = [this.clockInEntry, this.breakEntry]
+      const existingEntries = this.listToday.map( item => item.activity )
+      return entries.filter( entry => !existingEntries.includes(entry.activity))
+    },
   },
   methods: {
     async makeNewTimeEntry(newEntry) {

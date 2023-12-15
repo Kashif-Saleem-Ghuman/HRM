@@ -1478,7 +1478,8 @@ export const ACTIVITY_TYPE = {
   OUT: 'out',
   MEDICAL: 'medical',
   SICK: 'sick',
-  PERSONAL: 'personal'
+  PERSONAL: 'personal',
+  BREAK: 'break'
 }
 
 export const ACTIVITY_TYPE_LABEL_VALUE = {

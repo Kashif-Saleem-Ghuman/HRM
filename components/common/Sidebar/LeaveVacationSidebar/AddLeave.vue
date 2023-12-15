@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="border-wrapper-box">
+      <div class="border-wrapper-box" v-if="showAllowance">
         <div style="padding: 0px">
           <div style="padding: 0px">
             <div v-show="leaveTypeSelect" class="pb-05">
@@ -202,6 +202,10 @@ export default {
     errorMsgEndDate: {
       type: Boolean,
     },
+    showAllowance:{
+      type:Boolean,
+      default:true,
+    }
   },
   data() {
     return {
@@ -282,7 +286,7 @@ export default {
 }
 .end-date-wrapper {
   .vdpPositionBottom {
-    bottom: 20% !important;
+    bottom: 1% !important;
   }  
 }
 </style>

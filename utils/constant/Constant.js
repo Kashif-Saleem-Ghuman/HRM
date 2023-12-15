@@ -112,10 +112,6 @@ export const TABLE_HEAD = {
       key: "status",
       label: "Status",
     },
-    {
-      key: "reason",
-      label: "Reason",
-    },
   ],
   tHeadTimesheet: [
     {

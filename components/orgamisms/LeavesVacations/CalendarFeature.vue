@@ -42,10 +42,13 @@
           </div>
         </div>
       </div>
-      <div class="rtl-wrapper d-flex align-center" style="justify-content: end;">
+      <div class="rtl-wrapper d-flex align-center" style="justify-content: end">
         <div class="serach-item">
           <template>
-            <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+            <search-input
+              :on-change-fn="onSearchChange"
+              :debounce-ms="300"
+            ></search-input>
           </template>
         </div>
         <bib-button
@@ -83,7 +86,10 @@
         :key="reloadData"
       >
         <template v-slot:eventContent="arg">
-          <div class="author-display"  :class="eventClass(arg.event.extendedProps.type)">
+          <div
+            class="author-display"
+            :class="eventClass(arg.event.extendedProps.type)"
+          >
             <div>
               <bib-avatar
                 :src="arg.event.extendedProps.employee.photo"
@@ -91,54 +97,24 @@
               ></bib-avatar>
             </div>
             <div class="pl-05 author-display__employee_info">
-              <label :title="getEmployeeFullName(arg.event.extendedProps.employee)">{{ getEmployeeFullName(arg.event.extendedProps.employee) | truncate(16, '...') }}</label>
-              <span>{{ arg.event.extendedProps.type == 'leave' ? 'On Leave' : arg.event.extendedProps.type }}</span>
+              <label
+                :title="getEmployeeFullName(arg.event.extendedProps.employee)"
+                >{{
+                  getEmployeeFullName(arg.event.extendedProps.employee)
+                    | truncate(16, "...")
+                }}</label
+              >
+              <span>{{
+                arg.event.extendedProps.type == "leave"
+                  ? "On Leave"
+                  : arg.event.extendedProps.type
+              }}</span>
             </div>
           </div>
         </template>
       </FullCalendar>
     </div>
-    <action-sidebar
-      @close="closeSidebar"
-      :className="slideClass"
-      heading="Leave Details"
-      icon="pencil"
-      v-show="openSidebar"
-    >
-      <template v-slot:sidebar-body>
-        <add-leave
-          :employeeName="employeeName"
-          :allowanceDays="getAllownaceDataValue"
-          :usedDays="useDaysDataValue"
-          :employeeNameSelect="employeeNameSlectedValue"
-          :employeesOptions="employeesOptions"
-          :employeeNameSelectShow="employeeNameSelectShow"
-          :key="addLeaveKey"
-          :startDate="startDate"
-          :endDate="endDate"
-          :note="form.note"
-          inActive="disabled"
-          :edit="false"
-        ></add-leave>
-        <div class="row">
-          <div class="col-12">
-            <div>
-              <info-card-success
-                :label="getStatusLabel(leaveStatus)"
-                :message="getMessage(leaveStatus)
-                "
-                :icon="getLeaveStatusIcon(leaveStatus)"
-                :variant="getLeaveTypeIconVariant(leaveStatus)
-                 
-                "
-                :className="getLeaveTypeClassName(leaveStatus)"
-                :classNameWrapper="getTextVariant(leaveStatus)"
-              ></info-card-success>
-            </div>
-          </div>
-        </div>
-      </template>
-    </action-sidebar>
+    <leave-sidebar></leave-sidebar>
   </div>
 </template>
 
@@ -168,11 +144,11 @@ import {
   getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
-import { SELECT_OPTIONS, REQUEST_STATUS, apiKeyUsedValue, apiKeyAllowanceValue } from "../../../utils/constant/Constant";
+import { REQUEST_STATUS } from "../../../utils/constant/Constant";
 
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
-import { getEmployeeFullName } from "../../../utils/functions/common_functions"
+import { getEmployeeFullName } from "../../../utils/functions/common_functions";
 export default {
   components: {
     FullCalendar,
@@ -181,20 +157,6 @@ export default {
     return {
       show: false,
       reloadData: 1,
-      openSidebar: false,
-      leaveTypeActiveValue: "",
-      leaveTypeOptions: SELECT_OPTIONS.leaveType,
-      apiUsedValue: apiKeyUsedValue,
-      apiAllowanceValue: apiKeyAllowanceValue,
-      errorMsgSelect: false,
-      errorMsgStartDate: false,
-      errorMsgEndDate: false,
-      employeeNameSelect: "",
-      employeeName: "",
-      employeesOptions: [],
-      allowanceData: "",
-      startDate: "2023-06-23",
-      endDate: "",
       form: {},
       vacationType: "vacation",
       addLeaveKey: 0,
@@ -267,7 +229,7 @@ export default {
       selectedYear: "2023",
       yearTitle: "2023",
       ViewTitle: "Month",
-      searchString: null
+      searchString: null,
     };
   },
   computed: {
@@ -277,37 +239,18 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
       getActiveUser: "employee/GET_USER",
-      getLeaveAllowance: "leavesdata/getLeaveAllowance",
-
     }),
-    useDaysDataValue() {
-      const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
-      return this.getLeaveAllowance[keyValue];
-    },
-    getAllownaceDataValue() {
-      const keyValueAllowance =
-        this.apiAllowanceValue[this.leaveTypeActiveValue];
-      return this.getLeaveAllowance[keyValueAllowance];
-    },
-    employeeNameSlectedValue() {
-      return this.employeeNameSelect;
-    },
   },
-async created(){
-  this.id = this.getActiveUser.id
-  this.$store.commit('employee/SET_SELECTED_EMPLOYEE_ID', { employeeId: this.id})
-
-    await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", this.id)
-      .then((result) => {
-        this.allowanceLeavesDetailedData = result;
-        this.is_data_fetched = true;
-      });
-},
+  async created() {
+    this.id = this.getActiveUser.id;
+    this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
+      employeeId: this.id,
+    });
+  },
   mounted() {
     this.selectedMonth = this.currentMonth;
-    
-    this.getCalendarCurrentRange()
+
+    this.getCalendarCurrentRange();
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
@@ -317,15 +260,11 @@ async created(){
       .dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
-        status: REQUEST_STATUS.APPROVED
+        status: REQUEST_STATUS.APPROVED,
       })
       .then((result) => {
         this.calendarOptions.events = result;
       });
-    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
-      this.employeesOptions = [{label: "", value: ""}, ...reportTo];
-      this.employeeNameSelectShow = true;
-    });
   },
   methods: {
     addHandleInput,
@@ -339,27 +278,20 @@ async created(){
     getTextVariant,
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
-    getMessage(MESSAGE){
-      const messageStatus={
-        approved : `Request approved by ${getEmployeeFullName(this.form.manager)}`,
-        pending:'Pending',
-        rejected:this.form.refusalReason
-      }
-      return MESSAGE = messageStatus[MESSAGE]
-    },
+
     onSearchChange(value) {
-      this.searchString = value
-      if(this.searchString == ''){
+      this.searchString = value;
+      if (this.searchString == "") {
         this.$store.dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        search: this.searchString,
-      });
-      setTimeout(() => {
-        this.calendarOptions.events = this.getLeaveVacation;
-      }, 1000);
-      }else{
-        this.searchString = value
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+          search: this.searchString,
+        });
+        setTimeout(() => {
+          this.calendarOptions.events = this.getLeaveVacation;
+        }, 1000);
+      } else {
+        this.searchString = value;
       }
     },
     scrolltoId() {
@@ -381,10 +313,11 @@ async created(){
     },
 
     getCalendarCurrentRange() {
-      const fullCalendarApi = this.$refs.fullCalendar.getApi()
-      const { start, end } = fullCalendarApi.currentData.dateProfile.activeRange
-      this.fromDate = start
-      this.toDate = end
+      const fullCalendarApi = this.$refs.fullCalendar.getApi();
+      const { start, end } =
+        fullCalendarApi.currentData.dateProfile.activeRange;
+      this.fromDate = start;
+      this.toDate = end;
     },
 
     changeMonthView(e) {
@@ -402,7 +335,7 @@ async created(){
           year + e.value + this.currentDate
         );
 
-      this.getCalendarCurrentRange()
+      this.getCalendarCurrentRange();
 
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
@@ -432,8 +365,8 @@ async created(){
           e.key + month + this.currentDate
         );
 
-      this.getCalendarCurrentRange()
-      
+      this.getCalendarCurrentRange();
+
       this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
         to: this.toDate,
@@ -513,36 +446,16 @@ async created(){
       calendarApi.next();
     },
     async handleEventClick(clickInfo) {
-      this.slideClass = "slide-in";
-      this.employeeNameSelectShow = true;
-      this.addLeaveKey += 1;
-
-      const { id } = clickInfo.event
-      const item = this.calendarOptions.events.find( event => event.id == id)
-      if(!item) return
-
-      await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", item.employee.id)
-      .then((result) => {
-        this.allowanceLeavesDetailedData = result;
-        this.leaveTypeActiveValue = item.type
-        this.is_data_fetched = true;
-      });
-      this.leaveStatus = item.status;
-      this.form = item.request
-      this.employeeNameSelect = item.employee.id
-
-      this.employeeName = this.getEmployeeFullName(item.employee)
-      this.startDate = fecha.format(new Date(this.form.start),"YYYY-MM-DD");
-      this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
-      this.openSidebar = true;
+      const { id } = clickInfo.event;
+      const item = this.calendarOptions.events.find((event) => event.id == id);
+      this.$nuxt.$emit("open-sidebar", item);
     },
 
     eventClass(type) {
       return {
-        'event_wrapper__bgvacations': type === 'vacation',
-        'event_wrapper__bgonleave': type === 'leave',
-        'event_wrapper__bgabsent': type === 'Absent' || type === 'medical',
+        event_wrapper__bgvacations: type === "vacation",
+        event_wrapper__bgonleave: type === "leave",
+        event_wrapper__bgabsent: type === "Absent" || type === "medical",
       };
     },
 
@@ -572,7 +485,7 @@ async created(){
       setTimeout(() => {
         this.calendarOptions.events = this.getLeaveVacation;
       }, 1000);
-    }
+    },
   },
 };
 </script>
@@ -664,10 +577,10 @@ async created(){
   label {
     font-weight: 600;
     display: block;
-    font-size: .6rem;
+    font-size: 0.6rem;
   }
   span {
-    font-size: .55rem;
+    font-size: 0.55rem;
     line-height: 5px;
     text-transform: capitalize;
   }

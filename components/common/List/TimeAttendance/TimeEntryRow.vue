@@ -1,46 +1,22 @@
 <template>
   <div>
-    <div v-if="newData.id" class="cell activity">{{ newData.activity.label }}</div>
-    <div v-else class="cell activity activity-wrapper">
-      <bib-button
-        dropdown="arrowhead-down"
-        :label="newData.activity.label || 'Select Activity Type'"
-        v-model="newData.activity.label"
-      >
-        <template v-slot:menu>
-          <ul>
-            <li @click="newDataTypeReset">
-              <span class="activity">{{ "Select an activity type" }}</span>
-            </li>
-            <li
-              v-for="activityType in activityTypes"
-              :key="activityType.value"
-              @click="newDataTypeSelected(activityType)"
-            >
-              <span class="activity">{{ activityType.label }}</span>
-            </li>
-          </ul>
-        </template>
-      </bib-button>
-    </div>
+    <div class="cell activity">{{ label }}</div>
     <div class="cell">
       <bib-input
         type="time"
-        :value="newData.start"
         name="name"
-        @change="newDataMutated"
-        v-model="newData.start"
+        v-model="startTime"
         @blur="timeInputBlur"
+        :step="60"
       ></bib-input>
     </div>
     <div class="cell">
       <bib-input
         type="time"
-        :value="newData.end"
         name="name"
-        @change="newDataMutated"
-        v-model="newData.end"
+        v-model="endTime"
         @blur="timeInputBlur"
+        :step="60"
       ></bib-input>
     </div>
     <div class="cell">
@@ -51,10 +27,7 @@
       v-if="newData.id"
       @click="deleteEntry"
     >
-      <bib-icon
-        icon="trash-solid"
-        :scale="1"
-      ></bib-icon>
+      <bib-icon icon="trash-solid" :scale="1"></bib-icon>
     </div>
   </div>
 </template>
@@ -62,7 +35,7 @@
 import {
   makeTimeEntry,
   editTimeEntry,
-  deleteTimeEntry
+  deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
 import {
   parseInputTimeIntoArray,
@@ -70,7 +43,12 @@ import {
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
 import { DateTime } from "luxon";
-
+import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
+import { getTimeFromDate } from "../../../../utils/functions/dates";
+import {
+  calculateTimeDifferenceInHHMM,
+  calculateTimeDifferenceInMinutes,
+} from "../../../../utils/functions/time";
 export default {
   props: {
     entry: {
@@ -81,20 +59,46 @@ export default {
       type: Date,
       required: true,
     },
-    listToday: {
-      type: Array,
-      required: true
-    }
   },
   data() {
     return {
-      newData: { ...this.entry },
-      mutated: false,
-      activityTypeIn: { label: "CLOCK-IN -> CLOCK-OUT", value: "in" },
-      activityTypeBreak: { label: "BREAK", value: "break" },
+      newData: { ...this.entry, startTime: null, endTime: null },
     };
   },
- 
+
+  computed: {
+    startTime: {
+      get() {
+        if (this.newData?.startTime) return this.newData?.startTime;
+        if (this.newData.start) return getTimeFromDate(this.newData.start);
+      },
+      set(time) {
+        this.newData.startTime = time;
+      },
+    },
+    endTime: {
+      get() {
+        if (this.newData?.endTime) return this.newData?.endTime;
+        if (this.newData.end) return getTimeFromDate(this.newData.end);
+      },
+      set(time) {
+        this.newData.endTime = time;
+      },
+    },
+    label() {
+      return ACTIVITY_DICTIONARY[this.newData.activity];
+    },
+
+    totalTimeInMinutes() {
+      if (!this.startTime || !this.endTime) return "";
+      return calculateTimeDifferenceInMinutes(this.startTime, this.endTime);
+    },
+    entryTotal() {
+      if (!this.startTime || !this.endTime) return "";
+      return calculateTimeDifferenceInHHMM(this.startTime, this.endTime);
+    },
+  },
+
   methods: {
     makeTimeEntry,
     editTimeEntry,
@@ -102,18 +106,17 @@ export default {
     parseInputTimeIntoArray,
     numberToClockDigits,
     hoursAndMinutesToJSDate,
-    newDataMutated() {
-      this.mutated = true;
-    },
+    getTimeFromDate,
+
     calculateDates() {
       return {
         startDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.newData.start),
-          this.date,
+          ...this.parseInputTimeIntoArray(this.startTime),
+          this.date
         ).toISOString(),
         endDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.newData.end),
-          this.date,
+          ...this.parseInputTimeIntoArray(this.endTime),
+          this.date
         ).toISOString(),
         date: new Date(this.date).toISOString(),
       };
@@ -122,51 +125,63 @@ export default {
       if (this.totalTimeInMinutes < 0) {
         return alert("start time should be before the end time");
       }
-      if (!this.timeEntryReady) return;
-      const {
-        startDate,
-        endDate,
-        date,
-      } = this.calculateDates()
+
+      const startAndTimeValid = this.startAndEndTimeValid();
+      if (!startAndTimeValid) return;
+
+      const isTotalTimeNegative = this.totalTimeInMinutes < 0;
+      if (isTotalTimeNegative) return;
+      const { startDate, endDate, date } = this.calculateDates();
+
       const editedEntry = await this.editTimeEntry({
         date,
         start: startDate,
         end: endDate,
         id: this.entry.id,
-        activity: this.newData.activity.value,
+        activity: this.newData.activity,
       });
       if (editedEntry) {
         this.$emit("edit-entry", editedEntry);
       }
     },
-    async isEndDateGreatherThanNow() {
-      const [hours, minutes, seconds] = this.newData.end.split(':').map(Number);
-      return DateTime.fromJSDate(this.date).set({ hours, minutes, seconds }).toJSDate() > new Date()
+    isEndDateGreatherThanNow() {
+      const [hours, minutes, seconds] = this.newData.endTime
+        .split(":")
+        .map(Number);
+      const date = DateTime.fromJSDate(this.date)
+        .set({ hours, minutes, seconds })
+        .toJSDate();
+      const now = new Date();
+      return date > now;
     },
-    async makeNewTimeEntry() {
-      if (this.totalTimeInMinutes < 0) {
-        return alert("start time should be before the end time");
-      }
+
+    isEntryValid() {
+      const startAndTimeValid = this.startAndEndTimeValid();
+      if (!startAndTimeValid) return false;
+
+      const isTotalTimeNegative = this.totalTimeInMinutes < 0;
+      if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        return alert("end time cannot be greater than current time")
+        alert("end time cannot be greater than current time");
+        this.endTime = undefined;
+        return false;
       }
-    
-      if (!this.timeEntryReady) return;
-      const {
-        startDate,
-        endDate,
-        date,
-      } = this.calculateDates()
+
+      return true;
+    },
+    async makeNewTimeEntry() {
+      if (!this.isEntryValid()) return;
+
+      const { startDate, endDate, date } = this.calculateDates();
       const newEntry = await this.makeTimeEntry(
-        this.newData.activity.value,
+        this.newData.activity,
         date,
         startDate,
-        endDate,
+        endDate
       );
       if (newEntry) {
         this.$emit("new-entry", newEntry);
-        this.clearData()
       }
     },
     async deleteEntry() {
@@ -175,20 +190,7 @@ export default {
         this.$emit("delete-entry", this.newData.id);
       }
     },
-    newDataTypeSelected(activity) {
-      this.newData.activity = activity;
-      if (this.timeEntryReady) {
-        this.makeNewTimeEntry();
-      }
-    },
-    newDataTypeReset() {
-      this.newData.activity.label = "";
-      this.newData.activity.value = "";
-    },
-    buttonClicked() {
-      if (this.newData.id) return this.editThisEntry()
-      return this.makeNewTimeEntry()
-    },
+
     timeInputBlur() {
       if (this.newData.id) {
         this.editThisEntry();
@@ -196,60 +198,27 @@ export default {
         this.makeNewTimeEntry();
       }
     },
-    clearData() {
-      this.newData = {
-        activity: { label: "", value: "" },
-        start: null,
-        end: null,
-      };
+
+    startAndEndTimeValid() {
+      return this.startTime && this.endTime;
     },
   },
-  computed: {
-    activityTypes() {
-      if (this.listToday?.length) {
-        const activities = []
-        const todayActivities = this.listToday.map( item => item.activity?.value)
-        if (!todayActivities.includes("in")) activities.push(this.activityTypeIn)
-        if (!todayActivities.includes("break")) activities.push(this.activityTypeBreak)
 
-        return activities
-      }
-
-      return [this.activityTypeIn, this.activityTypeBreak]
+  watch: {
+    entry: {
+      handler(newEntry) {
+        if (newEntry) {
+          this.newData = { ...newEntry, startTime: null, endTime: null };
+        }
+      },
+      immediate: true,
     },
-    timeEntryIsValid() {
-      return this.newData.start && this.newData.end;
-    },
-    totalTimeInMinutes() {
-      let endHours, endMinutes, startHours, startMinutes;
-      try {
-        [endHours, endMinutes] = this.parseInputTimeIntoArray(this.newData.end);
-        [startHours, startMinutes] = this.parseInputTimeIntoArray(this.newData.start);
-      } catch(error) {
-        return error.message;
-      }
-      return ((endHours - startHours) * 60) + (endMinutes - startMinutes);
-    },
-    entryTotal() {
-      if (this.newData.total && !this.mutated) return this.newData.total;
-      if (!this.timeEntryIsValid) return "--:--"
-      if (this.totalTimeInMinutes <= 0) return "Invalid Input";
-      const totalHours = Math.floor(this.totalTimeInMinutes / 60);
-      const totalMinutes = this.totalTimeInMinutes - totalHours * 60;
-      return `${this.numberToClockDigits(totalHours)}:${this.numberToClockDigits(totalMinutes)}`;
-    },
-    timeEntryReady() {
-      return this.timeEntryIsValid
-        && this.totalTimeInMinutes > 0
-        && this.newData.activity.value
-        && this.mutated;
-    }
-  }
-}
+  },
+};
 </script>
 <style lang="scss">
-.activity-wrapper{
-  .icon{
+.activity-wrapper {
+  .icon {
     margin-right: -10px !important;
   }
 }

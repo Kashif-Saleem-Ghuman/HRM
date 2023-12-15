@@ -46,34 +46,14 @@
               </button-with-overlay>
             </div>
           </div>
+          <bib-spinner v-if="loading" :scale="3"></bib-spinner>
         </div>
-        <!-- <div
-          class="d-grid d-flex gap-1 py-05"
-          style="grid-template-columns: repeat(2, 1fr)"
-        >
-          <info-card-timer
-            @clock="openClock"
-            :employeeId="Number(this.id)"
-            v-if="view === 'day'"
-          ></info-card-timer>
-          <info-card-one
-            :item="timesheetData"
-            title="View Timesheet"
-            buttonLable="View timesheet past due"
-            icon="table"
-            profilePic="profilePic"
-            buttonVariant="light"
-            @on-click="onViewTimesheetsClick"
-            className="button-wrapper__bgwarnning"
-            v-if="view === 'day'"
-          ></info-card-one>
-        </div> -->
       </div>
       <div>
-        <template v-if="!loading">
+        <template>
           <list-day
-            v-if="todayListView && todayData.length"
-            :listToday="todayData"
+            v-if="todayListView"
+            :listToday="getDailyTimeEntries"
             v-show="todayListView"
             :total="totalWork"
             :status="timesheetStatus"
@@ -164,15 +144,10 @@ export default {
     },
     handleNewEntry(timeEntry) {
       this.todayData.push({
-        activity: {
-          label: ACTIVITY_DICTIONARY[timeEntry.activity],
-          value: timeEntry.activity,
-        },
+        ...timeEntry,
         start: getTimeFromDate(timeEntry.start),
         end: getTimeFromDate(timeEntry.end),
         total: getDateDiffInHHMM(timeEntry.start, timeEntry.end),
-        status: timeEntry.status,
-        id: timeEntry.id,
       });
       if (timeEntry.activity === "in") {
         this.totalWorkInMS +=

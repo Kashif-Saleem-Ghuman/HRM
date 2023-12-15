@@ -35,4 +35,8 @@ export const popupNotificationMsgs = [
     text: "The file has been deleted successfully...",
     variant: "primary-24",
   },
+  {
+    text: "The leave has been canceled successfully...",
+    variant: "primary-24",
+  },
 ];

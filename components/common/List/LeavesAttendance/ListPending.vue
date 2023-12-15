@@ -1,5 +1,4 @@
-<
-  template>
+<template>
   <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
@@ -109,7 +108,7 @@
       </div>
     </template>
   </custom-table>
-</>
+</template>
 
 <script>
 import fecha, { format } from "fecha";

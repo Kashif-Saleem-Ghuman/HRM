@@ -6,6 +6,7 @@
     v-model="value"
     :maxDate="maxDate"
     @input="onInput"
+    hide-quick-select
     :display-format="displayFormat ?? 'DD-MM-YYYY'"
   ></bib-datetime-picker>
 

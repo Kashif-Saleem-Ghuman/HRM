@@ -198,8 +198,8 @@ export async function deleteLevaeVacation(value) {
     this.$nuxt.$emit('fetched-leave-vacation')
     this.$nuxt.$emit('leave-list-key')
     this.loading = false;
-    this.confirmastionMessageModal = false;
     this.$nuxt.$emit('close-sidebar')
+    this.openPopupNotification(9);
     return leaveDelete;
   } catch (e) {
     alert(e);

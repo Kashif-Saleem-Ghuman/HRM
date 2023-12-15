@@ -6,6 +6,7 @@
     :format="format"
     :parseDate="parseDate"
     :formatDate="formatDate"
+    hide-quick-select
     @input="onChange"
     :editable="dis"
     v-if="dis"

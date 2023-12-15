@@ -46,13 +46,14 @@
                 :label="$button.delete.label"
                 class="mr-05"
                 pill
-                @click="$emit('delete-item', leaveStatus.id)"
+                @click="deleteLevaeVacation(leaveStatus.id)"
               ></bib-button>
             </div>
           </div>
         </div>
       </template>
     </action-sidebar>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -69,11 +70,16 @@ import {
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
+import { popupNotificationMsgs } from "@/utils/constant/Notifications";
+import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import {
   TABLE_HEAD,
   apiKeyUsedValue,
   apiKeyAllowanceValue,
 } from "@/utils/constant/Constant";
+import {
+  deleteLevaeVacation,
+} from "../../../utils/functions/functions_lib_api";
 export default {
   props: {
     leaveData: {
@@ -97,6 +103,8 @@ export default {
       addLeaveKey: 0,
       employeeNameSelectShow: false,
       showAllowance: true,
+      popupNotificationMsgs: popupNotificationMsgs,
+      popupMessages: [],
     };
   },
   created() {
@@ -143,6 +151,8 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     getEmployeeFullName,
+    openPopupNotification,
+    deleteLevaeVacation,
     getMessage(MESSAGE) {
       const messageStatus = {
         approved: `Request approved by ${getEmployeeFullName(

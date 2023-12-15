@@ -54,13 +54,6 @@
             :leaveData="leaveVacationDataUser"
             v-show="leaveVacationDataUser?.length ? true : false"
           ></list-leave-attendance>
-          <confirmation-modal
-            :title="modalContent[0].title"
-            :confirmationMessage="modalContent[0].message"
-            :confirmastionMessageModal="confirmastionMessageModal"
-            @close="closeconfirmastionMessageModal"
-            @deleteLeave="deleteItem()"
-          ></confirmation-modal>
           <loader v-bind:showloader="loading"></loader>
         </div>
       </div>
@@ -82,8 +75,6 @@ export default {
       leaveVacationDataUser: [],
       allowanceLeavesDetailedData: [],
       id: '',
-      modalContent: DELETE_MESSAGE.deleteConfirmationMessage,
-      confirmastionMessageModal: false,
       loading: false,
       fromDate: '',
       toDate: '',

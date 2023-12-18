@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="border-wrapper-box" v-if="showAllowance">
+      <div class="border-wrapper-box">
         <div style="padding: 0px">
           <div style="padding: 0px">
             <div v-show="leaveTypeSelect" class="pb-05">
@@ -55,19 +55,19 @@
           </div>
 
           <div class="pb-05 d-flex justify-between">
-            <div class="items-width">
+            <div class="items-width" v-if="showAllowance">
               <div class="d-flex input-display-wrapper">
                 <span>Allowance</span>
                 <span>{{ allowanceDays }}</span>
               </div>
             </div>
-            <div class="items-width" :key="usedDayLeave">
+            <div class="items-width" :key="usedDayLeave" :style="showAllowance === false ? 'padding:0': ''">
               <div class="d-flex input-display-wrapper">
                 <span>Used</span>
                 <span>{{ usedDays }}</span>
               </div>
             </div>
-            <div class="last-child">
+            <div class="last-child" v-if="showAllowance">
               <div class="d-flex input-display-wrapper">
                 <span>Available</span>
                 <span>{{ allowanceDays - usedDays }}</span>
@@ -284,9 +284,27 @@ export default {
     padding-bottom: 0.7rem;
   }
 }
-.end-date-wrapper {
+@media (min-width: 500px) {
+  .end-date-wrapper {
   .vdpPositionBottom {
     bottom: 1% !important;
   }  
 }
+}
+@media (min-width: 768px) {
+  .end-date-wrapper {
+  .vdpPositionBottom {
+    bottom: 1% !important;
+  }  
+}
+}
+
+@media (min-width: 1400px) {
+  .end-date-wrapper {
+  .vdpPositionBottom {
+    bottom: 50% !important;
+  }  
+}
+}
+
 </style>

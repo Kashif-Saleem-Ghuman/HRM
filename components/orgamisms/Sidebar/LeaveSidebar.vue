@@ -35,10 +35,7 @@
                 :classNameWrapper="getTextVariant(leaveStatus.status)"
               ></info-card-success>
             </div>
-            <div
-              class="d-flex justify-end text-dark py-1"
-              v-if="leaveStatus.status == 'pending'"
-            >
+            <div class="d-flex justify-end text-dark py-1" v-if="showDelButton">
               <bib-button
                 :icon="$button.delete.icon"
                 :variant="$button.delete.variant"
@@ -46,7 +43,7 @@
                 :label="$button.delete.label"
                 class="mr-05"
                 pill
-                @click="deleteLevaeVacation(leaveStatus.id)"
+                @click="deleteConfirmation(leaveStatus.id)"
               ></bib-button>
             </div>
           </div>
@@ -54,12 +51,21 @@
       </template>
     </action-sidebar>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <confirmation-modal
+      :title="deleteModalContent.title"
+      :confirmationMessage="deleteModalContent.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @close="closeconfirmastionMessageModal"
+      @deleteLeave="deleteLevaeVacation(leaveStatus.id)"
+    ></confirmation-modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
+import { DateTime } from "luxon";
+
 import {
   getLeaveStatusIcon,
   getLeaveStatusIconVariant,
@@ -72,14 +78,14 @@ import {
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
+import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
+
 import {
   TABLE_HEAD,
   apiKeyUsedValue,
   apiKeyAllowanceValue,
 } from "@/utils/constant/Constant";
-import {
-  deleteLevaeVacation,
-} from "../../../utils/functions/functions_lib_api";
+import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
 export default {
   props: {
     leaveData: {
@@ -105,6 +111,10 @@ export default {
       showAllowance: true,
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
+      currentDate: fecha.format(new Date(), "YYYY-MM-DD"),
+      deleteButtonShowHide: false,
+      confirmastionMessageModal: false,
+      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[1],
     };
   },
   created() {
@@ -123,7 +133,6 @@ export default {
       }, 700);
     });
   },
-
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
@@ -141,6 +150,18 @@ export default {
     employeeNameSlectedValue() {
       return this.employeeNameSelect;
     },
+    showDelButton() {
+      const leaveDate = DateTime.fromISO(this.leaveStatus.start).toFormat(
+        "yyyy-MM-dd"
+      );
+      if (this.currentDate > leaveDate) {
+        return;
+      } else {
+        if (this.leaveStatus.status != "rejected") {
+          return (this.deleteButtonShowHide = true);
+        }
+      }
+    },
   },
   methods: {
     getLeaveStatusIcon,
@@ -153,6 +174,13 @@ export default {
     getEmployeeFullName,
     openPopupNotification,
     deleteLevaeVacation,
+    deleteConfirmation(id) {
+      this.deletedfileId = id;
+      this.confirmastionMessageModal = true;
+    },
+    closeconfirmastionMessageModal() {
+      this.confirmastionMessageModal = false;
+    },
     getMessage(MESSAGE) {
       const messageStatus = {
         approved: `Request approved by ${getEmployeeFullName(
@@ -170,7 +198,7 @@ export default {
       }, 700);
     },
     async leaveDetail(item) {
-      if (item.type === "other") {
+      if (item.type === "other" || item.type === "approved") {
         this.showAllowance = false;
       } else {
         this.showAllowance = true;

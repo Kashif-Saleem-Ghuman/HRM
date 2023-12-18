@@ -19,6 +19,7 @@
     :formatDate="formatDate"
     @input="onChange"
     :editable="dis"
+    class="align-items"
     v-if="!dis"
   ></bib-datetime-picker>
   </div>
@@ -102,5 +103,16 @@ export default {
   .vdpComponent__input:hover {
     border-color: var(--bib-gray6) !important;
   }
+  
 }
+.align-items{
+  input{
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    .icon{
+      margin-top: -3px !important;
+    }
+  }
+  }
 </style>

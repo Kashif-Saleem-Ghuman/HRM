@@ -98,7 +98,7 @@ export default {
   },
   loading: {
     color: "#0741A3",
-    height: 0
+    // height: 0
   },
   target: "static",
   ssr: false,

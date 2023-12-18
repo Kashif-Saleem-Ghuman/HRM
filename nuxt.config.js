@@ -87,7 +87,6 @@ export default {
       "~/node_modules/@bizinbox/bib-ui-lib/dist/utilities.scss",
     ],
   },
-  
   // serverMiddleware: ["~/middleware/redirects"],
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
@@ -96,6 +95,10 @@ export default {
     extend(config, { loaders }) {
       loaders.scss.additionalData = '@use "sass:math";';
     },
+  },
+  loading: {
+    color: "#0741A3",
+    height: 0
   },
   target: "static",
   ssr: false,

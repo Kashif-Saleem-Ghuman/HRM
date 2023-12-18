@@ -216,7 +216,6 @@ export default {
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
     useDaysDataValue() {
-      console.log(this.leaveRequestTypes[this.leaveTypeActiveValue], "leaveRequestTypesleaveRequestTypesleaveRequestTypes")
       this.sidebarHeading =
         this.leaveRequestTypes[this.leaveTypeActiveValue].label;
       this.sidebarHeadingIcon =
@@ -224,7 +223,10 @@ export default {
       this.addForm.employeeId = this.id;
       this.addForm.type =
         this.leaveRequestTypes[this.leaveTypeActiveValue].type;
+        console.log(this.leaveTypeActiveValue, "this.leaveTypeActiveValuethis.leaveTypeActiveValue")
       const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+      console.log(keyValue, "this.leaveTypeActiveValuethis.leaveTypeActiveValue")
+
       return this.getLeaveAllowance[keyValue];
     },
     getAllownaceDataValue() {
@@ -262,7 +264,8 @@ export default {
           this.addLeaveKey += 1;
           return true;
         } else {
-          (this.leaveTypeActiveValue = payload), (this.openSidebar = true);
+          this.leaveTypeActiveValue = payload
+          this.openSidebar = true
           this.employeeNameInput = true;
           this.employeeNameSelectShow = false;
           this.leaveTypeSelect = false;
@@ -302,6 +305,7 @@ export default {
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
     });
+    await this.$store.dispatch("leavesdata/setLeaveVacationsAllowance", this.getActiveUser.id)
     this.employeesOptions = this.getReportList;
     this.loading = false;
 

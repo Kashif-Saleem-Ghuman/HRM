@@ -21,4 +21,8 @@ export default ({ app }, inject) => {
   inject('isAccountAdmin', () => {
     return app.store.state.token.hrmRole === USER_ROLES.ADMIN;
   });
+
+  inject('isAccountManager', () => {
+    return app.store.state.token.hrmRole === USER_ROLES.MANAGER;
+  });
 };

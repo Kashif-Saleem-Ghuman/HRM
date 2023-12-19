@@ -131,11 +131,9 @@
       </td>
     </tr>
     <tr
-      v-if="status"
-      v-show="showTotal"
+      v-if="showStatus"
       style="padding: 16px !important; font-size: 14px"
     >
-      <!-- <td></td> -->
       <td
         :colspan="colspan"
         class="pl-1"
@@ -144,40 +142,11 @@
         Status
       </td>
       <td class="" style="text-align: center; font-weight: bold">
-        <!-- {{ status }} -->
         <bib-button
-          :icon="
-            status == 'Submit'
-              ? $button.approved.icon
-              : '' || status == 'Past Due'
-              ? $button.past_due.icon
-              : '' || status == 'Pending'
-              ? $button.pending.icon
-              : '' || status == 'Not submitted'
-              ? $button.not_submitted.icon
-              : '' 
-          "
-          :variant="
-            status == 'Submit'
-              ? $button.approved.variant
-              : '' || status == 'Past Due'
-              ? $button.past_due.variant
-              : '' || status == 'Pending'
-              ? $button.pending.variant
-              : '' || status == 'Not submitted'
-              ? $button.not_submitted.variant
-              : '' 
-          "
+          :icon="getStatusIcon()"
+          :variant="getStatusVariant()"
           :scale="$button.pending.scale"
-          :label="
-            status == 'Submit'
-              ? $button.approved.label
-              : '' || status == 'Past Due'
-              ? $button.past_due.label
-              : '' || status == 'Pending'
-              ? $button.pending.label
-              : '' || status == 'Not submitted' ? $button.not_submitted.label : ''
-          "
+          :label="getStatusLabel()"
           class="mr-05"
           @click="buttonClicked"
           :style="buttonDisabled"
@@ -185,8 +154,7 @@
       </td>
     </tr>
     <tr
-      v-if="buttonLable"
-      v-show="showTotal"
+      v-else
       style="padding: 16px !important; font-size: 14px"
     >
       <td
@@ -195,61 +163,29 @@
         style="text-align: right; padding: 16px !important"
       >
         {{
-          buttonLable == "Submit"
-            ? "Submit your weekly timesheet"
-            : "" || buttonLable == "Pending"
-            ? "Timesheet is pending"
-            : "" || buttonLable == "Past Due"
-            ? "Timesheet is past due"
-            : ""
+          getSubmitText()
         }}
       </td>
       <td class="" style="text-align: center; font-weight: bold">
         <bib-button
-          :icon="
-            buttonLable == 'Submit'
-              ? ''
-              : '' || buttonLable == 'Past Due'
-              ? $button.past_due.icon
-              : '' || buttonLable == 'Pending'
-              ? $button.pending.icon
-              : ''
-          "
-          :variant="
-            buttonLable == 'Submit'
-              ? $button.approved.variant
-              : '' || buttonLable == 'Past Due'
-              ? $button.past_due.variant
-              : '' || buttonLable == 'Pending'
-              ? $button.pending.variant
-              : ''
-          "
+          :icon="getSubmitIcon()"
+          :variant="getSubmitVariant()"
           :scale="$button.pending.scale"
-          :label="
-            buttonLable == 'Submit'
-              ? buttonLable
-              : '' || buttonLable == 'Past Due'
-              ? $button.past_due.label
-              : '' || buttonLable == 'Pending'
-              ? $button.pending.label
-              : ''
-          "
+          :label="getSubmitLabel()"
           class="mr-05 w-50"
           @click="buttonClicked"
           :style="buttonDisabled"
         ></bib-button>
-        <!-- <bib-button
-          :label="buttonLable"
-          size="lg"
-          :variant="buttonDisabled ? 'warning' : 'success'"
-          @click="buttonClicked"
-        ></bib-button> -->
       </td>
     </tr>
   </table>
 </template>
 
 <script>
+import { TIMESHEET_STATUSES } from '../../utils/constant/Constant';
+
+const TIMESHEET_STATUS_TO_SUBMIT = [TIMESHEET_STATUSES.NOT_SUBMITTED, TIMESHEET_STATUSES.PAST_DUE, TIMESHEET_STATUSES.REJECTED]
+
 /**
  * @module Orgamisms/CustomTable
  * @author Charan Pal
@@ -353,6 +289,35 @@ export default {
     this.cols.shift();
   },
   methods: {
+    getSubmitVariant() {
+      if (this.timesheetIsSubmitable()) return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
+      return this.$button[this.status]?.variant
+    },
+    getSubmitLabel() {
+      if (this.status === TIMESHEET_STATUSES.REJECTED) return "Resubmit"
+      if (this.timesheetIsSubmitable()) return "Submit"
+      return this.getStatusLabel()
+    },
+    getSubmitText() {
+      if (this.status == TIMESHEET_STATUSES.NOT_SUBMITTED || this.status == TIMESHEET_STATUSES.PAST_DUE) return "Submit your weekly timesheet"
+      return `Timesheet is ${this.getStatusLabel()?.toLowerCase()}`
+    },
+    getSubmitIcon() {
+      if (this.timesheetIsSubmitable()) return ""
+      return this.getStatusIcon()
+    },
+    getStatusIcon() {
+      return this.$button[this.status]?.icon
+    },
+    getStatusLabel() {
+      return this.$button[this.status]?.statusLabel ?? this.$button[this.status]?.label
+    },
+    getStatusVariant() {
+      return this.$button[this.status]?.variant
+    },
+    timesheetIsSubmitable() {
+      return TIMESHEET_STATUS_TO_SUBMIT.includes(this.status);
+    },
     clickItem(key) {
       this.$emit("item-dblclicked", this.sections[key]);
       this.unselectAll();
@@ -377,15 +342,14 @@ export default {
       });
     },
     buttonClicked() {
-      if (this.buttonLable !== "Submit") {
-      } else {
-        this.$emit("button-clicked");
+      if (this.timesheetIsSubmitable()) {
+        this.$emit("button-clicked")
       }
     },
   },
   computed: {
-    activeClass() {
-      return (keyI) => (this.sections[keyI].active ? "active" : "");
+    showStatus() {
+      return (this.$isAccountManager() || this.$isAccountAdmin()) && !this.$isUser()
     },
   },
 };

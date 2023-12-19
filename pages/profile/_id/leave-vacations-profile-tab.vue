@@ -23,7 +23,7 @@
           ></info-card-leave-vacation>
           <info-card-leave-vacation
             title="Medical/sick"
-            :daysUsed="allowanceLeavesDetailedData.medicalDaysAllowed"
+            :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
             :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
             :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
             buttonLable="Request Medical Leave"

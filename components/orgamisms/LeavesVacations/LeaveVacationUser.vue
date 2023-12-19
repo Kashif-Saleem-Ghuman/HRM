@@ -109,7 +109,7 @@ export default {
       allowanceLeavesDetailedData: [],
       is_data_fetched: false,
       confirmastionMessageModal: false,
-      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[0],
+      deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
     };
   },
@@ -176,13 +176,6 @@ export default {
     },
     filterItem(event) {
       console.log(event, "filterItem");
-      // if(event.key=='all'){
-      //   for (var i = 0; i < this.items.length; i++){
-      //     this.items[i].selected = !this.items[i].selected
-      // }
-      // }
-      // console.log(event.key, "filterItem")
-      // // event.selected = !event.selected
     },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar-admin", $event);

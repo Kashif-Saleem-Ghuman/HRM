@@ -118,7 +118,7 @@ export default {
       currentDate: fecha.format(new Date(), "YYYY-MM-DD"),
       deleteButtonShowHide: false,
       confirmastionMessageModal: false,
-      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[1],
+      deleteModalContent: DELETE_MESSAGE[1],
     };
   },
   created() {

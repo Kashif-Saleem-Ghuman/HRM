@@ -20,7 +20,7 @@ export const popupNotificationMsgs = [
     variant: "primary-24",
   },
   {
-    text: "File size has exceeded it max limit of 2MB...",
+    text: "The file size has exceeded its max limit of 2MB...",
     variant: "danger",
   },
   {

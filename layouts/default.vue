@@ -36,7 +36,7 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu></app-menu>
+        <app-menu :sectionHead="!collapseNavigation1"></app-menu>
       </template>
       <template #content>
         <div id="main-content">
@@ -130,7 +130,12 @@ import {
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../utils/functions/functions_lib";
-import { SELECT_OPTIONS, REQUEST_TYPE_OPTIONS, apiKeyUsedValue, apiKeyAllowanceValue } from "../utils/constant/Constant";
+import {
+  SELECT_OPTIONS,
+  REQUEST_TYPE_OPTIONS,
+  apiKeyUsedValue,
+  apiKeyAllowanceValue,
+} from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import { popupNotificationMsgs } from "../utils/constant/Notifications";
@@ -216,7 +221,6 @@ export default {
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
     useDaysDataValue() {
-      console.log(this.leaveRequestTypes[this.leaveTypeActiveValue], "leaveRequestTypesleaveRequestTypesleaveRequestTypes")
       this.sidebarHeading =
         this.leaveRequestTypes[this.leaveTypeActiveValue].label;
       this.sidebarHeadingIcon =
@@ -262,7 +266,8 @@ export default {
           this.addLeaveKey += 1;
           return true;
         } else {
-          (this.leaveTypeActiveValue = payload), (this.openSidebar = true);
+          this.leaveTypeActiveValue = payload;
+          this.openSidebar = true;
           this.employeeNameInput = true;
           this.employeeNameSelectShow = false;
           this.leaveTypeSelect = false;
@@ -302,6 +307,10 @@ export default {
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
     });
+    await this.$store.dispatch(
+      "leavesdata/setLeaveVacationsAllowance",
+      this.getActiveUser.id
+    );
     this.employeesOptions = this.getReportList;
     this.loading = false;
 
@@ -309,7 +318,7 @@ export default {
   },
   methods: {
     getEmployeeFullName,
-    
+
     redirectToLogin() {
       window.location.href =
         process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;

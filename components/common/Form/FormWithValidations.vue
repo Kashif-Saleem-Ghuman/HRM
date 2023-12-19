@@ -155,6 +155,10 @@ export default {
             errors = { ...errors, ...objectErrors };
           }
         } else {
+          if ((get(this.fields, `${key}.optional`) && (!value))) {
+            return;
+          }
+          
           if (get(this.fields, `${key}.validations`)) {
             const validate = validateFormField(
               value,

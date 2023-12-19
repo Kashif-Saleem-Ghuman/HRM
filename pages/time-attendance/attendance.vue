@@ -46,12 +46,12 @@ export default {
   components: { PresentWidget },
   data() {
     return {
-      date: DateTime.now().startOf('day').toUTC().toFormat("yyyy-MM-dd"),
+      date: DateTime.now().startOf('day').toFormat("yyyy-MM-dd"),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
       searchString: null,
-      todayDate:DateTime.now().startOf('day').toUTC().toFormat("yyyy-MM-dd"),
+      todayDate:DateTime.now().startOf('day').toFormat("yyyy-MM-dd"),
     };
   },
 

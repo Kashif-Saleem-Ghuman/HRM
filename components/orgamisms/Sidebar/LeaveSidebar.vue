@@ -86,6 +86,10 @@ import {
   apiKeyAllowanceValue,
 } from "@/utils/constant/Constant";
 import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
+
+const OPEN_SIDEBAR_EVENT = "open-sidebar";
+const CLOSE_SIDEBAR_EVENT = "close-sidebar";
+
 export default {
   props: {
     leaveData: {
@@ -123,15 +127,8 @@ export default {
       this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
       this.employeeNameSelectShow = true;
     });
-    this.$root.$on("open-sidebar", (item) => {
-      this.leaveDetail(item);
-    });
-    this.$root.$on("close-sidebar", () => {
-      this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.openSidebar = false;
-      }, 700);
-    });
+    
+    this.registerRootListeners()
   },
   computed: {
     ...mapGetters({
@@ -225,7 +222,38 @@ export default {
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
+    registerCloseSideBarRootListener() {
+      this.$root.$on(CLOSE_SIDEBAR_EVENT, () => {
+        this.slideClass = "slide-out";
+        setTimeout(() => {
+          this.openSidebar = false;
+        }, 700);
+      });
+    },
+    unregisterCloseSideBarRootListener() {
+      this.$root.$off(CLOSE_SIDEBAR_EVENT)
+    },
+    registerOpenSideBarRootListener() {
+      this.$root.$on(OPEN_SIDEBAR_EVENT, (item) => {
+        this.leaveDetail(item);
+      });
+    },
+    unregisterOpenSideBarRootListener() {
+      this.$root.$off(OPEN_SIDEBAR_EVENT);
+    },
+    registerRootListeners() {
+      this.registerOpenSideBarRootListener()
+      this.registerCloseSideBarRootListener()
+    },
+    unregisterRootListeners() {
+      this.unregisterCloseSideBarRootListener()
+      this.unregisterOpenSideBarRootListener()
+    }
   },
+
+  beforeDestroy() {
+    this.unregisterRootListeners()
+  }
 };
 </script>
 

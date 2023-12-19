@@ -304,6 +304,8 @@ export default {
       this.clockModal = false;
     },
     async fillDailyTimeEntries() {
+      if (!this.todayDate) return;
+      
       this.loading = true;
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",

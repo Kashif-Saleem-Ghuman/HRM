@@ -21,7 +21,11 @@ export function calculateTimeDifferenceInMinutes(startTime, endTime) {
 
 export function calculateTimeDifferenceInHHMM(startTime, endTime) {
   const startDateTime = DateTime.fromFormat(startTime, "HH:mm");
-  const endDateTime = DateTime.fromFormat(endTime, "HH:mm");
+  let endDateTime = DateTime.fromFormat(endTime, "HH:mm");
+
+  if (endDateTime < startDateTime) {
+    endDateTime = endDateTime.plus({ days: 1 });
+  }
 
   const duration = endDateTime.diff(startDateTime);
 

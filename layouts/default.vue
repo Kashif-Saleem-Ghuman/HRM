@@ -36,7 +36,7 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu></app-menu>
+        <app-menu :sectionHead="!collapseNavigation1"></app-menu>
       </template>
       <template #content>
         <div id="main-content">

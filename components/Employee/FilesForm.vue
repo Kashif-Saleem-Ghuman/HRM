@@ -39,7 +39,7 @@
               variant="gray5"
             ></bib-icon>
             <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap" :title="file.name">
-              {{ file.name | truncate(65, '...') }}
+              {{ file.name | truncate(45, '...') }}
             </h5>
           </div>
         </div>
@@ -88,7 +88,7 @@ export default {
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       confirmastionMessageModal: false,
-      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[0],
+      deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       fileName: "",
     };

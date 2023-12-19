@@ -32,7 +32,7 @@
         "
         class="mt-05"
       ></bib-app-navigation>
-      <div class="section-head">
+      <div class="section-head" v-if="sectionHead">
         <span style="cursor: pointer; color: #86868a;">Shortcuts</span>
       </div>
       <div :class="className">
@@ -75,7 +75,8 @@ export default {
       type:String
     },
     sectionHead:{
-      type:String
+      type:Boolean,
+      default:true
     }
   },
 

@@ -109,7 +109,7 @@ export default {
       allowanceLeavesDetailedData: [],
       is_data_fetched: false,
       confirmastionMessageModal: false,
-      deleteModalContent: DELETE_MESSAGE.deleteConfirmationMessage[0],
+      deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
     };
   },

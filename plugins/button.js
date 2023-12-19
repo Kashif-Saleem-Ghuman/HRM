@@ -27,6 +27,7 @@ export default ({ app }, inject) => {
         key: "approved",
         variant: "primary-24",
         icon: "check-circle-solid",
+        statusLabel: "Approved"
       },
       rejected: {
         label: "Reject",
@@ -34,6 +35,7 @@ export default ({ app }, inject) => {
         key: "rejected",
         variant: "danger",
         icon: "close",
+        statusLabel: "Rejected"
       },
       past_due: {
         label: "Past Due",

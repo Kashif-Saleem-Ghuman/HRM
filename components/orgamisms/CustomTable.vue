@@ -348,16 +348,9 @@ export default {
     },
   },
   computed: {
-    activeClass() {
-      return (keyI) => (this.sections[keyI].active ? "active" : "");
-    },
     showStatus() {
       return (this.$isAccountManager() || this.$isAccountAdmin()) && !this.$isUser()
     },
-
-    showSubmit() {
-      return TIMESHEET_STATUS_TO_SUBMIT.includes(this.status)
-    }
   },
 };
 </script>

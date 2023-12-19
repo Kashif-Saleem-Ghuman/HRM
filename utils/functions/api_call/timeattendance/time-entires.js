@@ -13,7 +13,12 @@ export async function makeTimeEntry(activity, date, start, end) {
     );
     return response.data;
   } catch (e) {
-    alert(e);
+    console.error(e);
+    const message = e?.response?.data?.message
+    if (message) {
+      alert(message)
+    }
+    throw e;
   }
 }
 
@@ -32,7 +37,12 @@ export async function editTimeEntry(
     );
     return response.data;
   } catch (e) {
-    alert(e);
+    console.error(e);
+    const message = e?.response?.data?.message
+    if (message) {
+      alert(message)
+    }
+    throw e;
   }
 }
 

@@ -48,6 +48,7 @@ import { getTimeFromDate } from "../../../../utils/functions/dates";
 import {
   calculateTimeDifferenceInHHMM,
   calculateTimeDifferenceInMinutes,
+  isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
 export default {
   props: {
@@ -108,6 +109,12 @@ export default {
     hoursAndMinutesToJSDate,
     getTimeFromDate,
 
+    getEndDate(startTime, endTime) {
+      if(!isEndTimeOnSameDay(startTime, endTime)) {
+        return DateTime.fromJSDate(this.date).plus({ day: 1 }).toJSDate()
+      }
+      return this.date
+    },
     calculateDates() {
       return {
         startDate: this.hoursAndMinutesToJSDate(
@@ -116,41 +123,47 @@ export default {
         ).toISOString(),
         endDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.endTime),
-          this.date
+          this.getEndDate(this.startTime, this.endTime),
         ).toISOString(),
         date: new Date(this.date).toISOString(),
       };
     },
     async editThisEntry() {
-      if (this.totalTimeInMinutes < 0) {
-        return alert("start time should be before the end time");
-      }
+      if (!this.isEntryValid()) return;
 
-      const startAndTimeValid = this.startAndEndTimeValid();
-      if (!startAndTimeValid) return;
-
-      const isTotalTimeNegative = this.totalTimeInMinutes < 0;
-      if (isTotalTimeNegative) return;
       const { startDate, endDate, date } = this.calculateDates();
 
-      const editedEntry = await this.editTimeEntry({
-        date,
-        start: startDate,
-        end: endDate,
-        id: this.entry.id,
-        activity: this.newData.activity,
-      });
-      if (editedEntry) {
-        this.$emit("edit-entry", editedEntry);
+      try {
+        const editedEntry = await this.editTimeEntry({
+          date,
+          start: startDate,
+          end: endDate,
+          id: this.entry.id,
+          activity: this.newData.activity,
+        });
+
+        if (editedEntry) {
+          this.$emit("edit-entry", editedEntry);
+        }
+      } catch (error) {
+        this.clearStartTime();
+        this.clearEndTime();
       }
     },
     isEndDateGreatherThanNow() {
-      const [hours, minutes, seconds] = this.newData.endTime
+      const [hours, minutes, seconds] = this.endTime
         .split(":")
         .map(Number);
-      const date = DateTime.fromJSDate(this.date)
+
+      let date = DateTime.fromJSDate(this.date)
         .set({ hours, minutes, seconds })
-        .toJSDate();
+    
+      if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
+        date = date.plus({ day: 1 })
+      }
+      
+      date = date.toJSDate()
+
       const now = new Date();
       return date > now;
     },
@@ -174,15 +187,29 @@ export default {
       if (!this.isEntryValid()) return;
 
       const { startDate, endDate, date } = this.calculateDates();
-      const newEntry = await this.makeTimeEntry(
+      try {
+        const newEntry = await this.makeTimeEntry(
         this.newData.activity,
         date,
         startDate,
         endDate
       );
+
       if (newEntry) {
         this.$emit("new-entry", newEntry);
       }
+
+      } catch (error) {
+        this.clearStartTime();
+        this.clearEndTime();
+      }
+    },
+
+    clearStartTime() {
+      this.newData.startTime = null;
+    },
+    clearEndTime() {
+      this.newData.endTime = null;
     },
     async deleteEntry() {
       const response = await this.deleteTimeEntry(this.newData.id);

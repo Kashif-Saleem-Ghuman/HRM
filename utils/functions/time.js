@@ -39,3 +39,10 @@ export function calculateTimeDifferenceInHHMM(startTime, endTime) {
 export function padWithZero(number) {
   return number.toString().padStart(2, "0");
 }
+
+export function isEndTimeOnSameDay(startTime, endTime) {
+  const startDateTime = DateTime.fromFormat(startTime, "HH:mm").toJSDate()
+  const endDateTime = DateTime.fromFormat(endTime, "HH:mm").toJSDate()
+
+  return endDateTime > startDateTime
+}

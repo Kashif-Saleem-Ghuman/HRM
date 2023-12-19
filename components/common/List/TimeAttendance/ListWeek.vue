@@ -8,8 +8,7 @@
         :showTotal=true
         :colspan="4"
         :totalValue="totalValue"
-        :status="$store.state.token.isUser ? '' : TIMESHEET_STATUS[status]?.label"
-        :buttonLable="buttonLable"
+        :status="status"
         :buttonDisabled="this.status !== 'not_submitted'"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
@@ -154,12 +153,6 @@ export default {
     },
     statusValue() {
       return this.status;
-    },
-    buttonLable() {
-      if (this.$store.state.token.isUser) return this.status === "not_submitted"
-        ? "Submit"
-        : TIMESHEET_STATUS[this.status]?.label;
-      return "";
     },
   },
   methods: {

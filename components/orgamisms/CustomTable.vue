@@ -130,7 +130,7 @@
         {{ totalValue }}
       </td>
     </tr>
-    <!-- <tr
+    <tr
       v-if="showStatus"
       style="padding: 16px !important; font-size: 14px"
     >
@@ -152,8 +152,9 @@
           :style="buttonDisabled"
         ></bib-button>
       </td>
-    </tr> -->
+    </tr>
     <tr
+      v-else
       style="padding: 16px !important; font-size: 14px"
     >
       <td
@@ -351,9 +352,7 @@ export default {
       return (keyI) => (this.sections[keyI].active ? "active" : "");
     },
     showStatus() {
-      if (this.status === TIMESHEET_STATUSES.NOT_SUBMITTED) return false;
-
-      return true;
+      return (this.$isAccountManager() || this.$isAccountAdmin()) && !this.$isUser()
     },
 
     showSubmit() {

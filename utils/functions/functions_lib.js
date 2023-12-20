@@ -4,6 +4,8 @@ import {
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
+  openTeamPage,
+  openBillingPage,
   isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
 import {
@@ -43,7 +45,9 @@ export {
   openPopupNotification,
   openAccountPage,
   myProfile,
+  openTeamPage,
   isThemeCheck,
+  openBillingPage,
   vfileAdded,
   updateAllData,
   handleInput,

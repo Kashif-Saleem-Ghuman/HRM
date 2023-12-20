@@ -21,7 +21,15 @@ export function handleToggleWrapperTheme(value) {
     window.location.href = `${process.env.AUTH_REDIRECT_URL}${process.env.HRM_APP_URL}`
 }
 export function myProfile() {
-    window.open(process.env.USER_PROFILE_URL, "_blank")
+  window.open(process.env.BIB_ACCOUNT_URL, "_blank")
+}
+
+export function openTeamPage() {
+  window.open(`${process.env.BIB_ACCOUNT_URL}/people`, "_blank")
+}
+
+export function openBillingPage() {
+  window.open(`${process.env.BIB_ACCOUNT_URL}/subscription_billing`, "_blank")
 }
 export function openAccountPage() {
     window.open(process.env.ACCOUNT_PAGE_URL, "_blank")

@@ -10,6 +10,8 @@
           @callToAction="headerActionCall()"
           @support-link="headerHelpClick()"
           @my-account-link="myProfile"
+          @team-link="openTeamPage"
+          @billing-link="openBillingPage"
           :avatarLink="userPhoto"
           @logout="$signOut()"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
@@ -144,6 +146,8 @@ import {
   handleToggleWrapperTheme,
   openAccountPage,
   myProfile,
+  openBillingPage,
+  openTeamPage,
   headerHelpClick,
   headerActionCall,
   openPopupNotification,
@@ -363,6 +367,8 @@ export default {
     addHandleInput,
     openAccountPage,
     myProfile,
+    openTeamPage,
+    openBillingPage,
     headerHelpClick,
     headerActionCall,
     openPopupNotification,

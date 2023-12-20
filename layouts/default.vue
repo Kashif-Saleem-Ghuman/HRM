@@ -307,10 +307,6 @@ export default {
       this.activeUserData = user;
       this.employeeNameSelect = activeId;
     });
-    await this.$store.dispatch(
-      "leavesdata/setLeaveVacationsAllowance",
-      this.getActiveUser.id
-    );
     this.employeesOptions = this.getReportList;
     this.loading = false;
 

@@ -25,7 +25,7 @@
             ></dropdown-menu-calendar>
             <dropdown-menu-calendar
               :items="dropMenuMonth"
-              :label="selectedMonth"
+              :label="monthLabel"
               icon="arrowhead-down"
               @on-click="changeMonthView($event)"
               class="mr-05"
@@ -124,8 +124,6 @@ import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
 import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
 
 import {
-  MONTH_LIST,
-  YEAR_LIST,
   MONTHS_LABEL_VALUE,
 } from "../../../utils/constant/Calander";
 import {
@@ -144,11 +142,15 @@ import {
   getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
-import { REQUEST_STATUS } from "../../../utils/constant/Constant";
+import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
 
-import fecha, { format } from "fecha";
+import fecha from "fecha";
 import { mapGetters } from "vuex";
 import { getEmployeeFullName } from "../../../utils/functions/common_functions";
+import { DateTime } from 'luxon';
+
+const START_YEAR = 2021
+
 export default {
   components: {
     FullCalendar,
@@ -207,7 +209,7 @@ export default {
         eventRemove: this.handleEventRemove,
       },
       currentDate: fecha.format(new Date(), "DD"),
-      currentMonth: fecha.format(new Date(), "MMMM"),
+      currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
       todayDate:
         "Today," + " " + fecha.format(new Date(), "dddd, MMMM MM, YYYY"),
@@ -224,7 +226,7 @@ export default {
       weekendsButtonView: "Show Weekdays",
       dropMenu: DropdownMenu.calendarViewType,
       dropMenuMonth: MONTHS_LABEL_VALUE,
-      dropMenuYear: YEAR_LIST,
+      dropMenuYear: [],
       selectedMonth: "",
       selectedYear: "2023",
       yearTitle: "2023",
@@ -240,6 +242,10 @@ export default {
       getReportList: "employee/GET_REPORTS_LIST",
       getActiveUser: "employee/GET_USER",
     }),
+    monthLabel() {
+      const month = this.dropMenuMonth.find( m => m.value == this.selectedMonth)
+      return month?.label
+    }
   },
   async created() {
     this.id = this.getActiveUser.id;
@@ -249,22 +255,14 @@ export default {
   },
   mounted() {
     this.selectedMonth = this.currentMonth;
-
+    this.dropMenuYear = this.generateYearList()
     this.getCalendarCurrentRange();
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
     });
 
-    this.$store
-      .dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        status: REQUEST_STATUS.APPROVED,
-      })
-      .then((result) => {
-        this.calendarOptions.events = result;
-      });
+    this.getApprovedTimesheets()
   },
   methods: {
     addHandleInput,
@@ -279,17 +277,26 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
 
+    generateYearList() {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const years = [];
+      for (let year = START_YEAR; year <= currentYear + 3; year++) {
+        const yearObject = {
+          label: year.toString(),
+          value: year,
+          selected: false
+        };
+        years.push(yearObject);
+      }
+
+      return years;
+    },
+
     onSearchChange(value) {
       this.searchString = value;
       if (this.searchString == "") {
-        this.$store.dispatch("leavevacation/setLeaveVacations", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-          search: this.searchString,
-        });
-        setTimeout(() => {
-          this.calendarOptions.events = this.getLeaveVacation;
-        }, 1000);
+        this.getApprovedTimesheets();
       } else {
         this.searchString = value;
       }
@@ -298,14 +305,20 @@ export default {
       var access = document.getElementById("currentDay");
       access.scrollIntoView();
     },
-    fullData() {
-      this.$store.dispatch("leavevacation/setLeaveVacations", {
+
+    setCalendarEvents(events) {
+      this.calendarOptions.events = events
+    },
+
+    async getApprovedTimesheets() {
+      const requests = await this.$store.dispatch("leavevacation/setLeaveVacations", {
         from: this.getformToDate.from,
         to: this.getformToDate.to,
+        search: this.searchString,
+        status: TIMESHEET_STATUSES.APPROVED
       });
-      setTimeout(() => {
-        this.calendarOptions.events = this.getLeaveVacation;
-      }, 1000);
+      
+      this.setCalendarEvents(requests)
     },
     actionBY($event, key) {
       this.$nuxt.$emit("open-sidebar-admin", $event, key);
@@ -314,25 +327,28 @@ export default {
 
     getCalendarCurrentRange() {
       const fullCalendarApi = this.$refs.fullCalendar.getApi();
-      const { start, end } =
-        fullCalendarApi.currentData.dateProfile.activeRange;
+      const { start, end } = fullCalendarApi.currentData.dateProfile.activeRange;
       this.fromDate = start;
       this.toDate = end;
     },
 
     changeMonthView(e) {
-      var year;
-      this.selectedMonth = e.label;
+      let year;
+      this.selectedMonth = e.value;
       if (this.selectedYear === "") {
         year = this.currentYear;
       } else {
         year = this.selectedYear;
       }
+
+      const month = e.value;
+      const date = DateTime.now().set({ year, month }).toISO()
+    
       this.$refs.fullCalendar
         .getApi()
         .changeView(
           this.calendarOptions.initialView,
-          year + e.value + this.currentDate
+          date
         );
 
       this.getCalendarCurrentRange();
@@ -341,28 +357,25 @@ export default {
         from: this.fromDate,
         to: this.toDate,
       });
-      this.$store.dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        search: this.searchString,
-      });
-      setTimeout(() => {
-        this.calendarOptions.events = this.getLeaveVacation;
-      }, 1000);
+
+      this.getApprovedTimesheets()
     },
     changeYearView(e) {
-      var month;
+      let month
       this.selectedYear = e.label;
       if (this.selectedMonth === "") {
         month = this.currentMonth;
       } else {
         month = this.selectedMonth;
       }
+
+      const year = e.value
+      const date = DateTime.now().set({ year, month }).toISO()
       this.$refs.fullCalendar
         .getApi()
         .changeView(
           this.calendarOptions.initialView,
-          e.key + month + this.currentDate
+          date
         );
 
       this.getCalendarCurrentRange();
@@ -371,14 +384,7 @@ export default {
         from: this.fromDate,
         to: this.toDate,
       });
-      this.$store.dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        search: this.searchString,
-      });
-      setTimeout(() => {
-        this.calendarOptions.events = this.getLeaveVacation;
-      }, 1000);
+      this.getApprovedTimesheets();
     },
     monthView(e) {
       if (e.key == "month") {
@@ -404,15 +410,8 @@ export default {
           from: this.fromDate,
           to: this.toDate,
         });
-        this.$store
-          .dispatch("leavevacation/setLeaveVacations", {
-            from: this.getformToDate.from,
-            to: this.getformToDate.to,
-            search: this.searchString,
-          })
-          .then((result) => {
-            this.calendarOptions.events = result;
-          });
+
+        this.getApprovedTimesheets();
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.prev();
@@ -425,15 +424,8 @@ export default {
           from: this.fromDate,
           to: this.toDate,
         });
-        this.$store
-          .dispatch("leavevacation/setLeaveVacations", {
-            from: this.getformToDate.from,
-            to: this.getformToDate.to,
-            search: this.searchString,
-          })
-          .then((result) => {
-            this.calendarOptions.events = result;
-          });
+        
+        this.getApprovedTimesheets();
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.next();
@@ -477,14 +469,7 @@ export default {
   },
   watch: {
     searchString(value) {
-      this.$store.dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        search: this.searchString,
-      });
-      setTimeout(() => {
-        this.calendarOptions.events = this.getLeaveVacation;
-      }, 1000);
+      this.getApprovedTimesheets();
     },
   },
 };

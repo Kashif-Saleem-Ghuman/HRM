@@ -99,6 +99,7 @@ export default {
   },
   data() {
     return {
+      loading: false, 
       openSidebar: false,
       form: {},
       slideClass: "slide-in",
@@ -211,12 +212,25 @@ export default {
       this.employeeName = this.getEmployeeFullName(item);
       this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
-      await this.$store
+
+      if (this.$isAdmin()) {
+        await this.$store
         .dispatch("leavesdata/setLeaveVacationsAllowance", item.employeeId)
         .then((result) => {
           this.allowanceLeavesDetailedData = result;
           this.is_data_fetched = true;
-        });
+        })
+      }
+
+      if (this.$isUser()) {
+        await this.$store
+        .dispatch("leavesdata/setLeaveVacationsAllowanceUser",)
+        .then((result) => {
+          this.allowanceLeavesDetailedData = result;
+          this.is_data_fetched = true;
+        })
+      }
+      ;
     },
 
     onLoad(item) {

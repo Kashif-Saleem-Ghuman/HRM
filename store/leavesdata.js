@@ -33,4 +33,23 @@ export const  actions = {
     }
     this.loading = false;
   },
+
+  async setLeaveVacationsAllowanceUser(ctx, payload) {
+    this.loading = true;
+    try {
+      const leaveVacationsAlowance = await axios.get(
+        `${process.env.API_URL}/widgets/request/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      ctx.commit("SET_LEAVEVACATION_ALLOWANCE", leaveVacationsAlowance.data);
+      return leaveVacationsAlowance.data
+    } catch (e) {
+      alert(e);
+    }
+    this.loading = false;
+  },
 }

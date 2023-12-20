@@ -1,6 +1,6 @@
 <template>
     <div class="remove-pad">
-      <custom-table
+      <week-timesheet-table
         :fields="tableFields"
         class="border-gray4 bg-white"
         :sections="activityReportsList"
@@ -70,7 +70,7 @@
             <span>{{ formatTime(data.value.total * 60, false) }}</span>
           </div>
         </template>
-      </custom-table>
+      </week-timesheet-table>
       <time-sheet-modal
         @close="timesheetModal = false"
         :timesheetModal="timesheetModal"

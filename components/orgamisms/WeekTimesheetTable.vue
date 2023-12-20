@@ -1,3 +1,4 @@
+<!-- TODO Need to find a way to extends CustomTable template -->
 <template>
   <table
     v-click-outside="unselectAll"
@@ -118,20 +119,70 @@
         ></slot>
       </td>
     </tr>
+    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px">
+      <td
+        :colspan="colspan"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        Work Total
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        {{ totalValue }}
+      </td>
+    </tr>
+    <tr v-if="showStatus" style="padding: 16px !important; font-size: 14px">
+      <td
+        :colspan="colspan"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        Status
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        <bib-button
+          :icon="getStatusIcon()"
+          :variant="getStatusVariant()"
+          :scale="$button.pending.scale"
+          :label="getStatusLabel()"
+          class="mr-05"
+          @click="buttonClicked"
+          :style="buttonDisabled"
+        ></bib-button>
+      </td>
+    </tr>
+    <tr v-else style="padding: 16px !important; font-size: 14px">
+      <td
+        colspan="4"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
+      >
+        {{ getSubmitText() }}
+      </td>
+      <td class="" style="text-align: center; font-weight: bold">
+        <bib-button
+          :icon="getSubmitIcon()"
+          :variant="getSubmitVariant()"
+          :scale="$button.pending.scale"
+          :label="getSubmitLabel()"
+          class="mr-05 w-50"
+          @click="buttonClicked"
+          :style="buttonDisabled"
+        ></bib-button>
+      </td>
+    </tr>
   </table>
 </template>
 
 <script>
-/**
- * @module Orgamisms/CustomTable
- * @author Charan Pal
- * @rebuild Charan Pal
- * @desc Table component
- * @vue-prop {Boolean} headless=null - table without header.
- * @vue-prop {String} fields=[] - table header names.
- * @vue-prop {String} sections=[] - table data.
- * @vue-prop {Object} collapseObj=null - collapsible table settings.
- */
+import { TIMESHEET_STATUSES } from "../../utils/constant/Constant";
+
+const TIMESHEET_STATUS_TO_SUBMIT = [
+  TIMESHEET_STATUSES.NOT_SUBMITTED,
+  TIMESHEET_STATUSES.PAST_DUE,
+  TIMESHEET_STATUSES.REJECTED,
+];
+
 export default {
   props: {
     resizableColumns: {
@@ -195,7 +246,22 @@ export default {
     allChecked: {
       type: Boolean,
       default: false,
-    }
+    },
+    showTotal: {
+      type: Boolean,
+    },
+    totalValue: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
+    buttonLable: {
+      type: String,
+    },
+    buttonDisabled: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -209,6 +275,43 @@ export default {
     this.cols.shift();
   },
   methods: {
+    getSubmitVariant() {
+      if (this.timesheetIsSubmitable())
+        return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
+      return this.$button[this.status]?.variant;
+    },
+    getSubmitLabel() {
+      if (this.status === TIMESHEET_STATUSES.REJECTED) return "Resubmit";
+      if (this.timesheetIsSubmitable()) return "Submit";
+      return this.getStatusLabel();
+    },
+    getSubmitText() {
+      if (
+        this.status == TIMESHEET_STATUSES.NOT_SUBMITTED ||
+        this.status == TIMESHEET_STATUSES.PAST_DUE
+      )
+        return "Submit your weekly timesheet";
+      return `Timesheet is ${this.getStatusLabel()?.toLowerCase()}`;
+    },
+    getSubmitIcon() {
+      if (this.timesheetIsSubmitable()) return "";
+      return this.getStatusIcon();
+    },
+    getStatusIcon() {
+      return this.$button[this.status]?.icon;
+    },
+    getStatusLabel() {
+      return (
+        this.$button[this.status]?.statusLabel ??
+        this.$button[this.status]?.label
+      );
+    },
+    getStatusVariant() {
+      return this.$button[this.status]?.variant;
+    },
+    timesheetIsSubmitable() {
+      return TIMESHEET_STATUS_TO_SUBMIT.includes(this.status);
+    },
     clickItem(key) {
       this.$emit("item-dblclicked", this.sections[key]);
       this.unselectAll();
@@ -234,8 +337,15 @@ export default {
     },
     buttonClicked() {
       if (this.timesheetIsSubmitable()) {
-        this.$emit("button-clicked")
+        this.$emit("button-clicked");
       }
+    },
+  },
+  computed: {
+    showStatus() {
+      return (
+        (this.$isAccountManager() || this.$isAccountAdmin()) && !this.$isUser()
+      );
     },
   },
 };

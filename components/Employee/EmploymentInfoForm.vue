@@ -163,18 +163,18 @@ import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
-import {
-  isValidSIN,
-  isValidSSN,
-} from "@/utils/form-validations/string-validations";
-import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
-import { set } from "lodash";
 import { mapGetters } from "vuex";
 import { getEmployee } from "@/utils/functions/api_call/employees.js"
 
 export default {
+  computed: {
+    ...mapGetters({
+      getUser: "employee/GET_USER",
+    }),
+  },
+
   data() {
     return {
       fields: { ...employmentInfo, ...placementFields },
@@ -217,19 +217,21 @@ export default {
         this.form = employee
       }
     },
-  },
-  async created() {
-    this.fetchEmployee()
-    await this.$store.dispatch("employee/setReportsToList").then((result) => {
-      const employees = result.filter((e) => e.id != this.form.id);
-      this.reportOptions = [{ label: "", value: "" }, ...employees];
-    });
+
+    async setReportToList() {
+      await this.$store.dispatch("employee/setReportsToList").then((result) => {
+        const employees = result.filter((e) => e?.value != this.id);
+        this.reportOptions = [{ label: "", value: "" }, ...employees];
+     });
+    }
   },
 
-  computed: {
-    ...mapGetters({
-      getUser: "employee/GET_USER",
-    }),
+  created() {
+    this.fetchEmployee()
+  },
+
+  mounted() {
+    this.setReportToList()
   },
 
   watch: {

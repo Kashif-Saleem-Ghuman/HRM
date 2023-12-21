@@ -7,7 +7,7 @@
     :maxDate="maxDate"
     @input="onInput"
     hide-quick-select
-    :display-format="displayFormat ?? 'DD-MM-YYYY'"
+    :display-format="displayFormat ?? 'YYYY-MM-DD'"
   ></bib-datetime-picker>
 
   <bib-input
@@ -69,7 +69,7 @@ export default {
     formatDateToIso(value) {
       let dateTimeDate = DateTime.fromISO(value);
       if (dateTimeDate.isValid) {
-        const isoDate = dateTimeDate.toUTC().toISO();
+        const isoDate = dateTimeDate.toISO();
         return isoDate;
       }
       return value;

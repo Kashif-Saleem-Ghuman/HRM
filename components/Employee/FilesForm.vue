@@ -1,11 +1,11 @@
 <template>
-  <div class="px-1 py-1 of-scroll-y">
+  <div class="px-1 py-1 of-scroll-y" v-show="getUser.id">
     <div class="py-cus custom-dropzone" :key="fileList">
       <bib-input
         type="file"
         ref="filesUploaded"
         @files-dropped="handleChange__FileInput"
-        variant="accepted"
+        variant="primary-24"
         iconLeft="upload"
         placeholder="Drop file here or click to upload"
       ></bib-input>

@@ -46,8 +46,8 @@
           </div>
           <div class="info_wrapper"  style="width: 100%; cursor: pointer;"
             @click="handleItemClick_Table(data.value.id, $event)">
-            <div class="title">
-              {{ data.value.firstName }} {{ data.value.lastName }}
+            <div class="title" :title="getEmployeeFullName(data.value)">
+              {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -115,6 +115,8 @@ import {
   ACTIVITY_TYPE,
   ACTIVITY_TYPE_LABEL_VALUE
 } from "../../../../../utils/constant/Constant.js";
+import { getEmployeeFullName } from "../../../../../utils/functions/common_functions"
+
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import { getStatusIcon, getStatusVariant } from "../../../../../utils/functions/status";
 export default {
@@ -151,6 +153,7 @@ export default {
     sendMeet,
     sendMessage,
     handleItemClick_Table,
+    getEmployeeFullName,
     getEmptyTimesheetStatus() {
       const endDate = new Date(this.endDate)
       if (new Date() > endDate) {

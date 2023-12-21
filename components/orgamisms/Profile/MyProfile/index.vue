@@ -4,12 +4,8 @@
       class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >
       <section-header-left
-        :title="
-          form.firstName == undefined
-            ? '--'
-            : form.firstName + ' ' + form.lastName
-        "
-        :avatar="form.photo"
+        :title="getEmployeeFullName(form) | truncate(16, '...')"
+        :avatar="form?.photo"
         :key="topNav"
       ></section-header-left>
     </div>
@@ -54,6 +50,7 @@ import {
   vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
 
 import fecha from "fecha";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
@@ -106,6 +103,7 @@ export default {
     });
   },
   methods: {
+    getEmployeeFullName,
     openPopupNotification,
     vfileAdded,
     async handleChange_Tabs(tab) {

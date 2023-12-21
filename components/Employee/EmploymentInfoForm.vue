@@ -4,6 +4,7 @@
     :form="form"
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
+    v-show="form.id"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">

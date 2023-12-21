@@ -93,7 +93,7 @@ const CLOSE_SIDEBAR_EVENT = "close-sidebar";
 export default {
   props: {
     leaveData: {
-      type: Array,
+      type: [Array,String],
       default: "",
     },
   },
@@ -128,7 +128,7 @@ export default {
       this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
       this.employeeNameSelectShow = true;
     });
-    
+    this.$store.dispatch("leavesdata/setLeaveVacationsAllowanceUser");
     this.registerRootListeners()
   },
   computed: {
@@ -160,6 +160,10 @@ export default {
         }
       }
     },
+  },
+  mounted(){
+    this.registerRootListeners()
+
   },
   methods: {
     getLeaveStatusIcon,

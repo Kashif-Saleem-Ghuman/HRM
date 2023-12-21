@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="custom-header px-1 py-05">
+    <div class="custom-header px-1 py-05" style="z-index: 9;">
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="d-flex pr-05">
@@ -441,6 +441,8 @@ export default {
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
       this.$nuxt.$emit("open-sidebar", item);
+      this.$nuxt.$emit('close-sidebar-main')
+
     },
 
     eventClass(type) {

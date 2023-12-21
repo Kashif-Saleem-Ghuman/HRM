@@ -93,7 +93,6 @@ export default {
     };
   },
   mounted() {
-    
     // console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
     if (process.client) {
       
@@ -150,6 +149,8 @@ export default {
       }
       if (process.client) {
         // admin menu actions
+        this.$nuxt.$emit('close-sidebar-main')
+        this.$nuxt.$emit('close-sidebar')
         if (item.key == "dashboard") {
           this.$router.push("/dashboard/");
           return;

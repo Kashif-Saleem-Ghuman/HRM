@@ -98,6 +98,7 @@ export default {
     getLeaveTypeClassName,
     async leaveDetail(item) {
       this.$nuxt.$emit('open-sidebar', item)
+      this.$nuxt.$emit('close-sidebar-main')
     },
 
     onLoad(item) {

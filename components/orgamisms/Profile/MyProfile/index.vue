@@ -152,15 +152,6 @@ export default {
   }
 }
 .custom-dropzone {
-  width: 50%;
-  display: flex;
-  border: 1px dotted $gray4 !important;
-  justify-content: space-between;
-  background-color: #fff;
-  align-items: flex-start;
-  border-radius: 6px;
-  padding: 10px;
-  margin: 20px 0;
   .input--file {
     background: #fff;
     margin: 0 10px;

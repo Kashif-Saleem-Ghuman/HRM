@@ -51,14 +51,14 @@
       </div>
     </div>
     <div class="py-1">
-      <div v-show="leaveVacationDataUser?.length > 0 ? true : false">
+      <div v-if="!leaveList">
         <list-leave-attendance
           :leaveData="leaveVacationDataUser"
           @delete-item="deleteConfirmation($event)"
         ></list-leave-attendance>
         <loader v-bind:showloader="loading"></loader>
       </div>
-      <div v-show="leaveVacationDataUser?.length <= 0 ? false : true">
+      <div v-else-if="leaveList">
         <no-record></no-record>
       </div>
       <confirmation-modal
@@ -112,6 +112,7 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
+      leaveList:false,
     };
   },
   computed: {
@@ -132,6 +133,7 @@ export default {
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
+          this.leaveVacationDataUser.length > 0 ? this.leaveList = true : this.leaveList = false
         });
     });
   },

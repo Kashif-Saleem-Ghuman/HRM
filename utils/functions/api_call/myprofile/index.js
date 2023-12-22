@@ -36,6 +36,9 @@ export async function getFiles(payload) {
     );
     return files.data;
   } catch (e) {
+    if (e.response.status === 500) {
+      return window.open('/not-found',"_self")
+    }
     console.log(e);
   }
 }

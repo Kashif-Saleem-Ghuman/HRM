@@ -34,7 +34,6 @@ export async function getEmployee(payload) {
   } catch (err) {
     if (err.response.status === 500) {
       return window.open('/not-found',"_self")
-      // return this.$nuxt.error({ statusCode: 500, message: err.message })
     }
     console.log(err)  
   }

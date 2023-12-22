@@ -60,7 +60,7 @@
                           type="text"
                           label="First Name"
                           field-key="firstName"
-                          :value="form.firstName"
+                          :value="form?.firstName"
                           placeholder=""
                         ></form-input>
                       </div>

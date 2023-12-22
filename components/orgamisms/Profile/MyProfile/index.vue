@@ -154,9 +154,9 @@ export default {
 .custom-dropzone {
   width: 50%;
   display: flex;
-  border: 1px dotted #2ba026 !important;
+  border: 1px dotted $gray4 !important;
   justify-content: space-between;
-  background-color: #eef7ee;
+  background-color: #fff;
   align-items: flex-start;
   border-radius: 6px;
   padding: 10px;

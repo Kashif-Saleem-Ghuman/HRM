@@ -33,11 +33,11 @@ export async function getEmployee(payload) {
     return data
   } catch (err) {
     if (err.response.status === 500) {
-      alert("test")
+      this.$router.push('/not-found');
       return this.$nuxt.error({ statusCode: 500, message: err.message })
     }
-    this.$router.push('/not-found');
-    window.open('/not-found')  }
+    console.log(err)  
+  }
 }
 
 export async function downloadEmployeeFile(payload) {

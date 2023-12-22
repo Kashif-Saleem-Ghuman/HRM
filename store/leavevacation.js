@@ -85,6 +85,9 @@ export const  actions = {
       // var data = leave.data.requests
       return leave
     } catch (e) {
+      if (e.response.status === 500) {
+        return window.open('/not-found',"_self")
+      }
       console.log(e);
     }
     this.loading = false;

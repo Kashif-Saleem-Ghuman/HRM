@@ -177,7 +177,7 @@ export default {
 .custom-dropzone {
   width: 50%;
   display: flex;
-  border: 1px dotted #fff !important;
+  border: 1px dotted $gray4 !important;
   justify-content: space-between;
   background-color: #fff;
   align-items: flex-start;

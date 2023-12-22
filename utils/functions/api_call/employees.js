@@ -14,11 +14,8 @@ export async function updateEmployee(payload) {
       config
     );
     return data
-  } catch (err) {
-    if (err.response.status === 500) {
-      alert("test")
-      return this.$nuxt.error({ statusCode: 500, message: err.message })
-    }
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -35,8 +32,11 @@ export async function getEmployee(payload) {
     );
     return data
   } catch (e) {
-    console.error(e);
-  }
+    if (err.response.status === 500) {
+      alert("test")
+      return this.$nuxt.error({ statusCode: 500, message: err.message })
+    }
+    }
 }
 
 export async function downloadEmployeeFile(payload) {

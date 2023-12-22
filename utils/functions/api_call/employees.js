@@ -14,10 +14,11 @@ export async function updateEmployee(payload) {
       config
     );
     return data
-  } catch (e) {
-    this.$router.push('/not-found');
-    window.open('/not-found')
-    console.error(e);
+  } catch (err) {
+    if (err.response.status === 500) {
+      alert("test")
+      return this.$nuxt.error({ statusCode: 500, message: err.message })
+    }
   }
 }
 

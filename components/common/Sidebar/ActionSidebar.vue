@@ -89,12 +89,12 @@ export default {
 @import "@/assets/variable.scss";
 @media (max-width:1124px){
     .height{
-      height: 670px !important;
+      height: 600px !important;
     }
 }
 @media (min-width:1124px){
     .height{
-      height: 600px !important;
+      height: 530px !important;
     }
 }
 @keyframes slidein-right {

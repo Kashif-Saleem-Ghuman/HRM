@@ -77,6 +77,7 @@
                   :errorMsgSelect="errorMsgSelect"
                   :errorMsgStartDate="errorMsgStartDate"
                   :errorMsgEndDate="errorMsgEndDate"
+                  :errorMsgEndDateGreater="errorMsgEndDateGreater"
                   :addForm="addForm"
                   :activeUserAllowanceData="getAllownaceDataValue"
                   :edit="true"
@@ -193,6 +194,7 @@ export default {
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
+      errorMsgEndDateGreater:false,
       popupMessages: [],
       employeeNameInput: false,
       leaveTypeSelect: false,

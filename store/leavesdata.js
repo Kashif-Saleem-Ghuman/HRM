@@ -29,7 +29,7 @@ export const  actions = {
       ctx.commit("SET_LEAVEVACATION_ALLOWANCE", leaveVacationsAlowance.data);
       return leaveVacationsAlowance.data
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
     this.loading = false;
   },

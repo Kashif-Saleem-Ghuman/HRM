@@ -36,8 +36,7 @@ export async function getEmployee(payload) {
       alert("test")
       return this.$nuxt.error({ statusCode: 500, message: err.message })
     }
-    this.$router.push('/not-found');
-    window.open('/not-found')  }
+    }
 }
 
 export async function downloadEmployeeFile(payload) {

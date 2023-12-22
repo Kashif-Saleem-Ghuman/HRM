@@ -20,7 +20,6 @@ export default {
                 this.$router.push('/not-found')
                 return;
             }
-            // return error500;
         }
     },
 }

@@ -153,8 +153,8 @@ export default {
       }
       if (process.client) {
         // admin menu actions
-        this.$nuxt.$emit('close-sidebar-main')
-        this.$nuxt.$emit('close-sidebar')
+        // this.$nuxt.$emit('close-sidebar-main')
+        // this.$nuxt.$emit('close-sidebar')
         if (item.key == "dashboard") {
           this.$router.push("/dashboard/");
           return;
@@ -193,14 +193,30 @@ export default {
           return;
         }
         if (item.key == "requestVacation") {
-          this.$nuxt.$emit("open-sidebar-admin", 'vacation')
+          if(this.$router.history.current.fullPath === '/leaves-and-vacations/dashboard/'){
+            this.$nuxt.$emit("open-sidebar-admin", 'vacation')
           this.$nuxt.$emit("add-leave");
-          return;
+            return
+          }else{
+            this.$router.push("/leaves-and-vacations/");
+            setTimeout(()=>{
+            this.$nuxt.$emit("open-sidebar-admin", 'vacation')
+          this.$nuxt.$emit("add-leave");
+          },2000)
+          }
         }
         if (item.key == "requestLeave") {
-          this.$nuxt.$emit("open-sidebar-admin", 'leave')
+          if(this.$router.history.current.fullPath === '/leaves-and-vacations/dashboard/'){
+            this.$nuxt.$emit("open-sidebar-admin", 'leave')
           this.$nuxt.$emit("add-leave");
-          return;
+            return
+          }else{
+            this.$router.push("/leaves-and-vacations/");
+            setTimeout(()=>{
+            this.$nuxt.$emit("open-sidebar-admin", 'leave')
+          this.$nuxt.$emit("add-leave");
+          },2000)
+          }
         }
         if (item.key == "clockIn") {
           this.$nuxt.$emit("clock-in")

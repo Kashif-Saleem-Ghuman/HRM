@@ -119,10 +119,14 @@ export default {
 
     myAccountClick() {
       this.changeRole(USER_ROLES.USER)
+      this.$nuxt.$emit('close-sidebar-main')
+        this.$nuxt.$emit('close-sidebar')
     },
 
     organizationAdminClick() {
       this.changeRole(USER_ROLES.ADMIN)
+      this.$nuxt.$emit('close-sidebar-main')
+        this.$nuxt.$emit('close-sidebar')
     },
 
     changeRole(role) {

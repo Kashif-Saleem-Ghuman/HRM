@@ -131,7 +131,7 @@ export function addHandleInput(event, name, addresses) {
   ) {
     this.errorMsgStartDate = false;
     this.errorMsgEndDate = false;
-    this.errorMsgSelect = false;
+    this.errorMsgEndDateGreater = false;
   }
 }
 export async function selectUserHandle(event, name) {

@@ -19,6 +19,11 @@ export async function addLeaveVacations() {
     return
   }
   this.errorMsgEndDate = false;
+  if (this.addForm.start > this.addForm.end) {
+    this.errorMsgEndDateGreater = true;
+    return
+  }
+  this.errorMsgEndDateGreater = false;
   this.loading = true;
   var data = this.addForm;
   var startDate = fecha.format(
@@ -199,6 +204,7 @@ export async function deleteLevaeVacation(value) {
     this.$nuxt.$emit('leave-list-key')
     this.loading = false;
     this.$nuxt.$emit('close-sidebar')
+    this.confirmastionMessageModal = false;
     this.openPopupNotification(9);
     return leaveDelete;
   } catch (e) {

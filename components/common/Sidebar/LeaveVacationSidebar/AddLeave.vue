@@ -115,6 +115,12 @@
               v-show="errorMsgEndDate"
               >Please select end date</small
             >
+            <small
+              class="text-danger"
+              style="margin-top: -0.25rem; display: block"
+              v-show="errorMsgEndDateGreater"
+              >start time should be before end time</small
+            >
           </div>
         </div>
       </div>
@@ -202,6 +208,9 @@ export default {
     errorMsgEndDate: {
       type: Boolean,
     },
+    errorMsgEndDateGreater:{
+      type:Boolean
+    },
     showAllowance:{
       type:Boolean,
       default:true,
@@ -227,6 +236,8 @@ export default {
   },
   methods: {
     menuClick(value, fieldKey) {
+      
+console.log(this.startDate)
       this[fieldKey] = value
       this.$emit('change', value, fieldKey)
     },

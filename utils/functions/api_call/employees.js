@@ -15,7 +15,8 @@ export async function updateEmployee(payload) {
     );
     return data
   } catch (e) {
-    this.$router.push('/not-found')
+    this.$router.push('/not-found');
+    window.open('/not-found')
     console.error(e);
   }
 }

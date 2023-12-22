@@ -165,7 +165,7 @@
           :variant="getSubmitVariant()"
           :scale="$button.pending.scale"
           :label="getSubmitLabel()"
-          class="mr-05 w-50"
+          class="mr-05"
           @click="buttonClicked"
           :style="buttonDisabled"
         ></bib-button>

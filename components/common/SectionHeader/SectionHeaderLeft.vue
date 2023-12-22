@@ -10,7 +10,7 @@
       v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-    <span class="title-text" v-if="title">{{ title }}</span>
+    <span class="title-text" v-if="title" :title="title">{{ title }}</span>
     <bib-button
       v-if="bookmark"
       :icon="bookmark"

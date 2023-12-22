@@ -6,7 +6,7 @@ export default ({ app }, inject) => {
       not_submitted: {
         label: "Not submitted",
         value: "not_submitted",
-        variant: "secondary",
+        variant: "primary-24",
         icon: "eye-close",
       },
       pending: {

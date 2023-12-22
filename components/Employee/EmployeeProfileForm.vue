@@ -5,6 +5,7 @@
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
     :update-form.sync="updateForm"
+    v-show="form.id"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">
@@ -17,7 +18,7 @@
           ></drop-zone>
           <div v-show="form.photo == null ? false : true">
             <aside style="font-weight: bold; font-size: 18px">
-              {{ form.firstName }} {{ form.lastName }}
+              {{getEmployeeFullName(form)}}
             </aside>
             <aside style="font-weight: 400; font-size: 14px">
               {{ form.jobTitle }}
@@ -335,6 +336,8 @@ import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from '../../utils/constant/Constant';
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
+
 
 export default {
   data() {
@@ -377,7 +380,7 @@ export default {
   methods: {
     vfileAdded,
     openPopupNotification,
-
+    getEmployeeFullName,
     async fetchEmployee() {
       const id = this.$route.params.id ?? this.getUser?.id;
 

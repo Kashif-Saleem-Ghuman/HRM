@@ -10,8 +10,8 @@
       ></bib-avatar>
       <div>
         <div class="user_card_detail align-center d-flex">
-          <label
-            >{{ user.firstName }} {{ user.lastName }}
+          <label :title="getEmployeeFullName(user)">
+              {{ getEmployeeFullName(user) | truncate(16, '...')}}
             <span>
             {{ user.jobTitle }}
             </span>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { getEmployeeFullName } from "@/utils/functions/common_functions"
+
 export default {
   name: "UserCardInfo",
   props: {
@@ -79,11 +81,11 @@ export default {
       if (!this.user) return false
       if (this.user.presence && this.user.presence == 'in' ) return true
       if (this.user.active) return true
-
       return false
     }
   },
   methods: {
+    getEmployeeFullName,
     sendMail(mail){
       window.location.href= 'mailTo:'+mail
     }
@@ -102,7 +104,7 @@ export default {
   box-shadow: 0 2px 8px rgb(0 0 0 / 24%);
   .user_card_detail {
     display: block;
-    
+    max-width: 300px;
     label {
       font-weight: 600;
       color: #000;

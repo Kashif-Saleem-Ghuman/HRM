@@ -1,10 +1,10 @@
 <template>
   <div id="people-action-wrapper">
     <div
-      class="d-flex justify-between align-center nav_wrapper py-075 pl-025 pr-075 bottom_border_wrapper"
+      class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
     >
       <section-header-left
-        :title="activeUserName"
+        :title="getEmployeeFullName(activeUserData) | truncate(16, '...')"
         :avatar="activeUserData.photo"
         headerRight="headerRight"
       ></section-header-left>
@@ -51,24 +51,23 @@
       </div>
     </div>
     <div class="py-1">
-      <list-leave-attendance
-        :leaveData="leaveVacationDataUser"
-        @delete-item="deleteConfirmation($event)"
-        v-show="leaveVacationDataUser?.length ? true : false"
-      ></list-leave-attendance>
-      <div>
-        <no-record
-          v-show="leaveVacationDataUser?.length ? false : true"
-        ></no-record>
+      <div v-show="leaveVacationDataUser?.length > 0 ? true : false">
+        <list-leave-attendance
+          :leaveData="leaveVacationDataUser"
+          @delete-item="deleteConfirmation($event)"
+        ></list-leave-attendance>
+        <loader v-bind:showloader="loading"></loader>
+      </div>
+      <div v-show="leaveVacationDataUser?.length <= 0 ? false : true">
+        <no-record></no-record>
       </div>
       <confirmation-modal
-      :title="deleteModalContent.title"
-      :confirmationMessage="deleteModalContent.message"
-      :confirmastionMessageModal="confirmastionMessageModal"
-      @close="closeconfirmastionMessageModal"
-      @deleteLeave="deleteLevaeVacation(deletedfileId)"
-    ></confirmation-modal>
-      <loader v-bind:showloader="loading"></loader>
+        :title="deleteModalContent.title"
+        :confirmationMessage="deleteModalContent.message"
+        :confirmastionMessageModal="confirmastionMessageModal"
+        @close="closeconfirmastionMessageModal"
+        @deleteLeave="deleteLevaeVacation(deletedfileId)"
+      ></confirmation-modal>
     </div>
   </div>
 </template>
@@ -86,6 +85,8 @@ import {
 } from "../../../utils/functions/functions_lib";
 import { SORTING_MENU } from "../../../utils/constant/Constant";
 import { INFO_CARD_LEAVE_VACATION_DATA } from "../../../utils/constant/Calander";
+import { getEmployeeFullName } from "../../../utils/functions/common_functions";
+
 export default {
   data() {
     return {
@@ -101,7 +102,7 @@ export default {
       selectedYear: "2023",
       fromDate: "",
       toDate: "",
-      loading: false,
+      loading: true,
       allChecked: false,
       checked: false,
       confirmastionMessageModal: false,
@@ -124,15 +125,18 @@ export default {
   },
   async created() {
     this.$root.$on("fetched-leave-vacation", () => {
-      this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    }).then((result) => {
-      this.leaveVacationDataUser = result
-    });
+      this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then((result) => {
+          this.leaveVacationDataUser = result;
+        });
     });
   },
   async mounted() {
+    this.loading = true;
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.getUserLeavesDetailUser().then((result) => {
@@ -141,7 +145,6 @@ export default {
     });
     this.activeUserData = this.getActiveUser;
     this.getCurrentYear();
-    this.loading = true;
     this.selectedMonth = this.currentMonth;
     this.getCurrentYear();
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
@@ -167,6 +170,7 @@ export default {
     getCurrentYear,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
+    getEmployeeFullName,
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
@@ -184,4 +188,3 @@ export default {
   },
 };
 </script>
-

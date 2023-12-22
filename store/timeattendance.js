@@ -186,7 +186,7 @@ export const actions = {
         activity: te.activity
       })));
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
   }
 }

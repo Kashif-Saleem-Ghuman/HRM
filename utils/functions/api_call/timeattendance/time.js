@@ -109,7 +109,7 @@ export async function getTimesheet() {
 
     this.timesheetData = timesheetData.data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -179,7 +179,7 @@ export async function getTimeAttendanceDaily(date) {
     this.todayData = timeAttendance.data;
     return timeAttendance.data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
   this.loading = false;
 }
@@ -206,7 +206,7 @@ export async function getTimesheets({ from, to, employeeId }) {
     return data?.timesheets || [];
   } catch (error) {
     // console.error(`Error while fetching timesheets from ${url}`);
-    // console.error(error);
+    console.error(error);
   }
 }
 

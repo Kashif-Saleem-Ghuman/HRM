@@ -36,7 +36,7 @@ export async function getFiles(payload) {
     );
     return files.data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 export async function deleteFiles(payload) {

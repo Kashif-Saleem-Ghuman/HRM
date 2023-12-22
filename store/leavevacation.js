@@ -85,7 +85,7 @@ export const  actions = {
       // var data = leave.data.requests
       return leave
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
     this.loading = false;
   },

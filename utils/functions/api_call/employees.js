@@ -32,9 +32,6 @@ export async function getEmployee(payload) {
     );
     return data
   } catch (err) {
-    if (err.response.status === 500) {
-      return window.open('/not-found',"_self")
-    }
     console.log(err)  
   }
 }

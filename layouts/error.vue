@@ -16,7 +16,7 @@ export default {
     },
     computed: {
         errorPage() {
-            if (this.error.statusCode === 404 || this.error.statusCode == 503 || this.error.statusCode == 500) {
+            if (this.error.statusCode === 404) {
                 this.$router.push('/not-found')
                 return;
             }

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import notFound from '../components/common/notfound/index.vue';
 export default {
     name: 'nuxt-error',
     layout: 'default', // optional
@@ -18,7 +17,8 @@ export default {
     computed: {
         errorPage() {
             if (this.error.statusCode === 404 || this.error.statusCode == 503 || this.error.statusCode == 500) {
-                return notFound;
+                this.$router.push('/not-found')
+                return;
             }
             // return error500;
         }

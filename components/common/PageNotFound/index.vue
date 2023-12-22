@@ -5,6 +5,11 @@
     <NuxtLink to="/people">Redirect to Home</NuxtLink>
   </div>
 </template>
+<script>
+  export default {
+    name: "PageNotFound",
+  }
+</script>
 
 <style scoped lang="scss">
 #error-404-wrapper {

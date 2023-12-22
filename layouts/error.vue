@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'nuxt-error',
+    name: 'error',
     layout: 'default', // optional
     props: {
         error: {
@@ -16,6 +16,7 @@ export default {
     },
     computed: {
         errorPage() {
+            console.log(this.error.statusCode, "ashdlkjashdljasldjlasjdlasjdlkajslkdjaslkdj")
             if (this.error.statusCode === 404 || this.error.statusCode == 503 || this.error.statusCode == 500) {
                 this.$router.push('/not-found')
                 return;

@@ -194,7 +194,7 @@ export default {
       errorMsgSelect: false,
       errorMsgStartDate: false,
       errorMsgEndDate: false,
-      errorMsgEndDateGreater:false,
+      errorMsgEndDateGreater: false,
       popupMessages: [],
       employeeNameInput: false,
       leaveTypeSelect: false,
@@ -270,7 +270,7 @@ export default {
           this.addForm.type = this.leaveRequestTypes.leave.type;
           this.addForm.employeeId = this.getActiveUser.id;
           this.addLeaveKey += 1;
-          this.$nuxt.$emit('close-sidebar')
+          this.$nuxt.$emit("close-sidebar");
           return true;
         } else {
           this.leaveTypeActiveValue = payload;
@@ -280,13 +280,19 @@ export default {
           this.leaveTypeSelect = false;
           this.addForm.employeeId = this.id;
           this.addLeaveKey += 1;
-          this.$nuxt.$emit('close-sidebar')
+          this.$nuxt.$emit("close-sidebar");
 
           return true;
         }
       }
     });
     this.$root.$on("close-sidebar-main", () => {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+      }, 700);
+    });
+    this.$root.$on("close-sidebar", () => {
       this.slideClass = "slide-out";
       setTimeout(() => {
         this.openSidebar = false;

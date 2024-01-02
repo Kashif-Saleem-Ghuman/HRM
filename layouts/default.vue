@@ -292,6 +292,12 @@ export default {
         this.openSidebar = false;
       }, 700);
     });
+    this.$root.$on("close-sidebar", () => {
+      this.slideClass = "slide-out";
+      setTimeout(() => {
+        this.openSidebar = false;
+      }, 700);
+    });
     this.$root.$on("clock-in", () => {
       this.clockModal = true;
     });

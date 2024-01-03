@@ -145,6 +145,7 @@ export default {
     }
     label {
       padding: 0 0.5rem;
+      font-size: 14px;
     }
   }
   .no-border {

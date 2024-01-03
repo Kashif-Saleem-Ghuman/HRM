@@ -38,6 +38,7 @@
             class="align-center border-0"
             :class="{ 'cursor-pointer': $listeners['column-header-clicked'] }"
             :id="field.label + '_action'"
+            :style="field.style"
           >
             <span class="flex-grow-1"> {{ field.label }} </span>
             <template v-if="field.header_icon">

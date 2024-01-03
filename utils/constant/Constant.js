@@ -7,32 +7,38 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      width: `${100 / 6}%`
+      width: `${100 / 6}%`,
+      style:'text-align:left'
     },
     {
       key: "status",
       label: "Status",
        width: `${100 / 6}%`,
+       style:'text-align:left'
     },
     {
       key: "in",
       label: "In",
-      width: `${100 / 6}%`
+      width: `${100 / 6}%`,
+      style:'text-align:center'
     },
     {
       key: "out",
       label: "Out",
-      width: `${100 / 6}%`
+      width: `${100 / 6}%`,
+      style:'text-align:center'
     },
     {
       key: "breaks",
       label: "Breaks",
-      width: `${100 / 6}%`
+      width: `${100 / 6}%`,
+      style:'text-align:center'
     },
     {
       key: "total",
       label: "Total hours",
-      width: `${100 / 6}%`
+      width: `${100 / 6}%`,
+      style:'text-align:center'
     },
   ],
   tHeadInbox: [
@@ -121,42 +127,52 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "EMPLOYEE",
+      style:'text-align:left'
     },
     {
       key: "mon",
       label: "MON",
+      style:'text-align:center'
     },
     {
       key: "tue",
       label: "TUE",
+      style:'text-align:center'
     },
     {
       key: "wed",
       label: "WED",
+      style:'text-align:center'
     },
     {
       key: "thu",
       label: "THU",
+      style:'text-align:center'
     },
     {
       key: "fri",
       label: "FRI",
+      style:'text-align:center'
     },
     {
       key: "sat",
       label: "SAT",
+      style:'text-align:center'
     },
     {
       key: "sun",
       label: "SUN",
+      style:'text-align:center'
     },
     {
       key: "total",
       label: "TOTAL HRS",
+      style:'text-align:left'
     },
     {
       key: "status",
       label: "STATUS",
+      style:'text-align:left'
     },
   ],
   tHeadTimesheetModal:[

@@ -1,30 +1,37 @@
 <template>
-    <div class="nuxt-error">
-        <component :is="errorPage" :error="error" />
-    </div>
+  <div class="nuxt-error">
+    <component :is="errorPage" :error="error" />
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'error',
-    layout: 'default', // optional
-    props: {
-        error: {
-            type: Object,
-            default: () => { },
-        },
+  name: "error",
+  layout: "default", // optional
+  props: {
+    error: {
+      type: Object,
+      default: () => {},
     },
-    computed: {
-        errorPage() {
-            if (this.error.statusCode === 404) {
-                this.$router.push('/not-found')
-                return;
-            }
-        }
+  },
+  methods: {
+    errorPageValue() {
+      if (
+        this.error.statusCode === 404 ||
+        this.error.statusCode == 503 ||
+        this.error.statusCode == 500
+      ) {
+        this.$router.push("/not-found");
+        return;
+      }
     },
-}
+  },
+  computed: {
+    errorPage() {
+      this.errorPageValue();
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

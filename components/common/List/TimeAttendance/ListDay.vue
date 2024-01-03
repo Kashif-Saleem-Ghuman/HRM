@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="table" :class="{'disabled-table': disabled}">
+    <div class="table" :class="{ 'disabled-table': disabled }">
       <div class="thead">
         <div class="cell">ACTIVITY</div>
         <div class="cell">START</div>
@@ -23,7 +23,7 @@
         <div class="cell no-border"></div>
         <div class="cell no-border"></div>
         <div class="cell label">Day Total Hours</div>
-        <div class="cell">{{ total }}</div>
+        <div class="cell total-hours">{{ total }}</div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
 <script>
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
-import { orderBy } from "lodash"
+import { orderBy } from "lodash";
 export default {
   props: {
     listToday: {
@@ -45,12 +45,12 @@ export default {
     },
     total: {
       type: String,
-      default: "--:--"
+      default: "--:--",
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -70,17 +70,23 @@ export default {
         end: null,
       },
       ACTIVITY_DICTIONARY,
-    }
+    };
   },
-  
+
   computed: {
     entries() {
-      return orderBy([...this.defaultEntries, ...this.listToday], entry => entry.activity , 'desc')
+      return orderBy(
+        [...this.defaultEntries, ...this.listToday],
+        (entry) => entry.activity,
+        "desc"
+      );
     },
     defaultEntries() {
-      const entries = [this.clockInEntry, this.breakEntry]
-      const existingEntries = this.listToday.map( item => item.activity )
-      return entries.filter( entry => !existingEntries.includes(entry.activity))
+      const entries = [this.clockInEntry, this.breakEntry];
+      const existingEntries = this.listToday.map((item) => item.activity);
+      return entries.filter(
+        (entry) => !existingEntries.includes(entry.activity)
+      );
     },
   },
   methods: {
@@ -88,11 +94,11 @@ export default {
       this.$emit("new-entry", newEntry);
     },
     editSpecificEntry(entry) {
-      this.$emit("edit-entry", entry)
+      this.$emit("edit-entry", entry);
     },
     deleteSpecificEntry(id) {
-      if(confirm("Are you sure you want to delete this time entry?")) {
-        this.$emit('delete-entry', id)
+      if (confirm("Are you sure you want to delete this time entry?")) {
+        this.$emit("delete-entry", id);
       }
     },
   },
@@ -116,21 +122,29 @@ export default {
       padding: 10px;
     }
     .label {
+      font-size: 14px;
       text-align: right;
+    }
+    .total-hours {
+      font-size: 14px;
     }
   }
   .cell {
     display: table-cell;
     border-bottom: 1px solid $gray3;
     border-right: 1px solid $gray3;
-    text-align: center;
-    padding: 0px 0px;
-    margin: 0 10px;
+    text-align: left;
+    padding: 0px;
     vertical-align: middle;
+    text-align: left;
     font-weight: 600;
-    font-size: 12px;
-    input{
+    input {
       border: 0px !important;
+      text-align: left !important;
+      border-radius: 0px !important;
+    }
+    label {
+      padding: 0 0.5rem;
     }
   }
   .no-border {

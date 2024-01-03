@@ -60,7 +60,7 @@
         </div>
       </template>
       <template #cell(status)="data">
-        <div class="text-dark pl-1">
+        <div class="text-dark pl-05">
           <chips-list
             :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
             iconShow="iconShow"
@@ -140,7 +140,7 @@
               ? '--'
               : getTotalHours(data.value?.activityReport.total)
           "
-          style="height: auto; color: #000; text-align: right"
+          :className="['d-align']"
         ></chips>
       </template>
     </custom-table>

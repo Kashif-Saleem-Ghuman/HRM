@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="cell activity">{{ label }}</div>
+    <div class="cell activity">
+      <label>
+        {{ label }}
+      </label>
+    </div>
     <div class="cell">
       <bib-input
         type="time"
@@ -20,14 +24,18 @@
       ></bib-input>
     </div>
     <div class="cell">
-      <div class="uneditable-cell">{{ entryTotal }}</div>
+      <div class="uneditable-cell">
+        <label>
+          {{ entryTotal }}
+        </label>
+      </div>
     </div>
     <div
       class="cell cursor-pointer trash"
       v-if="newData.id"
       @click="deleteEntry"
     >
-      <bib-icon icon="trash-solid" :scale="1"></bib-icon>
+      <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
   </div>
 </template>
@@ -110,10 +118,10 @@ export default {
     getTimeFromDate,
 
     getEndDate(startTime, endTime) {
-      if(!isEndTimeOnSameDay(startTime, endTime)) {
-        return DateTime.fromJSDate(this.date).plus({ day: 1 }).toJSDate()
+      if (!isEndTimeOnSameDay(startTime, endTime)) {
+        return DateTime.fromJSDate(this.date).plus({ day: 1 }).toJSDate();
       }
-      return this.date
+      return this.date;
     },
     calculateDates() {
       return {
@@ -123,7 +131,7 @@ export default {
         ).toISOString(),
         endDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.endTime),
-          this.getEndDate(this.startTime, this.endTime),
+          this.getEndDate(this.startTime, this.endTime)
         ).toISOString(),
         date: new Date(this.date).toISOString(),
       };
@@ -151,18 +159,19 @@ export default {
       }
     },
     isEndDateGreatherThanNow() {
-      const [hours, minutes, seconds] = this.endTime
-        .split(":")
-        .map(Number);
+      const [hours, minutes, seconds] = this.endTime.split(":").map(Number);
 
-      let date = DateTime.fromJSDate(this.date)
-        .set({ hours, minutes, seconds })
-    
+      let date = DateTime.fromJSDate(this.date).set({
+        hours,
+        minutes,
+        seconds,
+      });
+
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        date = date.plus({ day: 1 })
+        date = date.plus({ day: 1 });
       }
-      
-      date = date.toJSDate()
+
+      date = date.toJSDate();
 
       const now = new Date();
       return date > now;
@@ -189,16 +198,15 @@ export default {
       const { startDate, endDate, date } = this.calculateDates();
       try {
         const newEntry = await this.makeTimeEntry(
-        this.newData.activity,
-        date,
-        startDate,
-        endDate
-      );
+          this.newData.activity,
+          date,
+          startDate,
+          endDate
+        );
 
-      if (newEntry) {
-        this.$emit("new-entry", newEntry);
-      }
-
+        if (newEntry) {
+          this.$emit("new-entry", newEntry);
+        }
       } catch (error) {
         this.clearStartTime();
         this.clearEndTime();

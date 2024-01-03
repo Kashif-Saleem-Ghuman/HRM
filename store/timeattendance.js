@@ -71,6 +71,9 @@ export const actions = {
       commit("SET_EMPLOYEE_ATTENDANCE", employees)
       return employees
     } catch (e) {
+      if (e.response.status === 500) {
+        return window.open('/not-found',"_self")
+      }
       console.error(error);
     }
   },

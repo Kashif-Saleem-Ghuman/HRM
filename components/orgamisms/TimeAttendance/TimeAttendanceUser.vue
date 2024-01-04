@@ -5,8 +5,7 @@
         class="d-flex justify-between align-center bottom_border_wrapper"
       >
       <section-header-left
-        :title="activeUserName"
-        :avatar="activeUserData.photo"
+        title="Time & Attendance"
       ></section-header-left>
       </div>
       <div class="time-attandance-wrapper">
@@ -230,12 +229,6 @@ export default {
     this.activeUserData = this.getActiveUser;
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
-    this.activeUserName =
-      this.activeUserData.firstName +
-      " " +
-      this.activeUserData.lastName +
-      " / " +
-      "Time & Attendance";
     this.getTimesheetWidget()
   },
   methods: {

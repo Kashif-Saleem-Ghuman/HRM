@@ -68,7 +68,7 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      { label: "Home", icon: "home", key: "home", url:"/dashboard", selected: false},
+      // { label: "Home", icon: "home", key: "home", url:"/dashboard", selected: false},
       { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
       { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations",  selected: false},
       { label: "My Profile", icon: "user", key: "profile",  selected: false},

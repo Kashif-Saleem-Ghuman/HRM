@@ -133,8 +133,12 @@ export default {
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
-          this.leaveVacationDataUser.length > 0 ? this.leaveList = true : this.leaveList = false
+          this.leaveVacationDataUser.length ? this.leaveList = false : this.leaveList = true
         });
+        this.getUserLeavesDetailUser().then((result) => {
+      this.allowanceLeavesDetailedData = result;
+      this.is_data_fetched = true;
+    });
     });
   },
   async mounted() {

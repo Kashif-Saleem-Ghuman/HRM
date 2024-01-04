@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="scroll_wrapper">
-        <div>
+        <div v-if="!leaveList">
           <list-pending
             :listPending="requestListData"
             @input="getIdValue($event)"
@@ -28,11 +28,10 @@
             :checkedAll="checkedAll"
             @reject-item="enableRefusalModal"
             @approve-item="approveItem($event)"
-            v-show="requestListData.length ? true : ''"
           ></list-pending>
         </div>
-        <div>
-          <no-record v-show="requestListData.length ? '' : true"></no-record>
+        <div v-else-if="leaveList">
+          <no-record></no-record>
         </div>
         <bib-notification :popupMessages="popupMessages"></bib-notification>
       </div>
@@ -71,6 +70,7 @@ export default {
       leaveVacationAdminData: [],
       getRequest: {},
       requestListData: [],
+      leaveList:false,
       addIds: [],
       pendingList: 0,
       requestListApproveData: [],
@@ -102,10 +102,10 @@ export default {
     localStorage.removeItem("clickedUserId");
     this.$nuxt.$emit("add-leave");
     // this.getPendingLeaveVacationsAdmin();
-    if (this.requestListData.lenghth <= 0) {
-      this.noRecord = true;
-    } else {
+    if (this.requestListData.lenghth) {
       this.noRecord = false;
+    } else {
+      this.noRecord = true;
     }
   },
   methods: {

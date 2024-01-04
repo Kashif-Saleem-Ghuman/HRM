@@ -102,11 +102,6 @@ export default {
     localStorage.removeItem("clickedUserId");
     this.$nuxt.$emit("add-leave");
     // this.getPendingLeaveVacationsAdmin();
-    if (this.requestListData.lenghth) {
-      this.noRecord = false;
-    } else {
-      this.noRecord = true;
-    }
   },
   methods: {
     getPendingLeaveVacationsAdmin,

@@ -75,6 +75,8 @@ export default {
   methods: {
     onTabChange(tab) {
       this.$router.push(tab.route);
+      this.$nuxt.$emit("close-sidebar");
+          this.$nuxt.$emit("close-sidebar-main");
     },
     setActiveTab() {
       const route = this.$route.fullPath;

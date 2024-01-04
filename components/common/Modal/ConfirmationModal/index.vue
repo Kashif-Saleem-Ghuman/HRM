@@ -17,7 +17,7 @@
           pill
         ></bib-button>
         <bib-button
-          label="Delete"
+          label="Confirm"
           variant="danger"
           class="mr-1"
           @click="$emit('deleteLeave')"

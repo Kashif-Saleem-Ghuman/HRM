@@ -32,7 +32,7 @@ export async function getPendingLeaveVacationsAdmin() {
         },
       }
     );
-    this.leaveList = this.requestListData.length ? true: false;
+    this.leaveList = this.requestListData?.length >= 0 ? false : true;
     this.requestListData = pendingLeaveVacationsAdmin.data.requests;
     this.$nuxt.$emit('pending-key')
   } catch (e) {

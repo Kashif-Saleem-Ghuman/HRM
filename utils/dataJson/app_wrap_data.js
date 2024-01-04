@@ -68,10 +68,10 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      // { label: "Home", icon: "home", key: "home", url:"/dashboard", selected: false},
-      { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
-      { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations",  selected: false},
-      { label: "My Profile", icon: "user", key: "profile",  selected: false},
+      { label: "Home", icon: "home", key: "dashboard", url:"/dashboard", selected: false},
+      // { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
+      { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations", url:"/leaves-and-vacations/dashboard",  selected: false},
+      { label: "My Profile", icon: "user", key: "profile", url:'/profile',  selected: false},
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [
@@ -88,8 +88,8 @@ const data = () => {
       // { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox/", selected: false},
       { label: "Organization Profile", icon: "bib-logo", key: "orgprofile", url:"/orgprofile/", selected: false, id:""},
       { label: "People", icon: "user-group", key: "people", url:"/people/", selected: false, id:""},
-      { label: "Time & Attendance", icon: "time-history", key: "time-attendance", url:'/time-attendance/', selected: false},
-      { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations", url:'/leave-vacations/', selected: false},
+      { label: "Time & Attendance", icon: "time-history", key: "time-attendance", url:'/time-attendance/attendance/', selected: false},
+      { label: "Leave & Vacations", icon: "airplane-solid", key: "leave-vacations", url:'/leaves-and-vacations/dashboard/', selected: false},
       // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],
     navItemsUserSwitch: [

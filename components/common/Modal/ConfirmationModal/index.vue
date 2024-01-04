@@ -1,11 +1,5 @@
 <template>
   <div>
-    <bib-button
-    variant="primary"
-    label="Modal 1"
-    v-if="confirmastionMessageModal"
-    @close="$emit('close')"
-  ></bib-button>
   <bib-modal-wrapper v-if="confirmastionMessageModal"
     @close="$emit('close')" :title="title">
     <template slot="content">

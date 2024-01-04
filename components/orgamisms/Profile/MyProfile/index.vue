@@ -4,7 +4,11 @@
       class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >
       <section-header-left
-        :title="getEmployeeFullName(form) | truncate(16, '...')"
+        :title="
+          this.form.firstName || this.form.lastName != undefined
+            ? this.form.firstName + ' ' + this.form.lastName
+            : '---'
+        "
         :avatar="form?.photo"
         :key="topNav"
       ></section-header-left>

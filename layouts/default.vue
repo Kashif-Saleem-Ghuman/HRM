@@ -326,10 +326,6 @@ export default {
   },
   methods: {
     getEmployeeFullName,
-    someErrorLogger(err) {
-      alert("called")
-  console.log('got an error', err);
-},
     redirectToLogin() {
       window.location.href =
         process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;

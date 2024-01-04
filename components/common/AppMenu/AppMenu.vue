@@ -95,7 +95,6 @@ export default {
     };
   },
   mounted() {
-    // console.log*this.appWrapItems.navItemsAdmin, "appWrapItems"
     if (process.client) {
       for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
         if (
@@ -142,68 +141,58 @@ export default {
     },
 
     menuClick(item) {
-      for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
-        if (this.appWrapItems.navItemsAdmin[i].key == item.key) {
-          this.appWrapItems.navItemsAdmin[i].selected = true;
-        } else {
-          this.appWrapItems.navItemsAdmin[i].selected = false;
-        }
-      }
-      for (let i = 0; i < this.appWrapItems.navItemsUser.length; i++) {
-        if (this.appWrapItems.navItemsUser[i].key == item.key) {
-          this.appWrapItems.navItemsUser[i].selected = true;
-        } else {
+      if (process.client) {
+        for (let i = 0; i < this.appWrapItems.navItemsUser.length; i++) {
           this.appWrapItems.navItemsUser[i].selected = false;
         }
-      }
-      if (process.client) {
-        // admin menu actions
-        // this.$nuxt.$emit('close-sidebar-main')
-        // this.$nuxt.$emit('close-sidebar')
+        for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
+          this.appWrapItems.navItemsAdmin[i].selected = false;
+        }
         if (item.key == "dashboard") {
           this.$router.push("/dashboard/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "inbox") {
           this.$router.push("/inbox/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "orgprofile") {
           this.$router.push("/orgprofile/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "people") {
           this.$router.push("/people/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "time-attendance") {
           this.$router.push("/time-attendance/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "leave-vacations") {
           this.$router.push("/leaves-and-vacations/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
+          item.selected = true;
           return;
         }
         if (item.key == "settings") {
           this.$router.push("/settings/");
-          return;
-        }
-
-        // user menu actions
-        if (item.key == "home") {
-          this.$router.push("/dashboard");
+          item.selected = true;
           return;
         }
         if (item.key == "requestVacation") {
@@ -248,6 +237,7 @@ export default {
         }
         if (item.key == "profile") {
           this.$router.push("/profile");
+          item.selected = true;
           return;
         }
       }

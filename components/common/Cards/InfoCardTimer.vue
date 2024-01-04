@@ -2,14 +2,14 @@
   <div class="d-flex">
     <div class="info-card-leave-wrapper" style="width: 100%">
       <div>
-        <label>User Status</label>
+        <label>My Status</label>
       </div>
       <div class="info-card-items mt-05">
         <div>
-          <div class="subheading">in {{ activityDetails.in }}</div>
+          <div class="subheading">In {{ activityDetails.in }}</div>
           <span>{{ stopWatchTime }}</span>
 
-          <div class="subheading_footer">out {{ activityDetails.out }}</div>
+          <div class="subheading_footer">Out {{ activityDetails.out }}</div>
         </div>
       </div>
       <div class="footer-item d-flex">

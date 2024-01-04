@@ -238,6 +238,8 @@ export default {
         if (item.key == "profile") {
           this.$router.push("/profile");
           item.selected = true;
+          this.$nuxt.$emit("close-sidebar");
+          this.$nuxt.$emit("close-sidebar-main");
           return;
         }
       }

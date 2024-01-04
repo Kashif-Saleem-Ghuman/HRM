@@ -2,7 +2,8 @@ export function headerHelpClick() {
     window.open(process.env.SUPPORT_URL, "_blank");
 }
 export function headerActionCall() {
-    window.open(process.env.BIB_PRICING, "_blank");
+  this.accountType == 'CLIENT' ?  window.open(process.env.TEAM_URL, "_blank") :
+     window.open(process.env.BIB_PRICING, '_blank');
 }
 export function handleToggleWrapperTheme(value) {
     this.lightThemeChecked = value;

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import notFound from '../components/common/PageNotFound/index.vue'
 export default {
   name: "error",
   layout: "default", // optional
@@ -14,21 +15,16 @@ export default {
       default: () => {},
     },
   },
-  methods: {
-    errorPageValue() {
+  computed: {
+    errorPage() {
       if (
-        this.error.statusCode === 404 ||
+        this.error.statusCode == 404 ||
         this.error.statusCode == 503 ||
         this.error.statusCode == 500
       ) {
-        this.$router.push("/not-found");
-        return;
+        // this.$router.push("/not-found");
+        return notFound;
       }
-    },
-  },
-  computed: {
-    errorPage() {
-      this.errorPageValue();
     },
   },
 };

@@ -30,11 +30,13 @@ export async function getEmployee(payload) {
       url,
       config
     );
-    return data
-  } catch (err) {
-    if (err.response.status === 500) {
+    if(!data){
       return this.$router.push("/not-found");
+    }else{
+      return data
+
     }
+  } catch (err) {
     console.log(err)  
   }
 }

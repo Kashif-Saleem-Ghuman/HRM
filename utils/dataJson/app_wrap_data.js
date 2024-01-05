@@ -12,7 +12,7 @@ const data = () => {
     ],
     appItems: [
       {
-        img: "Layers",
+        img: "layers",
         color: "primary",
         active: false,
         text: "Templates",
@@ -68,14 +68,14 @@ const data = () => {
       },
     ],
     navItemsUser: [
-      {
-        label: "Home",
-        icon: "home",
-        key: "dashboard",
-        url: "/dashboard",
-        selected: false,
-      },
-      // { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
+      // {
+      //   label: "Home",
+      //   icon: "home",
+      //   key: "dashboard",
+      //   url: "/dashboard",
+      //   selected: false,
+      // },
+      { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
       {
         label: "Leave & Vacations",
         icon: "airplane-solid",

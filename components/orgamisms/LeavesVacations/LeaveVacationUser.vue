@@ -4,8 +4,7 @@
       class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
     >
       <section-header-left
-        :title="getEmployeeFullName(activeUserData) | truncate(16, '...')"
-        :avatar="activeUserData.photo"
+        title="Leaves and Vacations"
         headerRight="headerRight"
       ></section-header-left>
     </div>
@@ -50,7 +49,17 @@
         ></info-card-leave-vacation>
       </div>
     </div>
-    <div class="py-1">
+    <div>
+      <div class="pb-05 d-flex justify-end">
+        <dropdown-menu-calendar
+          :items="dropMenuYear"
+          :label="selectedYear"
+          icon="arrowhead-down"
+          @on-click="changeYearView($event)"
+          class="mr-05"
+          className="button-wrapper__bgblack"
+        ></dropdown-menu-calendar>
+      </div>
       <div v-if="leaveList">
         <list-leave-attendance
           :leaveData="leaveVacationDataUser"
@@ -82,6 +91,7 @@ import {
 import {
   getCurrentDateMonth,
   getCurrentYear,
+  generateYearList,
 } from "../../../utils/functions/functions_lib";
 import { SORTING_MENU } from "../../../utils/constant/Constant";
 import { INFO_CARD_LEAVE_VACATION_DATA } from "../../../utils/constant/Calander";
@@ -94,12 +104,11 @@ export default {
       activeTab: "Dashborad",
       activeUserData: "",
       items: SORTING_MENU.leaveVacationUserFilter,
-      activeUserName: "",
       infoCardData: INFO_CARD_LEAVE_VACATION_DATA,
       leaveVacationDataUser: [],
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),
-      selectedYear: "2023",
+      selectedYear: new Date().getFullYear(),
       fromDate: "",
       toDate: "",
       loading: true,
@@ -112,7 +121,8 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
-      leaveList:true,
+      leaveList: true,
+      dropMenuYear: [],
     };
   },
   computed: {
@@ -132,17 +142,18 @@ export default {
           to: this.getformToDate.to,
         })
         .then((result) => {
-          result.length ? this.leaveList = true : this.leaveList = false;
           this.leaveVacationDataUser = result;
+          this.leaveList = this.leaveVacationDataUser.length ? true : false;
         });
-        this.getUserLeavesDetailUser().then((result) => {
-      this.allowanceLeavesDetailedData = result;
-      this.is_data_fetched = true;
-    });
+      this.getUserLeavesDetailUser().then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
     });
   },
   async mounted() {
     this.loading = true;
+    this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.getUserLeavesDetailUser().then((result) => {
@@ -163,13 +174,7 @@ export default {
       to: this.getformToDate.to,
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
-    this.leaveVacationDataUser.length ? this.leaveList = true : this.leaveList = false;
-    this.activeUserName =
-      this.activeUserData.firstName +
-      " " +
-      this.activeUserData.lastName +
-      " / " +
-      "Leaves and Vacations";
+    this.leaveList = this.leaveVacationDataUser.length ? true : false;
     this.loading = false;
   },
   methods: {
@@ -178,6 +183,21 @@ export default {
     deleteLevaeVacation,
     getUserLeavesDetailUser,
     getEmployeeFullName,
+    generateYearList,
+    async changeYearView(e) {
+      this.selectedYear = e.label;
+      this.getCurrentYear();
+      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+        from: this.fromDate,
+        to: this.toDate,
+      });
+      await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      });
+      this.leaveVacationDataUser = this.getLeaveVacationUser;
+      this.leaveList = this.leaveVacationDataUser.length ? true : false;
+    },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },

@@ -119,7 +119,7 @@
               class="text-danger"
               style="margin-top: -0.25rem; display: block"
               v-show="errorMsgEndDateGreater"
-              >start time should be before end time</small
+              >Start date should be before end date</small
             >
           </div>
         </div>

@@ -72,7 +72,7 @@ export const actions = {
       return employees
     } catch (e) {
       if (e.response.status === 500) {
-        return this.$router.push("/not-found");
+        return window.open('/not-found',"_self")
       }
       console.error(error);
     }

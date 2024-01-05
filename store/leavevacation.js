@@ -86,7 +86,7 @@ export const  actions = {
       return leave
     } catch (e) {
       if (e.response.status === 500) {
-        return window.open('/not-found',"_self")
+        return this.$router.push("/not-found");
       }
       console.log(e);
     }

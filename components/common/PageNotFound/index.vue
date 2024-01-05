@@ -1,6 +1,5 @@
 <template>
   <div id="error-404-wrapper" class="shape-rounded bg-light">
-    <bib-icon icon="bib-logo" :scale="3"></bib-icon>
     <h2 id="error-404-heading1">This Page does'n exist</h2>
     <NuxtLink to="/dashboard">Redirect to Home</NuxtLink>
   </div>

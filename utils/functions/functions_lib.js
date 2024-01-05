@@ -20,6 +20,7 @@ import {
   sendMeet,
   sendMessage,
   handleItemClick_Table,
+  generateYearList,
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
@@ -62,4 +63,5 @@ export {
   sendMeet,
   sendMessage,
   handleItemClick_Table,
+  generateYearList,
 };

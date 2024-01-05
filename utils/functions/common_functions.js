@@ -75,7 +75,7 @@ export function getCurrentDateMonth() {
   this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DDT11:59:00");
 }
 export function getCurrentYear() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = this.selectedYear;
   const firstDay = new Date(currentYear, 0, 1);
   const lastDay = new Date(currentYear, 11, 31);
   this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DDT12:00:00");
@@ -123,4 +123,19 @@ export function getEmployeeFullName(employee) {
   if (!employee) return ""
   const { firstName, lastName } = employee
   return `${firstName} ${lastName}`
+}
+const START_YEAR = 2021;
+export function generateYearList() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const years = [];
+  for (let year = START_YEAR; year <= currentYear + 3; year++) {
+    const yearObject = {
+      label: year.toString(),
+      value: year,
+      selected: false,
+    };
+    years.push(yearObject);
+  }
+  return years;
 }

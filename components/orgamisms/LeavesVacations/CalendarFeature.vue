@@ -228,7 +228,7 @@ export default {
       dropMenuMonth: MONTHS_LABEL_VALUE,
       dropMenuYear: [],
       selectedMonth: "",
-      selectedYear: "2024",
+      selectedYear: new Date().getFullYear(),
       ViewTitle: "Month",
       searchString: null,
     };

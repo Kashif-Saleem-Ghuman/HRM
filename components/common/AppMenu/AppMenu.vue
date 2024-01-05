@@ -125,19 +125,21 @@ export default {
 
     myAccountClick() {
       this.changeRole(USER_ROLES.USER);
+      this.$router.push('/time-attendance/attendance/')
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
     },
 
     organizationAdminClick() {
       this.changeRole(USER_ROLES.ADMIN);
+      this.$router.push("/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
     },
 
     changeRole(role) {
       this.$store.dispatch("token/setViewRole", { role });
-      this.$router.push("/");
+      
     },
 
     menuClick(item) {

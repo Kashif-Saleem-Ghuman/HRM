@@ -1,13 +1,19 @@
 <template>
   <div id="error-404-wrapper" class="shape-rounded bg-light">
     <h2 id="error-404-heading1">This Page does'n exist</h2>
-    <NuxtLink to="/dashboard">Redirect to Home</NuxtLink>
+    <NuxtLink :to="getUserRole === 'ADMIN' ? '/dashboard' : '/time-attendance/attendance/'">Redirect to Home</NuxtLink>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
   export default {
     name: "PageNotFound",
-  }
+  computed: {
+    ...mapGetters({
+      getUserRole: "token/getUserRole",
+    }),
+  },
+};
 </script>
 
 <style scoped lang="scss">

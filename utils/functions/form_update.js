@@ -21,8 +21,11 @@ export async function vfileAdded(file, name, event) {
       }
     )
     .then((res) => {
+      this.$nuxt.$emit("dropzone-key");
       // this.openPopupNotification(0);
       this.avatarUrl = res;
+      this.form.photo=res;
+      // this.$nuxt.$emit("dropzone-key");
       // this.avatarUrl[name] = res;
     })
     .catch((err) => {

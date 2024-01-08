@@ -12,11 +12,11 @@
         <div class="py-cus px-1 d-flex align-center">
           <drop-zone
             :src="form?.photo"
-            :className="form?.photo != null ? 'hide' : ''"
-            :customRemove="form?.photo == null ? 'hide' : 'hide'"
             @vfileAdded="vfileAdded"
+            @vfileRemove="removeImage('photo')"
+            :confirmastionMessageModal="confirmastionMessageModal"
           ></drop-zone>
-          <div v-show="form.photo == null ? false : true">
+          <div v-show="form.photo == null ? false : true" class="ml-1">
             <aside style="font-weight: bold; font-size: 18px">
               {{getEmployeeFullName(form)}}
             </aside>
@@ -25,7 +25,7 @@
             </aside>
           </div>
         </div>
-        <div class="d-flex px-1" style="margin-top: 1px">
+        <div class="d-flex px-1" style="margin-top: 16px">
           <bib-button
             label="Send Message"
             variant="light"
@@ -345,6 +345,8 @@ export default {
       contactFormFieds,
       employeeProfileFields,
       employeeAddressFields,
+      confirmastionMessageModal:false,
+      dropzone:0,
       fields: {
         ...contactFormFieds,
         ...employeeProfileFields,
@@ -390,7 +392,22 @@ export default {
         this.form = employee;
       }
     },
-
+    removeImage(photo) {
+      this.updateForm[photo] = "";
+      const id = this.$route.params.id ?? this.getUser?.id;
+      updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
+        (data) => {
+          this.openPopupNotification(1);
+          this.dropzone += 1;
+          this.$nuxt.$emit("top-nav-key")
+          this.form = data;
+          this.avatarUrl = "";
+          this.confirmastionMessageModal = false;
+          this.$nuxt.$emit("dropzone-key");
+          return;
+        }
+      );
+    },
     submitToApi(form) {
       if (this.avatarUrl != "") {
         form.photo = this.avatarUrl;

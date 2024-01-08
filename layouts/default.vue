@@ -85,6 +85,7 @@
               </div>
             </template>
             <template v-slot:sidebar-footer>
+
               <div class="">
                 <div style="text-align: right">
                   <bib-button

@@ -199,7 +199,7 @@ export default {
         selectHelper: false,
         dayMaxEvents: 1,
         weekends: true,
-        contentHeight: "auto",
+        contentHeight: "100vh",
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,

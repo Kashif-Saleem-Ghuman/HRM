@@ -26,17 +26,18 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-y height" :style="show=='true'? 'height: 71vh' : '100vh'">
+      <div class="of-scroll-y height">
         <div style="padding: 24px 24px 12px 24px"><slot name="sidebar-body"></slot></div>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
       <div
-        class="sidebar-footer px-1"
+        class="sidebar-footer px-1 py-1"
         style="
-          height: 7vh;
           display: flex;
           justify-content: end;
           align-items: end;
+          height: 100%;
+        
         "
         v-if="show == 'true'"
       >
@@ -87,16 +88,21 @@ export default {
 </script>
 <style lang="scss">
 @import "@/assets/variable.scss";
-@media (max-width:1124px){
+@media (max-width:1900px){
     .height{
-      height: 600px !important;
+      height: 72vh !important;
     }
 }
-@media (min-width:1124px){
+  @media (min-width:1900px){
     .height{
-      height: 530px !important;
+      height: 78vh !important;
     }
-}
+  }
+  @media (min-width:3000px){
+    .height{
+      height: 85vh !important;
+    }
+  }
 @keyframes slidein-right {
   from {
     transform: translateX(100%);

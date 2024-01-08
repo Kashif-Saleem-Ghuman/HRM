@@ -143,11 +143,11 @@ export default {
   bottom: 8px;
   right: 10px;
   .delIcon {
-    border-radius: 50%;
+    border-radius: 6px;
     height: 30px;
     width: 30px;
     bottom: 0;
-    padding: 10px;
+    padding: 8px;
     background-color: #eee;
     position: relative;
   }

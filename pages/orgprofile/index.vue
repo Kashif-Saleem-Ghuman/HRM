@@ -10,7 +10,6 @@
       <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left
           :title="'Org Profile - ' + org.companyName"
-          back="back"
         ></section-header-left>
       </div>
       <div>

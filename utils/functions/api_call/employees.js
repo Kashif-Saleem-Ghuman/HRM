@@ -3,7 +3,6 @@ import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
 
 export async function updateEmployee(payload) {
   const { id, employee } = payload
-  
   try {
     const url = `/employees/${id}`
     const config = createConfig();
@@ -21,7 +20,6 @@ export async function updateEmployee(payload) {
 
 export async function getEmployee(payload) {
   const { id } = payload
-  
   try {
     const url = `/employees/${id}`
     const config = createConfig();

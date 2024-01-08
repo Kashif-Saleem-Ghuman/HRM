@@ -86,6 +86,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       activeUserRole: "token/getUserRole",
       getActiveUserData: "token/getActiveUserData",
+      
     }),
   },
 
@@ -95,16 +96,6 @@ export default {
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
     this.form = users;
-    this.$root.$on("top-nav-key", () => {
-      if (this.activeUserRole === "USER") {
-        this.$store
-          .dispatch("employee/setUser", this.getUser?.id)
-          .then((result) => {
-            this.form = result;
-            this.topNav += 1;
-          });
-      }
-    });
   },
   methods: {
     getEmployeeFullName,

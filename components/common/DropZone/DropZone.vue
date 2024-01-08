@@ -5,26 +5,40 @@
       id="dropzone"
       :options="dropzoneOptions"
       :use-custom-slot="true"
-      @vdropzone-removed-file="openImage()"
       @vdropzone-files-added="maxFilesSize($event)"
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
+      :key="dropzoneRefresh"
     >
-      <div class="d-flex align-center">
-        <div class="mr-1" style="position: relative">
-          <bib-avatar size="100px" :src="src" class="avtar-border"></bib-avatar>
-          <div class="custom-remove" :class="customRemove">
-            <span v-on:click="openImage()">Remove image</span>
+      <div
+        class="d-flex align-center"
+        style="position: relative"
+        :class="className"
+      >
+        <div class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete">
+          <div class="custom-remove" :class="customRemove" style="z-index: 999">
+            <span @click.stop="deleteConfirmation(src)" class="delIcon">
+              <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
+            </span>
           </div>
+          <div class="upload-link">Upload Image</div>
+          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
         </div>
-        <div :class="className">
+        <!-- <div :class="className">
           <div class="text-left">
             <p>Click to upload or drag and drop photos here...</p>
             <p>JPG, PNG, TIFF, GIF (max 100 MB)</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </vue-dropzone>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <confirmation-modal
+      :title="deleteModalContent.title"
+      :confirmationMessage="deleteModalContent.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @close="closeconfirmastionMessageModal"
+      @deleteLeave="$emit('vfileRemove')"
+    ></confirmation-modal>
   </div>
 </template>
 <script>
@@ -32,7 +46,8 @@ import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
-
+import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
+import { vfileRemove } from "@/utils/functions/functions_lib";
 export default {
   props: {
     className: {
@@ -47,6 +62,9 @@ export default {
     disable: {
       type: Boolean,
     },
+    confirmastionMessageModal:{
+      type: Boolean
+    }
   },
   name: "app",
   components: {
@@ -59,13 +77,15 @@ export default {
       error: false,
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
+      deleteModalContent: DELETE_MESSAGE[2],
+      dropzoneRefresh:0,
       dropzoneOptions: {
         // previewTemplate: this.getTempalte(),
         url: "false",
-        autoProcessQueue: false,
+        autoProcessQueue: true,
         thumbnailWidth: 120,
         thumbnailHeight: 120,
-        addRemoveLinks: true,
+        addRemoveLinks: false,
         dictRemoveFile: "Remove Image",
         maxFilesize: 2,
         maxFiles: 1,
@@ -82,8 +102,20 @@ export default {
       },
     };
   },
+  created(){
+    this.$root.$on("dropzone-key", () => {
+      this.dropzoneRefresh += 1;
+    });
+  },
   methods: {
     openPopupNotification,
+    deleteConfirmation(src) {
+      if (src === "" || src === "null") {
+        this.openPopupNotification(7);
+        return;
+      }
+      this.confirmastionMessageModal = true;
+    },
     maxFilesSize(file) {
       var fileSize = file[0].size / (1024 * 1024);
       if (fileSize > 2) {
@@ -95,18 +127,8 @@ export default {
       this.$refs.myVueDropzone.dropzone.element.click();
     },
 
-    getTempalte: function () {
-      return `
-      // <div class="dz-preview dz-processing dz-success dz-complete dz-image-preview" id="dropzone">
-      //   <div class="dz-image">
-      //     <img data-dz-thumbnail></img>
-      //   </div>
-      //   <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-      //   <div class="dz-success-mark"><span class="dz-upload" data-dz-success></span></div>
-      //   <div class="dz-error-message"><span data-dz-errormessage></span></div>
-      //   <div class="dz-success-mark"><i class="fa fa-check"></i></div>
-      //   <div class="dz-error-mark"><i class="fa fa-close"></i></div>
-      // </div>`;
+    closeconfirmastionMessageModal() {
+      this.confirmastionMessageModal = false;
     },
   },
 };
@@ -117,13 +139,27 @@ export default {
 }
 .custom-remove {
   position: absolute;
-  bottom: 40px;
-  left: 17%;
-  color: #fff;
-  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 3px;
-  //   opacity:0;
+  bottom: 8px;
+  right: 10px;
+  .delIcon {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    bottom: 0;
+    padding: 10px;
+    background-color: #eee;
+    position: relative;
+  }
+}
+.upload-link {
+  position: absolute;
+  font-weight: 600;
+  bottom: -22px;
+  right: 27px;
+  text-decoration: underline;
+  cursor: pointer;
+  vertical-align: bottom;
 }
 .dropzone-box {
   border: 0;
@@ -183,7 +219,7 @@ export default {
 .dropzone .dz-preview .dz-image img {
   border-radius: 50%;
   border: solid 1px #9e9eff;
-  margin-right: 16px;
+  // margin-right: 16px;
 }
 .dropzone .dz-preview:hover .dz-image img {
   -webkit-transform: scale(1, 1) !important;

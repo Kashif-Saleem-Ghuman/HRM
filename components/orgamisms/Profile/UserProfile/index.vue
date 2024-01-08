@@ -48,22 +48,6 @@ export default {
       name:{},
     };
   },
-  async created() {
-    this.id = this.$route.params.id;
-    this.$store.dispatch("token/setActiveTab", "Employee Profile");
-    await this.$store.dispatch("employee/setUser", this.id).then((result)=>{
-      this.form = result;
-    });
-    this.setActiveTab();
-    this.$root.$on("top-nav-key", () => {
-      if (this.getUserRole === "ADMIN") {
-     this.$store.dispatch("employee/setUser", this.$route.params.id).then((result)=>{
-      this.form = result
-      this.topNav += 1;
-     })
-    }
-    })
-  },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
@@ -72,6 +56,24 @@ export default {
     }),
 
   },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser");
+    await this.$store.dispatch("employee/setUser", this.getUser.id);
+    this.id = this.$route.params.id ?? this.getUser.id;
+    this.$store.dispatch("token/setActiveTab", "Employee Profile");
+    await this.$store.dispatch("employee/setUser", this.id).then((result)=>{
+      this.form = result;
+    });
+    this.setActiveTab();
+    this.$root.$on("top-nav-key", () => {
+     this.$store.dispatch("employee/setUser", this.id).then((result)=>{
+      this.form = result
+      this.topNav += 1;
+     })
+    return;
+    })
+  },
+  
   methods: {
     onTabChange(tab) {
       this.$router.push(tab.route);

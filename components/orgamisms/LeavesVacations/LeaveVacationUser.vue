@@ -11,7 +11,7 @@
     <div class="pl-1 py-1">
       <div
         class="d-grid d-flex gap-1"
-        style="grid-template-columns: repeat(4, 1fr)"
+        style="grid-template-columns: repeat(3, 1fr)"
         v-if="is_data_fetched"
       >
         <info-card-leave-vacation
@@ -46,17 +46,6 @@
           className="button-wrapper__bgwarnning"
           :variant="$button.pending.variant"
           @on-click="addLeaves('leave')"
-        ></info-card-leave-vacation>
-        <info-card-leave-vacation
-          title="Other leave"
-          :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
-          :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
-          :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
-          buttonLable="Request Vacation"
-          icon="airplane-solid"
-          className="button-wrapper__bgsucess"
-          :variant="$button.approved.variant"
-          @on-click="addLeaves('vacation')"
         ></info-card-leave-vacation>
       </div>
     </div>

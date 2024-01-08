@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import notFound from '../components/common/pagenotfound/index.vue'
+import notFound from '../components/common/PageNotFound/index.vue'
 export default {
   name: "error",
   layout: "default", // optional

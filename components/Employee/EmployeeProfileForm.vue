@@ -16,7 +16,7 @@
             @vfileRemove="removeImage('photo')"
             :confirmastionMessageModal="confirmastionMessageModal"
           ></drop-zone>
-          <div v-show="form.photo == null ? false : true" class="ml-1">
+          <div class="ml-1">
             <aside style="font-weight: bold; font-size: 18px">
               {{getEmployeeFullName(form)}}
             </aside>

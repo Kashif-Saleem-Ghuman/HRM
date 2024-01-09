@@ -102,8 +102,22 @@ export default {
 };
 </script>
 <style lang="scss">
+@media (max-width: 1900px) {
+  .scroll-wrapper {
+    height: 72vh !important;
+  }
+}
+@media (min-width: 1900px) {
+  .scroll-wrapper {
+    height: 78vh !important;
+  }
+}
+@media (min-width: 3000px) {
+  .scroll-wrapper {
+    height: 85vh !important;
+  }
+}
 .scroll-wrapper {
-  height: 70vh;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none !important;

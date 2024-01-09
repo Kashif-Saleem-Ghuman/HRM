@@ -38,8 +38,11 @@
               :icon="getFileExtension(extensionsName(file))"
               variant="gray5"
             ></bib-icon>
-            <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap" :title="file.name">
-              {{ file.name | truncate(45, '...') }}
+            <h5
+              class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+              :title="file.name"
+            >
+              {{ file.name | truncate(45, "...") }}
             </h5>
           </div>
         </div>
@@ -52,8 +55,8 @@
         </div>
       </div>
       <div>
-          <no-record v-show="filesUploaded.length ? '' : true"></no-record>
-        </div>
+        <no-record v-show="filesUploaded.length ? '' : true"></no-record>
+      </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal

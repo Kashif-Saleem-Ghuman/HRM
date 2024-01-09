@@ -85,6 +85,7 @@
         id="fullCalendar"
         :key="reloadData"
       >
+      
         <template v-slot:eventContent="arg">
           <div
             class="author-display"
@@ -109,6 +110,7 @@
                   ? "On Leave"
                   : arg.event.extendedProps.type
               }}</span>
+              
             </div>
           </div>
         </template>

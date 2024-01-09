@@ -47,6 +47,7 @@
           <action-sidebar
             @close="closeSidebar"
             :className="slideClass"
+            classMain="height"
             :icon="sidebarHeadingIcon"
             :heading="sidebarHeading"
             v-if="openSidebar"
@@ -85,7 +86,6 @@
               </div>
             </template>
             <template v-slot:sidebar-footer>
-
               <div class="">
                 <div style="text-align: right">
                   <bib-button
@@ -273,6 +273,7 @@ export default {
           this.addLeaveKey += 1;
           return true;
         } else {
+          this.$nuxt.$emit("close-sidebar");
           this.leaveTypeActiveValue = payload;
           this.openSidebar = true;
           this.employeeNameInput = true;

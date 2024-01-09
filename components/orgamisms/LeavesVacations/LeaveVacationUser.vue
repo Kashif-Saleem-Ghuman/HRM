@@ -9,6 +9,16 @@
       ></section-header-left>
     </div>
     <div class="pl-1 py-1">
+      <div class="pb-05 d-flex justify-start">
+        <dropdown-menu-calendar
+          :items="dropMenuYear"
+          :label="selectedYear"
+          icon="arrowhead-down"
+          @on-click="changeYearView($event)"
+          class="mr-05"
+          className="button-wrapper__bgblack"
+        ></dropdown-menu-calendar>
+      </div>
       <div
         class="d-grid d-flex gap-1"
         style="grid-template-columns: repeat(3, 1fr)"
@@ -50,16 +60,7 @@
       </div>
     </div>
     <div>
-      <div class="pb-05 d-flex justify-end">
-        <dropdown-menu-calendar
-          :items="dropMenuYear"
-          :label="selectedYear"
-          icon="arrowhead-down"
-          @on-click="changeYearView($event)"
-          class="mr-05"
-          className="button-wrapper__bgblack"
-        ></dropdown-menu-calendar>
-      </div>
+      
       <div v-if="leaveList">
         <list-leave-attendance
           :leaveData="leaveVacationDataUser"
@@ -156,7 +157,10 @@ export default {
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
-    this.getUserLeavesDetailUser().then((result) => {
+    this.getUserLeavesDetailUser({
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      }).then((result) => {
       this.allowanceLeavesDetailedData = result;
       this.is_data_fetched = true;
     });
@@ -190,6 +194,13 @@ export default {
       await this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
         to: this.toDate,
+      });
+      this.getUserLeavesDetailUser({
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      }).then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
       });
       await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
         from: this.getformToDate.from,

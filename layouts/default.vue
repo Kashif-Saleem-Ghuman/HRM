@@ -96,13 +96,13 @@
                     label="Cancel"
                     variant="gray"
                     size="lg"
-                    v-on:click="closeSidebar"
+                    @click="closeSidebar"
                   ></bib-button>
                   <bib-button
                     label="Save"
                     variant="primary-24"
                     size="lg"
-                    v-on:click="addLeaveVacations()"
+                    @click="addLeaveVacations"
                   ></bib-button>
                 </div>
               </div>

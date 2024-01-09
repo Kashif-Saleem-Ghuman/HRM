@@ -16,7 +16,7 @@
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
-          <bib-avatar
+            <bib-avatar
               variant="secondary-sub3"
               :text="
                 data.value.firstName.slice(0, 1) +
@@ -44,10 +44,13 @@
               ></user-info-card>
             </div>
           </div>
-          <div class="info_wrapper"  style="width: 100%; cursor: pointer;"
-            @click="handleItemClick_Table(data.value.id, $event)">
+          <div
+            class="info_wrapper"
+            style="width: 100%; cursor: pointer"
+            @click="handleItemClick_Table(data.value.id, $event)"
+          >
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
+              {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -61,7 +64,10 @@
           class=""
           :key="day"
           :title="getWeekdayValue(data.value?.weekData?.[dayIndex])"
-          :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex]), 'd-align']"
+          :className="[
+            getWeekdayClassNames(data.value?.weekData?.[dayIndex]),
+            'd-align',
+          ]"
         ></chips>
       </template>
 
@@ -83,7 +89,12 @@
           ></chips>
           <chips
             v-else
-            :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label === 'Approve' ? 'Approved' : TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
+            :title="
+              TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label ===
+              'Approve'
+                ? 'Approved'
+                : TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label
+            "
             iconShow="iconShow"
             :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
             :variant="[getStatusVariant(data.value.timesheets?.[0]?.status)]"
@@ -100,9 +111,9 @@
     ></time-sheet-modal>
   </div>
 </template>
-  
-  <script>
-  import {
+
+<script>
+import {
   sendMeet,
   sendMessage,
   handleItemClick_Table,
@@ -113,12 +124,15 @@ import {
   WEEK_DAY,
   TIMESHEET_STATUSES,
   ACTIVITY_TYPE,
-  ACTIVITY_TYPE_LABEL_VALUE
+  ACTIVITY_TYPE_LABEL_VALUE,
 } from "../../../../../utils/constant/Constant.js";
-import { getEmployeeFullName } from "../../../../../utils/functions/common_functions"
+import { getEmployeeFullName } from "../../../../../utils/functions/common_functions";
 
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
-import { getStatusIcon, getStatusVariant } from "../../../../../utils/functions/status";
+import {
+  getStatusIcon,
+  getStatusVariant,
+} from "../../../../../utils/functions/status";
 export default {
   props: {
     timesheetsList: {
@@ -130,7 +144,7 @@ export default {
     },
     endDate: {
       type: Date | String,
-    }
+    },
   },
   data() {
     return {
@@ -155,21 +169,21 @@ export default {
     handleItemClick_Table,
     getEmployeeFullName,
     getEmptyTimesheetStatus() {
-      const endDate = new Date(this.endDate)
+      const endDate = new Date(this.endDate);
       if (new Date() > endDate) {
-        return TIMESHEET_STATUS.past_due.value
+        return TIMESHEET_STATUS.past_due.value;
       }
 
-      return TIMESHEET_STATUS.not_submitted.value
+      return TIMESHEET_STATUS.not_submitted.value;
     },
 
     getWeekdayValue(data) {
       if (!data) return "--";
 
       for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
-        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity]
+        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
       }
-    
+
       if (data.totalHours) {
         return formatHoursToHHMM(data.totalHours);
       }
@@ -211,7 +225,7 @@ export default {
     mouseleave() {
       this.showTooltip = false;
     },
-    
+
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"
@@ -220,12 +234,12 @@ export default {
   },
 };
 </script>
-  
-  <style lang="scss">
-  .d-align{
-    display: flex;
-    justify-content: center;
-  }
+
+<style lang="scss">
+.d-align {
+  display: flex;
+  justify-content: center;
+}
 .td_row_wrapper {
   padding: 4px 8px;
   margin-right: 10px;

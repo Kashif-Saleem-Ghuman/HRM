@@ -83,7 +83,7 @@
           ></chips>
           <chips
             v-else
-            :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
+            :title="TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label === 'Approve' ? 'Approved' : TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label"
             iconShow="iconShow"
             :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
             :variant="[getStatusVariant(data.value.timesheets?.[0]?.status)]"

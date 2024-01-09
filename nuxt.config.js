@@ -1,5 +1,6 @@
 import i18n from "./config/i18n";
-
+import local_en from './config/lang/en.json'
+import global_en from './node_modules/@bizinbox/bib-ui-lib/dist/lang/global_en.json'
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -49,24 +50,22 @@ export default {
       "nuxt-i18n",
       {
         vueI18nLoader: true,
-        defaultLocale: "en",
+        defaultLocale: 'en',
         locales: [
           {
             code: "en",
             name: "English",
-            file: "global_en.json"
           },
-          {
-            code: "fr",
-            name: "Français",
-            file: "global_fr.json"
-          }
         ],
         globalInjection: true,
-        vueI18n: i18n,
-        langDir: "~/node_modules/@bizinbox/bib-ui-lib/dist/lang"
+        // vueI18n: i18n,
+        vueI18n: {
+          locale: "en",
+          fallbackLocale: "en",
+          messages: { en: { ...global_en, ...local_en } },
+        },
       }
-    ],
+    ],,
   ],
   axios: {
     // proxy: true,

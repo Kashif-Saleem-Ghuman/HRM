@@ -24,10 +24,10 @@ export default {
       }
     },
     setSubData(data) {
-      const { pending, refused } = data
+      const { pending, rejected } = data
       this.subData = [
         { title: "Pending", value: pending || 0 },
-        { title: "Refused", value: refused || 0 }
+        { title: "Rejected", value: rejected || 0 }
       ]
     },
   }

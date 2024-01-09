@@ -32,7 +32,7 @@
           <span >{{ item.pending }}</span>
         </div>
         <div class="items">
-          <label>Refused</label>
+          <label>Rejected</label>
           <span>{{ item.refused }}</span>
         </div>
       </div>

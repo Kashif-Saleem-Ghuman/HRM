@@ -94,7 +94,7 @@
             </form-datepicker>
             <small
               class="text-danger"
-              style="margin-top: -0.25rem; display: block"
+              style="margin-top: -0.25rem;"
               v-show="errorMsgStartDate"
               >Please select start date</small
             >

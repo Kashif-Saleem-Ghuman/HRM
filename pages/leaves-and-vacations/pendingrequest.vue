@@ -40,6 +40,7 @@
     <request-refusal-modal
       v-if="showRefusalModal"
       @cancel="cancelRejectRequest"
+      @close="cancelRejectRequest"
       @confirm="rejectEmployeeRequest"
     ></request-refusal-modal>
   </div>

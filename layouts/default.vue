@@ -273,7 +273,6 @@ export default {
           this.addLeaveKey += 1;
           return true;
         } else {
-          this.$nuxt.$emit("close-sidebar");
           this.leaveTypeActiveValue = payload;
           this.openSidebar = true;
           this.employeeNameInput = true;
@@ -286,12 +285,6 @@ export default {
       }
     });
     this.$root.$on("close-sidebar-main", () => {
-      this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.openSidebar = false;
-      }, 700);
-    });
-    this.$root.$on("close-sidebar", () => {
       this.slideClass = "slide-out";
       setTimeout(() => {
         this.openSidebar = false;

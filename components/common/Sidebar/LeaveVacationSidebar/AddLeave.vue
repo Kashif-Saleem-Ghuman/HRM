@@ -47,7 +47,7 @@
               ></bib-input>
               <small
                 class="text-danger"
-                style="margin-top: -0.25rem; display: block"
+                style="margin-top: -0.25rem;"
                 v-show="errorMsgSelect"
                 >Please select leave type</small
               >
@@ -96,8 +96,7 @@
               class="text-danger"
               style="margin-top: -0.25rem;"
               v-show="errorMsgStartDate"
-              >Please select start date</small
-            >
+              >Please select start date</small>
           </div>
           <div class="last-child end-date-wrapper">
             <form-datepicker
@@ -111,16 +110,14 @@
             </form-datepicker>
             <small
               class="text-danger"
-              style="margin-top: -0.25rem; display: block"
+              style="margin-top: -0.25rem;"
               v-show="errorMsgEndDate"
-              >Please select end date</small
-            >
+              >Please select end date</small>
             <small
               class="text-danger"
-              style="margin-top: -0.25rem; display: block"
+              style="margin-top: -0.25rem;"
               v-show="errorMsgEndDateGreater"
-              >Start date should be before end date</small
-            >
+              >Start date should be before end date</small>
           </div>
         </div>
       </div>

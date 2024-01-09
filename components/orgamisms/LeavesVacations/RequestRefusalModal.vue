@@ -5,7 +5,7 @@
         <bib-input
           v-model="refusalReason"
           type="textarea"
-          placeholder="Enter request refusal reason"
+          placeholder="Enter the reason for rejection"
         ></bib-input>
       </div>
     </template>

@@ -153,6 +153,7 @@ export default {
         for (let i = 0; i < this.appWrapItems.navItemsUserShortcuts.length; i++) {
           this.appWrapItems.navItemsUserShortcuts[i].selected = false;
         }
+        this.$nuxt.$emit("close-sidebar");
         if (item.key == "dashboard") {
           this.$router.push("/dashboard/");
           this.$nuxt.$emit("close-sidebar");

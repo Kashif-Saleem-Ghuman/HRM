@@ -182,6 +182,7 @@ export default {
     },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar-admin", $event);
+      this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },
     closeconfirmastionMessageModal() {

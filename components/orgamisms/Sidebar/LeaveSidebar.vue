@@ -206,7 +206,6 @@ export default {
       } else {
         this.showAllowance = true;
       }
-      console.log(item, "itemitemitemitem")
       this.slideClass = "slide-in";
       this.employeeNameSelectShow = true;
       this.addLeaveKey += 1;

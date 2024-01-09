@@ -3,7 +3,7 @@ export function headerHelpClick() {
 }
 export function headerActionCall() {
   this.accountType == 'CLIENT' ?  window.open(process.env.TEAM_URL, "_blank") :
-     window.open(process.env.BIB_PRICING, '_blank');
+  window.open(process.env.BIB_UPGRADE_LICENSE_URL, "_blank");
 }
 export function handleToggleWrapperTheme(value) {
     this.lightThemeChecked = value;

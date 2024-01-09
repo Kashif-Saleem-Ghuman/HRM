@@ -3,6 +3,7 @@
     <action-sidebar
       @close="closeSidebar"
       :className="slideClass"
+      classMain="heightEdit"
       heading="Leave Details"
       icon="pencil"
       v-show="openSidebar"
@@ -205,6 +206,7 @@ export default {
       } else {
         this.showAllowance = true;
       }
+      console.log(item, "itemitemitemitem")
       this.slideClass = "slide-in";
       this.employeeNameSelectShow = true;
       this.addLeaveKey += 1;

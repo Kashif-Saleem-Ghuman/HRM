@@ -150,6 +150,9 @@ export default {
         for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
           this.appWrapItems.navItemsAdmin[i].selected = false;
         }
+        for (let i = 0; i < this.appWrapItems.navItemsUserShortcuts.length; i++) {
+          this.appWrapItems.navItemsUserShortcuts[i].selected = false;
+        }
         if (item.key == "dashboard") {
           this.$router.push("/dashboard/");
           this.$nuxt.$emit("close-sidebar");
@@ -204,12 +207,14 @@ export default {
           ) {
             this.$nuxt.$emit("open-sidebar-admin", "vacation");
             this.$nuxt.$emit("add-leave");
+            item.selected = true;
             return;
           } else {
             this.$router.push("/leaves-and-vacations/");
             setTimeout(() => {
               this.$nuxt.$emit("open-sidebar-admin", "vacation");
               this.$nuxt.$emit("add-leave");
+              item.selected = true;
             }, 2000);
           }
         }
@@ -220,9 +225,11 @@ export default {
           ) {
             this.$nuxt.$emit("open-sidebar-admin", "leave");
             this.$nuxt.$emit("add-leave");
+            item.selected = true;
             return;
           } else {
             this.$router.push("/leaves-and-vacations/");
+            item.selected = true;
             setTimeout(() => {
               this.$nuxt.$emit("open-sidebar-admin", "leave");
               this.$nuxt.$emit("add-leave");

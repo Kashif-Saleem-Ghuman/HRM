@@ -14,7 +14,7 @@ export default {
 
 <style lang="scss">
 .no-record-found {
-  align-items: center;
+  align-items: left;
   justify-content: center;
   display: grid;
   padding: 50px 0;
@@ -23,7 +23,7 @@ export default {
   label {
     padding: 0;
     margin: 0;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 500;
     color: rgb(173, 173, 172);
     padding: 20px 0;

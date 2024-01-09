@@ -192,11 +192,13 @@ export default {
 .edit-allowance {
   display: flex;
   align-items: center;
-  width: 6rem;
+  width: 6.5rem;
+background-color: #fff;
+justify-content:left;
 
   &__action-icon {
     cursor: pointer;
-    margin-left: .1rem;
+    margin-left: 0.2rem;
   }
 
   &__input {

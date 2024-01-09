@@ -139,13 +139,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.scroll-wrapper {
-  height: 70vh;
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    display: none !important;
-  }
-}
 .custom-dropzone {
   .input--file {
     background: #fff;

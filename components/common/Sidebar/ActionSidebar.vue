@@ -26,8 +26,10 @@
     </div>
     <div style="height: 1px; background-color: #eee"></div>
     <div class="sidebar-body">
-      <div class="of-scroll-y height">
-        <div style="padding: 24px 24px 12px 24px"><slot name="sidebar-body"></slot></div>
+      <div :class="'of-scroll-y ' + classMain">
+        <div style="padding: 24px 24px 12px 24px">
+          <slot name="sidebar-body"></slot>
+        </div>
       </div>
       <div style="height: 1px; background-color: #eee"></div>
       <div
@@ -37,12 +39,10 @@
           justify-content: end;
           align-items: end;
           height: 100%;
-        
         "
         v-if="show == 'true'"
       >
-        <slot name="sidebar-footer">
-        </slot>
+        <slot name="sidebar-footer"> </slot>
       </div>
     </div>
   </div>
@@ -54,18 +54,21 @@ export default {
     className: {
       type: String,
     },
+    classMain: {
+      type: String,
+    },
     heading: {
       type: String,
     },
-    icon:{
-      type:String
+    icon: {
+      type: String,
     },
     copyLink: {
       type: String,
     },
-    show:{
+    show: {
       type: String,
-    }
+    },
   },
   data() {
     return {
@@ -79,6 +82,12 @@ export default {
       isFileFavorite: false,
     };
   },
+  computed: {
+    heightCalculate() {
+      console.log(this.classMain, "heightCalculateheightCalculate");
+      return this.classMain;
+    },
+  },
   methods: {
     closeSidebar() {
       this.$nuxt.$emit("close-sidebar");
@@ -88,21 +97,37 @@ export default {
 </script>
 <style lang="scss">
 @import "@/assets/variable.scss";
-@media (max-width:1900px){
-    .height{
-      height: 72vh !important;
-    }
+@media (max-width: 1900px) {
+  .height {
+    height: 72vh !important;
+  }
 }
-  @media (min-width:1900px){
-    .height{
-      height: 78vh !important;
-    }
+@media (min-width: 1900px) {
+  .height {
+    height: 78vh !important;
   }
-  @media (min-width:3000px){
-    .height{
-      height: 85vh !important;
-    }
+}
+@media (min-width: 3000px) {
+  .height {
+    height: 85vh !important;
   }
+}
+
+@media (max-width: 1900px) {
+  .heightEdit {
+    height: 82vh !important;
+  }
+}
+@media (min-width: 1900px) {
+  .heightEdit {
+    height: 90vh !important;
+  }
+}
+@media (min-width: 3000px) {
+  .heightEdit {
+    height: 92vh !important;
+  }
+}
 @keyframes slidein-right {
   from {
     transform: translateX(100%);

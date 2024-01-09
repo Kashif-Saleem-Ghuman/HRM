@@ -6,7 +6,11 @@
     >
       <template #topbar>
         <bib-header
-          :mainAction="accountType"
+          :mainAction="
+            accountType === 'CLIENT'
+              ? $i18n.t('inviteUsers')
+              : $i18n.t('seePlansPricing')
+          "
           @callToAction="headerActionCall()"
           @support-link="headerHelpClick()"
           @my-account-link="myProfile"

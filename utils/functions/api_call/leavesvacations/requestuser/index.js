@@ -212,12 +212,16 @@ export async function deleteLevaeVacation(value) {
   }
   this.loading = false;
 }
-export async function getUserLeavesDetailUser() {
+export async function getUserLeavesDetailUser(payload) {
   this.loading = true;
   try {
     const result = await axios.get(process.env.API_URL + "/widgets/request/", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      params: {
+        from: payload?.from,
+        to:payload?.to,
       },
     });
     this.loading = false;

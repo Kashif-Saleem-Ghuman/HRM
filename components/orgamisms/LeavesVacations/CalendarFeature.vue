@@ -131,6 +131,7 @@ import {
 import {
   addHandleInput,
   getCurrentYear,
+  generateYearList,
 } from "../../../utils/functions/functions_lib";
 import {
   getLeaveStatusIcon,
@@ -276,22 +277,7 @@ export default {
     getTextVariant,
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
-
-    generateYearList() {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const years = [];
-      for (let year = START_YEAR; year <= currentYear + 3; year++) {
-        const yearObject = {
-          label: year.toString(),
-          value: year,
-          selected: false
-        };
-        years.push(yearObject);
-      }
-
-      return years;
-    },
+    generateYearList,
 
     onSearchChange(value) {
       this.searchString = value;
@@ -317,7 +303,6 @@ export default {
         search: this.searchString,
         status: TIMESHEET_STATUSES.APPROVED
       });
-      
       this.setCalendarEvents(requests)
     },
     actionBY($event, key) {
@@ -440,6 +425,7 @@ export default {
     async handleEventClick(clickInfo) {
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
+      console.log(this.calendarOptions.events, "handleEventClickhandleEventClick")
       this.$nuxt.$emit("open-sidebar", item);
       this.$nuxt.$emit('close-sidebar-main')
 

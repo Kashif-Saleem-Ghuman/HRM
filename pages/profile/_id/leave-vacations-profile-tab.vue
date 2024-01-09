@@ -3,6 +3,16 @@
     <div class="" id="tab_info_wrapper">
       <div class="scroll_wrapper">
         <div class="px-1 py-05">
+          <div class="pb-05 d-flex justify-start">
+              <dropdown-menu-calendar
+                :items="dropMenuYear"
+                :label="selectedYear"
+                icon="arrowhead-down"
+                @on-click="changeYearView($event)"
+                class="mr-05"
+                className="button-wrapper__bgblack"
+              ></dropdown-menu-calendar>
+            </div>
           <div
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
@@ -50,16 +60,6 @@
             ></info-card-leave-vacation>
           </div>
           <div>
-            <div class="pb-05 d-flex justify-end">
-              <dropdown-menu-calendar
-                :items="dropMenuYear"
-                :label="selectedYear"
-                icon="arrowhead-down"
-                @on-click="changeYearView($event)"
-                class="mr-05"
-                className="button-wrapper__bgblack"
-              ></dropdown-menu-calendar>
-            </div>
             <div v-if="leaveList">
               <list-leave-attendance
                 :leaveData="leaveVacationDataUser"
@@ -121,7 +121,10 @@ export default {
     });
 
     await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id))
+      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id),{
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      })
       .then((result) => {
         this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
@@ -168,6 +171,15 @@ export default {
       await this.$store.dispatch("leavevacation/setActiveFromToDate", {
         from: this.fromDate,
         to: this.toDate,
+      });
+      await this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id),{
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      })
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
       });
       await this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {

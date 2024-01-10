@@ -72,23 +72,59 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-name-sort',
+        isActive: false,
+        sortKey: 'firstName',
+        type: 'string'
+      },
     },
     {
       key: "email",
       label: "Email",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-email-sort',
+        isActive: false,
+        sortKey: 'email',
+        type: 'string'
+      },
     },
     {
       key: "telephone",
       label: "Telephone",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-phone-sort',
+        isActive: false,
+        sortKey: 'phone',
+        type: 'phone'
+      },
     },
     {
       key: "department",
       label: "Department",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-department-sort',
+        isActive: false,
+        sortKey: 'department',
+        type: 'string'
+      },
     },
     {
       key: "hiredate",
       label: "Hire Date",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-hire-date-sort',
+        isActive: false,
+        sortKey: 'hireDate',
+        type: 'date'
+      },
     },
+    
   ],
   tHeadAttendanceUser: [
     {

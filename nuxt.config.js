@@ -95,9 +95,10 @@ export default {
       loaders.scss.additionalData = '@use "sass:math";';
     },
   },
-  loading: {
+  loading: false,
+  loadingIndicator: {
     color: "#0741A3",
-    // height: 0
+    background: "white",
   },
   target: "static",
   ssr: false,

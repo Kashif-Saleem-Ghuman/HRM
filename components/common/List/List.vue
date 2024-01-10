@@ -14,7 +14,7 @@
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
-        style="position: relative;"
+        style="position: relative"
       >
         <div
           style="cursor: pointer"
@@ -23,9 +23,7 @@
         >
           <bib-avatar
             variant="secondary-sub3"
-            :text="
-              data.value.firstName.slice(0, 1) + data.value.lastName.slice(0, 1)
-            "
+            :text="getEmployeeInitials(data.value)"
             text-variant="primary"
             size="2.3rem"
             v-show="data.value.photo === null"
@@ -50,11 +48,11 @@
         </div>
         <div
           class="info_wrapper"
-          style="width: 100%; cursor: pointer;"
+          style="width: 100%; cursor: pointer"
           @click="handleItemClick_Table(data.value.id, $event)"
         >
           <div class="title" :title="getEmployeeFullName(data.value)">
-            {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
+            {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
           </div>
           <div class="description">
             {{ data.value.jobTitle }}
@@ -115,7 +113,10 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../utils/functions/functions_lib";
-import { getEmployeeFullName } from "../../../utils/functions/common_functions"
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../utils/functions/common_functions";
 
 export default {
   props: {
@@ -156,10 +157,11 @@ export default {
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,
+    getEmployeeInitials,
     tableItemClick(event, key, item) {
-      const id = item?.id
+      const id = item?.id;
       if (id) {
-        this.viewProfile(id)
+        this.viewProfile(id);
       }
     },
     onLoad(item) {

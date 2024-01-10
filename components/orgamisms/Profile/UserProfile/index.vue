@@ -5,8 +5,8 @@
     >
       <section-header-left
         :title="
-          form.firstName || form.lastName != undefined
-            ? form.firstName + ' ' + form.lastName
+          getEmployeeFullName(form) != 'undefined undefined'
+            ? getEmployeeFullName(form)
             : '---'
         "
         :avatar="form.photo"
@@ -36,6 +36,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { USER_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../../utils/functions/common_functions";
 
 export default {
   data() {
@@ -44,60 +48,60 @@ export default {
       activeTab: null,
       form: {},
       id: "",
-      topNav:0,
-      name:{},
+      topNav: 0,
+      name: {},
     };
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
       getUserRole: "token/getUserRole",
-
     }),
-
   },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     this.id = this.$route.params.id ?? this.getUser.id;
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
-    await this.$store.dispatch("employee/setUser", this.id).then((result)=>{
+    await this.$store.dispatch("employee/setUser", this.id).then((result) => {
       this.form = result;
     });
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
-     this.$store.dispatch("employee/setUser", this.id).then((result)=>{
-      this.form = result
-      this.topNav += 1;
-     })
-    return;
-    })
+      this.$store.dispatch("employee/setUser", this.id).then((result) => {
+        this.form = result;
+        this.topNav += 1;
+      });
+      return;
+    });
   },
-  
+
   methods: {
+    getEmployeeFullName,
+    getEmployeeInitials,
     onTabChange(tab) {
       this.$router.push(tab.route);
       this.$nuxt.$emit("close-sidebar");
-          this.$nuxt.$emit("close-sidebar-main");
+      this.$nuxt.$emit("close-sidebar-main");
     },
     setActiveTab() {
       const route = this.$route.fullPath;
       const activeTab = USER_PROFILE_TAB.find((tab) =>
         route.includes(tab.route)
       );
-      this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value
+      this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value;
     },
   },
 
   watch: {
     //Added this watcher because when client is already on another profile, searching for another employee will not update the page.
-    '$route.params.id': {
-      handler: function(val, old) {
-        if ((val && old) && val != old) {
-          window.location.reload()
+    "$route.params.id": {
+      handler: function (val, old) {
+        if (val && old && val != old) {
+          window.location.reload();
         }
-      }
-    }
+      },
+    },
   },
 };
 </script>

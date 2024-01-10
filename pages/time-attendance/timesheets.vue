@@ -47,7 +47,7 @@
     <div class="scroll_wrapper">
       <div>
         <list-timesheet :timesheetsList="timesheetsList" :startDate="weekDates.from" :endDate="weekDates.to"></list-timesheet>
-        <loader v-bind:showloader="loading"></loader>
+        <loader :loading="loading"></loader>
       </div>
     </div>
   </div>

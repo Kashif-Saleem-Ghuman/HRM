@@ -31,7 +31,7 @@
     <div class="scroll_wrapper">
       <div>
         <list-dashboard :userList="employees"></list-dashboard>
-        <loader :showloader="loading"></loader>
+        <loader :loading="loading"></loader>
       </div>
     </div>
 

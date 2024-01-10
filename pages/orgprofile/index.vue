@@ -185,7 +185,7 @@
         </div>
       </div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
-      <loader v-bind:showloader="loading"></loader>
+      <loader :loading="loading"></loader>
     </div>
   </form-with-validations>
 </template>

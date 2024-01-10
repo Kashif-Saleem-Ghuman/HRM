@@ -1,92 +1,66 @@
-<template>
-  <div class="customLoader" id="customLoader" v-show="showloader">
-    <div class="inner" id="customLoaderInner">
-      <div class="spinner" id="spinner"></div>
-      <span> {{ text }}</span>
+<template >
+  <div class="spinner_drive peak w-100 h-100" v-if="loading">
+      <div class="d-flex h-100 justify-center align-center">
+        <bib-spinner variant="primary-24" :scale="10"></bib-spinner>{{text}}
+      </div>
     </div>
-  </div>
 </template>
 <script>
 export default {
-  name: "Loader",
+
+  name: 'Loader',
 
   data() {
-    return {};
+      return {
+          
+
+      }
   },
   props: {
-    showloader: {
-      type: Boolean,
-      default: false,
-    },
-    text: {
-      type: String,
-      default: "",
-    },
-  },
-};
+    loading: { type: Boolean, default: false },
+      text: String,
+  }
+}
 </script>
-<style lang="css">
-.customLoader {
+<style lang="scss" scoped>
+.spinner_drive {
   position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 1011;
   top: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 9999 !important;
+  left: 0;
+  -webkit-animation: fadein .5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein .5s; /* Firefox < 16 */
+   -ms-animation: fadein .5s; /* Internet Explorer */
+    -o-animation: fadein .5s; /* Opera < 12.1 */
+       animation: fadein .5s;
+       animation-delay: .8s;
+  background: rgba(0, 0, 0, 0.25);
   bottom: 0;
+  width: 100vw;
+  height: 100vh;
 }
-
-.customLoader .inner {
-  padding: 0.5rem;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  font-size: 0.9rem;
-  color: #999;
-  text-align: center;
+@keyframes fadein {
+  from { visibility: hidden; opacity: 0; }
+  to   { visibility:visible; opacity: 1; }
 }
-.customLoader .inner span {
-  margin-left: -20px;
+ 
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { visibility: hidden; opacity: 0; }
+  to   { visibility:visible; opacity: 1; }
 }
-
-.customLoader .spinner {
-  width: 4rem;
-  height: 4rem;
-  position: relative;
+ 
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { visibility: hidden; opacity: 0; }
+  to   { visibility:visible; opacity: 1; }
 }
-
-.customLoader .spinner::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  content: "";
-  border: 6px solid #ddd;
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 50%;
-  border-left-color: #0841a3;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-duration: 0.4s;
-  animation-duration: 0.8s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-name: rotate;
-  animation-name: rotate;
-}
-@keyframes rotate {
-  0% {
-    -webkit-transform: translate(-50%, -50%) rotate(0);
-    transform: translate(-50%, -50%) rotate(0);
-  }
-  100% {
-    -webkit-transform: translate(-50%, -50%) rotate(1turn);
-    transform: translate(-50%, -50%) rotate(1turn);
-  }
+ 
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { visibility: hidden; opacity: 0; }
+  to   { visibility:visible; opacity: 1; }
 }
 </style>

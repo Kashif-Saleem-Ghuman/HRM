@@ -9,6 +9,7 @@
     hide-quick-select
     @input="onChange"
     :editable="dis"
+    :disable-weekends="true"
     v-if="dis"
   ></bib-datetime-picker>
   <bib-datetime-picker
@@ -20,6 +21,7 @@
     @input="onChange"
     :editable="dis"
     class="align-items"
+    :disable-weekends="true"
     v-if="!dis"
   ></bib-datetime-picker>
   </div>

@@ -28,7 +28,7 @@
             <div class="scroll_wrapper">
               <div style="z-index: 1">
                 <list-dashboard :userList="employees"></list-dashboard>
-                <loader v-bind:showloader="loading"></loader>
+                <loader :loading="loading"></loader>
               </div>
             </div>
           </div>

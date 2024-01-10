@@ -66,7 +66,7 @@
           :leaveData="leaveVacationDataUser"
           @delete-item="deleteConfirmation($event)"
         ></list-leave-attendance>
-        <loader v-bind:showloader="loading"></loader>
+        <loader :loading="loading"></loader>
       </div>
       <div v-else-if="!leaveList">
         <no-record></no-record>

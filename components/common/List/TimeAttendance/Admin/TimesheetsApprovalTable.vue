@@ -1,6 +1,6 @@
 <template>
   <div class="timesheets-approval-table-container">
-    <loader v-if="loading" :showloader="loading"></loader>
+    <loader :loading="loading"></loader>
     
     <no-record v-if="showNoData"></no-record>
 

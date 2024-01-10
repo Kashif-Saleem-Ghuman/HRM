@@ -15,7 +15,7 @@
         :class="className"
       >
         <div class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete">
-          <div class="custom-remove" :class="customRemove" style="z-index: 999">
+          <div class="custom-remove" :class="customRemove" style="z-index: 99">
             <span @click.stop="deleteConfirmation(src)" class="delIcon">
               <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
             </span>

@@ -14,7 +14,9 @@
         style="position: relative"
         :class="className"
       >
-        <div class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete">
+        <div
+          class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete"
+        >
           <div class="custom-remove" :class="customRemove" style="z-index: 99">
             <span @click.stop="deleteConfirmation(src)" class="delIcon">
               <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
@@ -47,7 +49,14 @@ import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
-import { vfileRemove } from "@/utils/functions/functions_lib";
+var fileExt;
+const IMAGE_TYPE = {
+  jpeg: "image/jpeg",
+  gif: "image/gif",
+  png: "image/png",
+  webp: "image/webp",
+  jpg: "image/jpeg",
+};
 export default {
   props: {
     className: {
@@ -62,9 +71,9 @@ export default {
     disable: {
       type: Boolean,
     },
-    confirmastionMessageModal:{
-      type: Boolean
-    }
+    confirmastionMessageModal: {
+      type: Boolean,
+    },
   },
   name: "app",
   components: {
@@ -78,21 +87,27 @@ export default {
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       deleteModalContent: DELETE_MESSAGE[2],
-      dropzoneRefresh:0,
+      dropzoneRefresh: 0,
       dropzoneOptions: {
         // previewTemplate: this.getTempalte(),
         url: "false",
-        autoProcessQueue: true,
+        autoProcessQueue: false,
         thumbnailWidth: 120,
         thumbnailHeight: 120,
         addRemoveLinks: false,
         dictRemoveFile: "Remove Image",
         maxFilesize: 2,
         maxFiles: 1,
+        acceptedFiles: "image/*",
         clickable: true,
         init: function () {
           this.on("addedfile", function (file) {
             var fileSize = file.size / (1024 * 1024);
+            fileExt = file.name.split(".").pop();
+            if (file.type != IMAGE_TYPE[fileExt]) {
+              this.removeFile(file);
+              return;
+            }
             if (fileSize > 2) {
               this.removeFile(file);
               return;
@@ -102,7 +117,7 @@ export default {
       },
     };
   },
-  created(){
+  created() {
     this.$root.$on("dropzone-key", () => {
       this.dropzoneRefresh += 1;
     });
@@ -118,6 +133,11 @@ export default {
     },
     maxFilesSize(file) {
       var fileSize = file[0].size / (1024 * 1024);
+      console.log(file);
+      if (file[0].type != IMAGE_TYPE[fileExt]) {
+        this.openPopupNotification(10);
+        return;
+      }
       if (fileSize > 2) {
         this.openPopupNotification(5);
         return;

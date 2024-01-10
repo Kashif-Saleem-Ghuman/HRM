@@ -77,7 +77,6 @@
   },
     methods: {
       async getOrganizationEntries() {
-        this.loading = true
         const date = this.getCurrentDate
         const data = await getTimeAttendance({ date });
         const employees = data.employees
@@ -88,7 +87,6 @@
         });
         
         this.employees = employees
-        this.loading = false
       },
       
       parseDate(dateString, format) {

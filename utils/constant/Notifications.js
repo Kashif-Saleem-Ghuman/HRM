@@ -39,4 +39,8 @@ export const popupNotificationMsgs = [
     text: "The leave has been canceled successfully...",
     variant: "primary-24",
   },
+  {
+    text:"You can't upload files of this type.",
+    variant:"danger"
+  }
 ];

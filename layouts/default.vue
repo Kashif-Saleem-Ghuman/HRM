@@ -214,7 +214,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE3MDI1NjM0NjUyNjQsImV4cCI6MTcxMDMzOTQ2NTI2NCwianRpIjoiYTk3YWIyYmYtMzdjNC00N2ViLTgxNTYtZjQwNjMyNzhhYmVjIn0.T3wwRZaLtwhKk__U8uLDkk4DoyHp7V6YnPwOE2KDnG0",
+      token: "",
     };
   },
 

@@ -24,7 +24,7 @@
                           :value="form.employeeStatus"
                           :options="statusOptions"
                           placeholder="Select your employee status"
-                          disabled
+                          :disabled="isDisabled"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -34,6 +34,7 @@
                           field-key="employeeNo"
                           :value="form.employeeNo"
                           placeholder=""
+                          :disabled="isDisabled"
                         ></form-input>
                       </div>
                     </div>
@@ -45,6 +46,7 @@
                           field-key="sin"
                           :value="form.sin"
                           placeholder=""
+                          :disabled="isDisabled"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -54,6 +56,7 @@
                           field-key="hireDate"
                           :value="form.hireDate"
                           placeholder="Select your Hire Date"
+                          :editable="!isDisabled"
                         ></form-input>
                       </div>
                     </div>
@@ -66,6 +69,7 @@
                           :value="form.employmentType"
                           :options="employmentTypeOptions"
                           placeholder=""
+                          :disabled="isDisabled"
                         ></form-input>
                       </div>
                     </div>
@@ -97,6 +101,7 @@
                             field-key="jobTitle"
                             :value="form.jobTitle"
                             placeholder=""
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                         <div class="col-6">
@@ -105,7 +110,7 @@
                             label="Department"
                             value="HRM"
                             placeholder=""
-                            disabled="disabled"
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                       </div>
@@ -120,6 +125,7 @@
                             class="mb-05"
                             placeholder="Please select reporting manager"
                             icon-left="file"
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                       </div>
@@ -132,7 +138,7 @@
                             :value="form.email"
                             placeholder=""
                             icon-left="file"
-                            :disabled="true"
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                       </div>
@@ -144,6 +150,7 @@
                             field-key="phone"
                             :value="form.phone"
                             placeholder=""
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                       </div>
@@ -171,8 +178,12 @@ import { getEmployee } from "@/utils/functions/api_call/employees.js"
 
 export default {
   computed: {
+    isDisabled() {
+      return this.getUserRole === "ADMIN" ? false : true;
+    },
     ...mapGetters({
       getUser: "employee/GET_USER",
+      getUserRole: "token/getUserRole",
     }),
   },
 

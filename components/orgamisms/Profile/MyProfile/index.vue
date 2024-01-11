@@ -26,9 +26,13 @@
               <employee-profile-form></employee-profile-form>
             </div>
           </div>
-
-          <div id="files-information-wrapper">
+          <div id="employee-information-wrapper">
             <div v-if="activeTab == personalTabItem[1].value">
+              <employment-info-form></employment-info-form>
+            </div>
+          </div>
+          <div id="files-information-wrapper">
+            <div v-if="activeTab == personalTabItem[2].value">
               <div id="scroll-wrapper" class="scroll-wrapper">
                 <files-form></files-form>
               </div>

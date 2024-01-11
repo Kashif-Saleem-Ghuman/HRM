@@ -62,7 +62,7 @@
 
         <div class="items">
           <label>Scheduled</label>
-          <span class="pl-05">{{ scheduledDays }}</span>
+          <span class="pl-05">{{ scheduledDays }} </span>
         </div>
       </div>
       <bib-button
@@ -132,8 +132,10 @@ export default {
   },
   computed: {
     getpercentageValue() {
-      return (this.daysUsed / this.totalAllowance).toFixed(2) * 100 || "0";
+      const totalLeave = this.daysUsed + this.scheduledDays
+      return (totalLeave / this.totalAllowance).toFixed(2) * 100 || "0";
     },
+    
     balanceLeaveValue() {
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
         const balance = this.totalAllowance - this.daysUsed

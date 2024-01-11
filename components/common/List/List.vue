@@ -2,9 +2,14 @@
   <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
-    :sections="userList"
+    :sections="employees"
     :hide-no-column="true"
     @item-clicked="tableItemClick"
+    @employee-name-sort="sortColumn('name')"
+    @employee-email-sort="sortColumn('email')"
+    @employee-phone-sort="sortColumn('telephone')"
+    @employee-hire-date-sort="sortColumn('hiredate')"
+    @employee-department-sort="sortColumn('department')"
   >
     <!-- <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -118,6 +123,7 @@ import {
   getEmployeeInitials,
 } from "../../../utils/functions/common_functions";
 
+import { sortColumn } from "../../../utils/functions/table-sort"
 export default {
   props: {
     userList: {
@@ -131,6 +137,7 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      sortByField: null
     };
   },
   created() {
@@ -148,6 +155,11 @@ export default {
   //   }
   // },
   computed: {
+    employees() {
+      if (!this.sortByField) return this.userList
+
+      return sortColumn({ items: this.userList, field: this.sortByField })
+    },
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
     }),
@@ -158,6 +170,15 @@ export default {
     handleItemClick_Table,
     getEmployeeFullName,
     getEmployeeInitials,
+
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false
+      }
+      const field = this.tableFields.find( field => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive
+      this.sortByField = field
+    },
     tableItemClick(event, key, item) {
       const id = item?.id;
       if (id) {

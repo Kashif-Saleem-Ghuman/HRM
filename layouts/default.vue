@@ -47,7 +47,7 @@
       <template #content>
         <div id="main-content">
           <Nuxt />
-          <loader :loading="loading"></loader>
+          <!-- <loader :loading="loading"></loader> -->
           <action-sidebar
             @close="closeSidebar"
             :className="slideClass"
@@ -304,7 +304,6 @@ export default {
     });
   },
   async mounted() {
-    this.loading = true;
     if (!this.getJwtToken()) {
       this.redirectToLogin();
     }
@@ -319,7 +318,6 @@ export default {
       this.employeeNameSelect = activeId;
     });
     this.employeesOptions = this.getReportList;
-    this.loading = false;
 
     this.setDebouncedSearch();
   },
@@ -344,7 +342,6 @@ export default {
           }
         })
         .catch((err) => {
-          this.loading = false;
           console.log(err);
         });
     },

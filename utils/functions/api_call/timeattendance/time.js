@@ -164,7 +164,6 @@ export async function getUserTimesheetWidget() {
 }
 
 export async function getTimeAttendanceDaily(date) {
-  this.loading = true;
   try {
     const config = createConfig();
     config.params = {
@@ -181,7 +180,6 @@ export async function getTimeAttendanceDaily(date) {
   } catch (e) {
     console.log(e);
   }
-  this.loading = false;
 }
 
 export async function getTimeAttendanceCustomRange({ from, to, searchString }) {

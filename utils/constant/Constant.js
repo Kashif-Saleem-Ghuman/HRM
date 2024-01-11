@@ -722,6 +722,11 @@ export const EMPLOYEE_PROFILE_TAB = [
 
   },
   {
+    title: "Employment Information",
+    value: "Employment Information",
+    route: "employment-information-tab",
+  },
+  {
     title: "Files",
     value: "files",
     route: "files-profile-tab",

@@ -5,6 +5,7 @@
     class="form-date-picker"
     v-model="value"
     :maxDate="maxDate"
+    :editable="editable"
     @input="onInput"
     hide-quick-select
     :display-format="displayFormat ?? 'YYYY-MM-DD'"
@@ -17,6 +18,7 @@
     :instruction="error"
     @input="onInput"
     :variant="error ? 'alert' : ''"
+    :disable="disable"
   ></bib-input>
 </template>
 
@@ -34,6 +36,12 @@ export default {
     displayFormat: {
       type: String,
       required: false,
+    },
+    disable:{
+      type:Boolean,
+    },
+    editable: {
+      type: Boolean,
     },
   },
 

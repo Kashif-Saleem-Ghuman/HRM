@@ -21,7 +21,7 @@ export default {
     setData(data = []) {
       const title = "Attendance"
       const subheading = 'Present'
-      const value = data?.filter(e => (e.active || e.present)).length || 0
+      const value = data?.filter(e => (e.active || e.presence === 'in')).length || 0
       this.data = {
         title,
         subheading,
@@ -30,7 +30,7 @@ export default {
     },
 
     setAvatars(data = []) {
-      this.avatars = data?.filter(e => (e.active || e.present)) || []
+      this.avatars = data?.filter(e => (e.active || e.presence === 'in')) || []
     }
   },
 

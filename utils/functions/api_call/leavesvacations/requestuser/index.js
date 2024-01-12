@@ -81,8 +81,7 @@ export async function addLeaveVacations() {
         });
     }
   } catch (e) {
-    this.$nuxt.$emit('catch-error', e.response.data.message)
-    alert("e.response.data.message");
+    alert(e.response.data.message);
   }
   this.loading = false;
 }

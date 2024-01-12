@@ -2,10 +2,14 @@
   <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
-    :sections="listPending"
+    :sections="leavePendingList"
     :hide-no-column="true"
     @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
+    @employee-name-sort="sortColumn('name')"
+    @employee-type-sort="sortColumn('type')"
+    @employee-start-sort="sortColumn('from')"
+    @employee-end-sort="sortColumn('to')"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -114,6 +118,7 @@
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 import { getEmployeeFullName } from "../../../../utils/functions/common_functions"
+import { sortColumn } from "../../../../utils/functions/table-sort"
 
 export default {
   props: {
@@ -136,16 +141,34 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      sortByField:null
     };
   },
+  computed: {
+    leavePendingList() {
+      if (!this.sortByField) return this.listPending
+
+      return sortColumn({ items: this.listPending, field: this.sortByField })
+    },
+  },
+
   methods: {
     getEmployeeFullName,
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false
+      }
+      const field = this.tableFields.find( field => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive
+      this.sortByField = field
+    },
+    
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
-    handleItemClick_Table($event, keyI, item) {
-      this.$router.push("/profile/" + item.id);
-    },
+    // handleItemClick_Table($event, keyI, item) {
+    //   this.$router.push("/profile/" + item.id);
+    // },
     handleAction($event) {
       this.$emit("get-id", $event);
     },

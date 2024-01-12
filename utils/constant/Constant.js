@@ -723,7 +723,7 @@ export const EMPLOYEE_PROFILE_TAB = [
   },
   {
     title: "Employment Information",
-    value: "Employment Information",
+    value: "employement-info",
     route: "employment-information-tab",
   },
   {

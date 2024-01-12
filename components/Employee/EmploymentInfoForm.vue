@@ -5,6 +5,7 @@
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
     v-show="form.id"
+    :buttonDisable="buttonDisable"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">
@@ -177,6 +178,12 @@ import { mapGetters } from "vuex";
 import { getEmployee } from "@/utils/functions/api_call/employees.js"
 
 export default {
+  props:{
+    buttonDisable:{
+  type:Boolean,
+  default:false
+},
+  },
   computed: {
     isDisabled() {
       return this.getUserRole === "ADMIN" ? false : true;

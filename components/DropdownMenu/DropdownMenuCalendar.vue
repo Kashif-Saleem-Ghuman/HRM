@@ -40,7 +40,7 @@
 export default {
   props: {
     label: {
-      type: String,
+      type: [String, Number],
     },
     variant: {
       type: String,

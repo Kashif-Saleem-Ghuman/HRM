@@ -1,7 +1,7 @@
 <template>
   <div class="my-profile-wrapper">
     <div
-      class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
+      class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
     >
       <section-header-left
         :title="getEmployeeFullName(form) != 'undefined undefined' ? getEmployeeFullName(form) : '---'"
@@ -10,8 +10,8 @@
     </div>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
-        <div class="row mx-0 bottom_border_wrapper">
-          <div class="col-12 px-1">
+        <div class="px-1 bottom_border_wrapper">
+          <div class="">
             <bib-tabs
               :tabs="personalTabItem"
               :value="activeTab"
@@ -28,7 +28,7 @@
           </div>
           <div id="employee-information-wrapper">
             <div v-if="activeTab == personalTabItem[1].value">
-              <employment-info-form></employment-info-form>
+              <employment-info-form :buttonDisable="true"></employment-info-form>
             </div>
           </div>
           <div id="files-information-wrapper">
@@ -83,7 +83,7 @@ export default {
     ...mapGetters({
       getUser: "employee/GET_USER",
       getAccessToken: "token/getAccessToken",
-      activeUserRole: "token/getUserRole",
+      getUserRole: "token/getUserRole",
       getActiveUserData: "token/getActiveUserData",
       
     }),

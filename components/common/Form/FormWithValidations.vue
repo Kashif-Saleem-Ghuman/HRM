@@ -9,7 +9,7 @@
         ref="formActionButtonsSlot"
       ></slot>
 
-      <div v-if="!hasFormActionButtonsSlot" id="action-button">
+      <div v-if="!hasFormActionButtonsSlot" id="action-button-profile">
         <div class="row mx-0 pl-1 pb-1 pt-05">
           <div class="col-6 row-custom">
             <div
@@ -21,6 +21,7 @@
                 size="lg"
                 class="mr-1"
                 style="width: 50%; display: flex; justify-content: center"
+                :disabled="buttonDisable"
               ></bib-button>
               <bib-button
                 label="Save"
@@ -28,6 +29,7 @@
                 size="lg"
                 @click="handleSubmit"
                 style="width: 50%; display: flex; justify-content: center"
+                :disabled="buttonDisable"
               ></bib-button>
             </div>
           </div>
@@ -44,7 +46,7 @@ import { validateFormField } from "@/utils/form-validations/validate-form-field"
 import { merge } from "lodash";
 import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
-
+import {mapGetters} from 'vuex';
 export default {
   provide() {
     return {
@@ -59,7 +61,10 @@ export default {
     form: {
       type: Object,
     },
-
+    buttonDisable:{
+  type:Boolean,
+  default:false
+},
     isCreateForm: {
       type: Boolean,
       default: false,
@@ -78,6 +83,12 @@ export default {
         !!this.$scopedSlots["form-action-buttons"]
       );
     },
+    isDisabled() {
+      return this.getUserRole === "ADMIN" ? false : true;
+    },
+    ...mapGetters({
+      getUserRole: "token/getUserRole",
+    }),
   },
 
   data() {

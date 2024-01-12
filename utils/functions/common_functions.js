@@ -1,6 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import fecha, { format } from "fecha";
+import { DateTime } from "luxon";
 
 export async function getUser() {
   let userId = localStorage.getItem("userId");
@@ -69,17 +70,17 @@ export function dateCheck(dateTime) {
 export function getCurrentDateMonth() {
   var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
   let date = new Date(cuDate);
-  let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-  let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DDT12:00:00");
-  this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DDT11:59:00");
+  let firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toISOString();
+  let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString();
+  this.fromDate = DateTime.fromISO(firstDay).startOf('day').toUTC().toISO();
+  this.toDate = DateTime.fromISO(lastDay).endOf('day').toUTC().toISO();
 }
 export function getCurrentYear() {
   const currentYear = this.selectedYear;
-  const firstDay = new Date(currentYear, 0, 1);
-  const lastDay = new Date(currentYear, 11, 31);
-  this.fromDate = fecha.format(new Date(firstDay), "YYYY-MM-DDT12:00:00");
-  this.toDate = fecha.format(new Date(lastDay), "YYYY-MM-DDT11:59:00");
+  const firstDay = new Date(currentYear, 0, 1).toISOString();
+  const lastDay = new Date(currentYear, 11, 31).toISOString();
+  this.fromDate = DateTime.fromISO(firstDay).startOf('day').toUTC().toISO();
+  this.toDate = DateTime.fromISO(lastDay).endOf('day').toUTC().toISO();
 }
 export function getCurrentWeek() {
   var curr = new Date(); // get current date

@@ -60,6 +60,7 @@ export const getFileExtension = (icon) => {
   const statusMap = {
     pdf: "pdf",
     jpg: "jpg",
+    jpeg: "jpg",
     webp: "jpg",
     png: "png",
     docx: "docx",

@@ -37,8 +37,6 @@ export const mutations = {
 export const  actions = {
     async setLeaveVacations(ctx, payload) {
     const { from, to, search, status } = payload
-
-    this.loading = true;
     try {
       const leaveVacations = await axios.get(
         `${process.env.API_URL}/requests/admin`,
@@ -60,11 +58,8 @@ export const  actions = {
     } catch (e) {
       alert(e);
     }
-    this.loading = false;
   },
   async setLeaveVacationsUser(ctx, payload) {
-
-    this.loading = true;
     try {
       const leaveVacations = await axios.get(
         `${process.env.API_URL}/requests`,
@@ -90,7 +85,6 @@ export const  actions = {
       }
       console.log(e);
     }
-    this.loading = false;
   },
   setActiveFromToDate(context, payload) {
     context.commit('SET_FROMTODATE_LIST', payload)

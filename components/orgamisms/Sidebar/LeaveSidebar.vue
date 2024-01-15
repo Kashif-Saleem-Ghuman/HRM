@@ -29,11 +29,12 @@
             <div>
               <info-card-success
                 :label="getStatusLabel(leaveStatus.status)"
-                :message="getMessage(leaveStatus.status)"
-                :icon="getLeaveStatusIcon(leaveStatus.status)"
+                :managerAction="getMessage(leaveStatus.status)"
+                :icon="getStatusLabel(leaveStatus.status) === 'Rejected' ? 'tick' : getLeaveStatusIcon(leaveStatus.status)"
                 :variant="getLeaveTypeIconVariant(leaveStatus.status)"
                 :className="getLeaveTypeClassName(leaveStatus.status)"
                 :classNameWrapper="getTextVariant(leaveStatus.status)"
+                :refusalReason="leaveStatus.refusalReason"
               ></info-card-success>
             </div>
             <div class="d-flex justify-end text-dark py-1" v-if="showDelButton">
@@ -185,12 +186,15 @@ export default {
       this.confirmastionMessageModal = false;
     },
     getMessage(MESSAGE) {
+      const statusChangeDate = DateTime.fromISO(this.form.statusChangeDate).toFormat('dd-MM-yyyy');
       const messageStatus = {
-        approved: `Request approved by ${getEmployeeFullName(
+        approved: `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
           this.form.manager
         )}`,
         pending: "Pending",
-        rejected: this.form.refusalReason,
+        rejected: `Request Rejected on ${statusChangeDate} by ${getEmployeeFullName(
+          this.form.manager
+        )}`,
       };
       return (MESSAGE = messageStatus[MESSAGE]);
     },

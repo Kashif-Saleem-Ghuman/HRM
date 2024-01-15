@@ -103,10 +103,8 @@ export async function getAllowanceDays(leaveType) {
   } catch (e) {
     alert(e);
   }
-  this.loading = false;
 }
 export async function getAllowancVacationeDays() {
-  this.loading = true;
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/requests/allowance-days",
@@ -119,7 +117,6 @@ export async function getAllowancVacationeDays() {
         },
       }
     );
-    this.loading = false;
     this.allowanceVacationData = allowanceDays.data;
   } catch (e) {
     alert(e);
@@ -127,7 +124,6 @@ export async function getAllowancVacationeDays() {
   this.loading = false;
 }
 export async function getAllowancMedicalDays() {
-  this.loading = true;
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/requests/allowance-days",
@@ -140,15 +136,12 @@ export async function getAllowancMedicalDays() {
         },
       }
     );
-    this.loading = false;
     this.allowanceMedicalData = allowanceDays.data;
   } catch (e) {
     alert(e);
   }
-  this.loading = false;
 }
 export async function getAllowanceLeaveDays() {
-  this.loading = true;
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/requests/allowance-days",
@@ -161,7 +154,6 @@ export async function getAllowanceLeaveDays() {
         },
       }
     );
-    this.loading = false;
     this.allowanceLeaveData = allowanceDays.data;
   } catch (e) {
     alert(e);
@@ -169,7 +161,6 @@ export async function getAllowanceLeaveDays() {
   this.loading = false;
 }
 export async function getAllowancOtherDays() {
-  this.loading = true;
   try {
     const allowanceDays = await axios.get(
       process.env.API_URL + "/requests/allowance-days",
@@ -182,7 +173,6 @@ export async function getAllowancOtherDays() {
         },
       }
     );
-    this.loading = false;
     this.allowanceOtherData = allowanceDays.data;
   } catch (e) {
     alert(e);
@@ -213,7 +203,6 @@ export async function deleteLevaeVacation(value) {
   this.loading = false;
 }
 export async function getUserLeavesDetailUser(payload) {
-  this.loading = true;
   try {
     const result = await axios.get(process.env.API_URL + "/widgets/request/", {
       headers: {
@@ -229,5 +218,4 @@ export async function getUserLeavesDetailUser(payload) {
   } catch (e) {
     alert(e);
   }
-  this.loading = false;
 }

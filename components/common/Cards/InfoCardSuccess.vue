@@ -12,19 +12,27 @@
       </div>
       <div>
         <div class="label">{{label}}</div>
-        <div class="info-card-inner-wrapper_desc"><!--Request approved by + --> {{message}}</div>
+        <div class="info-card-inner-wrapper_desc">{{managerAction}}</div>
+        <div class="info-card-inner-wrapper_desc">{{refusalReason}}</div>
+
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
+import { DateTime } from 'luxon';
+
 export default {
   name: "Chips",
   props: {
     label: {
       type: String,
     },
-    message: {
+    managerAction: {
+      type: String,
+    },
+    refusalReason: {
       type: String,
     },
     icon: {
@@ -38,11 +46,16 @@ export default {
     },
     classNameWrapper:{
       type:String
-    }
+    },
   },
   data() {
-    return {};
+    return {
+      manager:'',
+    };
   },
+  methods:{
+    getEmployeeFullName,
+  }
 };
 </script>
 <style lang="scss">

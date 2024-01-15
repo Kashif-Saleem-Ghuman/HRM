@@ -9,7 +9,7 @@
     <div class="employee_wrapper">
       <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left
-          :title="'Org Profile - ' + org.companyName"
+          title="Org Profile"
         ></section-header-left>
       </div>
       <div>

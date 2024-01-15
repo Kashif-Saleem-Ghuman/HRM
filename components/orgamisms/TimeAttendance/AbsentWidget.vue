@@ -10,12 +10,10 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.loading = true
       const data = this.employeesAttendance
       if (data) {
         this.setData(data)
         this.setAvatars(data)
-        this.loading = false
       }
     },
     setData(data = []) {

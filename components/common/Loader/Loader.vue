@@ -1,14 +1,12 @@
 <template >
-  <div class="spinner_drive peak w-100 h-100" v-if="loading">
-      <div class="d-flex h-100 justify-center align-center">
-        <bib-spinner variant="primary-24" :scale="10"></bib-spinner>{{text}}
-      </div>
-    </div>
+  <div v-if="loading" id="loading-comp" class="position-absolute d-flex align-center justify-center comp-loading ">
+      <bib-spinner variant="primary" :scale="10"></bib-spinner> {{text}}
+  </div>
 </template>
 <script>
 export default {
 
-  name: 'Loader',
+  name: 'Loading',
 
   data() {
       return {
@@ -17,50 +15,19 @@ export default {
       }
   },
   props: {
-    loading: { type: Boolean, default: false },
+    loading: { type: Boolean, default: true },
       text: String,
   }
 }
 </script>
 <style lang="scss" scoped>
-.spinner_drive {
-  position: absolute;
-  top: 0;
-  right: 0;
-  opacity: 0;
-  z-index: 9999 !important;
-  left: 0;
-  -webkit-animation: fadein .5s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein .5s; /* Firefox < 16 */
-   -ms-animation: fadein .5s; /* Internet Explorer */
-    -o-animation: fadein .5s; /* Opera < 12.1 */
-       animation: fadein .5s;
-       animation-delay: .8s;
-  background: rgba(0, 0, 0, 0.25);
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
+.comp-loading {
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+background-color: rgba(250,250,250, 1);
+z-index: 29;
 }
-@keyframes fadein {
-  from { visibility: hidden; opacity: 0; }
-  to   { visibility:visible; opacity: 1; }
-}
- 
-/* Firefox < 16 */
-@-moz-keyframes fadein {
-  from { visibility: hidden; opacity: 0; }
-  to   { visibility:visible; opacity: 1; }
-}
- 
-/* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes fadein {
-  from { visibility: hidden; opacity: 0; }
-  to   { visibility:visible; opacity: 1; }
-}
- 
-/* Internet Explorer */
-@-ms-keyframes fadein {
-  from { visibility: hidden; opacity: 0; }
-  to   { visibility:visible; opacity: 1; }
-}
+
 </style>

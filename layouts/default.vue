@@ -121,6 +121,7 @@
           >
           </bib-clock-wrapper>
         </div>
+        <loader :loading="loading"></loader>
       </template>
     </bib-app-wrapper>
   </div>
@@ -158,7 +159,6 @@ import {
   headerActionCall,
   openPopupNotification,
   isThemeCheck,
-  getBusinessId,
 } from "../utils/functions/functions_lib.js";
 
 import routesCheck from "../middleware/routes.client";
@@ -304,11 +304,11 @@ export default {
     });
   },
   async mounted() {
+    this.loading = true
     if (!this.getJwtToken()) {
       this.redirectToLogin();
     }
     await this.loadUser();
-    this.getBusinessId();
     this.isThemeCheck();
     this.$store.dispatch("employee/setReportsToList");
     await this.$store.dispatch("employee/setActiveUser").then(async (user) => {
@@ -320,6 +320,7 @@ export default {
     this.employeesOptions = this.getReportList;
 
     this.setDebouncedSearch();
+    this.loading= false
   },
   methods: {
     getEmployeeFullName,
@@ -363,7 +364,6 @@ export default {
       this.$signOut;
     },
     isThemeCheck,
-    getBusinessId,
     handleToggleWrapperTheme,
     getAllowanceDays,
     addLeaveVacations,

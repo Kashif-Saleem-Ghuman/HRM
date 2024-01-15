@@ -19,7 +19,7 @@ export async function meetLink(payload, uniqueId) {
     );
     if(meetUrl.status === 201){
       const url = meetUrl.data.name
-      window.open(process.env.VIDEO_CONF_APP_URL + url, "_blank");
+      window.open(process.env.VIDEO_CONF_APP_URL +'/'+ url, "_blank");
     }  } catch (e) {
     alert(e);
   }

@@ -12,8 +12,9 @@
       </div>
       <div>
         <div class="label">{{label}}</div>
-        <div class="info-card-inner-wrapper_desc" v-if="label==='Rejected'">Request denied on {{ deniedRequest(data) }}</div>
-        <div class="info-card-inner-wrapper_desc"><!--Request approved by + --> {{message}}</div>
+        <div class="info-card-inner-wrapper_desc">{{managerAction}}</div>
+        <div class="info-card-inner-wrapper_desc">{{refusalReason}}</div>
+
       </div>
     </div>
   </div>
@@ -28,7 +29,10 @@ export default {
     label: {
       type: String,
     },
-    message: {
+    managerAction: {
+      type: String,
+    },
+    refusalReason: {
       type: String,
     },
     icon: {
@@ -43,9 +47,6 @@ export default {
     classNameWrapper:{
       type:String
     },
-    data:{
-      type:Array
-    }
   },
   data() {
     return {
@@ -54,11 +55,6 @@ export default {
   },
   methods:{
     getEmployeeFullName,
-    deniedRequest(data){
-      var name = this.getEmployeeFullName(data.manager)
-      const statusChangeDate = DateTime.fromISO(data.statusChangeDate).toFormat('dd-MM-yyyy');
-      return `${statusChangeDate} by ${name} `
-    }
   }
 };
 </script>

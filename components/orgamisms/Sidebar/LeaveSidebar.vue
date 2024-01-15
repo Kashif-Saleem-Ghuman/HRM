@@ -29,12 +29,12 @@
             <div>
               <info-card-success
                 :label="getStatusLabel(leaveStatus.status)"
-                :message="getMessage(leaveStatus.status)"
+                :managerAction="getMessage(leaveStatus.status)"
                 :icon="getStatusLabel(leaveStatus.status) === 'Rejected' ? 'tick' : getLeaveStatusIcon(leaveStatus.status)"
                 :variant="getLeaveTypeIconVariant(leaveStatus.status)"
                 :className="getLeaveTypeClassName(leaveStatus.status)"
                 :classNameWrapper="getTextVariant(leaveStatus.status)"
-                :data="leaveStatus"
+                :refusalReason="leaveStatus.refusalReason"
               ></info-card-success>
             </div>
             <div class="d-flex justify-end text-dark py-1" v-if="showDelButton">
@@ -192,7 +192,9 @@ export default {
           this.form.manager
         )}`,
         pending: "Pending",
-        rejected: this.form.refusalReason,
+        rejected: `Request Rejected on ${statusChangeDate} by ${getEmployeeFullName(
+          this.form.manager
+        )}`,
       };
       return (MESSAGE = messageStatus[MESSAGE]);
     },

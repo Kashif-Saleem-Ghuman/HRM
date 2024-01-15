@@ -27,7 +27,7 @@ const data = () => {
         img: "editor",
         color: "orange",
         text: "Editor",
-        href: process.env.WEB_EDITOR_APP_URL,
+        href: process.env.WEB_SHEET_EDITOR_APP_URL,
       },
       {
         img: "table",

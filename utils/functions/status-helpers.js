@@ -59,8 +59,10 @@ export const getLeaveStatusIconVariant = (type) => {
 export const getFileExtension = (icon) => {
   const statusMap = {
     pdf: "pdf",
-    jpg: "user",
-    png: "file",
+    jpg: "jpg",
+    jpeg: "jpg",
+    webp: "jpg",
+    png: "png",
     docx: "docx",
     doc: "docx",
     csv:'excel',

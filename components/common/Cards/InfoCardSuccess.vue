@@ -12,12 +12,16 @@
       </div>
       <div>
         <div class="label">{{label}}</div>
+        <div class="info-card-inner-wrapper_desc" v-if="label==='Rejected'">Request denied on {{ deniedRequest(data) }}</div>
         <div class="info-card-inner-wrapper_desc"><!--Request approved by + --> {{message}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
+import { DateTime } from 'luxon';
+
 export default {
   name: "Chips",
   props: {
@@ -38,11 +42,24 @@ export default {
     },
     classNameWrapper:{
       type:String
+    },
+    data:{
+      type:Array
     }
   },
   data() {
-    return {};
+    return {
+      manager:'',
+    };
   },
+  methods:{
+    getEmployeeFullName,
+    deniedRequest(data){
+      var name = this.getEmployeeFullName(data.manager)
+      const statusChangeDate = DateTime.fromISO(data.statusChangeDate).toFormat('dd-MM-yyyy');
+      return `${statusChangeDate} by ${name} `
+    }
+  }
 };
 </script>
 <style lang="scss">

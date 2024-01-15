@@ -1,6 +1,6 @@
 <template>
   <div id="error-404-wrapper" class="shape-rounded bg-light">
-    <h2 id="error-404-heading1">This Page does'n exist</h2>
+    <h2 id="error-404-heading1">This Page doesn't exist</h2>
     <NuxtLink :to="getUserRole === 'ADMIN' ? '/dashboard' : '/time-attendance/attendance/'">Redirect to Home</NuxtLink>
   </div>
 </template>

@@ -118,7 +118,7 @@ export default {
 }
 @media (min-width: 3000px) {
   .scroll-wrapper {
-    height: 85vh !important;
+    height: 100vh !important;
   }
 }
 .scroll-wrapper {

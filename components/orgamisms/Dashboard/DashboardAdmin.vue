@@ -4,7 +4,7 @@
         class="d-flex justify-between align-center bottom_border_wrapper"
       >
         <section-header-left
-          :title="`Welcome to your HR dashboard `"
+          :title="`Dashboard `"
         ></section-header-left>
       </div>
       <div class="tab-wrapper">

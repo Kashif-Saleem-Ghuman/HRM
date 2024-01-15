@@ -129,7 +129,7 @@ export const actions = {
         }
       );
       if (user) {
-        ctx.commit("SET_USER", user);
+        // ctx.commit("SET_USER", user);
         return user;
       }
     } catch (e) {

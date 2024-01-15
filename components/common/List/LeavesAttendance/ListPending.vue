@@ -7,9 +7,6 @@
     @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
     @employee-name-sort="sortColumn('name')"
-    @employee-type-sort="sortColumn('type')"
-    @employee-start-sort="sortColumn('from')"
-    @employee-end-sort="sortColumn('to')"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">

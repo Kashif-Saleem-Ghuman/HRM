@@ -7,10 +7,6 @@
       :hide-no-column="true"
       @item-clicked="tableItemClick"
       @employee-name-sort="sortColumn('name')"
-      @employee-status-sort="sortColumn('status')"
-      @employee-in-sort="sortColumn('in')"
-      @employee-out-sort="sortColumn('out')"
-      @employee-breaks-sort="sortColumn('breaks')"
     >
       <template #cell(name)="data">
         <div

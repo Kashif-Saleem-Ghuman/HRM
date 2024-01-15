@@ -34,7 +34,7 @@ const data = () => {
         color: "success",
         text: "Sheets",
         active: false, 
-        href: "#",
+        href: process.env.WEB_SHEET_EDITOR_APP_URL,
       },
       {
         img: "chat",

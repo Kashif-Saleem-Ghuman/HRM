@@ -54,12 +54,6 @@ const data = () => {
         text: "Projects",
         href: process.env.BIB_PROJECT_APP_URL,
       },
-      {
-        img: "signature",
-        color: "purple",
-        text: "eSign",
-        href: process.env.BIB_ESIGN_APP_URL,
-      },
     ],
     navItemsUser: [
       // {

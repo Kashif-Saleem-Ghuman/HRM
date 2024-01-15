@@ -3,8 +3,10 @@
     <custom-table
       :fields="tableFields"
       class="border-gray4 bg-white"
-      :sections="userList"
+      :sections="employees"
       :hide-no-column="true"
+      @item-clicked="tableItemClick"
+      @employee-name-sort="sortColumn('name')"
     >
       <template #cell(name)="data">
         <div
@@ -47,11 +49,11 @@
           </div>
           <div
             class="info_wrapper"
-            style="width: 100%; cursor: pointer;"
+            style="width: 100%; cursor: pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(16, '...')}}
+              {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -152,7 +154,8 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import { getEmployeeFullName } from "../../../../utils/functions/common_functions"
+import { getEmployeeFullName } from "../../../../utils/functions/common_functions";
+import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {
   sendMeet,
@@ -177,7 +180,14 @@ export default {
       timesheetModal: false,
       localData: DASHBOARD_DATA,
       filteredData: [],
+      sortByField: null,
     };
+  },
+  computed: {
+    employees() {
+      if (!this.sortByField) return this.userList;
+      return sortColumn({ items: this.userList, field: this.sortByField });
+    },
   },
   methods: {
     dateCheck,
@@ -185,6 +195,20 @@ export default {
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false;
+      }
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
+    },
+    tableItemClick(event, key, item) {
+      const id = item?.id;
+      if (id) {
+        this.viewProfile(id);
+      }
+    },
     close() {
       this.timesheetModal = false;
     },
@@ -202,7 +226,7 @@ export default {
     mouseleave() {
       this.showTooltip = false;
     },
-    
+
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
         ? "none"

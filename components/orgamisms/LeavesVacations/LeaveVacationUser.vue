@@ -140,7 +140,7 @@ export default {
       this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
           from: this.getformToDate.from,
-          to: this.getformToDate.to,
+          to: this.getformToDate.to, 
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
@@ -165,7 +165,6 @@ export default {
       this.is_data_fetched = true;
     });
     this.activeUserData = this.getActiveUser;
-    this.getCurrentYear();
     this.selectedMonth = this.currentMonth;
     this.getCurrentYear();
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {

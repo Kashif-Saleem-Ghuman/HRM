@@ -3,7 +3,6 @@
       <div
         class="d-flex justify-between align-center bottom_border_wrapper"
       >
-      
         <section-header-left
           :title="`Welcome to your HR dashboard `"
         ></section-header-left>
@@ -52,23 +51,19 @@
         date: null,
         format: "MMM D, YYYY",
         date2: fecha.format(new Date(), "YYYY-MM-DD"),
-        employees: []
+        employees: [],
+        loading: false,
       };
     },
   
     computed: {
       ...mapGetters({
-        getUser: "employee/GET_USER",
         getAccessToken: "token/getAccessToken",
         activeDate: "date/getActiveDate",
       }),
     },
     async created() {
       this.getCurrentDate = this.date2;
-      await this.$store.dispatch("employee/setActiveUser")
-      var users = this.getUser;
-      this.id = users.id;
-      this.activeUserName = users.firstName + " " + users.lastName;
     },
   mounted(){
     this.getOrganizationEntries();
@@ -85,19 +80,6 @@
         });
         
         this.employees = employees
-      },
-      
-      parseDate(dateString, format) {
-        return fecha.parse(dateString, format);
-      },
-      formatDate(dateObj, format) {
-        return fecha.format(dateObj, format);
-      },
-      onChange(value) {
-        let date = value ? format(new Date(value), "YYYY-MM-DD") : null;
-        this.$store.dispatch("date/setActiveDate", date);
-        this.getCurrentDate = date;
-        this.getTimeAttandance();
       },
     },
   };

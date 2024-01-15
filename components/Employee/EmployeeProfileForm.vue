@@ -18,7 +18,7 @@
           ></drop-zone>
           <div class="ml-1">
             <aside style="font-weight: bold; font-size: 18px">
-              {{getEmployeeFullName(form)}}
+              {{ getEmployeeFullName(form) }}
             </aside>
             <aside style="font-weight: 400; font-size: 14px">
               {{ form.jobTitle }}
@@ -37,7 +37,7 @@
             label="Make a Call"
             variant="light"
             icon="phone"
-            @click="sendMeet(form.userId)"
+            @click="makeCall()"
           ></bib-button>
         </div>
 
@@ -322,6 +322,7 @@
 <script>
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
+import { meetLink } from "../../utils/functions/api_call/meet";
 import {
   sendMeet,
   sendMessage,
@@ -335,9 +336,8 @@ import emergencyContactFields from "./forms/emergency-contact-fields";
 import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
-import { USER_ROLES } from '../../utils/constant/Constant';
+import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-
 
 export default {
   data() {
@@ -345,8 +345,8 @@ export default {
       contactFormFieds,
       employeeProfileFields,
       employeeAddressFields,
-      confirmastionMessageModal:false,
-      dropzone:0,
+      confirmastionMessageModal: false,
+      dropzone: 0,
       fields: {
         ...contactFormFieds,
         ...employeeProfileFields,
@@ -363,9 +363,9 @@ export default {
       ],
 
       hrmRoleOptions: [
-        { label: 'Admin', value: USER_ROLES.ADMIN },
-        { label: 'User', value: USER_ROLES.USER },
-        { label: 'HR Manager', value: USER_ROLES.MANAGER }
+        { label: "Admin", value: USER_ROLES.ADMIN },
+        { label: "User", value: USER_ROLES.USER },
+        { label: "HR Manager", value: USER_ROLES.MANAGER },
       ],
       countries: COUNTRIES,
       STATES,
@@ -377,12 +377,32 @@ export default {
       popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       avatarUrl: "",
+      activeUser: "",
+      uniqueId: null,
     };
+  },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser").then((result) => {
+      this.activeUser = result;
+    });
   },
   methods: {
     vfileAdded,
     openPopupNotification,
     getEmployeeFullName,
+    meetLink,
+    async makeCall() {
+      const prefix = "hrm_";
+      const random = Math.floor(Math.random() * 1000);
+      this.uniqueId = `${prefix}_${random}`;
+      const params = {
+        name: this.uniqueId,
+        title: this.uniqueId,
+        users: this.getUser.userId,
+        createdBy: this.activeUser.userId,
+      };
+      this.meetLink(params, this.uniqueId);
+    },
     async fetchEmployee() {
       const id = this.$route.params.id ?? this.getUser?.id;
 
@@ -399,7 +419,7 @@ export default {
         (data) => {
           this.openPopupNotification(1);
           this.dropzone += 1;
-          this.$nuxt.$emit("top-nav-key")
+          this.$nuxt.$emit("top-nav-key");
           this.form = data;
           this.avatarUrl = "";
           this.confirmastionMessageModal = false;
@@ -413,15 +433,15 @@ export default {
         form.photo = this.avatarUrl;
         this.updateForm.photo = this.avatarUrl;
       }
-        if (JSON.stringify(this.updateForm) === "{}") {
-          return this.openPopupNotification(6);
-        }
+      if (JSON.stringify(this.updateForm) === "{}") {
+        return this.openPopupNotification(6);
+      }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
         this.openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
         this.avatarUrl = "";
-        return
+        return;
       });
     },
 
@@ -450,7 +470,6 @@ export default {
     },
     ...mapGetters({
       getUser: "employee/GET_USER",
-      getActiveUserData: "token/getActiveUserData",
     }),
   },
 

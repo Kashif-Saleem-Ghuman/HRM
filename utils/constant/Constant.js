@@ -8,31 +8,66 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Employee",
       width: `${100 / 6}%`,
-      style:'text-align:left'
+      style:'text-align:left',
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-name-sort',
+        isActive: false,
+        sortKey: 'firstName',
+        type: 'string'
+      },
     },
     {
       key: "status",
       label: "Status",
        width: `${100 / 6}%`,
-       style:'text-align:left'
+       style:'text-align:left',
+      //  header_icon: {
+      //    icon: 'swap-vertical',
+      //    event: 'employee-status-sort',
+      //    isActive: false,
+      //    sortKey: 'activityReport.in',
+      //    type: 'string'
+      //  },
     },
     {
       key: "in",
       label: "In",
       width: `${100 / 6}%`,
-      style:'text-align:center'
+      style:'text-align:center',
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-in-sort',
+      //   isActive: false,
+      //   sortKey: 'activityReport.in',
+      //   type: 'string'
+      // },
     },
     {
       key: "out",
       label: "Out",
       width: `${100 / 6}%`,
-      style:'text-align:center'
+      style:'text-align:center',
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-out-sort',
+      //   isActive: false,
+      //   sortKey: 'activityReport.out',
+      //   type: 'string'
+      // },
     },
     {
       key: "breaks",
       label: "Breaks",
       width: `${100 / 6}%`,
-      style:'text-align:center'
+      style:'text-align:center',
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-breaks-sort',
+      //   isActive: false,
+      //   sortKey: 'activityReport.break',
+      //   type: 'string'
+      // },
     },
     {
       key: "total",
@@ -163,7 +198,14 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "EMPLOYEE",
-      style:'text-align:left'
+      style:'text-align:left',
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-name-sort',
+        isActive: false,
+        sortKey: 'firstName',
+        type: 'string'
+      },
     },
     {
       key: "mon",
@@ -308,6 +350,13 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Name",
+      header_icon: {
+        icon: 'swap-vertical',
+        event: 'employee-name-sort',
+        isActive: false,
+        sortKey: 'employee.firstName',
+        type: 'string'
+      },
     },
     // {
     //   key: "recived",
@@ -316,14 +365,35 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Type",
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-type-sort',
+      //   isActive: false,
+      //   sortKey: 'type',
+      //   type: 'string'
+      // },
     },
     {
       key: "from",
       label: "From",
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-start-sort',
+      //   isActive: false,
+      //   sortKey: 'start',
+      //   type: 'date'
+      // },
     },
     {
       key: "to",
       label: "To",
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-end-sort',
+      //   isActive: false,
+      //   sortKey: 'end',
+      //   type: 'date'
+      // },
     },
     {
       key: "reason",

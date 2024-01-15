@@ -3,8 +3,9 @@
     <custom-table
       :fields="tableFields"
       class="border-gray4 bg-white"
-      :sections="timesheetsList"
+      :sections="timesheetList"
       :hide-no-column="true"
+    @employee-name-sort="sortColumn('name')"
     >
       <template #cell(name)="data">
         <div
@@ -118,6 +119,8 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../../utils/functions/functions_lib";
+import { sortColumn } from "../../../../../utils/functions/table-sort"
+
 import {
   TABLE_HEAD,
   TIMESHEET_STATUS,
@@ -133,6 +136,7 @@ import {
   getStatusIcon,
   getStatusVariant,
 } from "../../../../../utils/functions/status";
+
 export default {
   props: {
     timesheetsList: {
@@ -158,7 +162,15 @@ export default {
       filteredData: [],
       TIMESHEET_STATUS,
       weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
+      sortByField: null
     };
+  },
+  computed:{
+  timesheetList() {
+      if (!this.sortByField) return this.timesheetsList
+
+      return sortColumn({ items: this.timesheetsList, field: this.sortByField })
+    }
   },
   methods: {
     formatHoursToHHMM,
@@ -168,6 +180,14 @@ export default {
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false
+      }
+      const field = this.tableFields.find( field => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive
+      this.sortByField = field
+    },
     getEmptyTimesheetStatus() {
       const endDate = new Date(this.endDate);
       if (new Date() > endDate) {

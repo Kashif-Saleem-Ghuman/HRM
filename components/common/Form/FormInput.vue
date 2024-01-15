@@ -42,6 +42,7 @@ export default {
     },
     editable: {
       type: Boolean,
+      default:true,
     },
   },
 

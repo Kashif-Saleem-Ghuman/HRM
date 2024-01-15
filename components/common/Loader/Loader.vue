@@ -27,7 +27,7 @@ right: 0;
 bottom: 0;
 left: 0;
 background-color: rgba(250,250,250, 1);
-z-index: 29;
+z-index: 999999;
 }
 
 </style>

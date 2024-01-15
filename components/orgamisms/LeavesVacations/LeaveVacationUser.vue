@@ -112,7 +112,7 @@ export default {
       selectedYear: new Date().getFullYear(),
       fromDate: "",
       toDate: "",
-      loading: true,
+      loading: false,
       allChecked: false,
       checked: false,
       confirmastionMessageModal: false,
@@ -153,7 +153,6 @@ export default {
     });
   },
   async mounted() {
-    this.loading = true;
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
@@ -178,7 +177,6 @@ export default {
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
     this.leaveList = this.leaveVacationDataUser.length ? true : false;
-    this.loading = false;
   },
   methods: {
     getCurrentDateMonth,

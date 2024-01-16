@@ -1,5 +1,6 @@
 <template>
     <div class="remove-pad">
+      {{ status }}
       <week-timesheet-table
         :fields="tableFields"
         class="border-gray4 bg-white"
@@ -9,7 +10,7 @@
         :colspan="4"
         :totalValue="totalValue"
         :status="status"
-        :buttonDisabled="this.status !== 'not_submitted'"
+        :buttonDisabled="status == 'pending' ? true : false"
         @button-clicked="submitButtonClicked"
         v-if="id >= 0"
       >

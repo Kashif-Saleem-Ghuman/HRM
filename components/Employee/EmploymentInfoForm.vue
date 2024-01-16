@@ -5,7 +5,7 @@
     :is-create-form="!form?.id"
     :submit-fn="submitToApi"
     v-show="form.id"
-    :buttonDisable="buttonDisable"
+    :buttonDisable="isDisabled"
   >
     <div id="employee-information-wrapper">
       <div id="scroll-wrapper" class="scroll-wrapper">
@@ -21,11 +21,11 @@
                         <form-input
                           type="select"
                           label="Employee Status"
-                          field-key="employeeStatus"
+                          field-key="status"
                           :value="form.employeeStatus"
                           :options="statusOptions"
                           placeholder="Select your employee status"
-                          :disabled="isDisabled"
+                          disabled="disabled"
                         ></form-input>
                       </div>
                       <div class="col-6">
@@ -109,7 +109,8 @@
                           <form-input
                             type="text"
                             label="Department"
-                            value="HRM"
+                            field-key="department"
+                            :value="form.department"
                             placeholder=""
                             :disabled="isDisabled"
                           ></form-input>
@@ -139,7 +140,7 @@
                             :value="form.email"
                             placeholder=""
                             icon-left="file"
-                            :disabled="isDisabled"
+                            disabled="disabled"
                           ></form-input>
                         </div>
                       </div>

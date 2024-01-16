@@ -1,152 +1,138 @@
 <template>
-  <div class="remove-pad">
-    <custom-table
-      :fields="tableFields"
-      class="border-gray4 bg-white"
-      :sections="employees"
-      :hide-no-column="true"
-      @item-clicked="tableItemClick"
-      @employee-name-sort="sortColumn('name')"
-    >
-      <template #cell(name)="data">
+  <bib-table
+    :fields="tableFields"
+    class="border-gray4 bg-white"
+    :sections="employees"
+    :hide-no-column="true"
+    :fixHeader="true"
+    @employee-name-sort="sortColumn('name')"
+    @employee-status-sort="sortColumn('status')"
+    @employee-in-sort="sortColumn('in')"
+    @employee-out-sort="sortColumn('out')"
+    @employee-breaks-sort="sortColumn('breaks')"
+    @employee-total-sort="sortColumn('total')"
+  >
+    <template #cell(name)="data">
+      <div
+        class="d-flex align-center text-left gap-05"
+        style="position: relative;"
+      >
         <div
-          class="d-flex px-05 p-025 align-center text-left gap-05"
-          style="position: relative; width: 220px"
+          style="cursor: pointer"
+          v-on:mouseover="profiletab('id_' + data.value.id)"
+          v-on:mouseleave="profiletab('id_' + data.value.id, true)"
         >
-          <div
-            style="cursor: pointer"
-            v-on:mouseover="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+          <bib-avatar
+            variant="secondary-sub3"
+            :text="getEmployeeInitials(data.value)"
+            text-variant="primary"
+            size="2.3rem"
+            v-show="data.value.photo === null"
+            style="font-weight: 500"
+          ></bib-avatar>
+          <bib-avatar
+            class="mt-auto mb-auto"
+            shape="circle"
+            :src="data.value.photo"
+            v-show="data.value.photo != null"
+            size="2.3rem"
           >
-            <bib-avatar
-              variant="secondary-sub3"
-              :text="
-                data.value.firstName.slice(0, 1) +
-                data.value.lastName.slice(0, 1)
-              "
-              text-variant="primary"
-              size="2.3rem"
-              v-show="data.value.photo === null"
-              style="font-weight: 500"
-            ></bib-avatar>
-            <bib-avatar
-              class="mt-auto mb-auto"
-              shape="circle"
-              :src="data.value.photo"
-              v-show="data.value.photo != null"
-              size="2.3rem"
-            >
-            </bib-avatar>
-            <div :id="'id_' + data.value.id" style="" class="userCard">
-              <user-info-card
-                :user="data.value"
-                @viewProfile="viewProfile(data.value.id)"
-                @sendMeet="sendMeet(data.value.userId)"
-                @sendMessage="sendMessage(data.value.userId)"
-                :active="data.value.active"
-              ></user-info-card>
-            </div>
-          </div>
-          <div
-            class="info_wrapper"
-            style="width: 100%; cursor: pointer"
-            @click="handleItemClick_Table(data.value.id, $event)"
-          >
-            <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
-            </div>
-            <div class="description">
-              {{ data.value.jobTitle }}
-            </div>
+          </bib-avatar>
+          <div :id="'id_' + data.value.id" style="" class="userCard">
+            <user-info-card
+              :user="data.value"
+              @viewProfile="viewProfile(data.value.id)"
+              @sendMeet="sendMeet(data.value.userId)"
+              @sendMessage="sendMessage(data.value.userId)"
+              :active="data.value.active"
+            ></user-info-card>
           </div>
         </div>
-      </template>
-      <template #cell(status)="data">
-        <div class="text-dark pl-05">
-          <chips-list
-            :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
-            iconShow="iconShow"
-            icon="add"
-            :className="[
-              data.value?.timers[0]?.type
-                ? 'chip-list-wrapper__sucess'
-                : 'chip-list-wrapper__light',
-            ]"
-          ></chips-list>
+        <div
+          class="info_wrapper"
+          style="width: 100%; cursor: pointer"
+          @click="handleItemClick_Table(data.value.id, $event)"
+        >
+          <div class="title" v-tooltip="getEmployeeFullName(data.value)">
+            {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
+          </div>
+          <div class="description">
+            {{ data.value.jobTitle }}
+          </div>
         </div>
-      </template>
-      <template #cell(in)="data">
-        <div>
-          <chips
-            :title="
-              data.value?.activityReport.in == null
-                ? '--'
-                : data.value.activityReport.in
-            "
-            :className="[
-              data.value?.activityReport.in ? 'chip-wrapper__bgsucess' : '',
-              data.value?.activityReport.vacation
-                ? 'chip-wrapper__bgvacation'
-                : '',
-              data.value?.activityReport.absent
-                ? 'chip-wrapper__bgabsentpink'
-                : '',
-              data.value?.activityReport.in == null
-                ? 'chip-wrapper__bggray'
-                : '',
-              'd-align',
-            ]"
-          ></chips>
-        </div>
-      </template>
-      <template #cell(out)="data">
-        <div>
-          <chips
-            :title="
-              data.value?.activityReport.out == null
-                ? '--'
-                : data.value?.activityReport.out
-            "
-            :className="[
-              data.value?.activityReport.out ? 'chip-wrapper__bgsucess' : '',
-              data.value?.activityReport.out == null
-                ? 'chip-wrapper__bggray'
-                : '',
-              'd-align',
-            ]"
-          ></chips>
-        </div>
-      </template>
-      <template #cell(breaks)="data">
+      </div>
+    </template>
+    <template #cell(status)="data">
+      <div class="" @click="handleItemClick_Table(data.value.id, $event)">
+        <chips-list
+          :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
+          iconShow="iconShow"
+          icon="add"
+          :className="[
+            data.value?.timers[0]?.type
+              ? 'chip-list-wrapper__sucess'
+              : 'chip-list-wrapper__light',
+          ]"
+        ></chips-list>
+      </div>
+    </template>
+    <template #cell(in)="data">
+      <div @click="handleItemClick_Table(data.value.id, $event)">
         <chips
           :title="
-            data.value?.activityReport.break == null
+            data.value?.activityReport.in == null
               ? '--'
-              : data.value?.activityReport.break
+              : data.value.activityReport.in
           "
           :className="[
-            data.value?.activityReport.break >= '00:02'
-              ? 'chip-wrapper__bgsucess'
+            data.value?.activityReport.in ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.vacation
+              ? 'chip-wrapper__bgvacation'
               : '',
-            data.value?.activityReport.break == null
-              ? 'chip-wrapper__bggray'
+            data.value?.activityReport.absent
+              ? 'chip-wrapper__bgabsentpink'
               : '',
-            'd-align',
+            data.value?.activityReport.in == null ? 'chip-wrapper__bggray' : '',
           ]"
         ></chips>
-      </template>
-      <template #cell(total)="data">
+      </div>
+    </template>
+    <template #cell(out)="data">
+      <div @click="handleItemClick_Table(data.value.id, $event)">
         <chips
           :title="
-            data.value?.activityReport.total == null
+            data.value?.activityReport.out == null
               ? '--'
-              : getTotalHours(data.value?.activityReport.total)
+              : data.value?.activityReport.out
           "
-          :className="['d-align']"
+          :className="[
+            data.value?.activityReport.out ? 'chip-wrapper__bgsucess' : '',
+            data.value?.activityReport.out == null
+              ? 'chip-wrapper__bggray'
+              : '',
+          ]"
         ></chips>
-      </template>
-    </custom-table>
-  </div>
+      </div>
+    </template>
+    <template #cell(breaks)="data">
+      <div @click="handleItemClick_Table(data.value.id, $event)">
+        <span>{{
+          data.value?.activityReport.break == null
+            ? "--"
+            : data.value?.activityReport.break
+        }}</span>
+      </div>
+    </template>
+    <template #cell(total)="data">
+      <div @click="handleItemClick_Table(data.value.id, $event)">
+        <span>{{
+          data.value?.activityReport.total == null
+            ? "--"
+            : getTotalHours(data.value?.activityReport.total)
+        }}</span>
+      </div>
+    </template>
+  </bib-table>
 </template>
 
 <script>
@@ -154,7 +140,10 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import { getEmployeeFullName } from "../../../../utils/functions/common_functions";
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {
@@ -195,6 +184,7 @@ export default {
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,
+    getEmployeeInitials,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;
@@ -241,83 +231,32 @@ export default {
 </script>
 
 <style lang="scss">
-.td_row_wrapper {
-  padding: 4px 8px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  height: 65px !important;
-  width: 100%;
-  margin: -3px -5px 0 0px;
+.table {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
 
-  &__sucess {
-    background-color: #d5e8d4;
-    span {
-      color: #2ba026;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
+}
+.table__hrow th:first-child {
+  border-left: none !important;
+  padding-left: 1.1rem !important;
+}
+.table__hrow th:last-child {
+  border-right: none !important;
+}
+.table__irow td {
+  color: #000 !important;
+  border-right: none !important;
 
-  &__absent {
-    background-color: rgba(255, 171, 0, 0.16);
-    span {
-      color: #ffab00;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
-  &__vacation {
-    background-color: rgba(31, 66, 162, 0.16);
-    span {
-      color: #1f42a2;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
-  &__absentpink {
-    background-color: rgba(230, 0, 14, 0.16);
-    span {
-      color: #e6000e;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
-  &__default {
-    background-color: #ffffff;
-    span {
-      color: #000;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
 }
-.info_wrapper {
-  color: $black;
-  font-weight: normal;
+.table__irow td:first-child {
+  padding-left: 0.9rem !important;
+  border-left: none !important;
 }
-
-.title {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.description {
-  font-size: 14px;
-  font-weight: normal;
-  color: $black;
-}
-.remove-pad {
-  table {
-    tr {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    td {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-  }
+.table__hrow-fixed {
+  position: sticky;
+  top: -1px !important;
+  z-index: 4;
+  left: 0;
 }
 </style>

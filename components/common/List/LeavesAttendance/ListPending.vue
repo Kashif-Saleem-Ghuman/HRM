@@ -1,5 +1,5 @@
 <template>
-  <custom-table
+  <bib-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="leavePendingList"
@@ -7,6 +7,7 @@
     @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
     @employee-name-sort="sortColumn('name')"
+    :fixHeader=true
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -26,7 +27,6 @@
           style="cursor: pointer"
           v-on:click="profiletab('id_' + data.value.employee.id)"
           v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
-          class="ml-05"
         >
           <bib-avatar
             variant="secondary-sub3"
@@ -108,7 +108,7 @@
         ></bib-button>
       </div>
     </template>
-  </custom-table>
+  </bib-table>
 </template>
 
 <script>

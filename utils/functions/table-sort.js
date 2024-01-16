@@ -5,6 +5,7 @@ const typeMap = new Map([
   ["date", sortDateColumn],
   ["phone", sortPhoneColumn],
   ["string", sortStringColumn],
+  ["number", sortNumberColumn],
 ]);
 
 export function sortColumn({ items, field }) {
@@ -63,3 +64,10 @@ function sortStringColumn({ items, field }) {
     getSortOrder({ field })
   );
 }
+function sortNumberColumn({ items, field }) {
+  return orderBy(
+    items,
+    [(item) => get(item, field.header_icon.sortKey) ?? ""],
+    getSortOrder({ field })
+  );
+} 

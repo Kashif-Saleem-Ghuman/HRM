@@ -1,15 +1,16 @@
 <template>
   <div class="remove-pad">
-    <custom-table
+    <bib-table
       :fields="tableFields"
       class="border-gray4 bg-white"
       :sections="timesheetList"
       :hide-no-column="true"
-    @employee-name-sort="sortColumn('name')"
+      @employee-name-sort="sortColumn('name')"
+      :fixHeader="true"
     >
       <template #cell(name)="data">
         <div
-          class="d-flex px-1 align-center text-left gap-05 py-025"
+          class="d-flex align-center text-left gap-05 py-025"
           style="position: relative; width: 220px"
         >
           <div
@@ -104,7 +105,7 @@
           ></chips>
         </div>
       </template>
-    </custom-table>
+    </bib-table>
     <time-sheet-modal
       @close="timesheetModal = false"
       :timesheetModal="timesheetModal"
@@ -119,7 +120,7 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../../utils/functions/functions_lib";
-import { sortColumn } from "../../../../../utils/functions/table-sort"
+import { sortColumn } from "../../../../../utils/functions/table-sort";
 
 import {
   TABLE_HEAD,
@@ -162,15 +163,18 @@ export default {
       filteredData: [],
       TIMESHEET_STATUS,
       weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
-      sortByField: null
+      sortByField: null,
     };
   },
-  computed:{
-  timesheetList() {
-      if (!this.sortByField) return this.timesheetsList
+  computed: {
+    timesheetList() {
+      if (!this.sortByField) return this.timesheetsList;
 
-      return sortColumn({ items: this.timesheetsList, field: this.sortByField })
-    }
+      return sortColumn({
+        items: this.timesheetsList,
+        field: this.sortByField,
+      });
+    },
   },
   methods: {
     formatHoursToHHMM,
@@ -182,11 +186,11 @@ export default {
     getEmployeeFullName,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
-        this.sortByField.header_icon.isActive = false
+        this.sortByField.header_icon.isActive = false;
       }
-      const field = this.tableFields.find( field => field.key === columnKey);
-      field.header_icon.isActive = !field.header_icon.isActive
-      this.sortByField = field
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
     },
     getEmptyTimesheetStatus() {
       const endDate = new Date(this.endDate);
@@ -325,17 +329,5 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: $black;
-}
-.remove-pad {
-  table {
-    tr {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    td {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-  }
 }
 </style>

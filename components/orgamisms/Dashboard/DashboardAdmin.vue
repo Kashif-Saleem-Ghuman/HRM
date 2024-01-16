@@ -1,10 +1,10 @@
 <template>
     <div id="dashborad-wrapper">
       <div
-        class="d-flex justify-between align-center bottom_border_wrapper"
+        class="d-flex justify-between align-center border-bottom-light"
       >
         <section-header-left
-          :title="`Dashboard `"
+          title="Dashboard"
         ></section-header-left>
       </div>
       <div class="tab-wrapper">

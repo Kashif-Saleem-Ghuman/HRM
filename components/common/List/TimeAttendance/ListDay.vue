@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="table" :class="{ 'disabled-table': disabled }">
+    <div class="custom-table" :class="{ 'disabled-table': disabled }">
       <div class="thead">
         <div class="cell">ACTIVITY</div>
         <div class="cell">START</div>
@@ -109,11 +109,12 @@ export default {
 .disabled-table * {
   pointer-events: none;
 }
-.table {
+.custom-table {
   display: table;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   border-collapse: collapse;
+  width: 100%;
   .row {
     display: table-row;
   }

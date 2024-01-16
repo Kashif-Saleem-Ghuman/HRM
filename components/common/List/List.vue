@@ -1,9 +1,12 @@
 <template>
-  <custom-table
+  <div class="position-relative h-300">
+  <bib-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="employees"
     :hide-no-column="true"
+    :fixHeader=true
+
     @item-clicked="tableItemClick"
     @employee-name-sort="sortColumn('name')"
     @employee-email-sort="sortColumn('email')"
@@ -11,11 +14,6 @@
     @employee-hire-date-sort="sortColumn('hiredate')"
     @employee-department-sort="sortColumn('department')"
   >
-    <!-- <template #cell_action="data">
-      <div class="d-flex justify-center align-center">
-        <bib-checkbox size="md"></bib-checkbox>
-      </div>
-    </template> -->
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
@@ -56,7 +54,7 @@
           style="width: 100%; cursor: pointer"
           @click="handleItemClick_Table(data.value.id, $event)"
         >
-          <div class="title" :title="getEmployeeFullName(data.value)">
+          <div class="title"  :title="getEmployeeFullName(data.value)">
             {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
           </div>
           <div class="description">
@@ -97,17 +95,8 @@
         }}</span>
       </div>
     </template>
-    <!-- <template #cell(department)="data">
-      <div class="d-flex text-dark">
-        {{ getTeamListOptions }}
-        <div v-for="(item, index) in data.value.teams" class="mr-05">
-          <chips :title="test(item)" class="chip-wrapper__bggray"></chips>
-           {{ item }} 
-        </div>
-      </div>
-    </template> -->
-  </custom-table>
-</template>
+  </bib-table>
+</div></template>
 
 <script>
 import { mapGetters } from "vuex";
@@ -186,7 +175,7 @@ export default {
       }
     },
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MM-YYYY");
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
 
     viewProfile(id) {

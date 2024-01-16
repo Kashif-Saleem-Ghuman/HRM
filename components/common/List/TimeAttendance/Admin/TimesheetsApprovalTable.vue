@@ -3,15 +3,14 @@
     <loader :loading="loading"></loader>
     
     <no-record v-if="showNoData"></no-record>
+    
 
     <custom-table-day-view
       v-else-if="showTable"
       :fields="tableFields"
-      class="border-gray4"
+      class="border-gray4 bg-white"
       :sections="employees"
       :hide-no-column="true"
-      classTypeBody=""
-      customTitle="custom-title"
     >
       <!-- Timsheet date range -->
       <template #cell(name)="data">
@@ -19,7 +18,7 @@
           class="d-flex align-center text-left gap-05"
           style="position: relative"
         >
-          <div class="info_wrapper p-1">
+          <div class="info_wrapper" style="padding-left: 8px;">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>

@@ -242,7 +242,7 @@ export default {
   },
 };
 </script>
-
+<!-- 
 <style lang="scss">
 .colapse {
   .detail-collapse__content {
@@ -336,4 +336,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

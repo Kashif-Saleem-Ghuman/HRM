@@ -312,3 +312,6 @@ $validation-star-color: #fa0f00;
 // .vdpBottom{
 //   display: none !important;
 // }
+.border-bottom-light {
+  border-bottom: 10px solid var(--bib-light)!important;
+}

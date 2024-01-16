@@ -121,7 +121,8 @@ export default {
     });
 
     await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id),{
+      .dispatch("leavesdata/setLeaveVacationsAllowance",{
+        id: Number(this.id),
         from: this.getformToDate.from,
         to: this.getformToDate.to,
       })
@@ -173,7 +174,8 @@ export default {
         to: this.toDate,
       });
       await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id),{
+      .dispatch("leavesdata/setLeaveVacationsAllowance", {
+        id:Number(this.id),
         from: this.getformToDate.from,
         to: this.getformToDate.to,
       })
@@ -202,7 +204,11 @@ export default {
     },
     async setAllowance() {
       return this.$store
-        .dispatch("leavesdata/setLeaveVacationsAllowance", Number(this.id))
+        .dispatch("leavesdata/setLeaveVacationsAllowance", {
+          id: Number(this.id),
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,  
+        })
         .then((result) => {
           this.allowanceLeavesDetailedData = result;
           this.is_data_fetched = true;

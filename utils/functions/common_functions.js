@@ -125,12 +125,12 @@ export function getEmployeeFullName(employee) {
   const { firstName, lastName } = employee
   return `${firstName} ${lastName}`
 }
-const START_YEAR = 2021;
+const START_YEAR = 2023;
 export function generateYearList() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const years = [];
-  for (let year = START_YEAR; year <= currentYear + 3; year++) {
+  for (let year = START_YEAR; year <= currentYear + 0; year++) {
     const yearObject = {
       label: year.toString(),
       value: year,

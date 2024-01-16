@@ -51,14 +51,12 @@
                 <bib-datetime-picker
                   v-if="view.value === 'day'"
                   v-model="todayDate"
-                  :format="format"
-                  :parseDate="parseDate"
-                  :formatDate="formatDate"
                   :maxDate="maxDate"
                   class="custom_date_picker"
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
+                  v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
               <div v-if="view.value === 'week'" class="py-05">
@@ -122,6 +120,7 @@ import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
 import { isSameDate, weekToUTCWeek } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions"
 import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
+import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 const VIEWS = [
   { label: "Day", value: 'day', variant: 'light' },
   { label: "Week", value: 'week', variant: 'light' },
@@ -152,8 +151,8 @@ export default {
       localData: [],
       getCurrentDate: "",
       date: null,
-      format: "yyyy-MM-dd",
-      todayDate: DateTime.now().toFormat("yyyy-MM-dd"),
+      format: DATETIME_FORMAT,
+      todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
       ACTIVITY_DICTIONARY,
       totalWorkInMS: 0,
       timesheetStatus: "",
@@ -233,7 +232,7 @@ export default {
   },
   methods: {
     weekToUTCWeek,
-
+    getDatetimeCommonProps,
    async handleTimerStop() {
       await this.$store.dispatch('timeattendance/setDailyTimeEntriesToday')
       if (isSameDate(this.todayDate, new Date())) {

@@ -3,26 +3,22 @@
   <bib-datetime-picker
     v-model="value"
     :label="label"
-    :format="format"
-    :parseDate="parseDate"
-    :formatDate="formatDate"
     hide-quick-select
     @input="onChange"
     :editable="dis"
     :disable-weekends="true"
+    v-bind="{ ...getDatetimeCommonProps() }"
     v-if="dis"
   ></bib-datetime-picker>
   <bib-datetime-picker
-    v-model="dateValue"
+    v-model="dateTimeValue"
     :label="label"
-    :format="format"
-    :parseDate="parseDate"
-    :formatDate="formatDate"
     @input="onChange"
     :editable="dis"
     class="align-items"
     :disable-weekends="true"
     v-if="!dis"
+    v-bind="{ ...getDatetimeCommonProps() }"    
   ></bib-datetime-picker>
   </div>
 </template>
@@ -30,6 +26,7 @@
 <script>
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
+import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 
 export default {
   props: {
@@ -49,9 +46,9 @@ export default {
   data() {
     return {
       value: null,
-      format: "DD-MMM-YYYY",
+      format: DATETIME_FORMAT,
       disable:true,
-      
+      dateTimeValue: null,
     };
   },
   computed: {
@@ -61,12 +58,7 @@ export default {
     }
   },
   methods: {
-    parseDate(dateString, format) {
-      return new Date(dateString);
-    },
-    formatDate(dateObj, format) {
-      return dayjs(dateObj).format(format);
-    },
+    getDatetimeCommonProps, 
     formatDateToIso(value) {
       let dateTimeDate = DateTime.fromISO(value);
       if (dateTimeDate.isValid) {
@@ -82,14 +74,26 @@ export default {
       let date = value ? d.format("YYYY-MMM-DD") : null;
       this.$emit("change", date, fieldKey);
     },
-    // onChange(value, repeatObj) {
-    //   // value = this.formatDateToIso(value);
-    //     const { fieldKey } = this;
-    //   const d = dayjs(value);
-    //   let date = value ? d.format("YYYY-MMM-DD") : null;
-    //   this.$emit("change", date, fieldKey);
-    // },
+
+    setDateValue() {
+      if (this.dateValue) {
+        const date = DateTime.fromISO(this.dateValue)
+        if (date.isValid) {
+          this.dateTimeValue = date.toFormat(DATETIME_FORMAT)
+        }
+      }
+    }
   },
+
+  mounted() {
+    this.setDateValue()
+  },
+
+  watch: {
+    dateValue() {
+      this.setDateValue()
+    }
+  }
 };
 </script>
 

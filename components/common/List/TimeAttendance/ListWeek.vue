@@ -1,6 +1,5 @@
 <template>
-    <div class="remove-pad">
-      {{ status }}
+    <div>
       <week-timesheet-table
         :fields="tableFields"
         class="border-gray4 bg-white"
@@ -12,6 +11,8 @@
         :status="status"
         :buttonDisabled="status == 'pending' ? true : false"
         @button-clicked="submitButtonClicked"
+        style="width: 100%;"
+        :fixHeader="true"
         v-if="id >= 0"
       >
         <template #cell(name)="data">
@@ -177,6 +178,3 @@ export default {
 };
 </script>
   
-<style lang="scss">
-
-</style>

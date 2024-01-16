@@ -1,6 +1,5 @@
 <template>
     <div class="remove-pad">
-      {{ status }}
       <week-timesheet-table
         :fields="tableFields"
         class="border-gray4 bg-white"

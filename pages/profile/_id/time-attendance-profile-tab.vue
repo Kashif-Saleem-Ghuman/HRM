@@ -21,6 +21,7 @@
               :parseDate="parseDate"
               :formatDate="formatDate"
               class="custom_date_picker"
+              :maxDate="maxDate"
               style="margin-bottom: -7px;"
               size="sm"
               @input="dateSelection($event)"
@@ -99,6 +100,7 @@ export default {
   data() {
     return {
       id: "",
+      maxDate: DateTime.now().toISO(),
       dropMenu: viewType,
       dropMenuChipObject: viewType.today,
       timesheetData: [],

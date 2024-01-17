@@ -115,3 +115,7 @@ export function isSameDate(date1, date2) {
 
   return isSame
 }
+
+export function isToday(date) {
+  return isSameDate(date, new Date())
+}

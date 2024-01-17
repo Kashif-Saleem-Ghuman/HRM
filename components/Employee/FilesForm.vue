@@ -35,7 +35,7 @@
         >
           <div class="d-flex align-center" @click="handleFileClick(file)">
             <bib-icon
-              :icon="getFileExtension(extensionsName(file))"
+              :icon="getFileExtension(extensionsName(file)) === undefined ? 'file' : getFileExtension(extensionsName(file)) "
               variant="gray5"
             ></bib-icon>
             <h5

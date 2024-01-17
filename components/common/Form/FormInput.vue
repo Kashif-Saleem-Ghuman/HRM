@@ -8,7 +8,7 @@
     :editable="editable"
     @input="onInput"
     hide-quick-select
-    :display-format="displayFormat ?? 'YYYY-MM-DD'"
+    v-bind="{ ...getDatetimeCommonProps() }"
   ></bib-datetime-picker>
 
   <bib-input
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
 import { get } from "lodash";
 import { DateTime } from "luxon";
+import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 export default {
   inject: ["emitFormInput", "formErrors"],
   props: {
@@ -67,14 +67,7 @@ export default {
   },
 
   methods: {
-    parseDate(dateString, format) {
-      return new Date(dateString);
-    },
-
-    formatDate(dateObj, format) {
-      return dayjs(dateObj).format(format);
-    },
-    
+    getDatetimeCommonProps,
     formatDateToIso(value) {
       let dateTimeDate = DateTime.fromISO(value);
       if (dateTimeDate.isValid) {
@@ -90,16 +83,27 @@ export default {
       }
       this.emitFormInput({ fieldKey, value });
     },
+    setValue() {
+      if (this.isDate) {
+        const date = DateTime.fromISO(this.$attrs.value)
+        if(date.isValid) {
+          this.value = date.toFormat(DATETIME_FORMAT)
+        }
+        return 
+      }
+      this.value = this.$attrs.value;
+      
+    }
   },
 
   mounted() {
-    this.value = this.$attrs.value;
+    this.setValue()
   },
 
   watch: {
     "$attrs.value": {
-      handler: function (val, old) {
-        this.value = val;
+      handler: function () {
+        this.setValue()
       },
     },
   },

@@ -140,10 +140,7 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../utils/functions/common_functions";
+import { getEmployeeFullName, getEmployeeInitials } from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {

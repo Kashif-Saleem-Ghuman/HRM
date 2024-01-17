@@ -11,6 +11,7 @@
           size="sm"
           icon=""
           hide-quick-select
+          v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
       </div>
       <div class="picker" id="to-date">
@@ -24,6 +25,7 @@
 <script>
 import { DateTime } from "luxon";
 import { getWeekStartEndDates } from "../../../utils/functions/dates";
+import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 
 export default {
   data() {
@@ -35,6 +37,7 @@ export default {
   },
 
   methods: {
+    getDatetimeCommonProps,
     onDateChange(value) {
       //When user clicks X button
       if (!this.from) {
@@ -42,10 +45,10 @@ export default {
       }
 
       const { from, to } = getWeekStartEndDates(
-        DateTime.fromFormat(value, "yyyy-MM-dd").toUTC().toISO()
+        DateTime.fromFormat(value, DATETIME_FORMAT).toUTC().toISO()
       );
-      this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
-      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd")
+      this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
+      this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
       this.$emit("update:dates", {
         from, to
       });
@@ -55,8 +58,8 @@ export default {
     setCurrentWeek() {
       const now = DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
-      this.from = DateTime.fromISO(from).toFormat("yyyy-MM-dd")
-      this.to = DateTime.fromISO(to).toFormat("yyyy-MM-dd");
+      this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
+      this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
 
       this.$emit("update:dates", {
         from, to

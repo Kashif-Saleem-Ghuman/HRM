@@ -5,8 +5,15 @@
         <button-with-overlay sectionLabel="View: " :button-config="{ label: dateBtnLabel, variant: 'light', }"
           v-slot="scope">
           <div class="pl-05 pr-05">
-            <bib-datetime-picker v-model="date" @input="onDateChange($event); scope.close()" class="custom-date-picker"
-              size="sm" style="min-width: 7vw;" :maxDate="maxDate"></bib-datetime-picker>
+            <bib-datetime-picker 
+              v-model="date"
+              @input="onDateChange($event); scope.close()" 
+              class="custom-date-picker"
+              size="sm" 
+              style="min-width: 7vw;" 
+              :maxDate="maxDate"
+              v-bind="{ ...getDatetimeCommonProps() }"
+              ></bib-datetime-picker>
           </div>
         </button-with-overlay>
       </div>
@@ -42,16 +49,17 @@
 <script>
 import { DateTime } from "luxon";
 import PresentWidget from '../../components/orgamisms/TimeAttendance/PresentWidget.vue';
+import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../utils/functions/datetime-input";
 export default {
   components: { PresentWidget },
   data() {
     return {
-      date: DateTime.now().startOf('day').toFormat("yyyy-MM-dd"),
+      date: DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
       searchString: null,
-      todayDate:DateTime.now().startOf('day').toFormat("yyyy-MM-dd"),
+      todayDate:DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),
     };
   },
 
@@ -65,6 +73,7 @@ export default {
   },
 
   methods: {
+    getDatetimeCommonProps,
     onSearchChange(event) {
       this.searchString = event
       if (this.loading) return;
@@ -75,12 +84,11 @@ export default {
     },
     
     formatDate(isoDate) {
-      return DateTime.fromISO(isoDate).toFormat('EEEE, LLLL d, yyyy');
+      return DateTime.fromFormat(isoDate, DATETIME_FORMAT).toFormat('EEEE, LLLL d, yyyy');
     },
     onDateChange(value) {
       this.date = value === '' ? this.todayDate : value
-      console.log(this.date, "return `Today, ${this.formatDate(this.date)}`")
-      this.generateOrganizationEntries(DateTime.fromISO(this.date).toUTC().toISO());
+      this.generateOrganizationEntries(DateTime.fromFormat(this.date, DATETIME_FORMAT).toUTC().toISO());
     },
 
     async generateOrganizationEntries(isoDate) {

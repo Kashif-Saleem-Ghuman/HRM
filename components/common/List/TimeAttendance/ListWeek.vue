@@ -1,86 +1,116 @@
 <template>
-    <div>
-      <week-timesheet-table
-        :fields="tableFields"
-        class="bg-white"
-        :sections="activityReportsList"
-        :hide-no-column="true"
-        :showTotal=true
-        :colspan="4"
-        :totalValue="totalValue"
-        :status="status"
-        :buttonDisabled="status == 'pending' ? true : false"
-        @button-clicked="submitButtonClicked"
-        style="width: 100%;"
-        :fixHeader="true"
-        v-if="id >= 0"
-      >
-        <template #cell(name)="data">
-          <div class="d-flex align-center text-left justify-left">
-            <div class="text-black font-md text-left font-w-500">
-              {{ data.value.weekDayLabel }}
-            </div>
+  <div>
+    <bib-table
+      :fields="tableFields"
+      class="bg-white"
+      :sections="activityReportsList"
+      :hide-no-column="true"
+      :showTotal="true"
+      :fixHeader="true"
+      v-if="id >= 0"
+    >
+      <template #cell(name)="data">
+        <div class="d-flex align-center text-left justify-left">
+          <div class="text-black font-md text-left font-w-500">
+            {{ data.value.weekDayLabel }}
           </div>
-          <div class="d-flex align-left text-left justify-left">
-            <div class="text-left text-gray1 font-w-400">
-              {{ data.value.date }}
-            </div>
+        </div>
+        <div class="d-flex align-left text-left justify-left">
+          <div class="text-left text-gray1 font-w-400">
+            {{ data.value.date == null ? "---" : onLoad(data.value.date) }}
           </div>
-        </template>
-        <template #cell(in)="data">
-          <div class="d-flex w-100 m-0 align-center text-center justify-center">
-            <chips
-              :defaultPointer="true"
-              :title="data.value.in"
-              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
-            ></chips>
-          </div>
-        </template>
-        <template #cell(break)="data">
-          <div class="d-flex m-0 align-center text-center justify-center">
-            <chips
-              :defaultPointer="true"
-              :title="data.value.break"
-              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
-            ></chips>
-          </div>
-        </template>
-        <template #cell(out)="data">
-          <div class="d-flex m-0 align-center text-center justify-center">
-            <chips
-              :defaultPointer="true"
-              :title="data.value.out"
-              :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
-            ></chips>
-          </div>
-        </template>
-        <template #cell(total)="data">
-          <div
+        </div>
+      </template>
+      <template #cell(in)="data">
+        <div class="d-flex w-100 m-0 align-center text-center justify-center">
+          <chips
+            :defaultPointer="true"
+            :title="data.value.in"
             :class="[
-              'd-flex',
+              'w-100',
+              'm-0',
               'align-center',
-              data.value.entryExists ? 'text-bold' : 'disabled'
+              'text-center',
+              'justify-center',
             ]"
-          >
-            <span>{{ formatTime(data.value.total * 60, false) }}</span>
-          </div>
-        </template>
-      </week-timesheet-table>
-      <time-sheet-modal
-        @close="timesheetModal = false"
-        :timesheetModal="timesheetModal"
-        :items="filteredData"
-      ></time-sheet-modal>
-    </div>
-  </template>
-  
+            :className="[
+              data.value.entryExists
+                ? 'chip-wrapper__bgsucess text-bold'
+                : 'chip-wrapper__bggray disabled',
+            ]"
+          ></chips>
+        </div>
+      </template>
+      <template #cell(break)="data">
+        <div class="d-flex m-0 align-center text-center justify-center">
+          <chips
+            :defaultPointer="true"
+            :title="data.value.break"
+            :class="[
+              'w-100',
+              'm-0',
+              'align-center',
+              'text-center',
+              'justify-center',
+            ]"
+            :className="[
+              data.value.entryExists
+                ? 'chip-wrapper__bgsucess text-bold'
+                : 'chip-wrapper__bggray disabled',
+            ]"
+          ></chips>
+        </div>
+      </template>
+      <template #cell(out)="data">
+        <div class="d-flex m-0 align-center text-center justify-center">
+          <chips
+            :defaultPointer="true"
+            :title="data.value.out"
+            :class="[
+              'w-100',
+              'm-0',
+              'align-center',
+              'text-center',
+              'justify-center',
+            ]"
+            :className="[
+              data.value.entryExists
+                ? 'chip-wrapper__bgsucess text-bold'
+                : 'chip-wrapper__bggray disabled',
+            ]"
+          ></chips>
+        </div>
+      </template>
+      <template #cell(total)="data">
+        <div
+          :class="[
+            'd-flex',
+            'align-center',
+            data.value.entryExists ? 'text-bold' : 'disabled',
+          ]"
+        >
+          <span>{{ formatTime(data.value.total * 60, false) }}</span>
+        </div>
+      </template>
+    </bib-table>
+    <timesheet-table-footer :status="status" :totalValue="totalValue" @button-clicked="submitButtonClicked"></timesheet-table-footer>
+    <time-sheet-modal
+      @close="timesheetModal = false"
+      :timesheetModal="timesheetModal"
+      :items="filteredData"
+    ></time-sheet-modal>
+  </div>
+</template>
+
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
-import { TABLE_HEAD, WEEK_DAY, TIMESHEET_STATUS } from "@/utils/constant/Constant.js";
+import fecha, { format } from "fecha";
+import {
+  TABLE_HEAD,
+  WEEK_DAY,
+  TIMESHEET_STATUS,
+} from "@/utils/constant/Constant.js";
 import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
@@ -107,7 +137,7 @@ export default {
     },
     startOfWeek: {
       type: String,
-      default: DateTime.now().startOf('week').toISODate(),
+      default: DateTime.now().startOf("week").toISODate(),
     },
   },
   data() {
@@ -132,9 +162,9 @@ export default {
     }),
     activityReportsList() {
       return WEEK_DAY.map(({ label, value }, index) => {
-        const report = this.activityReports
-          .find((ar) => this.getWeekdayString(ar.date) === value)
-          ?.activityReport;
+        const report = this.activityReports.find(
+          (ar) => this.getWeekdayString(ar.date) === value
+        )?.activityReport;
         return {
           weekDayLabel: label,
           in: report?.in || "00:00",
@@ -142,12 +172,14 @@ export default {
           break: report?.break || "00:00",
           total: report?.total || 0,
           entryExists: Boolean(report),
-          date: DateTime.fromISO(this.startOfWeek).plus({days: index}).toFormat("yyyy-MM-dd"),
+          date: DateTime.fromISO(this.startOfWeek)
+            .plus({ days: index })
+            .toFormat("yyyy-MM-dd"),
         };
       });
     },
     totalValue() {
-      return this.totalWork || "--:--"
+      return this.totalWork || "--:--";
     },
     statusValue() {
       return this.status;
@@ -158,19 +190,18 @@ export default {
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
       return WEEK_DAY[
-        DateTime
-        .fromJSDate(new Date(date + " 00:00"))
-          .weekday
-          % 7
-      ].value
+        DateTime.fromJSDate(new Date(date + " 00:00")).weekday % 7
+      ].value;
+    },
+    onLoad(item) {
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
     async submitButtonClicked() {
       const response = await this.submitTimesheet(this.id);
       if (response) {
         this.$emit("timesheet-submitted");
       }
-    }
+    },
   },
 };
 </script>
-  

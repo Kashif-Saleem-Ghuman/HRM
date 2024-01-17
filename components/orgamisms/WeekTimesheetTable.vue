@@ -1,6 +1,5 @@
 <!-- TODO Need to find a way to extends CustomTable template -->
 <template>
- <div class="week-wrapper-main">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -92,25 +91,27 @@
         ></slot>
       </td>
     </tr>
-    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px; ">
+    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px">
       <td
         :colspan="colspan"
-        style="text-align: right;  padding: 16px !important; border-right: 1px solid #eee;"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
       >
         Work Total
       </td>
-      <td class="" style="font-weight: bold">
+      <td class="" style="text-align: center; font-weight: bold">
         {{ totalValue }}
       </td>
     </tr>
     <tr v-if="showStatus" style="padding: 16px !important; font-size: 14px">
       <td
         :colspan="colspan"
-        style="text-align: right; padding: 16px !important; border-right: 1px solid #eee;"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
       >
         Status
       </td>
-      <td class="" style="font-weight: bold">
+      <td class="" style="text-align: center; font-weight: bold">
         <bib-button
           :icon="getStatusIcon()"
           :variant="getStatusVariant()"
@@ -125,11 +126,12 @@
     <tr v-else style="padding: 16px !important; font-size: 14px">
       <td
         colspan="4"
-        style="text-align: right; padding: 16px !important; border-right: 1px solid #eee"
+        class="pl-1"
+        style="text-align: right; padding: 16px !important"
       >
         {{ getSubmitText() }}
       </td>
-      <td style="font-weight: bold">
+      <td class="" style="text-align: center; font-weight: bold">
         <bib-button
           :icon="getSubmitIcon()"
           :variant="getSubmitVariant()"
@@ -142,7 +144,6 @@
       </td>
     </tr>
   </table>
- </div>
 </template>
 
 <script>

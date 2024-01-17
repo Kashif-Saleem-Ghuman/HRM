@@ -35,6 +35,7 @@ export const mutations = {
     state.reportList = payload;
   },
   SET_SELECTED_EMPLOYEE_ID: (state, payload) => {
+    console.log(payload, "SET_SELECTED_EMPLOYEE_ID")
     const { employeeId } = payload
     state.selectedEmployeeId = employeeId;
   },

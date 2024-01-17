@@ -4,7 +4,7 @@
     <div class="" id="pending_request_wrapper">
       <div
         class="d-flex justify-between align-center nav_wrapper  px-1 py-05 bottom_border_wrapper"
-        v-show="requestListData.length ? true : false"
+        v-show="addIds.length > 1 ? true : false"
       >
         <div class="d-flex align-center">
           <bib-button
@@ -151,10 +151,10 @@ export default {
       }
     },
     selectAllItems() {
-      if (this.addIds.length) {
+      if (this.checkedAll === true) {
         this.addIds = [];
         this.checked = false;
-        console.log(this.addIds, "item");
+        this.checkedAll = false
       } else {
         this.requestListData.map((item, index) => {
           this.addIds.push(item.id + "");

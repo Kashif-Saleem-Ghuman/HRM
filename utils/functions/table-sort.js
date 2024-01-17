@@ -3,11 +3,10 @@ import { DateTime } from "luxon";
 
 const typeMap = new Map([
   ["date", sortDateColumn],
-  ["phone", sortPhoneColumn],
+  ["phone", sortPhoneColumn], 
   ["string", sortStringColumn],
   ["number", sortNumberColumn],
 ]);
-
 export function sortColumn({ items, field }) {
   if (field.header_icon.type && typeMap.has(field.header_icon.type)) {
     return typeMap.get(field.header_icon.type)({ items, field });
@@ -20,6 +19,8 @@ export function sortColumn({ items, field }) {
 }
 
 function getSortOrder({ field }) {
+  let icon = field.header_icon.isActive == false ? "long-arrow-up" : "long-arrow-down";
+  field.header_icon.icon = icon; 
   return field.header_icon.isActive ? "desc" : "acs";
 }
 

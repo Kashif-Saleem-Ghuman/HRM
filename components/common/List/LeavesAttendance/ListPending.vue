@@ -1,5 +1,5 @@
 <template>
-  <bib-table
+  <custom-table
     :fields="tableFields"
     class="border-gray4 bg-white"
     :sections="leavePendingList"
@@ -7,7 +7,6 @@
     @input="$emit('selectAllItems')"
     :allChecked="checkedAll"
     @employee-name-sort="sortColumn('name')"
-    :fixHeader=true
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -25,14 +24,12 @@
       >
         <div
           style="cursor: pointer"
-          v-on:click="profiletab('id_' + data.value.employee.id)"
+          v-on:mouseover="profiletab('id_' + data.value.employee.id)"
           v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
         >
           <bib-avatar
             variant="secondary-sub3"
-            :text="
-              data.value.employee.firstName.slice(0, 1) + data.value.employee.lastName.slice(0, 1)
-            "
+            :text="getEmployeeInitials(data.value.employee)"
             text-variant="primary"
             size="2.7rem"
             v-show="data.value.employee.photo === null"
@@ -54,8 +51,8 @@
           </div>
         </div>
         <div class="info_wrapper">
-          <div class="title-user" :title="getEmployeeFullName(data.value.employee)">
-            {{ getEmployeeFullName(data.value.employee) | truncate(16, '...')}}
+          <div class="title-user" v-tooltip="getEmployeeFullName(data.value.employee)">
+            {{ getEmployeeFullName(data.value.employee) | truncate(16, "...") }}
           </div>
           <div class="description">
             {{ data.value.employee.jobTitle }}
@@ -108,14 +105,17 @@
         ></bib-button>
       </div>
     </template>
-  </bib-table>
+  </custom-table>
 </template>
 
 <script>
 import fecha, { format } from "fecha";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
-import { getEmployeeFullName } from "../../../../utils/functions/common_functions"
-import { sortColumn } from "../../../../utils/functions/table-sort"
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../../utils/functions/common_functions";
+import { sortColumn } from "../../../../utils/functions/table-sort";
 
 export default {
   props: {
@@ -138,28 +138,29 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
-      sortByField:null
+      sortByField: null,
     };
   },
   computed: {
     leavePendingList() {
-      if (!this.sortByField) return this.listPending
+      if (!this.sortByField) return this.listPending;
 
-      return sortColumn({ items: this.listPending, field: this.sortByField })
+      return sortColumn({ items: this.listPending, field: this.sortByField });
     },
   },
 
   methods: {
     getEmployeeFullName,
+    getEmployeeInitials,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
-        this.sortByField.header_icon.isActive = false
+        this.sortByField.header_icon.isActive = false;
       }
-      const field = this.tableFields.find( field => field.key === columnKey);
-      field.header_icon.isActive = !field.header_icon.isActive
-      this.sortByField = field
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
     },
-    
+
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

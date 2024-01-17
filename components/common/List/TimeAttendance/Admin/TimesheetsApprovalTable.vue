@@ -43,7 +43,7 @@
       <template #cell(status)="data">
         <div class="text-dark px-05">
           <dropdown-menu-chip
-            :items="timesheetStatusOptions"
+            :items="timesheetStatusOptions.slice(1)"
             :button-config="statusButtonConfig"
             @on-click="onStatusChange($event, data)"
           ></dropdown-menu-chip>

@@ -138,12 +138,13 @@ export function addHandleInput(event, name, addresses) {
   }
 }
 export async function selectUserHandle(event, name) {
+  console.log(event, "selectUserHandleselectUserHandleselectUserHandle")
   this.id = event;
   this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
     employeeId: this.id,
   });
   await this.$store
-    .dispatch("leavesdata/setLeaveVacationsAllowance", this.id)
+    .dispatch("leavesdata/setLeaveVacationsAllowance", {id:this.id})
     .then((result) => {
       this.allowanceLeavesDetailedData = result;
       this.is_data_fetched = true;

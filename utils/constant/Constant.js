@@ -10,7 +10,7 @@ export const TABLE_HEAD = {
       width: `${100 / 4}%`,
       style:'text-align:left',
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-name-sort',
         isActive: false,
         sortKey: 'firstName',
@@ -22,7 +22,7 @@ export const TABLE_HEAD = {
       label: "Status",
        width: `${100 / 6}%`,
        header_icon: {
-         icon: 'swap-vertical',
+         icon: 'long-arrow-up',
          event: 'employee-status-sort',
          isActive: false,
          sortKey: 'activityReport.in',
@@ -34,7 +34,7 @@ export const TABLE_HEAD = {
       label: "In",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-in-sort',
         isActive: false,
         sortKey: 'activityReport.in',
@@ -46,7 +46,7 @@ export const TABLE_HEAD = {
       label: "Out",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-out-sort',
         isActive: false,
         sortKey: 'activityReport.out',
@@ -63,7 +63,7 @@ export const TABLE_HEAD = {
       label: "Total hours",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-total-sort',
         isActive: false,
         sortKey: 'activityReport.total',
@@ -103,7 +103,7 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Employee",
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-name-sort',
         isActive: false,
         sortKey: 'firstName',
@@ -114,7 +114,7 @@ export const TABLE_HEAD = {
       key: "email",
       label: "Email",
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-email-sort',
         isActive: false,
         sortKey: 'email',
@@ -125,7 +125,7 @@ export const TABLE_HEAD = {
       key: "telephone",
       label: "Telephone",
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-phone-sort',
         isActive: false,
         sortKey: 'phone',
@@ -136,7 +136,7 @@ export const TABLE_HEAD = {
       key: "department",
       label: "Department",
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-department-sort',
         isActive: false,
         sortKey: 'department',
@@ -147,7 +147,7 @@ export const TABLE_HEAD = {
       key: "hiredate",
       label: "Hire Date",
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-hire-date-sort',
         isActive: false,
         sortKey: 'hireDate',
@@ -195,7 +195,7 @@ export const TABLE_HEAD = {
       label: "EMPLOYEE",
       style:'text-align:left',
       // header_icon: {
-      //   icon: 'swap-vertical',
+      //   icon: 'long-arrow-up',
       //   event: 'employee-name-sort',
       //   isActive: false,
       //   sortKey: 'firstName',
@@ -347,7 +347,7 @@ export const TABLE_HEAD = {
       label: "Name",
       width: `${100 / 4}%`,
       header_icon: {
-        icon: 'swap-vertical',
+        icon: 'long-arrow-up',
         event: 'employee-name-sort',
         isActive: false,
         sortKey: 'employee.firstName',
@@ -363,7 +363,7 @@ export const TABLE_HEAD = {
       label: "Type",
       width: `${100 / 5}%`,
       // header_icon: {
-      //   icon: 'swap-vertical',
+      //   icon: 'long-arrow-up',
       //   event: 'employee-type-sort',
       //   isActive: false,
       //   sortKey: 'type',
@@ -375,7 +375,7 @@ export const TABLE_HEAD = {
       label: "From",
       width: `${100 / 5}%`,
       // header_icon: {
-      //   icon: 'swap-vertical',
+      //   icon: 'long-arrow-up',
       //   event: 'employee-start-sort',
       //   isActive: false,
       //   sortKey: 'start',
@@ -387,7 +387,7 @@ export const TABLE_HEAD = {
       label: "To",
       width: `${100 / 6}%`,
       // header_icon: {
-      //   icon: 'swap-vertical',
+      //   icon: 'long-arrow-up',
       //   event: 'employee-end-sort',
       //   isActive: false,
       //   sortKey: 'end',
@@ -526,13 +526,13 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Day of week",
       center: false,
-      width: `${100 / 6}%`,
+      width: `${100 / 4}%`,
     },
     {
       key: "in",
       label: "IN",
       center: true,
-      width: `${100 / 4}%`,
+      width: `${100 / 5}%`,
     },
     {
       key: "break",
@@ -544,13 +544,13 @@ export const TABLE_HEAD = {
       key: "out",
       label: "Out",
       center: true,
-      width: `${100 / 4}%`,
+      width: `${100 / 5}%`,
     },
     {
       key: "total",
       label: "Total",
       center: true,
-      width: `${100 / 4}%`,
+      width: `${100 / 7}%`,
     },
     
   ],

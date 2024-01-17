@@ -256,4 +256,7 @@ export default {
   z-index: 4;
   left: 0;
 }
+.table__hrow__active{
+  border: none !important;
+}
 </style>

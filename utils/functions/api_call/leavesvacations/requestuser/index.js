@@ -1,5 +1,5 @@
 import axios from "axios";
-import fecha from "fecha";
+import { DateTime } from "luxon";
 import { generateRequestSelectedDays } from "../../../../requests/request-selected-days";
 
 export async function addLeaveVacations() {
@@ -11,30 +11,34 @@ export async function addLeaveVacations() {
   }
   if (this.addForm.start == null) {
     this.errorMsgStartDate = true;
-    return
+    return;
   }
   this.errorMsgStartDate = false;
   if (this.addForm.end == null) {
     this.errorMsgEndDate = true;
-    return
+    return;
   }
   this.errorMsgEndDate = false;
   if (this.addForm.start > this.addForm.end) {
     this.errorMsgEndDateGreater = true;
-    return
+    return;
   }
   this.errorMsgEndDateGreater = false;
   this.loading = true;
   var data = this.addForm;
-  var startDate = fecha.format(
-    new Date(data.start),
-    "YYYY-MM-DDT00:00:00.000Z"
-  );
-  var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
+  let startDate = new Date(data.start).toISOString();
+  const isoStartDate = DateTime.fromISO(startDate).startOf('day').toUTC().toISO();
+  let endDate = new Date(data.end).toISOString();
+  const isoEndDate = DateTime.fromISO(endDate).endOf('day').toUTC().toISO();
+  // var startDate = fecha.format(
+  //   new Date(data.start),
+  //   "YYYY-MM-DDT00:00:00.000Z"
+  // );
+  // var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
 
-  this.addForm.start = startDate;
-  this.addForm.end = endDate;
-  this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate)
+  this.addForm.start = isoStartDate;
+  this.addForm.end = isoEndDate;
+  this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate);
 
   try {
     const addLeaveVacations = await axios.post(
@@ -99,7 +103,6 @@ export async function getAllowanceDays(leaveType) {
       }
     );
     return allowanceDays.data;
-    
   } catch (e) {
     alert(e);
   }
@@ -190,10 +193,10 @@ export async function deleteLevaeVacation(value) {
         },
       }
     );
-    this.$nuxt.$emit('fetched-leave-vacation')
-    this.$nuxt.$emit('leave-list-key')
+    this.$nuxt.$emit("fetched-leave-vacation");
+    this.$nuxt.$emit("leave-list-key");
     this.loading = false;
-    this.$nuxt.$emit('close-sidebar')
+    this.$nuxt.$emit("close-sidebar");
     this.confirmastionMessageModal = false;
     this.openPopupNotification(9);
     return leaveDelete;
@@ -210,7 +213,7 @@ export async function getUserLeavesDetailUser(payload) {
       },
       params: {
         from: payload?.from,
-        to:payload?.to,
+        to: payload?.to,
       },
     });
     this.loading = false;

@@ -106,7 +106,6 @@ $text-font-size: 14px;
   label {
     font-size: 1rem;
     font-weight: 600;
-    color: #1d1d20;
   }
 
   .widget-info {

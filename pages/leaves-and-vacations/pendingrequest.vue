@@ -3,21 +3,20 @@
   <div id="pending-request-wrapper">
     <div class="" id="pending_request_wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper px-075 bottom_border_wrapper"
-        v-show="requestListData.length ? true : false"
+        class="d-flex justify-between align-center nav_wrapper  px-1 py-05 bottom_border_wrapper"
+        v-show="addIds.length > 1 ? true : false"
       >
-        <div class="d-flex align-center pt-05 pb-05">
+        <div class="d-flex align-center">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"
             :scale="$button.approved.scale"
             :label="$button.approved.label"
-            class="mr-05"
             @click="pendingApproveRequest('approve')"
           ></bib-button>
         </div>
       </div>
-      <div class="scroll_wrapper">
+      <div >
         <div v-if="!leaveList">
           <list-pending
             :listPending="requestListData"
@@ -152,10 +151,10 @@ export default {
       }
     },
     selectAllItems() {
-      if (this.addIds.length) {
+      if (this.checkedAll === true) {
         this.addIds = [];
         this.checked = false;
-        console.log(this.addIds, "item");
+        this.checkedAll = false
       } else {
         this.requestListData.map((item, index) => {
           this.addIds.push(item.id + "");

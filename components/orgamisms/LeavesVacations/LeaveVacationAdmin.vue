@@ -8,8 +8,8 @@
       ></section-header-left>
     </div>
     <div class="tab-wrapper">
-      <div class="row mx-0 bottom_border_wrapper">
-        <div class="col-12 px-1">
+      <div class="row mx-0 px-1 bottom_border_wrapper">
+        <div class="col-12">
           <bib-tabs
             v-if="activeTab"
             :tabs="LEAVEVACATION_TAB"

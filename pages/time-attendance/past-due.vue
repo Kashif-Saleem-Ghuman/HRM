@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="d-flex justify-between align-center px-075 py-025 bottom_border_wrapper"
+      class="d-flex justify-between align-center px-1 py-025 bottom_border_wrapper"
     >
       <div class="d-flex align-center">
         <div class="custom_date_picker">

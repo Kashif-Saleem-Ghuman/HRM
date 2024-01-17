@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex justify-between align-center py-025 px-075 bottom_border_wrapper">
+    <div class="d-flex justify-between align-center py-025 px-1 bottom_border_wrapper">
       <div class="day-date-picker-wrapper">
         <button-with-overlay sectionLabel="View: " :button-config="{ label: dateBtnLabel, variant: 'light', }"
           v-slot="scope">

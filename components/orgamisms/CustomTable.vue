@@ -7,10 +7,10 @@
   >
     <template>
       <tr
-        class="table__hrow__custom"
-        :class="fixHeader ? 'table__hrow__custom-fixed' : ''"
+        class="table__hrow"
+        :class="fixHeader ? 'table__hrow__-fixed' : ''"
       >
-        <th v-if="!hideNoColumn" class="table__hrow__custom__no">
+        <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
@@ -34,26 +34,23 @@
             th_center: field.center,
           }"
         >
-          <div
-            class="align-center border-0"
+        <div
+            class="align-center"
             :class="{ 'cursor-pointer': $listeners['column-header-clicked'] }"
-            :id="field.label + '_action'"
-            :style="field.style"
           >
-            <span class="flex-grow-1"> {{ field.label }} </span>
+            <span> {{ field.label }} </span>
             <template v-if="field.header_icon">
               <div
                 v-if="field.header_icon.icon"
-                class="ml-05 shape-circle bg-white border-0 bg-hover-gray2 width-105 height-105 d-flex justify-center align-center cursor-pointer"
+                class="ml-05 shape-rounded bg-hover-black width-105 height-105 d-flex justify-center align-center cursor-pointer"
                 :class="{ 'bg-black': field.header_icon.isActive }"
                 @click="
                   field.header_icon.event && $emit(field.header_icon.event)
                 "
-                style="border: 0"
               >
                 <bib-icon
                   :icon="field.header_icon.icon"
-                  :scale="0.9"
+                  :scale="1.1"
                   variant="gray5"
                   hoverVariant="white"
                 ></bib-icon>
@@ -242,3 +239,144 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.table {
+  width: 100%;
+  height: max-content;
+  margin: 0;
+
+  // tr {
+  //   height: 2.5rem;
+  // }
+
+  th,
+  td {
+    padding-left: 8px;
+    padding-right: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  &__hrow {
+    height: 2.5rem;
+    background-color: $light;
+    color: $gray5;
+    font-size: 13px;
+    font-weight: bold;
+
+    th {
+      border: $gray4 1px solid;
+      border-top: none;
+      text-align: left;
+
+      &:not(:last-child) {
+        border-right: none;
+      }
+
+      &.cell_action_header {
+        width: 0rem;
+      }
+    }
+
+    &__no {
+      text-align: center !important;
+    }
+
+    &__active {
+      border-bottom-color: $dark-sub1 !important;
+      span {
+        color: $dark-sub1 !important;
+      }
+    }
+
+    &.collapsed {
+      visibility: collapse;
+    }
+  }
+
+  &__srow {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__irow {
+    color: $gray6;
+    font-weight: 400;
+    line-height: 2.5rem;
+    font-size: $base-size;
+    outline: 1px solid transparent;
+    transition: background-color 0.3s linear, outline-color 0.3s linear;
+
+    &-count {
+      width: 60px;
+    }
+
+    td {
+      border: 1px solid $light;
+
+      &:not(:last-child) {
+        border-right: none;
+      }
+      color: $gray5;
+      &:first-child {
+        text-align: center;
+      }
+    }
+    &:nth-child(2) td {
+      border-top: none;
+    }
+    &:not(:last-child) td {
+      border-bottom: none;
+    }
+    &:hover {
+      cursor: default;
+      background-color: $light;
+      border-color: $gray4;
+      td {
+        border-left: $gray4 1px solid;
+      }
+    }
+    &:active {
+      cursor: default;
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+    &.active {
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+  }
+
+  &__headless {
+    border-top: 0;
+    .table__hrow {
+      visibility: collapse;
+    }
+  }
+}
+.table__hrow-fixed {
+  position: sticky; // first row
+  top: 50px;
+  z-index: 4;
+  left: 0;
+}
+
+.resizableTable {
+  th,
+  td {
+    min-width: 100px;
+    width: auto;
+    max-width: 300px;
+    resize: horizontal;
+    overflow: auto;
+    span {
+      word-break: break-word;
+    }
+    &::-webkit-resizer {
+      // background-color: transparent;
+      height: 100%;
+    }
+  }
+}
+</style>

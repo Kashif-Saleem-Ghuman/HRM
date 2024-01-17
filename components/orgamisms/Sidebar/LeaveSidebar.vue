@@ -224,7 +224,7 @@ export default {
 
       if (this.$isAdmin()) {
         await this.$store
-        .dispatch("leavesdata/setLeaveVacationsAllowance", item.employeeId)
+        .dispatch("leavesdata/setLeaveVacationsAllowance", {id:item.employeeId})
         .then((result) => {
           this.allowanceLeavesDetailedData = result;
           this.is_data_fetched = true;

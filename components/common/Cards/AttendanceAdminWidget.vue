@@ -5,9 +5,11 @@ export default {
   extends: BaseWidget,
   methods: {
     async fetchData() {
-      const data = await getAdminAttendanceWidget()
-      this.setData(data)
-      this.setSubData(data)
+      const data = await getAdminAttendanceWidget().then((result) =>{
+        this.setData(result)
+      this.setSubData(result)
+      })
+      
     },
     setData(data) {
       const { attendances } = data

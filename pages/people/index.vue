@@ -7,7 +7,10 @@
         title="People"
       ></section-header-left>
     </div>
-    <div class="tab-wrapper">
+        <div>
+      <list :userList="employees"></list>
+    </div>
+    <!-- <div class="tab-wrapper">
       <div class="row mx-0">
         <div class="col-12 px-1">
           <bib-tabs
@@ -29,7 +32,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

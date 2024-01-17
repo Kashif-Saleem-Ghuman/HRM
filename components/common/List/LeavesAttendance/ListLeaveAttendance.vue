@@ -1,10 +1,11 @@
 <template>
   <div>
-    <custom-table
-      :fields="tableFields"
-      class="border-gray4 bg-white"
-      :sections="leaveData"
-      :hide-no-column="true"
+    <bib-table
+    :fields="tableFields"
+    class="border-gray4 bg-white"
+    :sections="leaveData"
+    :hide-no-column="true"
+    :fixHeader=true
     >
       <template #cell(leavetype)="data">
         <div
@@ -54,7 +55,7 @@
           </div>
         </div>
       </template>
-    </custom-table>
+    </bib-table>
     <leave-sidebar></leave-sidebar>
   </div>
 </template>

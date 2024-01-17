@@ -6,54 +6,38 @@
     :class="{ table__headless: headless, resizableTable: resizableColumns }"
     cellspacing="0"
   >
-    <template>
-      <tr
-        class="table__hrow__custom"
-        :class="fixHeader ? 'table__hrow__custom-fixed' : ''"
-      >
-        <th v-if="!hideNoColumn" class="table__hrow__custom__no">
+  <template>
+      <tr class="table__hrow" :class="fixHeader ? 'table__hrow-fixed' : ''">
+        <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
-        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
-          <div class="d-flex justify-center align-center">
-            <bib-checkbox
-              size="md"
-              @change="$emit('input', $event)"
-              :checked="allChecked"
-            ></bib-checkbox>
-          </div>
-        </th>
-
         <th
           v-for="(field, key) in fields.slice(1)"
           @click="clickColumnHeader($event, key)"
           :key="key"
           :style="`width: ${field.width};`"
           :class="{
-            table__hrow__custom__active:
+            table__hrow__active:
               field.header_icon && field.header_icon.isActive,
-            th_center: field.center,
           }"
         >
           <div
-            class="align-center border-0"
+            class="align-center"
             :class="{ 'cursor-pointer': $listeners['column-header-clicked'] }"
-            :id="field.label + '_action'"
           >
-            <span class="flex-grow-1"> {{ field.label }} </span>
+            <span> {{ field.label }} </span>
             <template v-if="field.header_icon">
               <div
                 v-if="field.header_icon.icon"
-                class="ml-05 shape-circle bg-white border-0 bg-hover-gray2 width-105 height-105 d-flex justify-center align-center cursor-pointer"
+                class="ml-05 shape-rounded bg-hover-black width-105 height-105 d-flex justify-center align-center cursor-pointer"
                 :class="{ 'bg-black': field.header_icon.isActive }"
                 @click="
                   field.header_icon.event && $emit(field.header_icon.event)
                 "
-                style="border: 0"
               >
                 <bib-icon
                   :icon="field.header_icon.icon"
-                  :scale="0.9"
+                  :scale="1.1"
                   variant="gray5"
                   hoverVariant="white"
                 ></bib-icon>
@@ -61,25 +45,13 @@
             </template>
           </div>
         </th>
-        <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
+        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-icon icon="trash" :scale="0.9"></bib-icon>
+            <bib-icon icon="horizontal-dots"></bib-icon>
           </div>
         </th>
       </tr>
     </template>
-    <tr :style="{ width: '0rem' }" v-if="collapseObj">
-      <td colspan="2" class="colapse">
-        <bib-detail-collapse
-          :label="collapseObj.label"
-          :open="!isCollapsed"
-          :variant="collapseObj.variant"
-          @click="isCollapsed = !isCollapsed"
-          style="transform: translateX(-10px); height: 48px"
-        >
-        </bib-detail-collapse>
-      </td>
-    </tr>
     <tr
       v-for="(item, keyI) in sections"
       :key="'item-' + keyI"
@@ -276,10 +248,12 @@ export default {
   },
   methods: {
     getSubmitVariant() {
-      console.log(this.status, "this.statusthis.statusthis.status")
+      console.log(this.status, "this.statusthis.statusthis.status");
       if (this.timesheetIsSubmitable())
         return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
-      return this.status === 'approved' ?  'success' : this.$button[this.status]?.variant;
+      return this.status === "approved"
+        ? "success"
+        : this.$button[this.status]?.variant;
     },
     getSubmitLabel() {
       if (this.status === TIMESHEET_STATUSES.REJECTED) return "Resubmit";
@@ -353,48 +327,37 @@ export default {
 </script>
 
 <style lang="scss">
-.colapse {
-  .detail-collapse__content {
-    height: unset !important;
-  }
-}
-
+.week-wrapper-main{
 .table {
   width: 100%;
   height: max-content;
   margin: 0;
+  outline: 0 !important;
   border: none !important;
+
+  // tr {
+  //   height: 2.5rem;
+  // }
+
   th,
   td {
     padding-left: 8px;
     padding-right: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
-  &__hrow__custom {
-    background-color: $white;
+  &__hrow {
+    height: 2.5rem;
+    background-color: $light;
     color: $gray5;
-    font-weight: 600;
-    text-transform: uppercase !important;
+    font-size: 13px;
+    font-weight: bold;
     th {
-      border: $gray3 1px solid;
-      // border-top: none;
+      border: $gray4 1px solid;
+      border-top: none;
       text-align: left;
-      height: 40px !important;
-      text-transform: uppercase !important;
-
-      color: #1d1d20;
-
-      span {
-        font-size: 12px;
-        font-weight: 500;
-        color: #b1b1b4;
-      }
-      &:first-child {
-        border-left: none;
-      }
-      &:last-child {
-        width: 250px !important;
-      }
+      
       &:not(:last-child) {
         border-right: none;
       }
@@ -405,12 +368,11 @@ export default {
     }
 
     &__no {
-      text-align: center;
-      font-weight: normal;
+      text-align: center !important;
     }
 
     &__active {
-      // border-bottom-color: $dark-sub1 !important;
+      border-bottom-color: $dark-sub1 !important;
       span {
         color: $dark-sub1 !important;
       }
@@ -418,7 +380,6 @@ export default {
 
     &.collapsed {
       visibility: collapse;
-      height: 48px !important;
     }
   }
 
@@ -429,27 +390,20 @@ export default {
   }
 
   &__irow {
-    cursor: pointer;
     color: $gray6;
     font-weight: 400;
-    background-color: #f8f8f9;
+    line-height: 2.5rem;
+    font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
+
     &-count {
       width: 60px;
     }
 
     td {
       border: 1px solid $light;
-      padding: 6px;
-      span {
-        font-size: 14px;
-        color: #1d1d20;
-      }
 
-      &:first-child {
-        border-left: 0;
-      }
       &:not(:last-child) {
         border-right: none;
       }
@@ -466,12 +420,10 @@ export default {
     }
     &:hover {
       cursor: default;
-      background-color: white;
+      background-color: $light;
+      border-color: $gray4;
       td {
-        border-left: #eee 1px solid;
-        &:first-child {
-          border-left: 0;
-        }
+        border-left: $gray4 1px solid;
       }
     }
     &:active {
@@ -487,17 +439,12 @@ export default {
 
   &__headless {
     border-top: 0;
-    .table__hrow__custom {
+    .table__hrow {
       visibility: collapse;
     }
   }
-
-  .th_center {
-    text-align: center;
-  }
 }
-
-.table__hrow__custom-fixed {
+.table__hrow-fixed {
   position: sticky; // first row
   top: 50px;
   z-index: 4;
@@ -520,5 +467,7 @@ export default {
       height: 100%;
     }
   }
+}
+
 }
 </style>

@@ -252,7 +252,6 @@ export default {
     },
   },
   async created() {
-    this.id = this.$route.params.id ?? this.getActiveUser?.id;
     if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
       let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
       localStorage.setItem("accessToken", jwt);
@@ -263,6 +262,7 @@ export default {
       this.$store.dispatch("token/setToken", this.token);
     }
     this.$root.$on("open-sidebar-admin", (payload, key) => {
+      this.id = this.$route.params.id ?? this.getActiveUser?.id;
       this.employeeName = getEmployeeFullName(this.getActiveUser);
       this.slideClass = "slide-in";
       if (payload === this.leaveRequestTypes[payload].type) {

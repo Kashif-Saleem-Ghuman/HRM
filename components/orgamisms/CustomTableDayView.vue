@@ -1,4 +1,5 @@
 <template>
+ <div class="timesheet-wrapper-main">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -8,43 +9,48 @@
     <!-- /*
    TABLE HEADERS
   */ -->
-    <template>
-      <tr :class="classTypeHead" class="table__hrow__custom">
-        <th v-if="!hideNoColumn" class="table__hrow__custom__no">
+  <template>
+      <tr class="table__hrow" :class="fixHeader ? 'table__hrow-fixed' : ''">
+        <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
-
-        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
-          <div class="d-flex justify-center align-center">
-            <bib-checkbox size="md"></bib-checkbox>
-          </div>
-        </th>
-
         <th
           v-for="(field, key) in fields.slice(1)"
           @click="clickColumnHeader($event, key)"
           :key="key"
           :style="`width: ${field.width};`"
           :class="{
-            table__hrow__custom__active:
+            table__hrow__active:
               field.header_icon && field.header_icon.isActive,
           }"
         >
           <div
             class="align-center"
             :class="{ 'cursor-pointer': $listeners['column-header-clicked'] }"
-            :id="field.label + '_action'"
           >
             <span> {{ field.label }} </span>
+            <template v-if="field.header_icon">
+              <div
+                v-if="field.header_icon.icon"
+                class="ml-05 shape-rounded bg-hover-black width-105 height-105 d-flex justify-center align-center cursor-pointer"
+                :class="{ 'bg-black': field.header_icon.isActive }"
+                @click="
+                  field.header_icon.event && $emit(field.header_icon.event)
+                "
+              >
+                <bib-icon
+                  :icon="field.header_icon.icon"
+                  :scale="1.1"
+                  variant="gray5"
+                  hoverVariant="white"
+                ></bib-icon>
+              </div>
+            </template>
           </div>
         </th>
-        <th
-          v-if="$scopedSlots.cell_action_right"
-          class="cell_action_header"
-          style="border-right: 0px !important"
-        >
+        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-icon icon="trash" :scale="0.9"></bib-icon>
+            <bib-icon icon="horizontal-dots"></bib-icon>
           </div>
         </th>
       </tr>
@@ -59,7 +65,7 @@
                 class="d-flex align-center text-left gap-05"
                 style="position: relative"
               >
-                <div style="cursor: pointer" class="pl-05">
+                <div style="cursor: pointer">
                   <bib-avatar
                     variant="secondary-sub3"
                     :text="
@@ -77,13 +83,6 @@
                     size="2.3rem"
                   >
                   </bib-avatar>
-                  <!-- <bib-avatar
-                    class="mt-auto mb-auto"
-                    shape="circle"
-                    :src="item.photo"
-                    size="3rem"
-                  >
-                  </bib-avatar> -->
                 </div>
                 <div class="info_wrapper">
                   <div class="title" style="text-transform: capitalize;">
@@ -103,10 +102,10 @@
       <tr
         v-for="(items, keyI) in sections[keyI]?.timesheets"
         :id="keyI"
-        class="timesheet-table"
+        class="table__irow"
         :key="`${item.id}-${keyI}`"
       >
-        <td v-if="!hideNoColumn" class="table__irow-count p-1">
+        <td v-if="!hideNoColumn" class="table__irow-count">
           {{ keyI + 1 }}
         </td>
         <td v-if="$scopedSlots.cell_title" colspan="1" style="width: 50px">
@@ -151,6 +150,7 @@
       </tr> -->
     </template>
   </table>
+ </div>
 </template>
 
 <script>
@@ -276,188 +276,148 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
-.time-list {
-  padding-right: 1rem;
-  ul {
-    margin: 0px;
-    padding: 0;
-  }
-  .time-list-item {
-    display: flex;
-    color: #000;
-    li {
-      list-style: none;
-      padding: 0 10px;
-      border-right: 1px solid #eee;
-      font-weight: normal;
-      font-size: 11px;
-      &:last-child {
-        border-right: 0px;
-        padding-right: 0px;
-      }
-      label {
-        display: block;
-        font-weight: normal;
-        font-size: 14px;
-        font-weight: 600;
-      }
-    }
-  }
-}
-.colapse {
-  .detail-collapse__content {
-    height: unset !important;
-  }
-}
-.timesheet-table {
-  cursor: pointer;
-  color: $gray6;
-  font-weight: 400;
-  background-color: #fff;
-  outline: 1px solid transparent;
-  transition: background-color 0.3s linear, outline-color 0.3s linear;
-  td {
-    border: 1px solid $light;
-    padding: 6px;
-    span {
-      font-size: 14px;
-      color: #1d1d20;
-    }
-
-    &:first-child {
-      border-left: 0;
-    }
-    &:not(:last-child) {
-      border-right: none;
-    }
-    color: $gray5;
-    &:first-child {
-      text-align: center;
-    }
-  }
-  &:nth-child(2) td {
-    border-top: none;
-  }
-  &:not(:last-child) td {
-    border-bottom: none;
-  }
-  &:hover {
-    cursor: default;
-    background-color: white;
-    td {
-      border-left: #eee 1px solid;
-      &:first-child {
-        border-left: 0;
-      }
-    }
-  }
-  &:active {
-    cursor: default;
-    background-color: $light;
-    outline: 1px solid $gray4;
-  }
-  &.active {
-    background-color: $light;
-    outline: 1px solid $gray4;
-  }
-}
-.table_day {
+.timesheet-wrapper-main{
+.table {
   width: 100%;
   height: max-content;
   margin: 0;
+  outline: 0 !important;
   border: none !important;
-  color: #1d1d20;
-  
-  .bold-text {
-    input {
-      font-weight: bold;
-    }
-  }
-  input {
-    // border: none !important;
-    margin: 0px !important;
-    text-align: right;
-    &:hover {
-      background-color: $light !important;
-    }
-  }
-  .without-border {
-    border: none !important;
-  }
-  label {
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-  }
-  th {
+
+  // tr {
+  //   height: 2.5rem;
+  // }
+
+  th,
+  td {
     padding-left: 8px;
     padding-right: 6px;
-    border: $gray3 1px solid;
-
-  }
-  td {
-    padding: 0;
-    padding: 0;
-    border: $gray3 1px solid;
-
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
-  &__hrow__default {
-    background-color: #F8F8F9;
+  &__hrow {
+    height: 2.5rem;
+    background-color: $light;
     color: $gray5;
-    font-size: 12px;
-    font-weight: 600;
-
+    font-size: 13px;
+    font-weight: bold;
     th {
-      border: $gray3 1px solid;
+      border: $gray4 1px solid;
       border-top: none;
-      border-left: none;
       text-align: left;
-      height: 48px !important;
-      padding: 0px !important;
       
+      &:not(:last-child) {
+        border-right: none;
+      }
 
       &.cell_action_header {
         width: 0rem;
       }
     }
-    &__irow {
-      color: $gray6;
-      // height: 4rem !important;
-      font-weight: 400;
-      // line-height: 2.5rem;
-      font-size: $base-size;
-      outline: 1px solid transparent;
-      transition: background-color 0.3s linear, outline-color 0.3s linear;
 
-      td {
-        border: 1px solid #000;
-        
-      }
+    &__no {
+      text-align: center !important;
+    }
 
-      &:hover {
-        cursor: default;
-        background-color: white;
-        border-color: $gray4;
-        td {
-          border-left: $gray4 1px solid;
-          &:first-child {
-            border-left: 0;
-          }
-        }
-      }
-      &:active {
-        cursor: default;
-        background-color: none;
-        outline: 1px solid $gray4;
-      }
-      &.active {
-        background-color: none;
-        outline: 1px solid $gray4;
+    &__active {
+      border-bottom-color: $dark-sub1 !important;
+      span {
+        color: $dark-sub1 !important;
       }
     }
+
+    &.collapsed {
+      visibility: collapse;
+    }
   }
+
+  &__srow {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__irow {
+    color: $gray6;
+    font-weight: 400;
+    line-height: 2.5rem;
+    font-size: $base-size;
+    outline: 1px solid transparent;
+    transition: background-color 0.3s linear, outline-color 0.3s linear;
+
+    &-count {
+      width: 60px;
+    }
+
+    td {
+      border: 1px solid $light;
+
+      &:not(:last-child) {
+        border-right: none;
+      }
+      color: $gray5;
+      &:first-child {
+        text-align: center;
+      }
+    }
+    &:nth-child(2) td {
+      border-top: none;
+    }
+    &:not(:last-child) td {
+      border-bottom: none;
+    }
+    &:hover {
+      cursor: default;
+      background-color: $light;
+      border-color: $gray4;
+      td {
+        border-left: $gray4 1px solid;
+      }
+    }
+    &:active {
+      cursor: default;
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+    &.active {
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+  }
+
+  &__headless {
+    border-top: 0;
+    .table__hrow {
+      visibility: collapse;
+    }
+  }
+}
+.table__hrow-fixed {
+  position: sticky; // first row
+  top: 50px;
+  z-index: 4;
+  left: 0;
+}
+
+.resizableTable {
+  th,
+  td {
+    min-width: 100px;
+    width: auto;
+    max-width: 300px;
+    resize: horizontal;
+    overflow: auto;
+    span {
+      word-break: break-word;
+    }
+    &::-webkit-resizer {
+      // background-color: transparent;
+      height: 100%;
+    }
+  }
+}
+
 }
 </style>

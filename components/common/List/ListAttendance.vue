@@ -219,16 +219,5 @@ export default {
   font-weight: normal;
   color: $black;
 }
-.remove-pad {
-  table {
-    tr {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    td {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-  }
-}
+
 </style>

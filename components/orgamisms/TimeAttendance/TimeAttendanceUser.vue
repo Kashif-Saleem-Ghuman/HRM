@@ -235,7 +235,7 @@ export default {
     getDatetimeCommonProps,
    async handleTimerStop() {
       await this.$store.dispatch('timeattendance/setDailyTimeEntriesToday')
-      if (isSameDate(this.todayDate, new Date())) {
+      if (isSameDate(DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate(), new Date())) {
         this.fillDailyTimeEntries()
       }
     },

@@ -1,4 +1,5 @@
 <template>
+ <div class="timesheet-wrapper-main">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -8,8 +9,8 @@
     <!-- /*
    TABLE HEADERS
   */ -->
-    <template>
-      <tr :class="classTypeHead" class="table__hrow">
+  <template>
+      <tr class="table__hrow" :class="fixHeader ? 'table__hrow-fixed' : ''">
         <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
@@ -47,13 +48,9 @@
             </template>
           </div>
         </th>
-        <th
-          v-if="$scopedSlots.cell_action_right"
-          class="cell_action_header"
-          style="border-right: 0px !important"
-        >
+        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-icon icon="trash" :scale="0.9"></bib-icon>
+            <bib-icon icon="horizontal-dots"></bib-icon>
           </div>
         </th>
       </tr>
@@ -86,13 +83,6 @@
                     size="2.3rem"
                   >
                   </bib-avatar>
-                  <!-- <bib-avatar
-                    class="mt-auto mb-auto"
-                    shape="circle"
-                    :src="item.photo"
-                    size="3rem"
-                  >
-                  </bib-avatar> -->
                 </div>
                 <div class="info_wrapper">
                   <div class="title" style="text-transform: capitalize;">
@@ -160,6 +150,7 @@
       </tr> -->
     </template>
   </table>
+ </div>
 </template>
 
 <script>
@@ -285,12 +276,14 @@ export default {
   },
 };
 </script>
-<!-- 
-<style lang="scss" scoped>
+<style lang="scss">
+.timesheet-wrapper-main{
 .table {
   width: 100%;
   height: max-content;
   margin: 0;
+  outline: 0 !important;
+  border: none !important;
 
   // tr {
   //   height: 2.5rem;
@@ -310,12 +303,11 @@ export default {
     color: $gray5;
     font-size: 13px;
     font-weight: bold;
-
     th {
       border: $gray4 1px solid;
       border-top: none;
       text-align: left;
-
+      
       &:not(:last-child) {
         border-right: none;
       }
@@ -426,4 +418,6 @@ export default {
     }
   }
 }
-</style> -->
+
+}
+</style>

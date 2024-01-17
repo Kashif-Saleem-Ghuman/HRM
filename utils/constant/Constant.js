@@ -194,13 +194,13 @@ export const TABLE_HEAD = {
       key: "name",
       label: "EMPLOYEE",
       style:'text-align:left',
-      header_icon: {
-        icon: 'swap-vertical',
-        event: 'employee-name-sort',
-        isActive: false,
-        sortKey: 'firstName',
-        type: 'string'
-      },
+      // header_icon: {
+      //   icon: 'swap-vertical',
+      //   event: 'employee-name-sort',
+      //   isActive: false,
+      //   sortKey: 'firstName',
+      //   type: 'string'
+      // },
     },
     {
       key: "mon",
@@ -525,27 +525,32 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Day of week",
-      center: false
+      center: false,
+      width: `${100 / 6}%`,
     },
     {
       key: "in",
       label: "IN",
-      center: true
+      center: true,
+      width: `${100 / 4}%`,
     },
     {
       key: "break",
       label: "Break",
-      center: true
+      center: true,
+      width: `${100 / 4}%`,
     },
     {
       key: "out",
       label: "Out",
-      center: true
+      center: true,
+      width: `${100 / 4}%`,
     },
     {
       key: "total",
       label: "Total",
-      center: true
+      center: true,
+      width: `${100 / 4}%`,
     },
     
   ],

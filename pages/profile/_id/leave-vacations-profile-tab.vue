@@ -59,7 +59,10 @@
               @update="setAllowance"
             ></info-card-leave-vacation>
           </div>
-          <div>
+        </div>
+      </div>
+    </div>
+    <div>
             <div v-if="leaveList">
               <list-leave-attendance
                 :leaveData="leaveVacationDataUser"
@@ -71,9 +74,6 @@
             </div>
             <loader :loading="loading"></loader>
           </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>

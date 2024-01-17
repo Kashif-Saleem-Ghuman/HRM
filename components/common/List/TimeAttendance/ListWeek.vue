@@ -2,7 +2,7 @@
     <div>
       <week-timesheet-table
         :fields="tableFields"
-        class="border-gray4 bg-white"
+        class="bg-white"
         :sections="activityReportsList"
         :hide-no-column="true"
         :showTotal=true
@@ -16,12 +16,12 @@
         v-if="id >= 0"
       >
         <template #cell(name)="data">
-          <div class="d-flex mx-05 my-025 align-center text-left justify-left">
+          <div class="d-flex align-center text-left justify-left">
             <div class="text-black font-md text-left font-w-500">
               {{ data.value.weekDayLabel }}
             </div>
           </div>
-          <div class="d-flex mx-05 my-025 align-left text-left justify-left">
+          <div class="d-flex align-left text-left justify-left">
             <div class="text-left text-gray1 font-w-400">
               {{ data.value.date }}
             </div>
@@ -33,7 +33,7 @@
               :defaultPointer="true"
               :title="data.value.in"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
             ></chips>
           </div>
         </template>
@@ -43,7 +43,7 @@
               :defaultPointer="true"
               :title="data.value.break"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
             ></chips>
           </div>
         </template>
@@ -53,7 +53,7 @@
               :defaultPointer="true"
               :title="data.value.out"
               :class="['w-100', 'm-0', 'align-center', 'text-center', 'justify-center']"
-              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled', 'd-align']"
+              :className="[data.value.entryExists ? 'chip-wrapper__bgsucess text-bold' : 'chip-wrapper__bggray disabled']"
             ></chips>
           </div>
         </template>
@@ -61,11 +61,7 @@
           <div
             :class="[
               'd-flex',
-              'm-0',
-              'px-1',
               'align-center',
-              'text-center',
-              'justify-center',
               data.value.entryExists ? 'text-bold' : 'disabled'
             ]"
           >

@@ -1,5 +1,6 @@
 <!-- TODO Need to find a way to extends CustomTable template -->
 <template>
+ <div class="week-wrapper-main">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -91,27 +92,25 @@
         ></slot>
       </td>
     </tr>
-    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px">
+    <tr v-show="showTotal" style="padding: 16px !important; font-size: 14px; ">
       <td
         :colspan="colspan"
-        class="pl-1"
-        style="text-align: right; padding: 16px !important"
+        style="text-align: right;  padding: 16px !important; border-right: 1px solid #eee;"
       >
         Work Total
       </td>
-      <td class="" style="text-align: center; font-weight: bold">
+      <td class="" style="font-weight: bold">
         {{ totalValue }}
       </td>
     </tr>
     <tr v-if="showStatus" style="padding: 16px !important; font-size: 14px">
       <td
         :colspan="colspan"
-        class="pl-1"
-        style="text-align: right; padding: 16px !important"
+        style="text-align: right; padding: 16px !important; border-right: 1px solid #eee;"
       >
         Status
       </td>
-      <td class="" style="text-align: center; font-weight: bold">
+      <td class="" style="font-weight: bold">
         <bib-button
           :icon="getStatusIcon()"
           :variant="getStatusVariant()"
@@ -126,12 +125,11 @@
     <tr v-else style="padding: 16px !important; font-size: 14px">
       <td
         colspan="4"
-        class="pl-1"
-        style="text-align: right; padding: 16px !important"
+        style="text-align: right; padding: 16px !important; border-right: 1px solid #eee"
       >
         {{ getSubmitText() }}
       </td>
-      <td class="" style="text-align: center; font-weight: bold">
+      <td style="font-weight: bold">
         <bib-button
           :icon="getSubmitIcon()"
           :variant="getSubmitVariant()"
@@ -144,6 +142,7 @@
       </td>
     </tr>
   </table>
+ </div>
 </template>
 
 <script>
@@ -325,3 +324,149 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.week-wrapper-main{
+.table {
+  width: 100%;
+  height: max-content;
+  margin: 0;
+  outline: 0 !important;
+  border: none !important;
+
+  // tr {
+  //   height: 2.5rem;
+  // }
+
+  th,
+  td {
+    padding-left: 8px;
+    padding-right: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  &__hrow {
+    height: 2.5rem;
+    background-color: $light;
+    color: $gray5;
+    font-size: 13px;
+    font-weight: bold;
+    th {
+      border: $gray4 1px solid;
+      border-top: none;
+      text-align: left;
+      
+      &:not(:last-child) {
+        border-right: none;
+      }
+
+      &.cell_action_header {
+        width: 0rem;
+      }
+    }
+
+    &__no {
+      text-align: center !important;
+    }
+
+    &__active {
+      border-bottom-color: $dark-sub1 !important;
+      span {
+        color: $dark-sub1 !important;
+      }
+    }
+
+    &.collapsed {
+      visibility: collapse;
+    }
+  }
+
+  &__srow {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__irow {
+    color: $gray6;
+    font-weight: 400;
+    line-height: 2.5rem;
+    font-size: $base-size;
+    outline: 1px solid transparent;
+    transition: background-color 0.3s linear, outline-color 0.3s linear;
+
+    &-count {
+      width: 60px;
+    }
+
+    td {
+      border: 1px solid $light;
+
+      &:not(:last-child) {
+        border-right: none;
+      }
+      color: $gray5;
+      &:first-child {
+        text-align: center;
+      }
+    }
+    &:nth-child(2) td {
+      border-top: none;
+    }
+    &:not(:last-child) td {
+      border-bottom: none;
+    }
+    &:hover {
+      cursor: default;
+      background-color: $light;
+      border-color: $gray4;
+      td {
+        border-left: $gray4 1px solid;
+      }
+    }
+    &:active {
+      cursor: default;
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+    &.active {
+      background-color: $light;
+      outline: 1px solid $gray4;
+    }
+  }
+
+  &__headless {
+    border-top: 0;
+    .table__hrow {
+      visibility: collapse;
+    }
+  }
+}
+.table__hrow-fixed {
+  position: sticky; // first row
+  top: 50px;
+  z-index: 4;
+  left: 0;
+}
+
+.resizableTable {
+  th,
+  td {
+    min-width: 100px;
+    width: auto;
+    max-width: 300px;
+    resize: horizontal;
+    overflow: auto;
+    span {
+      word-break: break-word;
+    }
+    &::-webkit-resizer {
+      // background-color: transparent;
+      height: 100%;
+    }
+  }
+}
+
+}
+</style>

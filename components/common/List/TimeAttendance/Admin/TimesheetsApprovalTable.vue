@@ -1,16 +1,16 @@
 <template>
-  <div class="timesheets-approval-table-container">
+  <div>
     <loader :loading="loading"></loader>
-    
+
     <no-record v-if="showNoData"></no-record>
-    
 
     <custom-table-day-view
       v-else-if="showTable"
       :fields="tableFields"
-      class="border-gray4 bg-white"
+      class="bg-white"
       :sections="employees"
       :hide-no-column="true"
+      :fixHeader="true"
     >
       <!-- Timsheet date range -->
       <template #cell(name)="data">
@@ -18,7 +18,7 @@
           class="d-flex align-center text-left gap-05"
           style="position: relative"
         >
-          <div class="info_wrapper" style="padding-left: 8px;">
+          <div class="info_wrapper" style="padding-left: 8px">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
@@ -29,7 +29,7 @@
       <template v-for="day in weekDays" #[`cell(${day})`]="data">
         <chips
           :key="day + random(day)"
-          :title="data.value[day] ? formatHoursToHHMM(data.value[day]) :  '--'"
+          :title="data.value[day] ? formatHoursToHHMM(data.value[day]) : '--'"
           :className="[getDayClassName(data.value[day])]"
         ></chips>
       </template>
@@ -42,36 +42,35 @@
 
       <template #cell(status)="data">
         <div class="text-dark px-05">
-            <dropdown-menu-chip
-              :items="timesheetStatusOptions"
-              :button-config="statusButtonConfig"
-              @on-click="onStatusChange($event, data)"
-            ></dropdown-menu-chip>
-          
+          <dropdown-menu-chip
+            :items="timesheetStatusOptions"
+            :button-config="statusButtonConfig"
+            @on-click="onStatusChange($event, data)"
+          ></dropdown-menu-chip>
         </div>
       </template>
     </custom-table-day-view>
   </div>
 </template>
-  
+
 <script>
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
-TABLE_HEAD,
-TIMESHEET_STATUS,
-TIMESHEET_STATUSES,
-WEEK_DAY,
+  TABLE_HEAD,
+  TIMESHEET_STATUS,
+  TIMESHEET_STATUSES,
+  WEEK_DAY,
 } from "../../../../../utils/constant/Constant.js";
 import {
-approveTimesheet,
-getPastDueTimesheets,
-getPendingTimesheets,
-rejectTimesheet,
-approvePastDueTimesheet
+  approveTimesheet,
+  getPastDueTimesheets,
+  getPendingTimesheets,
+  rejectTimesheet,
+  approvePastDueTimesheet,
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
-import { random } from "lodash"
+import { random } from "lodash";
 
 const PENDING_TYPE = "pending";
 const PAST_DUE_TYPE = "past_due";
@@ -92,8 +91,8 @@ export default {
     },
     searchString: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
@@ -113,17 +112,17 @@ export default {
 
   computed: {
     showTable() {
-      return !this.loading && this.employees?.length
+      return !this.loading && this.employees?.length;
     },
     showNoData() {
-      return !this.loading && (!this.employees || !this.employees?.length)
+      return !this.loading && (!this.employees || !this.employees?.length);
     },
     statusButtonConfig() {
-      if (!this.type) return {}
-      return this.$button[this.type]
-    }
+      if (!this.type) return {};
+      return this.$button[this.type];
+    },
   },
-  
+
   mounted() {
     this.addTypeToTimesheetStatusOptions();
     this.getAndParseTimesheets();
@@ -141,21 +140,23 @@ export default {
     },
     async onStatusChange(event, data) {
       const id = data?.value?.id;
-      const status = data?.value?.status
+      const status = data?.value?.status;
       const confirm = window.confirm(
         `Are you sure you want to ${event.value} the selected timesheet?`
       );
-      event = event?.value ?? event
+      event = event?.value ?? event;
       if (confirm) {
         if (event == TIMESHEET_STATUS["approved"].value) {
-
-          if (status == TIMESHEET_STATUSES.PAST_DUE &&  id == '-1') {
-            const date = data?.value?.start
-            await approvePastDueTimesheet({ id, date, employeeId: data.value.employeeId})
+          if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
+            const date = data?.value?.start;
+            await approvePastDueTimesheet({
+              id,
+              date,
+              employeeId: data.value.employeeId,
+            });
           } else {
             await approveTimesheet({ id });
           }
-          
         } else if (event == TIMESHEET_STATUS["rejected"].value) {
           await rejectTimesheet({ id });
         }
@@ -164,16 +165,16 @@ export default {
     },
 
     async getAndParseTimesheets() {
-      const { searchString } = this
+      const { searchString } = this;
 
       this.loading = true;
-      const { from, to } = this.dates
-      if (!from || !to) return 
+      const { from, to } = this.dates;
+      if (!from || !to) return;
 
       const employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
         to,
-        searchString
+        searchString,
       });
 
       employees.forEach((employee) => {
@@ -251,21 +252,21 @@ export default {
   watch: {
     dates: {
       deep: true,
-      handler: function(newVal, oldVal) {
+      handler: function (newVal, oldVal) {
         //To make sure the dates really changed, avoid making useless api calls
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-          this.getAndParseTimesheets()
+          this.getAndParseTimesheets();
         }
-      }
+      },
     },
-    
+
     searchString(value) {
-      this.getAndParseTimesheets()
-    }
+      this.getAndParseTimesheets();
+    },
   },
 };
 </script>
-  
+
 <style lang="scss" scoped>
 .info_wrapper {
   color: $dark;

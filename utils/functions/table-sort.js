@@ -17,10 +17,12 @@ export function sortColumn({ items, field }) {
     getSortOrder({ field })
   );
 }
-
-function getSortOrder({ field }) {
+function updateSortIcon({field}){
   let icon = field.header_icon.isActive == false ? "long-arrow-up" : "long-arrow-down";
   field.header_icon.icon = icon; 
+}
+function getSortOrder({ field }) {
+  updateSortIcon({ field });
   return field.header_icon.isActive ? "desc" : "acs";
 }
 

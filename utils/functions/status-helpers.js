@@ -69,6 +69,7 @@ export const getFileExtension = (icon) => {
     xls:'excel',
     xlsx:'excel',
     ppt:'powerpoint',
+    mp4:'video'
   };
   return statusMap[icon];
 };

@@ -20,10 +20,7 @@
           >
             <bib-avatar
               variant="secondary-sub3"
-              :text="
-                data.value.firstName.slice(0, 1) +
-                data.value.lastName.slice(0, 1)
-              "
+              :text="getEmployeeInitials(data.value)"
               text-variant="primary"
               size="2.3rem"
               v-show="data.value.photo === null"
@@ -154,7 +151,7 @@ import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
 import { dateCheck } from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import { getEmployeeFullName } from "../../../../utils/functions/common_functions";
+import { getEmployeeFullName, getEmployeeInitials } from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {
@@ -195,6 +192,7 @@ export default {
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,
+    getEmployeeInitials,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;

@@ -328,7 +328,6 @@ import {
   sendMessage,
   vfileAdded,
 } from "@/utils/functions/functions_lib";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import contactFormFieds from "./forms/contact-form-fieds";
@@ -374,7 +373,6 @@ export default {
       form: {},
       updateForm: {},
       errors: {},
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       avatarUrl: "",
       activeUser: "",

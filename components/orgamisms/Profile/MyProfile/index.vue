@@ -52,7 +52,6 @@ import {
   openPopupNotification,
   vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { getEmployeeFullName, getEmployeeInitials } from "@/utils/functions/common_functions";
 
 import fecha from "fecha";
@@ -63,7 +62,6 @@ export default {
     return {
       id: "",
       loading: false,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       personalTabItem: EMPLOYEE_PROFILE_TAB,
       activeTab: "Employee Profile",

@@ -78,7 +78,6 @@ import {
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 
@@ -116,7 +115,6 @@ export default {
       addLeaveKey: 0,
       employeeNameSelectShow: false,
       showAllowance: true,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       currentDate: fecha.format(new Date(), "YYYY-MM-DD"),
       deleteButtonShowHide: false,

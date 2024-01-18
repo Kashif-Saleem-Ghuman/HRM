@@ -37,6 +37,7 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 <script>
@@ -50,6 +51,7 @@ import {
   numberToClockDigits,
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
+import { openPopupNotification } from "../../../../utils/functions/functions_lib.js";
 import { DateTime } from "luxon";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { getTimeFromDate } from "../../../../utils/functions/dates";
@@ -72,6 +74,7 @@ export default {
   data() {
     return {
       newData: { ...this.entry, startTime: null, endTime: null },
+      popupMessages: [],
     };
   },
 
@@ -115,6 +118,7 @@ export default {
     parseInputTimeIntoArray,
     numberToClockDigits,
     hoursAndMinutesToJSDate,
+    openPopupNotification,
     getTimeFromDate,
 
     getEndDate(startTime, endTime) {
@@ -185,7 +189,8 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        alert("end time cannot be greater than current time");
+        this.openPopupNotification({text:'Start time should be before end time', variant:'danger'})
+        // alert("start time should be before end time");
         this.endTime = undefined;
         return false;
       }

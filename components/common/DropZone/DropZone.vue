@@ -46,7 +46,6 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 var fileExt;
@@ -84,7 +83,6 @@ export default {
     return {
       success: false,
       error: false,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       deleteModalContent: DELETE_MESSAGE[2],
       dropzoneRefresh: 0,

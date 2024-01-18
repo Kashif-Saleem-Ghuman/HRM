@@ -65,14 +65,10 @@
     <template #cell(status)="data">
       <div class="" @click="handleItemClick_Table(data.value.id, $event)">
         <chips-list
-          :title="data.value?.timers[0]?.type ? 'Online' : 'Offline'"
+          :title="getStatusTitle(data.value)"
           iconShow="iconShow"
           icon="add"
-          :className="[
-            data.value?.timers[0]?.type
-              ? 'chip-list-wrapper__sucess'
-              : 'chip-list-wrapper__light',
-          ]"
+          :className="getStatusClass(data.value)"
         ></chips-list>
       </div>
     </template>
@@ -182,6 +178,26 @@ export default {
     handleItemClick_Table,
     getEmployeeFullName,
     getEmployeeInitials,
+    getStatusTitle(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in && data.activityReport?.out;
+
+      if (timers.length || inEntry) {
+        return 'Present';
+      }
+
+      return 'Absent';
+    },
+    getStatusClass(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in && data.activityReport?.out;
+
+      if (timers.length || inEntry) {
+        return 'chip-list-wrapper__sucess';
+      }
+
+      return 'chip-list-wrapper__light';
+    },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;

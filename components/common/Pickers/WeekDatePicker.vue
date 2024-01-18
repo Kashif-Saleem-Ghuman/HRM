@@ -16,7 +16,13 @@
       </div>
       <div class="picker" id="to-date">
         <label for="end-date">To</label>
-        <bib-datetime-picker v-model="to" :disabled="true" size="sm" hide-quick-select></bib-datetime-picker>
+        <bib-datetime-picker
+          v-model="to"
+          :disabled="true"
+          size="sm"
+          hide-quick-select
+          v-bind="{ ...getDatetimeCommonProps() }"
+        ></bib-datetime-picker>
       </div>
     </div>
   </div>

@@ -12,6 +12,7 @@
         v-model="startTime"
         @blur="timeInputBlur"
         :step="60"
+        :disabled="disabled"
       ></bib-input>
     </div>
     <div class="cell">
@@ -21,6 +22,7 @@
         v-model="endTime"
         @blur="timeInputBlur"
         :step="60"
+        :disabled="disabled"
       ></bib-input>
     </div>
     <div class="cell">
@@ -54,12 +56,13 @@ import {
 import { openPopupNotification } from "../../../../utils/functions/functions_lib.js";
 import { DateTime } from "luxon";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
-import { getTimeFromDate } from "../../../../utils/functions/dates";
+import { getTimeFromDate, isToday } from "../../../../utils/functions/dates";
 import {
   calculateTimeDifferenceInHHMM,
   calculateTimeDifferenceInMinutes,
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
+import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 export default {
   props: {
     entry: {
@@ -79,10 +82,24 @@ export default {
   },
 
   computed: {
+    hasInEntry() {
+      const entries = this.$store.state.timeattendance.dailyTimeEntries
+      if (!entries) return false
+      return entries.some( entry => {
+        return entry.activity === ACTIVITY_TYPE.IN && entry.end
+      })
+    },
+    timer() {
+      return this.$store.state.timeattendance.timer?.active ? this.$store.state.timeattendance.timer : null
+    },
+    disabled() {
+      return this.newData.activity === ACTIVITY_TYPE.IN && !this.hasInEntry && this.timer && isToday(this.date)
+    },
     startTime: {
       get() {
         if (this.newData?.startTime) return this.newData?.startTime;
         if (this.newData.start) return getTimeFromDate(this.newData.start);
+        if (this.disabled && this.timer) return getTimeFromDate(this.timer.start);
       },
       set(time) {
         this.newData.startTime = time;
@@ -181,6 +198,59 @@ export default {
       return date > now;
     },
 
+    getDateFromTime(time) {
+      const [hours, minutes, seconds] = time.split(":").map(Number);
+      return DateTime.fromJSDate(this.date).set({
+        hours,
+        minutes,
+        seconds,
+      }).toJSDate()
+    },
+
+    addDayToDate(date) {
+      if (date instanceof Date) {
+        return DateTime.fromJSDate(date).plus({ day: 1 }).toJSDate();
+      } else {
+        return DateTime.fromISO(date).plus({ day: 1 }).toJSDate();
+      }
+    },
+
+    validateBreakIsWithinWorkingHours() {
+      if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.hasInEntry) {
+        const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.IN && entry.end)
+        const inEntryStartTime = DateTime.fromISO(inEntry.start).toJSDate()
+        const inEntryEndTime = DateTime.fromISO(inEntry.end).toJSDate()
+        const breakStartTime = this.getDateFromTime(this.startTime)
+        let breakEndTime = this.getDateFromTime(this.endTime)
+
+        if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
+          breakEndTime = this.addDayToDate(breakEndTime)
+        }
+
+        const isBreakWithinInEntry = breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime
+        if (!isBreakWithinInEntry) {
+          alert("break start time and end time must be within in entry start and end time");
+          this.clearStartTime();
+          this.clearEndTime();
+          return false;
+        }
+      }
+
+      if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.timer && isToday(this.date)) {
+        const breakStartTime = DateTime.fromISO(this.startTime).toJSDate()
+        const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate()
+        const isBreakAfterTimerStart = breakStartTime > timerStartTime;
+        if (!isBreakAfterTimerStart) {
+          alert("break start time cannot be before timer start time");
+          this.clearStartTime();
+          this.clearEndTime();
+          return false;
+        }
+      }
+
+      return true;
+    },
+
     isEntryValid() {
       const startAndTimeValid = this.startAndEndTimeValid();
       if (!startAndTimeValid) return false;
@@ -194,6 +264,8 @@ export default {
         this.endTime = undefined;
         return false;
       }
+
+      if (!this.validateBreakIsWithinWorkingHours()) return false;
 
       return true;
     },

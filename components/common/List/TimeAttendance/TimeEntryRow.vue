@@ -89,6 +89,13 @@ export default {
         return entry.activity === ACTIVITY_TYPE.IN && entry.end
       })
     },
+    hasBreakEntry() {
+      const entries = this.$store.state.timeattendance.dailyTimeEntries
+      if (!entries) return false
+      return entries.some( entry => {
+        return entry.activity === ACTIVITY_TYPE.BREAK && entry.end
+      })
+    },
     timer() {
       return this.$store.state.timeattendance.timer?.active ? this.$store.state.timeattendance.timer : null
     },
@@ -215,6 +222,29 @@ export default {
       }
     },
 
+    validateInEntryWithExistingBreak() {
+      if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
+        const breakEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.BREAK && entry.end)
+        const breakEntryStartTime = DateTime.fromISO(breakEntry.start).toJSDate()
+        const breakEntryEndTime = DateTime.fromISO(breakEntry.end).toJSDate()
+        const inEntryStartTime = this.getDateFromTime(this.startTime)
+        let inEntryEndTime = this.getDateFromTime(this.endTime)
+
+        if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
+          inEntryEndTime = this.addDayToDate(inEntryEndTime)
+        }
+
+        const isBreakAfterInEntry = breakEntryStartTime >= inEntryStartTime && breakEntryEndTime <= inEntryEndTime
+        if (!isBreakAfterInEntry) {
+          alert("in entry start time and end time must be before break entry start and end time");
+          this.clearStartTime();
+          this.clearEndTime();
+          return false;
+        }
+      }
+      return true;
+    },
+
     validateBreakIsWithinWorkingHours() {
       if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.hasInEntry) {
         const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.IN && entry.end)
@@ -266,6 +296,7 @@ export default {
       }
 
       if (!this.validateBreakIsWithinWorkingHours()) return false;
+      if (!this.validateInEntryWithExistingBreak()) return false;
 
       return true;
     },

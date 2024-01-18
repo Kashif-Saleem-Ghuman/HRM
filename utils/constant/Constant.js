@@ -7,7 +7,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      width: `${100 / 4}%`,
+      width: `${100 / 5}%`,
       style:'text-align:left',
       header_icon: {
         icon: 'long-arrow-up',
@@ -56,12 +56,12 @@ export const TABLE_HEAD = {
     {
       key: "breaks",
       label: "Breaks",
-      width: `${100 / 6}%`,
+      width: `${100 / 7}%`,
     },
     {
       key: "total",
       label: "Total hours",
-      width: `${100 / 6}%`,
+      width: `${100 / 3}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-total-sort',

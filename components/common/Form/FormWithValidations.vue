@@ -44,7 +44,6 @@
 import { forOwn, get, set } from "lodash";
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { merge } from "lodash";
-import { popupNotificationMsgs } from "../../../utils/constant/Notifications";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import {mapGetters} from 'vuex';
 export default {
@@ -95,7 +94,6 @@ export default {
     return {
       updateForm: {},
       errors: {},
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
     };
   },

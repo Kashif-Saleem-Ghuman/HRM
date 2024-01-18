@@ -147,7 +147,6 @@ import {
 } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
-import { popupNotificationMsgs } from "../utils/constant/Notifications";
 
 import {
   handleToggleWrapperTheme,
@@ -176,7 +175,6 @@ export default {
       showNotification: false,
       showPopup: false,
       loading: false,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       userPhoto: "",
       accountType: "",

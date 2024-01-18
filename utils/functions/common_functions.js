@@ -2,6 +2,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import fecha, { format } from "fecha";
 import { DateTime } from "luxon";
+import { popupNotificationMsgs } from "@/utils/constant/Notifications";
+
 
 export async function getUser() {
   let userId = localStorage.getItem("userId");
@@ -61,8 +63,16 @@ export async function updateBusinessId() {
     alert(e);
   }
 }
+
 export function openPopupNotification(n) {
-  this.popupMessages.push(this.popupNotificationMsgs[n]);
+  if(isNaN(n)){
+    this.popupMessages.push(n);
+    return
+  }else{
+    this.popupMessages.push(popupNotificationMsgs[n]);
+    return
+  }
+ 
 }
 export function dateCheck(dateTime) {
   return dayjs(dateTime).format("HH:mm") || "N/A";

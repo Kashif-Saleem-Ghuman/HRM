@@ -53,7 +53,6 @@ import {
   getApproveLeaveVacationsAdmin,
   getRejectLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
-import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 import { rejectRequest } from "@/utils/functions/api_call/requests"
@@ -78,7 +77,6 @@ export default {
       checkedAll: false,
       noRecord: false,
       disabled: true,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
     };
   },
@@ -131,26 +129,26 @@ export default {
       });
     },
     async getIdValue(event) {
+      const {id, key } = event
       this.checkedAll = false;
-      if (this.addIds.includes(event + "")) {
+      if (this.addIds.includes(id + "")) {
         for (var i = 0; i < this.addIds.length; i++) {
-          if (this.addIds[i] === event + "") {
+          if (this.addIds[i] === id + "") {
             this.addIds.splice(i, 1);
             console.log(this.addIds, "item");
+          }
+          if(!this.addIds.length){
+            this.checked = false;
           }
         }
       } else {
         this.checkedAll = false;
-        this.addIds.push(event + "");
+        this.addIds.push(id + "");
         console.log(this.addIds, "item");
-      }
-      if (this.addIds != "") {
-        this.disabled = false;
-      } else {
-        this.disabled = true;
       }
     },
     selectAllItems() {
+      this.addIds = [];
       if (this.checkedAll === true) {
         this.addIds = [];
         this.checked = false;

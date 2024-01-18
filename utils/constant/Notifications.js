@@ -1,4 +1,5 @@
 export const popupNotificationMsgs = [
+
   {
     text: "Leave Added successfully...",
     variant: "primary-24",

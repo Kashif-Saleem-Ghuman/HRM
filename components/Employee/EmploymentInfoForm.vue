@@ -172,7 +172,6 @@
 import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
@@ -212,7 +211,6 @@ export default {
       updateForm: {},
       date: "",
       errors: {},
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       dateFormat:'',
     };

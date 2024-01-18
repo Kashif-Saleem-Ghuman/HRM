@@ -35,7 +35,7 @@
         >
           <div class="d-flex align-center" @click="handleFileClick(file)">
             <bib-icon
-              :icon="getFileExtension(extensionsName(file)) === undefined ? 'file' : getFileExtension(extensionsName(file)) "
+              :icon="getFileExtension(extensionsName(file)) === undefined ? 'image' : getFileExtension(extensionsName(file)) "
               variant="gray5"
             ></bib-icon>
             <h5
@@ -77,7 +77,6 @@ import {
   deleteFiles,
 } from "@/utils/functions/functions_lib_api";
 import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 import { getFileExtension } from "../../utils/functions/status-helpers";
@@ -88,7 +87,6 @@ export default {
       files: [],
       filesUploaded: "",
       fileList: 0,
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],

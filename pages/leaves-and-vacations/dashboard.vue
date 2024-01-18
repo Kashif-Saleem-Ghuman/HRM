@@ -18,7 +18,6 @@ import {
   getApproveLeaveVacationsAdmin,
   getRejectLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
-import { popupNotificationMsgs } from "../../utils/constant/Notifications";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 
@@ -32,7 +31,6 @@ export default {
       toDate: "",
       getRequest: {},
       requestListData: [],
-      popupNotificationMsgs: popupNotificationMsgs,
       popupMessages: [],
       noRecord: false,
       disabled: true,

@@ -12,7 +12,8 @@
       <div class="d-flex justify-center align-center">
         <bib-checkbox
           size="md"
-          @change="$emit('input', data.value.id)"
+          :key="data.value.id"
+          @change="$emit('input', {id:data.value.id, key:data.value.id})"
           :checked="checked"
         ></bib-checkbox>
       </div>

@@ -105,7 +105,7 @@ const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
   },
 };
 const TIMESHEET_NOTIFICATIN_MESSAGE = {
-  approved: {text:'Timesheet has been Approve successfully', variant:'success'},
+  approved: {text:'Timesheet has been Approve successfully', variant:'primary-24'},
   rejected: {text:'Timesheet has been rejected', variant:'danger'},
 };
 export default {

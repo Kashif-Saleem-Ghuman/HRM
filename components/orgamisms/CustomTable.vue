@@ -1,4 +1,5 @@
 <template>
+ <div class="custom-table">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -6,11 +7,9 @@
     cellspacing="0"
   >
     <template>
-      <tr
-        class="table__hrow"
-        :class="fixHeader ? 'table__hrow__-fixed' : ''"
-      >
+      <tr class="table__hrow" :class="fixHeader ? 'table__hrow-fixed' : ''">
         <th v-if="!hideNoColumn" class="table__hrow__no">
+
           {{ fields[0].label }}
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
@@ -19,6 +18,7 @@
               size="md"
               @change="$emit('input', $event)"
               :checked="allChecked"
+              style="margin: 0; padding: 0px;"
             ></bib-checkbox>
           </div>
         </th>
@@ -117,6 +117,7 @@
       </td>
     </tr>
   </table>
+ </div>
 </template>
 
 <script>
@@ -240,7 +241,8 @@ export default {
 </script>
 
 <style lang="scss">
-.table {
+.custom-table{
+  .table {
   width: 100%;
   height: max-content;
   margin: 0;
@@ -355,12 +357,6 @@ export default {
     }
   }
 }
-.table__hrow-fixed {
-  position: sticky; // first row
-  top: 50px;
-  z-index: 4;
-  left: 0;
-}
 
 .resizableTable {
   th,
@@ -378,5 +374,6 @@ export default {
       height: 100%;
     }
   }
+}
 }
 </style>

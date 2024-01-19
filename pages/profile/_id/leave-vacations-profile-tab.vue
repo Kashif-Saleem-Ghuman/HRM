@@ -1,18 +1,19 @@
 <template>
   <div id="leave-vacation-wrapper py-cus">
+    <loader :loading="loading"></loader>
     <div class="" id="tab_info_wrapper">
       <div class="scroll_wrapper">
         <div class="px-1 py-05">
           <div class="pb-05 d-flex justify-start">
-              <dropdown-menu-calendar
-                :items="dropMenuYear"
-                :label="selectedYear"
-                icon="arrowhead-down"
-                @on-click="changeYearView($event)"
-                class="mr-05"
-                className="button-wrapper__bgblack"
-              ></dropdown-menu-calendar>
-            </div>
+            <dropdown-menu-calendar
+              :items="dropMenuYear"
+              :label="selectedYear"
+              icon="arrowhead-down"
+              @on-click="changeYearView($event)"
+              class="mr-05"
+              className="button-wrapper__bgblack"
+            ></dropdown-menu-calendar>
+          </div>
           <div
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
@@ -63,17 +64,16 @@
       </div>
     </div>
     <div>
-            <div v-if="leaveList">
-              <list-leave-attendance
-                :leaveData="leaveVacationDataUser"
-              ></list-leave-attendance>
-              <loader :loading="loading"></loader>
-            </div>
-            <div v-else-if="!leaveList">
-              <no-record></no-record>
-            </div>
-            <loader :loading="loading"></loader>
-          </div>
+      <no-record v-if="showNoData"></no-record>
+
+      <div v-else-if="showTable">
+        <list-leave-attendance
+          :leaveData="leaveVacationDataUser"
+        ></list-leave-attendance>
+        <loader :loading="loading"></loader>
+      </div>
+      <loader :loading="loading"></loader>
+    </div>
   </div>
 </template>
 <script>
@@ -96,7 +96,7 @@ export default {
       leaveVacationDataUser: [],
       allowanceLeavesDetailedData: [],
       id: "",
-      loading: false,
+      loading: true,
       fromDate: "",
       toDate: "",
       dropMenuYear: [],
@@ -109,6 +109,15 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
     }),
+    showTable() {
+      return !this.loading && this.leaveVacationDataUser?.length;
+    },
+    showNoData() {
+      return (
+        !this.loading &&
+        (!this.leaveVacationDataUser || !this.leaveVacationDataUser?.length)
+      );
+    },
   },
   async created() {
     this.selectedMonth = this.currentMonth;
@@ -121,7 +130,7 @@ export default {
     });
 
     await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance",{
+      .dispatch("leavesdata/setLeaveVacationsAllowance", {
         id: Number(this.id),
         from: this.getformToDate.from,
         to: this.getformToDate.to,
@@ -143,7 +152,6 @@ export default {
       })
       .then((result) => {
         this.leaveVacationDataUser = result;
-        this.leaveList = this.leaveVacationDataUser.length ? true : false;
       });
     this.$root.$on("fetched-leave-vacation", () => {
       this.$store
@@ -154,9 +162,9 @@ export default {
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
-          this.leaveList = this.leaveVacationDataUser.length ? true : false;
         });
     });
+    this.loading = false
   },
   mounted() {
     this.dropMenuYear = this.generateYearList();
@@ -174,15 +182,15 @@ export default {
         to: this.toDate,
       });
       await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", {
-        id:Number(this.id),
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      })
-      .then((result) => {
-        this.allowanceLeavesDetailedData = result;
-        this.is_data_fetched = true;
-      });
+        .dispatch("leavesdata/setLeaveVacationsAllowance", {
+          id: Number(this.id),
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then((result) => {
+          this.allowanceLeavesDetailedData = result;
+          this.is_data_fetched = true;
+        });
       await this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
           from: this.getformToDate.from,
@@ -206,8 +214,8 @@ export default {
       return this.$store
         .dispatch("leavesdata/setLeaveVacationsAllowance", {
           id: Number(this.id),
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,  
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
         })
         .then((result) => {
           this.allowanceLeavesDetailedData = result;

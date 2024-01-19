@@ -1,83 +1,85 @@
 <template>
-  <div id="people-action-wrapper">
-    <div
-      class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
-    >
-      <section-header-left
-        title="Leaves and Vacations"
-        headerRight="headerRight"
-      ></section-header-left>
-    </div>
-    <div class="pl-1 py-1">
-      <div class="pb-05 d-flex justify-start">
-        <dropdown-menu-calendar
-          :items="dropMenuYear"
-          :label="selectedYear"
-          icon="arrowhead-down"
-          @on-click="changeYearView($event)"
-          class="mr-05"
-          className="button-wrapper__bgblack"
-        ></dropdown-menu-calendar>
-      </div>
+  <div>
+    <loader :loading="loading"></loader>
+    <div id="people-action-wrapper">
       <div
-        class="d-grid d-flex gap-1"
-        style="grid-template-columns: repeat(3, 1fr)"
-        v-if="is_data_fetched"
+        class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
       >
-        <info-card-leave-vacation
-          title="Vacation"
-          :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
-          :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
-          :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
-          buttonLable="Request Vacation"
-          icon="airplane-solid"
-          className="button-wrapper__bgsucess"
-          :variant="$button.approved.variant"
-          @on-click="addLeaves('vacation')"
-        ></info-card-leave-vacation>
-        <info-card-leave-vacation
-          title="Medical/sick"
-          :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
-          :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
-          :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
-          buttonLable="Request Medical Leave"
-          icon="medical-clinic-solid"
-          className="button-wrapper__bgalert"
-          :variant="$button.rejected.variant"
-          @on-click="addLeaves('medical')"
-        ></info-card-leave-vacation>
-        <info-card-leave-vacation
-          title="Request Personal leave"
-          :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
-          :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
-          :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
-          buttonLable="Request Personal Leave"
-          icon="accessibility-cognitive-disability-solid"
-          className="button-wrapper__bgwarnning"
-          :variant="$button.pending.variant"
-          @on-click="addLeaves('leave')"
-        ></info-card-leave-vacation>
+        <section-header-left
+          title="Leaves and Vacations"
+          headerRight="headerRight"
+        ></section-header-left>
       </div>
-    </div>
-    <div>
-      
-      <div v-if="leaveList">
-        <list-leave-attendance
-          :leaveData="leaveVacationDataUser"
-          @delete-item="deleteConfirmation($event)"
-        ></list-leave-attendance>
-        <loader :loading="loading"></loader>
+      <div class="pl-1 py-1">
+        <div class="pb-05 d-flex justify-start">
+          <dropdown-menu-calendar
+            :items="dropMenuYear"
+            :label="selectedYear"
+            icon="arrowhead-down"
+            @on-click="changeYearView($event)"
+            class="mr-05"
+            className="button-wrapper__bgblack"
+          ></dropdown-menu-calendar>
+        </div>
+        <div
+          class="d-grid d-flex gap-1"
+          style="grid-template-columns: repeat(3, 1fr)"
+          v-if="is_data_fetched"
+        >
+          <info-card-leave-vacation
+            title="Vacation"
+            :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
+            :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
+            :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
+            buttonLable="Request Vacation"
+            icon="airplane-solid"
+            className="button-wrapper__bgsucess"
+            :variant="$button.approved.variant"
+            @on-click="addLeaves('vacation')"
+          ></info-card-leave-vacation>
+          <info-card-leave-vacation
+            title="Medical/sick"
+            :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
+            :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
+            :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
+            buttonLable="Request Medical Leave"
+            icon="medical-clinic-solid"
+            className="button-wrapper__bgalert"
+            :variant="$button.rejected.variant"
+            @on-click="addLeaves('medical')"
+          ></info-card-leave-vacation>
+          <info-card-leave-vacation
+            title="Request Personal leave"
+            :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
+            :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
+            :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
+            buttonLable="Request Personal Leave"
+            icon="accessibility-cognitive-disability-solid"
+            className="button-wrapper__bgwarnning"
+            :variant="$button.pending.variant"
+            @on-click="addLeaves('leave')"
+          ></info-card-leave-vacation>
+        </div>
       </div>
-      <div v-else-if="!leaveList">
-        <no-record></no-record>
+      <div>
+        <no-record v-if="showNoData"></no-record>
+
+        <div v-else-if="showTable"> 
+          <list-leave-attendance
+            :leaveData="leaveVacationDataUser"
+            @delete-item="deleteConfirmation($event)"
+          ></list-leave-attendance>
+        </div>
+        
+        <confirmation-modal
+          :title="deleteModalContent.title"
+          :confirmationMessage="deleteModalContent.message"
+          :confirmastionMessageModal="confirmastionMessageModal"
+          @close="closeconfirmastionMessageModal"
+          @deleteLeave="deleteLevaeVacation(deletedfileId)"
+        ></confirmation-modal>
+        
       </div>
-      <confirmation-modal
-        :title="deleteModalContent.title"
-        :confirmationMessage="deleteModalContent.message"
-        :confirmastionMessageModal="confirmastionMessageModal"
-        @close="closeconfirmastionMessageModal"
-        @delete="deleteLevaeVacation(deletedfileId)"
-      ></confirmation-modal>
     </div>
   </div>
 </template>
@@ -112,12 +114,12 @@ export default {
       selectedYear: new Date().getFullYear(),
       fromDate: "",
       toDate: "",
-      loading: false,
+      loading: true,
       allChecked: false,
       checked: false,
       confirmastionMessageModal: false,
       deleteItemId: "",
-      allowanceLeavesDetailedData: [],
+      allowanceLeavesDetailedData: '00',
       is_data_fetched: false,
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
@@ -134,13 +136,19 @@ export default {
       getformToDate: "leavevacation/getformToDate",
       getUserRole: "token/getUserRole",
     }),
+    showTable() {
+      return !this.loading && this.leaveVacationDataUser?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.leaveVacationDataUser || !this.leaveVacationDataUser?.length);
+    },
   },
   async created() {
     this.$root.$on("fetched-leave-vacation", () => {
       this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
           from: this.getformToDate.from,
-          to: this.getformToDate.to, 
+          to: this.getformToDate.to,
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
@@ -157,9 +165,9 @@ export default {
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.getUserLeavesDetailUser({
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      }).then((result) => {
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    }).then((result) => {
       this.allowanceLeavesDetailedData = result;
       this.is_data_fetched = true;
     });
@@ -176,7 +184,6 @@ export default {
       to: this.getformToDate.to,
     });
     this.leaveVacationDataUser = this.getLeaveVacationUser;
-    this.leaveList = this.leaveVacationDataUser.length ? true : false;
   },
   methods: {
     getCurrentDateMonth,

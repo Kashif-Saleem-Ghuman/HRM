@@ -39,7 +39,7 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <bib-notification :popupMessages="popupMessages" :autohide="10000"></bib-notification>
   </div>
 </template>
 <script>
@@ -241,7 +241,7 @@ export default {
 
         const isBreakAfterInEntry = breakEntryStartTime >= inEntryStartTime && breakEntryEndTime <= inEntryEndTime
         if (!isBreakAfterInEntry) {
-          alert("in entry start time and end time must be before break entry start and end time");
+          this.openPopupNotification({ text: "in entry start time and end time must be before break entry start and end time", variant: "danger" });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -264,7 +264,7 @@ export default {
 
         const isBreakWithinInEntry = breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime
         if (!isBreakWithinInEntry) {
-          alert("break start time and end time must be within in entry start and end time");
+          this.openPopupNotification({ text: "Break start time and end time must be within in entry start and end time", variant: "danger" });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -276,7 +276,7 @@ export default {
         const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate()
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
-          alert("break start time cannot be before timer start time");
+          this.openPopupNotification({ text: "break start time cannot be before timer start time", variant: "danger" });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -294,8 +294,7 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        this.openPopupNotification({text:'Start time should be before end time', variant:'danger'})
-        // alert("start time should be before end time");
+        this.openPopupNotification({ text:'End time cannot be greater than current time', variant:'danger' })
         this.endTime = undefined;
         return false;
       }

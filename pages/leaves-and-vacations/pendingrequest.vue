@@ -71,7 +71,6 @@ export default {
       leaveVacationAdminData: [],
       getRequest: {},
       requestListData: [],
-      leaveList: false,
       addIds: [],
       pendingList: 0,
       requestListApproveData: [],

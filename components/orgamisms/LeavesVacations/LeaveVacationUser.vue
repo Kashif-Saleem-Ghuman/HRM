@@ -124,7 +124,6 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
-      leaveList: true,
       dropMenuYear: [],
     };
   },
@@ -152,7 +151,6 @@ export default {
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
-          this.leaveList = this.leaveVacationDataUser.length ? true : false;
         });
       this.getUserLeavesDetailUser().then((result) => {
         this.allowanceLeavesDetailedData = result;
@@ -211,7 +209,6 @@ export default {
         to: this.getformToDate.to,
       });
       this.leaveVacationDataUser = this.getLeaveVacationUser;
-      this.leaveList = this.leaveVacationDataUser.length ? true : false;
     },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;

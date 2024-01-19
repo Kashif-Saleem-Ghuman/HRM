@@ -101,7 +101,6 @@ export default {
       toDate: "",
       dropMenuYear: [],
       selectedYear: new Date().getFullYear(),
-      leaveList: true,
     };
   },
   computed: {
@@ -199,7 +198,6 @@ export default {
         })
         .then((result) => {
           this.leaveVacationDataUser = result;
-          this.leaveList = this.leaveVacationDataUser.length ? true : false;
         });
     },
     addLeaves($event) {

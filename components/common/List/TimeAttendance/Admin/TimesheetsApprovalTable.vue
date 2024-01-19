@@ -39,7 +39,7 @@
           :title="
             data.value.total ? formatHoursToHHMM(data.value.total) : '00:00'
           "
-          :className="['padding-0', ]"
+          :className="['padding-0']"
         ></chips>
       </template>
 
@@ -62,7 +62,6 @@
       :variant="variantButton"
     ></confirmation-modal>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-
   </div>
 </template>
 
@@ -105,8 +104,11 @@ const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
   },
 };
 const TIMESHEET_NOTIFICATIN_MESSAGE = {
-  approved: {text:'Timesheet has been Approve successfully', variant:'primary-24'},
-  rejected: {text:'Timesheet has been rejected', variant:'danger'},
+  approved: {
+    text: "Timesheet has been Approve successfully",
+    variant: "primary-24",
+  },
+  rejected: { text: "Timesheet has been rejected", variant: "danger" },
 };
 export default {
   props: {
@@ -205,18 +207,17 @@ export default {
             date,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved)
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           this.confirmastionMessageModal = false;
         } else {
           await approveTimesheet({ id });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved)
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
-        console.log(id, "Table UI - gaps")
-          // await rejectTimesheet({ id });
-          // this.confirmastionMessageModal = false;
-          // this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected)
+        await rejectTimesheet({ id });
+        this.confirmastionMessageModal = false;
+        this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
       }
 
       this.getAndParseTimesheets();
@@ -326,7 +327,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 @media (max-width: 1400px) {
   .info_wrapper {
     font-size: 10px;

@@ -193,7 +193,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "EMPLOYEE",
-      width: `${100 / 6}%`,
+      width: `${100 / 3.8}%`,
       // header_icon: {
       //   icon: 'long-arrow-up',
       //   event: 'employee-name-sort',

@@ -64,7 +64,7 @@
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
-      @deleteLeave="deleteFile($event)"
+      @delete="deleteFile($event)"
     ></confirmation-modal>
   </div>
 </template>

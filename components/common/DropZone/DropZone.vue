@@ -39,7 +39,7 @@
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
-      @deleteLeave="$emit('vfileRemove')"
+      @delete="$emit('vfileRemove')"
     ></confirmation-modal>
   </div>
 </template>

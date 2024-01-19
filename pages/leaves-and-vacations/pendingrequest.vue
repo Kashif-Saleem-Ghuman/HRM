@@ -1,9 +1,11 @@
 !
 <template>
   <div id="pending-request-wrapper">
+    <loader :loading="loading"></loader>
+
     <div class="" id="pending_request_wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper  px-1 py-05 bottom_border_wrapper"
+        class="d-flex justify-between align-center nav_wrapper px-1 py-05 bottom_border_wrapper"
         v-show="addIds.length > 1 ? true : false"
       >
         <div class="d-flex align-center">
@@ -16,8 +18,10 @@
           ></bib-button>
         </div>
       </div>
-      <div >
-        <div v-if="!leaveList">
+      <div>
+        <no-record v-if="showNoData"></no-record>
+
+        <div v-else-if="showTable">
           <list-pending
             :listPending="requestListData"
             @input="getIdValue($event)"
@@ -29,9 +33,7 @@
             @approve-item="approveItem($event)"
           ></list-pending>
         </div>
-        <div v-else-if="leaveList">
-          <no-record></no-record>
-        </div>
+
         <bib-notification :popupMessages="popupMessages"></bib-notification>
       </div>
     </div>
@@ -55,7 +57,7 @@ import {
 } from "../../utils/functions/functions_lib_api";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
-import { rejectRequest } from "@/utils/functions/api_call/requests"
+import { rejectRequest } from "@/utils/functions/api_call/requests";
 
 export default {
   data() {
@@ -69,15 +71,14 @@ export default {
       leaveVacationAdminData: [],
       getRequest: {},
       requestListData: [],
-      leaveList:false,
       addIds: [],
       pendingList: 0,
       requestListApproveData: [],
       checked: false,
       checkedAll: false,
-      noRecord: false,
       disabled: true,
       popupMessages: [],
+      loading: true,
     };
   },
   computed: {
@@ -85,6 +86,12 @@ export default {
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
     }),
+    showTable() {
+      return !this.loading && this.requestListData?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.requestListData || !this.requestListData?.length);
+    },
   },
   async created() {
     this.$root.$on("update-key", () => {
@@ -99,6 +106,7 @@ export default {
   mounted() {
     localStorage.removeItem("clickedUserId");
     this.$nuxt.$emit("add-leave");
+
     // this.getPendingLeaveVacationsAdmin();
   },
   methods: {
@@ -107,17 +115,17 @@ export default {
     getRejectLeaveVacationsAdmin,
     openPopupNotification,
     cancelRejectRequest() {
-      this.addIds.pop()
-      this.showRefusalModal = false
+      this.addIds.pop();
+      this.showRefusalModal = false;
     },
     async enableRefusalModal(event) {
-      this.showRefusalModal = true 
-      this.rejectedRequestId = event
+      this.showRefusalModal = true;
+      this.rejectedRequestId = event;
     },
     async rejectEmployeeRequest(request) {
-      await rejectRequest({id: this.rejectedRequestId, request}).then(() => {
+      await rejectRequest({ id: this.rejectedRequestId, request }).then(() => {
         this.getPendingLeaveVacationsAdmin();
-        this.showRefusalModal = false
+        this.showRefusalModal = false;
       });
     },
 
@@ -129,7 +137,7 @@ export default {
       });
     },
     async getIdValue(event) {
-      const {id, key } = event
+      const { id, key } = event;
       this.checkedAll = false;
       if (this.addIds.includes(id + "")) {
         for (var i = 0; i < this.addIds.length; i++) {
@@ -137,7 +145,7 @@ export default {
             this.addIds.splice(i, 1);
             console.log(this.addIds, "item");
           }
-          if(!this.addIds.length){
+          if (!this.addIds.length) {
             this.checked = false;
           }
         }
@@ -152,7 +160,7 @@ export default {
       if (this.checkedAll === true) {
         this.addIds = [];
         this.checked = false;
-        this.checkedAll = false
+        this.checkedAll = false;
       } else {
         this.requestListData.map((item, index) => {
           this.addIds.push(item.id + "");
@@ -163,10 +171,10 @@ export default {
       }
     },
     async pendingApproveRequest(event) {
-      if(this.addIds == ''){
-        alert("Please Select Leave Request")
+      if (this.addIds == "") {
+        alert("Please Select Leave Request");
         this.disabled = true;
-        return
+        return;
       }
       if (event == "approve") {
         await this.getApproveLeaveVacationsAdmin();

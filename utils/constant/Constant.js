@@ -193,7 +193,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "EMPLOYEE",
-      style:'text-align:left',
+      width: `${100 / 3.8}%`,
       // header_icon: {
       //   icon: 'long-arrow-up',
       //   event: 'employee-name-sort',
@@ -205,37 +205,44 @@ export const TABLE_HEAD = {
     {
       key: "mon",
       label: "MON",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "tue",
       label: "TUE",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "wed",
       label: "WED",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "thu",
       label: "THU",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "fri",
       label: "FRI",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "sat",
       label: "SAT",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "sun",
       label: "SUN",
-      style:'text-align:center'
+      style:'text-align:center',
+      width: `${100 / 12}%`,
     },
     {
       key: "total",

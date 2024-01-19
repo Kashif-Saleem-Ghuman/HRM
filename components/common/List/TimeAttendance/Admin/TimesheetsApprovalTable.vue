@@ -36,20 +36,32 @@
 
       <template #cell(total)="data">
         <chips
-          :title="data.value.total ? formatHoursToHHMM(data.value.total) : '--'"
+          :title="
+            data.value.total ? formatHoursToHHMM(data.value.total) : '00:00'
+          "
+          :className="['padding-0']"
         ></chips>
       </template>
 
       <template #cell(status)="data">
-        <div class="text-dark px-05">
+        <div class="text-dark">
           <dropdown-menu-chip
             :items="timesheetStatusOptions.slice(1)"
             :button-config="statusButtonConfig"
-            @on-click="onStatusChange($event, data)"
+            @on-click="deleteConfirmation($event, data)"
           ></dropdown-menu-chip>
         </div>
       </template>
     </custom-table-day-view>
+    <confirmation-modal
+      :title="deleteModalContent.title"
+      :confirmationMessage="deleteModalContent.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @delete="onStatusChange()"
+      @close="closeconfirmastionMessageModal"
+      :variant="variantButton"
+    ></confirmation-modal>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -70,6 +82,8 @@ import {
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
+import { openPopupNotification } from "../../../../../utils/functions/functions_lib.js";
+
 import { random } from "lodash";
 
 const PENDING_TYPE = "pending";
@@ -78,6 +92,23 @@ const PAST_DUE_TYPE = "past_due";
 const fetchTimesheetsFunctionMap = {
   [PENDING_TYPE]: getPendingTimesheets,
   [PAST_DUE_TYPE]: getPastDueTimesheets,
+};
+const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
+  approved: {
+    title: "Approve Timesheet Request",
+    message: "Are you sure you want to approve the selected timesheet?",
+  },
+  rejected: {
+    title: "Reject Timesheet Request",
+    message: "Are you sure you want to reject the selected timesheet?",
+  },
+};
+const TIMESHEET_NOTIFICATIN_MESSAGE = {
+  approved: {
+    text: "Timesheet has been Approve successfully",
+    variant: "primary-24",
+  },
+  rejected: { text: "Timesheet has been rejected", variant: "danger" },
 };
 export default {
   props: {
@@ -107,6 +138,10 @@ export default {
       tableFields: TABLE_HEAD.tHeadTimesheet,
       employees: [],
       loading: true,
+      deleteModalContent: "",
+      confirmastionMessageModal: false,
+      variantButton: "",
+      popupMessages: [],
     };
   },
 
@@ -131,36 +166,60 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
-
+    openPopupNotification,
+    closeconfirmastionMessageModal() {
+      this.confirmastionMessageModal = false;
+    },
+    deleteConfirmation(event, data) {
+      console.log(event, "event");
+      this.event = event;
+      this.data = data;
+      if (event.key == "approved") {
+        this.deleteModalContent =
+          TIMESHEET_DELETE_CONFIRMATION_MESSAGE.approved;
+        this.variantButton = "success";
+      } else {
+        this.deleteModalContent =
+          TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
+        this.variantButton = "";
+      }
+      this.confirmastionMessageModal = true;
+      return;
+    },
     addTypeToTimesheetStatusOptions() {
       this.timesheetStatusOptions = [
         TIMESHEET_STATUS[this.type],
         ...this.timesheetStatusOptions,
       ];
     },
-    async onStatusChange(event, data) {
+    async onStatusChange() {
+      var data = this.data;
+      var event = this.event;
       const id = data?.value?.id;
       const status = data?.value?.status;
-      const confirm = window.confirm(
-        `Are you sure you want to ${event.value} the selected timesheet?`
-      );
       event = event?.value ?? event;
-      if (confirm) {
-        if (event == TIMESHEET_STATUS["approved"].value) {
-          if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
-            const date = data?.value?.start;
-            await approvePastDueTimesheet({
-              id,
-              date,
-              employeeId: data.value.employeeId,
-            });
-          } else {
-            await approveTimesheet({ id });
-          }
-        } else if (event == TIMESHEET_STATUS["rejected"].value) {
-          await rejectTimesheet({ id });
+
+      if (event == TIMESHEET_STATUS["approved"].value) {
+        if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
+          const date = data?.value?.start;
+          await approvePastDueTimesheet({
+            id,
+            date,
+            employeeId: data.value.employeeId,
+          });
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+          this.confirmastionMessageModal = false;
+        } else {
+          await approveTimesheet({ id });
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+          this.confirmastionMessageModal = false;
         }
+      } else if (event == TIMESHEET_STATUS["rejected"].value) {
+        await rejectTimesheet({ id });
+        this.confirmastionMessageModal = false;
+        this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
       }
+
       this.getAndParseTimesheets();
     },
 
@@ -189,7 +248,7 @@ export default {
     },
 
     getDayClassName(hours) {
-      if (!hours) return "";
+      if (!hours) return "chip-wrapper__bggray";
 
       if (hours >= "08") return "chip-wrapper__bgsucess";
 
@@ -268,11 +327,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.info_wrapper {
-  color: $dark;
-  font-weight: 400;
-  font-size: 14px;
+@media (max-width: 1400px) {
+  .info_wrapper {
+    font-size: 10px;
+  }
 }
+
+@media (min-width: 1400px) {
+  .info_wrapper {
+    font-size: 14px;
+  }
+}
+// .info_wrapper {
+//   color: $dark;
+//   font-weight: 400;
+//   font-size: 14px;
+// }
 
 .title {
   font-size: 14px;

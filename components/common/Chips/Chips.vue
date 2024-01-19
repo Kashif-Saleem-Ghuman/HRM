@@ -185,6 +185,17 @@ export default {
       font-size: 14px;
     }
   }
+  &__bgpastdue {
+    background-color: rgba(255, 171, 0, 0.16);
+    svg {
+      fill: #ffab00 !important;
+    }
+    span {
+      color: #ffab00;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
     svg {
@@ -238,7 +249,7 @@ export default {
       fill: #000 !important;
     }
     span {
-      color: #000;
+      color: #999;
       font-weight: 400;
       font-size: 14px;
     }
@@ -335,5 +346,12 @@ export default {
     color: gray !important;
     font-weight: 400;
   }
+}
+.width-auto{
+  width: auto !important;
+  min-width: 150px !important;
+}
+.padding-0{
+  padding: 0 !important;
 }
 </style>

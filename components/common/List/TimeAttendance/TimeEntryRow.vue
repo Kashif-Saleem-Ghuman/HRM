@@ -33,8 +33,8 @@
       </div>
     </div>
     <div
+      v-if="showDeleteIcon"
       class="cell cursor-pointer trash"
-      v-if="newData.id"
       @click="deleteEntry"
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
@@ -62,7 +62,7 @@ import {
   calculateTimeDifferenceInMinutes,
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
-import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
+import { ACTIVITY_TYPE, TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
 export default {
   props: {
     entry: {
@@ -82,6 +82,11 @@ export default {
   },
 
   computed: {
+    showDeleteIcon() {
+      if (!this.newData.id) return false;
+      if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
+      return true;
+    },
     hasInEntry() {
       const entries = this.$store.state.timeattendance.dailyTimeEntries
       if (!entries) return false

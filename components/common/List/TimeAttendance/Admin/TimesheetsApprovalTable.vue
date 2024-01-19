@@ -39,7 +39,7 @@
           :title="
             data.value.total ? formatHoursToHHMM(data.value.total) : '00:00'
           "
-          :className="['padding-0']"
+          :className="['padding-0', ]"
         ></chips>
       </template>
 
@@ -213,9 +213,10 @@ export default {
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
-          await rejectTimesheet({ id });
-          this.confirmastionMessageModal = false;
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected)
+        console.log(id, "Table UI - gaps")
+          // await rejectTimesheet({ id });
+          // this.confirmastionMessageModal = false;
+          // this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected)
       }
 
       this.getAndParseTimesheets();
@@ -325,11 +326,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.info_wrapper {
-  color: $dark;
-  font-weight: 400;
-  font-size: 14px;
+
+@media (max-width: 1400px) {
+  .info_wrapper {
+    font-size: 10px;
+  }
 }
+
+@media (min-width: 1400px) {
+  .info_wrapper {
+    font-size: 14px;
+  }
+}
+// .info_wrapper {
+//   color: $dark;
+//   font-weight: 400;
+//   font-size: 14px;
+// }
 
 .title {
   font-size: 14px;

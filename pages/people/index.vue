@@ -1,45 +1,19 @@
 <template>
   <div id="people-action-wrapper">
-    <div
-      class="d-flex justify-between align-center bottom_border_wrapper"
-    >
-      <section-header-left
-        title="People"
-      ></section-header-left>
+    <loader :loading="loading"></loader>
+
+    <div class="d-flex justify-between align-center bottom_border_wrapper">
+      <section-header-left title="People"></section-header-left>
     </div>
-        <div>
+    <no-record v-if="showNoData"></no-record>
+
+    <div v-else-if="showTable">
       <list :userList="employees"></list>
     </div>
-    <!-- <div class="tab-wrapper">
-      <div class="row mx-0">
-        <div class="col-12 px-1">
-          <bib-tabs
-            :tabs="peopleTabItem"
-            :value="activeTab"
-            @change="handleChange_Tabs"
-          ></bib-tabs>
-        </div>
-      </div>
-
-      <div id="directory-wrapper">
-        <div class="" id="tab_info_wrapper">
-          <div v-if="activeTab == peopleTabItem[0].value">
-            <div class="scroll_wrapper">
-              <div>
-                <list :userList="employees"></list>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
-import { getTimeAttendance } from "../../utils/functions/functions_lib_api";
-import {
-  PEOPLE_TAB,
-} from "../../utils/constant/Constant.js";
+import { PEOPLE_TAB } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 import {
   vfileAdded,
@@ -51,11 +25,10 @@ import fecha, { format } from "fecha";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { getEmployees } from "../../utils/functions/api_call/employees";
 
-
 export default {
   data() {
     return {
-      localData: [],      
+      localData: [],
       departmentOptions: "",
       newMessageSidebar: false,
       peopleTabItem: PEOPLE_TAB,
@@ -65,12 +38,12 @@ export default {
       isFlag: false,
       date2: fecha.format(new Date(), "YYYY-MM-DD"),
       getCurrentDate: "",
-      employees: []
+      employees: [],
+      loading: true,
     };
   },
   async created() {
     this.getCurrentDate = this.date2;
-
   },
 
   computed: {
@@ -78,10 +51,15 @@ export default {
       getAccessToken: "token/getAccessToken",
       activeTabSidebar: "token/getActiveTab",
     }),
+    showTable() {
+      return !this.loading && this.employees?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.employees || !this.employees?.length);
+    },
   },
   mounted() {
     this.getOrganizationEntries();
-
   },
 
   methods: {
@@ -90,27 +68,30 @@ export default {
     handleInputObject,
     updateAllData,
     async getOrganizationEntries() {
-        this.loading = true
-        const data = await getEmployees()
-        const employees = data.employees
+      this.loading = true;
+      const data = await getEmployees();
+      const employees = data.employees;
 
-        employees.forEach(employee => {
-          const parser = new TimesheetParser(employee)
-          return parser.parse('day')
-        });
-        
-        this.employees = employees
-        this.loading = false
-      },
-      
+      employees.forEach((employee) => {
+        const parser = new TimesheetParser(employee);
+        return parser.parse("day");
+      });
+
+      this.employees = employees;
+      this.loading = false;
+    },
+
     handleChange__FileInput(files) {
       console.log(files);
     },
-    sendMeet(){
-      window.open('https://dev-connect.business-in-a-box.com/', "_blank")
+    sendMeet() {
+      window.open("https://dev-connect.business-in-a-box.com/", "_blank");
     },
-    sendMessage(){
-      window.open('https://dev-chat.business-in-a-box.com/directs/'+ this.form.userId, "_blank")
+    sendMessage() {
+      window.open(
+        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
+        "_blank"
+      );
     },
     handleClickOutside() {
       this.slideClass = "slide-out";
@@ -118,9 +99,7 @@ export default {
         this.newMessageSidebar = false;
       }, 700);
     },
-    actionBY() {
-      
-    },
+    actionBY() {},
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {
@@ -166,12 +145,11 @@ export default {
       }
     },
     userId(id) {
-      if(id){
+      if (id) {
         this.$router.push("/profile/" + id);
-      }else{
+      } else {
         this.$router.push("/profile/");
       }
-      
     },
   },
 };

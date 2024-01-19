@@ -76,7 +76,7 @@
         :confirmationMessage="deleteModalContent.message"
         :confirmastionMessageModal="confirmastionMessageModal"
         @close="closeconfirmastionMessageModal"
-        @deleteLeave="deleteLevaeVacation(deletedfileId)"
+        @delete="deleteLevaeVacation(deletedfileId)"
       ></confirmation-modal>
     </div>
   </div>

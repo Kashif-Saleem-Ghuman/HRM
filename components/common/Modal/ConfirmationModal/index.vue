@@ -18,9 +18,9 @@
         ></bib-button>
         <bib-button
           label="Confirm"
-          variant="danger"
+          :variant="variant || 'danger'"
           class="mr-1"
-          @click="$emit('deleteLeave')"
+          @click="$emit('delete')"
           pill
         ></bib-button>
       </div>
@@ -40,6 +40,9 @@ export default {
     },
     title:{
         type:String
+    },
+    variant:{
+      type:String
     }
   },
   data() {

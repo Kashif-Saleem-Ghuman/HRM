@@ -49,7 +49,7 @@
             @click="handleItemClick_Table(data.value.id, $event)"
           >
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
+              {{ getEmployeeFullName(data.value) | truncate(20, "...") }}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -63,15 +63,12 @@
           class=""
           :key="day"
           :title="getWeekdayValue(data.value?.weekData?.[dayIndex])"
-          :className="[
-            getWeekdayClassNames(data.value?.weekData?.[dayIndex]),
-            'd-align',
-          ]"
+          :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex])]"
         ></chips>
       </template>
 
       <template #cell(total)="data">
-        <div class="justify-between pl-075">
+        <div>
           <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
       </template>
@@ -84,21 +81,20 @@
             :icon="getStatusIcon(getEmptyTimesheetStatus())"
             :variant="[getStatusVariant(getEmptyTimesheetStatus())]"
             :defaultPointer="true"
-            class=""
+            :className="['width-auto']"
           ></chips>
           <chips
             v-else
             :title="
-              TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label ===
-              'Approve'
-                ? 'Approved'
-                : TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label
+              setTitle(
+                TIMESHEET_STATUS[data.value.timesheets?.[0]?.status]?.label
+              )
             "
             iconShow="iconShow"
             :icon="getStatusIcon(data.value.timesheets?.[0]?.status)"
             :variant="[getStatusVariant(data.value.timesheets?.[0]?.status)]"
             :defaultPointer="true"
-            class=""
+            :className="['width-auto']"
           ></chips>
         </div>
       </template>
@@ -127,7 +123,10 @@ import {
   ACTIVITY_TYPE,
   ACTIVITY_TYPE_LABEL_VALUE,
 } from "../../../../../utils/constant/Constant.js";
-import { getEmployeeFullName, getEmployeeInitials } from "../../../../../utils/functions/common_functions";
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../../../utils/functions/common_functions";
 
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import {
@@ -182,6 +181,15 @@ export default {
     handleItemClick_Table,
     getEmployeeFullName,
     getEmployeeInitials,
+    setTitle(title) {
+      if (title == "Approve") {
+        return "Approved";
+      }
+      if (title == "Reject") {
+        return "Rejected";
+      }
+      return title;
+    },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;
@@ -215,7 +223,7 @@ export default {
 
     getWeekdayClassNames(data) {
       if (!data) {
-        return "";
+        return "chip-wrapper__bggray";
       }
 
       if (data.vacation) {

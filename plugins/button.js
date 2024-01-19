@@ -37,6 +37,7 @@ export default ({ app }, inject) => {
         icon: "close",
         statusLabel: "Rejected"
       },
+      
       past_due: {
         label: "Past Due",
         value: "past_due",

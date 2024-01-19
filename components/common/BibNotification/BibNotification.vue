@@ -6,6 +6,7 @@
         :key="index"
         :message="msg.text"
         :variant="msg.variant"
+        :autohide="autohide"
       >
       </bib-popup-notification>
     </template>
@@ -17,6 +18,9 @@ export default {
     popupMessages: {
       type: Array,
     },
+    autohide: {
+      default: 2000
+    }
   },
   data() {
     return {};

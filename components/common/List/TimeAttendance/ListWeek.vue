@@ -93,7 +93,7 @@
         </div>
       </template>
     </bib-table>
-    <timesheet-table-footer :status="status" :totalValue="totalValue" @button-clicked="submitButtonClicked"></timesheet-table-footer>
+    <timesheet-table-footer :status="status" :refusalReason="refusalReason" :totalValue="totalValue" @button-clicked="submitButtonClicked"></timesheet-table-footer>
     <time-sheet-modal
       @close="timesheetModal = false"
       :timesheetModal="timesheetModal"
@@ -130,6 +130,10 @@ export default {
     status: {
       type: String,
       default: "",
+    },
+    refusalReason: {
+      type: String,
+      default: "--:--",
     },
     id: {
       type: Number,

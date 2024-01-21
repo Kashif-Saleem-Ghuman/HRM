@@ -53,7 +53,7 @@
           style="width: 100%; cursor: pointer"
           @click="handleItemClick_Table(data.value.id, $event)"
         >
-          <div class="title" v-tooltip="getEmployeeFullName(data.value)">
+          <div class="title" :title="getEmployeeFullName(data.value)">
             {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
           </div>
           <div class="description">

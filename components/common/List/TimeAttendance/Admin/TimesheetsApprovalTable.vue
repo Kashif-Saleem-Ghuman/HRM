@@ -61,6 +61,12 @@
       @close="closeconfirmastionMessageModal"
       :variant="variantButton"
     ></confirmation-modal>
+    <request-refusal-modal
+      v-if="showRefusalModal"
+      @cancel="cancelRejectRequest"
+      @close="cancelRejectRequest"
+      @confirm="onStatusChange"
+    ></request-refusal-modal>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
@@ -79,6 +85,7 @@ import {
   getPendingTimesheets,
   rejectTimesheet,
   approvePastDueTimesheet,
+  rejectPastDueTimesheet,
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
@@ -97,10 +104,6 @@ const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
   approved: {
     title: "Approve Timesheet Request",
     message: "Are you sure you want to approve the selected timesheet?",
-  },
-  rejected: {
-    title: "Reject Timesheet Request",
-    message: "Are you sure you want to reject the selected timesheet?",
   },
 };
 const TIMESHEET_NOTIFICATIN_MESSAGE = {
@@ -142,6 +145,8 @@ export default {
       confirmastionMessageModal: false,
       variantButton: "",
       popupMessages: [],
+      showRefusalModal: false,
+      refusalReason: null,
     };
   },
 
@@ -183,8 +188,15 @@ export default {
           TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
         this.variantButton = "";
       }
-      this.confirmastionMessageModal = true;
+      this.enableRefusalModal()
       return;
+    },
+    cancelRejectRequest() {
+      // this.addIds.pop();
+      this.showRefusalModal = false;
+    },
+    async enableRefusalModal() {
+      this.showRefusalModal = true;
     },
     addTypeToTimesheetStatusOptions() {
       this.timesheetStatusOptions = [
@@ -192,12 +204,13 @@ export default {
         ...this.timesheetStatusOptions,
       ];
     },
-    async onStatusChange() {
+    async onStatusChange(request) {
       var data = this.data;
       var event = this.event;
       const id = data?.value?.id;
       const status = data?.value?.status;
       event = event?.value ?? event;
+      const refusalReason = request.refusalReason
 
       if (event == TIMESHEET_STATUS["approved"].value) {
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
@@ -215,9 +228,21 @@ export default {
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
-        await rejectTimesheet({ id });
-        this.confirmastionMessageModal = false;
+        if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
+          const date = data?.value?.start;
+          await rejectPastDueTimesheet({
+            id,
+            date,
+            refusalReason,
+            employeeId: data.value.employeeId,
+          });
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+          this.showRefusalModal = false;
+        }else{
+        await rejectTimesheet({ id, refusalReason });
+        this.showRefusalModal = false;
         this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+        }
       }
 
       this.getAndParseTimesheets();

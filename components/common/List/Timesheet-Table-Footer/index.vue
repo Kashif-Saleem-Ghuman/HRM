@@ -9,7 +9,7 @@
       <div class="footer-item-left">Status</div>
       <div class="footer-item-right">
         <div v-if="status === 'approved' || status === 'pending'">
-            <chips
+          <chips
             :title="getStatusLabel()"
             iconShow="iconShow"
             :icon="getChipStatusIcon(status)"
@@ -30,7 +30,20 @@
       </div>
     </div>
     <div class="footer-items" v-else style="border-bottom: 0px !important">
-      <div class="footer-item-left">{{ getSubmitText() }}</div>
+      <div class="footer-item-left" v-if="status == 'rejected'">
+        <div
+          :class="refusalReason != null ? 'text-danger' : ''"
+          style="width: 500px"
+        >
+          <span
+            v-if="refusalReason != null"
+            class="text-bold pr-05"
+          >
+            Rejected Reason: </span
+          >{{ getSubmitText() }}
+        </div>
+      </div>
+      <div class="footer-item-left" v-else>{{ getSubmitText() }}</div>
       <div class="footer-item-right">
         <div v-if="status === 'approved' || status === 'pending'">
           <chips
@@ -77,16 +90,17 @@ export default {
     status: {
       type: String,
     },
+    refusalReason: {
+      type: String,
+    },
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     getChipStatusIcon,
     getChipStatusVariant,
     getSubmitVariant() {
-      console.log(this.status, "this.statusthis.statusthis.status");
       if (this.timesheetIsSubmitable())
         return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
       return this.status === "approved"
@@ -99,6 +113,11 @@ export default {
       return this.getStatusLabel();
     },
     getSubmitText() {
+      if (this.status == TIMESHEET_STATUSES.REJECTED) {
+        return this.refusalReason === null
+          ? "Resubmit you timesheet"
+          : this.refusalReason;
+      }
       if (
         this.status == TIMESHEET_STATUSES.NOT_SUBMITTED ||
         this.status == TIMESHEET_STATUSES.PAST_DUE

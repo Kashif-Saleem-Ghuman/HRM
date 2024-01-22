@@ -6,7 +6,7 @@
     :sections="employees"
     :hide-no-column="true"
     :fixHeader=true
-
+    :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
     @item-clicked="tableItemClick"
     @employee-name-sort="sortColumn('name')"
     @employee-email-sort="sortColumn('email')"

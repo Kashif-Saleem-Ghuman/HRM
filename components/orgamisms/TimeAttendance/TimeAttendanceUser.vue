@@ -60,13 +60,14 @@
                 ></bib-datetime-picker>
               </div>
               <div v-if="view.value === 'week'" class="py-05">
-                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope">
+                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope"> 
                   <div class="pl-05">
                     <week-date-picker
                       :dates.sync="weekDates"
                       class="custom_date_picker"
                       :format="format"
                       @close="() => {scope.close(); weekSelection();}"
+                      style="z-index: 999999; height: 46px;"
                     ></week-date-picker>
                   </div>
                 </button-with-overlay>

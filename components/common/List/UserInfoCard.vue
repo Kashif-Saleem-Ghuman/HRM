@@ -37,14 +37,14 @@
           label="View Profile"
           variant="light"
           class="mr-05"
-          v-on:click="$emit('viewProfile')"
+          @click.native.stop="$emit('viewProfile')"
         ></bib-button>
-        <button-custom
+        <bib-button
           label="Meet"
           variant="light"
           class="mr-05"
-          @click="sendMeet"
-        ></button-custom>
+          @click.native.stop="sendMeet"
+        ></bib-button>
         <bib-button
           label="Send Message"
           variant="primary-24"
@@ -92,7 +92,6 @@ export default {
       window.location.href = "mailTo:" + mail;
     },
     sendMeet(event) {
-      console.log(event, "sendMeet");
       this.$emit("sendMeet", event);
     },
   },

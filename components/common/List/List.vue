@@ -20,7 +20,6 @@
           style="position: relative"
         >
           <div
-            style="cursor: pointer"
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
@@ -43,7 +42,7 @@
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
-                @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
+                @sendMeet="makeCall(getUser.userId, data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.presence === 'in'"
               ></user-info-card>
@@ -52,7 +51,6 @@
           <div
             class="info_wrapper"
             style="width: 100%; cursor: pointer"
-            @click="handleItemClick_Table(data.value.id, $event)"
           >
             <div class="title" :title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
@@ -64,14 +62,14 @@
         </div>
       </template>
       <template #cell(email)="data">
-        <div class="text-dark">
+        <div class="text-dark cursor-pointer">
           <div class="justify-between text-dark">
             <span>{{ data.value.email }}</span>
           </div>
         </div>
       </template>
       <template #cell(telephone)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between text-dark cursor-pointer">
           <span>{{
             data.value.phone === null
               ? "---"
@@ -82,14 +80,14 @@
         </div>
       </template>
       <template #cell(department)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between text-dark cursor-pointer">
           <span>{{
             data.value.department == null ? "HRM" : data.value.department
           }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between text-dark cursor-pointer">
           <span>{{
             data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
           }}</span>

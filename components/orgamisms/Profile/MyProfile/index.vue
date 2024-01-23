@@ -82,7 +82,6 @@ export default {
       getUser: "employee/GET_ACTIVE_USER",
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
-      getActiveUserData: "token/getActiveUserData",
     }),
   },
 

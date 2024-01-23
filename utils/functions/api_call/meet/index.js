@@ -23,7 +23,7 @@ export async function meetLink(payload, uniqueId) {
       window.open(process.env.VIDEO_CONF_APP_URL +'/'+ url, "_blank");
       this.loading = false;
     }  } catch (e) {
-    alert(e);
+    console.log(e)
   }
 }
 export async function makeCall(id, userId) {

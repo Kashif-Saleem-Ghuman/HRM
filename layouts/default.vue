@@ -224,7 +224,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
       getUser: "token/GET_USER",
-      getActiveUser: "employee/GET_USER",
+      getActiveUser: "employee/GET_ACTIVE_USER",
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",

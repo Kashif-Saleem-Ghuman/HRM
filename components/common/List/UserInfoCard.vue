@@ -6,19 +6,22 @@
         shape="circle"
         :src="user.photo"
         size="5rem"
-        
       ></bib-avatar>
       <div>
         <div class="user_card_detail align-center d-flex">
           <label :title="getEmployeeFullName(user)">
-              {{ getEmployeeFullName(user) | truncate(16, '...')}}
+            {{ getEmployeeFullName(user) | truncate(16, "...") }}
             <span>
-            {{ user.jobTitle }}
+              {{ user.jobTitle }}
             </span>
           </label>
           <div class="card_info">
             <div class="button-wrapper-punch">
-              <span :class="{online: isOnline}" v-on:click="$emit('punchedIn')">{{  isOnline ? 'Punched in (online)' : 'Offline' }}</span>
+              <span
+                :class="{ online: isOnline }"
+                v-on:click="$emit('punchedIn')"
+                >{{ isOnline ? "Punched in (online)" : "Offline" }}</span
+              >
             </div>
             <p class="email" @click="sendMail(user.email)">
               {{ user.email }}
@@ -36,12 +39,12 @@
           class="mr-05"
           v-on:click="$emit('viewProfile')"
         ></bib-button>
-        <bib-button
+        <button-custom
           label="Meet"
           variant="light"
           class="mr-05"
-          v-on:click="$emit('sendMeet')"
-        ></bib-button>
+          @click="sendMeet"
+        ></button-custom>
         <bib-button
           label="Send Message"
           variant="primary-24"
@@ -53,42 +56,45 @@
 </template>
 
 <script>
-import { getEmployeeFullName } from "@/utils/functions/common_functions"
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
 
 export default {
   name: "UserCardInfo",
   props: {
-  /**
+    /**
      * A user object
      * @typedef {Object} User
-     * @property {string} firstName - 
-     * @property {string} lastName - 
-     * @property {string} jobTitle - 
-     * @property {string} email - 
-     * @property {string} phone - 
-     * @property {string} photo - 
-     * @property {string} active - 
-  */
+     * @property {string} firstName -
+     * @property {string} lastName -
+     * @property {string} jobTitle -
+     * @property {string} email -
+     * @property {string} phone -
+     * @property {string} photo -
+     * @property {string} active -
+     */
     user: {
       required: true,
-      type: Object
-    }
-
+      type: Object,
+    },
   },
 
   computed: {
     isOnline() {
-      if (!this.user) return false
-      if (this.user.presence && this.user.presence == 'in' ) return true
-      if (this.user.active) return true
-      return false
-    }
+      if (!this.user) return false;
+      if (this.user.presence && this.user.presence == "in") return true;
+      if (this.user.active) return true;
+      return false;
+    },
   },
   methods: {
     getEmployeeFullName,
-    sendMail(mail){
-      window.location.href= 'mailTo:'+mail
-    }
+    sendMail(mail) {
+      window.location.href = "mailTo:" + mail;
+    },
+    sendMeet(event) {
+      console.log(event, "sendMeet");
+      this.$emit("sendMeet", event);
+    },
   },
 };
 </script>
@@ -116,14 +122,13 @@ export default {
         font-size: 14px !important;
         padding: 1px 0 3px 0;
         color: #6a6d76;
-        
       }
     }
     .card_info {
       font-size: 14px;
       .email {
         text-decoration: underline;
-        color: #6A6D76;
+        color: #6a6d76;
       }
       .phone_color {
         color: #1f42a2;
@@ -145,11 +150,9 @@ export default {
           background-color: #eee;
 
           &.online {
-            background-color: #D6F6D5;
+            background-color: #d6f6d5;
             color: #2ba026;
           }
-
-          
         }
       }
     }

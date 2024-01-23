@@ -15,7 +15,7 @@
     <template #cell(name)="data">
       <div
         class="d-flex align-center text-left gap-05"
-        style="position: relative;"
+        style="position: relative"
       >
         <div
           style="cursor: pointer"
@@ -42,7 +42,7 @@
             <user-info-card
               :user="data.value"
               @viewProfile="viewProfile(data.value.id)"
-              @sendMeet="sendMeet(data.value.userId)"
+              @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
               :active="data.value.active"
             ></user-info-card>
@@ -68,7 +68,7 @@
           :title="getStatusTitle(data.value)"
           iconShow="iconShow"
           icon="add"
-          :className="getStatusClass(data.value)"
+          :className="[getStatusClass(data.value)]"
         ></chips-list>
       </div>
     </template>
@@ -132,11 +132,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
-import { dateCheck } from "../../../../utils/functions/functions_lib";
+import {
+  dateCheck,
+  meetLink,
+  makeCall,
+} from "../../../../utils/functions/functions_lib";
 import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import { getEmployeeFullName, getEmployeeInitials } from "../../../../utils/functions/common_functions";
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {
@@ -165,11 +173,18 @@ export default {
       sortByField: null,
     };
   },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser")
+  },
   computed: {
     employees() {
       if (!this.sortByField) return this.userList;
       return sortColumn({ items: this.userList, field: this.sortByField });
     },
+    ...mapGetters({
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
+
   },
   methods: {
     dateCheck,
@@ -178,25 +193,27 @@ export default {
     handleItemClick_Table,
     getEmployeeFullName,
     getEmployeeInitials,
+    meetLink,
+  makeCall,
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in && data.activityReport?.out;
 
       if (timers.length || inEntry) {
-        return 'Present';
+        return "Present";
       }
 
-      return 'Absent';
+      return "Absent";
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in && data.activityReport?.out;
 
       if (timers.length || inEntry) {
-        return 'chip-list-wrapper__sucess';
+        return "chip-list-wrapper__sucess";
       }
 
-      return 'chip-list-wrapper__light';
+      return "chip-list-wrapper__light";
     },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
@@ -248,7 +265,6 @@ export default {
   border-top: none !important;
   border-left: none !important;
   border-right: none !important;
-
 }
 .table__hrow th:first-child {
   border-left: none !important;
@@ -260,7 +276,6 @@ export default {
 .table__irow td {
   color: #000 !important;
   border-right: none !important;
-
 }
 .table__irow td:first-child {
   padding-left: 0.9rem !important;
@@ -272,7 +287,7 @@ export default {
   z-index: 4;
   left: 0;
 }
-.table__hrow__active{
+.table__hrow__active {
   border: none !important;
 }
 </style>

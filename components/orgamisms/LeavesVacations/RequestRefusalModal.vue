@@ -2,7 +2,6 @@
   <bib-modal-wrapper title="Reject Request" @close="$emit('close')">
     <template slot="content">
       <div>
-        {{ refusalReason }}
         <bib-input
           v-model="refusalReason"
           type="textarea"

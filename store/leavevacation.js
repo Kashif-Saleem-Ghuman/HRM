@@ -76,7 +76,7 @@ export const  actions = {
         }
       );
       var leave = leaveVacations.data.requests.sort((a, b) => b.id - a.id);
-      // this.$nuxt.$emit("notification");
+      ctx.commit("SET_LEAVEVACATION_LIST_USER", leave);
       // var data = leave.data.requests
       return leave
     } catch (e) {

@@ -25,7 +25,7 @@
             </aside>
           </div>
         </div>
-        <div class="d-flex px-1" style="margin-top: 16px">
+        <div class="d-flex px-1" style="margin-top: 16px" v-if="show">
           <bib-button
             label="Send Message"
             variant="light"
@@ -37,7 +37,7 @@
             label="Make a Call"
             variant="light"
             icon="phone"
-            @click="makeCall()"
+            @click="makeCall(getUser.userId, getUser.userId)"
           ></bib-button>
         </div>
 
@@ -316,17 +316,19 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <loader :loading="loading"></loader>
   </form-with-validations>
 </template>
 
 <script>
 import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
-import { meetLink } from "../../utils/functions/api_call/meet";
 import {
   sendMeet,
   sendMessage,
   vfileAdded,
+  meetLink,
+  makeCall,
 } from "@/utils/functions/functions_lib";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
@@ -339,6 +341,12 @@ import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 
 export default {
+  props:{
+    show:{
+      type:Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       contactFormFieds,
@@ -377,6 +385,7 @@ export default {
       avatarUrl: "",
       activeUser: "",
       uniqueId: null,
+      loading:false,
     };
   },
   async created() {
@@ -389,18 +398,7 @@ export default {
     openPopupNotification,
     getEmployeeFullName,
     meetLink,
-    async makeCall() {
-      const prefix = "hrm_";
-      const random = Math.floor(Math.random() * 1000);
-      this.uniqueId = `${prefix}_${random}`;
-      const params = {
-        name: this.uniqueId,
-        title: this.uniqueId,
-        users: this.getUser.userId,
-        createdBy: this.activeUser.userId,
-      };
-      this.meetLink(params, this.uniqueId);
-    },
+    makeCall,
     async fetchEmployee() {
       const id = this.$route.params.id ?? this.getUser?.id;
 
@@ -467,7 +465,9 @@ export default {
       return this.updateForm.address?.country;
     },
     ...mapGetters({
-      getUser: "employee/GET_USER",
+      getUser: "employee/GET_ACTIVE_USER",
+      getUserRole: "token/getUserRole",
+
     }),
   },
 

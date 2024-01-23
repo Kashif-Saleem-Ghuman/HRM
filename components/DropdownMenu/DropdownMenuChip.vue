@@ -65,13 +65,14 @@ export default {
 .dropdown-chip-menu {
   position: relative;
   .menu-items {
+    position: absolute;
     background-color: #fff;
     width: 107px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
-    left: -1px;
-    top: -1px;
+    right: -10px;
+    top: 0px;
 }
 }
 .chip-wrapper-com {

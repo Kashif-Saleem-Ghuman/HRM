@@ -77,6 +77,7 @@
         </div>
         <div>
           <template>
+            
             <list-day
               :listToday="getDailyTimeEntries"
               v-if="todayListView"
@@ -91,7 +92,7 @@
               :activityReports="weekDataActivityReports"
               :totalWork="weekDataTotalWork"
               :status="weekDataStatus"
-              :refusalReason="refusalReason"
+              :refusalReasonData="refusalReason"
               :id="timesheetId"
               :startOfWeek="weekDates.from"
               @timesheet-submitted="onTimesheetSubmitted"
@@ -327,7 +328,7 @@ export default {
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
       this.timesheetId = weekData.id;
-      this.refusalReason = weekData.refusalReason,
+      this.refusalReason = weekData,
       this.loading = false;
     },
     async dateSelection(event){

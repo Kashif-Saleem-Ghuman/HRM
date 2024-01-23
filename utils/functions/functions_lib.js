@@ -33,6 +33,7 @@ import {
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../functions/form_update.js";
+import { meetLink, makeCall } from "../../utils/functions/api_call/meet";
 
 export {
   headerHelpClick,
@@ -64,4 +65,6 @@ export {
   sendMessage,
   handleItemClick_Table,
   generateYearList,
+  meetLink,
+  makeCall,
 };

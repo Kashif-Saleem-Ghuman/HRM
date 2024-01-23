@@ -179,16 +179,19 @@ export default {
       console.log(event, "event");
       this.event = event;
       this.data = data;
-      if (event.key == "approved") {
+      if (event.key === "approved") {
+        this.confirmastionMessageModal = true;
+        this.showRefusalModal = false;
         this.deleteModalContent =
           TIMESHEET_DELETE_CONFIRMATION_MESSAGE.approved;
         this.variantButton = "success";
+        return;
       } else {
-        this.deleteModalContent =
-          TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
-        this.variantButton = "";
+        // this.deleteModalContent =
+        //   TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
+        this.enableRefusalModal()
       }
-      this.enableRefusalModal()
+      
       return;
     },
     cancelRejectRequest() {

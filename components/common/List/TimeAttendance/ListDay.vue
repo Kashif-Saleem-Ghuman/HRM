@@ -2,7 +2,7 @@
   <div>
     <div class="custom-table" :class="{ 'disabled-table': disabled }">
       <div class="thead">
-        <div class="cell">ACTIVITY</div>
+        <div class="cell" >ACTIVITY</div>
         <div class="cell">START</div>
         <div class="cell">END</div>
         <div class="cell">TOTAL HRS</div>
@@ -19,7 +19,7 @@
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
-      <div class="row total">
+      <div class="row total" v-if="total">
         <div class="cell no-border"></div>
         <div class="cell no-border"></div>
         <div class="cell label">Day Total Hours</div>
@@ -115,8 +115,13 @@ export default {
   border-bottom: 1px solid #eee;
   border-collapse: collapse;
   width: 100%;
+  transition: background-color 0.9s linear, outline-color 0.3s linear;
+  :hover{
+      background-color: $light;
+    }
   .row {
     display: table-row;
+   
   }
   .total {
     .cell {
@@ -143,6 +148,7 @@ export default {
       border: 0px !important;
       text-align: left !important;
       border-radius: 0px !important;
+      background-color: transparent !important;
     }
     label {
       padding: 0 0.5rem;
@@ -162,16 +168,20 @@ export default {
   }
   .thead {
     display: table-row;
+    height: 2.5rem;
+    background-color: $light;
     color: $gray5;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-top: 1px solid $gray3;
+    font-size: 13px;
+    font-weight: bold;
     border-collapse: collapse;
-    background-color: #fff !important;
     .cell {
       padding: 10px;
+      border: $gray4 1px solid;
+      
     }
+    :first-child{
+        padding-left: 1rem;
+      }
   }
 }
 </style>

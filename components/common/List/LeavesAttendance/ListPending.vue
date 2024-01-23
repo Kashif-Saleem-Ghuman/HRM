@@ -1,7 +1,6 @@
 <template>
   <custom-table
     :fields="tableFields"
-    class="border-gray4 bg-white"
     :sections="leavePendingList"
     :hide-no-column="true"
     @input="$emit('selectAllItems')"

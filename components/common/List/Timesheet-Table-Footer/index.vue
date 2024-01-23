@@ -32,19 +32,39 @@
     <div class="footer-items" v-else style="border-bottom: 0px !important">
       <div class="footer-item-left" v-if="status == 'rejected'">
         <div
-          :class="refusalReason != null ? 'text-danger' : ''"
-          style="width: 500px"
+          class="refusal-wrapper"
+          v-if="refusalReasonData.refusalReason != null"
         >
-          <span
-            v-if="refusalReason != null"
-            class="text-bold pr-05"
-          >
-            Rejected Reason: </span
+          <div class="d-flex align-center">
+            <div
+              class="shape-circle bg-danger width-2 height-2 d-flex justify-center align-center"
+            >
+              <bib-icon icon="tick" variant="white" :scale="1"></bib-icon>
+            </div>
+            <div class="content">
+              <label> Rejected:</label>
+              <div>
+                {{
+                  `Request Rejected on ${onLoad(
+                    refusalReasonData.statusChangeDate
+                  )} by  ${getEmployeeFullName(refusalReasonData.manager)}`
+                }}
+              </div>
+              <div>
+                {{ refusalReasonData.refusalReason }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          :class="refusalReasonData.refusalReason != null ? 'text-danger' : ''"
+          v-else
+        >
           >{{ getSubmitText() }}
         </div>
       </div>
       <div class="footer-item-left" v-else>{{ getSubmitText() }}</div>
-      <div class="footer-item-right">
+      <div class="footer-item-right d-flex align-center">
         <div v-if="status === 'approved' || status === 'pending'">
           <chips
             :title="getStatusLabel()"
@@ -70,10 +90,12 @@
 
 <script>
 import { TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
+import fecha, { format } from "fecha";
 import {
   getStatusIcon as getChipStatusIcon,
   getStatusVariant as getChipStatusVariant,
 } from "../../../../utils/functions/status";
+import { getEmployeeFullName } from "@/utils/functions/common_functions";
 const TIMESHEET_STATUS_TO_SUBMIT = [
   TIMESHEET_STATUSES.NOT_SUBMITTED,
   TIMESHEET_STATUSES.PAST_DUE,
@@ -90,8 +112,8 @@ export default {
     status: {
       type: String,
     },
-    refusalReason: {
-      type: String,
+    refusalReasonData: {
+      type: Array,
     },
   },
   data() {
@@ -100,6 +122,10 @@ export default {
   methods: {
     getChipStatusIcon,
     getChipStatusVariant,
+    getEmployeeFullName,
+    onLoad(item) {
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
+    },
     getSubmitVariant() {
       if (this.timesheetIsSubmitable())
         return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
@@ -113,11 +139,11 @@ export default {
       return this.getStatusLabel();
     },
     getSubmitText() {
-      if (this.status == TIMESHEET_STATUSES.REJECTED) {
-        return this.refusalReason === null
-          ? "Resubmit you timesheet"
-          : this.refusalReason;
-      }
+      // if (this.status == TIMESHEET_STATUSES.REJECTED) {
+      //   return this.refusalReason === null
+      //     ? "Resubmit you timesheet"
+      //     : this.refusalReason;
+      // }
       if (
         this.status == TIMESHEET_STATUSES.NOT_SUBMITTED ||
         this.status == TIMESHEET_STATUSES.PAST_DUE
@@ -195,7 +221,7 @@ export default {
       border-right: 1px solid $light;
       border-bottom: 1px solid $light;
       padding: 1rem 0.5rem;
-      text-align: right;
+      text-align: left;
       display: flex;
       align-items: center;
       justify-content: end;
@@ -209,6 +235,18 @@ export default {
   }
   .status-text {
     padding: 0.5rem;
+  }
+}
+.refusal-wrapper {
+  // padding: 1rem;
+  .content {
+    color: #d9000d;
+    padding-left: 10px;
+    // text-align: right;
+    label {
+      font-weight: bold;
+      line-height: 22px;
+    }
   }
 }
 </style>

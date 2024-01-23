@@ -39,7 +39,7 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <bib-notification :popupMessages="popupMessages" :autohide="10000"></bib-notification>
   </div>
 </template>
 <script>
@@ -92,6 +92,13 @@ export default {
       if (!entries) return false
       return entries.some( entry => {
         return entry.activity === ACTIVITY_TYPE.IN && entry.end
+      })
+    },
+    hasBreakEntry() {
+      const entries = this.$store.state.timeattendance.dailyTimeEntries
+      if (!entries) return false
+      return entries.some( entry => {
+        return entry.activity === ACTIVITY_TYPE.BREAK && entry.end
       })
     },
     timer() {
@@ -220,6 +227,29 @@ export default {
       }
     },
 
+    validateInEntryWithExistingBreak() {
+      if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
+        const breakEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.BREAK && entry.end)
+        const breakEntryStartTime = DateTime.fromISO(breakEntry.start).toJSDate()
+        const breakEntryEndTime = DateTime.fromISO(breakEntry.end).toJSDate()
+        const inEntryStartTime = this.getDateFromTime(this.startTime)
+        let inEntryEndTime = this.getDateFromTime(this.endTime)
+
+        if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
+          inEntryEndTime = this.addDayToDate(inEntryEndTime)
+        }
+
+        const isBreakAfterInEntry = breakEntryStartTime >= inEntryStartTime && breakEntryEndTime <= inEntryEndTime
+        if (!isBreakAfterInEntry) {
+          this.openPopupNotification({ text: "in entry start time and end time must be before break entry start and end time", variant: "danger" });
+          this.clearStartTime();
+          this.clearEndTime();
+          return false;
+        }
+      }
+      return true;
+    },
+
     validateBreakIsWithinWorkingHours() {
       if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.hasInEntry) {
         const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.IN && entry.end)
@@ -234,7 +264,7 @@ export default {
 
         const isBreakWithinInEntry = breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime
         if (!isBreakWithinInEntry) {
-          alert("break start time and end time must be within in entry start and end time");
+          this.openPopupNotification({ text: "Break start time and end time must be within in entry start and end time", variant: "danger" });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -246,7 +276,7 @@ export default {
         const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate()
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
-          alert("break start time cannot be before timer start time");
+          this.openPopupNotification({ text: "break start time cannot be before timer start time", variant: "danger" });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -264,13 +294,13 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        this.openPopupNotification({text:'Start time should be before end time', variant:'danger'})
-        // alert("start time should be before end time");
+        this.openPopupNotification({ text:'End time cannot be greater than current time', variant:'danger' })
         this.endTime = undefined;
         return false;
       }
 
       if (!this.validateBreakIsWithinWorkingHours()) return false;
+      if (!this.validateInEntryWithExistingBreak()) return false;
 
       return true;
     },

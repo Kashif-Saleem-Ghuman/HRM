@@ -1,19 +1,20 @@
 <template>
   <div class="position-relative h-300">
-    <bib-table
-      :fields="tableFields"
-      class="border-gray4 bg-white"
-      :sections="employees"
-      :hide-no-column="true"
-      :fixHeader="true"
-      @item-clicked="tableItemClick"
-      @employee-name-sort="sortColumn('name')"
-      @employee-email-sort="sortColumn('email')"
-      @employee-phone-sort="sortColumn('telephone')"
-      @employee-hire-date-sort="sortColumn('hiredate')"
-      @employee-department-sort="sortColumn('department')"
-    >
-      <template #cell(name)="data">
+  <bib-table
+    :fields="tableFields"
+    class="border-gray4 bg-white"
+    :sections="employees"
+    :hide-no-column="true"
+    :fixHeader=true
+    :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
+    @item-clicked="tableItemClick"
+    @employee-name-sort="sortColumn('name')"
+    @employee-email-sort="sortColumn('email')"
+    @employee-phone-sort="sortColumn('telephone')"
+    @employee-hire-date-sort="sortColumn('hiredate')"
+    @employee-department-sort="sortColumn('department')"
+  >
+    <template #cell(name)="data">
         <div
           class="d-flex align-center text-left gap-05"
           style="position: relative"

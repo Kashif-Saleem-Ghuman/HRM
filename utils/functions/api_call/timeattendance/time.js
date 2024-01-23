@@ -242,13 +242,22 @@ export async function approvePastDueTimesheet({ id, date, employeeId }) {
     console.error(error);
   }
 }
+export async function rejectPastDueTimesheet({ id, date, employeeId, refusalReason }) {
+  try {
+    const url = `/timesheets/admin/reject/past-due/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.post(url, { date, employeeId, refusalReason }, config);
+    return data
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-
-export async function rejectTimesheet({ id }) {
+export async function rejectTimesheet({ id, refusalReason}) {
   try {
     const url = `/timesheets/admin/reject/${id}`;
     const config = createConfig();
-    const { data } = await hrmApiAxiosInstance.post(url, {}, config);
+    const { data } = await hrmApiAxiosInstance.post(url, {refusalReason}, config);
     return data
   } catch (error) {
     // console.error(error);

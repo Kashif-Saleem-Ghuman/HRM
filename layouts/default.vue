@@ -295,6 +295,9 @@ export default {
     this.$root.$on("clock-in", () => {
       this.clockModal = true;
     });
+    this.$root.$on("notification", () => {
+      alert("callled")
+    });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey += 1;
       this.errorMsgEndDate = false;

@@ -1,5 +1,6 @@
 export const state = () => ({
   user: [],
+  activeUser:[],
   userList: [],
   departmentList: [],
   reportList: [],
@@ -13,6 +14,9 @@ export const getters = {
   GET_USER(state) {
     return state.user;
   },
+  GET_ACTIVE_USER(state) {
+    return state.activeUser;
+  },
   GET_DEPARTMENT_LIST(state) {
     return state.departmentList;
   },
@@ -24,6 +28,9 @@ export const getters = {
 export const mutations = {
   SET_USER: (state, payload) => {
     state.user = payload;
+  },
+  SET_ACTIVE_USER: (state, payload) => {
+    state.activeUser = payload;
   },
   SET_USERS: (state, payload) => {
     state.userList = payload;
@@ -130,7 +137,7 @@ export const actions = {
         }
       );
       if (user) {
-        ctx.commit("SET_USER", user);
+        ctx.commit("SET_ACTIVE_USER", user);
         return user;
       }
     } catch (e) {

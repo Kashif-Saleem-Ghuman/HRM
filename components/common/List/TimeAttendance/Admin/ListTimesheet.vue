@@ -69,6 +69,7 @@
 
       <template #cell(total)="data">
         <div>
+          {{ data.value.refusalReason }}
           <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
       </template>

@@ -152,10 +152,16 @@ export default {
 };
 </script>
 <style lang="scss">
+.avtar-border{
+  border: 1px solid $light !important;
+}
 .hide {
   display: none;
 }
 .custom-remove {
+  .avtar-border{
+  border: 0px solid $light !important;
+}
   position: absolute;
   font-weight: 600;
   bottom: 8px;
@@ -190,7 +196,7 @@ export default {
     }
   }
   .avtar-border {
-    border: solid 1px #9e9eff;
+    border: solid 0px $light !important;
   }
 }
 .vue-dropzone {
@@ -200,19 +206,22 @@ export default {
   min-height: auto;
   padding: 0px;
   border: 0;
-  h3 {
-    font-size: 12px;
-    color: #8989ff;
-    font-weight: 600;
-    margin: 0;
-  }
-  p {
-    font-size: 12px;
-    color: #8989ff;
-    font-weight: 500;
-    line-height: 24px;
-    margin: 0;
-  }
+  .avtar-border{
+  border: 0px solid $light !important;
+}
+  // h3 {
+  //   font-size: 12px;
+  //   color: #8989ff;
+  //   font-weight: 600;
+  //   margin: 0;
+  // }
+  // p {
+  //   font-size: 12px;
+  //   color: #8989ff;
+  //   font-weight: 500;
+  //   line-height: 24px;
+  //   margin: 0;
+  // }
   .dz-message {
     margin: 0;
   }
@@ -236,7 +245,7 @@ export default {
 }
 .dropzone .dz-preview .dz-image img {
   border-radius: 50%;
-  border: solid 1px #9e9eff;
+  border: solid 1px $light;
   // margin-right: 16px;
 }
 .dropzone .dz-preview:hover .dz-image img {
@@ -266,7 +275,7 @@ export default {
   //    background-color: #000;
   opacity: 1 !important;
   line-height: 100px;
-  border: 0px #8989ff solid;
+  border: 0px $light solid;
   font-size: 11px;
   margin-left: 3px;
   margin-bottom: -20px;
@@ -286,7 +295,7 @@ export default {
 .vue-dropzone > .dz-preview .dz-remove:hover {
   color: #fff;
   background-color: none;
-  border: 0px #8989ff solid;
+  border: 0px $light solid;
   line-height: 100px;
   opacity: 1;
   text-decoration: none;

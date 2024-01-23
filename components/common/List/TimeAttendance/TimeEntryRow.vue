@@ -364,7 +364,8 @@ export default {
 };
 </script>
 <style lang="scss">
-.activity-wrapper {
+.activity {
+  padding-left: 0.5rem !important;
   .icon {
     margin-right: -10px !important;
   }

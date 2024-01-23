@@ -93,7 +93,7 @@
         </div>
       </template>
     </bib-table>
-    <timesheet-table-footer :status="status" :totalValue="totalValue" @button-clicked="submitButtonClicked"></timesheet-table-footer>
+    <timesheet-table-footer v-if="id >= 0" :status="status" :refusalReasonData="refusalReasonData" :totalValue="totalValue" @button-clicked="submitButtonClicked"></timesheet-table-footer>
     <time-sheet-modal
       @close="timesheetModal = false"
       :timesheetModal="timesheetModal"
@@ -111,6 +111,7 @@ import {
   WEEK_DAY,
   TIMESHEET_STATUS,
 } from "@/utils/constant/Constant.js";
+
 import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
@@ -130,6 +131,10 @@ export default {
     status: {
       type: String,
       default: "",
+    },
+    refusalReasonData: {
+      type: Array,
+      default: "--:--",
     },
     id: {
       type: Number,

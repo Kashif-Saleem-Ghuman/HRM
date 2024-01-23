@@ -23,7 +23,7 @@
           <!-- Employe Profile Wrapper Start Here  -->
           <div id="employee-profile-wrapper">
             <div v-if="activeTab == personalTabItem[0].value">
-              <employee-profile-form></employee-profile-form>
+              <employee-profile-form :show="false"></employee-profile-form>
             </div>
           </div>
           <div id="employee-information-wrapper">
@@ -79,18 +79,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: "employee/GET_USER",
+      getUser: "employee/GET_ACTIVE_USER",
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
       getActiveUserData: "token/getActiveUserData",
-      
     }),
   },
 
   async created() {
     this.id = this.getUser.id;
     await this.$store.dispatch("employee/setActiveUser");
-    await this.$store.dispatch("employee/setUser", this.getUser.id);
+    // await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
     this.form = users;
   },

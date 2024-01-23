@@ -10,7 +10,7 @@
       v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-    <div class="page__header__bread__title" v-if="title" v-tooltip="title">{{ title }}</div>
+    <div class="page__header__bread__title" v-if="title" :title="title">{{ title }}</div>
   </nav>
 </template>
 <script>

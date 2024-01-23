@@ -64,13 +64,13 @@
       <div>
         <no-record v-if="showNoData"></no-record>
 
-        <div v-else-if="showTable"> 
+        <div v-else-if="showTable">
           <list-leave-attendance
             :leaveData="leaveVacationDataUser"
             @delete-item="deleteConfirmation($event)"
           ></list-leave-attendance>
         </div>
-        
+        <bib-notification :popupMessages="popupMessages"></bib-notification>
         <confirmation-modal
           :title="deleteModalContent.title"
           :confirmationMessage="deleteModalContent.message"
@@ -78,7 +78,6 @@
           @close="closeconfirmastionMessageModal"
           @deleteLeave="deleteLevaeVacation(deletedfileId)"
         ></confirmation-modal>
-        
       </div>
     </div>
   </div>
@@ -99,6 +98,7 @@ import {
 import { SORTING_MENU } from "../../../utils/constant/Constant";
 import { INFO_CARD_LEAVE_VACATION_DATA } from "../../../utils/constant/Calander";
 import { getEmployeeFullName } from "../../../utils/functions/common_functions";
+import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 
 export default {
   data() {
@@ -119,12 +119,13 @@ export default {
       checked: false,
       confirmastionMessageModal: false,
       deleteItemId: "",
-      allowanceLeavesDetailedData: '00',
+      allowanceLeavesDetailedData: "00",
       is_data_fetched: false,
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       dropMenuYear: [],
+      popupMessages: [],
     };
   },
   computed: {
@@ -139,7 +140,10 @@ export default {
       return !this.loading && this.leaveVacationDataUser?.length;
     },
     showNoData() {
-      return !this.loading && (!this.leaveVacationDataUser || !this.leaveVacationDataUser?.length);
+      return (
+        !this.loading &&
+        (!this.leaveVacationDataUser || !this.leaveVacationDataUser?.length)
+      );
     },
   },
   async created() {
@@ -150,7 +154,11 @@ export default {
           to: this.getformToDate.to,
         })
         .then((result) => {
-          this.leaveVacationDataUser = result;
+          if (!result) {
+            this.openPopupNotification(this.$error.common_message);
+          } else {
+            this.leaveVacationDataUser = result;
+          }
         });
       this.getUserLeavesDetailUser().then((result) => {
         this.allowanceLeavesDetailedData = result;
@@ -177,11 +185,18 @@ export default {
       to: this.toDate,
     });
 
-    await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    });
-    this.leaveVacationDataUser = this.getLeaveVacationUser;
+    await this.$store
+      .dispatch("leavevacation/setLeaveVacationsUser", {
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      })
+      .then((result) => {
+        if (!result) {
+          this.openPopupNotification(this.$error.common_message);
+        } else {
+          this.leaveVacationDataUser = result;
+        }
+      });
   },
   methods: {
     getCurrentDateMonth,
@@ -190,6 +205,7 @@ export default {
     getUserLeavesDetailUser,
     getEmployeeFullName,
     generateYearList,
+    openPopupNotification,
     async changeYearView(e) {
       this.selectedYear = e.label;
       this.getCurrentYear();
@@ -204,11 +220,18 @@ export default {
         this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
       });
-      await this.$store.dispatch("leavevacation/setLeaveVacationsUser", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      });
-      this.leaveVacationDataUser = this.getLeaveVacationUser;
+      await this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then((result) => {
+          if (!result) {
+            this.openPopupNotification(this.$error.common_message);
+          } else {
+            this.leaveVacationDataUser = result;
+          }
+        });
     },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;

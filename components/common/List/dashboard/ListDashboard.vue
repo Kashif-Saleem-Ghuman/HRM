@@ -5,6 +5,8 @@
     :sections="employees"
     :hide-no-column="true"
     :fixHeader="true"
+    :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
+    @item-clicked="tableItemClick"
     @employee-name-sort="sortColumn('name')"
     @employee-status-sort="sortColumn('status')"
     @employee-in-sort="sortColumn('in')"
@@ -18,7 +20,6 @@
         style="position: relative"
       >
         <div
-          style="cursor: pointer"
           v-on:mouseover="profiletab('id_' + data.value.id)"
           v-on:mouseleave="profiletab('id_' + data.value.id, true)"
         >
@@ -49,9 +50,9 @@
           </div>
         </div>
         <div
-          class="info_wrapper"
-          style="width: 100%; cursor: pointer"
-          @click="handleItemClick_Table(data.value.id, $event)"
+          class="info_wrapper cursor-pointer"
+          style="width: 100%;"
+        
         >
           <div class="title" :title="getEmployeeFullName(data.value)">
             {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
@@ -63,7 +64,7 @@
       </div>
     </template>
     <template #cell(status)="data">
-      <div class="" @click="handleItemClick_Table(data.value.id, $event)">
+      <div class="cursor-pointer">
         <chips-list
           :title="getStatusTitle(data.value)"
           iconShow="iconShow"
@@ -73,7 +74,7 @@
       </div>
     </template>
     <template #cell(in)="data">
-      <div @click="handleItemClick_Table(data.value.id, $event)">
+      <div class="cursor-pointer">
         <chips
           :title="
             data.value?.activityReport.in == null
@@ -94,7 +95,7 @@
       </div>
     </template>
     <template #cell(out)="data">
-      <div @click="handleItemClick_Table(data.value.id, $event)">
+      <div class="cursor-pointer">
         <chips
           :title="
             data.value?.activityReport.out == null
@@ -111,7 +112,7 @@
       </div>
     </template>
     <template #cell(breaks)="data">
-      <div @click="handleItemClick_Table(data.value.id, $event)">
+      <div class="cursor-pointer">
         <span>{{
           data.value?.activityReport.break == null
             ? "--"
@@ -120,7 +121,7 @@
       </div>
     </template>
     <template #cell(total)="data">
-      <div @click="handleItemClick_Table(data.value.id, $event)">
+      <div>
         <span>{{
           data.value?.activityReport.total == null
             ? "--"

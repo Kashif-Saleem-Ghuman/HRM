@@ -176,7 +176,6 @@ export default {
       this.confirmastionMessageModal = false;
     },
     deleteConfirmation(event, data) {
-      console.log(event, "event");
       this.event = event;
       this.data = data;
       if (event.key === "approved") {
@@ -213,7 +212,7 @@ export default {
       const id = data?.value?.id;
       const status = data?.value?.status;
       event = event?.value ?? event;
-      const refusalReason = request.refusalReason
+      
 
       if (event == TIMESHEET_STATUS["approved"].value) {
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
@@ -231,6 +230,7 @@ export default {
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
+        const refusalReason = request.refusalReason
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
           const date = data?.value?.start;
           await rejectPastDueTimesheet({

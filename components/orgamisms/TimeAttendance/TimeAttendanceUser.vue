@@ -192,7 +192,7 @@ export default {
     },
 
     ...mapGetters({
-      getActiveUser: "employee/GET_USER",
+      getActiveUser: "employee/GET_ACTIVE_USER",
       getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
     }),
     hasInEntryToday() {

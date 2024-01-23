@@ -241,7 +241,7 @@ export default {
       getAccessToken: "token/getAccessToken",
       getLeaveVacation: "leavevacation/getLeaveVacation",
       getformToDate: "leavevacation/getformToDate",
-      getActiveUser: "employee/GET_USER",
+      getActiveUser: "employee/GET_ACTIVE_USER",
     }),
     monthLabel() {
       const month = this.dropMenuMonth.find( m => m.value == this.selectedMonth)

@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getActiveUser: "employee/GET_USER",
+      getActiveUser: "employee/GET_ACTIVE_USER",
       getAccessToken: "token/getAccessToken",
       getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
       getformToDate: "leavevacation/getformToDate",

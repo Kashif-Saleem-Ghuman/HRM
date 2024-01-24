@@ -52,7 +52,7 @@
                 }}
               </div>
               <div>
-                {{ refusalReasonData.refusalReason }}
+                Reason: {{ refusalReasonData.refusalReason }}
               </div>
             </div>
           </div>

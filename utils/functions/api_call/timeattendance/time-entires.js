@@ -16,7 +16,7 @@ export async function makeTimeEntry(activity, date, start, end) {
     console.error(e);
     const message = e?.response?.data?.message
     if (message) {
-      alert(message)
+      this.openPopupNotification({text:message, variant:'danger'})
     }
     throw e;
   }
@@ -40,7 +40,7 @@ export async function editTimeEntry(
     console.error(e);
     const message = e?.response?.data?.message
     if (message) {
-      alert(message)
+      this.openPopupNotification({text:message, variant:'danger'})
     }
     throw e;
   }
@@ -58,6 +58,6 @@ export async function deleteTimeEntry(id) {
     );
     return response.data;
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e, variant:'danger'})
   }
 }

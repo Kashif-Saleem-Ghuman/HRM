@@ -164,25 +164,60 @@ export const TABLE_HEAD = {
     {
       key: "leavetype",
       label: "Leave Type",
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'leave-type-sort',
+        isActive: false,
+        sortKey: 'leavetype',
+        type: 'string'
+      },
     },
     {
       key: "start",
       label: "Start",
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'leave-start-sort',
+        isActive: false,
+        sortKey: 'start',
+        type: 'date'
+      },
     },
 
     {
       key: "end",
       label: "End",
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'leave-end-sort',
+        isActive: false,
+        sortKey: 'end',
+        type: 'date'
+      },
     },
     {
       key: "duration",
       label: "Duration",
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'leave-duration-sort',
+        isActive: false,
+        sortKey: 'duration',
+        type: 'number'
+      },
     },
 
     
     {
       key: "status",
       label: "Status",
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'leave-status-sort',
+        isActive: false,
+        sortKey: 'status',
+        type: 'string'
+      },
     },
   ],
   tHeadTimesheet: [
@@ -194,65 +229,128 @@ export const TABLE_HEAD = {
       key: "name",
       label: "EMPLOYEE",
       width: `${100 / 5}%`,
-      // header_icon: {
-      //   icon: 'long-arrow-up',
-      //   event: 'employee-name-sort',
-      //   isActive: false,
-      //   sortKey: 'firstName',
-      //   type: 'string'
-      // },
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-name-sort',
+        isActive: false,
+        sortKey: 'firstName',
+        type: 'string'
+      },
     },
     {
       key: "mon",
       label: "MON",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-mon-sort',
+        isActive: false,
+        sortKey: 'weekData.1.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "tue",
       label: "TUE",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-tue-sort',
+        isActive: false,
+        sortKey: 'weekData.1.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "wed",
       label: "WED",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-wed-sort',
+        isActive: false,
+        sortKey: 'weekData.3.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "thu",
       label: "THU",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-thu-sort',
+        isActive: false,
+        sortKey: 'weekData.4.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "fri",
       label: "FRI",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-fri-sort',
+        isActive: false,
+        sortKey: 'weekData.5.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "sat",
       label: "SAT",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-sat-sort',
+        isActive: false,
+        sortKey: 'weekData.6.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "sun",
       label: "SUN",
       style:'text-align:center',
       width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-sun-sort',
+        isActive: false,
+        sortKey: 'weekData.7.totalHours',
+        type: 'week'
+      },
     },
     {
       key: "total",
       label: "TOTAL HRS",
-      style:'text-align:left'
+      style:'text-align:left',
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-total-hours-sort',
+        isActive: false,
+        sortKey: 'total',
+        type: 'number'
+      },
     },
     {
       key: "status",
       label: "STATUS",
-      style:'text-align:left'
+      style:'text-align:left',
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-status-sort',
+        isActive: false,
+        sortKey: 'timesheets[0].status',
+        type: 'string'
+      },
     },
   ],
   tHeadTimesheetModal:[

@@ -2,7 +2,7 @@
   <div>
     <div class="custom-table" :class="{ 'disabled-table': disabled }">
       <div class="thead">
-        <div class="cell" >ACTIVITY</div>
+        <div class="cell">ACTIVITY</div>
         <div class="cell">START</div>
         <div class="cell">END</div>
         <div class="cell">TOTAL HRS</div>
@@ -14,7 +14,7 @@
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
-        @delete-entry="deleteSpecificEntry"
+        @delete-entry="deleteConfirmation"
         :date="date"
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
@@ -26,6 +26,16 @@
         <div class="cell total-hours">{{ total }}</div>
       </div>
     </div>
+   <div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <confirmation-modal
+      :title="deleteModalContent.title"
+      :confirmationMessage="deleteModalContent.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @close="closeconfirmastionMessageModal"
+      @delete="deleteSpecificEntry"
+    ></confirmation-modal>
+   </div>
   </div>
 </template>
 
@@ -33,6 +43,19 @@
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
+import { openPopupNotification} from "@/utils/functions/functions_lib.js";
+import { deleteTimeEntry} from "@/utils/functions/functions_lib_api";
+
+const DELETE_MESSAGE = {
+  confirmatinData: {
+    title: "Delete Time Entry",
+    message: "Are you sure you want to delete Time entry?",
+  },
+  notification: {
+    text: "The time entry has been deleted successfully...",
+    variant: "primary-24",
+  },
+};
 export default {
   props: {
     listToday: {
@@ -70,6 +93,10 @@ export default {
         end: null,
       },
       ACTIVITY_DICTIONARY,
+      deleteModalContent: DELETE_MESSAGE.confirmatinData,
+      confirmastionMessageModal: false,
+      popupMessages: [],
+      idToDelete:null,
     };
   },
 
@@ -90,16 +117,29 @@ export default {
     },
   },
   methods: {
+    openPopupNotification,
+    deleteTimeEntry,
     async makeNewTimeEntry(newEntry) {
       this.$emit("new-entry", newEntry);
     },
     editSpecificEntry(entry) {
       this.$emit("edit-entry", entry);
     },
-    deleteSpecificEntry(id) {
-      if (confirm("Are you sure you want to delete this time entry?")) {
-        this.$emit("delete-entry", id);
-      }
+    async deleteSpecificEntry() {
+      const id = this.idToDelete
+      await this.deleteTimeEntry(id);
+      this.confirmastionMessageModal = false;
+      this.openPopupNotification(DELETE_MESSAGE.notification)
+      this.idToDelete = null;
+      this.$emit("delete-entry", id);
+    },
+    closeconfirmastionMessageModal() {
+      this.confirmastionMessageModal = false;
+      this.idToDelete = null;
+    },
+    deleteConfirmation(id) {
+      this.idToDelete = id
+      this.confirmastionMessageModal = true;
     },
   },
 };
@@ -116,12 +156,9 @@ export default {
   border-collapse: collapse;
   width: 100%;
   transition: background-color 0.9s linear, outline-color 0.3s linear;
-  :hover{
-      background-color: $light;
-    }
+  
   .row {
     display: table-row;
-   
   }
   .total {
     .cell {
@@ -177,11 +214,15 @@ export default {
     .cell {
       padding: 10px;
       border: $gray4 1px solid;
-      
+      border-top: none !important;
     }
-    :first-child{
-        padding-left: 1rem;
-      }
+    :first-child {
+      padding-left: 1rem;
+      border-left: none !important;
+    }
+    :last-child {
+      border-right: none !important;
+    }
   }
 }
 </style>

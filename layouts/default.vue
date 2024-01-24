@@ -212,7 +212,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQeTdMRGR3cE9xMWUxWUtYIiwic3ViZSI6ImNoYXJhbi5wYWxAcXNzdGVjaG5vc29mdC5jb20iLCJzdWJzIjoiQUNUSVZFIiwic3ViYiI6Ik8zR1dwbWJrNWV6Sm40S1IiLCJzdWJicyI6IkNMSUVOVCIsInN1YnIiOiJBRE1JTiIsInN1YmMiOiJDYW5hZGEiLCJlbnYiOiJkZXYiLCJpYXQiOjE3MDQ4NzAxMTA2ODUsImV4cCI6MTcxMjY0NjExMDY4NSwianRpIjoiMGFmNDJhODctMWY5My00ZjlhLWI2ZjktMTQ0MzkwYTE0MDdjIn0.6wSKlVwzG6oIUTWNzLYjgZ_l9jSICbaMYy6F4_4mk-o",
+      token: "",
     };
   },
 

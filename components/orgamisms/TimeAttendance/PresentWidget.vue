@@ -1,4 +1,5 @@
 <script>
+import { ACTIVITY_TYPE } from '../../../utils/constant/Constant';
 import BaseWidget from '../../common/Cards/BaseWidget.vue';
 export default {
   extends: BaseWidget,
@@ -12,14 +13,15 @@ export default {
     async fetchData() {
       const data = this.employeesAttendance
       if (data) {
-        this.setData(data)
-        this.setAvatars(data)
+        const employees = data?.filter(e => (e.active || e.presence === 'in' || this.hasInEntry(e.timeEntries))) || []
+        this.setData(employees)
+        this.setAvatars(employees)
       }
     },
-    setData(data = []) {
-      const title = "Attendance"
-      const subheading = 'Present'
-      const value = data?.filter(e => (e.active || e.presence === 'in')).length || 0
+    setData(employees = []) {
+      const title = "Present"
+      const subheading = ''
+      const value = employees.length || 0
       this.data = {
         title,
         subheading,
@@ -27,8 +29,12 @@ export default {
       }
     },
 
-    setAvatars(data = []) {
-      this.avatars = data?.filter(e => (e.active || e.presence === 'in')) || []
+    setAvatars(employees = []) {
+      this.avatars = employees
+    },
+
+    hasInEntry(timeEntries = []) {
+      return timeEntries.some( timeEntry => timeEntry.activity === ACTIVITY_TYPE.IN && timeEntry.start && timeEntry.end)
     }
   },
 

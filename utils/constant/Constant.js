@@ -220,7 +220,7 @@ export const TABLE_HEAD = {
       },
     },
   ],
-  tHeadTimesheet: [
+  tHeadTimesheetTab: [
     {
       key: "",
       label: "#",
@@ -351,6 +351,76 @@ export const TABLE_HEAD = {
         sortKey: 'timesheets[0].status',
         type: 'string'
       },
+    },
+  ],
+  tHeadTimesheet: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "EMPLOYEE",
+      width: `${100 / 5}%`,
+    },
+    {
+      key: "mon",
+      label: "MON",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "tue",
+      label: "TUE",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "wed",
+      label: "WED",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "thu",
+      label: "THU",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "fri",
+      label: "FRI",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-fri-sort',
+        isActive: false,
+        sortKey: 'weekData.5.totalHours',
+        type: 'week'
+      },
+    },
+    {
+      key: "sat",
+      label: "SAT",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "sun",
+      label: "SUN",
+      style:'text-align:center',
+      width: `${100 / 12}%`,
+    },
+    {
+      key: "total",
+      label: "TOTAL HRS",
+      style:'text-align:left'
+    },
+    {
+      key: "status",
+      label: "STATUS",
+      style:'text-align:left',
     },
   ],
   tHeadTimesheetModal:[

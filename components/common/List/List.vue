@@ -52,7 +52,7 @@
             class="info_wrapper"
             style="width: 100%; cursor: pointer"
           >
-            <div class="title" v-tooltip="getEmployeeFullName(data.value)">
+            <div class="title" title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
             <div class="description">

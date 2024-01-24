@@ -161,7 +161,7 @@ export default {
     return {
       modal3Opened: false,
       showTooltip: false,
-      tableFields: TABLE_HEAD.tHeadTimesheet,
+      tableFields: TABLE_HEAD.tHeadTimesheetTab,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,

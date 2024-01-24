@@ -24,6 +24,7 @@
           placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
+          @search-enter="$router.push('/search')"
           :hideSearchBox="$store.state.token.isUser"
           class="app-wrapper--collapsed2"
         >

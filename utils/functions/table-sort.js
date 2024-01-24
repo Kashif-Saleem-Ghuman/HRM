@@ -3,9 +3,10 @@ import { DateTime } from "luxon";
 
 const typeMap = new Map([
   ["date", sortDateColumn],
-  ["phone", sortPhoneColumn], 
+  ["phone", sortPhoneColumn],
   ["string", sortStringColumn],
   ["number", sortNumberColumn],
+  ["week", sortWeekDays]
 ]);
 export function sortColumn({ items, field }) {
   if (field.header_icon.type && typeMap.has(field.header_icon.type)) {
@@ -17,9 +18,10 @@ export function sortColumn({ items, field }) {
     getSortOrder({ field })
   );
 }
-function updateSortIcon({field}){
-  let icon = field.header_icon.isActive == false ? "long-arrow-up" : "long-arrow-down";
-  field.header_icon.icon = icon; 
+function updateSortIcon({ field }) {
+  let icon =
+    field.header_icon.isActive == false ? "long-arrow-up" : "long-arrow-down";
+  field.header_icon.icon = icon;
 }
 function getSortOrder({ field }) {
   updateSortIcon({ field });
@@ -46,7 +48,21 @@ function sortDateColumn({ items, field }) {
     getSortOrder({ field })
   );
 }
-
+function sortWeekDays({ items, field }) {
+  return orderBy(
+    items,
+    [
+      (item) => {
+        const weekData = get(item, field.header_icon.sortKey);
+        if (field.header_icon.isActive) {
+          if (!weekData) return -Infinity;
+        }
+        return weekData;
+      },
+    ],
+    getSortOrder({ field })
+  );
+}
 function sortPhoneColumn({ items, field }) {
   return orderBy(
     items,
@@ -73,4 +89,4 @@ function sortNumberColumn({ items, field }) {
     [(item) => get(item, field.header_icon.sortKey) ?? ""],
     getSortOrder({ field })
   );
-} 
+}

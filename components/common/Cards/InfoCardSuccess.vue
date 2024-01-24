@@ -13,7 +13,7 @@
       <div>
         <div class="label">{{label}}</div>
         <div class="info-card-inner-wrapper_desc">{{managerAction}}</div>
-        <div class="info-card-inner-wrapper_desc">{{refusalReason}}</div>
+        <div class="info-card-inner-wrapper_desc" v-if="refusalReason">Reason: {{refusalReason}}</div>
 
       </div>
     </div>

@@ -332,10 +332,12 @@ export default {
       this.newData.endTime = null;
     },
     async deleteEntry() {
-      const response = await this.deleteTimeEntry(this.newData.id);
-      if (response) {
-        this.$emit("delete-entry", this.newData.id);
-      }
+      this.$emit("delete-entry", this.newData.id);
+
+      // const response = await this.deleteTimeEntry(this.newData.id);
+      // if (response) {
+      //   this.$emit("delete-entry", this.newData.id);
+      // }
     },
 
     timeInputBlur() {

@@ -3,9 +3,15 @@
     <bib-table
     :fields="tableFields"
     class="border-gray4 bg-white"
-    :sections="leaveData"
+    :sections="leaveList"
     :hide-no-column="true"
     :fixHeader=true
+    :key="leaveList?.length && leaveList[0]?.id ? `list-${leaveList[0].id}` : 'empty-list-0'"
+    @leave-type-sort="sortColumn('leavetype')"
+    @leave-start-sort="sortColumn('start')"
+    @leave-end-sort="sortColumn('end')"
+    @leave-duration-sort="sortColumn('duration')"
+    @leave-status-sort="sortColumn('status')"
     >
       <template #cell(leavetype)="data">
         <div
@@ -71,6 +77,8 @@ import {
   getLeaveTypeIconVariant,
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
+import { sortColumn } from "../../../../utils/functions/table-sort";
+
 import {
   TABLE_HEAD,
 } from "@/utils/constant/Constant";
@@ -87,7 +95,15 @@ export default {
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
+      sortByField: null,
     };
+  },
+  computed:{
+    leaveList() {
+      if (!this.sortByField) return this.leaveData;
+
+      return sortColumn({ items: this.leaveData, field: this.sortByField });
+    },
   },
   methods: {
     getLeaveStatusIcon,
@@ -101,7 +117,14 @@ export default {
       this.$nuxt.$emit('open-sidebar', item)
       this.$nuxt.$emit('close-sidebar-main')
     },
-
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false;
+      }
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
+    },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

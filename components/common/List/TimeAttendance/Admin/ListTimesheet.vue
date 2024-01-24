@@ -6,6 +6,15 @@
       :sections="timesheetList"
       :hide-no-column="true"
       @employee-name-sort="sortColumn('name')"
+      @employee-mon-sort="sortColumn('mon')"
+      @employee-tue-sort="sortColumn('tue')"
+      @employee-wed-sort="sortColumn('wed')"
+      @employee-thu-sort="sortColumn('thu')"
+      @employee-fri-sort="sortColumn('fri')"
+      @employee-sat-sort="sortColumn('sat')"
+      @employee-sun-sort="sortColumn('sun')"
+      @employee-total-hours-sort="sortColumn('total')"
+      @employee-status-sort="sortColumn('status')"
       :fixHeader="true"
     >
       <template #cell(name)="data">

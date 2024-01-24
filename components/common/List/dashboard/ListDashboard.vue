@@ -54,7 +54,7 @@
           style="width: 100%;"
         
         >
-          <div class="title" :title="getEmployeeFullName(data.value)">
+          <div class="title" v-tooltip="getEmployeeFullName(data.value)">
             {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
           </div>
           <div class="description">

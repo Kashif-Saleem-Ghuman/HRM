@@ -84,7 +84,7 @@ export default {
     },
     
     formatDate(isoDate) {
-      return DateTime.fromFormat(isoDate, DATETIME_FORMAT).toFormat('EEEE, d-LLLL-yyyy');
+      return DateTime.fromFormat(isoDate, DATETIME_FORMAT).toFormat('EEEE, d-LLL-yyyy');
     },
     onDateChange(value) {
       this.date = value === '' ? this.todayDate : value

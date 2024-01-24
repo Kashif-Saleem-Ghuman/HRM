@@ -32,17 +32,18 @@
     <div class="footer-items" v-else style="border-bottom: 0px !important">
       <div class="footer-item-left" v-if="status == 'rejected'">
         <div
-          class="refusal-wrapper"
+          class="refusal-wrapper info-card-success-wrapper"
+          style="margin-top: -16px"
           v-if="refusalReasonData.refusalReason != null"
         >
-          <div class="d-flex align-center">
+          <div class="d-flex align-center info-card-inner-wrapper">
             <div
               class="shape-circle bg-danger width-2 height-2 d-flex justify-center align-center"
             >
               <bib-icon icon="tick" variant="white" :scale="1"></bib-icon>
             </div>
             <div class="content">
-              <label> Rejected:</label>
+              <label> Rejected</label>
               <div>
                 {{
                   `Request Rejected on ${onLoad(
@@ -60,7 +61,7 @@
           :class="refusalReasonData.refusalReason != null ? 'text-danger' : ''"
           v-else
         >
-          >{{ getSubmitText() }}
+          {{ getSubmitText() }}
         </div>
       </div>
       <div class="footer-item-left" v-else>{{ getSubmitText() }}</div>

@@ -456,29 +456,6 @@ export default {
     }
   }
 }
-.table__hrow th:first-child {
-  border-left: none !important;
-  padding-left: 1.1rem !important;
-}
-.table__hrow th:last-child {
-  border-right: none !important;
-}
-.table__irow td {
-  color: #000 !important;
-  border-right: none !important;
-}
-.table__irow td:first-child {
-  padding-left: 0.9rem !important;
-  border-left: none !important;
-}
-.table__hrow-fixed {
-  position: sticky;
-  top: -1px !important;
-  z-index: 4;
-  left: 0;
-}
-.table__hrow__active {
-  border: none !important;
-}
+
 }
 </style>

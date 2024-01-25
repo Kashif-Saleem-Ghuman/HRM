@@ -159,7 +159,7 @@ export async function getUserTimesheetWidget() {
 
     return widget?.data
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
 }
 

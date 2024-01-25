@@ -1,5 +1,7 @@
 <template>
-  <form-with-validations
+  <div>
+    <loader :loading="loading"></loader>
+    <form-with-validations
     :fields="fields"
     :form="form"
     :is-create-form="!form?.id"
@@ -316,8 +318,9 @@
       </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <loader :loading="loading"></loader>
   </form-with-validations>
+  </div>
+  
 </template>
 
 <script>
@@ -400,12 +403,13 @@ export default {
     meetLink,
     makeCall,
     async fetchEmployee() {
+      this.loading = true
       const id = this.$route.params.id ?? this.getUser?.id;
-
       if (id) {
         this.id = id;
         const employee = await getEmployee({ id });
         this.form = employee;
+        this.loading = false
       }
     },
     removeImage(photo) {

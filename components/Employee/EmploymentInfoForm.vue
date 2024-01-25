@@ -1,5 +1,7 @@
 <template>
-  <form-with-validations
+  <div>
+    <loader :loading="loading"></loader>
+    <form-with-validations
     :fields="fields"
     :form="form"
     :is-create-form="!form?.id"
@@ -167,6 +169,7 @@
       <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
   </form-with-validations>
+  </div>
 </template>
 <script>
 import employmentInfo from "@/components/Employee/forms/employment-info-fields";
@@ -213,6 +216,7 @@ export default {
       errors: {},
       popupMessages: [],
       dateFormat:'',
+      loading: false,
     };
   },
   methods: {
@@ -227,12 +231,14 @@ export default {
     },
 
     async fetchEmployee() {
+      this.loading= true;
       const id = this.$route.params.id ?? this.getUser?.id
 
       if (id) {
         this.id = id
         const employee = await getEmployee({ id })
         this.form = employee
+        this.loading= false;
       }
     },
 

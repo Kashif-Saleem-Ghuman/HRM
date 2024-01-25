@@ -1,5 +1,6 @@
 <template>
   <div class="my-profile-wrapper">
+    <loader :loading="loading"></loader>
     <div
       class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
     >
@@ -30,7 +31,6 @@
         <NuxtChild />
       </div>
     </div>
-    <!-- <loader v-bind:showloader="loading"></loader> -->
   </div>
 </template>
 <script>
@@ -50,6 +50,7 @@ export default {
       id: "",
       topNav: 0,
       name: {},
+      loading:true,
     };
   },
   computed: {
@@ -59,18 +60,22 @@ export default {
     }),
   },
   async created() {
+    this.loading = true
     await this.$store.dispatch("employee/setActiveUser");
     await this.$store.dispatch("employee/setUser", this.getUser.id);
     this.id = this.$route.params.id ?? this.getUser.id;
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     await this.$store.dispatch("employee/setUser", this.id).then((result) => {
       this.form = result;
+      this.loading = false
     });
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
+      this.loading = true
       this.$store.dispatch("employee/setUser", this.id).then((result) => {
         this.form = result;
         this.topNav += 1;
+        this.loading = false
       });
       return;
     });
@@ -108,17 +113,17 @@ export default {
 <style lang="scss">
 @media (max-width: 1900px) {
   .scroll-wrapper {
-    height: 72vh !important;
+    height: 80vh !important;
   }
 }
 @media (min-width: 1900px) {
   .scroll-wrapper {
-    height: 78vh !important;
+    height: 76vh !important;
   }
 }
-@media (min-width: 3000px) {
+@media (min-width: 2500px) {
   .scroll-wrapper {
-    height: 100vh !important;
+    height: 85vh !important;
   }
 }
 .scroll-wrapper {

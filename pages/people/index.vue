@@ -17,7 +17,6 @@ import { PEOPLE_TAB } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
 import {
   vfileAdded,
-  updateAllData,
   handleInput,
   handleInputObject,
 } from "../../utils/functions/functions_lib.js";
@@ -66,7 +65,6 @@ export default {
     vfileAdded,
     handleInput,
     handleInputObject,
-    updateAllData,
     async getOrganizationEntries() {
       this.loading = true;
       const data = await getEmployees();

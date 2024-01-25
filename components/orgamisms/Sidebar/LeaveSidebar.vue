@@ -52,7 +52,7 @@
         </div>
       </template>
     </action-sidebar>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
+    <bib-notification :popupMessages="popupMessages" style="z-index: 999999999;"></bib-notification>
     <confirmation-modal
       :title="deleteModalContent.title"
       :confirmationMessage="deleteModalContent.message"

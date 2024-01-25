@@ -396,11 +396,6 @@ export default {
     font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
-
-    &-count {
-      width: 60px;
-    }
-
     td {
       border: 1px solid $light;
 
@@ -444,13 +439,6 @@ export default {
     }
   }
 }
-.table__hrow-fixed {
-  position: sticky; // first row
-  top: 50px;
-  z-index: 4;
-  left: 0;
-}
-
 .resizableTable {
   th,
   td {

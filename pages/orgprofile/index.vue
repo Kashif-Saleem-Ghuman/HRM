@@ -1,5 +1,7 @@
 <template>
-  <form-with-validations
+  <div>
+    <loader :loading="loading"></loader>
+    <form-with-validations
     :fields="fields"
     :form="org"
     :is-create-form="!org?.id"
@@ -12,7 +14,7 @@
           title="Organization Profile"
         ></section-header-left>
       </div>
-      <div>
+      <div class="scroll-wrapper" style="min-height: 770px;">
         <div class="px-1">
           <div id="info-wrapper">
             <div class="py-cus px-05">
@@ -26,7 +28,7 @@
                 </div>
               </div>
             </div>
-            <div class="main-wrapper custom-input">
+            <div class="custom-input">
               <div class="row mx-0">
                 <div class="col-6 row-custom">
                   <div>
@@ -69,7 +71,7 @@
                 ></tabs-title>
               </div>
             </div>
-            <div class="main-wrapper custom-input pt-1">
+            <div class="custom-input pt-1">
               <div class="row mx-0">
                 <div class="col-6 row-custom">
                   <div>
@@ -110,7 +112,7 @@
                 ></tabs-title>
               </div>
             </div>
-            <div class="main-wrapper custom-input pt-1">
+            <div class="custom-input pt-1">
               <div class="row mx-0">
                 <div class="col-6 row-custom">
                   <div>
@@ -185,9 +187,9 @@
         </div>
       </div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
-      <loader :loading="loading"></loader>
     </div>
   </form-with-validations>
+  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -232,11 +234,13 @@ export default {
     openPopupNotification,
 
     async fetchOrganization() {
+      this.loading = true;
       const organizationId = this.organizationId;
       if (!organizationId) return;
 
       const organization = await getOrganization({ id: organizationId });
       this.org = organization;
+      this.loading = false;
     },
 
     async submitToApi(form) {

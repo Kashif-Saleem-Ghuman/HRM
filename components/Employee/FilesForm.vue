@@ -1,4 +1,6 @@
 <template>
+ <div>
+  <loader :loading="loading"></loader>
   <div class="px-1 py-1 of-scroll-y" v-show="getUser.id">
     <div class="py-cus custom-dropzone" :key="fileList">
       <bib-input
@@ -67,6 +69,7 @@
       @delete="deleteFile($event)"
     ></confirmation-modal>
   </div>
+ </div>
 </template>
 
 <script>
@@ -92,6 +95,7 @@ export default {
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       fileName: "",
+      loading:true,
     };
   },
   computed: {
@@ -118,9 +122,11 @@ export default {
       this.confirmastionMessageModal = false;
     },
     async fetchFiles() {
+      this.loading = true;
       this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.filesUploaded.reverse();
+        this.loading = false;
       });
     },
     handleFileClick(file) {

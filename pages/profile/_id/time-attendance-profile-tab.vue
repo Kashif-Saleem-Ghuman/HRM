@@ -1,5 +1,6 @@
 <template>
   <div id="time-attendance-wrapper">
+    <loader :loading="loading"></loader>
     <div class="scroll_wrapper" id="scroll_wrapper">
       <div class="px-1">
         <div class="d-flex align-center">
@@ -47,7 +48,6 @@
               </button-with-overlay>
             </div>
           </div>
-          <bib-spinner v-if="loading" :scale="3"></bib-spinner>
         </div>
       </div>
       <div>
@@ -175,9 +175,6 @@ export default {
         this.buttonTitle = "Reject";
         this.buttonIcon = "output";
       }
-      if (e == "year") {
-        alert("No list Found");
-      }
     },
     clickOutside() {
       this.show = false;
@@ -201,9 +198,8 @@ export default {
       this.clockModal = false;
     },
     async fillDailyTimeEntries() {
-      if (!this.todayDate) return;
-      
       this.loading = true;
+      if (!this.todayDate) return;
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
         date: new Date(this.todayDate).toISOString(),
         employeeId: this.id,

@@ -57,6 +57,13 @@ export const TABLE_HEAD = {
       key: "breaks",
       label: "Breaks",
       width: `${100 / 7}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-breaks-sort',
+        isActive: false,
+        sortKey: 'activityReport.break',
+        type: 'string'
+      },
     },
     {
       key: "total",
@@ -168,7 +175,7 @@ export const TABLE_HEAD = {
         icon: 'long-arrow-up',
         event: 'leave-type-sort',
         isActive: false,
-        sortKey: 'leavetype',
+        sortKey: 'type',
         type: 'string'
       },
     },
@@ -206,8 +213,6 @@ export const TABLE_HEAD = {
         type: 'number'
       },
     },
-
-    
     {
       key: "status",
       label: "Status",
@@ -241,7 +246,7 @@ export const TABLE_HEAD = {
       key: "mon",
       label: "MON",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-mon-sort',
@@ -254,7 +259,7 @@ export const TABLE_HEAD = {
       key: "tue",
       label: "TUE",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-tue-sort',
@@ -267,7 +272,7 @@ export const TABLE_HEAD = {
       key: "wed",
       label: "WED",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-wed-sort',
@@ -280,7 +285,7 @@ export const TABLE_HEAD = {
       key: "thu",
       label: "THU",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-thu-sort',
@@ -293,7 +298,7 @@ export const TABLE_HEAD = {
       key: "fri",
       label: "FRI",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-fri-sort',
@@ -306,7 +311,7 @@ export const TABLE_HEAD = {
       key: "sat",
       label: "SAT",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-sat-sort',
@@ -319,7 +324,7 @@ export const TABLE_HEAD = {
       key: "sun",
       label: "SUN",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-sun-sort',
@@ -392,13 +397,6 @@ export const TABLE_HEAD = {
       label: "FRI",
       style:'text-align:center',
       width: `${100 / 12}%`,
-      header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-fri-sort',
-        isActive: false,
-        sortKey: 'weekData.5.totalHours',
-        type: 'week'
-      },
     },
     {
       key: "sat",

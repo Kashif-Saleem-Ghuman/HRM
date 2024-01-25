@@ -394,12 +394,6 @@ export default {
     }
   }
 }
-.table__hrow-fixed {
-  position: sticky; // first row
-  top: 50px;
-  z-index: 4;
-  left: 0;
-}
 
 .resizableTable {
   th,

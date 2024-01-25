@@ -20,7 +20,7 @@ export async function addFiles(payload, files) {
       }
     );
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 export async function getFiles(payload) {
@@ -55,6 +55,6 @@ export async function deleteFiles(payload) {
     );
     return files.data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }

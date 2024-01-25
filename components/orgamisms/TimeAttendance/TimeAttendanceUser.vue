@@ -1,5 +1,6 @@
 <template>
   <div id="time-attendance-wrapper">
+    <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
       <div
         class="d-flex justify-between align-center bottom_border_wrapper"
@@ -74,11 +75,9 @@
               </div>
             </div>
           </div>
-          <bib-spinner v-if="loading" :scale="3"></bib-spinner>
         </div>
         <div>
           <template>
-            
             <list-day
               :listToday="getDailyTimeEntries"
               v-if="todayListView"
@@ -226,6 +225,7 @@ export default {
     },
   },
   async created() {
+    this.loading = true
     this.setView()
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
@@ -233,6 +233,7 @@ export default {
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
     this.getTimesheetWidget()
+    this.loading = false
   },
   methods: {
     weekToUTCWeek,
@@ -301,15 +302,12 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      
-      this.loading = true;
-      await this.$store.dispatch(
+            await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
       );
 
       this.parseTimeEntries()
-      this.loading = false;
     },
 
     parseTimeEntries() {
@@ -333,8 +331,10 @@ export default {
       this.loading = false;
     },
     async dateSelection(event){
+      this.loading = true;
       if (!event) return 
-      await this.fillDailyTimeEntries();      
+      await this.fillDailyTimeEntries(); 
+      this.loading = false;     
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();

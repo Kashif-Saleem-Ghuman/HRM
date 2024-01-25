@@ -17,7 +17,7 @@ export async function getLeaveVacationsAdmin() {
     );
     this.calendarOptions.events = leaveVacations.data.requests;
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
 }
 
@@ -36,7 +36,8 @@ export async function getPendingLeaveVacationsAdmin() {
     this.loading = false;
     this.$nuxt.$emit('pending-key')
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
+    this.loading = false;
   }
   // this.loading = false;
 }
@@ -63,7 +64,7 @@ export async function getApproveLeaveVacationsAdmin() {
     this.openPopupNotification(2);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
   this.loading = false;
 }
@@ -86,7 +87,7 @@ export async function getRejectLeaveVacationsAdmin() {
     this.addIds=[];
     this.openPopupNotification(3);
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
   this.loading = false;
 }
@@ -105,7 +106,7 @@ export async function getUserLeavesDetail(id) {
     this.is_data_fetched = true
     return result.data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
-  this.loading = false;
+  this.openPopupNotification({text:e.response.data.message, variant:'danger'})
 }

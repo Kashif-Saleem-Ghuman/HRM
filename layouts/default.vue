@@ -110,7 +110,7 @@
             </template>
           </action-sidebar>
         </div>
-        <bib-notification :popupMessages="popupMessages"></bib-notification>
+        <bib-notification :popupMessages="popupMessages" style="z-index: 9999999999999;"></bib-notification>
 
         <div>
           <bib-clock-wrapper
@@ -133,7 +133,6 @@ import { debounce } from "lodash";
 
 import {
   addLeaveVacations,
-  getAllowanceDays,
 } from "../utils/functions/functions_lib_api";
 import {
   addHandleInput,
@@ -296,9 +295,6 @@ export default {
     this.$root.$on("clock-in", () => {
       this.clockModal = true;
     });
-    this.$root.$on("notification", () => {
-      alert("callled")
-    });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey += 1;
       this.errorMsgEndDate = false;
@@ -367,7 +363,6 @@ export default {
     },
     isThemeCheck,
     handleToggleWrapperTheme,
-    getAllowanceDays,
     addLeaveVacations,
     addHandleInput,
     openAccountPage,

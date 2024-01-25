@@ -99,6 +99,7 @@
       :timesheetModal="timesheetModal"
       :items="filteredData"
     ></time-sheet-modal>
+    <bib-notification :popupMessages="popupMessages" style="z-index: 9999999999999;"></bib-notification>
   </div>
 </template>
 
@@ -115,6 +116,9 @@ import {
 import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
+import {
+  openPopupNotification,
+} from "@/utils/functions/functions_lib.js";
 
 export default {
   props: {
@@ -156,6 +160,7 @@ export default {
       timesheetModal: false,
       localData: TIMESHEET_DATA,
       filteredData: [],
+      popupMessages: [],
       submitTimesheet,
       TIMESHEET_STATUS,
       WEEK_DAY,
@@ -192,6 +197,7 @@ export default {
   },
   methods: {
     formatTime,
+    openPopupNotification,
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
       return WEEK_DAY[

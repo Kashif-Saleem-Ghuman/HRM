@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-          <bib-spinner v-if="loading" :scale="3"></bib-spinner>
+          <bib-spinner v-if="loading" :scale="3" variant="primary-24"></bib-spinner>
         </div>
         <div>
           <template>

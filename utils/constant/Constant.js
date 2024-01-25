@@ -246,7 +246,7 @@ export const TABLE_HEAD = {
       key: "mon",
       label: "MON",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-mon-sort',
@@ -259,7 +259,7 @@ export const TABLE_HEAD = {
       key: "tue",
       label: "TUE",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-tue-sort',
@@ -272,7 +272,7 @@ export const TABLE_HEAD = {
       key: "wed",
       label: "WED",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-wed-sort',
@@ -285,7 +285,7 @@ export const TABLE_HEAD = {
       key: "thu",
       label: "THU",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-thu-sort',
@@ -298,7 +298,7 @@ export const TABLE_HEAD = {
       key: "fri",
       label: "FRI",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-fri-sort',
@@ -311,7 +311,7 @@ export const TABLE_HEAD = {
       key: "sat",
       label: "SAT",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-sat-sort',
@@ -324,7 +324,7 @@ export const TABLE_HEAD = {
       key: "sun",
       label: "SUN",
       style:'text-align:center',
-      width: `${100 / 12}%`,
+      width: `${100 / 13}%`,
       header_icon: {
         icon: 'long-arrow-up',
         event: 'employee-sun-sort',

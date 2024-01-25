@@ -3,7 +3,7 @@
     :fields="tableFields"
     :sections="leavePendingList"
     :hide-no-column="true"
-    @input="$emit('selectAllItems')"
+    @select-all="$emit('selectAllItems')"
     :allChecked="checkedAll"
     @employee-name-sort="sortColumn('name')"
   >
@@ -12,8 +12,8 @@
         <bib-checkbox
           size="md"
           :key="data.value.id"
-          @change="$emit('input', {id:data.value.id, key:data.value.id})"
-          :checked="checked"
+          @change="$emit('item-checked', { id:data.value.id, key:data.value.id })"
+          :checked="data.value.checked"
         ></bib-checkbox>
       </div>
     </template>

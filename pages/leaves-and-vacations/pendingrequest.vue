@@ -5,8 +5,8 @@
 
     <div class="" id="pending_request_wrapper">
       <div
+        v-show="showBatchApproveButton"
         class="d-flex justify-between align-center nav_wrapper px-1 py-05 bottom_border_wrapper"
-        v-show="addIds.length > 1 ? true : false"
       >
         <div class="d-flex align-center">
           <bib-button
@@ -31,6 +31,7 @@
             :checkedAll="checkedAll"
             @reject-item="enableRefusalModal"
             @approve-item="approveItem($event)"
+            @item-checked="handleItemChecked"
           ></list-pending>
         </div>
 
@@ -82,6 +83,9 @@ export default {
     };
   },
   computed: {
+    showBatchApproveButton() {
+      return !this.loading && this.requestListData?.length && this.requestListData?.some((item) => item.checked);
+    },
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
@@ -155,25 +159,32 @@ export default {
         console.log(this.addIds, "item");
       }
     },
-    selectAllItems() {
-      this.addIds = [];
-      if (this.checkedAll === true) {
-        this.addIds = [];
-        this.checked = false;
-        this.checkedAll = false;
-      } else {
-        this.requestListData.map((item, index) => {
-          this.addIds.push(item.id + "");
-          console.log(this.addIds, "item");
-          this.checkedAll = true;
-          this.checked = true;
-        });
+    selectAllItems() {  
+      this.checkedAll = !this.checkedAll;
+
+      this.requestListData.forEach((item, index) => {
+        this.$set(this.requestListData[index], 'checked', this.checkedAll);
+      });
+    },
+    handleItemChecked({ id }) {
+      const requestIndex = this.requestListData.findIndex((item) => item.id === id);
+
+      if (requestIndex === -1) {
+        console.error(`Request with id ${id} not found`);
+        return;
       }
+
+      const request = this.requestListData[requestIndex];
+      this.$set(request, 'checked', !request.checked)
+
+      this.checkedAll = this.requestListData.every((item) => item.checked)
     },
     async pendingApproveRequest(event) {
       if (event == "approve") {
-        await this.getApproveLeaveVacationsAdmin();
+        const requestIds = this.requestListData.filter((item) => item.checked).map((item) => item.id);
+        await this.getApproveLeaveVacationsAdmin({ requestIds });
         await this.getPendingLeaveVacationsAdmin();
+        this.checkedAll = false;
       } else if (event == "reject") {
         this.getPendingLeaveVacationsAdmin();
       }

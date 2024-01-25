@@ -88,7 +88,6 @@ export default {
   async created() {
     this.id = this.getUser.id;
     await this.$store.dispatch("employee/setActiveUser");
-    // await this.$store.dispatch("employee/setUser", this.getUser.id);
     var users = this.getUser;
     this.form = users;
   },

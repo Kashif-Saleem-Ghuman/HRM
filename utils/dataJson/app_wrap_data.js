@@ -55,7 +55,7 @@ const data = () => {
         href: process.env.BIB_PROJECT_APP_URL,
       },
       {
-        img: "BibIconPartners",
+        img: "partners",
         color: "primary",
         text: "HRM",
         href: process.env.HRM_APP_URL,

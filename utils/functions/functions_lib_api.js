@@ -33,10 +33,6 @@ import {
   } from "./api_call/leavesvacations/requestadmin";
   import {
     addLeaveVacations,
-    getAllowancVacationeDays,
-    getAllowancMedicalDays,
-    getAllowanceLeaveDays,
-    getAllowanceDays,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
   } from "./api_call/leavesvacations/requestuser";
@@ -53,10 +49,6 @@ import {
 
     // leave vacations user functions
     addLeaveVacations,
-    getAllowanceDays,
-    getAllowancVacationeDays,
-    getAllowancMedicalDays,
-    getAllowanceLeaveDays,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
 

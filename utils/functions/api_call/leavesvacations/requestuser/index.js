@@ -85,100 +85,7 @@ export async function addLeaveVacations() {
         });
     }
   } catch (e) {
-    alert(e.response.data.message);
-  }
-  this.loading = false;
-}
-export async function getAllowanceDays(leaveType) {
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        params: {
-          type: leaveType, // This is the body part
-        },
-      }
-    );
-    return allowanceDays.data;
-  } catch (e) {
-    alert(e);
-  }
-}
-export async function getAllowancVacationeDays() {
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        params: {
-          type: "vacation", // This is the body part
-        },
-      }
-    );
-    this.allowanceVacationData = allowanceDays.data;
-  } catch (e) {
-    alert(e);
-  }
-  this.loading = false;
-}
-export async function getAllowancMedicalDays() {
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        params: {
-          type: "medical", // This is the body part
-        },
-      }
-    );
-    this.allowanceMedicalData = allowanceDays.data;
-  } catch (e) {
-    alert(e);
-  }
-}
-export async function getAllowanceLeaveDays() {
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        params: {
-          type: "leave", // This is the body part
-        },
-      }
-    );
-    this.allowanceLeaveData = allowanceDays.data;
-  } catch (e) {
-    alert(e);
-  }
-  this.loading = false;
-}
-export async function getAllowancOtherDays() {
-  try {
-    const allowanceDays = await axios.get(
-      process.env.API_URL + "/requests/allowance-days",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        params: {
-          type: "vacation", // This is the body part
-        },
-      }
-    );
-    this.allowanceOtherData = allowanceDays.data;
-  } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
   this.loading = false;
 }
@@ -201,7 +108,7 @@ export async function deleteLevaeVacation(value) {
     this.openPopupNotification(9);
     return leaveDelete;
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
   this.loading = false;
 }
@@ -219,6 +126,7 @@ export async function getUserLeavesDetailUser(payload) {
     this.loading = false;
     return result.data;
   } catch (e) {
-    alert(e);
+    this.loading = false;
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
 }

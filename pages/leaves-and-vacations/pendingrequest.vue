@@ -171,11 +171,6 @@ export default {
       }
     },
     async pendingApproveRequest(event) {
-      if (this.addIds == "") {
-        alert("Please Select Leave Request");
-        this.disabled = true;
-        return;
-      }
       if (event == "approve") {
         await this.getApproveLeaveVacationsAdmin();
         await this.getPendingLeaveVacationsAdmin();

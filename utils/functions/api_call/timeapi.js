@@ -9,7 +9,7 @@ export async function employeeTime(payload) {
       this.time = employeeTime.data
       console.log(employeeTime, "employeeTime")
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
   }
   

@@ -20,7 +20,7 @@ export async function getUser() {
     this.userPhoto = avtar.data.Photo;
     localStorage.setItem("businessId", avtar.data.BusinessId);
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 export async function getBusinessId() {
@@ -39,7 +39,7 @@ export async function getBusinessId() {
     this.org = businessid.data;
     this.loading = false;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -60,7 +60,7 @@ export async function updateBusinessId() {
     this.org = businessid.data;
     this.loading = false;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 

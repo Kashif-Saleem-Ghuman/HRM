@@ -140,7 +140,7 @@ export async function getAdminCelebrationWidget() {
     );
       return timesheetData.data
   } catch (e) {
-    alert(e);
+    console.error(e);
   }
 }
 

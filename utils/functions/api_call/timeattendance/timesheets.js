@@ -7,7 +7,7 @@ import axios from "axios";
 export async function submitTimesheet(id) {
   try {
     const response = await axios.put(
-      `${process.env.API_URL}/timesheets/${id}/submit`,
+      `${process.env.API_URL}/timesheets/${id}/submittt`,
       {},
       {
         headers: {
@@ -17,6 +17,6 @@ export async function submitTimesheet(id) {
     );
     return response.data;
   } catch (e) {
-    alert(e);
+    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
 }

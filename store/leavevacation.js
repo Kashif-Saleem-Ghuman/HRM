@@ -56,7 +56,7 @@ export const  actions = {
       ctx.commit("SET_LEAVEVACATION_LIST", leaveVacations.data.requests);
       return leaveVacations.data.requests
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
   },
   async setLeaveVacationsUser(ctx, payload) {

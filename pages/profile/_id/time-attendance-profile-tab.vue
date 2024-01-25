@@ -175,9 +175,6 @@ export default {
         this.buttonTitle = "Reject";
         this.buttonIcon = "output";
       }
-      if (e == "year") {
-        alert("No list Found");
-      }
     },
     clickOutside() {
       this.show = false;

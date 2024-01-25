@@ -1,6 +1,7 @@
 const mutations = {
-  SET_SEARCH_RESULTS(state, results) {
+  SET_SEARCH_RESULTS(state, { results, search }) {
     state.searchResults = results;
+    state.search = search;
   },
 };
 

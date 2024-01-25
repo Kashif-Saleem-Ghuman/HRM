@@ -2,7 +2,6 @@
   <div class="remove-pad">
     <bib-table
       :fields="tableFields"
-      class="bg-white"
       :sections="timesheetList"
       :hide-no-column="true"
       @employee-name-sort="sortColumn('name')"

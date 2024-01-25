@@ -24,7 +24,6 @@ import {
 } from "../functions/common_functions.js";
 import {
   vfileAdded,
-  updateAllData,
   handleInput,
   addHandleInput,
   editHandleInput,
@@ -51,7 +50,6 @@ export {
   isThemeCheck,
   openBillingPage,
   vfileAdded,
-  updateAllData,
   handleInput,
   handleInputObject,
   getCurrentDateMonth,

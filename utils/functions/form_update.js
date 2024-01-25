@@ -33,43 +33,6 @@ export async function vfileAdded(file, name, event) {
     });
   this.loading = false;
 }
-export async function updateAllData() {
-  if (this.isFlag == false) {
-    alert("No data to Update");
-    return true;
-  }
-  this.loading = true;
-  var data = JSON.stringify(this.updateForm);
-  await this.$axios
-    .$put(`${process.env.API_URL}/employees/${this.id}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => {
-      console.log(
-        res.maritalStatus,
-        this.updateForm,
-        "http://dev-hrm.business-in-a-box.com/"
-      );
-
-      // this.$store.dispatch("token/setActiveUserData" ,  res )
-      this.name = res;
-      this.form = res;
-      this.loading = false;
-      this.isFlag = false;
-      this.openPopupNotification(1);
-
-      this.$nuxt.$emit("top-nav-key");
-
-      this.updateForm = {};
-    })
-    .catch((err) => {
-      console.log("There was an issue in employees API", err);
-    });
-  this.loading = false;
-}
 export function handleInput(event, name, addresses) {
   let add = {};
   this.isFlag = true;

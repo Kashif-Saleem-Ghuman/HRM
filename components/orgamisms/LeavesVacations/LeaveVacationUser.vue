@@ -161,8 +161,12 @@ export default {
           }
         });
       this.getUserLeavesDetailUser().then((result) => {
-        this.allowanceLeavesDetailedData = result;
+        if(result){
+          this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
+        }else{
+          this.openPopupNotification(this.$error.common_message)
+        }
       });
     });
   },
@@ -174,8 +178,12 @@ export default {
       from: this.getformToDate.from,
       to: this.getformToDate.to,
     }).then((result) => {
-      this.allowanceLeavesDetailedData = result;
-      this.is_data_fetched = true;
+      if(result){
+          this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+        }else{
+          this.openPopupNotification(this.$error.common_message)
+        }
     });
     this.activeUserData = this.getActiveUser;
     this.selectedMonth = this.currentMonth;

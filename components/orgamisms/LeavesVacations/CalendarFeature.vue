@@ -142,7 +142,6 @@ import {
 } from "@/utils/functions/status-helpers";
 import {
   addLeaveVacations,
-  getAllowanceDays,
   getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
 import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
@@ -267,7 +266,6 @@ export default {
   },
   methods: {
     addHandleInput,
-    getAllowanceDays,
     addLeaveVacations,
     getCurrentYear,
     getUserLeavesDetail,

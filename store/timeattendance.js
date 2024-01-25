@@ -115,7 +115,7 @@ export const actions = {
       ctx.commit("SET_TIMER_DATA", leaveVacations.data);
       return leaveVacations.data;
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
     this.loading = false;
   },
@@ -159,7 +159,7 @@ export const actions = {
 
       ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
   },
 

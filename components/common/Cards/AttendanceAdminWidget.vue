@@ -1,35 +1,45 @@
 <script>
-import { getAdminAttendanceWidget } from '../../../utils/functions/api_call/widgets';
-import BaseWidget from './BaseWidget.vue';
+import BaseWidget from "./BaseWidget.vue";
+
 export default {
   extends: BaseWidget,
+  props: {
+    employees: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
     async fetchData() {
-      const data = await getAdminAttendanceWidget().then((result) =>{
-        this.setData(result)
-      this.setSubData(result)
-      })
-      
+      const presentEmployees = this.employees?.filter((employee) =>
+        employee.isPresent()
+      );
+      this.setData(presentEmployees);
+      this.setSubData(presentEmployees);
     },
-    setData(data) {
-      const { attendances } = data
-      const title = "Attendance"
-      const subheading = 'Present'
-      const value = attendances || 0
+    setData(data = []) {
+      const title = "Attendance";
+      const subheading = "Present";
+      const value = data.length || 0;
       this.data = {
         title,
         subheading,
-        value
-      }
+        value,
+      };
     },
-    setSubData(data) {
-      const { absences } = data
+    setSubData(data = []) {
       this.subData = [
-        { title: "Absent", value: absences || 0 }
-      ]
+        { title: "Absent", value: this.employees.length - data.length || 0 },
+      ];
     },
-  }
-}
+  },
+
+  watch: {
+    employees() {
+      this.fetchData();
+    },
+  },
+};
 </script>
 
 <style></style>

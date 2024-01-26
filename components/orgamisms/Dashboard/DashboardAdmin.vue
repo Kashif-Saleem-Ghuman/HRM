@@ -11,7 +11,7 @@
           <div class="container pt-1 pb-1 pl-1 pr-1">
             <div class="row">
               <div class="col-4">
-                <attendance-admin-widget></attendance-admin-widget>
+                <attendance-admin-widget :employees="employees"></attendance-admin-widget>
               </div>
               <div class="col-4">
                 <timesheets-admin-widget></timesheets-admin-widget>
@@ -78,8 +78,7 @@ export default {
   methods: {
     async getOrganizationEntries() {
       const date = this.getCurrentDate;
-      const data = await getTimeAttendance({ date });
-      const employees = data.employees;
+      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
 
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);

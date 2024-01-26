@@ -3,6 +3,8 @@ import { DateTime } from "luxon";
 import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance/timer";
 import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { Employee } from "../components/common/models/employee";
+import { cloneDeep } from "lodash";
 
 export const state = () => ({
   timer: {
@@ -68,8 +70,10 @@ export const actions = {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");
       });
-      commit("SET_EMPLOYEE_ATTENDANCE", employees)
-      return employees
+
+      const parsedEmployees = employees.map((employee) => ( new Employee(employee) ));
+      commit("SET_EMPLOYEE_ATTENDANCE", parsedEmployees);
+      return cloneDeep(parsedEmployees)
     } catch (e) {
       if (e.response.status === 500) {
         return window.open('/not-found',"_self")

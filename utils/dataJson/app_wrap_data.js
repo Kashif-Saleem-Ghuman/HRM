@@ -55,10 +55,11 @@ const data = () => {
         href: process.env.BIB_PROJECT_APP_URL,
       },
       {
-        img: "HRM",
+        img: "partners",
         color: "primary",
         text: "HRM",
-        href: process.env.HRM_APP_URL,
+        href: "",
+        active: true, 
       },
     ],
     navItemsUser: [

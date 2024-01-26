@@ -15,7 +15,7 @@
             <div class="d-flex justify-center align-center">
               <bib-checkbox
                 size="md"
-                @change="$emit('input', $event)"
+                @change="$emit('select-all', $event)"
                 :checked="allChecked"
                 style="margin: 0; padding: 0px"
               ></bib-checkbox>

@@ -42,14 +42,13 @@ export async function getPendingLeaveVacationsAdmin() {
   // this.loading = false;
 }
 
-export async function getApproveLeaveVacationsAdmin() {
-  // var id = JSON.stringify(this.addIds);
+export async function getApproveLeaveVacationsAdmin({ requestIds }) {
   this.loading = true;
   try {
     const approveLeaveVacationsAdmin = await axios.put(
       process.env.API_URL + "/requests/admin/approve",
       {
-        requestIds: this.addIds,
+        requestIds
       },
       {
         headers: {
@@ -59,8 +58,6 @@ export async function getApproveLeaveVacationsAdmin() {
       }
     );
     this.$nuxt.$emit("pending-key");
-    this.addIds=[];
-    this.checked = false;
     this.openPopupNotification(2);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {

@@ -9,11 +9,7 @@ export function Employee(employee) {
   };
 
   this.isPresent = () => {
-    const present = this.hasActiveTimer() || this.hasInEntry();
-    if (present) {
-      console.log("is present!", this);
-    }
-    return present;
+    return this.hasActiveTimer() || this.hasInEntry();
   };
 
   this.hasInEntry = () => {

@@ -372,4 +372,11 @@ export default {
     margin-right: -10px !important;
   }
 }
+.uneditable-cell{
+  label{
+    color: #000;
+    font-size: 14px !important;
+    padding-left: 10px !important;
+  }
+}
 </style>

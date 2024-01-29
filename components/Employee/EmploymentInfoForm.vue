@@ -192,7 +192,7 @@ export default {
       return this.getUserRole === "ADMIN" ? false : true;
     },
     ...mapGetters({
-      getUser: "employee/GET_USER",
+      getUser: "employee/GET_ACTIVE_USER",
       getUserRole: "token/getUserRole",
     }),
   },

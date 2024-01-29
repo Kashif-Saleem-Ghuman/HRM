@@ -86,6 +86,9 @@ import {
   WEEK_VIEW_DATA,
   ACTIVITY_DICTIONARY,
 } from "@/utils/constant/TimesheetData.js";
+import {
+  ACTIVITY_TYPE,
+} from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
 import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
@@ -116,7 +119,7 @@ export default {
       reportOptions: "",
       activeRole: this.activeUserRole === "ADMIN" ? true : false,
       todayData: [],
-      totalWork: "--:--",
+      // totalWork: "--:--",
       timesheetStatus: "",
       MonthViewData: TIMESHEET_DATA,
       weekDataView: WEEK_VIEW_DATA,
@@ -160,7 +163,7 @@ export default {
           new Date(timeEntry.end).getTime() -
           new Date(timeEntry.start).getTime();
       }
-      this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
+      // this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
     leaveStatus(e) {
       console.log(e, "vihange");
@@ -198,7 +201,7 @@ export default {
       this.clockModal = false;
     },
     async fillDailyTimeEntries() {
-      this.loading = true;
+      // this.loading = true;
       if (!this.todayDate) return;
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
         date: new Date(this.todayDate).toISOString(),
@@ -210,7 +213,6 @@ export default {
         this.handleNewEntry(timeEntry);
       }
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
-      this.loading = false;
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
@@ -233,8 +235,36 @@ export default {
       const toFormat = fecha.format(new Date(to), this.format);
       return `${fromFormat} -> ${toFormat}`;
     },
+    calculateTotalWorkMs({ timeEntry }) {
+      return (
+        new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
+      );
+    },
   },
   computed: {
+    totalWork() {
+      if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
+        return "";
+
+      const timeEntriesIn = this.getDailyTimeEntries.filter(
+        (entry) => entry.activity === ACTIVITY_TYPE.IN
+      );
+      const timeEntriesBreak = this.getDailyTimeEntries.filter(
+        (entry) => entry.activity === ACTIVITY_TYPE.BREAK
+      );
+
+      const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+      }, 0);
+
+      const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
+        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+      }, 0);
+
+      const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
+
+      return formatTime(netTotalWorkInMS / 1000, false);
+    },
     ...mapGetters({
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
       activeUserRole: "token/getUserRole",

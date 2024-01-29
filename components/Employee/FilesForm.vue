@@ -1,7 +1,9 @@
 <template>
  <div>
   <loader :loading="loading"></loader>
-  <div class="px-1 py-1 of-scroll-y" v-show="getUser.id">
+  <no-record v-if="showNoData"></no-record>
+
+  <div class="px-1 py-1 of-scroll-y" v-else-if="showTable">
     <div class="py-cus custom-dropzone" :key="fileList">
       <bib-input
         type="file"
@@ -56,9 +58,6 @@
           ></bib-icon>
         </div>
       </div>
-      <div>
-        <no-record v-show="filesUploaded.length ? '' : true"></no-record>
-      </div>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal
@@ -100,10 +99,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: "employee/GET_USER",
+      getUser: "employee/GET_ACTIVE_USER",
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
     }),
+    showTable() {
+      return !this.loading && this.filesUploaded?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.filesUploaded || !this.filesUploaded?.length);
+    },
   },
   async created() {
     this.id = this.$route.params.id ?? this.getUser?.id;

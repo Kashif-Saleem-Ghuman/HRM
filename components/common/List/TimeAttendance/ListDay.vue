@@ -19,7 +19,7 @@
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
-      <div class="row total" v-if="total">
+      <div class="row total">
         <div class="cell no-border"></div>
         <div class="cell no-border"></div>
         <div class="cell label">Day Total Hours</div>

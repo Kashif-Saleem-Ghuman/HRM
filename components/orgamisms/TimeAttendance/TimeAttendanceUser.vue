@@ -2,12 +2,8 @@
   <div id="time-attendance-wrapper">
     <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
-      <div
-        class="d-flex justify-between align-center bottom_border_wrapper"
-      >
-      <section-header-left
-        title="Time & Attendance"
-      ></section-header-left>
+      <div class="d-flex justify-between align-center bottom_border_wrapper">
+        <section-header-left title="Time & Attendance"></section-header-left>
       </div>
       <div class="time-attandance-wrapper">
         <div class="px-1">
@@ -43,9 +39,7 @@
             @on-click="onViewChange"
             class="pr-05"
           ></dropdown-menu-chip>
-          <div
-            class="d-flex justify-between align-center"
-          >
+          <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">
               <div class="custom_date_picker">
                 <!-- <div class="mr-05">Date:</div> -->
@@ -61,14 +55,22 @@
                 ></bib-datetime-picker>
               </div>
               <div v-if="view.value === 'week'" class="py-05">
-                <button-with-overlay :button-config="{ label: dateBtnLabel }" v-slot="scope"> 
+                <button-with-overlay
+                  :button-config="{ label: dateBtnLabel }"
+                  v-slot="scope"
+                >
                   <div class="pl-05">
                     <week-date-picker
                       :dates.sync="weekDates"
                       class="custom_date_picker"
                       :format="format"
-                      @close="() => {scope.close(); weekSelection();}"
-                      style="z-index: 999999; height: 46px;"
+                      @close="
+                        () => {
+                          scope.close();
+                          weekSelection();
+                        }
+                      "
+                      style="z-index: 999999; height: 46px"
                     ></week-date-picker>
                   </div>
                 </button-with-overlay>
@@ -108,25 +110,29 @@
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { getWeekTimesheets } from "@/utils/functions/api_call/timeattendance/time";
-import { TIME_ATTENDANCE_TAB, ACTIVITY_TYPE } from "@/utils/constant/Constant.js";
-import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData"
+import {
+  TIME_ATTENDANCE_TAB,
+  ACTIVITY_TYPE,
+} from "@/utils/constant/Constant.js";
+import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { INFO_CARD_DATA } from "@/utils/constant/DashboardData";
 
-import {
-  TIMESHEET_DATA,
-} from "@/utils/constant/TimesheetData.js";
+import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData.js";
 import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
 import { isSameDate, weekToUTCWeek } from "@/utils/functions/dates";
-import { formatTime } from "@/utils/functions/clock_functions"
-import { getUserTimesheetWidget } from '@/utils/functions/api_call/timeattendance/time.js';
-import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
+import { formatTime } from "@/utils/functions/clock_functions";
+import { getUserTimesheetWidget } from "@/utils/functions/api_call/timeattendance/time.js";
+import {
+  getDatetimeCommonProps,
+  DATETIME_FORMAT,
+} from "../../../utils/functions/datetime-input";
 const VIEWS = [
-  { label: "Day", value: 'day', variant: 'light' },
-  { label: "Week", value: 'week', variant: 'light' },
-]
+  { label: "Day", value: "day", variant: "light" },
+  { label: "Week", value: "week", variant: "light" },
+];
 
 export default {
   data() {
@@ -158,7 +164,7 @@ export default {
       ACTIVITY_DICTIONARY,
       totalWorkInMS: 0,
       timesheetStatus: "",
-      weekDates: { 
+      weekDates: {
         from: DateTime.now().startOf("week").toISO(),
         to: DateTime.now().endOf("week").toISO(),
       },
@@ -166,17 +172,22 @@ export default {
       weekDataTotalWork: "--:--",
       weekDataStatus: "",
       timesheetId: -1,
-      timer:1,
+      timer: 1,
       maxDate: DateTime.now().toISO(),
-      refusalReason:null,
+      refusalReason: null,
     };
   },
   computed: {
     totalWork() {
-      if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0) return "";
+      if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
+        return "";
 
-      const timeEntriesIn = this.getDailyTimeEntries.filter(entry => entry.activity === ACTIVITY_TYPE.IN);
-      const timeEntriesBreak = this.getDailyTimeEntries.filter(entry => entry.activity === ACTIVITY_TYPE.BREAK);
+      const timeEntriesIn = this.getDailyTimeEntries.filter(
+        (entry) => entry.activity === ACTIVITY_TYPE.IN
+      );
+      const timeEntriesBreak = this.getDailyTimeEntries.filter(
+        (entry) => entry.activity === ACTIVITY_TYPE.BREAK
+      );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
         return total + this.calculateTotalWorkMs({ timeEntry: entry });
@@ -193,14 +204,14 @@ export default {
 
     ...mapGetters({
       getActiveUser: "employee/GET_ACTIVE_USER",
-      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
+      getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
     }),
     hasInEntryToday() {
-      const entries = this.$store.state.timeattendance.dailyTimeEntriesToday
-      if (!entries) return false
-      return entries.some( entry => {
-        return entry.activity === ACTIVITY_TYPE.IN && entry.end
-      })
+      const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
+      if (!entries) return false;
+      return entries.some((entry) => {
+        return entry.activity === ACTIVITY_TYPE.IN && entry.end;
+      });
     },
     todayListView() {
       return this.view.value === "day";
@@ -212,7 +223,8 @@ export default {
       return this.view.value === "month";
     },
     dateBtnLabel() {
-      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to) return "";
+      if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to)
+        return "";
       const { from, to } = this.weekDates;
       return this.formatDates({ from, to });
     },
@@ -220,50 +232,57 @@ export default {
       if (!this.view) return {};
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
-        icon: "arrowhead-down"
+        icon: "arrowhead-down",
       };
     },
   },
   async created() {
-    this.loading = true
-    this.setView()
+    this.loading = true;
+    this.setView();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
-    this.getTimesheetWidget()
-    this.loading = false
+    this.getTimesheetWidget();
+    this.loading = false;
   },
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
-   async handleTimerStop() {
-      await this.$store.dispatch('timeattendance/setDailyTimeEntriesToday')
-      if (isSameDate(DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate(), new Date())) {
-        this.fillDailyTimeEntries()
+    async handleTimerStop() {
+      await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
+      if (
+        isSameDate(
+          DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate(),
+          new Date()
+        )
+      ) {
+        this.fillDailyTimeEntries();
       }
     },
     setView() {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
-      this.view = {...this.VIEWS.find((v) => v.value === viewValue)};
+      this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
     },
     calculateTotalWorkMs({ timeEntry }) {
-      return new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime();
+      return (
+        new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
+      );
     },
     handleNewEntryEvent() {
-      this.fillDailyTimeEntries()
+      this.fillDailyTimeEntries();
     },
     async handleEditEntry() {
       await this.fillDailyTimeEntries();
-      await this.getTimesheetWidget()
+      await this.getTimesheetWidget();
     },
     async handleDeleteEntry(id) {
-      this.fillDailyTimeEntries()
+      this.fillDailyTimeEntries();
     },
     async getTimesheetWidget() {
-      const widget = await getUserTimesheetWidget()
-      this.timesheetWidgetData = widget
+      const widget = await getUserTimesheetWidget();
+      this.timesheetWidgetData = widget;
     },
     clickOutside() {
       this.show = false;
@@ -302,12 +321,12 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-            await this.$store.dispatch(
+      await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
-        DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO(),
+        DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
       );
 
-      this.parseTimeEntries()
+      this.parseTimeEntries();
     },
 
     parseTimeEntries() {
@@ -321,20 +340,21 @@ export default {
       const weekRange = this.weekToUTCWeek({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),
-      })
-      const weekData = (new TimesheetParser(await getWeekTimesheets(weekRange))).parse("week");
+      });
+      const weekData = new TimesheetParser(
+        await getWeekTimesheets(weekRange)
+      ).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
       this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
       this.timesheetId = weekData.id;
-      this.refusalReason = weekData,
-      this.loading = false;
+      (this.refusalReason = weekData), (this.loading = false);
     },
-    async dateSelection(event){
-      this.loading = true;
-      if (!event) return 
-      await this.fillDailyTimeEntries(); 
-      this.loading = false;     
+    async dateSelection(event) {
+      // this.loading = true;
+      if (!event) return;
+      await this.fillDailyTimeEntries();
+      // this.loading = false;
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();
@@ -343,16 +363,20 @@ export default {
       await this.fillWeeklyTimeEntries();
     },
     formatDates({ from, to }) {
-      const fromFormat = DateTime.fromISO(from).toLocal().toFormat("MMMM d, yyyy");
+      const fromFormat = DateTime.fromISO(from)
+        .toLocal()
+        .toFormat("MMMM d, yyyy");
       const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
-      return `${fromFormat} -> ${toFormat}`
+      return `${fromFormat} -> ${toFormat}`;
     },
   },
 
   watch: {
-    '$route.query.view'(newVal) {
-      this.view.value = newVal || 'day';
-      this.view.label = this.VIEWS.find((v) => v.value === this.view.value).label;
+    "$route.query.view"(newVal) {
+      this.view.value = newVal || "day";
+      this.view.label = this.VIEWS.find(
+        (v) => v.value === this.view.value
+      ).label;
     },
 
     getDailyTimeEntries(val, old) {

@@ -7,7 +7,7 @@ import axios from "axios";
 export async function submitTimesheet(id) {
   try {
     const response = await axios.put(
-      `${process.env.API_URL}/timesheets/${id}/submittt`,
+      `${process.env.API_URL}/timesheets/${id}/submit`,
       {},
       {
         headers: {

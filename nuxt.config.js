@@ -37,6 +37,7 @@ export default {
     "~/plugins/button",
     "~/plugins/truncate",
     "~/plugins/error",
+    "~/plugins/validate-jwt",
     "~/plugins/set-active-user",
     "~/plugins/employees/employee-role",
   ],

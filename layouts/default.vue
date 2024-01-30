@@ -212,12 +212,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
-      token: "",
     };
-  },
-
-  fetch() {
-    this.token = this.$cookies.get(process.env.SSO_COOKIE_NAME);
   },
   computed: {
     ...mapGetters({
@@ -250,15 +245,6 @@ export default {
     },
   },
   async created() {
-    if (this.$cookies.get(process.env.SSO_COOKIE_NAME)) {
-      let jwt = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      localStorage.setItem("accessToken", jwt);
-      this.token = jwt;
-      this.$store.dispatch("token/setToken", jwt);
-    } else {
-      localStorage.setItem("accessToken", this.token);
-      this.$store.dispatch("token/setToken", this.token);
-    }
     this.$root.$on("open-sidebar-admin", (payload, key) => {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       this.employeeName = getEmployeeFullName(this.getActiveUser);
@@ -303,11 +289,8 @@ export default {
   },
   async mounted() {
     this.loading = true
-    if (!this.getJwtToken()) {
-      this.redirectToLogin();
-    }
-    await this.loadUser();
     this.isThemeCheck();
+    this.accountType = this.$store.state.token.accountType;
     this.$store.dispatch("employee/setReportsToList");
     const user = this.$store.state.employee.activeUser
     this.employeeNameSelect = user.id;
@@ -318,28 +301,6 @@ export default {
   },
   methods: {
     getEmployeeFullName,
-    redirectToLogin() {
-      window.location.href =
-        process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL;
-    },
-    getJwtToken() {
-      const accessToken = localStorage.getItem("accessToken");
-      const cookies = this.$cookies.get(process.env.SSO_COOKIE_NAME);
-      return accessToken ?? cookies;
-    },
-    async loadUser() {
-      const token = this.getJwtToken();
-      return this.$store
-        .dispatch("token/validateJwtToken", { token })
-        .then((res) => {
-          if (res) {
-            this.accountType = res.accountType;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     setDebouncedSearch() {
       if (!this.debouncedSearch) {
         this.debouncedSearch = debounce((event) => {

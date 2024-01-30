@@ -1,6 +1,7 @@
 import { USER_ROLES } from "../utils/constant/Constant"
 import { getEmployeeRole } from "../utils/employees/get-employee-role"
-import { validateToken } from "../utils/functions/api_call/auth"
+import { redirectToLogin, validateToken } from "../utils/functions/api_call/auth"
+
 export const state = () => ({
   accessToken: "",
   activeTab:'Employee Profile',
@@ -11,6 +12,7 @@ export const state = () => ({
   isUser: false,
   subr: null,
   hrmRole: null,
+  accountType: ''
 })
 export const getters = {
   getAccessToken(state) {
@@ -64,6 +66,11 @@ export const mutations = {
   SET_SUBR(state, value) {
     state.subr = value
   },
+
+  SET_ACCOUNT_TYPE(state, value) {
+    state.accountType = value
+  },
+  
 }
 
 export const actions = {
@@ -93,11 +100,17 @@ export const actions = {
     context.commit("SET_ACTIVE_USER_DATA", activeUserData);
   },
   async validateJwtToken({ commit }, { token }) {
-    const u = await validateToken({ token });
+    const u = await validateToken({ token }).catch((e) => {
+      if (e.response.status === 401) {
+        redirectToLogin()
+      }
+    });
 
     const accountType =
       u?.subbs == "FREETRIAL" ? "See Plans & Pricing" : "Upgrade";
     u.accountType = accountType
+
+    commit("SET_ACCOUNT_TYPE", accountType); 
 
     const businessId = u?.subb;
     const userId = u?.sub;

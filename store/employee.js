@@ -1,3 +1,5 @@
+import { redirectToLogin } from "../utils/functions/api_call/auth";
+
 export const state = () => ({
   user: [],
   activeUser:[],
@@ -141,7 +143,10 @@ export const actions = {
         return user;
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
+      if (e.response.status === 401) {
+        redirectToLogin()
+      };
     }
   },
 };

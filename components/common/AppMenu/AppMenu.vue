@@ -128,6 +128,7 @@ export default {
       this.$router.push('/time-attendance/attendance/')
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
+      this.setUserActiveTab()
     },
 
     organizationAdminClick() {
@@ -135,11 +136,28 @@ export default {
       this.$router.push("/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
+      this.setAdminActiveTab()
+    },
+
+    resetSelectedNavItems(navItems) {
+      return navItems.map( item => ({ ...item, selected: false }))
+    },
+
+    setUserActiveTab() {
+      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(this.appWrapItems.navItemsAdmin)
+      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(this.appWrapItems.navItemsUser)
+      this.appWrapItems.navItemsUser[0].selected = true
+    },
+
+    setAdminActiveTab() {
+      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(this.appWrapItems.navItemsAdmin)
+      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(this.appWrapItems.navItemsUser)
+      this.appWrapItems.navItemsAdmin[0].selected = true
     },
 
     changeRole(role) {
+      localStorage.setItem("userRole", role);
       this.$store.dispatch("token/setViewRole", { role });
-      
     },
 
     menuClick(item) {

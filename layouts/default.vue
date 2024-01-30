@@ -309,12 +309,8 @@ export default {
     await this.loadUser();
     this.isThemeCheck();
     this.$store.dispatch("employee/setReportsToList");
-    await this.$store.dispatch("employee/setActiveUser").then(async (user) => {
-      await this.$store.dispatch("token/setActiveUserRole", { employee: user });
-      var activeId = user.id;
-      this.activeUserData = user;
-      this.employeeNameSelect = activeId;
-    });
+    const user = this.$store.state.employee.activeUser
+    this.employeeNameSelect = user.id;
     this.employeesOptions = this.getReportList;
 
     this.setDebouncedSearch();

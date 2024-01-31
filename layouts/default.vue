@@ -62,8 +62,6 @@
               <div>
                 <!-- TODO cleanup props -->
                 <add-leave
-                  :request="addForm"
-                  :form="addForm"
                   :employeeName="employeeName"
                   :leaveTypeOptions="leaveTypeOptions"
                   :leaveType="leaveType"
@@ -75,16 +73,10 @@
                   :employeeNameSelectShow="employeeNameSelectShow"
                   :employeesOptions="employeesOptions"
                   :leaveTypeSelect="leaveTypeSelect"
-                  style="z-index: 100000"
                   :allowanceDays="getAllownaceDataValue"
                   :usedDays="useDaysDataValue"
                   :employeeNameSelect="employeeNameSlectedValue"
                   :key="addLeaveKey"
-                  :errorMsgSelect="errorMsgSelect"
-                  :errorMsgStartDate="errorMsgStartDate"
-                  :errorMsgEndDate="errorMsgEndDate"
-                  :errorMsgEndDateGreater="errorMsgEndDateGreater"
-                  :addForm="addForm"
                   :activeUserAllowanceData="getAllownaceDataValue"
                   :edit="true"
                 ></add-leave>
@@ -168,7 +160,6 @@ export default {
     return {
       debouncedSearch: null,
       openSidebar: false,
-      openSidebar2: false,
       clockModal: false,
       appWrapItems: appWrapItems,
       collapseNavigation1: false,
@@ -195,10 +186,6 @@ export default {
       sidebarHeading: "",
       sidebarHeadingIcon: "",
       addLeaveKey: 0,
-      errorMsgSelect: false,
-      errorMsgStartDate: false,
-      errorMsgEndDate: false,
-      errorMsgEndDateGreater: false,
       popupMessages: [],
       employeeNameInput: false,
       leaveTypeSelect: false,
@@ -289,8 +276,6 @@ export default {
     });
     this.$root.$on("add-leave", () => {
       this.addLeaveKey += 1;
-      this.errorMsgEndDate = false;
-      this.errorMsgStartDate = false;
     });
   },
   async mounted() {
@@ -348,7 +333,6 @@ export default {
       this.slideClass = "slide-out";
       setTimeout(() => {
         this.openSidebar = false;
-        this.openSidebar2 = false;
       }, 700);
     },
   },

@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@bizinbox/bib-ui-lib": "^1.2.8",
+    "@bizinbox/bib-ui-lib": "^1.2.11",
     "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/interaction": "^6.1.8",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="add-leave-wrapper">
+    <div class="add-leave-wrapper" style="z-index: 100000">
       <div v-show="employeeNameInput">
         <div>
           <bib-input
@@ -45,12 +45,6 @@
                 :disabled="inActive"
                 @input="$emit('selectLeaveType', $event, 'type')"
               ></bib-input>
-              <small
-                class="text-danger"
-                style="margin-top: -0.25rem;"
-                v-show="errorMsgSelect"
-                >Please select leave type</small
-              >
             </div>
           </div>
 
@@ -61,7 +55,11 @@
                 <span>{{ allowanceDays }}</span>
               </div>
             </div>
-            <div class="items-width" :key="usedDayLeave" :style="showAllowance === false ? 'padding:0': ''">
+            <div
+              class="items-width"
+              :key="usedDayLeave"
+              :style="showAllowance === false ? 'padding:0' : ''"
+            >
               <div class="d-flex input-display-wrapper">
                 <span>Used</span>
                 <span>{{ usedDays }}</span>
@@ -92,11 +90,6 @@
               :dis="disable"
             >
             </form-datepicker>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgStartDate"
-              >Please select start date</small>
           </div>
           <div class="last-child end-date-wrapper">
             <form-datepicker
@@ -108,16 +101,6 @@
               :dis="disable"
             >
             </form-datepicker>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgEndDate"
-              >Please select end date</small>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgEndDateGreater"
-              >Start date should be before end date</small>
           </div>
         </div>
       </div>
@@ -134,14 +117,8 @@
         ></bib-input>
       </div>
     </div>
-    <!-- <div>
-      <div>
-        <info-card-success></info-card-success>
-      </div>
-    </div> -->
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 export default {
@@ -205,20 +182,20 @@ export default {
     errorMsgEndDate: {
       type: Boolean,
     },
-    errorMsgEndDateGreater:{
-      type:Boolean
+    errorMsgEndDateGreater: {
+      type: Boolean,
     },
-    showAllowance:{
-      type:Boolean,
-      default:true,
-    }
+    showAllowance: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       usedDayLeave: 0,
-      disable:this.edit,
+      disable: this.edit,
       start: null,
-      end: null
+      end: null,
     };
   },
   created() {
@@ -233,10 +210,9 @@ export default {
   },
   methods: {
     menuClick(value, fieldKey) {
-      
-console.log(this.startDate)
-      this[fieldKey] = value
-      this.$emit('change', value, fieldKey)
+      console.log(this.startDate);
+      this[fieldKey] = value;
+      this.$emit("change", value, fieldKey);
     },
 
     displayEmployeeField() {
@@ -294,25 +270,24 @@ console.log(this.startDate)
 }
 @media (min-width: 500px) {
   .end-date-wrapper {
-  .vdpPositionBottom {
-    bottom: 1% !important;
-  }  
-}
+    .vdpPositionBottom {
+      bottom: 1% !important;
+    }
+  }
 }
 @media (min-width: 768px) {
   .end-date-wrapper {
-  .vdpPositionBottom {
-    bottom: 1% !important;
-  }  
-}
+    .vdpPositionBottom {
+      bottom: 1% !important;
+    }
+  }
 }
 
 @media (min-width: 1400px) {
   .end-date-wrapper {
-  .vdpPositionBottom {
-    bottom: 50% !important;
-  }  
+    .vdpPositionBottom {
+      bottom: 50% !important;
+    }
+  }
 }
-}
-
 </style>

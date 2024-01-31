@@ -35,7 +35,7 @@
       </div>
     </div>
     <div
-      class="d-grid d-flex gap-1 py-1 pl-1"
+      class="d-grid d-flex gap-1 py-1 px-1"
       style="grid-template-columns: repeat(2, 1fr)"
     >
 

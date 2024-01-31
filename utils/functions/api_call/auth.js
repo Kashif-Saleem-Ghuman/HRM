@@ -10,5 +10,10 @@ export async function validateToken({ token }) {
     return data?.u
   } catch (e) {
     console.error(e);
+    throw e;
   }
+}
+
+export async function redirectToLogin() {
+  window.location.href = process.env.AUTH_REDIRECT_URL + process.env.HRM_APP_URL
 }

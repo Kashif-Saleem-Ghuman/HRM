@@ -84,7 +84,8 @@ export default {
     onSearchChange(event) {
       this.searchString = event;
       if (this.loading) return;
-      this.generateOrganizationEntries(this.date);
+      const isoDate = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISO();
+      this.generateOrganizationEntries(isoDate);
     },
     isDateToday(date) {
       return DateTime.fromISO(date).hasSame(DateTime.local(), "day");
@@ -108,8 +109,9 @@ export default {
       this.employees = await this.$store.dispatch(
         "timeattendance/getEmployeesAttendance",
         { date: isoDate, searchString }
-      );
-      this.loading = false;
+      ).finally(() => {
+        this.loading = false;
+      });
     },
   },
 

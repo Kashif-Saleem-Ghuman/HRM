@@ -110,7 +110,10 @@
             </template>
           </action-sidebar>
         </div>
-        <bib-notification :popupMessages="popupMessages" style="z-index: 9999999999999;"></bib-notification>
+        <bib-notification
+          :popupMessages="popupMessages"
+          style="z-index: 9999999999999"
+        ></bib-notification>
 
         <div>
           <bib-clock-wrapper
@@ -131,9 +134,7 @@
 import { mapGetters } from "vuex";
 import { debounce } from "lodash";
 
-import {
-  addLeaveVacations,
-} from "../utils/functions/functions_lib_api";
+import { addLeaveVacations } from "../utils/functions/functions_lib_api";
 import {
   addHandleInput,
   selectUserHandle,
@@ -218,7 +219,7 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getUserRole: "token/getUserRole",
-      getUser: "token/GET_USER",
+      getUser: "employee/GET_USER",
       getActiveUser: "employee/GET_ACTIVE_USER",
       getformToDate: "leavevacation/getformToDate",
       getReportList: "employee/GET_REPORTS_LIST",
@@ -247,7 +248,12 @@ export default {
   async created() {
     this.$root.$on("open-sidebar-admin", (payload, key) => {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
-      this.employeeName = getEmployeeFullName(this.getActiveUser);
+      if (this.$route.params.id) {
+        this.$store.dispatch("employee/setUser", this.getUser.id);
+        this.employeeName = getEmployeeFullName(this.getUser);
+      } else {
+        this.employeeName = getEmployeeFullName(this.getActiveUser);
+      }
       this.slideClass = "slide-in";
       if (payload === this.leaveRequestTypes[payload].type) {
         if (key == "employeeDropdownKey") {
@@ -288,16 +294,19 @@ export default {
     });
   },
   async mounted() {
-    this.loading = true
+    this.loading = true;
     this.isThemeCheck();
     this.accountType = this.$store.state.token.accountType;
-    this.$store.dispatch("employee/setReportsToList");
-    const user = this.$store.state.employee.activeUser
+    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
+      this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
+      this.employeeNameSelectShow = true;
+    });
+    const user = this.$store.state.employee.activeUser;
     this.employeeNameSelect = user.id;
     this.employeesOptions = this.getReportList;
 
     this.setDebouncedSearch();
-    this.loading= false
+    this.loading = false;
   },
   methods: {
     getEmployeeFullName,

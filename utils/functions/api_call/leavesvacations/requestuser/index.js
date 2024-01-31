@@ -2,25 +2,22 @@ import axios from "axios";
 import { DateTime } from "luxon";
 import { generateRequestSelectedDays } from "../../../../requests/request-selected-days";
 
+const addLeaveErrorMessage = [
+  {text:"Please select start date", variant:'danger'},
+  {text:"Please select end date", variant:'danger'},
+  {text:"Start date should be before end date", variant:'danger'}
+]
 export async function addLeaveVacations() {
-  if (this.$store.state.token.isAdmin) {
-    if (this.addForm.type == null) {
-      this.errorMsgSelect = true;
-    }
-    this.errorMsgSelect = false;
-  }
   if (this.addForm.start == null) {
-    this.errorMsgStartDate = true;
+    this.openPopupNotification(addLeaveErrorMessage[0]);
     return;
   }
-  this.errorMsgStartDate = false;
   if (this.addForm.end == null) {
-    this.errorMsgEndDate = true;
+    this.openPopupNotification(addLeaveErrorMessage[1]);
     return;
   }
-  this.errorMsgEndDate = false;
   if (this.addForm.start > this.addForm.end) {
-    this.errorMsgEndDateGreater = true;
+    this.openPopupNotification(addLeaveErrorMessage[2]);
     return;
   }
   this.errorMsgEndDateGreater = false;
@@ -30,12 +27,6 @@ export async function addLeaveVacations() {
   const isoStartDate = DateTime.fromISO(startDate).startOf('day').toUTC().toISO();
   let endDate = new Date(data.end).toISOString();
   const isoEndDate = DateTime.fromISO(endDate).endOf('day').toUTC().toISO();
-  // var startDate = fecha.format(
-  //   new Date(data.start),
-  //   "YYYY-MM-DDT00:00:00.000Z"
-  // );
-  // var endDate = fecha.format(new Date(data.end), "YYYY-MM-DDT23:59:59.999Z");
-
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate);

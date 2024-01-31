@@ -45,12 +45,6 @@
                 :disabled="inActive"
                 @input="$emit('selectLeaveType', $event, 'type')"
               ></bib-input>
-              <small
-                class="text-danger"
-                style="margin-top: -0.25rem;"
-                v-show="errorMsgSelect"
-                >Please select leave type</small
-              >
             </div>
           </div>
 
@@ -92,11 +86,6 @@
               :dis="disable"
             >
             </form-datepicker>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgStartDate"
-              >Please select start date</small>
           </div>
           <div class="last-child end-date-wrapper">
             <form-datepicker
@@ -108,16 +97,6 @@
               :dis="disable"
             >
             </form-datepicker>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgEndDate"
-              >Please select end date</small>
-            <small
-              class="text-danger"
-              style="margin-top: -0.25rem;"
-              v-show="errorMsgEndDateGreater"
-              >Start date should be before end date</small>
           </div>
         </div>
       </div>
@@ -134,14 +113,8 @@
         ></bib-input>
       </div>
     </div>
-    <!-- <div>
-      <div>
-        <info-card-success></info-card-success>
-      </div>
-    </div> -->
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 export default {

@@ -15,7 +15,7 @@
             :tabs="TIME_ATTENDANCE_TAB"
             :value="activeTab"
             @change="onTabChange"
-            :key="tabUpdate"
+            :key="activeTab"
           ></bib-tabs>
         </div>
       </div>
@@ -35,16 +35,11 @@ export default {
     return {
       TIME_ATTENDANCE_TAB,
       activeTab: null,
-      tabUpdate:0
     };
   },
   async created() {
     this.setActiveTab()
     await this.$store.dispatch("employee/setActiveUser");
-    this.$root.$on("tab-update-time", () => {
-      this.activeTab = "Attendance";
-      this.tabUpdate += 1;
-    });
   },
 
   computed: {
@@ -61,9 +56,14 @@ export default {
     setActiveTab() {
       const route = this.$route.fullPath
       const activeTab = TIME_ATTENDANCE_TAB.find( tab => tab.route == route)
-      this.activeTab = activeTab.value
+      this.$set(this, 'activeTab', activeTab.value)
     }
   },
+  watch:{
+    '$route'(){
+      this.setActiveTab();
+    }
+  }
 };
 </script>
 

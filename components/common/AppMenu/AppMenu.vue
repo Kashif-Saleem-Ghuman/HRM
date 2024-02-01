@@ -213,7 +213,6 @@ export default {
           return;
         }
         if (item.key == "time-attendance") {
-          this.$nuxt.$emit("tab-update-time");
           this.$router.push("/time-attendance/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");

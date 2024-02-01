@@ -23,10 +23,10 @@ export const DropdownMenu = {
     ],
 
       calendarViewType: [
-        // {
-        //   label: "Week",
-        //   key: "week",
-        // },
+        {
+          label: "Week",
+          key: "week",
+        },
         {
           label: "Month",
           key: "month",

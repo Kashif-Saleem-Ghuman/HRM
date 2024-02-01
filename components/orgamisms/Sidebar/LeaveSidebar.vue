@@ -186,7 +186,7 @@ export default {
     getMessage(MESSAGE) {
       const statusChangeDate = DateTime.fromISO(this.form.statusChangeDate).toFormat('dd-MM-yyyy');
       const messageStatus = {
-        approved: `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
+        approved: this.form.statusChangeDate === null ? 'Request approved' : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
           this.form.manager
         )}`,
         pending: "Pending",

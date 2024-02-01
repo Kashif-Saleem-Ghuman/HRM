@@ -15,6 +15,7 @@
             :tabs="TIME_ATTENDANCE_TAB"
             :value="activeTab"
             @change="onTabChange"
+            :key="tabUpdate"
           ></bib-tabs>
         </div>
       </div>
@@ -34,11 +35,16 @@ export default {
     return {
       TIME_ATTENDANCE_TAB,
       activeTab: null,
+      tabUpdate:0
     };
   },
   async created() {
     this.setActiveTab()
     await this.$store.dispatch("employee/setActiveUser");
+    this.$root.$on("tab-update-time", () => {
+      this.activeTab = "Attendance";
+      this.tabUpdate += 1;
+    });
   },
 
   computed: {

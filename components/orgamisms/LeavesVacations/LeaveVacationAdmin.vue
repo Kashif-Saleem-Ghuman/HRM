@@ -15,6 +15,7 @@
             :tabs="LEAVEVACATION_TAB"
             :value="activeTab"
             @change="onTabChange"
+            :key="tabUpdate"
           ></bib-tabs>
         </div>
       </div>
@@ -32,29 +33,34 @@ export default {
     return {
       LEAVEVACATION_TAB,
       activeTab: null,
+      tabUpdate:0,
     };
   },
   async created() {
     this.setActiveTab()
     await this.$store.dispatch("employee/setActiveUser");
+    this.$root.$on("tab-update", () => {
+      this.activeTab = "Dashboard";
+      this.tabUpdate += 1;
+    });
   },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
       getUser: "employee/GET_USER",
-
     }),
+    
   },
   
   methods: {
-  
     onTabChange(tab) {
       this.$router.push(tab.route);
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("close-sidebar-main");
     },
     setActiveTab() {
+      this.tabUpdate += 1;
       const route = this.$route.fullPath;
       const activeTab = LEAVEVACATION_TAB.find((tab) => tab.route == route);
       this.activeTab = activeTab.value;

@@ -125,10 +125,10 @@ export default {
 
     myAccountClick() {
       this.changeRole(USER_ROLES.USER);
-      this.$router.push('/time-attendance/attendance/')
+      this.$router.push("/time-attendance/attendance/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
-      this.setUserActiveTab()
+      this.setUserActiveTab();
     },
 
     organizationAdminClick() {
@@ -136,23 +136,31 @@ export default {
       this.$router.push("/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
-      this.setAdminActiveTab()
+      this.setAdminActiveTab();
     },
 
     resetSelectedNavItems(navItems) {
-      return navItems.map( item => ({ ...item, selected: false }))
+      return navItems.map((item) => ({ ...item, selected: false }));
     },
 
     setUserActiveTab() {
-      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(this.appWrapItems.navItemsAdmin)
-      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(this.appWrapItems.navItemsUser)
-      this.appWrapItems.navItemsUser[0].selected = true
+      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(
+        this.appWrapItems.navItemsAdmin
+      );
+      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(
+        this.appWrapItems.navItemsUser
+      );
+      this.appWrapItems.navItemsUser[0].selected = true;
     },
 
     setAdminActiveTab() {
-      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(this.appWrapItems.navItemsAdmin)
-      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(this.appWrapItems.navItemsUser)
-      this.appWrapItems.navItemsAdmin[0].selected = true
+      this.appWrapItems.navItemsAdmin = this.resetSelectedNavItems(
+        this.appWrapItems.navItemsAdmin
+      );
+      this.appWrapItems.navItemsUser = this.resetSelectedNavItems(
+        this.appWrapItems.navItemsUser
+      );
+      this.appWrapItems.navItemsAdmin[0].selected = true;
     },
 
     changeRole(role) {
@@ -168,7 +176,11 @@ export default {
         for (let i = 0; i < this.appWrapItems.navItemsAdmin.length; i++) {
           this.appWrapItems.navItemsAdmin[i].selected = false;
         }
-        for (let i = 0; i < this.appWrapItems.navItemsUserShortcuts.length; i++) {
+        for (
+          let i = 0;
+          i < this.appWrapItems.navItemsUserShortcuts.length;
+          i++
+        ) {
           this.appWrapItems.navItemsUserShortcuts[i].selected = false;
         }
         this.$nuxt.$emit("close-sidebar");
@@ -201,6 +213,7 @@ export default {
           return;
         }
         if (item.key == "time-attendance") {
+          this.$nuxt.$emit("tab-update-time");
           this.$router.push("/time-attendance/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");
@@ -208,6 +221,7 @@ export default {
           return;
         }
         if (item.key == "leave-vacations") {
+          this.$nuxt.$emit("tab-update");
           this.$router.push("/leaves-and-vacations/");
           this.$nuxt.$emit("close-sidebar");
           this.$nuxt.$emit("close-sidebar-main");

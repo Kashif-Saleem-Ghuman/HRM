@@ -411,9 +411,6 @@ export default {
         this.form = employee;
         this.loading = false
       }
-      if (!id) {
-    throw createError({ statusCode: 404, statusMessage: 'Product not found' })
-  }
     },
     removeImage(photo) {
       this.updateForm[photo] = "";

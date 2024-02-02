@@ -134,9 +134,9 @@ export default {
     },
 
     async approveItem(event) {
-      this.addIds.push(event + "");
-      console.log(this.addIds, "item");
-      await this.getApproveLeaveVacationsAdmin().then(() => {
+      const requestIds = [event + ""]
+      console.log(requestIds, event, "requestIds")
+      await this.getApproveLeaveVacationsAdmin({requestIds}).then(() => {
         this.getPendingLeaveVacationsAdmin();
       });
     },

@@ -29,7 +29,9 @@
           class="app-wrapper--collapsed2"
         >
           <template>
+            <div style="margin-left: -5px;" class="py-05">
             <search-content></search-content>
+          </div>
           </template>
         </bib-header>
       </template>

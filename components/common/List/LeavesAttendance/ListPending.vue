@@ -87,6 +87,7 @@
     </template>
     <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
+        
         <bib-button
           :icon="$button.approved.icon"
           :variant="$button.approved.variant"

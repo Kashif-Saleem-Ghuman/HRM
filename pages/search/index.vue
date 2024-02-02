@@ -6,7 +6,7 @@
       ></section-header-left>
     </div>
 
-    <div class="container pl-2 pr-2">
+    <div>
       <search-content></search-content>
       <no-record v-if="!searchResults.length"></no-record>
     </div>

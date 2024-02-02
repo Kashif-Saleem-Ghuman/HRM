@@ -37,8 +37,11 @@ export default {
 </script>
 
 <style lang="scss">
+.search_form_modal-heading{
+  font-weight: 600 !important;
+}
 .search-items {
-  padding-top: 10px;
+  // padding-top: 10px;
   font-size: 14px;
 ul{
   padding: 0;
@@ -48,8 +51,8 @@ ul{
     display: flex;
     align-items: center;
     border-bottom: 1px solid $light;
-    padding: 0.25rem 0;
-    margin: 0 -14px;
+    padding: 0.5rem 0;
+    // margin: 0 -14px;
     cursor: pointer;
     border-radius: 6px;
     text-transform: capitalize;

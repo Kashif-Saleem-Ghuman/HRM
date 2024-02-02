@@ -15,6 +15,7 @@
             :tabs="LEAVEVACATION_TAB"
             :value="activeTab"
             @change="onTabChange"
+            :key="activeTab"
           ></bib-tabs>
         </div>
       </div>

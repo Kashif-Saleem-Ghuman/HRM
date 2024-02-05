@@ -16,7 +16,6 @@ import { mapGetters } from "vuex";
 import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
-  getRejectLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
 import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
@@ -64,7 +63,6 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    getRejectLeaveVacationsAdmin,
     openPopupNotification,
 
   },

@@ -1,69 +1,6 @@
-import axios from "axios";
 import dayjs from "dayjs";
-import fecha, { format } from "fecha";
 import { DateTime } from "luxon";
 import { popupNotificationMsgs } from "@/utils/constant/Notifications";
-
-
-export async function getUser() {
-  let userId = localStorage.getItem("userId");
-  try {
-    const avtar = await axios.get(
-      process.env.USER_API_ENDPOINT + "/" + userId,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
-    localStorage.setItem("userPhoto", avtar.data.Photo);
-    this.userPhoto = avtar.data.Photo;
-    localStorage.setItem("businessId", avtar.data.BusinessId);
-  } catch (e) {
-    console.log(e);
-  }
-}
-export async function getBusinessId() {
-  this.loading = true;
-  let businessId = localStorage.getItem("businessId");
-  try {
-    const businessid = await axios.get(
-      process.env.ORG_API_ENDPOINT + "/" + businessId,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
-    // console.log(businessid.data, "Org Object Called");
-    this.org = businessid.data;
-    this.loading = false;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export async function updateBusinessId() {
-  this.loading = true;
-  let businessId = localStorage.getItem("businessId");
-  try {
-    const businessid = await axios.put(
-      process.env.ORG_API_ENDPOINT + "/" + businessId,
-      this.updateForm,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
-    // console.log(businessid.data, "Org Object Called");
-    this.org = businessid.data;
-    this.loading = false;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export function openPopupNotification(n) {
   if(isNaN(n)){
     this.popupMessages.push(n);

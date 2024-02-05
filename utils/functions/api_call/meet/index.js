@@ -1,22 +1,22 @@
 import axios from "axios";
-export async function meetLink(payload, uniqueId) {
+import { createConfig } from "../config";
+import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
+export async function meetLink(payload) {
   this.loading = true;
   const { name, title, users, createdBy } = payload;
   try {
-    const meetUrl = await axios.post(
-      "https://dev-video-app-api.business-in-a-box.com/conference/",
-      {
-        name: name, // This is the body part
-        title: title,
-        users: [users],
-        createdBy: createdBy,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          "Content-Type": "application/json",
-        },
-      }
+    const url = `https://dev-video-app-api.business-in-a-box.com/conference/`;
+    const params = {
+      name: name, // This is the body part
+      title: title,
+      users: [users],
+      createdBy: createdBy,
+    }
+    const config = createConfig();
+    const meetUrl = await hrmApiAxiosInstance.post(
+      url,
+      params,
+      config
     );
     if(meetUrl.status === 201){
       const url = meetUrl.data.name

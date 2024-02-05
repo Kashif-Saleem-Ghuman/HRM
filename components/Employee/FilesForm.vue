@@ -1,9 +1,8 @@
 <template>
  <div>
   <loader :loading="loading"></loader>
-  <no-record v-if="showNoData"></no-record>
 
-  <div class="px-1 py-1 of-scroll-y" v-else-if="showTable">
+  <div class="px-1 py-1 of-scroll-y">
     <div class="py-cus custom-dropzone" :key="fileList">
       <bib-input
         type="file"
@@ -21,9 +20,12 @@
         class="mt-025"
       ></bib-button>
     </div>
+    <no-record v-if="showNoData"></no-record>
+
     <div
       class="d-grid gap-2 py-1 of-scroll-y"
       style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
+      v-else-if="showTable"
     >
       <div
         v-for="file in filesUploaded"

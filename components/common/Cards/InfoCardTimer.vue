@@ -72,7 +72,7 @@ export default {
     await this.$store.dispatch('timeattendance/setTimerData', this.employeeId);
 
     if (this.$store.state.token.isUser) {
-      await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+      await this.$store.dispatch('timeattendance/setDailyTimeEntriesToday');
     } else {
       await this.$store.dispatch('timeattendance/setEmployeeDailyTimeEntry', {
         employeeId: this.employeeId,
@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
+      getDailyTimeEntries: 'timeattendance/getdailyTimeEntriesToday',
     }),
     buttonDisabled() {
       return this.stopClick || this.disabled

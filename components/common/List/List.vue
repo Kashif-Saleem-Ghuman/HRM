@@ -1,20 +1,25 @@
 <template>
   <div class="position-relative h-300">
-  <bib-table
-    :fields="tableFields"
-    class="border-gray4 bg-white"
-    :sections="employees"
-    :hide-no-column="true"
-    :fixHeader=true
-    :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
-    @item-clicked="tableItemClick"
-    @employee-name-sort="sortColumn('name')"
-    @employee-email-sort="sortColumn('email')"
-    @employee-phone-sort="sortColumn('telephone')"
-    @employee-hire-date-sort="sortColumn('hiredate')"
-    @employee-department-sort="sortColumn('department')"
-  >
-    <template #cell(name)="data">
+    <bib-table
+      :fields="tableFields"
+      class="border-gray4 bg-white"
+      :sections="employees"
+      :hide-no-column="true"
+      :fixHeader="true"
+      @column-header-clicked="headerColumnClick($event.column)"
+      :key="
+        employees?.length && employees[0]?.id
+          ? `list-${employees[0].id}`
+          : 'empty-list-0'
+      "
+      @item-clicked="tableItemClick"
+      @employee-name-sort="sortColumn('name')"
+      @employee-email-sort="sortColumn('email')"
+      @employee-phone-sort="sortColumn('telephone')"
+      @employee-hire-date-sort="sortColumn('hiredate')"
+      @employee-department-sort="sortColumn('department')"
+    >
+      <template #cell(name)="data">
         <div
           class="d-flex align-center text-left gap-05"
           style="position: relative"
@@ -48,10 +53,7 @@
               ></user-info-card>
             </div>
           </div>
-          <div
-            class="info_wrapper"
-            style="width: 100%; cursor: pointer"
-          >
+          <div class="info_wrapper" style="width: 100%; cursor: pointer">
             <div class="title" title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
@@ -128,6 +130,12 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
+      columnSortDirection: {
+        name: "asc",
+        extension: "asc",
+        updatedAt: "asc",
+        owner: "asc",
+      },
     };
   },
   created() {
@@ -170,6 +178,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
     tableItemClick(event, key, item) {
       const id = item?.id;

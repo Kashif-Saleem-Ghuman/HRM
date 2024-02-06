@@ -6,6 +6,7 @@
     @select-all="$emit('selectAllItems')"
     :allChecked="checkedAll"
     @employee-name-sort="sortColumn('name')"
+    @column-header-clicked="$event.column === 'name' ? headerColumnClick($event.column) : ''"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -161,7 +162,9 @@ export default {
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
-
+    headerColumnClick(column) {
+      this.sortColumn(column);
+    },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

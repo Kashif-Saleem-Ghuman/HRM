@@ -124,10 +124,7 @@ export default {
     });
     this.addIds = [];
     this.getCurrentYear();
-    this.getPendingLeaveVacationsAdmin({
-      from: this.fromDate,
-      to: this.toDate,
-    });
+    this.getPendingLeaveVacationsAdmin();
   },
   mounted() {
     this.dropMenuYear = this.generateYearList();
@@ -160,10 +157,7 @@ export default {
         from: this.fromDate,
         to: this.toDate,
       });
-      await this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
+      await this.getPendingLeaveVacationsAdmin();
     },
     async approveItem(event) {
       const requestIds = [event + ""];

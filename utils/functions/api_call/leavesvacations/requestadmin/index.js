@@ -21,11 +21,11 @@ export async function getLeaveVacationsAdmin() {
   }
 }
 
-export async function getPendingLeaveVacationsAdmin(payload) {
+export async function getPendingLeaveVacationsAdmin() {
   // this.loading = true;
-  const { from, to } = payload
+  // const { from, to } = payload
   try {
-    const dates = {from:from, to:to }
+    // const dates = {from:from, to:to }
     const pendingLeaveVacationsAdmin = await axios.get(
       process.env.API_URL + "/requests/admin/pending",
       {

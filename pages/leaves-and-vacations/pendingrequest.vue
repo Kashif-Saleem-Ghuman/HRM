@@ -4,11 +4,17 @@
     <loader :loading="loading"></loader>
 
     <div class="" id="pending_request_wrapper">
-      <div
-        v-show="showBatchApproveButton"
-        class="d-flex justify-between align-center nav_wrapper px-1 py-05 bottom_border_wrapper"
-      >
-        <div class="d-flex align-center">
+      <div class="d-flex jutify-between">
+        <!-- <div class="align-center nav_wrapper ">
+          <dropdown-menu-calendar
+            :items="dropMenuYear"
+            :label="selectedYear"
+            icon="arrowhead-down"
+            @on-click="changeYearView($event)"
+            className="button-wrapper__bgblack"
+          ></dropdown-menu-calendar>
+        </div> -->
+        <div class="d-flex align-center px-1 py-05 bottom_border_wrapper" v-show="showBatchApproveButton">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"
@@ -24,7 +30,6 @@
         <div v-else-if="showTable">
           <list-pending
             :listPending="requestListData"
-            @input="getIdValue($event)"
             @selectAllItems="selectAllItems()"
             :key="pendingList"
             :checked="checked"
@@ -34,11 +39,9 @@
             @item-checked="handleItemChecked"
           ></list-pending>
         </div>
-
         <bib-notification :popupMessages="popupMessages"></bib-notification>
       </div>
     </div>
-
     <request-refusal-modal
       v-if="showRefusalModal"
       @cancel="cancelRejectRequest"
@@ -55,7 +58,11 @@ import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
-import { openPopupNotification } from "../../utils/functions/functions_lib.js";
+import {
+  openPopupNotification,
+  getCurrentYear,
+  generateYearList,
+} from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 import { rejectRequest } from "@/utils/functions/api_call/requests";
 
@@ -79,11 +86,19 @@ export default {
       disabled: true,
       popupMessages: [],
       loading: true,
+      dropMenuYear: [],
+      selectedYear: new Date().getFullYear(),
+      fromDate: "",
+      toDate: "",
     };
   },
   computed: {
     showBatchApproveButton() {
-      return !this.loading && this.requestListData?.length && this.requestListData?.some((item) => item.checked);
+      return (
+        !this.loading &&
+        this.requestListData?.length &&
+        this.requestListData?.some((item) => item.checked)
+      );
     },
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
@@ -93,7 +108,10 @@ export default {
       return !this.loading && this.requestListData?.length;
     },
     showNoData() {
-      return !this.loading && (!this.requestListData || !this.requestListData?.length);
+      return (
+        !this.loading &&
+        (!this.requestListData || !this.requestListData?.length)
+      );
     },
   },
   async created() {
@@ -104,18 +122,18 @@ export default {
       this.pendingList += 1;
     });
     this.addIds = [];
+    this.getCurrentYear();
     this.getPendingLeaveVacationsAdmin();
   },
   mounted() {
-    localStorage.removeItem("clickedUserId");
-    this.$nuxt.$emit("add-leave");
-
-    // this.getPendingLeaveVacationsAdmin();
+    this.dropMenuYear = this.generateYearList();
   },
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
     openPopupNotification,
+    getCurrentYear,
+    generateYearList,
     cancelRejectRequest() {
       this.addIds.pop();
       this.showRefusalModal = false;
@@ -130,42 +148,52 @@ export default {
         this.showRefusalModal = false;
       });
     },
-
+    async changeYearView(e) {
+      this.selectedYear = e.label;
+      this.getCurrentYear();
+      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+        from: this.fromDate,
+        to: this.toDate,
+      });
+      await this.getPendingLeaveVacationsAdmin();
+    },
     async approveItem(event) {
-      const requestIds = [event + ""]
-      console.log(requestIds, event, "requestIds")
-      await this.getApproveLeaveVacationsAdmin({requestIds}).then(() => {
+      const requestIds = [event + ""];
+      console.log(requestIds, event, "requestIds");
+      await this.getApproveLeaveVacationsAdmin({ requestIds }).then(() => {
         this.getPendingLeaveVacationsAdmin();
       });
     },
-    async getIdValue(event) {
-      const { id, key } = event;
-      this.checkedAll = false;
-      if (this.addIds.includes(id + "")) {
-        for (var i = 0; i < this.addIds.length; i++) {
-          if (this.addIds[i] === id + "") {
-            this.addIds.splice(i, 1);
-            console.log(this.addIds, "item");
-          }
-          if (!this.addIds.length) {
-            this.checked = false;
-          }
-        }
-      } else {
-        this.checkedAll = false;
-        this.addIds.push(id + "");
-        console.log(this.addIds, "item");
-      }
-    },
-    selectAllItems() {  
+    // async getIdValue(event) {
+    //   const { id, key } = event;
+    //   this.checkedAll = false;
+    //   if (this.addIds.includes(id + "")) {
+    //     for (var i = 0; i < this.addIds.length; i++) {
+    //       if (this.addIds[i] === id + "") {
+    //         this.addIds.splice(i, 1);
+    //         console.log(this.addIds, "item");
+    //       }
+    //       if (!this.addIds.length) {
+    //         this.checked = false;
+    //       }
+    //     }
+    //   } else {
+    //     this.checkedAll = false;
+    //     this.addIds.push(id + "");
+    //     console.log(this.addIds, "item");
+    //   }
+    // },
+    selectAllItems() {
       this.checkedAll = !this.checkedAll;
 
       this.requestListData.forEach((item, index) => {
-        this.$set(this.requestListData[index], 'checked', this.checkedAll);
+        this.$set(this.requestListData[index], "checked", this.checkedAll);
       });
     },
     handleItemChecked({ id }) {
-      const requestIndex = this.requestListData.findIndex((item) => item.id === id);
+      const requestIndex = this.requestListData.findIndex(
+        (item) => item.id === id
+      );
 
       if (requestIndex === -1) {
         console.error(`Request with id ${id} not found`);
@@ -173,13 +201,15 @@ export default {
       }
 
       const request = this.requestListData[requestIndex];
-      this.$set(request, 'checked', !request.checked)
+      this.$set(request, "checked", !request.checked);
 
-      this.checkedAll = this.requestListData.every((item) => item.checked)
+      this.checkedAll = this.requestListData.every((item) => item.checked);
     },
     async pendingApproveRequest(event) {
       if (event == "approve") {
-        const requestIds = this.requestListData.filter((item) => item.checked).map((item) => item.id);
+        const requestIds = this.requestListData
+          .filter((item) => item.checked)
+          .map((item) => item.id);
         await this.getApproveLeaveVacationsAdmin({ requestIds });
         await this.getPendingLeaveVacationsAdmin();
         this.checkedAll = false;

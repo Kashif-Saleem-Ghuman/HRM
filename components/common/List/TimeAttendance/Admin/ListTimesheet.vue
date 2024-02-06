@@ -15,6 +15,7 @@
       @employee-total-hours-sort="sortColumn('total')"
       @employee-status-sort="sortColumn('status')"
       :fixHeader="true"
+      @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(name)="data">
         <div
@@ -206,6 +207,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
     getEmptyTimesheetStatus() {
       const endDate = new Date(this.endDate);

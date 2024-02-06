@@ -517,7 +517,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "name",
-      label: "Name",
+      label: "Employee Name",
       width: `${100 / 4}%`,
       header_icon: {
         icon: 'long-arrow-up',
@@ -533,7 +533,7 @@ export const TABLE_HEAD = {
     // },
     {
       key: "type",
-      label: "Type",
+      label: "Leave Type",
       width: `${100 / 5}%`,
       // header_icon: {
       //   icon: 'long-arrow-up',
@@ -545,7 +545,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "from",
-      label: "From",
+      label: "Start",
       width: `${100 / 5}%`,
       // header_icon: {
       //   icon: 'long-arrow-up',
@@ -557,7 +557,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "to",
-      label: "To",
+      label: "End",
       width: `${100 / 6}%`,
       // header_icon: {
       //   icon: 'long-arrow-up',

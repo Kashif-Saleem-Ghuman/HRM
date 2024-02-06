@@ -5,6 +5,7 @@
     :sections="employees"
     :hide-no-column="true"
     :fixHeader="true"
+    @column-header-clicked="headerColumnClick($event.column)"
     :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
     @item-clicked="tableItemClick"
     @employee-name-sort="sortColumn('name')"
@@ -223,6 +224,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
     tableItemClick(event, key, item) {
       const id = item?.id;

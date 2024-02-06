@@ -12,6 +12,7 @@
     @leave-end-sort="sortColumn('end')"
     @leave-duration-sort="sortColumn('duration')"
     @leave-status-sort="sortColumn('status')"
+    @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(leavetype)="data">
         <div
@@ -124,6 +125,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");

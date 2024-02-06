@@ -23,20 +23,14 @@ export async function getLeaveVacationsAdmin() {
 
 export async function getPendingLeaveVacationsAdmin() {
   // this.loading = true;
-  // const { from, to } = payload
   try {
-    // const dates = {from:from, to:to }
     const pendingLeaveVacationsAdmin = await axios.get(
       process.env.API_URL + "/requests/admin/pending",
       {
-        params: {
-          from: this.fromDate, // This is the body part
-          to: this.toDate,
-        },
         headers: {
           Authorization: "Bearer " + this.getAccessToken,
         },
-      },
+      }
     );
     this.requestListData = pendingLeaveVacationsAdmin.data.requests;
     this.loading = false;

@@ -1,10 +1,14 @@
 import { createConfig } from "../../config";
 import { hrmApiAxiosInstance } from "../../hrm-api-axios-instance";
-export async function getPendingLeaveVacationsAdmin() {
+export async function getPendingLeaveVacationsAdmin(payload) {
   // this.loading = true;
   try {
     const url = `/requests/admin/pending`;
     const config = createConfig();
+    config.params = {
+      from: payload.from,
+      to: payload.to,
+    };
     const pendingLeaveVacationsAdmin = await hrmApiAxiosInstance.get(
       url,
       config,
@@ -22,7 +26,6 @@ export async function getPendingLeaveVacationsAdmin() {
 }
 
 export async function getApproveLeaveVacationsAdmin({ requestIds }) {
-  this.loading = true;
   try {
     const url = '/requests/admin/approve'
     const requestId = {requestIds}
@@ -41,6 +44,5 @@ export async function getApproveLeaveVacationsAdmin({ requestIds }) {
       variant: "danger",
     });
   }
-  this.loading = false;
 }
 

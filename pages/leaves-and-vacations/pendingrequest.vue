@@ -5,7 +5,7 @@
 
     <div class="" id="pending_request_wrapper">
       <div class="d-flex jutify-between">
-        <div class="align-center nav_wrapper px-1 py-05 bottom_border_wrapper">
+        <div class="align-center nav_wrapper px-05 py-05 bottom_border_wrapper">
           <dropdown-menu-calendar
             :items="dropMenuYear"
             :label="selectedYear"
@@ -14,7 +14,7 @@
             className="button-wrapper__bgblack"
           ></dropdown-menu-calendar>
         </div>
-        <div class="d-flex align-center " v-show="showBatchApproveButton">
+        <div class="d-flex align-center" v-show="showBatchApproveButton">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"

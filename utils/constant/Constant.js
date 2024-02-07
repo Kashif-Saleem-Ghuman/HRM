@@ -527,50 +527,53 @@ export const TABLE_HEAD = {
         type: 'string'
       },
     },
-    // {
-    //   key: "recived",
-    //   label: "Recived",
-    // },
     {
       key: "type",
       label: "Leave Type",
       width: `${100 / 5}%`,
-      // header_icon: {
-      //   icon: 'long-arrow-up',
-      //   event: 'employee-type-sort',
-      //   isActive: false,
-      //   sortKey: 'type',
-      //   type: 'string'
-      // },
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-type-sort',
+        isActive: false,
+        sortKey: 'type',
+        type: 'string'
+      },
     },
     {
-      key: "from",
+      key: "start",
       label: "Start",
       width: `${100 / 5}%`,
-      // header_icon: {
-      //   icon: 'long-arrow-up',
-      //   event: 'employee-start-sort',
-      //   isActive: false,
-      //   sortKey: 'start',
-      //   type: 'date'
-      // },
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-start-sort',
+        isActive: false,
+        sortKey: 'start',
+        type: 'date'
+      },
     },
     {
-      key: "to",
+      key: "end",
       label: "End",
       width: `${100 / 6}%`,
-      // header_icon: {
-      //   icon: 'long-arrow-up',
-      //   event: 'employee-end-sort',
-      //   isActive: false,
-      //   sortKey: 'end',
-      //   type: 'date'
-      // },
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-end-sort',
+        isActive: false,
+        sortKey: 'end',
+        type: 'date'
+      },
     },
     {
       key: "reason",
       label: "Reason",
       width: `${100 / 6}%`,
+      header_icon: {
+        icon: 'long-arrow-up',
+        event: 'employee-reason-sort',
+        isActive: false,
+        sortKey: 'note',
+        type: 'string'
+      },
     },
     {
       key: "action",

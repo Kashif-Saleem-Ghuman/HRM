@@ -12,12 +12,6 @@
           ? `list-${employees[0].id}`
           : 'empty-list-0'
       "
-      @item-clicked="tableItemClick"
-      @employee-name-sort="sortColumn('name')"
-      @employee-email-sort="sortColumn('email')"
-      @employee-phone-sort="sortColumn('telephone')"
-      @employee-hire-date-sort="sortColumn('hiredate')"
-      @employee-department-sort="sortColumn('department')"
     >
       <template #cell(name)="data">
         <div

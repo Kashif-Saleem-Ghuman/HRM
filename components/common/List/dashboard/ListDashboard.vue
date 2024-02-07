@@ -8,12 +8,6 @@
     @column-header-clicked="headerColumnClick($event.column)"
     :key="employees?.length && employees[0]?.id ? `list-${employees[0].id}` : 'empty-list-0'"
     @item-clicked="tableItemClick"
-    @employee-name-sort="sortColumn('name')"
-    @employee-status-sort="sortColumn('status')"
-    @employee-in-sort="sortColumn('in')"
-    @employee-out-sort="sortColumn('out')"
-    @employee-breaks-sort="sortColumn('breaks')"
-    @employee-total-sort="sortColumn('total')"
   >
     <template #cell(name)="data">
       <div

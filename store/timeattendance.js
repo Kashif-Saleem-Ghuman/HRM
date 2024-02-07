@@ -26,6 +26,10 @@ export const getters = {
   },
   getDailyTimeEntries(state) {
     return state.dailyTimeEntries;
+  },
+
+  getdailyTimeEntriesToday(state) {
+    return state.dailyTimeEntriesToday;
   }
 }
 

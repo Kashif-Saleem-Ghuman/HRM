@@ -13,7 +13,6 @@ export async function getPendingLeaveVacationsAdmin(payload) {
       url,
       config,
     );
-    console.log(pendingLeaveVacationsAdmin, "pendingLeaveVacationsAdmin")
     this.requestListData = pendingLeaveVacationsAdmin?.data?.requests;
     this.loading = false;
     this.$nuxt.$emit("pending-key");

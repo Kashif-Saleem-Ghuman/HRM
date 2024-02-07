@@ -5,8 +5,7 @@
     :hide-no-column="true"
     @select-all="$emit('selectAllItems')"
     :allChecked="checkedAll"
-    @employee-name-sort="sortColumn('name')"
-    @column-header-clicked="$event.column === 'name' ? headerColumnClick($event.column) : ''"
+    @column-header-clicked="headerColumnClick($event.column)"
   >
     <template #cell_action="data">
       <div class="d-flex justify-center align-center">
@@ -71,12 +70,12 @@
         <span style="text-transform: capitalize">{{ data.value.type }}</span>
       </div>
     </template>
-    <template #cell(from)="data">
+    <template #cell(start)="data">
       <div class="justify-between text-dark">
         <span>{{ onLoad(data.value.start) }}</span>
       </div>
     </template>
-    <template #cell(to)="data">
+    <template #cell(end)="data">
       <div class="justify-between text-dark">
         <span>{{ onLoad(data.value.end) }}</span>
       </div>

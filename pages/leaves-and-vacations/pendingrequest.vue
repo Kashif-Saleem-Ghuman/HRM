@@ -5,7 +5,7 @@
 
     <div class="" id="pending_request_wrapper">
       <div class="d-flex jutify-between">
-        <!-- <div class="align-center nav_wrapper ">
+        <div class="align-center nav_wrapper px-1 py-05 bottom_border_wrapper">
           <dropdown-menu-calendar
             :items="dropMenuYear"
             :label="selectedYear"
@@ -13,8 +13,8 @@
             @on-click="changeYearView($event)"
             className="button-wrapper__bgblack"
           ></dropdown-menu-calendar>
-        </div> -->
-        <div class="d-flex align-center px-1 py-05 bottom_border_wrapper" v-show="showBatchApproveButton">
+        </div>
+        <div class="d-flex align-center " v-show="showBatchApproveButton">
           <bib-button
             :icon="$button.approved.icon"
             :variant="$button.approved.variant"
@@ -57,7 +57,6 @@ import { mapGetters } from "vuex";
 import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
-  getRejectLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
 import {
   openPopupNotification,
@@ -124,7 +123,10 @@ export default {
     });
     this.addIds = [];
     this.getCurrentYear();
-    this.getPendingLeaveVacationsAdmin();
+    this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
+      });
   },
   mounted() {
     this.dropMenuYear = this.generateYearList();
@@ -132,7 +134,6 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    getRejectLeaveVacationsAdmin,
     openPopupNotification,
     getCurrentYear,
     generateYearList,
@@ -146,9 +147,14 @@ export default {
     },
     async rejectEmployeeRequest(request) {
       await rejectRequest({ id: this.rejectedRequestId, request }).then(() => {
-        this.getPendingLeaveVacationsAdmin();
-        this.showRefusalModal = false;
+        this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
       });
+        this.showRefusalModal = false;
+        this.pendingList += 1;
+      });
+      this.openPopupNotification(3);
     },
     async changeYearView(e) {
       this.selectedYear = e.label;
@@ -157,13 +163,19 @@ export default {
         from: this.fromDate,
         to: this.toDate,
       });
-      await this.getPendingLeaveVacationsAdmin();
+      await this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
+      });
     },
     async approveItem(event) {
       const requestIds = [event + ""];
       console.log(requestIds, event, "requestIds");
       await this.getApproveLeaveVacationsAdmin({ requestIds }).then(() => {
-        this.getPendingLeaveVacationsAdmin();
+        this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
+      });
       });
     },
     // async getIdValue(event) {

@@ -25,11 +25,8 @@ import {
     submitTimesheet,
   } from "./api_call/timeattendance/timesheets";
   import {
-    getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    getRejectLeaveVacationsAdmin,
-    getUserLeavesDetail,
   } from "./api_call/leavesvacations/requestadmin";
   import {
     addLeaveVacations,
@@ -41,11 +38,8 @@ import {
     employeeTime,
 
     // leave vacations admin functions
-    getLeaveVacationsAdmin,
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    getRejectLeaveVacationsAdmin,
-    getUserLeavesDetail,
 
     // leave vacations user functions
     addLeaveVacations,

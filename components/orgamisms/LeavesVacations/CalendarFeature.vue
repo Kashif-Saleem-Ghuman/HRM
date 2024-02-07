@@ -142,7 +142,6 @@ import {
 } from "@/utils/functions/status-helpers";
 import {
   addLeaveVacations,
-  getUserLeavesDetail,
 } from "../../../utils/functions/functions_lib_api";
 import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
 
@@ -268,7 +267,6 @@ export default {
     addHandleInput,
     addLeaveVacations,
     getCurrentYear,
-    getUserLeavesDetail,
     getEmployeeFullName,
     getLeaveStatusIcon,
     getStatusLabel,

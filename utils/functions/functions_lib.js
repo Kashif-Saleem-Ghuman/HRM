@@ -10,12 +10,10 @@ import {
 } from "./app_wrapper/app_wrap_functions.js";
 import {
   getUser,
-  getBusinessId,
   openPopupNotification,
   dateCheck,
   getCurrentDateMonth,
   getCurrentYear,
-  updateBusinessId,
   getCurrentWeek,
   sendMeet,
   sendMessage,
@@ -41,7 +39,6 @@ export {
   headerActionCall,
   getUser,
   dateCheck,
-  getBusinessId,
   handleToggleWrapperTheme,
   openPopupNotification,
   openAccountPage,
@@ -54,7 +51,6 @@ export {
   handleInputObject,
   getCurrentDateMonth,
   getCurrentYear,
-  updateBusinessId,
   handleOrgProfile,
   selectUserHandle,
   selectLeaveTypeHandle,

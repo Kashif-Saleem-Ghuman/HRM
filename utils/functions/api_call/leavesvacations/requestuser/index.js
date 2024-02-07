@@ -1,12 +1,13 @@
-import axios from "axios";
 import { DateTime } from "luxon";
 import { generateRequestSelectedDays } from "../../../../requests/request-selected-days";
+import { createConfig } from "../../config";
+import { hrmApiAxiosInstance } from "../../hrm-api-axios-instance";
 
 const addLeaveErrorMessage = [
-  {text:"Please select start date", variant:'danger'},
-  {text:"Please select end date", variant:'danger'},
-  {text:"Start date should be before end date", variant:'danger'}
-]
+  { text: "Please select start date", variant: "danger" },
+  { text: "Please select end date", variant: "danger" },
+  { text: "Start date should be before end date", variant: "danger" },
+];
 export async function addLeaveVacations() {
   if (this.addForm.start == null) {
     this.openPopupNotification(addLeaveErrorMessage[0]);
@@ -20,26 +21,27 @@ export async function addLeaveVacations() {
     this.openPopupNotification(addLeaveErrorMessage[2]);
     return;
   }
-  this.errorMsgEndDateGreater = false;
   this.loading = true;
   var data = this.addForm;
   let startDate = new Date(data.start).toISOString();
-  const isoStartDate = DateTime.fromISO(startDate).startOf('day').toUTC().toISO();
+  const isoStartDate = DateTime.fromISO(startDate)
+    .startOf("day")
+    .toUTC()
+    .toISO();
   let endDate = new Date(data.end).toISOString();
-  const isoEndDate = DateTime.fromISO(endDate).endOf('day').toUTC().toISO();
+  const isoEndDate = DateTime.fromISO(endDate).endOf("day").toUTC().toISO();
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate);
 
   try {
-    const addLeaveVacations = await axios.post(
-      process.env.API_URL + "/requests",
-      this.addForm,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
+    const url = `/requests`;
+    const request = this.addForm;
+    const config = createConfig();
+    const addLeaveVacations = await hrmApiAxiosInstance.post(
+      url,
+      request,
+      config
     );
     this.addForm = {};
     this.leaveVacationData = addLeaveVacations.data;
@@ -76,21 +78,20 @@ export async function addLeaveVacations() {
         });
     }
   } catch (e) {
-    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
   }
   this.loading = false;
 }
 export async function deleteLevaeVacation(value) {
   this.loading = true;
   try {
-    const leaveDelete = await axios.delete(
-      process.env.API_URL + "/requests/" + value,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
+    const url = `/requests/`;
+    const request = value;
+    const config = createConfig();
+    const leaveDelete = await hrmApiAxiosInstance.delete(url + request, config);
     this.$nuxt.$emit("fetched-leave-vacation");
     this.$nuxt.$emit("leave-list-key");
     this.loading = false;
@@ -99,25 +100,30 @@ export async function deleteLevaeVacation(value) {
     this.openPopupNotification(9);
     return leaveDelete;
   } catch (e) {
-    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
   }
   this.loading = false;
 }
 export async function getUserLeavesDetailUser(payload) {
+  const { request } = payload;
   try {
-    const result = await axios.get(process.env.API_URL + "/widgets/request/", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      params: {
-        from: payload?.from,
-        to: payload?.to,
-      },
-    });
+    const url = `/widgets/request/`;
+    const dates = {
+      from: request?.from,
+      to: request?.to,
+    };
+    const config = createConfig();
+    const result = await hrmApiAxiosInstance.get(url, config, { dates });
     this.loading = false;
     return result.data;
   } catch (e) {
     this.loading = false;
-    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
   }
 }

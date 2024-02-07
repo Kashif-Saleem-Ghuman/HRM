@@ -1,4 +1,6 @@
 import axios from "axios";
+import { createConfig } from "../config";
+import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 export async function addFiles(payload, files) {
   let fd = new FormData();
   if (files.length === 0) {
@@ -7,52 +9,33 @@ export async function addFiles(payload, files) {
   for (let i = 0; i < files.length; i++) {
     fd.append("files", files[i]);
   }
-
   try {
-    const files = await axios.post(
-      `${process.env.API_URL}/employees/${payload}/files`,
-      fd,
-      {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const url = `/employees/${payload}/files`;
+    const config = createConfig();
+    const addFiles = await hrmApiAxiosInstance.post(url, fd, config);
+    return addFiles;
   } catch (e) {
     console.log(e);
   }
 }
 export async function getFiles(payload) {
   try {
-    const files = await axios.get(
-      `${process.env.API_URL}/employees/${payload}/files`,
-      {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const url = `/employees/${payload}/files`;
+    const config = createConfig();
+    const files = await hrmApiAxiosInstance.get(url, config);
     return files.data;
   } catch (e) {
     if (e.response.status === 500) {
-      return window.open('/not-found',"_self")
+      return window.open("/not-found", "_self");
     }
     console.log(e);
   }
 }
 export async function deleteFiles(payload) {
   try {
-    const files = await axios.delete(
-      `${process.env.API_URL}/employees/${payload.employeeId}/files/${payload.id}`,
-      {
-        headers: {
-          Authorization: "Bearer " + this.getAccessToken,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const url = `/employees/${payload.employeeId}/files/${payload.id}`;
+    const config = createConfig();
+    const files = await hrmApiAxiosInstance.delete(url, config);
     return files.data;
   } catch (e) {
     console.log(e);

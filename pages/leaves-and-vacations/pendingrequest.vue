@@ -225,7 +225,10 @@ export default {
           .filter((item) => item.checked)
           .map((item) => item.id);
         await this.getApproveLeaveVacationsAdmin({ requestIds });
-        await this.getPendingLeaveVacationsAdmin();
+        await this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
+      });
         this.checkedAll = false;
       } else if (event == "reject") {
         this.getPendingLeaveVacationsAdmin();

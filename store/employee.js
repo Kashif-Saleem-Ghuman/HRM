@@ -44,7 +44,6 @@ export const mutations = {
     state.reportList = payload;
   },
   SET_SELECTED_EMPLOYEE_ID: (state, payload) => {
-    console.log(payload, "SET_SELECTED_EMPLOYEE_ID")
     const { employeeId } = payload
     state.selectedEmployeeId = employeeId;
   },
@@ -52,8 +51,6 @@ export const mutations = {
 
 export const actions = {
   async setUserListPayload(ctx, payload) {
-    // console.log(payload, "Payload console")
-
     try {
       const employeeList = await this.$axios.$get(
         `${process.env.API_URL}/employees?limit=${payload.limit}&page=${payload.page}`,

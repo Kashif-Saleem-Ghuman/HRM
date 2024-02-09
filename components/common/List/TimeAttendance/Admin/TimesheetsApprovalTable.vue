@@ -330,10 +330,6 @@ export default {
         ? "none"
         : "block";
     },
-
-    handleAction_Table(data) {
-      console.log(data);
-    },
   },
 
   watch: {

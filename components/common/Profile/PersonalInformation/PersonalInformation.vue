@@ -99,7 +99,6 @@ export default {
     return {
       methods: {
         updateInput($event) {
-          // console.log($event, "called")
           this.$emit("update-value", $event);
         },
       },

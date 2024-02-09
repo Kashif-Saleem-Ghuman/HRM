@@ -321,7 +321,6 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      console.log(this.todayDate, "fillDailyTimeEntries")
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()

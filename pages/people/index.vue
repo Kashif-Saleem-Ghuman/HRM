@@ -78,10 +78,6 @@ export default {
       this.employees = employees;
       this.loading = false;
     },
-
-    handleChange__FileInput(files) {
-      console.log(files);
-    },
     sendMeet() {
       window.open("https://dev-connect.business-in-a-box.com/", "_blank");
     },

@@ -421,7 +421,6 @@ export default {
     async handleEventClick(clickInfo) {
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
-      console.log(this.calendarOptions.events, "handleEventClickhandleEventClick")
       this.$nuxt.$emit("open-sidebar", item.request);
       this.$nuxt.$emit('close-sidebar-main')
 

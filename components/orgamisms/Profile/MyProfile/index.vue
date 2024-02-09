@@ -116,7 +116,6 @@ export default {
     deleteItemConfirmation(event) {
       this.confirmastionMessageModal = true;
       this.deleteItemId = event;
-      console.log(this.deleteItemId, "this.deleteItemId ");
     },
     async deleteItem() {
       await this.deleteLevaeVacation(this.deleteItemId);

@@ -248,9 +248,6 @@ export default {
       this.deletedfileId = id;
       this.confirmastionMessageModal = true;
     },
-    filterItem(event) {
-      console.log(event, "filterItem");
-    },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("close-sidebar");

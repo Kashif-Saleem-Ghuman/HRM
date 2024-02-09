@@ -248,7 +248,6 @@ export default {
   },
   methods: {
     getSubmitVariant() {
-      console.log(this.status, "this.statusthis.statusthis.status");
       if (this.timesheetIsSubmitable())
         return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
       return this.status === "approved"

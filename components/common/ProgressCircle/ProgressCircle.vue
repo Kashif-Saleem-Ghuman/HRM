@@ -57,12 +57,6 @@ export default {
       // fill : { gradient: ["red", "green", "blue"] },
     };
   },
-  methods: {
-    progress(event, progress, stepValue) {},
-    progress_end(event) {
-      console.log("Circle progress end");
-    },
-  },
 };
 </script>
 <style lang="scss">

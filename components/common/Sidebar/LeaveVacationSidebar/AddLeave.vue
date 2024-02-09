@@ -210,7 +210,6 @@ export default {
   },
   methods: {
     menuClick(value, fieldKey) {
-      console.log(this.startDate);
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
     },

@@ -131,7 +131,6 @@ export default {
     },
     maxFilesSize(file) {
       var fileSize = file[0].size / (1024 * 1024);
-      console.log(file);
       if (file[0].type != IMAGE_TYPE[fileExt]) {
         this.openPopupNotification(10);
         return;

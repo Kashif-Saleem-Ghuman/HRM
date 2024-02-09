@@ -173,9 +173,6 @@ export default {
     handleAction($event) {
       this.$emit("get-id", $event);
     },
-    handleAction_Table(data) {
-      console.log(data);
-    },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },

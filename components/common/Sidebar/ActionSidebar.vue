@@ -84,7 +84,6 @@ export default {
   },
   computed: {
     heightCalculate() {
-      console.log(this.classMain, "heightCalculateheightCalculate");
       return this.classMain;
     },
   },

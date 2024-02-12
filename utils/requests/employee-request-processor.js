@@ -9,11 +9,11 @@ function filterSelectedDays(request, from, to) {
   });
 }
 
-function updateEmployeeWeekData(employee, day, requestType) {
+function updateEmployeeWeekData(employee, day, request) {
   if (!employee.weekData[day]) {
     employee.weekData[day] = {};
   }
-  set(employee.weekData, [day, requestType], true);
+  set(employee.weekData, [day, request.type], request);
 }
 
 export function processEmployeeRequests(employee, from, to) {
@@ -22,7 +22,7 @@ export function processEmployeeRequests(employee, from, to) {
       const days = filterSelectedDays(request, from, to);
       for (const day of days) {
         const weekday = DateTime.fromISO(day).weekday;
-        updateEmployeeWeekData(employee, weekday, request.type);
+        updateEmployeeWeekData(employee, weekday, request);
       }
     }
   }

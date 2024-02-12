@@ -57,12 +57,11 @@
         </div>
       </template>
 
-      <template v-for="(day, dayIndex) in weekDays" #[`cell(${day})`]="data">
+      <template v-for="day in weekDays" #[`cell(${day.value})`]="data">
         <chips
-          class=""
-          :key="day"
-          :title="getWeekdayValue(data.value?.weekData?.[dayIndex])"
-          :className="[getWeekdayClassNames(data.value?.weekData?.[dayIndex])]"
+          :key="day.value"
+          :title="getWeekdayValue(data.value.weekData, day)"
+          :class="getWeekdayClassNames(data.value.weekData, day)"
         ></chips>
       </template>
 
@@ -158,7 +157,7 @@ export default {
       timesheetModal: false,
       filteredData: [],
       TIMESHEET_STATUS,
-      weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
+      weekDays: WEEK_DAY.map((day) => ({ ...day, value: day.value.substring(0, 3)})),
       sortByField: null,
     };
   },
@@ -210,21 +209,26 @@ export default {
       return TIMESHEET_STATUS.not_submitted.value;
     },
 
-    getWeekdayValue(data) {
+    getWeekdayValue(weekData, day) {
+      if (!weekData) return "--";
+
+      const data = weekData[day.weekday]
       if (!data) return "--";
 
-      for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
-        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
+      if (typeof data.totalHours === "number") {
+        return formatHoursToHHMM(data.totalHours);
       }
 
-      if (data.totalHours) {
-        return formatHoursToHHMM(data.totalHours);
+      for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
+        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity]
       }
 
       return "--";
     },
 
-    getWeekdayClassNames(data) {
+    getWeekdayClassNames(weekData, day) {
+      if(!weekData) return "chip-wrapper__bggray";
+      const data = weekData[day.weekday];
       if (!data) {
         return "chip-wrapper__bggray";
       }

@@ -13,7 +13,7 @@ export function generateRequestSelectedDays(startDate, endDate) {
   ) {
     const isWeekend = currentDay.weekday >= 6;
 
-    selectedDays[currentDay.toISODate()] = !isWeekend;
+    selectedDays[currentDay.toISODate()] = isWeekend ? 0 : 1;
   }
 
   return selectedDays;

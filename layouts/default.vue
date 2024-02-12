@@ -269,9 +269,7 @@ export default {
     });
     this.$root.$on("close-sidebar-main", () => {
       this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.openSidebar = false;
-      }, 700);
+      this.openSidebar = false;
     });
     this.$root.$on("clock-in", () => {
       this.clockModal = true;

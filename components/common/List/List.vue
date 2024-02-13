@@ -135,17 +135,6 @@ export default {
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
   },
-  // created() {
-  //   if (this.$router.history.current.fullPath == "/people") {
-  //     this.tableFields = TABLE_HEAD.tHeadPeople;
-  //     return;
-  //   }
-
-  //   if (this.$router.history.current.fullPath == "/people/directory") {
-  //     this.tableFields = TABLE_FIELDS_DIR;
-  //     return;
-  //   }
-  // },
   computed: {
     employees() {
       if (!this.sortByField) return this.userList;

@@ -9,7 +9,6 @@ import {
   isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
 import {
-  getUser,
   openPopupNotification,
   dateCheck,
   getCurrentDateMonth,
@@ -37,7 +36,6 @@ export {
   addHandleInput,
   editHandleInput,
   headerActionCall,
-  getUser,
   dateCheck,
   handleToggleWrapperTheme,
   openPopupNotification,

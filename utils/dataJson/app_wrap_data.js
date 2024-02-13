@@ -70,7 +70,13 @@ const data = () => {
       //   url: "/dashboard",
       //   selected: false,
       // },
-      { label: "Time & Attendance", icon: "time-history", key: "time-attendance", selected: false},
+      {
+        label: "Time & Attendance",
+        icon: "time-history",
+        key: "time-attendance",
+        url: "/time-attendance",
+        selected: false,
+      },
       {
         label: "Leave & Vacations",
         icon: "airplane-solid",
@@ -88,26 +94,31 @@ const data = () => {
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [
-      { label: "Clock in", icon: "time", key: "clockIn", selected: false },
       {
-        label: "Send Notification",
-        icon: "mail",
-        key: "sendNotification",
-        selected: false,
+        label: "Clock in",
+        icon: "time",
+        key: "clockIn",
+        action: "openClockIn",
       },
+      // {
+      //   label: "Send Notification",
+      //   icon: "mail",
+      //   key: "sendNotification",
+      //   selected: false,
+      // },
       {
         label: "Request Vacation",
         icon: "airplane-solid",
         key: "requestVacation",
         url: "/leaves-and-vacations/dashboard",
-        selected: false,
+        action: "openRequestVacation",
       },
       {
         label: "Request Leave",
         icon: "exit-to-app-solid",
         key: "requestLeave",
         url: "/leaves-and-vacations/dashboard",
-        selected: false,
+        action: "openRequestLeave",
       },
     ],
     navItemsAdminSwitch: [

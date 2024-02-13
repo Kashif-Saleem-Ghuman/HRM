@@ -156,6 +156,11 @@ export default {
       this.$nuxt.$emit("clock-in");
     },
 
+    closeSidebar() {
+      this.$nuxt.$emit("close-sidebar");
+      this.$nuxt.$emit("close-sidebar-main");
+    },
+
     openRequestVacation() {
       this.$nuxt.$emit("open-sidebar-admin", "vacation");
       this.$nuxt.$emit("add-leave");
@@ -193,6 +198,8 @@ export default {
     },
 
     menuClick(item) {
+      this.closeSidebar()
+      
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

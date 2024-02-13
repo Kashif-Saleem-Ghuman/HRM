@@ -19,21 +19,19 @@
     </template>
     <template #cell(name)="data">
       <div
-        class="d-flex align-center text-left gap-05"
-        style="position: relative"
+        class="d-flex align-center text-left gap-05 position-relative"
       >
         <div
-          style="cursor: pointer"
+          class="cursor-pointer"
           v-on:mouseover="profiletab('id_' + data.value.employee.id)"
           v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
         >
           <bib-avatar
-            variant="secondary-sub3"
+            variant="secondary-sub3 font-w-600"
             :text="getEmployeeInitials(data.value.employee)"
             text-variant="primary"
             size="2.7rem"
             v-show="data.value.employee.photo === null"
-            style="font-weight: 500"
           ></bib-avatar>
           <bib-avatar
             class="mt-auto mb-auto"
@@ -43,7 +41,7 @@
             size="2.7rem"
           >
           </bib-avatar>
-          <div :id="'id_' + data.value.employee.id" style="" class="userCard">
+          <div :id="'id_' + data.value.employee.id" class="userCard">
             <user-info-card
               :user="data.value.employee"
               @viewProfile="viewProfile(data.value.employee.id)"
@@ -67,7 +65,7 @@
     </template> -->
     <template #cell(type)="data">
       <div class="justify-between text-dark">
-        <span style="text-transform: capitalize">{{ data.value.type }}</span>
+        <span class="capitalize">{{ data.value.type }}</span>
       </div>
     </template>
     <template #cell(start)="data">

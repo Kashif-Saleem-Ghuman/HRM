@@ -1,5 +1,5 @@
 <template>
-      <bib-file :property="files" :key="files._id" icon="heart-like" style="width: 260px;"></bib-file>
+      <bib-file :property="files" :key="files._id" icon="heart-like" class="file__preview"></bib-file>
 </template>
 
 <script>
@@ -25,8 +25,6 @@ export default {
 </script>
 <style lang="scss">
 .file__preview {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   width: 260px;
   // align-items: center;
   // justify-content: center;

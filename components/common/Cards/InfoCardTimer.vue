@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <div class="info-card-leave-wrapper" style="width: 100%">
+    <div class="info-card-leave-wrapper w-100">
       <div>
         <label>My Status</label>
       </div>

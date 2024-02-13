@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex info-card-leave-container">
-    <div class="info-card-leave-wrapper" style="width: 100%">
-      <div style="display: flex; justify-content: space-between;">
+    <div class="info-card-leave-wrapper w-100">
+      <div class="d-flex justify-between item">
         <label>{{ title }}</label>
       </div>
       <div class="info-card-items mt-05">
@@ -28,33 +28,51 @@
         </div> -->
       </div>
       <div class="footer-item d-flex gap-05">
-        <div class="items"
+        <div
+          class="items"
           v-if="$store.state.token.isAdmin"
           @mouseover="editAllowanceIcon = true"
           @mouseleave="editAllowanceIcon = false"
         >
           <label>Allowance</label>
-          <div style="position: relative;">
-            <span class="pl-05" v-show="!editAllowance">{{ totalAllowance }}</span>
+          <div class="position-relative">
+            <span class="pl-05" v-show="!editAllowance">{{
+              totalAllowance
+            }}</span>
             <div v-show="editAllowance" class="edit-allowance">
               <bib-input
                 type="text"
                 v-model="editAllowanceValue"
                 size="sm"
                 class="pt-05 edit-allowance__input"
-                
               ></bib-input>
-              <bib-icon class="edit-allowance__action-icon" icon="save" hover-variant="primary" @click="saveAllowance"></bib-icon>
-              <bib-icon class="edit-allowance__action-icon" icon="close" hover-variant="primary" @click="editAllowance = false"></bib-icon>
+              <bib-icon
+                class="edit-allowance__action-icon"
+                icon="save"
+                hover-variant="primary"
+                @click="saveAllowance"
+              ></bib-icon>
+              <bib-icon
+                class="edit-allowance__action-icon"
+                icon="close"
+                hover-variant="primary"
+                @click="editAllowance = false"
+              ></bib-icon>
             </div>
-            <bib-icon v-show="editAllowanceIcon && !editAllowance" class="edit-allowance-icon" icon="pencil" hover-variant="primary" @click="handleEditAllowanceClick"></bib-icon>
+            <bib-icon
+              v-show="editAllowanceIcon && !editAllowance"
+              class="edit-allowance-icon"
+              icon="pencil"
+              hover-variant="primary"
+              @click="handleEditAllowanceClick"
+            ></bib-icon>
           </div>
         </div>
         <div v-else class="items">
           <label>Allowance</label>
           <span class="pl-05">{{ totalAllowance }}</span>
         </div>
-        
+
         <div class="items">
           <label>Used</label>
           <span class="pl-05">{{ daysUsed }}</span>
@@ -70,8 +88,7 @@
         :variant="variant"
         :scale="$button.approved.scale"
         :label="buttonLable"
-        class="mr-05 button-wrapper-align"
-        style="width: 100%"
+        class="mr-05 button-wrapper-align w-100"
         @click="$emit('on-click')"
       ></bib-button>
     </div>
@@ -79,7 +96,7 @@
 </template>
 <script>
 import { updateEmployee } from "@/utils/functions/api_call/employees";
-import { REQUEST_TYPES } from "@/utils/constant/Constant"
+import { REQUEST_TYPES } from "@/utils/constant/Constant";
 
 export default {
   props: {
@@ -123,50 +140,50 @@ export default {
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
-      balanceLeave: null, 
+      balanceLeave: null,
       progress: "0%",
       editAllowanceIcon: false,
       editAllowance: false,
-      editAllowanceValue: 0
+      editAllowanceValue: 0,
     };
   },
   computed: {
     getpercentageValue() {
-      const totalLeave = this.daysUsed + this.scheduledDays
+      const totalLeave = this.daysUsed + this.scheduledDays;
       return (totalLeave / this.totalAllowance).toFixed(2) * 100 || "0";
     },
-    
+
     balanceLeaveValue() {
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
-        const balance = this.totalAllowance - this.daysUsed
-        return balance < 0 ? 0 : balance
+        const balance = this.totalAllowance - this.daysUsed;
+        return balance < 0 ? 0 : balance;
       }
-      return 0
+      return 0;
     },
     employeeId() {
-      return this.$store.state.employee.selectedEmployeeId
-    }
+      return this.$store.state.employee.selectedEmployeeId;
+    },
   },
-  async created() {
-
-  },
-  mounted() {
-  },
+  async created() {},
+  mounted() {},
   methods: {
     handleEditAllowanceClick() {
-      this.editAllowanceValue = this.totalAllowance
-      this.editAllowance = true
+      this.editAllowanceValue = this.totalAllowance;
+      this.editAllowance = true;
     },
 
     async saveAllowance() {
-      if (!this.employeeId || !this.type) return 
-      if (!Object.values(REQUEST_TYPES).includes(this.type)) return 
+      if (!this.employeeId || !this.type) return;
+      if (!Object.values(REQUEST_TYPES).includes(this.type)) return;
 
-      const payload = { id: this.employeeId, employee: {[`${this.type}DaysAllowed`]: this.editAllowanceValue} }
-      await updateEmployee(payload)
-      this.editAllowance = false
-      this.$emit("update")
-    }
+      const payload = {
+        id: this.employeeId,
+        employee: { [`${this.type}DaysAllowed`]: this.editAllowanceValue },
+      };
+      await updateEmployee(payload);
+      this.editAllowance = false;
+      this.$emit("update");
+    },
   },
 };
 </script>
@@ -195,8 +212,8 @@ export default {
   display: flex;
   align-items: center;
   width: 6.5rem;
-background-color: #fff;
-justify-content:left;
+  background-color: #fff;
+  justify-content: left;
 
   &__action-icon {
     cursor: pointer;
@@ -211,6 +228,6 @@ justify-content:left;
 .edit-allowance-icon {
   cursor: pointer;
   position: absolute;
-  margin-left: .1rem;
+  margin-left: 0.1rem;
 }
 </style>

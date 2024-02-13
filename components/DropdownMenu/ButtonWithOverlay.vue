@@ -2,7 +2,7 @@
   <div class="dropdown-menu">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
-      <div style="position: relative">
+      <div class="position-relative">
         <bib-button
           :label="buttonConfig?.label"
           :variant="buttonConfig?.variant || 'light'"

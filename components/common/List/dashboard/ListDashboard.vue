@@ -14,10 +14,7 @@
     @item-clicked="tableItemClick"
   >
     <template #cell(name)="data">
-      <div
-        class="d-flex align-center text-left gap-05"
-        style="position: relative"
-      >
+      <div class="d-flex align-center text-left gap-05 position-relative">
         <div
           v-on:mouseover="profiletab('id_' + data.value.id)"
           v-on:mouseleave="profiletab('id_' + data.value.id, true)"
@@ -37,7 +34,7 @@
             size="2.3rem"
           >
           </bib-avatar>
-          <div :id="'id_' + data.value.id" style="" class="userCard">
+          <div :id="'id_' + data.value.id" class="userCard">
             <user-info-card
               :user="data.value"
               @viewProfile="viewProfile(data.value.id)"
@@ -47,7 +44,7 @@
             ></user-info-card>
           </div>
         </div>
-        <div class="info_wrapper cursor-pointer" style="width: 100%">
+        <div class="info_wrapper cursor-pointer w-100">
           <div class="title" title="getEmployeeFullName(data.value)">
             {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
           </div>

@@ -11,12 +11,6 @@
           indicator
           @input="$emit('input', $event, 'addressLine1', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-            style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgStreet"
-            >Please enter street</small
-          >
       </div>
     </div>
     <div class="row mx-0">
@@ -29,12 +23,6 @@
           :disabled="inActive"
           @input="$emit('input', $event, 'addressLine2', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-             style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgSuit"
-            >Please enter suit apartment</small
-          >
       </div>
     </div>
     <div class="row mx-0">
@@ -48,12 +36,6 @@
           :disabled="inActive"
           @input="$emit('input', $event, 'country', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-             style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgCountry"
-            >Please select Country</small
-          >
       </div>
       <div class="col-4" v-show="stateVisible">
         <bib-input
@@ -65,12 +47,6 @@
           :disabled="inActive" 
           @input="$emit('input', $event, 'state', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-            style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgState"
-            >Please select State</small
-          >
       </div>
       <div class="col-4" v-show="otherStateShow">
         <bib-input
@@ -91,12 +67,6 @@
           :disabled="inActive"
           @change="$emit('input', $event, 'city', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-             style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgCity"
-            >Please enter your city</small
-          >
       </div>
     </div>
     <div class="row mx-0">
@@ -109,12 +79,6 @@
           :disabled="inActive"
           @input="$emit('input', $event, 'postalCode', 'addresses')"
         ></bib-input>
-        <small
-            class="text-danger"
-             style="margin:0 0 0.5rem 2px; display: block"
-            v-show="errorMsgPostalCode"
-            >Please enter suit postal code</small
-          >
       </div>
     </div>
   </div>
@@ -151,24 +115,6 @@ export default {
     },
     otherStateShow:{
       type:Boolean
-    },
-    errorMsgStreet: {
-      type: Boolean,
-    },
-    errorMsgSuit: {
-      type: Boolean,
-    },
-    errorMsgCountry: {
-      type: Boolean,
-    },
-    errorMsgState: {
-      type: Boolean,
-    },
-    errorMsgPostalCode: {
-      type: Boolean,
-    },
-    errorMsgCity: {
-      type: Boolean,
     },
     stateVisible: {
       type: Boolean,

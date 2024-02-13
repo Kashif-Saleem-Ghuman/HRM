@@ -6,7 +6,7 @@
       pill
       @click="backRouter"
       icon_bg="bg-secondary-sub2"
-      style="cursor: pointer"
+      class="cursor-pointer"
       v-show="back"
     ></bib-button>
     <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>

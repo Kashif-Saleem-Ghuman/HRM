@@ -2,11 +2,9 @@
   <div
     id="side-panel"
     :class="'side-panel ' + 'side-panel__' + className"
-    style="z-index: 10000"
   >
     <div
-      class="d-flex justify-between align-center sidebar-header"
-      style="padding: 24px"
+      class="d-flex justify-between align-center sidebar-header p-2"
     >
       <div class="d-flex justify-between align-center">
         <bib-icon
@@ -21,25 +19,19 @@
         icon="close"
         :scale="1.25"
         @click="$emit('close')"
-        style="cursor: pointer"
+        class="cursor-pointer"
       ></bib-icon>
     </div>
-    <div style="height: 1px; background-color: #eee"></div>
+    <div class="height-1 bg-light"></div>
     <div class="sidebar-body">
       <div :class="'of-scroll-y ' + classMain">
-        <div style="padding: 24px 24px 12px 24px">
+        <div class="sidebarBodyPadd">
           <slot name="sidebar-body"></slot>
         </div>
       </div>
-      <div style="height: 1px; background-color: #eee"></div>
+      <div class="height-1 bg-light"></div>
       <div
-        class="sidebar-footer px-1 py-1"
-        style="
-          display: flex;
-          justify-content: end;
-          align-items: end;
-          height: 100%;
-        "
+        class="sidebar-footer px-1 py-1 d-flex justify-end align-end h-100"
         v-if="show == 'true'"
       >
         <slot name="sidebar-footer"> </slot>
@@ -51,34 +43,15 @@
 export default {
   name: "ActionSidebar",
   props: {
-    className: {
-      type: String,
-    },
-    classMain: {
-      type: String,
-    },
-    heading: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-    copyLink: {
-      type: String,
-    },
-    show: {
-      type: String,
-    },
+    className: String,
+    classMain: String,
+    heading: String,
+    icon: String,
+    copyLink: String,
+    show: String
   },
   data() {
     return {
-      property: {
-        name: "File Name",
-        colorLabel: "secondary-sub2",
-        preview: "https://loremflickr.com/640/360",
-        type: "Image",
-        size: "234",
-      },
       isFileFavorite: false,
     };
   },
@@ -178,5 +151,8 @@ export default {
   &__header__actions {
     padding: 0.75rem 1.5rem;
   }
+}
+.sidebarBodyPadd{
+  padding: 24px 24px 12px 24px
 }
 </style>

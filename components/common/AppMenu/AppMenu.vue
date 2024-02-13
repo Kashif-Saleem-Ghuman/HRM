@@ -33,7 +33,7 @@
         class="mt-05"
       ></bib-app-navigation>
       <div class="section-head" v-if="sectionHead">
-        <span style="cursor: pointer; color: #86868a">Shortcuts</span>
+        <span class="text-secondary">Shortcuts</span>
       </div>
       <div :class="className">
         <bib-app-navigation
@@ -200,9 +200,12 @@ export default {
 
       if (item.action && this[item.action]) {
         this[item.action](item);
+        
       }
 
-      if (item.url) this.$router.push(item.url);
+      if (item.url) {
+        this.$router.push(item.url);}
+      
     },
   },
 

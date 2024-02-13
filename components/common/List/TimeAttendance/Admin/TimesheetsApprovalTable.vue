@@ -15,10 +15,9 @@
       <!-- Timsheet date range -->
       <template #cell(name)="data">
         <div
-          class="d-flex align-center text-left gap-05"
-          style="position: relative"
+          class="d-flex align-center text-left gap-05 position-relative"
         >
-          <div class="info_wrapper" style="padding-left: 8px">
+          <div class="info_wrapper pl-05">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>

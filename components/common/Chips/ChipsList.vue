@@ -2,8 +2,7 @@
   <div class="d-flex gap-1">
     <div
       :class="[className]"
-      style="width: 100%"
-      class="cursor-pointer chip-list-wrapper ml-05"
+      class="cursor-pointer chip-list-wrapper ml-05 w-100"
       @click="$emit('on-click')"
     >
       <ul>

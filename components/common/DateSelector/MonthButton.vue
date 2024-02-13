@@ -1,29 +1,28 @@
 <template>
   <div>
     <div class="drop-menu">
-    <div style="position: relative">
-      <bib-button
-        :label="selected"
-        variant="light"
-        @click="toggleDropdown"
-        v-click-outside="clickOutside"
-      ></bib-button>
-      <div class="menu-items">
-        <ul v-if="isDropdownOpen">
-          <li
-            class="d-flex align-center"
-            v-for="(option, index) in options"
-            :key="index"
-            @click="selectOption(option)"
-            style="width: 150px;"
-          >
-            <span>{{ option.label }}</span>
-          </li>
-        </ul>
+      <div class="position-relative">
+        <bib-button
+          :label="selected"
+          variant="light"
+          @click="toggleDropdown"
+          v-click-outside="clickOutside"
+        ></bib-button>
+        <div class="menu-items">
+          <ul v-if="isDropdownOpen">
+            <li
+              class="d-flex align-center w-100"
+              v-for="(option, index) in options"
+              :key="index"
+              @click="selectOption(option)"
+            >
+              <span>{{ option.label }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-<!--     
+    <!--     
 
     <button class="dropdown-button" :class="{ disabled: disabled }">
       <span class="text" @click="toggleDropdown">{{ selected }}</span>
@@ -108,7 +107,7 @@ export default {
     span {
       font-weight: 500;
       font-size: 14px;
-      color: #fff !important; 
+      color: #fff !important;
     }
     &:focus,
     &:active,
@@ -137,14 +136,13 @@ export default {
       box-shadow: 0 0 0 0.2rem #f4c2c4 !important;
     }
   }
-  
+
   &--disabled {
     cursor: not-allowed;
     display: flex; /* For IE11/ MS Edge bug */
     align-items: center;
     pointer-events: none;
     text-decoration: none;
-    
   }
 }
 </style>

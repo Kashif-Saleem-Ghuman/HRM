@@ -1,8 +1,8 @@
 <template>
-  <div class="dropdown-menu" style="z-index: 99">
+  <div class="dropdown-menu">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
-      <div style="position: relative; z-index: 99">
+      <div class="position-relative">
         <bib-button
           :label="label"
           :variant="variant ?? 'light'"
@@ -15,10 +15,9 @@
         <div class="menu-items">
           <ul v-if="show">
             <li
-              class="d-flex align-center"
+              class="d-flex align-center cursor-pointer"
               v-for="item in items"
               @click="$emit('on-click', item)"
-              style="cursor: pointer"
             >
               <bib-icon
                 :icon="listIcon"

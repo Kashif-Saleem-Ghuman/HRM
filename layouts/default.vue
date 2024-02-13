@@ -29,7 +29,7 @@
           class="app-wrapper--collapsed2"
         >
           <template>
-            <div style="margin-left: -5px;" class="py-05">
+            <div class="py-05 ml-minus-5">
             <search-content></search-content>
           </div>
           </template>
@@ -85,8 +85,8 @@
               </div>
             </template>
             <template v-slot:sidebar-footer>
-              <div class="">
-                <div style="text-align: right">
+              <div>
+                <div class="text-right">
                   <bib-button
                     label="Cancel"
                     variant="gray"
@@ -106,7 +106,7 @@
         </div>
         <bib-notification
           :popupMessages="popupMessages"
-          style="z-index: 9999999999999"
+          class="max-z-index"
         ></bib-notification>
 
         <div>
@@ -269,7 +269,7 @@ export default {
     });
     this.$root.$on("close-sidebar-main", () => {
       this.slideClass = "slide-out";
-      this.openSidebar = false;
+      setTimeout(this.closeSidebarFun, 700);
     });
     this.$root.$on("clock-in", () => {
       this.clockModal = true;
@@ -329,12 +329,18 @@ export default {
     close() {
       this.clockModal = false;
     },
+    closeSidebarFun() {
+      this.openSidebar = false;
+    },
     closeSidebar() {
       this.slideClass = "slide-out";
-      setTimeout(() => {
-        this.openSidebar = false;
-      }, 700);
+      setTimeout(this.closeSidebarFun, 700);
     },
   },
 };
 </script>
+<style lang="scss">
+.ml-minus-5{
+  margin-left: -5px;
+}
+</style>

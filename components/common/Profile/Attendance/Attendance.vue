@@ -82,7 +82,7 @@
           :disabled="inActive"
         ></bib-input>
       </div>
-      <div class="col-3" style="display: flex; align-items: flex-end">
+      <div class="col-3 d-flex align-end">
         <bib-input
           type="text"
           v-model="medicalAllowance"

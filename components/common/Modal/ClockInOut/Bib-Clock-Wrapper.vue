@@ -45,7 +45,7 @@
             <span>0ut</span>
             <span>{{ activityDetails.out }}</span>
           </div>
-          <div class="d-flex time-log-item font-w-600:">
+          <div class="d-flex time-log-item font-w-600">
             <span>Total</span>
             <span>{{ activityDetails.total }}</span>
           </div>

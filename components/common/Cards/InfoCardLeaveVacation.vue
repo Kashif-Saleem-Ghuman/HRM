@@ -36,9 +36,9 @@
         >
           <label>Allowance</label>
           <div class="position-relative">
-            <span class="pl-05" v-show="!editAllowance">{{
-              totalAllowance
-            }}</span>
+            <span class="pl-05" v-show="!editAllowance">
+              {{ totalAllowance }}
+            </span>
             <div v-show="editAllowance" class="edit-allowance">
               <bib-input
                 type="text"

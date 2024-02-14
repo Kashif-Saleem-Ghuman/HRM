@@ -64,12 +64,18 @@ import { mapState } from "vuex";
 const appWrapItems = getJson();
 export default {
   props: {
-    navItems: Array,
-    separator: String,
-    className: String,
+    navItems: {
+      type: Array,
+    },
+    seprator: {
+      type: String,
+    },
+    className: {
+      type: String,
+    },
     sectionHead: {
       type: Boolean,
-      default: true
+      default: true,
     },
   },
 
@@ -194,12 +200,9 @@ export default {
 
       if (item.action && this[item.action]) {
         this[item.action](item);
-        
       }
 
-      if (item.url) {
-        this.$router.push(item.url);}
-      
+      if (item.url) this.$router.push(item.url);
     },
   },
 

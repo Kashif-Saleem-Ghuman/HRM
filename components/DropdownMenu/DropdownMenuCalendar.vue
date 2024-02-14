@@ -5,7 +5,7 @@
       <div class="position-relative">
         <bib-button
           :label="label"
-          :variant="variant ?? 'light'"
+          :variant="dark"
           size="lg"
           :icon="icon ?? ''"
           @click="show = !show"
@@ -38,31 +38,21 @@
 <script>
 export default {
   props: {
-    label: {
-      type: [String, Number],
-    },
-    variant: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-    sectionLabel: {
-      type: String,
-    },
-    className: {
-      type: String,
-    },
-    items: {
-      type: Array,
-    },
-    listIcon: {
-      type: String,
-    },
-    listIconVariant: {
-      type: String,
-    },
+    // General props
+    label: [Number, String],
+    variant: String,
+    icon: String,
+    className: String,
+
+    // Props related to sections
+    sectionLabel: String,
+
+    // Props related to items and lists
+    items: Array,
+    listIcon: String,
+    listIconVariant: String,
   },
+
   data() {
     return {
       viewChange: "Today",

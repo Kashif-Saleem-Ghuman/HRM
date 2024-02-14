@@ -115,8 +115,6 @@ import {
   ACTIVITY_TYPE,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
-import { INFO_CARD_DATA } from "@/utils/constant/DashboardData";
-
 import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData.js";
 import { YEAR_LIST } from "@/utils/constant/Calander";
 
@@ -152,7 +150,6 @@ export default {
       loading: false,
       form: {},
       // Time & attandance
-      infoCardData: INFO_CARD_DATA,
       timesheetWidgetData: {},
       timesheetData: TIMESHEET_DATA,
       clockModal: false,

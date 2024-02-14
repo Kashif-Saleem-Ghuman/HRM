@@ -12,6 +12,7 @@
           ? `list-${employees[0].id}`
           : 'empty-list-0'
       "
+      @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
         <div

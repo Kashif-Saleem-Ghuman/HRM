@@ -2,10 +2,13 @@
   <div
     id="side-panel"
     :class="'side-panel ' + 'side-panel__' + className"
+    v-click-outside="
+        () => {
+          handleClickOutside();
+        }
+      "
   >
-    <div
-      class="d-flex justify-between align-center sidebar-header p-1 m-05"
-    >
+    <div class="d-flex justify-between align-center sidebar-header p-1 m-05">
       <div class="d-flex justify-between align-center">
         <bib-icon
           :icon="icon"
@@ -48,7 +51,8 @@ export default {
     heading: String,
     icon: String,
     copyLink: String,
-    show: String
+    show: String,
+    openSidebar: Boolean,
   },
   data() {
     return {
@@ -61,7 +65,8 @@ export default {
     },
   },
   methods: {
-    closeSidebar() {
+    handleClickOutside() {
+      this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
     },
   },
@@ -152,7 +157,7 @@ export default {
     padding: 0.75rem 1.5rem;
   }
 }
-.sidebarBodyPadd{
-  padding: 24px 24px 12px 24px
+.sidebarBodyPadd {
+  padding: 24px 24px 12px 24px;
 }
 </style>

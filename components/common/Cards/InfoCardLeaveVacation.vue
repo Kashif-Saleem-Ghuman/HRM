@@ -89,7 +89,7 @@
         :scale="$button.approved.scale"
         :label="buttonLable"
         class="mr-05 button-wrapper-align w-100"
-        @click="$emit('on-click')"
+        @click.native.stop="$emit('on-click')"
       ></bib-button>
     </div>
   </div>

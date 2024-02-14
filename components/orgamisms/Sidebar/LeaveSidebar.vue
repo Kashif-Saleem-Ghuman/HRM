@@ -271,7 +271,9 @@ export default {
       this.unregisterOpenSideBarRootListener()
     }
   },
-
+  handleClickOutside() {
+      this.$nuxt.$emit("close-sidebar");
+    },
   beforeDestroy() {
     this.unregisterRootListeners()
   }

@@ -7,11 +7,6 @@
     :hide-no-column="true"
     :fixHeader=true
     :key="leaveList?.length && leaveList[0]?.id ? `list-${leaveList[0].id}` : 'empty-list-0'"
-    @leave-type-sort="sortColumn('leavetype')"
-    @leave-start-sort="sortColumn('start')"
-    @leave-end-sort="sortColumn('end')"
-    @leave-duration-sort="sortColumn('duration')"
-    @leave-status-sort="sortColumn('status')"
     @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(leavetype)="data">
@@ -115,6 +110,7 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     async leaveDetail(item) {
+      event.stopPropagation();
       this.$nuxt.$emit('open-sidebar', item)
       this.$nuxt.$emit('close-sidebar-main')
     },

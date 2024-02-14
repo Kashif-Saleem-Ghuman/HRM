@@ -95,7 +95,6 @@ import {
   meetLink,
   makeCall,
 } from "../../../../utils/functions/functions_lib";
-import { DASHBOARD_DATA } from "../../../../utils/constant/DashboardData";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
 import {
   getEmployeeFullName,
@@ -124,7 +123,6 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       timesheetModal: false,
-      localData: DASHBOARD_DATA,
       filteredData: [],
       sortByField: null,
       inOutAction: TABLE_HEAD.tHeadDashboard.map((day) =>

@@ -5,7 +5,7 @@
       <div class="position-relative">
         <bib-button
           :label="label"
-          :variant="dark"
+          :variant="variant ?? 'light'"
           size="lg"
           :icon="icon ?? ''"
           @click="show = !show"

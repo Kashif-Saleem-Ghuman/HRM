@@ -12,13 +12,12 @@
         ></bib-button>
         <div class="menu-items chip-wrapper-com">
           <div v-if="show" class="chip-wrapper-inner">
-            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" style="cursor: pointer">
+            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
               <bib-button
                 :label="item.label"
                 :variant="item.variant"
                 size="lg"
                 :icon="item.icon ?? ''"
-                style="min-width: 140px"
                 class="pr-05 mb-05"
               ></bib-button>
             </div>

@@ -4,7 +4,7 @@
     <div v-if="isAdmin">
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin"
-        @click="
+        @click.stop="
           ($event, item) => {
             menuClick(item);
           }
@@ -25,7 +25,7 @@
     <div v-if="isUser" class="mt-1">
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
-        @click="
+        @click.stop="
           ($event, item) => {
             menuClick(item);
           }
@@ -33,12 +33,12 @@
         class="mt-05"
       ></bib-app-navigation>
       <div class="section-head" v-if="sectionHead">
-        <span style="cursor: pointer; color: #86868a">Shortcuts</span>
+        <span class="text-secondary">Shortcuts</span>
       </div>
       <div :class="className">
         <bib-app-navigation
           :items="appWrapItems.navItemsUserShortcuts"
-          @click="
+          @click.stop="
             ($event, item) => {
               menuClick(item);
             }
@@ -47,7 +47,7 @@
         ></bib-app-navigation>
         <bib-app-navigation
           :items="appWrapItems.navItemsUserSwitch.slice(-1)"
-          @click="organizationAdminClick"
+          @click.stop="organizationAdminClick"
           isLightTheme
           class="mt-05 custom-menu"
           v-if="isOrganizationAdmin"
@@ -198,8 +198,7 @@ export default {
     },
 
     menuClick(item) {
-      this.closeSidebar()
-      
+      if (item.key != "requestVacation") this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

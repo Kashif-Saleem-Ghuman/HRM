@@ -1,6 +1,6 @@
 <template>
   <div class="drop-menu">
-    <div style="position: relative">
+    <div class="position-relative">
       <bib-button
         :label="selected?.toString()"
         variant="light"

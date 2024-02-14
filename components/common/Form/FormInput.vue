@@ -10,7 +10,6 @@
     hide-quick-select
     v-bind="{ ...getDatetimeCommonProps() }"
   ></bib-datetime-picker>
-
   <bib-input
     v-else
     v-model="value"

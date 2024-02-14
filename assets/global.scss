@@ -341,3 +341,25 @@ $validation-star-color: #fa0f00;
 .table__hrow__active {
   border: none !important;
 }
+.capitalize{
+  text-transform: capitalize
+}
+.max-z-index{
+  z-index: 9999999999999;
+}
+.max-min-z-index{
+  z-index: 1000000 !important
+}
+.min-z-index{
+  z-index: 10000 !important
+}
+.height-1{
+  height: 1px !important;
+}
+.input--alert{
+  span{
+    display: block;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+}

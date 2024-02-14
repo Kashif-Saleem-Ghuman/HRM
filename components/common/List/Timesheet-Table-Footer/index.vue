@@ -29,11 +29,10 @@
         ></bib-button>
       </div>
     </div>
-    <div class="footer-items" v-else style="border-bottom: 0px !important">
+    <div class="footer-items bottom-border-remove" v-else>
       <div class="footer-item-left" v-if="status == 'rejected'">
         <div
-          class="refusal-wrapper info-card-success-wrapper"
-          style="margin-top: -16px"
+          class="refusal-wrapper info-card-success-wrapper margin-minus"
           v-if="refusalReasonData.refusalReason != null"
         >
           <div class="d-flex align-center info-card-inner-wrapper">
@@ -249,5 +248,11 @@ export default {
       line-height: 22px;
     }
   }
+}
+.bottom-border-remove{
+  border-bottom: 0px !important
+}
+.margin-minus{
+  margin-top: -16px
 }
 </style>

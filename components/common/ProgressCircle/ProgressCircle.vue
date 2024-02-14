@@ -16,9 +16,9 @@
       :thickness="5"
       :show-percent="false"
     >
-     <div style="font-size: 12px;">
-      <div style="color: rgb(139, 137, 137); font-size:9px" v-if="progressTitle">{{ progressTitle }}</div>
-      <div style="font-weight: 600">
+     <div class="font-sm">
+      <div class="#86868a font-sm" v-if="progressTitle">{{ progressTitle }}</div>
+      <div class="font-w-600">
          {{ progressPercentage }}
       </div>
      </div>

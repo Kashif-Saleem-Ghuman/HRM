@@ -9,15 +9,11 @@
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
       :key="dropzoneRefresh"
     >
-      <div
-        class="d-flex align-center"
-        style="position: relative"
-        :class="className"
-      >
+      <div class="d-flex align-center position-relative" :class="className">
         <div
           class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete"
         >
-          <div class="custom-remove" :class="customRemove" style="z-index: 99">
+          <div class="custom-remove" :class="customRemove">
             <span @click.stop="deleteConfirmation(src)" class="delIcon">
               <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
             </span>
@@ -151,16 +147,17 @@ export default {
 };
 </script>
 <style lang="scss">
-.avtar-border{
+.avtar-border {
   border: 1px solid $light !important;
 }
 .hide {
   display: none;
 }
 .custom-remove {
-  .avtar-border{
-  border: 0px solid $light !important;
-}
+  z-index: 99;
+  .avtar-border {
+    border: 0px solid $light !important;
+  }
   position: absolute;
   font-weight: 600;
   bottom: 8px;
@@ -205,9 +202,9 @@ export default {
   min-height: auto;
   padding: 0px;
   border: 0;
-  .avtar-border{
-  border: 0px solid $light !important;
-}
+  .avtar-border {
+    border: 0px solid $light !important;
+  }
   // h3 {
   //   font-size: 12px;
   //   color: #8989ff;

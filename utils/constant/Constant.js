@@ -8,37 +8,37 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Employee",
       width: `${100 / 5}%`,
-      style:'text-align:left',
+      style: "text-align:left",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-name-sort',
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
         isActive: false,
-        sortKey: 'firstName',
-        type: 'string'
+        sortKey: "firstName",
+        type: "string",
       },
     },
     {
       key: "status",
       label: "Status",
-       width: `${100 / 6}%`,
-       header_icon: {
-         icon: 'long-arrow-up',
-         event: 'employee-status-sort',
-         isActive: false,
-         sortKey: 'activityReport.in',
-         type: 'string'
-       },
+      width: `${100 / 6}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-status-sort",
+        isActive: false,
+        sortKey: "activityReport.in",
+        type: "string",
+      },
     },
     {
       key: "in",
       label: "In",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-in-sort',
+        icon: "long-arrow-up",
+        event: "employee-in-sort",
         isActive: false,
-        sortKey: 'activityReport.in',
-        type: 'string'
+        sortKey: "activityReport.in",
+        type: "string",
       },
     },
     {
@@ -46,11 +46,11 @@ export const TABLE_HEAD = {
       label: "Out",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-out-sort',
+        icon: "long-arrow-up",
+        event: "employee-out-sort",
         isActive: false,
-        sortKey: 'activityReport.out',
-        type: 'string'
+        sortKey: "activityReport.out",
+        type: "string",
       },
     },
     {
@@ -58,11 +58,11 @@ export const TABLE_HEAD = {
       label: "Breaks",
       width: `${100 / 7}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-breaks-sort',
+        icon: "long-arrow-up",
+        event: "employee-breaks-sort",
         isActive: false,
-        sortKey: 'activityReport.break',
-        type: 'string'
+        sortKey: "activityReport.break",
+        type: "string",
       },
     },
     {
@@ -70,11 +70,11 @@ export const TABLE_HEAD = {
       label: "Total hours",
       width: `${100 / 3}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-total-sort',
+        icon: "long-arrow-up",
+        event: "employee-total-sort",
         isActive: false,
-        sortKey: 'activityReport.total',
-        type: 'number'
+        sortKey: "activityReport.total",
+        type: "number",
       },
     },
   ],
@@ -90,7 +90,6 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Type",
-      
     },
     {
       key: "subject",
@@ -110,58 +109,57 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Employee",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-name-sort',
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
         isActive: false,
-        sortKey: 'firstName',
-        type: 'string'
+        sortKey: "firstName",
+        type: "string",
       },
     },
     {
       key: "email",
       label: "Email",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-email-sort',
+        icon: "long-arrow-up",
+        event: "employee-email-sort",
         isActive: false,
-        sortKey: 'email',
-        type: 'string'
+        sortKey: "email",
+        type: "string",
       },
     },
     {
       key: "telephone",
       label: "Telephone",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-phone-sort',
+        icon: "long-arrow-up",
+        event: "employee-phone-sort",
         isActive: false,
-        sortKey: 'phone',
-        type: 'phone'
+        sortKey: "phone",
+        type: "phone",
       },
     },
     {
       key: "department",
       label: "Department",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-department-sort',
+        icon: "long-arrow-up",
+        event: "employee-department-sort",
         isActive: false,
-        sortKey: 'department',
-        type: 'string'
+        sortKey: "department",
+        type: "string",
       },
     },
     {
       key: "hiredate",
       label: "Hire Date",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-hire-date-sort',
+        icon: "long-arrow-up",
+        event: "employee-hire-date-sort",
         isActive: false,
-        sortKey: 'hireDate',
-        type: 'date'
+        sortKey: "hireDate",
+        type: "date",
       },
     },
-    
   ],
   tHeadAttendanceUser: [
     {
@@ -172,22 +170,22 @@ export const TABLE_HEAD = {
       key: "leavetype",
       label: "Leave Type",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'leave-type-sort',
+        icon: "long-arrow-up",
+        event: "leave-type-sort",
         isActive: false,
-        sortKey: 'type',
-        type: 'string'
+        sortKey: "type",
+        type: "string",
       },
     },
     {
       key: "start",
       label: "Start",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'leave-start-sort',
+        icon: "long-arrow-up",
+        event: "leave-start-sort",
         isActive: false,
-        sortKey: 'start',
-        type: 'date'
+        sortKey: "start",
+        type: "date",
       },
     },
 
@@ -195,33 +193,33 @@ export const TABLE_HEAD = {
       key: "end",
       label: "End",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'leave-end-sort',
+        icon: "long-arrow-up",
+        event: "leave-end-sort",
         isActive: false,
-        sortKey: 'end',
-        type: 'date'
+        sortKey: "end",
+        type: "date",
       },
     },
     {
       key: "duration",
       label: "Duration",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'leave-duration-sort',
+        icon: "long-arrow-up",
+        event: "leave-duration-sort",
         isActive: false,
-        sortKey: 'duration',
-        type: 'number'
+        sortKey: "duration",
+        type: "number",
       },
     },
     {
       key: "status",
       label: "Status",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'leave-status-sort',
+        icon: "long-arrow-up",
+        event: "leave-status-sort",
         isActive: false,
-        sortKey: 'status',
-        type: 'string'
+        sortKey: "status",
+        type: "string",
       },
     },
   ],
@@ -235,126 +233,126 @@ export const TABLE_HEAD = {
       label: "EMPLOYEE",
       width: `${100 / 5}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-name-sort',
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
         isActive: false,
-        sortKey: 'firstName',
-        type: 'string'
+        sortKey: "firstName",
+        type: "string",
       },
     },
     {
       key: "mon",
       label: "MON",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-mon-sort',
+        icon: "long-arrow-up",
+        event: "employee-mon-sort",
         isActive: false,
-        sortKey: 'weekData.1.totalHours',
-        type: 'week'
+        sortKey: "weekData.1.totalHours",
+        type: "week",
       },
     },
     {
       key: "tue",
       label: "TUE",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-tue-sort',
+        icon: "long-arrow-up",
+        event: "employee-tue-sort",
         isActive: false,
-        sortKey: 'weekData.1.totalHours',
-        type: 'week'
+        sortKey: "weekData.1.totalHours",
+        type: "week",
       },
     },
     {
       key: "wed",
       label: "WED",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-wed-sort',
+        icon: "long-arrow-up",
+        event: "employee-wed-sort",
         isActive: false,
-        sortKey: 'weekData.3.totalHours',
-        type: 'week'
+        sortKey: "weekData.3.totalHours",
+        type: "week",
       },
     },
     {
       key: "thu",
       label: "THU",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-thu-sort',
+        icon: "long-arrow-up",
+        event: "employee-thu-sort",
         isActive: false,
-        sortKey: 'weekData.4.totalHours',
-        type: 'week'
+        sortKey: "weekData.4.totalHours",
+        type: "week",
       },
     },
     {
       key: "fri",
       label: "FRI",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-fri-sort',
+        icon: "long-arrow-up",
+        event: "employee-fri-sort",
         isActive: false,
-        sortKey: 'weekData.5.totalHours',
-        type: 'week'
+        sortKey: "weekData.5.totalHours",
+        type: "week",
       },
     },
     {
       key: "sat",
       label: "SAT",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-sat-sort',
+        icon: "long-arrow-up",
+        event: "employee-sat-sort",
         isActive: false,
-        sortKey: 'weekData.6.totalHours',
-        type: 'week'
+        sortKey: "weekData.6.totalHours",
+        type: "week",
       },
     },
     {
       key: "sun",
       label: "SUN",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 13}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-sun-sort',
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
         isActive: false,
-        sortKey: 'weekData.7.totalHours',
-        type: 'week'
+        sortKey: "weekData.7.totalHours",
+        type: "week",
       },
     },
     {
       key: "total",
       label: "TOTAL HRS",
-      style:'text-align:left',
+      style: "text-align:left",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-total-hours-sort',
+        icon: "long-arrow-up",
+        event: "employee-total-hours-sort",
         isActive: false,
-        sortKey: 'total',
-        type: 'number'
+        sortKey: "total",
+        type: "number",
       },
     },
     {
       key: "status",
       label: "STATUS",
-      style:'text-align:left',
+      style: "text-align:left",
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-status-sort',
+        icon: "long-arrow-up",
+        event: "employee-status-sort",
         isActive: false,
-        sortKey: 'timesheets[0].status',
-        type: 'string'
+        sortKey: "timesheets[0].status",
+        type: "string",
       },
     },
   ],
@@ -371,57 +369,57 @@ export const TABLE_HEAD = {
     {
       key: "mon",
       label: "MON",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "tue",
       label: "TUE",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "wed",
       label: "WED",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "thu",
       label: "THU",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "fri",
       label: "FRI",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "sat",
       label: "SAT",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "sun",
       label: "SUN",
-      style:'text-align:center',
+      style: "text-align:center",
       width: `${100 / 12}%`,
     },
     {
       key: "total",
       label: "TOTAL HRS",
-      style:'text-align:left'
+      style: "text-align:left",
     },
     {
       key: "status",
       label: "STATUS",
-      style:'text-align:left',
+      style: "text-align:left",
     },
   ],
-  tHeadTimesheetModal:[
+  tHeadTimesheetModal: [
     {
       key: "",
       label: "#",
@@ -453,7 +451,6 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Department Name",
     },
-    
   ],
   tHeadTeam: [
     {
@@ -464,7 +461,6 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Team Name",
     },
-    
   ],
   tHeadTimeoffDashboard: [
     {
@@ -520,11 +516,11 @@ export const TABLE_HEAD = {
       label: "Employee Name",
       width: `${100 / 4}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-name-sort',
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
         isActive: false,
-        sortKey: 'employee.firstName',
-        type: 'string'
+        sortKey: "employee.firstName",
+        type: "string",
       },
     },
     {
@@ -532,11 +528,11 @@ export const TABLE_HEAD = {
       label: "Leave Type",
       width: `${100 / 5}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-type-sort',
+        icon: "long-arrow-up",
+        event: "employee-type-sort",
         isActive: false,
-        sortKey: 'type',
-        type: 'string'
+        sortKey: "type",
+        type: "string",
       },
     },
     {
@@ -544,11 +540,11 @@ export const TABLE_HEAD = {
       label: "Start",
       width: `${100 / 5}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-start-sort',
+        icon: "long-arrow-up",
+        event: "employee-start-sort",
         isActive: false,
-        sortKey: 'start',
-        type: 'date'
+        sortKey: "start",
+        type: "date",
       },
     },
     {
@@ -556,11 +552,11 @@ export const TABLE_HEAD = {
       label: "End",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-end-sort',
+        icon: "long-arrow-up",
+        event: "employee-end-sort",
         isActive: false,
-        sortKey: 'end',
-        type: 'date'
+        sortKey: "end",
+        type: "date",
       },
     },
     {
@@ -568,11 +564,11 @@ export const TABLE_HEAD = {
       label: "Reason",
       width: `${100 / 6}%`,
       header_icon: {
-        icon: 'long-arrow-up',
-        event: 'employee-reason-sort',
+        icon: "long-arrow-up",
+        event: "employee-reason-sort",
         isActive: false,
-        sortKey: 'note',
-        type: 'string'
+        sortKey: "note",
+        type: "string",
       },
     },
     {
@@ -696,7 +692,7 @@ export const TABLE_HEAD = {
     {
       key: "",
       label: "#",
-      center: false
+      center: false,
     },
     {
       key: "name",
@@ -728,7 +724,6 @@ export const TABLE_HEAD = {
       center: true,
       width: `${100 / 7}%`,
     },
-    
   ],
 };
 
@@ -767,66 +762,16 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
     label: "Time-at-work",
   },
 ];
-export const MY_TIME_OFF_TAB = [
-  {
-    title: "Dashborad",
-    value: "Dashborad",
-  },
-  {
-    title: "Request",
-    value: "Request",
-  },
-];
-export const MY_TIME_ATTENDANCE = [
-  {
-    title: "Dashborad",
-    value: "Dashborad",
-  },
-  {
-    title: "Pending",
-    value: "Pending",
-  },
-];
-export const TIME_OFF_TAB = [
-  {
-    title: "Dashborad",
-    value: "Dashborad",
-  },
-  {
-    title: "Pending Requests",
-    value: "Pending Requests",
-  },
-  {
-    title: "Absence Notifications",
-    value: "Absence Notifications",
-  },
-];
-export const PAY_TAB = [
-  {
-    title: "Dashborad",
-    value: "Dashborad",
-  },
-  // {
-  //   title: "Pending Requests",
-  //   value: "Pending Requests",
-  // },
-  // {
-  //   title: "Absence Notifications",
-  //   value: "Absence Notifications",
-  // },
-];
 export const LEAVEVACATION_TAB = [
   {
     title: "Dashboard",
     value: "Dashboard",
-    route: "/leaves-and-vacations/dashboard/"
-
+    route: "/leaves-and-vacations/dashboard/",
   },
   {
     title: "Pending Requests",
     value: "Pending Requests",
-    route: "/leaves-and-vacations/pendingrequest/"
-
+    route: "/leaves-and-vacations/pendingrequest/",
   },
   // },
 ];
@@ -834,22 +779,22 @@ export const TIME_ATTENDANCE_TAB = [
   {
     title: "Attendance",
     value: "Attendance",
-    route: "/time-attendance/attendance/"
+    route: "/time-attendance/attendance/",
   },
   {
     title: "Timesheets",
     value: "Timesheets",
-    route: "/time-attendance/timesheets/"
+    route: "/time-attendance/timesheets/",
   },
   {
     title: "Pending",
     value: "Pending",
-    route: "/time-attendance/pending/"
+    route: "/time-attendance/pending/",
   },
   {
     title: "Past due",
     value: "Past due",
-    route: "/time-attendance/past-due/"
+    route: "/time-attendance/past-due/",
   },
 ];
 
@@ -875,29 +820,6 @@ export const TABLE_FIELDS = [
     label: "Team",
   },
 ];
-export const TABLE_FIELDS_DIR = [
-  {
-    key: "",
-    label: "#",
-  },
-  {
-    key: "name",
-    label: "Employee",
-  },
-  {
-    key: "presence",
-    label: "Presence",
-  },
-  {
-    key: "department",
-    label: "Department",
-  },
-  {
-    key: "team",
-    label: "Team",
-  },
-];
-
 export const SELECT_OPTIONS = {
   maritalStatusOptions: [
     { label: "Single", value: "single" },
@@ -942,35 +864,20 @@ export const SELECT_OPTIONS = {
     { label: "Bruno", value: "Bruno" },
     { label: "Kelvin", value: "kelvin" },
   ],
-  leaveType:[
+  leaveType: [
     // { label: "", value: "" },
     { label: "Personal Leave", value: "leave" },
     { label: "Vacation Leave", value: "vacation" },
     { label: "Medical Leave", value: "medical" },
     { label: "Other Leave", value: "other" },
-  ]
+  ],
 };
 
-export const PERSONAL_INFO_TAB = [
-  {
-    title: "Personal Information",
-    value: "personal-information",
-  },
-  {
-    title: "Address",
-    value: "address",
-  },
-  {
-    title: "Contacts",
-    value: "contacts",
-  },
-];
 export const EMPLOYEE_PROFILE_TAB = [
   {
     title: "Employee Profile",
     value: "Employee Profile",
     route: "employee-profile-tab",
-
   },
   {
     title: "Employment Information",
@@ -981,7 +888,6 @@ export const EMPLOYEE_PROFILE_TAB = [
     title: "Files",
     value: "files",
     route: "files-profile-tab",
-
   },
 ];
 export const USER_PROFILE_TAB = [
@@ -1011,140 +917,8 @@ export const USER_PROFILE_TAB = [
     route: "files-profile-tab",
   },
 ];
-export const ADD_EMPLOYEE_TAB = [
-  {
-    title: "Employee Profile",
-    value: "Employee Profile",
-  },
-  {
-    title: "Employment Information",
-    value: "Employment Information",
-  },
-  {
-    title: "Files",
-    value: "files",
-  },
-];
-export const EMPLOYEE_INFO_TAB = [
-  {
-    title: "Employment Information",
-    value: "employment-information",
-  },
-  {
-    title: "Compensation",
-    value: "compensation",
-  },
-  {
-    title: "Benefits",
-    value: "benefits",
-  },
-  {
-    title: "Time-off",
-    value: "time-off",
-  },
-  {
-    title: "Attendance",
-    value: "attendance",
-  },
-  {
-    title: "Files",
-    value: "files",
-  },
-];
-export const FOLDERS_DATA = [
-  {
-    _id: "63d75423e882494130ec935c",
-    name: "Temp Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935b",
-    name: "Temp two Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935d",
-    name: "Share Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935c",
-    name: "Temp Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935b",
-    name: "Temp two Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935d",
-    name: "Share Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935b",
-    name: "Temp two Folder",
-    parent: null,
-  },
-  {
-    _id: "63d75423e882494130ec935d",
-    name: "Share Folder",
-    parent: null,
-  },
-];
-export const FILES_DATA = [
-  {
-    _id: "63d37245283452acce1ada0a",
-    parent: null,
-    name: "Dummy Text",
-    extension: "pdf",
-    size: 64031,
-    type: "FILE",
-  },
-  {
-    _id: "63d37245283452acce1ada0a",
-    parent: null,
-    name: "Dummy Text",
-    extension: "pdf",
-    size: 64031,
-    type: "FILE",
-  },
-  {
-    _id: "63d37245283452acce1ada0b",
-    parent: null,
-    name: "Dummy Text Two",
-    extension: "docx",
-    size: 64031,
-    type: "FILE",
-  },
-  {
-    _id: "63d37245283452acce1ada0c",
-    parent: null,
-    name: "Dummy Text Three",
-    extension: "docx",
-    size: 64031,
-    type: "FILE",
-  },
-  {
-    _id: "63d37245283452acce1ada0a",
-    parent: null,
-    name: "Dummy Text",
-    extension: "pdf",
-    size: 64031,
-    type: "FILE",
-  },
-  {
-    _id: "63d37245283452acce1ada0a",
-    parent: null,
-    name: "Dummy Text",
-    extension: "pdf",
-    size: 64031,
-    type: "FILE",
-  },
-];
 export const COUNTRIES = [
-  { value: "", label: "Select Country", },
+  { value: "", label: "Select Country" },
   { value: "USA", label: "USA" },
   { value: "Canada", label: "Canada" },
   { value: "Other", label: "Other" },
@@ -1471,271 +1245,54 @@ export const PEOPLE_TAB = [
     title: "Directory",
     value: "Directory",
   },
-  // {
-  //   title: "Organizational Chart",
-  //   value: "Organizational Chart",
-  // },
-  // {
-  //   title: "Departments",
-  //   value: "Departments",
-  // },
-  // {
-  //   title: "Teams",
-  //   value: "Teams",
-  // },
-];
-
-export const MORE_MENU = [
-  {
-    label: "Open",
-    key: "Open",
-  },
-  {
-    label: "Show Detail",
-    key: "showdetail",
-  },
-  {
-    label: "Shared with...",
-    key: "share",
-    icon: "share-arrow",
-  },
-  {
-    label: "Get Link",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "Upload Folder",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "Download Folder",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "submenu Comes here",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "Download Folder",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "submenu Comes here",
-    key: "dashboard",
-    icon: "file",
-  },
-  {
-    label: "Delete",
-    key: "dashboard",
-  },
-  {
-    label: "Setting",
-    key: "setting",
-  },
-  // { label: "Inbox", icon: "recently-added", key: "inbox", url:"/inbox", selected: false},
-  // { label: "My Profile", icon: "file", key: "myprofile", url:"/myprofile", selected: false},
-];
-
-export const SORTING_MENU = {
-  leaveVacationUserFilter: [
-    // {
-    //   label: "All",
-    //   key: "all",
-    //   selected:false,
-    // },
-    {
-      label: "Vacations",
-      key: "vacations",
-      selected:false,
-    },
-    {
-      label: "Medical/sick",
-      key: "medical",
-      selected:false,
-    },
-    {
-      label: "Leave",
-      key: "leave",
-      selected:false,
-    },
-  ],
-  actionMenuTimesheet: [
-    {
-      label: "Name",
-      key: "name",
-    },
-    {
-      label: "Week",
-      key: "week",
-    },
-    {
-      label: "Day",
-      key: "day",
-    },
-  ],
-  actionMenuTimeAttendance: [
-    {
-      label: "Name",
-      key: "name",
-    },
-    {
-      label: "Date Modified",
-      key: "Date Modified",
-    },
-    {
-      label: "Size",
-      key: "size",
-    },
-    {
-      label: "File Format",
-      key: "file-format",
-    },
-    {
-      label: "Reset",
-      key: "reset",
-    },
-  ],
-  actionMenuTimeoff: [
-    {
-      label: "Date",
-      key: "date",
-    },
-    {
-      label: "Week",
-      key: "week",
-    },
-  ],
-};
-export const ACTION_MENU = [
-  {
-    label: "Name",
-    key: "name",
-  },
-  {
-    label: "Presence",
-    key: "presence",
-  },
-  {
-    label: "Department",
-    key: "department",
-  },
-  {
-    label: "Reset",
-    key: "reset",
-  },
 ];
 export const WEEK_DAY = [
   {
     label: "Sunday",
     value: "sunday",
-    weekday: 7
+    weekday: 7,
   },
   {
     label: "Monday",
     value: "monday",
-    weekday: 1
+    weekday: 1,
   },
   {
     label: "Tuesday",
     value: "tuesday",
-    weekday: 2
+    weekday: 2,
   },
   {
     label: "Wednesday",
     value: "wednesday",
-    weekday: 3
+    weekday: 3,
   },
   {
     label: "Thursday",
     value: "thursday",
-    weekday: 4
+    weekday: 4,
   },
   {
     label: "Friday",
     value: "friday",
-    weekday: 5
+    weekday: 5,
   },
   {
     label: "Saturday",
     value: "saturday",
-    weekday: 6
+    weekday: 6,
   },
 ];
 
-export const WEEK_DAYS_START_MONDAY = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-
-export const DEPARTMENT_ITEMS = [
-  {
-    label: "Operational Management",
-    hashItem: "people",
-  },
-  {
-    label: "Human Resources",
-    hashItem: "people",
-  },
-  {
-    label: "Project Management",
-    hashItem: "people",
-  },
-  {
-    label: "Product Development",
-    hashItem: "people",
-  },
-  {
-    label: "Research",
-    hashItem: "people",
-  },
-  {
-    label: "Sales",
-    hashItem: "people",
-  },
-  {
-    label: "Marketing",
-    hashItem: "people",
-  },
-  {
-    label: "Customer Service",
-    hashItem: "people",
-  },
-  {
-    label: "Finance",
-    hashItem: "people",
-  },
+export const WEEK_DAYS_START_MONDAY = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
 ];
-export const ACCESS_ITEMS = [
-  {
-    label: "Owner",
-    value: "Owner",
-  },
-  {
-    label: "User",
-    value: "User",
-  },
-];
-export const PAY_ACTION_MENU = [
-  {
-    label: "Name",
-    key: "name",
-  },
-  {
-    label: "Date Modified",
-    key: "datemodified",
-  },
-  {
-    label: "Size",
-    key: "size",
-  },
-  {
-    label: "File Format",
-    key: "fileformat",
-  },
-];
-
 
 export const TIMESHEET_STATUS = {
   not_submitted: {
@@ -1775,7 +1332,7 @@ export const TIMESHEET_STATUS = {
     variant: "warning",
     icon: "eye-open",
   },
-}
+};
 
 export const TIMESHEET_STATUSES = {
   NOT_SUBMITTED: "not_submitted",
@@ -1783,19 +1340,19 @@ export const TIMESHEET_STATUSES = {
   VACATION: "vacation",
   APPROVED: "approved",
   REJECTED: "rejected",
-  PAST_DUE: "past_due"
-}
+  PAST_DUE: "past_due",
+};
 
 export const ACTIVITY_TYPE = {
-  VACATION: 'vacation',
-  LEAVE: 'leave',
-  IN: 'in',
-  OUT: 'out',
-  MEDICAL: 'medical',
-  SICK: 'sick',
-  PERSONAL: 'personal',
-  BREAK: 'break'
-}
+  VACATION: "vacation",
+  LEAVE: "leave",
+  IN: "in",
+  OUT: "out",
+  MEDICAL: "medical",
+  SICK: "sick",
+  PERSONAL: "personal",
+  BREAK: "break",
+};
 
 export const ACTIVITY_TYPE_LABEL_VALUE = {
   [ACTIVITY_TYPE.VACATION]: "Vacation",
@@ -1804,80 +1361,53 @@ export const ACTIVITY_TYPE_LABEL_VALUE = {
   [ACTIVITY_TYPE.OUT]: "Out",
   [ACTIVITY_TYPE.MEDICAL]: "Medical",
   [ACTIVITY_TYPE.PERSONAL]: "Personal",
-
-}
+};
 
 export const USER_ROLES = {
   USER: "USER",
   ADMIN: "ADMIN",
-  MANAGER: "MANAGER"
-}
-
+  MANAGER: "MANAGER",
+};
 
 export const REQUEST_TYPES = {
-  MEDICAL: 'medical',
-  VACATION: 'vacation',
-  LEAVE: 'leave',
-  OTHER: 'other',
-}
+  MEDICAL: "medical",
+  VACATION: "vacation",
+  LEAVE: "leave",
+  OTHER: "other",
+};
 
 export const REQUEST_STATUS = {
-  APPROVED: 'approved',
-  REJECTED: 'rejected',
-  PENDING: 'pending',
-}
+  APPROVED: "approved",
+  REJECTED: "rejected",
+  PENDING: "pending",
+};
 
 export const REQUEST_TYPE_OPTIONS = {
   [REQUEST_TYPES.LEAVE]: {
     label: "Request Leave",
     value: "request_leave",
-    icon:"exit-to-app-solid",
-    type: REQUEST_TYPES.LEAVE
+    icon: "exit-to-app-solid",
+    type: REQUEST_TYPES.LEAVE,
   },
-   [REQUEST_TYPES.VACATION]: {
+  [REQUEST_TYPES.VACATION]: {
     label: "Request Vacation",
     value: "request_vacation",
-    icon:"airplane",
-    type: REQUEST_TYPES.VACATION
+    icon: "airplane",
+    type: REQUEST_TYPES.VACATION,
   },
-   [REQUEST_TYPES.MEDICAL]: {
+  [REQUEST_TYPES.MEDICAL]: {
     label: "Request Medical/sick",
     value: "request_medical",
-    icon:"medical-clinic-solid",
-    type: REQUEST_TYPES.MEDICAL
+    icon: "medical-clinic-solid",
+    type: REQUEST_TYPES.MEDICAL,
   },
-   [REQUEST_TYPES.OTHER]: {
+  [REQUEST_TYPES.OTHER]: {
     label: "Request Other Leave",
     value: "request_other_leave",
-    icon:"exit-to-app-solid",
-    type:REQUEST_TYPES.OTHER
-  }}
-// export const REQUEST_TYPES = {
-//   leave: {
-//     label: "Request Leave",
-//     value: "request_leave",
-//     icon:"exit-to-app-solid",
-//     type:'leave'
-//   },
-//   vacation: {
-//     label: "Request Vacation",
-//     value: "request_vacation",
-//     icon:"airplane",
-//     type:'vacation'
-//   },
-//   medical: {
-//     label: "Request Medical/sick",
-//     value: "request_medical",
-//     icon:"medical-clinic-solid",
-//     type:'medical'
-//   },
-//   other: {
-//     label: "Request Other Leave",
-//     value: "request_other_leave",
-//     icon:"exit-to-app-solid",
-//     type:'other'
-//   },
-// }
+    icon: "exit-to-app-solid",
+    type: REQUEST_TYPES.OTHER,
+  },
+};
 export const apiKeyUsedValue = {
   leave: "leaveDaysUsed",
   vacation: "vacationDaysUsed",

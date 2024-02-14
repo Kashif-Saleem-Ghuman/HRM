@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <div class="info-card-leave-wrapper" style="width: 100%">
+    <div class="info-card-leave-wrapper w-100">
       <div>
         <label>{{ title }}</label>
       </div>
@@ -9,7 +9,7 @@
           <div class="subheading">Past due</div>
           <span>{{ item.pastDue }}</span>
 
-          <div class="subheading_footer" style="height: 20px;">Timesheets</div>
+          <div class="subheading_footer">Timesheets</div>
         </div>
         <div>
           <progress-circle
@@ -21,9 +21,6 @@
             v-show="item.pastDue == null ? '' : item.pastDue + '%'"
             emptyfill="#f1f1f1"
           ></progress-circle>
-        </div>
-        <div v-show="item.photo == null ? '' : item.photo">
-          <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
         </div>
       </div>
       <div class="footer-item d-flex">

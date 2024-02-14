@@ -9,11 +9,10 @@
     >
       <template #cell(name)="data">
         <div
-          class="d-flex align-center text-left gap-05 py-025"
-          style="position: relative; width: 220px"
+          class="d-flex align-center text-left gap-05 py-025 position-relative"
         >
           <div
-            style="cursor: pointer"
+            class="cursor-pointer"
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
@@ -32,7 +31,7 @@
               size="2.3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id" style="" class="userCard">
+            <div :id="'id_' + data.value.id" class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
@@ -43,8 +42,7 @@
             </div>
           </div>
           <div
-            class="info_wrapper"
-            style="width: 100%; cursor: pointer"
+            class="info_wrapper w-100 cursor-pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
             <div class="title" :title="getEmployeeFullName(data.value)">
@@ -157,7 +155,10 @@ export default {
       timesheetModal: false,
       filteredData: [],
       TIMESHEET_STATUS,
-      weekDays: WEEK_DAY.map((day) => ({ ...day, value: day.value.substring(0, 3)})),
+      weekDays: WEEK_DAY.map((day) => ({
+        ...day,
+        value: day.value.substring(0, 3),
+      })),
       sortByField: null,
     };
   },
@@ -212,7 +213,7 @@ export default {
     getWeekdayValue(weekData, day) {
       if (!weekData) return "--";
 
-      const data = weekData[day.weekday]
+      const data = weekData[day.weekday];
       if (!data) return "--";
 
       if (typeof data.totalHours === "number") {
@@ -220,14 +221,14 @@ export default {
       }
 
       for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
-        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity]
+        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
       }
 
       return "--";
     },
 
     getWeekdayClassNames(weekData, day) {
-      if(!weekData) return "chip-wrapper__bggray";
+      if (!weekData) return "chip-wrapper__bggray";
       const data = weekData[day.weekday];
       if (!data) {
         return "chip-wrapper__bggray";

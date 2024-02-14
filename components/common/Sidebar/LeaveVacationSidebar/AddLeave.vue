@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="add-leave-wrapper" style="z-index: 100000">
+    <div class="add-leave-wrapper min-z-index">
       <div v-show="employeeNameInput">
         <div>
           <bib-input
@@ -10,7 +10,6 @@
             icon-left="user"
             placeholder="Employee"
             disabled
-            style="padding-right: 0 !important"
             @change="$emit('input', $event, 'employeeId')"
           ></bib-input>
         </div>
@@ -27,14 +26,13 @@
             placeholder="Employee"
             :disabled="inActive"
             @input="$emit('selectUser', $event, 'employeeId')"
-            style="padding-right: 0px"
           ></bib-input>
         </div>
       </div>
 
       <div class="border-wrapper-box">
-        <div style="padding: 0px">
-          <div style="padding: 0px">
+        <div class="p-0">
+          <div class="p-0">
             <div v-show="leaveTypeSelect" class="pb-05">
               <bib-input
                 type="select"
@@ -58,7 +56,7 @@
             <div
               class="items-width"
               :key="usedDayLeave"
-              :style="showAllowance === false ? 'padding:0' : ''"
+              :class="showAllowance === false ? 'p-0' : ''"
             >
               <div class="d-flex input-display-wrapper">
                 <span>Used</span>
@@ -77,7 +75,7 @@
 
       <div class="border-wrapper-box">
         <div>
-          <label style="display: block">Dates</label>
+          <label class="d-block">Dates</label>
         </div>
         <div class="d-flex">
           <div class="items-width end-date-wrapper">

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper-custom" style="z-index: 1000000 !important">
+  <div class="modal-wrapper-custom max-min-z-index">
     <bib-modal-wrapper v-if="timesheetModal" @close="$emit('close')" size="xl">
       <template slot="content">
         <div class="timesheet-wrapper">
@@ -23,13 +23,13 @@
                 icon="calendar-solid"
                 :scale="0.9"
               ></bib-icon>
-              <span class="text-dark" style="margin-left: 6px"
+              <span class="text-dark ml-05"
                 >weekday 00-00-0000</span
               >
             </div>
           </div>
         </div>
-        <div class="mb-1 bg-light" style="height: 1px"></div>
+        <div class="mb-1 bg-light height-1"></div>
         <div class="px-1">
           <div class="row mx-0">
             <div class="col-6">
@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-1 mt-1 bg-light" style="height: 1px"></div>
+        <div class="mb-1 mt-1 bg-light height-1"></div>
         <div class="px-1 pb-3">
           <list-timesheet-modal
             :userListTimesheet="timesheetModalData.slice(0, 3)"

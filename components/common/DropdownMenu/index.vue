@@ -50,7 +50,6 @@
           class="shape-rounded bg-secondary-sub3 width-2 height-2 d-flex justify-center align-center ml-05 cursor-pointer;"
           @click="showMenuItems"
           v-click-outside="clickOutside"
-          style="cursor: pointer;"
         >
           {{filterLabel}}
         </div>

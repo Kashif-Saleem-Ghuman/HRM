@@ -9,11 +9,10 @@
     >
       <template #cell(name)="data">
         <div
-          class="d-flex align-center text-left gap-05"
-          style="position: relative"
+          class="d-flex align-center text-left gap-05 position-relative"
         >
           <div
-            style="cursor: pointer"
+            class="cursor-pointer"
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
           >
@@ -24,7 +23,7 @@
               size="3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id" style="" class="userCard">
+            <div :id="'id_' + data.value.id" class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"

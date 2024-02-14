@@ -95,8 +95,6 @@ import {
   getCurrentYear,
   generateYearList,
 } from "../../../utils/functions/functions_lib";
-import { SORTING_MENU } from "../../../utils/constant/Constant";
-import { INFO_CARD_LEAVE_VACATION_DATA } from "../../../utils/constant/Calander";
 import { getEmployeeFullName } from "../../../utils/functions/common_functions";
 import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 
@@ -106,8 +104,6 @@ export default {
       id: "",
       activeTab: "Dashborad",
       activeUserData: "",
-      items: SORTING_MENU.leaveVacationUserFilter,
-      infoCardData: INFO_CARD_LEAVE_VACATION_DATA,
       leaveVacationDataUser: [],
       currentMonth: fecha.format(new Date(), "MM"),
       currentYear: fecha.format(new Date(), "YYYY"),

@@ -3,8 +3,7 @@
       <span>Leave status</span>
     <div class="info-card-inner-wrapper" :class="[classNameWrapper]">
       <div
-        class="d-flex align-center cursor-pointer shape-circle mr-05"
-        style="padding: 10px"
+        class="d-flex align-center cursor-pointer shape-circle mr-05 p-05"
         @click.stop="$emit('on-click')"
         :class="[className]"
       >

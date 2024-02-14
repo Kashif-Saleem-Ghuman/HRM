@@ -11,7 +11,7 @@
                 :scale="1"
                 label="Add Leave"
                 class="mr-05"
-                @click="actionBY('leave', 'employeeDropdownKey')"
+                @click.native.stop="actionBY('leave', 'employeeDropdownKey')"
               ></bib-button>
             </div>
             <!-- <dropdown-menu-calendar
@@ -419,6 +419,7 @@ export default {
       calendarApi.next();
     },
     async handleEventClick(clickInfo) {
+      event.stopPropagation();
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
       this.$nuxt.$emit("open-sidebar", item.request);

@@ -13,10 +13,7 @@
     </template>
 
     <template #cell(name)="data">
-      <div
-        class="d-flex align-center text-dark"
-        style="color: #000; font-weight: 600"
-      >
+      <div class="d-flex align-center text-dark font-w-600 text-black">
         <span class="first_letter">{{ data.value.label.slice(0, 1) }}</span>
         {{ data.value.label }}
       </div>

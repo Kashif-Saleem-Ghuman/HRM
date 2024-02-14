@@ -12,11 +12,11 @@
           ? `list-${employees[0].id}`
           : 'empty-list-0'
       "
+      @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
         <div
-          class="d-flex align-center text-left gap-05"
-          style="position: relative"
+          class="d-flex align-center text-left gap-05 position-relative"
         >
           <div
             v-on:mouseover="profiletab('id_' + data.value.id)"
@@ -37,7 +37,7 @@
               size="2.3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id" style="" class="userCard">
+            <div :id="'id_' + data.value.id"  class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
@@ -47,7 +47,7 @@
               ></user-info-card>
             </div>
           </div>
-          <div class="info_wrapper" style="width: 100%; cursor: pointer">
+          <div class="info_wrapper w-100 cursor-pointer">
             <div class="title" title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
@@ -135,17 +135,6 @@ export default {
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
   },
-  // created() {
-  //   if (this.$router.history.current.fullPath == "/people") {
-  //     this.tableFields = TABLE_HEAD.tHeadPeople;
-  //     return;
-  //   }
-
-  //   if (this.$router.history.current.fullPath == "/people/directory") {
-  //     this.tableFields = TABLE_FIELDS_DIR;
-  //     return;
-  //   }
-  // },
   computed: {
     employees() {
       if (!this.sortByField) return this.userList;

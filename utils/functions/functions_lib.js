@@ -1,3 +1,4 @@
+// Import functions from respective files
 import {
   headerHelpClick,
   headerActionCall,
@@ -8,6 +9,7 @@ import {
   openBillingPage,
   isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
+
 import {
   openPopupNotification,
   dateCheck,
@@ -19,6 +21,7 @@ import {
   handleItemClick_Table,
   generateYearList,
 } from "../functions/common_functions.js";
+
 import {
   vfileAdded,
   handleInput,
@@ -29,34 +32,43 @@ import {
   selectUserHandle,
   selectLeaveTypeHandle,
 } from "../functions/form_update.js";
+
 import { meetLink, makeCall } from "../../utils/functions/api_call/meet";
 
+// Export all imported functions
 export {
+  // From app_wrap_functions.js
   headerHelpClick,
-  addHandleInput,
-  editHandleInput,
   headerActionCall,
-  dateCheck,
   handleToggleWrapperTheme,
-  openPopupNotification,
   openAccountPage,
   myProfile,
   openTeamPage,
-  isThemeCheck,
   openBillingPage,
-  vfileAdded,
-  handleInput,
-  handleInputObject,
+  isThemeCheck,
+  
+  // From common_functions.js
+  openPopupNotification,
+  dateCheck,
   getCurrentDateMonth,
   getCurrentYear,
-  handleOrgProfile,
-  selectUserHandle,
-  selectLeaveTypeHandle,
   getCurrentWeek,
   sendMeet,
   sendMessage,
   handleItemClick_Table,
   generateYearList,
+  
+  // From form_update.js
+  vfileAdded,
+  handleInput,
+  addHandleInput,
+  editHandleInput,
+  handleInputObject,
+  handleOrgProfile,
+  selectUserHandle,
+  selectLeaveTypeHandle,
+  
+  // From meet.js
   meetLink,
   makeCall,
 };

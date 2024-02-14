@@ -1,13 +1,13 @@
 import Vue from "vue";
-export default ({ app }, inject) => {
-  inject(
-    "error",
-    Vue.observable({
-      common_message: {
-        text: "Something went wrong please try again",
-        variant: "danger",
-      },
-     
-    })
-  );
+
+const errorMessages = {
+  common_message: {
+    text: "Something went wrong. Please try again.",
+    variant: "danger",
+  },
 };
+
+export default function errorPlugin({ app }, inject) {
+  const error = Vue.observable(errorMessages);
+  inject("error", error);
+}

@@ -4,7 +4,7 @@
     :class="'side-panel ' + 'side-panel__' + className"
   >
     <div
-      class="d-flex justify-between align-center sidebar-header p-2"
+      class="d-flex justify-between align-center sidebar-header p-1 m-05"
     >
       <div class="d-flex justify-between align-center">
         <bib-icon

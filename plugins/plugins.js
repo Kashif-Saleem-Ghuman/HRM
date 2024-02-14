@@ -1,8 +1,13 @@
-import Vue from 'vue'
-import vClickOutside from 'v-click-outside'
-import BibUILibrary from "~/node_modules/@bizinbox/bib-ui-lib/dist/library";
-Vue.config.devtools = true;
-Vue.use(vClickOutside)
-export default ({ store }) => {
-    Vue.use(BibUILibrary, { store })
-  };
+import Vue from 'vue';
+import vClickOutside from 'v-click-outside';
+import BibUILibrary from '@bizinbox/bib-ui-lib/dist/library';
+
+export default function vuePlugins({ store }) {
+  Vue.config.devtools = true;
+
+  // Register vClickOutside plugin globally
+  Vue.use(vClickOutside);
+
+  // Register BibUILibrary plugin globally with store
+  Vue.use(BibUILibrary, { store });
+}

@@ -226,6 +226,7 @@ export default {
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
         icon: "arrowhead-down",
+        varint:'light'
       };
     },
   },

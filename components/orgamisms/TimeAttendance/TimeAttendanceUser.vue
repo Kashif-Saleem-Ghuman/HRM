@@ -115,7 +115,6 @@ import {
   ACTIVITY_TYPE,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
-import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData.js";
 import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
@@ -143,15 +142,12 @@ export default {
       monthList: YEAR_LIST,
       show: false,
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
-      dayWiseDataTimesheet: TIMESHEET_DATA,
       todayData: [],
-      MonthViewData: TIMESHEET_DATA,
       activeTab: "Attendance",
       loading: false,
       form: {},
       // Time & attandance
       timesheetWidgetData: {},
-      timesheetData: TIMESHEET_DATA,
       clockModal: false,
       localData: [],
       getCurrentDate: "",

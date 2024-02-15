@@ -26,18 +26,14 @@
             <dropdown-menu-calendar
               :items="dropMenuMonth"
               :label="monthLabel"
-              icon="arrowhead-down"
               @on-click="changeMonthView($event)"
               class="mr-05"
-              className="button-wrapper__bgblack"
             ></dropdown-menu-calendar>
             <dropdown-menu-calendar
               :items="dropMenuYear"
               :label="selectedYear"
-              icon="arrowhead-down"
               @on-click="changeYearView($event)"
               class="mr-05"
-              className="button-wrapper__bgblack"
             ></dropdown-menu-calendar>
           </div>
         </div>

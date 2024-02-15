@@ -5,12 +5,11 @@
       <div class="position-relative">
         <bib-button
           :label="label"
-          :variant="variant ?? 'light'"
+          :variant="$button.dropmenu.variant"
           size="lg"
-          :icon="icon ?? ''"
+          :icon-right="$button.dropmenu.icon"
           @click="show = !show"
           v-click-outside="clickOutside"
-          :class="className"
         ></bib-button>
         <div class="menu-items">
           <ul v-if="show">
@@ -94,7 +93,7 @@ export default {
   }
   .menu-items {
     background-color: #fff;
-    width: 107px;
+    width: 130px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
@@ -109,22 +108,15 @@ export default {
       background: var(--bib-white);
       li {
         padding: 0.5rem;
+        
       }
     }
   }
-  .button-wrapper {
-    &__bgblack {
-      background-color: #000 !important;
-      color: #fff !important;
-      svg {
-        fill: #fff !important;
+  .button {
+    .icon{
+        margin-left: 10px;
+        margin-right: -5px;
       }
-      span {
-        color: #fff !important;
-        font-weight: 400;
-        font-size: 14px;
-      }
-    }
   }
 }
 </style>

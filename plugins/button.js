@@ -49,6 +49,10 @@ const buttonConfig = {
     variant: "danger",
     icon: "close",
   },
+  dropmenu: {
+    variant: "dark",
+    icon: "close",
+  },
 };
 
 export default function buttonPlugin({ app }, inject) {

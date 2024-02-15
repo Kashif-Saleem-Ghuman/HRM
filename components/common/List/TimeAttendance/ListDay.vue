@@ -2,10 +2,7 @@
   <div>
     <div class="custom-table" :class="{ 'disabled-table': disabled }">
       <div class="thead">
-        <div class="cell">ACTIVITY</div>
-        <div class="cell">START</div>
-        <div class="cell">END</div>
-        <div class="cell">TOTAL HRS</div>
+        <div class="cell" v-for="item in ACTIVITY_HEADER_DATA">{{ item }}</div>
         <div class="cell trash" v-if="!disabled"></div>
       </div>
       <time-entry-row
@@ -22,29 +19,32 @@
       <div class="row total">
         <div class="cell no-border"></div>
         <div class="cell no-border"></div>
-        <div class="cell label">Day Total Hours</div>
+        <div class="cell label">{{hoursText}}</div>
         <div class="cell total-hours">{{ total }}</div>
       </div>
     </div>
-   <div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
-    <confirmation-modal
-      :title="deleteModalContent.title"
-      :confirmationMessage="deleteModalContent.message"
-      :confirmastionMessageModal="confirmastionMessageModal"
-      @close="closeconfirmastionMessageModal"
-      @delete="deleteSpecificEntry"
-    ></confirmation-modal>
-   </div>
+    <div>
+      <bib-notification :popupMessages="popupMessages"></bib-notification>
+      <confirmation-modal
+        :title="deleteModalContent.title"
+        :confirmationMessage="deleteModalContent.message"
+        :confirmastionMessageModal="confirmastionMessageModal"
+        @close="closeconfirmastionMessageModal"
+        @delete="deleteSpecificEntry"
+      ></confirmation-modal>
+    </div>
   </div>
 </template>
 
 <script>
-import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
+import {
+  ACTIVITY_DICTIONARY,
+  ACTIVITY_HEADER_DATA,
+} from "../../../../utils/constant/TimesheetData";
 import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
-import { openPopupNotification} from "@/utils/functions/functions_lib.js";
-import { deleteTimeEntry} from "@/utils/functions/functions_lib_api";
+import { openPopupNotification } from "@/utils/functions/functions_lib.js";
+import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 
 const DELETE_MESSAGE = {
   confirmatinData: {
@@ -93,10 +93,12 @@ export default {
         end: null,
       },
       ACTIVITY_DICTIONARY,
+      ACTIVITY_HEADER_DATA,
       deleteModalContent: DELETE_MESSAGE.confirmatinData,
       confirmastionMessageModal: false,
       popupMessages: [],
-      idToDelete:null,
+      idToDelete: null,
+      hoursText:'Day Total Hours'
     };
   },
 
@@ -126,10 +128,10 @@ export default {
       this.$emit("edit-entry", entry);
     },
     async deleteSpecificEntry() {
-      const id = this.idToDelete
+      const id = this.idToDelete;
       await this.deleteTimeEntry(id);
       this.confirmastionMessageModal = false;
-      this.openPopupNotification(DELETE_MESSAGE.notification)
+      this.openPopupNotification(DELETE_MESSAGE.notification);
       this.idToDelete = null;
       this.$emit("delete-entry", id);
     },
@@ -138,7 +140,7 @@ export default {
       this.idToDelete = null;
     },
     deleteConfirmation(id) {
-      this.idToDelete = id
+      this.idToDelete = id;
       this.confirmastionMessageModal = true;
     },
   },
@@ -156,7 +158,7 @@ export default {
   border-collapse: collapse;
   width: 100%;
   transition: background-color 0.9s linear, outline-color 0.3s linear;
-  
+
   .row {
     display: table-row;
   }

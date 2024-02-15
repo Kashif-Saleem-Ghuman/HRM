@@ -59,16 +59,12 @@
         </div>
         <div class="mb-1 mt-1 bg-light height-1"></div>
         <div class="px-1 pb-3">
-          <list-timesheet-modal
-            :userListTimesheet="timesheetModalData.slice(0, 3)"
-          ></list-timesheet-modal>
         </div>
       </template>
     </bib-modal-wrapper>
   </div>
 </template>
 <script>
-import { TIMESHEET_DATA } from "../../../utils/constant/TimesheetData.js";
 export default {
   name: "TimeSheetModal",
   props: {
@@ -85,7 +81,6 @@ export default {
   data() {
     return {
       // modal3Opened: false,
-      timesheetModalData: TIMESHEET_DATA,
     };
   },
 };

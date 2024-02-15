@@ -82,8 +82,6 @@ import fecha from "fecha";
 import { getDateDiffInHHMM, getTimeFromDate } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions";
 import {
-  TIMESHEET_DATA,
-  WEEK_VIEW_DATA,
   ACTIVITY_DICTIONARY,
 } from "@/utils/constant/TimesheetData.js";
 import {
@@ -114,15 +112,11 @@ export default {
       format: "DD-MMM-YYYY",
       todayDate: fecha.format(new Date(), "DD-MMM-YYYY"),
       ACTIVITY_DICTIONARY,
-      TIMESHEET_DATA,
-      WEEK_VIEW_DATA,
       reportOptions: "",
       activeRole: this.activeUserRole === "ADMIN" ? true : false,
       todayData: [],
       // totalWork: "--:--",
       timesheetStatus: "",
-      MonthViewData: TIMESHEET_DATA,
-      weekDataView: WEEK_VIEW_DATA,
       VIEWS,
       view: VIEWS[0],
       weekDates: {

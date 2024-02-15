@@ -198,7 +198,7 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation") this.closeSidebar();
+      if (item.key != "requestVacation" && item.key != "requestLeave") this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

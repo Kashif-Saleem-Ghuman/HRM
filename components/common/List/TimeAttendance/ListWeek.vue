@@ -122,7 +122,6 @@ import {
   TIMESHEET_STATUS,
 } from "@/utils/constant/Constant.js";
 
-import { TIMESHEET_DATA } from "@/utils/constant/TimesheetData";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
@@ -165,7 +164,6 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       timesheetModal: false,
-      localData: TIMESHEET_DATA,
       filteredData: [],
       popupMessages: [],
       submitTimesheet,

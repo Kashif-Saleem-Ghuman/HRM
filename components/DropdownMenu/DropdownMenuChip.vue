@@ -6,7 +6,7 @@
           :variant="buttonConfig.variant"
           :size="size || 'lg'"
           @click="show = !show"
-          :icon="buttonConfig.icon ?? ''"
+          :icon-right="buttonConfig.icon ?? ''"
           v-click-outside="clickOutside"
           class="pr-05"
         ></bib-button>
@@ -18,7 +18,7 @@
                 :variant="item.variant"
                 size="lg"
                 :icon="item.icon ?? ''"
-                class="pr-05 mb-05"
+                class="pr-05 mb-05 w-100"
               ></bib-button>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default {
   .menu-items {
     position: absolute;
     background-color: #fff;
-    width: 107px;
+    width: 10px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;

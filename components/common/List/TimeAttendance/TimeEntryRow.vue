@@ -6,14 +6,13 @@
       </label>
     </div>
     <div class="cell">
-      <bib-time-picker
-        v-model="startTime"
-        name="name"
-        placeholder="HH:mm am"
-        @input="timeInputBlur"
-        :disabled="disabled"
-        :step="60"
-      ></bib-time-picker>
+    <bib-time-picker-wrapper
+      v-model="startTime"
+      name="startTime"
+      placeholder="HH:mm am"
+      @input="timeInputBlur"
+      :disabled="disabled"
+    ></bib-time-picker-wrapper>
       <!-- <bib-input
         type="time"
         name="name"
@@ -24,14 +23,13 @@
       ></bib-input> -->
     </div>
     <div class="cell">
-      <bib-time-picker
+      <bib-time-picker-wrapper
         v-model="endTime"
-        name="Time"
-        placeholder="HH:mm am"
+        name="endTime"
+        placeholder="HH:mm pm"
         @input="timeInputBlur"
         :disabled="disabled"
-        :step="60"
-      ></bib-time-picker>
+      ></bib-time-picker-wrapper>
       <!-- <bib-input
         type="time"
         name="name"

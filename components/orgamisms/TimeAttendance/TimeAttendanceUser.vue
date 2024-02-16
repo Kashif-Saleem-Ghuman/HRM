@@ -16,6 +16,7 @@
               @clock="openClock"
               @timer-stop="handleTimerStop"
               :disabled="hasInEntryToday"
+              icon="time-alarm"
             ></info-card-timer>
 
             <info-card-one
@@ -24,8 +25,6 @@
               buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"
-              buttonVariant="light"
-              className="button-wrapper__bgwarnning"
               @on-click="onViewTimesheetsClick"
             ></info-card-one>
             <!-- <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->

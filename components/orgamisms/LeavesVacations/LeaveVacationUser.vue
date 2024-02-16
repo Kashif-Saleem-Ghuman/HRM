@@ -11,14 +11,6 @@
         ></section-header-left>
       </div>
       <div class="pl-1 py-1">
-        <div class="pb-05 d-flex justify-start">
-          <dropdown-menu-calendar
-            :items="dropMenuYear"
-            :label="selectedYear"
-            @on-click="changeYearView($event)"
-            class="mr-05"
-          ></dropdown-menu-calendar>
-        </div>
         <div
           class="d-grid d-flex gap-1"
           style="grid-template-columns: repeat(3, 1fr)"
@@ -43,7 +35,7 @@
             buttonLable="Request Medical Leave"
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
-            :variant="$button.rejected.variant"
+            :variant="$button.approved.variant"
             @on-click="addLeaves('medical')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
@@ -54,9 +46,19 @@
             buttonLable="Request Personal Leave"
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
-            :variant="$button.pending.variant"
+            :variant="$button.approved.variant"
             @on-click="addLeaves('leave')"
           ></info-card-leave-vacation>
+        </div>
+        <div class="pt-1 d-flex justify-start">
+          <dropdown-menu-calendar
+            :items="dropMenuYear"
+            :label="selectedYear"
+            :variant="$button.lightButton.variant"
+            icon="arrowhead-down"
+            @on-click="changeYearView($event)"
+            class="mr-05"
+          ></dropdown-menu-calendar>
         </div>
       </div>
       <div>

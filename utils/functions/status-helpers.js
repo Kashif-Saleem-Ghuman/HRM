@@ -38,7 +38,8 @@ export const getLeaveTypeClassName = (status) => getStatusMapValue(status, {
 export const getLeaveStatusIconVariant = (type) => getTypeMapValue(type, {
   medical: "medical-clinic-solid",
   leave: "accessibility-cognitive-disability-Solid",
-  vacation: "sun-solid",
+  // vacation: "sun-solid",
+  vacation:'airplane-solid',
   other: 'add'
 });
 

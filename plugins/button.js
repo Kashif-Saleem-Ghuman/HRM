@@ -49,9 +49,13 @@ const buttonConfig = {
     variant: "danger",
     icon: "close",
   },
-  dropmenu: {
+  blackButton: {
     variant: "dark",
     icon: "close",
+  },
+  lightButton: {
+    variant: "light",
+    icon: "arrow-down",
   },
 };
 

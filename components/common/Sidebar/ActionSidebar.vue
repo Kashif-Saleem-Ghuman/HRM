@@ -1,12 +1,9 @@
 <template>
   <div
+    v-click-outside="handleClickOutside"
     id="side-panel"
     :class="'side-panel ' + 'side-panel__' + className"
-    v-click-outside="
-        () => {
-          handleClickOutside();
-        }
-      "
+    @click.stop
   >
     <div class="d-flex justify-between align-center sidebar-header p-1 m-05">
       <div class="d-flex justify-between align-center">

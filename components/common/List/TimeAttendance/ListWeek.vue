@@ -12,7 +12,15 @@
       <template #cell(name)="data">
         <div class="d-flex align-center text-left justify-left">
           <div class="text-black font-md text-left font-w-500">
+            <span
+              :class="
+                todayDate === onLoad(data.value.date)
+                  ? 'text-bold text-black'
+                  : ''
+              "
+              >
             {{ data.value.weekDayLabel }}
+            </span>
           </div>
         </div>
         <div class="d-flex align-left text-left justify-left">

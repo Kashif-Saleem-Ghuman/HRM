@@ -10,66 +10,34 @@
       v-if="id >= 0"
     >
       <template #cell(name)="data">
-        <div class="d-flex align-center text-left justify-left">
-          <div class="text-black font-md text-left font-w-500">
-            <span
-              :class="
-                todayDate === onLoad(data.value.date)
-                  ? 'text-bold text-black'
-                  : ''
-              "
-              >
-            {{ data.value.weekDayLabel }}
-            </span>
+          <div class="text-gray1 font-md text-left font-w-500">
+            <div :class="getClass(data.value.date)">
+              {{ getWeekDay(data.value.weekDayLabel) }}
+            </div>
+            <div :class="getClass(data.value.date)">
+              {{ onLoad(data.value.date) }}
+            </div>
           </div>
-        </div>
-        <div class="d-flex align-left text-left justify-left">
-          <div class="text-left text-gray1 font-w-400">
-            <span
-              :class="
-                todayDate === onLoad(data.value.date)
-                  ? 'text-bold text-black'
-                  : ''
-              "
-              >{{ onLoad(data.value.date) }}</span
-            >
-          </div>
-        </div>
       </template>
       <template #cell(in)="data">
         <chips
           :defaultPointer="true"
-          :title="data.value.in"
-          class="w-100 m-0 align-center text-center justify-center"
-          :className="[
-            data.value.entryExists
-              ? 'chip-wrapper__bgsucess text-bold'
-              : 'chip-wrapper__bggray disabled',
-          ]"
+          :title="getInOut(data.value.in)"
+          :className="getInOutClass(data.value.entryExists)"
         ></chips>
       </template>
       <template #cell(break)="data">
         <chips
           :defaultPointer="true"
-          :title="data.value.break"
-          class="w-100 m-0 align-center text-center justify-center"
-          :className="[
-            data.value.entryExists
-              ? 'chip-wrapper__bgsucess text-bold'
-              : 'chip-wrapper__bggray disabled',
-          ]"
+          :title="getInOut(data.value.break)"
+          :className="getInOutClass(data.value.entryExists)"
         ></chips>
       </template>
       <template #cell(out)="data">
         <chips
           :defaultPointer="true"
-          :title="data.value.out"
-          class="w-100 m-0 align-center text-center justify-center"
-          :className="[
-            data.value.entryExists
-              ? 'chip-wrapper__bgsucess text-bold'
-              : 'chip-wrapper__bggray disabled',
-          ]"
+          :title="getInOut(data.value.out)"
+          :className="getInOutClass(data.value.entryExists)"
         ></chips>
       </template>
       <template #cell(total)="data">
@@ -204,8 +172,23 @@ export default {
     getTodayDate() {
       this.todayDate;
     },
+
     onLoad(item) {
       return item == null ? "---" : fecha.format(new Date(item), "DD-MMM-YYYY");
+    },
+    getClass(value) {
+      return this.todayDate === this.onLoad(value) ? "text-bold" : "";
+    },
+    getWeekDay(day) {
+      return day;
+    },
+    getInOut(inOut) {
+      return inOut;
+    },
+    getInOutClass(value) {
+      return value
+        ? "chip-wrapper__bgsucess text-bold"
+        : "chip-wrapper__bggray disabled";
     },
     async submitButtonClicked() {
       const response = await this.submitTimesheet(this.id);

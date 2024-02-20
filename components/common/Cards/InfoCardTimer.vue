@@ -36,11 +36,11 @@
       <div class="d-flex justify-center">
         <bib-button
           :label="buttonLable"
-          :variant="!buttonDisabled ? 'primary-24' : 'light'"
+          :variant="buttonVariant"
           :icon="icon"
-          size="xl"
           :disabled="buttonDisabled ? true : false"
           @click="handleClockInOutClick"
+          class="button-wrapper-align"
         ></bib-button>
       </div>
     </div>
@@ -134,7 +134,13 @@ export default {
         this.getDailyTimeEntries
       );
     },
-
+    buttonVariant(){
+      if(this.disabled) return "light"
+      if (this.$store.state.token.isUser) {
+        if (this?.active) return "danger";
+        if(!this?.active) return "primary-24"
+      }
+    },
     buttonLable() {
       if (this.$store.state.token.isUser) {
         if (this?.active) return "Clock Out";

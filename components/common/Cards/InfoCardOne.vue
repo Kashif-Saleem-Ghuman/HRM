@@ -48,9 +48,8 @@
         <bib-button
           :label="buttonLable"
           variant="primary-24"
-          class="mr-05"
+          class="w-25 button-wrapper-align"
           :icon="icon"
-          size="xl"
         ></bib-button>
       </div>
     </div>

@@ -6,24 +6,38 @@
       </label>
     </div>
     <div class="cell">
-      <bib-input
+    <bib-time-picker-wrapper
+      v-model="startTime"
+      name="startTime"
+      placeholder="HH:mm am"
+      @input="timeInputBlur"
+      :disabled="disabled"
+    ></bib-time-picker-wrapper>
+      <!-- <bib-input
         type="time"
         name="name"
         v-model="startTime"
         @blur="timeInputBlur"
         :step="60"
         :disabled="disabled"
-      ></bib-input>
+      ></bib-input> -->
     </div>
     <div class="cell">
-      <bib-input
+      <bib-time-picker-wrapper
+        v-model="endTime"
+        name="endTime"
+        placeholder="HH:mm pm"
+        @input="timeInputBlur"
+        :disabled="disabled"
+      ></bib-time-picker-wrapper>
+      <!-- <bib-input
         type="time"
         name="name"
         v-model="endTime"
         @blur="timeInputBlur"
         :step="60"
         :disabled="disabled"
-      ></bib-input>
+      ></bib-input> -->
     </div>
     <div class="cell">
       <div class="uneditable-cell">
@@ -39,7 +53,10 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
-    <bib-notification :popupMessages="popupMessages" :autohide="10000"></bib-notification>
+    <bib-notification
+      :popupMessages="popupMessages"
+      :autohide="10000"
+    ></bib-notification>
   </div>
 </template>
 <script>
@@ -62,7 +79,10 @@ import {
   calculateTimeDifferenceInMinutes,
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
-import { ACTIVITY_TYPE, TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
+import {
+  ACTIVITY_TYPE,
+  TIMESHEET_STATUSES,
+} from "../../../../utils/constant/Constant";
 export default {
   props: {
     entry: {
@@ -88,30 +108,38 @@ export default {
       return true;
     },
     hasInEntry() {
-      const entries = this.$store.state.timeattendance.dailyTimeEntries
-      if (!entries) return false
-      return entries.some( entry => {
-        return entry.activity === ACTIVITY_TYPE.IN && entry.end
-      })
+      const entries = this.$store.state.timeattendance.dailyTimeEntries;
+      if (!entries) return false;
+      return entries.some((entry) => {
+        return entry.activity === ACTIVITY_TYPE.IN && entry.end;
+      });
     },
     hasBreakEntry() {
-      const entries = this.$store.state.timeattendance.dailyTimeEntries
-      if (!entries) return false
-      return entries.some( entry => {
-        return entry.activity === ACTIVITY_TYPE.BREAK && entry.end
-      })
+      const entries = this.$store.state.timeattendance.dailyTimeEntries;
+      if (!entries) return false;
+      return entries.some((entry) => {
+        return entry.activity === ACTIVITY_TYPE.BREAK && entry.end;
+      });
     },
     timer() {
-      return this.$store.state.timeattendance.timer?.active ? this.$store.state.timeattendance.timer : null
+      return this.$store.state.timeattendance.timer?.active
+        ? this.$store.state.timeattendance.timer
+        : null;
     },
     disabled() {
-      return this.newData.activity === ACTIVITY_TYPE.IN && !this.hasInEntry && this.timer && isToday(this.date)
+      return (
+        this.newData.activity === ACTIVITY_TYPE.IN &&
+        !this.hasInEntry &&
+        this.timer &&
+        isToday(this.date)
+      );
     },
     startTime: {
       get() {
         if (this.newData?.startTime) return this.newData?.startTime;
         if (this.newData.start) return getTimeFromDate(this.newData.start);
-        if (this.disabled && this.timer) return getTimeFromDate(this.timer.start);
+        if (this.disabled && this.timer)
+          return getTimeFromDate(this.timer.start);
       },
       set(time) {
         this.newData.startTime = time;
@@ -212,11 +240,13 @@ export default {
 
     getDateFromTime(time) {
       const [hours, minutes, seconds] = time.split(":").map(Number);
-      return DateTime.fromJSDate(this.date).set({
-        hours,
-        minutes,
-        seconds,
-      }).toJSDate()
+      return DateTime.fromJSDate(this.date)
+        .set({
+          hours,
+          minutes,
+          seconds,
+        })
+        .toJSDate();
     },
 
     addDayToDate(date) {
@@ -229,19 +259,29 @@ export default {
 
     validateInEntryWithExistingBreak() {
       if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
-        const breakEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.BREAK && entry.end)
-        const breakEntryStartTime = DateTime.fromISO(breakEntry.start).toJSDate()
-        const breakEntryEndTime = DateTime.fromISO(breakEntry.end).toJSDate()
-        const inEntryStartTime = this.getDateFromTime(this.startTime)
-        let inEntryEndTime = this.getDateFromTime(this.endTime)
+        const breakEntry =
+          this.$store.state.timeattendance.dailyTimeEntries.find(
+            (entry) => entry.activity === ACTIVITY_TYPE.BREAK && entry.end
+          );
+        const breakEntryStartTime = DateTime.fromISO(
+          breakEntry.start
+        ).toJSDate();
+        const breakEntryEndTime = DateTime.fromISO(breakEntry.end).toJSDate();
+        const inEntryStartTime = this.getDateFromTime(this.startTime);
+        let inEntryEndTime = this.getDateFromTime(this.endTime);
 
         if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-          inEntryEndTime = this.addDayToDate(inEntryEndTime)
+          inEntryEndTime = this.addDayToDate(inEntryEndTime);
         }
 
-        const isBreakAfterInEntry = breakEntryStartTime >= inEntryStartTime && breakEntryEndTime <= inEntryEndTime
+        const isBreakAfterInEntry =
+          breakEntryStartTime >= inEntryStartTime &&
+          breakEntryEndTime <= inEntryEndTime;
         if (!isBreakAfterInEntry) {
-          this.openPopupNotification({ text: "in entry start time and end time must be before break entry start and end time", variant: "danger" });
+          this.openPopupNotification({
+            text: "in entry start time and end time must be before break entry start and end time",
+            variant: "danger",
+          });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -252,31 +292,44 @@ export default {
 
     validateBreakIsWithinWorkingHours() {
       if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.hasInEntry) {
-        const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(entry => entry.activity === ACTIVITY_TYPE.IN && entry.end)
-        const inEntryStartTime = DateTime.fromISO(inEntry.start).toJSDate()
-        const inEntryEndTime = DateTime.fromISO(inEntry.end).toJSDate()
-        const breakStartTime = this.getDateFromTime(this.startTime)
-        let breakEndTime = this.getDateFromTime(this.endTime)
+        const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(
+          (entry) => entry.activity === ACTIVITY_TYPE.IN && entry.end
+        );
+        const inEntryStartTime = DateTime.fromISO(inEntry.start).toJSDate();
+        const inEntryEndTime = DateTime.fromISO(inEntry.end).toJSDate();
+        const breakStartTime = this.getDateFromTime(this.startTime);
+        let breakEndTime = this.getDateFromTime(this.endTime);
 
         if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-          breakEndTime = this.addDayToDate(breakEndTime)
+          breakEndTime = this.addDayToDate(breakEndTime);
         }
 
-        const isBreakWithinInEntry = breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime
+        const isBreakWithinInEntry =
+          breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime;
         if (!isBreakWithinInEntry) {
-          this.openPopupNotification({ text: "Break start time and end time must be within in entry start and end time", variant: "danger" });
+          this.openPopupNotification({
+            text: "Break start time and end time must be within in entry start and end time",
+            variant: "danger",
+          });
           this.clearStartTime();
           this.clearEndTime();
           return false;
         }
       }
 
-      if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.timer && isToday(this.date)) {
-        const breakStartTime = DateTime.fromISO(this.startTime).toJSDate()
-        const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate()
+      if (
+        this.newData.activity === ACTIVITY_TYPE.BREAK &&
+        this.timer &&
+        isToday(this.date)
+      ) {
+        const breakStartTime = DateTime.fromISO(this.startTime).toJSDate();
+        const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate();
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
-          this.openPopupNotification({ text: "break start time cannot be before timer start time", variant: "danger" });
+          this.openPopupNotification({
+            text: "break start time cannot be before timer start time",
+            variant: "danger",
+          });
           this.clearStartTime();
           this.clearEndTime();
           return false;
@@ -294,7 +347,10 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        this.openPopupNotification({ text:'End time cannot be greater than current time', variant:'danger' })
+        this.openPopupNotification({
+          text: "End time cannot be greater than current time",
+          variant: "danger",
+        });
         this.endTime = undefined;
         return false;
       }
@@ -372,8 +428,8 @@ export default {
     margin-right: -10px !important;
   }
 }
-.uneditable-cell{
-  label{
+.uneditable-cell {
+  label {
     color: #000;
     font-size: 14px !important;
     padding-left: 10px !important;

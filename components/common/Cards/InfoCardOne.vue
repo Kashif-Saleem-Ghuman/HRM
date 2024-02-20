@@ -26,20 +26,31 @@
       <div class="footer-item d-flex">
         <div class="items">
           <label>Pending</label>
-          <span >{{ item.pending }}</span>
+          <span>{{ item.pending }}</span>
         </div>
         <div class="items">
           <label>Rejected</label>
           <span>{{ item.refused }}</span>
         </div>
       </div>
-      <div
+      <!-- <div
         class="button-wrapper"
         :class="className"
         @click.stop="$emit('on-click')"
       >
         <bib-icon :icon="icon"  class="mr-05"></bib-icon>
         <span>{{ buttonLable }}</span>
+      </div> -->
+      <div
+        class="d-flex justify-center"
+        @click.stop="$emit('on-click')"
+      >
+        <bib-button
+          :label="buttonLable"
+          variant="primary-24"
+          class="w-25 button-wrapper-align"
+          :icon="icon"
+        ></bib-button>
       </div>
     </div>
   </div>
@@ -65,23 +76,21 @@ export default {
     buttonVariant: {
       type: String,
     },
-    title:{
-      type:String
+    title: {
+      type: String,
     },
-    className:{
-      type:String
+    className: {
+      type: String,
     },
     showProgress: {
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
     };
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
-

@@ -15,7 +15,7 @@
           @click="leaveDetail(data.value)"
         >
           <chips
-            :title="data.value.type == null ? 'N/A' : data.value.type"
+            :title="data.value.type == 'leave' ? 'Personal Leave' : data.value.type"
             iconShow="iconShow"
             :icon="getLeaveStatusIconVariant(data.value.type)"
             :variantIcon="getStatusIconVariant(data.value.status)"

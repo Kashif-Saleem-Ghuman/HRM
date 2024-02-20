@@ -83,14 +83,16 @@
           <span class="pl-05">{{ scheduledDays }} </span>
         </div>
       </div>
-      <bib-button
-        :icon="icon"
-        :variant="variant"
-        :scale="$button.approved.scale"
-        :label="buttonLable"
-        class="mr-05 button-wrapper-align w-100"
-        @click.native.stop="$emit('on-click')"
-      ></bib-button>
+      <div class="d-flex justify-center pt-05">
+        <bib-button
+          :icon="icon"
+          :variant="variant"
+          :scale="$button.approved.scale"
+          :label="buttonLable"
+          @click.native.stop="$emit('on-click')"
+          class="button-wrapper-align"
+        ></bib-button>
+      </div>
     </div>
   </div>
 </template>
@@ -191,20 +193,10 @@ export default {
 .info-card-leave-container {
   overflow: hidden;
 }
-
 .button-wrapper-align {
-  div {
+  .align-center {
     display: flex;
     justify-content: center;
-    .btn_icon {
-      display: flex;
-      justify-content: center !important;
-      width: 0.8rem;
-      height: 0.8rem;
-      display: flex;
-      position: relative !important;
-      margin-right: 20px;
-    }
   }
 }
 

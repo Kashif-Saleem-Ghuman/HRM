@@ -11,14 +11,6 @@
         ></section-header-left>
       </div>
       <div class="pl-1 py-1">
-        <div class="pb-05 d-flex justify-start">
-          <dropdown-menu-calendar
-            :items="dropMenuYear"
-            :label="selectedYear"
-            @on-click="changeYearView($event)"
-            class="mr-05"
-          ></dropdown-menu-calendar>
-        </div>
         <div
           class="d-grid d-flex gap-1"
           style="grid-template-columns: repeat(3, 1fr)"
@@ -57,6 +49,16 @@
             :variant="$button.pending.variant"
             @on-click="addLeaves('leave')"
           ></info-card-leave-vacation>
+        </div>
+        <div class="pt-1 d-flex justify-start">
+          <dropdown-menu-calendar
+            :items="dropMenuYear"
+            :label="selectedYear"
+            :variant="$button.lightButton.variant"
+            icon="arrowhead-down"
+            @on-click="changeYearView($event)"
+            class="mr-05"
+          ></dropdown-menu-calendar>
         </div>
       </div>
       <div>

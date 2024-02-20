@@ -3,15 +3,7 @@
     <loader :loading="loading"></loader>
     <div class="" id="tab_info_wrapper">
       <div class="scroll_wrapper">
-        <div class="px-1 py-05">
-          <div class="pb-05 d-flex justify-start">
-            <dropdown-menu-calendar
-              :items="dropMenuYear"
-              :label="selectedYear"
-              @on-click="changeYearView($event)"
-              class="mr-05"
-            ></dropdown-menu-calendar>
-          </div>
+        <div class="px-1 py-1">
           <div
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
@@ -57,6 +49,16 @@
               :type="REQUEST_TYPES.LEAVE"
               @update="setAllowance"
             ></info-card-leave-vacation>
+          </div>
+          <div class="pt-05 d-flex justify-start">
+            <dropdown-menu-calendar
+              :items="dropMenuYear"
+              :label="selectedYear"
+              :variant="$button.lightButton.variant"
+              @on-click="changeYearView($event)"
+              icon="arrowhead-down"
+              class="mr-05"
+            ></dropdown-menu-calendar>
           </div>
         </div>
       </div>
@@ -161,8 +163,13 @@ export default {
           this.leaveVacationDataUser = result;
         });
     });
+    this.$root.$on("render-leave-yearly", (e) => {
+      console.log(e)
+      // this.changeYearView(e)
+    });
     this.loading = false
   },
+  
   mounted() {
     this.dropMenuYear = this.generateYearList();
   },

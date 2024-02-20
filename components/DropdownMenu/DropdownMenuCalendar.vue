@@ -5,9 +5,9 @@
       <div class="position-relative">
         <bib-button
           :label="label"
-          :variant="$button.dropmenu.variant"
+          :variant="variant ?? $button.blackButton.variant"
           size="lg"
-          :icon-right="$button.dropmenu.icon"
+          :icon-right="icon ?? $button.blackButton.icon"
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>

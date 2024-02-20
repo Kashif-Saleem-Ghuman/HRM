@@ -12,74 +12,65 @@
       <template #cell(name)="data">
         <div class="d-flex align-center text-left justify-left">
           <div class="text-black font-md text-left font-w-500">
+            <span
+              :class="
+                todayDate === onLoad(data.value.date)
+                  ? 'text-bold text-black'
+                  : ''
+              "
+              >
             {{ data.value.weekDayLabel }}
+            </span>
           </div>
         </div>
         <div class="d-flex align-left text-left justify-left">
           <div class="text-left text-gray1 font-w-400">
-            {{ data.value.date == null ? "---" : onLoad(data.value.date) }}
+            <span
+              :class="
+                todayDate === onLoad(data.value.date)
+                  ? 'text-bold text-black'
+                  : ''
+              "
+              >{{ onLoad(data.value.date) }}</span
+            >
           </div>
         </div>
       </template>
       <template #cell(in)="data">
-        <div class="d-flex w-100 m-0 align-center text-center justify-center">
-          <chips
-            :defaultPointer="true"
-            :title="data.value.in"
-            :class="[
-              'w-100',
-              'm-0',
-              'align-center',
-              'text-center',
-              'justify-center',
-            ]"
-            :className="[
-              data.value.entryExists
-                ? 'chip-wrapper__bgsucess text-bold'
-                : 'chip-wrapper__bggray disabled',
-            ]"
-          ></chips>
-        </div>
+        <chips
+          :defaultPointer="true"
+          :title="data.value.in"
+          class="w-100 m-0 align-center text-center justify-center"
+          :className="[
+            data.value.entryExists
+              ? 'chip-wrapper__bgsucess text-bold'
+              : 'chip-wrapper__bggray disabled',
+          ]"
+        ></chips>
       </template>
       <template #cell(break)="data">
-        <div class="d-flex m-0 align-center text-center justify-center">
-          <chips
-            :defaultPointer="true"
-            :title="data.value.break"
-            :class="[
-              'w-100',
-              'm-0',
-              'align-center',
-              'text-center',
-              'justify-center',
-            ]"
-            :className="[
-              data.value.entryExists
-                ? 'chip-wrapper__bgsucess text-bold'
-                : 'chip-wrapper__bggray disabled',
-            ]"
-          ></chips>
-        </div>
+        <chips
+          :defaultPointer="true"
+          :title="data.value.break"
+          class="w-100 m-0 align-center text-center justify-center"
+          :className="[
+            data.value.entryExists
+              ? 'chip-wrapper__bgsucess text-bold'
+              : 'chip-wrapper__bggray disabled',
+          ]"
+        ></chips>
       </template>
       <template #cell(out)="data">
-        <div class="d-flex m-0 align-center text-center justify-center">
-          <chips
-            :defaultPointer="true"
-            :title="data.value.out"
-            :class="[
-              'w-100',
-              'm-0',
-              'align-center',
-              'text-center',
-              'justify-center',
-            ]"
-            :className="[
-              data.value.entryExists
-                ? 'chip-wrapper__bgsucess text-bold'
-                : 'chip-wrapper__bggray disabled',
-            ]"
-          ></chips>
-        </div>
+        <chips
+          :defaultPointer="true"
+          :title="data.value.out"
+          class="w-100 m-0 align-center text-center justify-center"
+          :className="[
+            data.value.entryExists
+              ? 'chip-wrapper__bgsucess text-bold'
+              : 'chip-wrapper__bggray disabled',
+          ]"
+        ></chips>
       </template>
       <template #cell(total)="data">
         <div
@@ -121,7 +112,7 @@ import {
   WEEK_DAY,
   TIMESHEET_STATUS,
 } from "@/utils/constant/Constant.js";
-
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
@@ -169,6 +160,7 @@ export default {
       submitTimesheet,
       TIMESHEET_STATUS,
       WEEK_DAY,
+      todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
     };
   },
   computed: {
@@ -209,8 +201,11 @@ export default {
         DateTime.fromJSDate(new Date(date + " 00:00")).weekday % 7
       ].value;
     },
+    getTodayDate() {
+      this.todayDate;
+    },
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MMM-YYYY");
+      return item == null ? "---" : fecha.format(new Date(item), "DD-MMM-YYYY");
     },
     async submitButtonClicked() {
       const response = await this.submitTimesheet(this.id);

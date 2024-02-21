@@ -11,11 +11,11 @@
     >
       <template #cell(name)="data">
           <div class="text-gray1 font-md text-left font-w-500">
-            <div :class="getClass(data.value.date)">
+            <div :class="getClassName(data.value.date)">
               {{ getWeekDay(data.value.weekDayLabel) }}
             </div>
-            <div :class="getClass(data.value.date)">
-              {{ onLoad(data.value.date) }}
+            <div :class="getClassName(data.value.date)">
+              {{ dateFormat(data.value.date) }}
             </div>
           </div>
       </template>
@@ -173,11 +173,11 @@ export default {
       this.todayDate;
     },
 
-    onLoad(item) {
+    dateFormat(item) {
       return item == null ? "---" : fecha.format(new Date(item), "DD-MMM-YYYY");
     },
-    getClass(value) {
-      return this.todayDate === this.onLoad(value) ? "text-bold" : "";
+    getClassName(value) {
+      return this.todayDate === this.dateFormat(value) ? "text-bold" : "";
     },
     getWeekDay(day) {
       return day;

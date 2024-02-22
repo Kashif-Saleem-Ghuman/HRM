@@ -113,7 +113,7 @@ export default {
       type: String,
     },
     refusalReasonData: {
-      type: Array,
+      type: [Array, Object],
     },
   },
   data() {

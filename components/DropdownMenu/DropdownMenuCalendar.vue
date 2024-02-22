@@ -38,7 +38,9 @@
 export default {
   props: {
     // General props
-    label: [Number, String],
+    label: {
+      type: [Number, String],
+    },
     variant: String,
     icon: String,
     className: String,

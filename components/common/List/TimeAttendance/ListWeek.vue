@@ -102,7 +102,7 @@ export default {
       default: "",
     },
     refusalReasonData: {
-      type: Array,
+      type: [Array, Object],
       default: "--:--",
     },
     id: {

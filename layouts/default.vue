@@ -30,8 +30,8 @@
         >
           <template>
             <div class="py-05 ml-minus-5">
-            <search-content></search-content>
-          </div>
+              <search-content></search-content>
+            </div>
           </template>
         </bib-header>
       </template>
@@ -142,7 +142,10 @@ import {
 } from "../utils/constant/Constant";
 import getJson from "../utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
-
+const OPEN_SIDEBAR_EVENT = "open-sidebar-admin";
+const CLOSE_SIDEBAR_EVENT = "close-sidebar-main";
+const CLOCK_MODAL = "clock-in";
+const ADD_LEAVE_KEY = "add-leave";
 import {
   handleToggleWrapperTheme,
   openAccountPage,
@@ -235,7 +238,68 @@ export default {
     },
   },
   async created() {
-    this.$root.$on("open-sidebar-admin", (payload, key) => {
+    this.registerRootListeners();
+  },
+  async mounted() {
+    this.registerRootListeners();
+    this.loading = true;
+    this.isThemeCheck();
+    this.accountType = this.$store.state.token.accountType;
+    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
+      this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
+      this.employeeNameSelectShow = true;
+    });
+    const user = this.$store.state.employee.activeUser;
+    this.employeeNameSelect = user.id;
+    this.employeesOptions = this.getReportList;
+
+    this.setDebouncedSearch();
+    this.loading = false;
+  },
+  methods: {
+    getEmployeeFullName,
+    isThemeCheck,
+    handleToggleWrapperTheme,
+    addLeaveVacations,
+    addHandleInput,
+    openAccountPage,
+    myProfile,
+    openTeamPage,
+    openBillingPage,
+    headerHelpClick,
+    headerActionCall,
+    openPopupNotification,
+    routesCheck,
+    selectUserHandle,
+    selectLeaveTypeHandle,
+    setDebouncedSearch() {
+      if (!this.debouncedSearch) {
+        this.debouncedSearch = debounce((event) => {
+          this.performSearch(event);
+        }, 300);
+      }
+    },
+    performSearch(event) {
+      const search = event;
+      this.$store.dispatch("app/performSearch", { search });
+    },
+    handleSearchChange(event) {
+      if (this.debouncedSearch) this.debouncedSearch(event);
+    },
+    logout() {
+      this.$signOut;
+    },
+    close() {
+      this.clockModal = false;
+    },
+    closeSidebarFun() {
+      this.openSidebar = false;
+    },
+    closeSidebar() {
+      this.slideClass = "slide-out";
+      setTimeout(this.closeSidebarFun, 700);
+    },
+    async addLeave(payload, key) {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
         this.$store.dispatch("employee/setUser", this.getUser.id);
@@ -266,81 +330,60 @@ export default {
           return true;
         }
       }
-    });
-    this.$root.$on("close-sidebar-main", () => {
-      this.slideClass = "slide-out";
-      setTimeout(this.closeSidebarFun, 700);
-    });
-    this.$root.$on("clock-in", () => {
-      this.clockModal = true;
-    });
-    this.$root.$on("add-leave", () => {
-      this.addLeaveKey += 1;
-    });
+    },
+    registerCloseSideBarRootListener() {
+      this.$root.$on(CLOSE_SIDEBAR_EVENT, () => {
+        this.slideClass = "slide-out";
+        setTimeout(this.closeSidebarFun, 700);
+      });
+    },
+    unregisterCloseSideBarRootListener() {
+      this.$root.$off(CLOSE_SIDEBAR_EVENT);
+    },
+    registerOpenSideBarRootListener() {
+      this.$root.$on(OPEN_SIDEBAR_EVENT, (payload, key) => {
+        this.addLeave(payload, key);
+      });
+    },
+    unregisterOpenSideBarRootListener() {
+      this.$root.$off(OPEN_SIDEBAR_EVENT);
+    },
+    registerClockModalRootListener() {
+      this.$root.$on(CLOCK_MODAL, () => {
+        this.clockModal = true;
+      });
+    },
+    unregisterClockModalRootListener() {
+      this.$root.$off(CLOCK_MODAL);
+    },
+    registerAddLeaveRootListener() {
+      this.$root.$on(ADD_LEAVE_KEY, () => {
+        this.addLeaveKey += 1;
+      });
+    },
+    unregisterAddLeaveRootListener() {
+      this.$root.$off(ADD_LEAVE_KEY);
+    },
+    registerRootListeners() {
+      this.registerOpenSideBarRootListener();
+      this.registerCloseSideBarRootListener();
+      this.registerClockModalRootListener();
+      this.registerAddLeaveRootListener();
+    },
+    unregisterRootListeners() {
+      this.unregisterCloseSideBarRootListener();
+      this.unregisterOpenSideBarRootListener();
+      this.unregisterClockModalRootListener();
+      this.unregisterAddLeaveRootListener();
+    },
   },
-  async mounted() {
-    this.loading = true;
-    this.isThemeCheck();
-    this.accountType = this.$store.state.token.accountType;
-    this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
-      this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
-      this.employeeNameSelectShow = true;
-    });
-    const user = this.$store.state.employee.activeUser;
-    this.employeeNameSelect = user.id;
-    this.employeesOptions = this.getReportList;
-
-    this.setDebouncedSearch();
-    this.loading = false;
-  },
-  methods: {
-    getEmployeeFullName,
-    setDebouncedSearch() {
-      if (!this.debouncedSearch) {
-        this.debouncedSearch = debounce((event) => {
-          this.performSearch(event);
-        }, 300);
-      }
-    },
-    performSearch(event) {
-      const search = event;
-      this.$store.dispatch("app/performSearch", { search });
-    },
-    handleSearchChange(event) {
-      if (this.debouncedSearch) this.debouncedSearch(event);
-    },
-    logout() {
-      this.$signOut;
-    },
-    isThemeCheck,
-    handleToggleWrapperTheme,
-    addLeaveVacations,
-    addHandleInput,
-    openAccountPage,
-    myProfile,
-    openTeamPage,
-    openBillingPage,
-    headerHelpClick,
-    headerActionCall,
-    openPopupNotification,
-    routesCheck,
-    selectUserHandle,
-    selectLeaveTypeHandle,
-    close() {
-      this.clockModal = false;
-    },
-    closeSidebarFun() {
-      this.openSidebar = false;
-    },
-    closeSidebar() {
-      this.slideClass = "slide-out";
-      setTimeout(this.closeSidebarFun, 700);
-    },
+  beforeDestroy() {
+    this.unregisterRootListeners();
   },
 };
 </script>
 <style lang="scss">
-.ml-minus-5{
+.ml-minus-5 {
   margin-left: -5px;
 }
 </style>

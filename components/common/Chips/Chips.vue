@@ -44,7 +44,7 @@ export default {
       type: Number,
     },
     className: {
-      type: Array,
+      type: [Array, String],
       default() {
         return null;
       },

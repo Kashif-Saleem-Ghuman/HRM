@@ -1,6 +1,6 @@
 <template>
   <div class="modal-clock" v-if="clockModal">
-    <div class="modal-clock__mask" @click="$emit('click:outside')"></div>
+    <div class="modal-clock__mask" @click="close()"></div>
     <div @keydown.esc="close" ref="modal" tabindex="0" class="wrapper">
       <div class="header">
         <span class="font-w-600">{{ title }}</span>
@@ -24,9 +24,14 @@
             <span class="stop-watch">{{ stopWatchTime }}</span>
           </div>
         </div>
-        <div 
-          :class="['button-punched-in', 'mb-1', 'mt-2', activeButton ? 'active-button' : 'disabled-button']"
-          @click="() => activeButton ? stopWatchClicked() : null"
+        <div
+          :class="[
+            'button-punched-in',
+            'mb-1',
+            'mt-2',
+            activeButton ? 'active-button' : 'disabled-button',
+          ]"
+          @click="() => (activeButton ? stopWatchClicked() : null)"
         >
           <bib-icon icon="video-solid" variant="white" class="mr-05"></bib-icon>
           <span>{{ buttonLable }}</span>
@@ -57,24 +62,16 @@
 
 <script>
 import { mapGetters } from "vuex";
-import timerMixin from '../../../../mixins/timer-mixin';
-import { formatTime, calculateActivityDetails } from '../../../../utils/functions/clock_functions';
+import timerMixin from "../../../../mixins/timer-mixin";
+import {
+  formatTime,
+  calculateActivityDetails,
+} from "../../../../utils/functions/clock_functions";
 import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
+const CLOCK_MODAL = "clock-in";
 export default {
   name: "BibClockWrapper",
   mixins: [timerMixin],
-  props: {
-    clockModal: {
-      type: Boolean,
-      default: true,
-    },
-    title: {
-      type: String,
-      default() {
-        return null;
-      },
-    },
-  },
   methods: {
     close() {
       this.$emit("close");
@@ -83,52 +80,81 @@ export default {
       if (!this.active) await this.startStopWatch();
       else {
         await this.stopTimer();
-        await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
       }
     },
     async startStopWatch() {
-      await this.$store.dispatch("timeattendance/startTimer")      
+      await this.$store.dispatch("timeattendance/startTimer");
     },
+    close() {
+      this.clockModal = false;
+    },
+    registerClockModalRootListener() {
+      this.$root.$on(CLOCK_MODAL, () => {
+        this.clockModal = true;
+      });
+    },
+    unregisterClockModalRootListener() {
+      this.$root.$off(CLOCK_MODAL);
+    },
+    registerRootListeners() {
+      this.registerClockModalRootListener();
+    },
+    unregisterRootListeners() {
+      this.unregisterClockModalRootListener();
+    },
+  },
+  beforeDestroy() {
+    this.unregisterRootListeners();
   },
 
   created() {
     this.timeEntriesLoading = true;
+    this.registerRootListeners();
   },
   async mounted() {
-    this.startTimerInterval()
-    this.time = new Date().toTimeString().split(' ')[0];
+    this.startTimerInterval();
+    this.registerRootListeners();
+    this.time = new Date().toTimeString().split(" ")[0];
     this.date = new Date().toDateString();
-    await this.$store.dispatch('timeattendance/setTimerData');
-    await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+    await this.$store.dispatch("timeattendance/setTimerData");
+    await this.$store.dispatch("timeattendance/setDailyTimeEntries");
     this.timeEntriesLoading = false;
   },
   computed: {
     ...mapGetters({
-      getDailyTimeEntries: 'timeattendance/getDailyTimeEntries',
+      getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
     }),
     buttonLable() {
-      return this.active ? 'CLOCK OUT' : 'CLOCK IN'
+      return this.active ? "CLOCK OUT" : "CLOCK IN";
     },
     activeButton() {
-      return !this.getDailyTimeEntries.some( entry =>  entry.activity === ACTIVITY_TYPE.IN && entry.end )
+      return !this.getDailyTimeEntries.some(
+        (entry) => entry.activity === ACTIVITY_TYPE.IN && entry.end
+      );
     },
     stopWatchTime() {
-      if (this.timerLoading) return '00:00:00';
+      if (this.timerLoading) return "00:00:00";
       return formatTime(this.chronometer);
     },
     borderClass() {
-      return this.active ? 'border-green' : 'border-gray';
+      return this.active ? "border-green" : "border-gray";
     },
     activityDetails() {
-      return calculateActivityDetails(this.getTimerData.start, this.getDailyTimeEntries);
+      return calculateActivityDetails(
+        this.getTimerData.start,
+        this.getDailyTimeEntries
+      );
     },
   },
   data() {
     return {
-      time: '',
-      date: '',
+      time: "",
+      date: "",
       timerLoading: false,
-    }
+      clockModal: false,
+      title: "Business in box / Timer",
+    };
   },
 };
 </script>
@@ -216,7 +242,7 @@ export default {
 }
 .active-button {
   cursor: pointer;
-  background-color: #0741A3;
+  background-color: #0741a3;
 }
 .disabled-button {
   background-color: gray;

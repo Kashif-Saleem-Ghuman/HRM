@@ -35,7 +35,7 @@
             buttonLable="Request Medical Leave"
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
-            :variant="$button.rejected.variant"
+            :variant="$button.approved.variant"
             @on-click="addLeaves('medical')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
@@ -46,7 +46,7 @@
             buttonLable="Request Personal Leave"
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
-            :variant="$button.pending.variant"
+            :variant="$button.approved.variant"
             @on-click="addLeaves('leave')"
           ></info-card-leave-vacation>
         </div>

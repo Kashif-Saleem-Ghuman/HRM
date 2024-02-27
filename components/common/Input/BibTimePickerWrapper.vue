@@ -3,7 +3,7 @@
     v-model="time"
     :name="name"
     :placeholder="placeholder"
-    @blur="onInput"
+    @input="onInput"
     :disabled="disabled"
   ></bib-time-picker>
 </template>
@@ -39,9 +39,9 @@ export default {
 
   methods: {
     onInput(time) {
-      if (this.is24Hours) {
-        return this.$emit("input", this.convertTo24HourFormat(time));
-      }
+      // if (this.is24Hours) {
+      //   return this.$emit("input", this.convertTo24HourFormat(time));
+      // }
       return this.$emit("input", time);
     },
 
@@ -58,9 +58,10 @@ export default {
     },
 
     setTime(time) {
-      if (this.is24Hours) {
-        this.time = this.convert24hToAmPm(time);
-      }
+      // if (this.is24Hours) {
+      //   this.time = this.convert24hToAmPm(time);
+      // }
+      this.time = time
     },
   },
 

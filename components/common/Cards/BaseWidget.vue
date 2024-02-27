@@ -29,15 +29,14 @@
 
 
       <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom cursor-pointer pt-05">
-        <div v-for="avatar in avatars.slice(0,3)" :key="avatar.id">
+        <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" :key="avatar.id">
           <NuxtLink :to="`/profile/${avatar.id}`">
             <bib-avatar :src="avatar.photo" size="1.5rem"
               :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
           </NuxtLink>
         </div>
-        <div v-if="avatars.length > 3" class="d-flex align-center">
-        <span class="avatar__text text-gray1 mr-025">Total: </span>
-        <span class="avatar shape-circle bg-gray3 span avatar__text text-gray1">{{ avatars.length }}</span>
+        <div v-if="avatars.length > MAX_VISIBLE_AVATARS" class="d-flex align-center">
+        <span class="avatar__text text-gray1 mr-025">... {{ avatars.length - MAX_VISIBLE_AVATARS  }} more </span>
       </div>
       </div>
 
@@ -47,6 +46,8 @@
 
 <script>
 import { getEmployeeInitials } from '../../../utils/functions/common_functions';
+
+const MAX_VISIBLE_AVATARS = 3;
 
 export default {
   props: {
@@ -58,6 +59,7 @@ export default {
 
   data() {
     return {
+      MAX_VISIBLE_AVATARS,
       data: {},
       subData: null,
       avatars: null,

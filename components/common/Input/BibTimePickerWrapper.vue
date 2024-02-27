@@ -3,7 +3,7 @@
     v-model="time"
     :name="name"
     :placeholder="placeholder"
-    @input="onInput"
+    @blur="onInput"
     :disabled="disabled"
   ></bib-time-picker>
 </template>

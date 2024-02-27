@@ -1,5 +1,5 @@
 <template>
-  <div class="widget d-flex">
+  <div class="widget  d-flex">
     <div class="widget-container">
       <div>
         <label>{{ title }}</label>
@@ -11,7 +11,7 @@
         </div>
 
         <div v-if="avatars && avatarsPosition === 'center'" class="widget-avatars-container">
-          <div v-for="avatar in avatars" class="widget-avatars" :key="avatar.id">
+          <div v-for="avatar in avatars.slice(3)" class="widget-avatars" :key="avatar.id">
             <NuxtLink :to="`/profile/${avatar.id}`">
               <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"
                 :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
@@ -29,12 +29,16 @@
 
 
       <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom cursor-pointer pt-05">
-        <div v-for="avatar in avatars" :key="avatar.id">
+        <div v-for="avatar in avatars.slice(0,3)" :key="avatar.id">
           <NuxtLink :to="`/profile/${avatar.id}`">
             <bib-avatar :src="avatar.photo" size="1.5rem"
               :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
           </NuxtLink>
         </div>
+        <div v-if="avatars.length > 3" class="d-flex align-center">
+        <span class="avatar__text text-gray1 mr-025">Total: </span>
+        <span class="avatar shape-circle bg-gray3 span avatar__text text-gray1">{{ avatars.length }}</span>
+      </div>
       </div>
 
     </div>
@@ -207,10 +211,18 @@ $text-font-size: 14px;
 
   .widget-avatars-container-bottom {
     display: flex;
+    align-items: center;
     gap: .5rem;
     flex-wrap: wrap;
     max-height: 2rem;
     overflow: hidden;
+    .span{
+      height: 1.5rem;
+      width: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 </style>

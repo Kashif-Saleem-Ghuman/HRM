@@ -217,13 +217,14 @@ $validation-star-color: #fa0f00;
     .items {
       display: flex;
       justify-content: space-between;
-      width: 34%;
-      padding-right: 10px;
+      // width: 34%;
+      // padding-right: 10px;
       align-items: center;
       label {
         color: #b1b1b4;
         font-weight: normal;
         font-size: 14px;
+        padding-right: 10px;
       }
       span {
         font-weight: 600;

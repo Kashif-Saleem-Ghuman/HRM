@@ -47,7 +47,7 @@
       >
         <bib-button
           :label="buttonLable"
-          variant="primary-24"
+          :variant="$button.lightButton.variant"
           class="button-wrapper-align"
           :icon="icon"
         ></bib-button>

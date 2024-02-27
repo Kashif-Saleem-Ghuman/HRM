@@ -57,29 +57,11 @@
           </div>
         </div>
       </template>
-      <template #cell(email)="data">
+      <template v-for="(day, dayIndex) in employeeData" #[`cell(${day.key})`]="data">
         <div class="text-dark cursor-pointer">
           <div class="justify-between text-dark">
-            <span>{{ data.value.email }}</span>
+            <span>{{ getValue(data.value?.[day.key]) }}</span>
           </div>
-        </div>
-      </template>
-      <template #cell(telephone)="data">
-        <div class="justify-between text-dark cursor-pointer">
-          <span>{{
-            data.value.phone === null
-              ? "---"
-              : data.value.phone || data.value.phone != ""
-              ? data.value.phone
-              : "---"
-          }}</span>
-        </div>
-      </template>
-      <template #cell(department)="data">
-        <div class="justify-between text-dark cursor-pointer">
-          <span>{{
-            data.value.department == null ? "HRM" : data.value.department
-          }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
@@ -88,7 +70,7 @@
             data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
           }}</span>
         </div>
-      </template>
+      </template> 
     </bib-table>
   </div>
 </template>
@@ -124,12 +106,7 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      columnSortDirection: {
-        name: "asc",
-        extension: "asc",
-        updatedAt: "asc",
-        owner: "asc",
-      },
+      employeeData: TABLE_HEAD.tHeadPeople.slice(2,6)
     };
   },
   created() {
@@ -161,6 +138,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    getValue(value){
+      return value ?? "--";
     },
     headerColumnClick(column) {
       this.sortColumn(column);

@@ -94,12 +94,12 @@ const data = () => {
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [
-      {
-        label: "Clock in",
-        icon: "time",
-        key: "clockIn",
-        action: "openClockIn",
-      },
+      // {
+      //   label: "Clock in",
+      //   icon: "time",
+      //   key: "clockIn",
+      //   action: "openClockIn",
+      // },
       // {
       //   label: "Send Notification",
       //   icon: "mail",

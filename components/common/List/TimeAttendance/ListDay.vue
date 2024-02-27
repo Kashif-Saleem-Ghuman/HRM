@@ -101,7 +101,9 @@ export default {
       hoursText:'Day Total Hours'
     };
   },
-
+  created(){
+    console.log(this.listToday, "listToday")
+  },
   computed: {
     entries() {
       return orderBy(
@@ -144,6 +146,7 @@ export default {
       this.confirmastionMessageModal = true;
     },
   },
+  
 };
 </script>
 

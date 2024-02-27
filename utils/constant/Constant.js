@@ -88,7 +88,6 @@ export const TABLE_HEAD = {
       label: "Employee",
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-name-sort",
         isActive: false,
         sortKey: "firstName",
         type: "string",
@@ -99,21 +98,29 @@ export const TABLE_HEAD = {
       label: "Email",
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-email-sort",
         isActive: false,
         sortKey: "email",
         type: "string",
       },
     },
     {
-      key: "telephone",
+      key: "phone",
       label: "Telephone",
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-phone-sort",
         isActive: false,
         sortKey: "phone",
         type: "phone",
+      },
+    },
+    {
+      key: "jobTitle",
+      label: "Job Title",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "jobTitle",
+        type: "string",
       },
     },
     {
@@ -121,7 +128,6 @@ export const TABLE_HEAD = {
       label: "Department",
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-department-sort",
         isActive: false,
         sortKey: "department",
         type: "string",
@@ -132,7 +138,6 @@ export const TABLE_HEAD = {
       label: "Hire Date",
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-hire-date-sort",
         isActive: false,
         sortKey: "hireDate",
         type: "date",

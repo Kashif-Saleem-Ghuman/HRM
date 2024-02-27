@@ -22,7 +22,8 @@
         <div class="cell label">{{hoursText}}</div>
         <div class="cell total-hours">{{ total }}</div>
       </div>
-    </div>
+    </div>  
+    <employee-summary :date="getSelectedDate()" :summary="summary"></employee-summary>
     <div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
       <confirmation-modal
@@ -45,6 +46,8 @@ import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
 import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
+import { DateTime } from "luxon";
+import { getSummaryByDate } from "../../../../utils/functions/api_call/summaries"
 
 const DELETE_MESSAGE = {
   confirmatinData: {
@@ -98,7 +101,8 @@ export default {
       confirmastionMessageModal: false,
       popupMessages: [],
       idToDelete: null,
-      hoursText:'Day Total Hours'
+      hoursText:'Day Total Hours',
+      summary: null,
     };
   },
 
@@ -121,6 +125,10 @@ export default {
   methods: {
     openPopupNotification,
     deleteTimeEntry,
+
+    getSelectedDate() {
+      return DateTime.fromJSDate(this.date).toFormat("yyyy-MM-dd")
+    },
     async makeNewTimeEntry(newEntry) {
       this.$emit("new-entry", newEntry);
     },
@@ -143,7 +151,25 @@ export default {
       this.idToDelete = id;
       this.confirmastionMessageModal = true;
     },
+
+    async getSummary() {
+      const { date } = this
+      const summary = await getSummaryByDate({ date: DateTime.fromJSDate(date).toFormat("yyyy-MM-dd") });
+      this.summary = summary
+    }
   },
+
+  mounted() {
+    this.getSummary()
+  },
+
+  watch: {
+    date(value, old) {
+      if (value != old) {
+        this.getSummary()
+      }
+    }
+  }
 };
 </script>
 

@@ -85,7 +85,7 @@
               @new-entry="handleNewEntryEvent"
               @edit-entry="handleEditEntry"
               @delete-entry="handleDeleteEntry"
-              :date="new Date(todayDate + ' 00:00')"
+              :date="dayListDate"
               :total="totalWork"
             ></list-day>
             <list-week
@@ -170,6 +170,10 @@ export default {
     };
   },
   computed: {
+    dayListDate() {
+      if (!this.todayDate) return null
+      return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate()
+    },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
         return "";

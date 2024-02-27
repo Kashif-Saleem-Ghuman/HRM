@@ -396,7 +396,6 @@ export default {
     timeInputBlur() {
       if (this.newData.id) {
         this.editThisEntry();
-        console.log(this.newData.id, "aksjdhladlajlkdjaljdlkajsdlkalsdklasdlkjslkd")
       } else {
         this.makeNewTimeEntry();
       }

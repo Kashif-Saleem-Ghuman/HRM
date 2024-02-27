@@ -102,7 +102,6 @@ export default {
     };
   },
   created(){
-    console.log(this.listToday, "listToday")
   },
   computed: {
     entries() {

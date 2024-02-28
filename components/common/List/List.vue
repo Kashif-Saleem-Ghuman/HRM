@@ -70,7 +70,18 @@
             data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
           }}</span>
         </div>
-      </template> 
+      </template>
+      <template #cell_action="data">
+        <bib-button pop="horizontal-dots">
+          <template v-slot:menu>
+            <div class="list">
+              <span class="list__item" @click.pre="viewProfile(data.value.id)">View Profile</span>
+              <span class="list__item" @click="sendMessage(data.value.userId)">Send Message</span>
+              <span class="list__item" @click="makeCall(data.value.userId, data.value.userId)">Call</span>
+            </div>
+          </template>
+        </bib-button>
+      </template>
     </bib-table>
   </div>
 </template>

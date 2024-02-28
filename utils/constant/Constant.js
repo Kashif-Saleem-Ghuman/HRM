@@ -1204,3 +1204,8 @@ export const apiKeyAllowanceValue = {
   medical: "medicalDaysAllowed",
   other: "otherDaysAllowed",
 };
+export const PEOPLE_ACTION_ITEMS = {
+  viewProfile: "View Profile",
+  sendMessage: "Send Message",
+  call: "Call",
+};

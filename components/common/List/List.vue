@@ -75,9 +75,7 @@
         <bib-button pop="horizontal-dots">
           <template v-slot:menu>
             <div class="list">
-              <span class="list__item" @click.pre="viewProfile(data.value.id)">View Profile</span>
-              <span class="list__item" @click="sendMessage(data.value.userId)">Send Message</span>
-              <span class="list__item" @click="makeCall(data.value.userId, data.value.userId)">Call</span>
+              <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>
             </div>
           </template>
         </bib-button>
@@ -89,7 +87,7 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../utils/constant/Constant.js";
 import {
   sendMeet,
   sendMessage,
@@ -117,7 +115,8 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      employeeData: TABLE_HEAD.tHeadPeople.slice(2,6)
+      employeeData: TABLE_HEAD.tHeadPeople.slice(2,6),
+      peopleActionItems:PEOPLE_ACTION_ITEMS
     };
   },
   created() {
@@ -162,12 +161,18 @@ export default {
         this.viewProfile(id);
       }
     },
+   
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
 
     viewProfile(id) {
       this.$router.push("/profile/" + id);
+    },
+    callAction(data, value){
+      if(value === 'View Profile') return this.viewProfile(data.value.id);
+      if(value === 'Send Message') return this.sendMessage(data.value.userId);
+      if(value === 'Call') return this.makeCall(data.value.userId, this.getUser.userId);
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

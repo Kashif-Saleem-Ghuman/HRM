@@ -72,7 +72,7 @@
         </div>
       </template>
       <template #cell_action="data">
-        <bib-button pop="horizontal-dots">
+        <bib-button pop="horizontal-dots" @click.native.stop>
           <template v-slot:menu>
             <div class="list">
               <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>

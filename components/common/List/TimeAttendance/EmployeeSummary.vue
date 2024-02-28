@@ -1,8 +1,9 @@
 <template>
   <div class="w-100">
-    <label>Daily summary</label>
+    <label class="text-gray6 font-w-600 font-md">Daily summary</label>
     <bib-input v-model="summaryText" class="w-100" type="textarea"></bib-input>
-    <div class="d-flex justify-end">
+    <div class="d-flex justify-end align-center">
+      <label class="px-05 font-md text-dark">Submit timesheet:</label>
       <bib-button
         label="Submit"
         variant="primary"

@@ -23,7 +23,9 @@
         <div class="cell total-hours">{{ total }}</div>
       </div>
     </div>  
-    <employee-summary :date="getSelectedDate()" :summary="summary"></employee-summary>
+    <div class="px-1 py-1">
+      <employee-summary :date="getSelectedDate()" :summary="summary"></employee-summary>
+    </div>
     <div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>
       <confirmation-modal

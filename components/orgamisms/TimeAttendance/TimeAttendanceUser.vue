@@ -21,7 +21,7 @@
 
             <info-card-one
               :item="timesheetWidgetData"
-              title="View Timesheet"
+              title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"

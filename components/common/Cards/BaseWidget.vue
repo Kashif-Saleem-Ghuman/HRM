@@ -11,7 +11,7 @@
         </div>
 
         <div v-if="avatars && avatarsPosition === 'center'" class="widget-avatars-container">
-          <div v-for="avatar in avatars.slice(3)" class="widget-avatars" :key="avatar.id">
+          <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" class="widget-avatars" :key="avatar.id">
             <NuxtLink :to="`/profile/${avatar.id}`">
               <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"
                 :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>

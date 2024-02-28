@@ -101,7 +101,8 @@ export default {
       hoursText:'Day Total Hours'
     };
   },
-
+  created(){
+  },
   computed: {
     entries() {
       return orderBy(
@@ -144,6 +145,7 @@ export default {
       this.confirmastionMessageModal = true;
     },
   },
+  
 };
 </script>
 

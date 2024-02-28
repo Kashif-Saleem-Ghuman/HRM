@@ -36,9 +36,8 @@
     </div>
     <div
       class="d-grid d-flex gap-1 py-1 px-1"
-      style="grid-template-columns: repeat(2, 1fr)"
+      style="grid-template-columns: repeat(3, 1fr)"
     >
-
     <pending-timesheets-widget :startDate="weekDates.from" :endDate="weekDates.to" />
 
     <past-due-timesheets-widget  :startDate="weekDates.from" :endDate="weekDates.to" />

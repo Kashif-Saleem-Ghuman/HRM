@@ -9,7 +9,7 @@
     <bib-time-picker-wrapper
       v-model="startTime"
       name="startTime"
-      placeholder="---"
+      placeholder="--"
       @input="timeInputBlur"
       :disabled="disabled"
     ></bib-time-picker-wrapper>

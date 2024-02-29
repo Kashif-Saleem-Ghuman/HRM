@@ -193,12 +193,7 @@ export default {
 .info-card-leave-container {
   overflow: hidden;
 }
-.button-wrapper-align {
-  .align-center {
-    display: flex;
-    justify-content: center;
-  }
-}
+
 
 .edit-allowance {
   display: flex;

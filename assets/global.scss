@@ -364,3 +364,9 @@ $validation-star-color: #fa0f00;
     margin-bottom: 10px;
   }
 }
+.button-wrapper-align {
+  .align-center {
+    display: flex !important;
+    justify-content: center !important;
+  }
+}

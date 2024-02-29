@@ -73,7 +73,7 @@ export default {
 @import "@/assets/variable.scss";
 @media (max-width: 1900px) {
   .height {
-    height: 72vh !important;
+    height: 70vh !important;
   }
 }
 @media (min-width: 1900px) {

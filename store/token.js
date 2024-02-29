@@ -106,10 +106,7 @@ export const actions = {
       }
     });
 
-    const accountType =
-      u?.subbs == "FREETRIAL" ? "See Plans & Pricing" : "Upgrade";
-    u.accountType = accountType
-
+    const accountType = u?.subbs
     commit("SET_ACCOUNT_TYPE", accountType); 
 
     const businessId = u?.subb;

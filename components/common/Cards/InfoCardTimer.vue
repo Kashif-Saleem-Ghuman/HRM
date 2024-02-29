@@ -40,7 +40,7 @@
           :icon="icon"
           :disabled="buttonDisabled ? true : false"
           @click="handleClockInOutClick"
-          class="button-wrapper-align"
+          class="button-wrapper-align w-100"
         ></bib-button>
       </div>
     </div>

@@ -28,15 +28,15 @@
       </div>
 
 
-      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom cursor-pointer pt-05">
-        <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" :key="avatar.id">
+      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom pt-05">
+        <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" :key="avatar.id" class="cursor-pointer">
           <NuxtLink :to="`/profile/${avatar.id}`">
             <bib-avatar :src="avatar.photo" size="1.5rem"
               :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
           </NuxtLink>
         </div>
         <div v-if="avatars.length > MAX_VISIBLE_AVATARS" class="d-flex align-center">
-        <span class="avatar__text text-gray1 mr-025">... {{ avatars.length - MAX_VISIBLE_AVATARS  }} more </span>
+        <span class="avatar__text text-gray1 mr-025 cursor-default">... {{ avatars.length - MAX_VISIBLE_AVATARS  }} more </span>
       </div>
       </div>
 
@@ -197,6 +197,8 @@ $text-font-size: 14px;
       justify-content: space-between;
       width: 48%;
       padding-top: .2rem;
+      // border-bottom: 1px solid $light;
+      // height: 40px;
 
       &__title {
         color: #b1b1b4;

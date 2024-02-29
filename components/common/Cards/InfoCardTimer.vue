@@ -159,10 +159,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.items {
-  border-bottom: 1px solid #eee;
-  height: 40px;
-  border-right: 33px solid #fff;
-}
-</style>
+

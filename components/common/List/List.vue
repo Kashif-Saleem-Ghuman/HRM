@@ -184,22 +184,6 @@ export default {
 </script>
 
 <style lang="scss">
-@media (min-width: 500px) {
-  body {
-    font-size: 10px;
-  }
-}
-@media (min-width: 768px) {
-  body {
-    font-size: 11px;
-  }
-}
-
-@media (min-width: 1400px) {
-  body {
-    font-size: 14px;
-  }
-}
 .info_wrapper {
   color: $black;
   font-weight: normal;

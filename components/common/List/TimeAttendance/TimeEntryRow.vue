@@ -9,7 +9,7 @@
     <bib-time-picker-wrapper
       v-model="startTime"
       name="startTime"
-      placeholder="---"
+      placeholder="--"
       @input="timeInputBlur"
       :disabled="disabled"
     ></bib-time-picker-wrapper>
@@ -26,7 +26,7 @@
       <bib-time-picker-wrapper
         v-model="endTime"
         name="endTime"
-        placeholder="---"
+        placeholder="--"
         @input="timeInputBlur"
         :disabled="disabled"
       ></bib-time-picker-wrapper>
@@ -210,6 +210,10 @@ export default {
         });
 
         if (editedEntry) {
+          this.openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
           this.$emit("edit-entry", editedEntry);
         }
       } catch (error) {
@@ -311,7 +315,7 @@ export default {
           });
           this.clearStartTime();
           this.clearEndTime();
-          return true;
+          return false;
         }
       }
 
@@ -330,7 +334,7 @@ export default {
           });
           this.clearStartTime();
           this.clearEndTime();
-          return true;
+          return false;
         }
       }
 
@@ -370,6 +374,10 @@ export default {
         );
 
         if (newEntry) {
+          this.openPopupNotification({
+            text: "Time entry added successfully",
+            variant: "primary",
+          });
           this.$emit("new-entry", newEntry);
         }
       } catch (error) {

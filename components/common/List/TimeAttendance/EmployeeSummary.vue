@@ -1,10 +1,10 @@
 <template>
   <div class="w-100">
     <label class="text-gray6 font-w-600 font-md">Daily summary</label>
-    <bib-input v-model="summaryText" class="w-100" type="textarea"></bib-input>
+    <bib-input v-model="summaryText" class="w-100" type="textarea" :disabled="disabled"></bib-input>
     <div class="d-flex justify-end align-center">
       <!-- <label class="px-05 font-md text-dark">Submit timesheet:</label> -->
-      <bib-button label="Submit" variant="primary" @click="onSubmit"></bib-button>
+      <bib-button v-if="!disabled" label="Submit" variant="primary" @click="onSubmit"></bib-button>
     </div>
     <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
@@ -24,10 +24,10 @@ export default {
       required: true,
     },
 
-    // employeeId: {
-    //   type: String,
-    //   required: true
-    // },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
 
     summary: {
       type: Object | null,

@@ -3,13 +3,10 @@
     <label class="text-gray6 font-w-600 font-md">Daily summary</label>
     <bib-input v-model="summaryText" class="w-100" type="textarea"></bib-input>
     <div class="d-flex justify-end align-center">
-      <label class="px-05 font-md text-dark">Submit timesheet:</label>
-      <bib-button
-        label="Submit"
-        variant="primary"
-        @click="onSubmit"
-      ></bib-button>
+      <!-- <label class="px-05 font-md text-dark">Submit timesheet:</label> -->
+      <bib-button label="Submit" variant="primary" @click="onSubmit"></bib-button>
     </div>
+    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -45,6 +42,7 @@ export default {
   },
 
   methods: {
+    openPopupNotification,
     async onSubmit() {
       if (this.summary?.id) {
         this.updateSummary();
@@ -56,20 +54,35 @@ export default {
     async createSummary() {
       const { date } = this;
       const text = this.summaryText;
-      await createSummary({ text, date });
-      this.openPopupNotification({
-        text: "The Summary has been added",
-        variant: "danger",
-      });
+      const summary = await createSummary({ text, date });
+      if (summary) {
+        this.openPopupNotification({
+          text: "Summary successfully added",
+          variant: "primary",
+        });
+      } else {
+        this.openPopupNotification({
+          text: "Error while submitting summary",
+          variant: "danger",
+        });
+      }
     },
     async updateSummary() {
       const { date, summary } = this;
       const text = this.summaryText;
-      await updateSummary({ text, date, id: summary.id });
-      this.openPopupNotification({
-        text: "The Summary has been updated",
-        variant: "danger",
-      });
+      const updatedSummary = await updateSummary({ text, date, id: summary.id });
+      if (updatedSummary) {
+        this.openPopupNotification({
+          text: "Summary successfully updated",
+          variant: "primary",
+        });
+      } else {
+        this.openPopupNotification({
+          text: "Error while submitting summary",
+          variant: "danger",
+        });
+      }
+
     },
 
     setSummaryText() {

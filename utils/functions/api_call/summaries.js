@@ -23,7 +23,6 @@ export async function createSummary(summary) {
     const config = createConfig();
 
     const { data } = await hrmApiAxiosInstance.post(url, summary, config);
-    this.openPopupNotification(9);
     return data;
   } catch (e) {
     console.error(e);
@@ -38,7 +37,6 @@ export async function updateSummary({ id, ...summary }) {
     const { data } = await hrmApiAxiosInstance.put(url, summary, config);
     return data;
   } catch (e) {
-    this.openPopupNotification(9);
     console.error(e);
   }
 }

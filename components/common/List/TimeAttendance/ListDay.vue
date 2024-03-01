@@ -24,7 +24,7 @@
       </div>
     </div>  
     <div class="px-1 py-1">
-      <employee-summary :date="getSelectedDate()" :summary="summary"></employee-summary>
+      <employee-summary :date="getSelectedDate()" :summary="summary" :disabled="disabled"></employee-summary>
     </div>
     <div>
       <bib-notification :popupMessages="popupMessages"></bib-notification>

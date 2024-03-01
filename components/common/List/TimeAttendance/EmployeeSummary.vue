@@ -18,6 +18,7 @@ import {
   createSummary,
   updateSummary,
 } from "../../../../utils/functions/api_call/summaries";
+import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 
 export default {
   props: {
@@ -39,6 +40,7 @@ export default {
   data() {
     return {
       summaryText: "",
+      popupMessages: [],
     };
   },
 
@@ -55,11 +57,19 @@ export default {
       const { date } = this;
       const text = this.summaryText;
       await createSummary({ text, date });
+      this.openPopupNotification({
+        text: "The Summary has been added",
+        variant: "danger",
+      });
     },
     async updateSummary() {
       const { date, summary } = this;
       const text = this.summaryText;
       await updateSummary({ text, date, id: summary.id });
+      this.openPopupNotification({
+        text: "The Summary has been updated",
+        variant: "danger",
+      });
     },
 
     setSummaryText() {

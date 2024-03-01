@@ -57,29 +57,11 @@
           </div>
         </div>
       </template>
-      <template #cell(email)="data">
+      <template v-for="(day, dayIndex) in employeeData" #[`cell(${day.key})`]="data">
         <div class="text-dark cursor-pointer">
           <div class="justify-between text-dark">
-            <span>{{ data.value.email }}</span>
+            <span>{{ getValue(data.value?.[day.key]) }}</span>
           </div>
-        </div>
-      </template>
-      <template #cell(telephone)="data">
-        <div class="justify-between text-dark cursor-pointer">
-          <span>{{
-            data.value.phone === null
-              ? "---"
-              : data.value.phone || data.value.phone != ""
-              ? data.value.phone
-              : "---"
-          }}</span>
-        </div>
-      </template>
-      <template #cell(department)="data">
-        <div class="justify-between text-dark cursor-pointer">
-          <span>{{
-            data.value.department == null ? "HRM" : data.value.department
-          }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
@@ -89,6 +71,15 @@
           }}</span>
         </div>
       </template>
+      <template #cell_action="data">
+        <bib-button pop="horizontal-dots" @click.native.stop>
+          <template v-slot:menu>
+            <div class="list">
+              <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>
+            </div>
+          </template>
+        </bib-button>
+      </template>
     </bib-table>
   </div>
 </template>
@@ -96,7 +87,7 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-import { TABLE_HEAD } from "../../../utils/constant/Constant.js";
+import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../utils/constant/Constant.js";
 import {
   sendMeet,
   sendMessage,
@@ -124,12 +115,8 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      columnSortDirection: {
-        name: "asc",
-        extension: "asc",
-        updatedAt: "asc",
-        owner: "asc",
-      },
+      employeeData: TABLE_HEAD.tHeadPeople.slice(2,6),
+      peopleActionItems:PEOPLE_ACTION_ITEMS
     };
   },
   created() {
@@ -162,6 +149,9 @@ export default {
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
+    getValue(value){
+      return value ?? "--";
+    },
     headerColumnClick(column) {
       this.sortColumn(column);
     },
@@ -171,12 +161,18 @@ export default {
         this.viewProfile(id);
       }
     },
+   
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
 
     viewProfile(id) {
       this.$router.push("/profile/" + id);
+    },
+    callAction(data, value){
+      if(value === 'View Profile') return this.viewProfile(data.value.id);
+      if(value === 'Send Message') return this.sendMessage(data.value.userId);
+      if(value === 'Call') return this.makeCall(data.value.userId, this.getUser.userId);
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave
@@ -188,22 +184,6 @@ export default {
 </script>
 
 <style lang="scss">
-@media (min-width: 500px) {
-  body {
-    font-size: 10px;
-  }
-}
-@media (min-width: 768px) {
-  body {
-    font-size: 11px;
-  }
-}
-
-@media (min-width: 1400px) {
-  body {
-    font-size: 14px;
-  }
-}
 .info_wrapper {
   color: $black;
   font-weight: normal;

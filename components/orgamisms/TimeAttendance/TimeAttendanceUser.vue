@@ -9,7 +9,7 @@
         <div class="px-1">
           <div
             class="d-grid d-flex gap-1 py-1"
-            style="grid-template-columns: repeat(2, 1fr)"
+            style="grid-template-columns: repeat(3, 1fr)"
             v-if="view.value === 'day'"
           >
             <info-card-timer
@@ -21,7 +21,7 @@
 
             <info-card-one
               :item="timesheetWidgetData"
-              title="View Timesheet"
+              title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"

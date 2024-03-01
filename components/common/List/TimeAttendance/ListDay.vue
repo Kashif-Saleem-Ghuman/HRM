@@ -7,7 +7,7 @@
       </div>
       <time-entry-row
         v-for="entry in entries"
-        :key="entry.id ?? entry.activity"
+        :key="entry.id ?? entry.activity + date"
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
@@ -107,7 +107,8 @@ export default {
       summary: null,
     };
   },
-
+  created(){
+  },
   computed: {
     entries() {
       return orderBy(

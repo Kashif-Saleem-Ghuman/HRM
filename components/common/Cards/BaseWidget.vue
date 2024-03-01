@@ -1,5 +1,5 @@
 <template>
-  <div class="widget d-flex">
+  <div class="widget  d-flex">
     <div class="widget-container">
       <div>
         <label>{{ title }}</label>
@@ -11,7 +11,7 @@
         </div>
 
         <div v-if="avatars && avatarsPosition === 'center'" class="widget-avatars-container">
-          <div v-for="avatar in avatars" class="widget-avatars" :key="avatar.id">
+          <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" class="widget-avatars" :key="avatar.id">
             <NuxtLink :to="`/profile/${avatar.id}`">
               <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"
                 :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
@@ -28,13 +28,16 @@
       </div>
 
 
-      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom cursor-pointer pt-05">
-        <div v-for="avatar in avatars" :key="avatar.id">
+      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom pt-05">
+        <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" :key="avatar.id" class="cursor-pointer">
           <NuxtLink :to="`/profile/${avatar.id}`">
             <bib-avatar :src="avatar.photo" size="1.5rem"
               :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
           </NuxtLink>
         </div>
+        <div v-if="avatars.length > MAX_VISIBLE_AVATARS" class="d-flex align-center">
+        <span class="avatar__text text-gray1 mr-025 cursor-default">... {{ avatars.length - MAX_VISIBLE_AVATARS  }} more </span>
+      </div>
       </div>
 
     </div>
@@ -43,6 +46,8 @@
 
 <script>
 import { getEmployeeInitials } from '../../../utils/functions/common_functions';
+
+const MAX_VISIBLE_AVATARS = 3;
 
 export default {
   props: {
@@ -54,6 +59,7 @@ export default {
 
   data() {
     return {
+      MAX_VISIBLE_AVATARS,
       data: {},
       subData: null,
       avatars: null,
@@ -191,6 +197,8 @@ $text-font-size: 14px;
       justify-content: space-between;
       width: 48%;
       padding-top: .2rem;
+      // border-bottom: 1px solid $light;
+      // height: 40px;
 
       &__title {
         color: #b1b1b4;
@@ -207,10 +215,18 @@ $text-font-size: 14px;
 
   .widget-avatars-container-bottom {
     display: flex;
+    align-items: center;
     gap: .5rem;
     flex-wrap: wrap;
     max-height: 2rem;
     overflow: hidden;
+    .span{
+      height: 1.5rem;
+      width: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 </style>

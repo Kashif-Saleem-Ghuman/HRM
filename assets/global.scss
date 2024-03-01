@@ -94,10 +94,10 @@ $validation-star-color: #fa0f00;
   display: flex;
   margin: 0 -0.5rem;
 }
-.container{
-[class*="col"] {
-  padding: 0 0.5rem;
-}
+.container {
+  [class*="col"] {
+    padding: 0 0.5rem;
+  }
 }
 
 @for $i from 1 through 12 {
@@ -217,13 +217,17 @@ $validation-star-color: #fa0f00;
     .items {
       display: flex;
       justify-content: space-between;
-      width: 34%;
-      padding-right: 10px;
+      width: 48%;
+      border-bottom: 1px solid $light;
+      height: 40px;
+      // padding-right: 10px;
       align-items: center;
+      
       label {
         color: #b1b1b4;
         font-weight: normal;
         font-size: 14px;
+        padding-right: 10px;
       }
       span {
         font-weight: 600;
@@ -252,7 +256,7 @@ $validation-star-color: #fa0f00;
     }
   }
   &__bgprimary {
-    background-color: #0741A3;
+    background-color: #0741a3;
     svg {
       fill: #fff !important;
     }
@@ -295,17 +299,17 @@ $validation-star-color: #fa0f00;
   z-index: 999;
 }
 .app-wrapper--collapsed2 {
-[class*="col"] {
-  padding: 0 !important;
+  [class*="col"] {
+    padding: 0 !important;
+  }
 }
-}
-.input-drag-area-180{
+.input-drag-area-180 {
   background-color: #d9000d !important;
   display: flex;
   align-items: center;
   font-size: 20px !important;
 }
-.d-align{
+.d-align {
   display: flex;
   justify-content: center;
 }
@@ -341,25 +345,31 @@ $validation-star-color: #fa0f00;
 .table__hrow__active {
   border: none !important;
 }
-.capitalize{
-  text-transform: capitalize
+.capitalize {
+  text-transform: capitalize;
 }
-.max-z-index{
+.max-z-index {
   z-index: 9999999999999;
 }
-.max-min-z-index{
-  z-index: 1000000 !important
+.max-min-z-index {
+  z-index: 1000000 !important;
 }
-.min-z-index{
-  z-index: 10000 !important
+.min-z-index {
+  z-index: 10000 !important;
 }
-.height-1{
+.height-1 {
   height: 1px !important;
 }
-.input--alert{
-  span{
+.input--alert {
+  span {
     display: block;
     margin-top: -10px;
     margin-bottom: 10px;
+  }
+}
+.button-wrapper-align {
+  .align-center {
+    display: flex !important;
+    justify-content: center !important;
   }
 }

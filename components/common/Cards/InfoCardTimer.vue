@@ -40,7 +40,7 @@
           :icon="icon"
           :disabled="buttonDisabled ? true : false"
           @click="handleClockInOutClick"
-          class="button-wrapper-align"
+          class="button-wrapper-align w-100"
         ></bib-button>
       </div>
     </div>
@@ -159,10 +159,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.items {
-  border-bottom: 1px solid #eee;
-  height: 40px;
-  border-right: 33px solid #fff;
-}
-</style>
+

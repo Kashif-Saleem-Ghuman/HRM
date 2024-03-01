@@ -90,7 +90,7 @@
           :scale="$button.approved.scale"
           :label="buttonLable"
           @click.native.stop="$emit('on-click')"
-          class="button-wrapper-align"
+          class="button-wrapper-align w-100"
         ></bib-button>
       </div>
     </div>
@@ -193,12 +193,7 @@ export default {
 .info-card-leave-container {
   overflow: hidden;
 }
-.button-wrapper-align {
-  .align-center {
-    display: flex;
-    justify-content: center;
-  }
-}
+
 
 .edit-allowance {
   display: flex;

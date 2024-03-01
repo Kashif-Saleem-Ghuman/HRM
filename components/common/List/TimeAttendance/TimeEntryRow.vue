@@ -9,7 +9,7 @@
     <bib-time-picker-wrapper
       v-model="startTime"
       name="startTime"
-      placeholder="HH:mm am"
+      placeholder="--"
       @input="timeInputBlur"
       :disabled="disabled"
     ></bib-time-picker-wrapper>
@@ -26,7 +26,7 @@
       <bib-time-picker-wrapper
         v-model="endTime"
         name="endTime"
-        placeholder="HH:mm pm"
+        placeholder="--"
         @input="timeInputBlur"
         :disabled="disabled"
       ></bib-time-picker-wrapper>
@@ -100,7 +100,6 @@ export default {
       popupMessages: [],
     };
   },
-
   computed: {
     showDeleteIcon() {
       if (!this.newData.id) return false;
@@ -167,7 +166,6 @@ export default {
       return calculateTimeDifferenceInHHMM(this.startTime, this.endTime);
     },
   },
-
   methods: {
     makeTimeEntry,
     editTimeEntry,
@@ -212,6 +210,10 @@ export default {
         });
 
         if (editedEntry) {
+          this.openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
           this.$emit("edit-entry", editedEntry);
         }
       } catch (error) {
@@ -347,12 +349,11 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
-        this.openPopupNotification({
+        return this.openPopupNotification({
           text: "End time cannot be greater than current time",
           variant: "danger",
         });
-        this.endTime = undefined;
-        return false;
+        // this.endTime = undefined;
       }
 
       if (!this.validateBreakIsWithinWorkingHours()) return false;
@@ -373,6 +374,10 @@ export default {
         );
 
         if (newEntry) {
+          this.openPopupNotification({
+            text: "Time entry added successfully",
+            variant: "primary",
+          });
           this.$emit("new-entry", newEntry);
         }
       } catch (error) {

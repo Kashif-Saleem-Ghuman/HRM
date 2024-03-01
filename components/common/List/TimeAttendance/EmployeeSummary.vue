@@ -56,6 +56,7 @@ export default {
       const text = this.summaryText;
       const summary = await createSummary({ text, date });
       if (summary) {
+        this.$emit('update')
         this.openPopupNotification({
           text: "Summary successfully added",
           variant: "primary",
@@ -72,6 +73,7 @@ export default {
       const text = this.summaryText;
       const updatedSummary = await updateSummary({ text, date, id: summary.id });
       if (updatedSummary) {
+        this.$emit('update')
         this.openPopupNotification({
           text: "Summary successfully updated",
           variant: "primary",

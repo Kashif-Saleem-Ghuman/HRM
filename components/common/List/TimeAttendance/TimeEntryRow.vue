@@ -349,11 +349,11 @@ export default {
       if (isTotalTimeNegative) return false;
 
       if (this.isEndDateGreatherThanNow()) {
+        this.endTime = undefined;
         return this.openPopupNotification({
           text: "End time cannot be greater than current time",
           variant: "danger",
         });
-        // this.endTime = undefined;
       }
 
       if (!this.validateBreakIsWithinWorkingHours()) return false;

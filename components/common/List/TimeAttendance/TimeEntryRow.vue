@@ -231,8 +231,25 @@ export default {
       });
 
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        date = date.plus({ day: 1 });
+        if (DateTime.fromFormat(this.endTime, "HH:mm") > DateTime.fromFormat(this.startTime, "HH:mm") ) {
+          date = date.plus({ day: 1 });
+        }
       }
+
+      date = date.toJSDate();
+
+      const now = new Date();
+      return date > now;
+    },
+
+    isStartDateGreatherThanNow() {
+      const [hours, minutes, seconds] = this.startTime.split(":").map(Number);
+
+      let date = DateTime.fromJSDate(this.date).set({
+        hours,
+        minutes,
+        seconds,
+      });
 
       date = date.toJSDate();
 
@@ -281,7 +298,8 @@ export default {
           breakEntryEndTime <= inEntryEndTime;
         if (!isBreakAfterInEntry) {
           this.openPopupNotification({
-            text: "in entry start time and end time must be before break entry start and end time",
+            // text: "in entry start time and end time must be before break entry start and end time",
+            text: "Your existing break is not within work entry time range",
             variant: "danger",
           });
           this.clearStartTime();
@@ -310,7 +328,8 @@ export default {
           breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime;
         if (!isBreakWithinInEntry) {
           this.openPopupNotification({
-            text: "Break start time and end time must be within in entry start and end time",
+            // text: "Break start time and end time must be within in entry start and end time",
+            text: "Break must be within work entry time range",
             variant: "danger",
           });
           this.clearStartTime();
@@ -329,7 +348,7 @@ export default {
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
           this.openPopupNotification({
-            text: "break start time cannot be before timer start time",
+            text: "Break start time cannot be before timer start time",
             variant: "danger",
           });
           this.clearStartTime();
@@ -347,6 +366,14 @@ export default {
 
       const isTotalTimeNegative = this.totalTimeInMinutes < 0;
       if (isTotalTimeNegative) return false;
+
+      if (this.isStartDateGreatherThanNow()) {
+        this.startTime = undefined;
+        return this.openPopupNotification({
+          text: "Start time cannot be greater than current time",
+          variant: "danger",
+        });
+      }
 
       if (this.isEndDateGreatherThanNow()) {
         this.endTime = undefined;

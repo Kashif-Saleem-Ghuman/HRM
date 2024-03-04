@@ -174,7 +174,7 @@ export default {
     },
 
     dateFormat(item) {
-      return item == null ? "---" : fecha.format(new Date(item), "DD-MMM-YYYY");
+      return item == null ? "---" : DateTime.fromISO(item).toFormat(DATETIME_FORMAT)
     },
     getClassName(value) {
       return this.todayDate === this.dateFormat(value) ? "text-bold" : "";

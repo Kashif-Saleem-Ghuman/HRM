@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { generateRequestSelectedDays } from "../../../../requests/request-selected-days";
 import { createConfig } from "../../config";
 import { hrmApiAxiosInstance } from "../../hrm-api-axios-instance";
+import axios from "axios";
 
 const addLeaveErrorMessage = [
   { text: "Please select start date", variant: "danger" },
@@ -108,15 +109,16 @@ export async function deleteLevaeVacation(value) {
   this.loading = false;
 }
 export async function getUserLeavesDetailUser(payload) {
-  const { request } = payload;
   try {
-    const url = `/widgets/request/`;
-    const dates = {
-      from: request?.from,
-      to: request?.to,
-    };
-    const config = createConfig();
-    const result = await hrmApiAxiosInstance.get(url, config, { dates });
+    const result = await axios.get(process.env.API_URL + "/widgets/request/", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      params: {
+        from: payload?.from,
+        to: payload?.to,
+      },
+    });
     this.loading = false;
     return result.data;
   } catch (e) {

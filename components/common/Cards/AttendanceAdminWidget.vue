@@ -34,11 +34,11 @@ export default {
       };
     },
     setSubData(data = [], onLeave) {
+      
       this.subData = [
         { title: "Absent", value: this.employees.length - data.length || 0 },
         { title: "On leave", value: onLeave.leaveCount || 0 },
       ];
-      console.log(data.length, onLeave, "...presentEmployees, ...data");
     },
   },
 

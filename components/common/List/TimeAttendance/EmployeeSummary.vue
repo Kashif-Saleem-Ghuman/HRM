@@ -2,12 +2,25 @@
   <div class="w-100">
     <label class="text-gray6 font-w-600 font-md">Daily summary</label>
     <!-- <bib-input v-model="summaryText" class="w-100" type="textarea" :disabled="disabled" @input="resize()" ref="textarea"></bib-input> -->
-    <div class="w-100 input-cus input--null input--md ">
-      <textarea v-model="summaryText" class="w-100" :style="{ height: textareaHeight }" type="textarea" :disabled="disabled" @input="resizeTextarea()" ref="textarea"></textarea>
+    <div class="w-100 input-cus input--null input--md">
+      <textarea
+        v-model="summaryText"
+        class="w-100"
+        :style="{ height: textareaHeight }"
+        type="textarea"
+        :disabled="disabled"
+        @input="resizeTextarea()"
+        ref="textarea"
+      ></textarea>
     </div>
     <div class="d-flex justify-end align-center">
       <!-- <label class="px-05 font-md text-dark">Submit timesheet:</label> -->
-      <bib-button v-if="!disabled" label="Submit" variant="primary" @click="onSubmit"></bib-button>
+      <bib-button
+        v-if="!disabled"
+        label="Submit"
+        variant="primary"
+        @click="onSubmit"
+      ></bib-button>
     </div>
   </div>
 </template>
@@ -27,7 +40,7 @@ export default {
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     summary: {
@@ -41,25 +54,23 @@ export default {
     };
   },
   computed: {
-  textareaHeight() {
-    const lineHeight = 1.2;
-    // const paddingTop = 0.9;
-    // const paddingBottom = 1;
-    const numLines = Math.max(this.summaryText.split('\n').length, 1);
-    return `${numLines * lineHeight}rem`;
-  }
-},
+    textareaHeight() {
+      const lineHeight = 1.2;
+      const numLines = Math.max(this.summaryText.split("\n").length, 1);
+      return `${numLines * lineHeight}rem`;
+    },
+  },
   methods: {
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     resizeTextarea() {
       {
-      const textarea = this.$refs.textarea;
-      textarea.style.height = 'auto'; // Reset height to auto
-      textarea.style.height = textarea.scrollHeight + 'px'; // Set height to scrollHeight
-      console.log(textarea.scrollHeight, "resizeTextarea")
-    }
+        const textarea = this.$refs.textarea;
+        textarea.style.height = "auto"; // Reset height to auto
+        textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
+        console.log(textarea.scrollHeight, "resizeTextarea");
+      }
     },
     async onSubmit() {
       if (this.summary?.id) {
@@ -74,7 +85,7 @@ export default {
       const text = this.summaryText;
       const summary = await createSummary({ text, date });
       if (summary) {
-        this.$emit('update')
+        this.$emit("update");
         this.openPopupNotification({
           text: "Summary successfully added",
           variant: "primary",
@@ -89,9 +100,13 @@ export default {
     async updateSummary() {
       const { date, summary } = this;
       const text = this.summaryText;
-      const updatedSummary = await updateSummary({ text, date, id: summary.id });
+      const updatedSummary = await updateSummary({
+        text,
+        date,
+        id: summary.id,
+      });
       if (updatedSummary) {
-        this.$emit('update')
+        this.$emit("update");
         this.openPopupNotification({
           text: "Summary successfully updated",
           variant: "primary",
@@ -102,7 +117,6 @@ export default {
           variant: "danger",
         });
       }
-
     },
 
     setSummaryText() {

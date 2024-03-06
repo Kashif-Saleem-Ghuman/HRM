@@ -50,14 +50,13 @@
               @update="setAllowance"
             ></info-card-leave-vacation>
           </div>
-          <div class="pt-05 d-flex justify-start">
+          <div class="pt-05 d-flex justify-end">
             <dropdown-menu-calendar
               :items="dropMenuYear"
               :label="selectedYear"
               :variant="$button.lightButton.variant"
               @on-click="changeYearView($event)"
               icon="arrowhead-down"
-              class="mr-05"
             ></dropdown-menu-calendar>
           </div>
         </div>

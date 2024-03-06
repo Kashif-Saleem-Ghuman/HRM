@@ -153,7 +153,10 @@ export default {
             this.leaveVacationDataUser = result;
           }
         });
-      this.getUserLeavesDetailUser().then((result) => {
+      this.getUserLeavesDetailUser({
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    }).then((result) => {
         if(result){
           this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
@@ -164,13 +167,14 @@ export default {
     });
   },
   async mounted() {
+    this.getCurrentYear();
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.getUserLeavesDetailUser({
       from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    }).then((result) => {
+        to: this.getformToDate.to,
+      }).then((result) => {
       if(result){
           this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
@@ -180,7 +184,7 @@ export default {
     });
     this.activeUserData = this.getActiveUser;
     this.selectedMonth = this.currentMonth;
-    this.getCurrentYear();
+    
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,

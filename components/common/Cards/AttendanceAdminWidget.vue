@@ -36,7 +36,7 @@ export default {
       
       this.subData = [
         { title: "Absent", value: this.employees.length - data.length || 0 },
-        // { title: "On leave", value: onLeave.leaveCount || 0 },
+        { title: "On leave", value: onLeave.leaveCount || 0 },
       ];
     },
   },

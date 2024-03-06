@@ -52,7 +52,6 @@
         </div>
       </template>
     </action-sidebar>
-    <bib-notification :popupMessages="popupMessages" style="z-index: 999999999;"></bib-notification>
     <confirmation-modal
       :title="deleteModalContent.title"
       :confirmationMessage="deleteModalContent.message"
@@ -78,7 +77,6 @@ import {
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 
 import {
@@ -115,7 +113,6 @@ export default {
       addLeaveKey: 0,
       employeeNameSelectShow: false,
       showAllowance: true,
-      popupMessages: [],
       currentDate: fecha.format(new Date(), "YYYY-MM-DD"),
       deleteButtonShowHide: false,
       confirmastionMessageModal: false,
@@ -174,7 +171,9 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     getEmployeeFullName,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     deleteLevaeVacation,
     deleteConfirmation(id) {
       this.deletedfileId = id;

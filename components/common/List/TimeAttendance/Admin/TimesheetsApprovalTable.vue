@@ -66,7 +66,6 @@
       @close="cancelRejectRequest"
       @confirm="onStatusChange"
     ></request-refusal-modal>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -88,7 +87,6 @@ import {
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
-import { openPopupNotification } from "../../../../../utils/functions/functions_lib.js";
 
 import { random } from "lodash";
 
@@ -143,7 +141,6 @@ export default {
       deleteModalContent: "",
       confirmastionMessageModal: false,
       variantButton: "",
-      popupMessages: [],
       showRefusalModal: false,
       refusalReason: null,
     };
@@ -170,7 +167,9 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },

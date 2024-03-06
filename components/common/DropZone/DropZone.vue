@@ -42,7 +42,6 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 var fileExt;
 const IMAGE_TYPE = {
@@ -117,7 +116,9 @@ export default {
     });
   },
   methods: {
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     deleteConfirmation(src) {
       if (src === "" || src === "null") {
         this.openPopupNotification(7);

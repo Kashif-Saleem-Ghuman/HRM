@@ -17,7 +17,6 @@ import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
-import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 
 export default {
@@ -30,7 +29,6 @@ export default {
       toDate: "",
       getRequest: {},
       requestListData: [],
-      popupMessages: [],
       noRecord: false,
       disabled: true,
     };
@@ -62,7 +60,9 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
 
   },
 };

@@ -61,7 +61,6 @@
         </div>
       </div>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal
       :title="deleteModalContent.title"
       :confirmationMessage="deleteModalContent.message"
@@ -81,7 +80,6 @@ import {
   deleteFiles,
 } from "@/utils/functions/functions_lib_api";
 import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 import { getFileExtension } from "../../utils/functions/status-helpers";
 export default {
@@ -91,7 +89,6 @@ export default {
       files: [],
       filesUploaded: "",
       fileList: 0,
-      popupMessages: [],
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
@@ -120,7 +117,9 @@ export default {
     addFiles,
     getFiles,
     deleteFiles,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     getFileExtension,
     extensionsName(file) {
       return (this.fileName = file.name.split(".").pop());

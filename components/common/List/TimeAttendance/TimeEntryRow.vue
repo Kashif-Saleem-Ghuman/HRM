@@ -53,10 +53,6 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
-    <bib-notification
-      :popupMessages="popupMessages"
-      :autohide="10000"
-    ></bib-notification>
   </div>
 </template>
 <script>
@@ -70,7 +66,6 @@ import {
   numberToClockDigits,
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
-import { openPopupNotification } from "../../../../utils/functions/functions_lib.js";
 import { DateTime } from "luxon";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { getTimeFromDate, isToday } from "../../../../utils/functions/dates";
@@ -97,7 +92,6 @@ export default {
   data() {
     return {
       newData: { ...this.entry, startTime: null, endTime: null },
-      popupMessages: [],
     };
   },
   computed: {
@@ -173,7 +167,9 @@ export default {
     parseInputTimeIntoArray,
     numberToClockDigits,
     hoursAndMinutesToJSDate,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     getTimeFromDate,
 
     getEndDate(startTime, endTime) {

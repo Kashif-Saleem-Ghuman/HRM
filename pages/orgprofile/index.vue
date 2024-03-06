@@ -186,7 +186,6 @@
           </div>
         </div>
       </div>
-      <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
   </form-with-validations>
   </div>
@@ -197,7 +196,6 @@ import { vfileAdded } from "../../utils/functions/functions_lib.js";
 import organizationFields from "./organization-fields";
 import countries from "../../utils/constant/countries";
 import regions from "../../utils/constant/regions";
-import { openPopupNotification } from "../../utils/functions/functions_lib.js";
 import {
   getOrganization,
   updateOrganization,
@@ -208,7 +206,6 @@ export default {
       fields: { ...organizationFields },
       countries,
       id: this.$route.params.id,
-      popupMessages: [],
       org: {},
       updateForm: {},
       errors: {},
@@ -231,7 +228,9 @@ export default {
   },
   methods: {
     vfileAdded,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
 
     async fetchOrganization() {
       this.loading = true;

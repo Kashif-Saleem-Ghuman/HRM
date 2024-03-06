@@ -39,7 +39,6 @@
             @item-checked="handleItemChecked"
           ></list-pending>
         </div>
-        <bib-notification :popupMessages="popupMessages"></bib-notification>
       </div>
     </div>
     <request-refusal-modal
@@ -59,7 +58,6 @@ import {
   getApproveLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
 import {
-  openPopupNotification,
   getCurrentYear,
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
@@ -84,7 +82,6 @@ export default {
       checked: false,
       checkedAll: false,
       disabled: true,
-      popupMessages: [],
       loading: true,
       dropMenuYear: [],
       selectedYear: new Date().getFullYear(),
@@ -134,7 +131,9 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     getCurrentYear,
     generateYearList,
     cancelRejectRequest() {

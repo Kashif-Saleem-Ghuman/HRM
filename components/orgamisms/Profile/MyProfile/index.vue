@@ -41,7 +41,6 @@
         </div>
       </div>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 <script>
@@ -49,7 +48,6 @@ import { mapGetters } from "vuex";
 import { EMPLOYEE_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 
 import {
-  openPopupNotification,
   vfileAdded,
 } from "../../../../utils/functions/functions_lib.js";
 import { getEmployeeFullName, getEmployeeInitials } from "@/utils/functions/common_functions";
@@ -62,7 +60,6 @@ export default {
     return {
       id: "",
       loading: false,
-      popupMessages: [],
       personalTabItem: EMPLOYEE_PROFILE_TAB,
       activeTab: "Employee Profile",
       dropzoneDisable: "pointer-events: none; cursor: default; opacity:0.5",
@@ -94,7 +91,9 @@ export default {
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     vfileAdded,
     async handleChange_Tabs(tab) {
       this.activeTab = tab.value;

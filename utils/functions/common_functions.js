@@ -1,16 +1,5 @@
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
-import { popupNotificationMsgs } from "@/utils/constant/Notifications";
-export function openPopupNotification(n) {
-  if(isNaN(n)){
-    this.popupMessages.push(n);
-    return
-  }else{
-    this.popupMessages.push(popupNotificationMsgs[n]);
-    return
-  }
- 
-}
 export function dateCheck(dateTime) {
   return dayjs(dateTime).format("HH:mm") || "N/A";
 }

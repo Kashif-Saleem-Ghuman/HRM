@@ -35,7 +35,6 @@
         </div>
       </div>
     </form>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -43,8 +42,7 @@
 import { forOwn, get, set } from "lodash";
 import { validateFormField } from "@/utils/form-validations/validate-form-field";
 import { merge } from "lodash";
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   provide() {
     return {
@@ -59,10 +57,10 @@ export default {
     form: {
       type: Object,
     },
-    buttonDisable:{
-  type:Boolean,
-  default:false
-},
+    buttonDisable: {
+      type: Boolean,
+      default: false,
+    },
     isCreateForm: {
       type: Boolean,
       default: false,
@@ -93,12 +91,13 @@ export default {
     return {
       updateForm: {},
       errors: {},
-      popupMessages: [],
     };
   },
 
   methods: {
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification });
+    },
     emitFormInput(event) {
       const { fieldKey, value } = event;
       this.handleInput(event);
@@ -163,10 +162,10 @@ export default {
             errors = { ...errors, ...objectErrors };
           }
         } else {
-          if ((get(this.fields, `${key}.optional`) && (!value))) {
+          if (get(this.fields, `${key}.optional`) && !value) {
             return;
           }
-          
+
           if (get(this.fields, `${key}.validations`)) {
             const validate = validateFormField(
               value,

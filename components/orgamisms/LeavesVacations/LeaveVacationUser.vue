@@ -70,7 +70,6 @@
             @delete-item="deleteConfirmation($event)"
           ></list-leave-attendance>
         </div>
-        <bib-notification :popupMessages="popupMessages"></bib-notification>
         <confirmation-modal
           :title="deleteModalContent.title"
           :confirmationMessage="deleteModalContent.message"
@@ -96,7 +95,6 @@ import {
   generateYearList,
 } from "../../../utils/functions/functions_lib";
 import { getEmployeeFullName } from "../../../utils/functions/common_functions";
-import { openPopupNotification } from "../../../utils/functions/functions_lib.js";
 
 export default {
   data() {
@@ -121,7 +119,6 @@ export default {
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       dropMenuYear: [],
-      popupMessages: [],
     };
   },
   computed: {
@@ -209,7 +206,9 @@ export default {
     getUserLeavesDetailUser,
     getEmployeeFullName,
     generateYearList,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     async changeYearView(e) {
       this.selectedYear = e.label;
       this.getCurrentYear();

@@ -64,10 +64,6 @@
       :timesheetModal="timesheetModal"
       :items="filteredData"
     ></time-sheet-modal>
-    <bib-notification
-      :popupMessages="popupMessages"
-      class="max-z-index"
-    ></bib-notification>
   </div>
 </template>
 

@@ -1,5 +1,7 @@
 <script>
 import BaseWidget from "./BaseWidget.vue";
+import { onLeaveEmployees } from "../../../utils/functions/api_call/on-leave-employee";
+import { DateTime } from "luxon";
 
 export default {
   extends: BaseWidget,
@@ -14,22 +16,27 @@ export default {
       const presentEmployees = this.employees?.filter((employee) =>
         employee.isPresent()
       );
-      this.setData(presentEmployees);
-      this.setSubData(presentEmployees);
+      const date = DateTime.now().toJSDate().toISOString();
+      const onLeave = await onLeaveEmployees({ date });
+      this.setData(presentEmployees, onLeave);
+      this.setSubData(presentEmployees, onLeave);
     },
-    setData(data = []) {
+    setData(data, onLeave) {
+      const onLeaves = onLeave;
       const title = "Attendance";
       const subheading = "Present";
-      const value = data.length || 0;
+      const value = (data.length || 0) + (onLeaves.length || 0);
       this.data = {
         title,
         subheading,
         value,
       };
     },
-    setSubData(data = []) {
+    setSubData(data = [], onLeave) {
+      
       this.subData = [
         { title: "Absent", value: this.employees.length - data.length || 0 },
+        { title: "On leave", value: onLeave.leaveCount || 0 },
       ];
     },
   },

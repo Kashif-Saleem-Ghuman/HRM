@@ -29,7 +29,6 @@
         </div> -->
       </div>
     </vue-dropzone>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
     <confirmation-modal
       :title="deleteModalContent.title"
       :confirmationMessage="deleteModalContent.message"
@@ -78,7 +77,6 @@ export default {
     return {
       success: false,
       error: false,
-      popupMessages: [],
       deleteModalContent: DELETE_MESSAGE[2],
       dropzoneRefresh: 0,
       dropzoneOptions: {

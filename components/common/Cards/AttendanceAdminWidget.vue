@@ -1,7 +1,6 @@
 <script>
 import BaseWidget from "./BaseWidget.vue";
 import { onLeaveEmployees } from "../../../utils/functions/api_call/on-leave-employee";
-import { getAdminTimesheetWidget } from "../../../utils/functions/api_call/timeattendance/time";
 import { DateTime } from "luxon";
 
 export default {

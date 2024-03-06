@@ -83,7 +83,6 @@ import {
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 
 export default {
   props: {
@@ -124,7 +123,6 @@ export default {
       userPhotoClick: false,
       timesheetModal: false,
       filteredData: [],
-      popupMessages: [],
       submitTimesheet,
       TIMESHEET_STATUS,
       WEEK_DAY,
@@ -162,7 +160,9 @@ export default {
   },
   methods: {
     formatTime,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
       return WEEK_DAY[

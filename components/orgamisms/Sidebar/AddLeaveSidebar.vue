@@ -30,6 +30,7 @@
             :key="addLeaveKey"
             :activeUserAllowanceData="getAllownaceDataValue"
             :edit="true"
+            style="z-index: 999;"
           ></add-leave>
         </div>
       </template>
@@ -52,7 +53,6 @@
         </div>
       </template>
     </action-sidebar>
-    <bib-notification :popupMessages="popupMessages" style="z-index: 999999999;"></bib-notification>
   </div>
 </template>
 
@@ -60,7 +60,6 @@
 import { mapGetters } from "vuex";
 
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { addLeaveVacations } from "@/utils/functions/functions_lib_api";
 
 import {
@@ -88,7 +87,6 @@ export default {
   data() {
     return {
       openSidebar: false,
-      popupMessages: [],
       slideClass: "slide-in",
       useDaysData: "",
       employeeName: "",
@@ -169,7 +167,9 @@ export default {
   },
   methods: {
     getEmployeeFullName,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     addHandleInput,
     selectUserHandle,
     selectLeaveTypeHandle,

@@ -10,6 +10,7 @@
           @click="show = !show"
           v-click-outside="clickOutside"
           :class="className"
+          
         ></bib-button>
         <div class="menu-itemss">
           <ul v-if="show">

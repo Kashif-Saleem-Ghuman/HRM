@@ -6,7 +6,6 @@
       <!-- <label class="px-05 font-md text-dark">Submit timesheet:</label> -->
       <bib-button v-if="!disabled" label="Submit" variant="primary" @click="onSubmit"></bib-button>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </div>
 </template>
 
@@ -15,7 +14,6 @@ import {
   createSummary,
   updateSummary,
 } from "../../../../utils/functions/api_call/summaries";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 
 export default {
   props: {
@@ -37,12 +35,13 @@ export default {
   data() {
     return {
       summaryText: "",
-      popupMessages: [],
     };
   },
 
   methods: {
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     async onSubmit() {
       if (this.summary?.id) {
         this.updateSummary();

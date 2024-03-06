@@ -349,7 +349,7 @@ $validation-star-color: #fa0f00;
   text-transform: capitalize;
 }
 .max-z-index {
-  z-index: 9999999999999;
+  z-index: 99999999999999999999999 !important;
 }
 .max-min-z-index {
   z-index: 1000000 !important;

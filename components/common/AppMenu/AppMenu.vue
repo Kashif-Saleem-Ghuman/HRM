@@ -55,6 +55,7 @@
       </div>
       <!-- <bib-button v-if="isOrganizationAdmin" label="Organization admin" variant="secondary--outline" class="mt-1 ml-1"  @click="organizationAdminClick"></bib-button> -->
     </div>
+    <bib-notification-stateful class="max-z-index"></bib-notification-stateful>
   </div>
 </template>
 <script>

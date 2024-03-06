@@ -317,7 +317,6 @@
         </div>
       </div>
     </div>
-    <bib-notification :popupMessages="popupMessages"></bib-notification>
   </form-with-validations>
   </div>
   
@@ -333,7 +332,6 @@ import {
   meetLink,
   makeCall,
 } from "@/utils/functions/functions_lib";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import contactFormFieds from "./forms/contact-form-fieds";
 import emergencyContactFields from "./forms/emergency-contact-fields";
@@ -384,7 +382,6 @@ export default {
       form: {},
       updateForm: {},
       errors: {},
-      popupMessages: [],
       avatarUrl: "",
       activeUser: "",
       uniqueId: null,
@@ -398,7 +395,9 @@ export default {
   },
   methods: {
     vfileAdded,
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     getEmployeeFullName,
     meetLink,
     makeCall,

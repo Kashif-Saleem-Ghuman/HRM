@@ -166,7 +166,6 @@
           </div>
         </div>
       </div>
-      <bib-notification :popupMessages="popupMessages"></bib-notification>
     </div>
   </form-with-validations>
   </div>
@@ -176,7 +175,6 @@ import employmentInfo from "@/components/Employee/forms/employment-info-fields";
 import placementFields from "@/components/Employee/forms/placement-fields";
 import { SELECT_OPTIONS } from "@/utils/constant/Constant";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { mapGetters } from "vuex";
 import { getEmployee } from "@/utils/functions/api_call/employees.js"
 
@@ -214,13 +212,14 @@ export default {
       updateForm: {},
       date: "",
       errors: {},
-      popupMessages: [],
       dateFormat:'',
       loading: false,
     };
   },
   methods: {
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     submitToApi(form) {
       return updateEmployee({
         id: this.form.id,

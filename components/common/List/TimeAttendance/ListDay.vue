@@ -51,7 +51,6 @@ import {
 } from "../../../../utils/constant/TimesheetData";
 import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
-import { openPopupNotification } from "@/utils/functions/functions_lib.js";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
 import { getSummaryByDate } from "../../../../utils/functions/api_call/summaries"
@@ -106,7 +105,6 @@ export default {
       ACTIVITY_HEADER_DATA,
       deleteModalContent: DELETE_MESSAGE.confirmatinData,
       confirmastionMessageModal: false,
-      popupMessages: [],
       idToDelete: null,
       hoursText:'Day Total Hours',
       summary: null,
@@ -131,7 +129,9 @@ export default {
     },
   },
   methods: {
-    openPopupNotification,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     deleteTimeEntry,
 
     getSelectedDate() {

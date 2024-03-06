@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     textareaHeight() {
-      const lineHeight = 1.2;
+      const lineHeight = 1.1;
       const numLines = Math.max(this.summaryText.split("\n").length, 1);
       return `${numLines * lineHeight}rem`;
     },
@@ -69,7 +69,6 @@ export default {
         const textarea = this.$refs.textarea;
         textarea.style.height = "auto"; // Reset height to auto
         textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
-        console.log(textarea.scrollHeight, "resizeTextarea");
       }
     },
     async onSubmit() {
@@ -177,9 +176,10 @@ export default {
     width: 100%;
     height: auto;
     border: 1px solid $gray4;
-    padding: 0.9em 0.5rem;
+    padding: 0.5em 0.5rem;
     border-radius: 0.25rem;
     font-size: $base-size;
+    overflow: hidden;
 
     &:focus {
       outline: none;

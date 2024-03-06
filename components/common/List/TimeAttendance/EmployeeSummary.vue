@@ -2,7 +2,7 @@
   <div class="w-100">
     <label class="text-gray6 font-w-600 font-md">Daily summary</label>
     <!-- <bib-input v-model="summaryText" class="w-100" type="textarea" :disabled="disabled" @input="resize()" ref="textarea"></bib-input> -->
-    <div class="w-100 input-cus input--null input--md">
+    <div class="w-100 input-cus">
       <textarea
         v-model="summaryText"
         class="w-100"

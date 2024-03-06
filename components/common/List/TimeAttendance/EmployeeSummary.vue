@@ -57,7 +57,7 @@ export default {
     textareaHeight() {
       const lineHeight = 1.1;
       const numLines = Math.max(this.summaryText.split("\n").length, 1);
-      return `${numLines * lineHeight}rem`;
+      return `${numLines * lineHeight }rem`;
     },
   },
   methods: {
@@ -67,7 +67,8 @@ export default {
     resizeTextarea() {
       {
         const textarea = this.$refs.textarea;
-        textarea.style.height = "auto"; 
+        textarea.style.minHeight = "130px"; 
+        textarea.style.maxHeight = "280px"; 
         textarea.style.height = textarea.scrollHeight + "px";
       }
     },
@@ -129,6 +130,7 @@ export default {
 
   mounted() {
     this.setSummaryText();
+    this.resizeTextarea();
   },
   watch: {
     summary: {
@@ -179,7 +181,6 @@ export default {
     padding: 0.5em 0.5rem;
     border-radius: 0.25rem;
     font-size: $base-size;
-    overflow: hidden;
 
     &:focus {
       outline: none;

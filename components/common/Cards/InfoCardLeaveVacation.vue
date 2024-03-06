@@ -198,7 +198,7 @@ export default {
 .edit-allowance {
   display: flex;
   align-items: center;
-  width: 6.5rem;
+  width: 4.5rem;
   background-color: #fff;
   justify-content: left;
 
@@ -215,6 +215,11 @@ export default {
 .edit-allowance-icon {
   cursor: pointer;
   position: absolute;
-  margin-left: 0.1rem;
+  margin-right: -1px;
+  right: 1px;
+  background-color: #fff;
+  border-radius: 6px;
+  height: 20px;
+  width: 30px;
 }
 </style>

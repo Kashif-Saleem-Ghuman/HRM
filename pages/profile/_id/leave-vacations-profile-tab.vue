@@ -57,7 +57,6 @@
               :variant="$button.lightButton.variant"
               @on-click="changeYearView($event)"
               icon="arrowhead-down"
-              class="mr-05"
             ></dropdown-menu-calendar>
           </div>
         </div>

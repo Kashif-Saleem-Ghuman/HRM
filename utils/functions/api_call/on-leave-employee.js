@@ -4,11 +4,11 @@ export async function onLeaveEmployees({date}) {
   try {
     const config = createConfig();
     config.params = {date}
-    const timesheetData = await hrmApiAxiosInstance.get(
+    const onLeaveData = await hrmApiAxiosInstance.get(
       "/dashboard/admin/approved-leave-count",
       config
     );
-      return timesheetData.data
+      return onLeaveData.data
   } catch (e) {
     console.error(e);
   }

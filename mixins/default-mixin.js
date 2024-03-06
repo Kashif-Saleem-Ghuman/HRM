@@ -29,7 +29,6 @@ export default {
       accountType: "",
       userRole: "",
       addLeaveKey: 0,
-      popupMessages: [],
       flag: false,
     };
   },

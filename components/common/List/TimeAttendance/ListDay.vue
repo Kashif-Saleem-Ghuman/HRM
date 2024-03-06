@@ -32,7 +32,6 @@
       ></employee-summary>
     </div>
     <div>
-      <bib-notification :popupMessages="popupMessages"></bib-notification>
       <confirmation-modal
         :title="deleteModalContent.title"
         :confirmationMessage="deleteModalContent.message"

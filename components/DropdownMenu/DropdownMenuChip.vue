@@ -9,7 +9,6 @@
           :icon-right="buttonConfig.icon ?? ''"
           v-click-outside="clickOutside"
           class="pr-05"
-          icon-right="add"
         ></bib-button>
         <div class="menu-items chip-wrapper-com">
           <div v-if="show" class="chip-wrapper-inner">

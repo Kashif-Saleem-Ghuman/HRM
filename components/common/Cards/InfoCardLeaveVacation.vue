@@ -21,6 +21,7 @@
             "
             :fill="fill"
             emptyfill="#f1f1f1"
+            :key="progressKey"
           ></progress-circle>
         </div>
         <!-- <div v-show="item.photo == null ? '' : item.photo">
@@ -148,11 +149,13 @@ export default {
       editAllowanceIcon: false,
       editAllowance: false,
       editAllowanceValue: 0,
+      progressKey:0
     };
   },
   computed: {
     getpercentageValue() {
       const totalLeave = this.daysUsed + this.scheduledDays;
+      this.progressKey += 1;
       return (totalLeave / this.totalAllowance).toFixed(2) * 100 || "0";
     },
 

@@ -59,7 +59,7 @@ const data = () => {
         color: "primary",
         text: "HRM",
         active: true, 
-        href: ""
+        href: process.env.HRM_APP_URL
       },
     ],
     navItemsUser: [

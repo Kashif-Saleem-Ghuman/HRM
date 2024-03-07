@@ -74,7 +74,7 @@ const data = () => {
         label: "Time & Attendance",
         icon: "time-history",
         key: "time-attendance",
-        url: "/time-attendance",
+        url: "/time-attendance/attendance/",
         selected: false,
       },
       {

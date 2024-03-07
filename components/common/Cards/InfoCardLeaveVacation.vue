@@ -221,5 +221,7 @@ export default {
   border-radius: 6px;
   height: 20px;
   width: 30px;
+  top: 0;
+  left: 0;
 }
 </style>

@@ -187,7 +187,7 @@ export default {
   },
   computed: {
     isDisabled() {
-      return this.getUserRole === "ADMIN" ? false : true;
+      return !this.$isAdmin
     },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",

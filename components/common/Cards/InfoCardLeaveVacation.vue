@@ -65,6 +65,7 @@
               icon="pencil"
               hover-variant="primary"
               @click="handleEditAllowanceClick"
+              :scale="1.1"
             ></bib-icon>
           </div>
         </div>
@@ -215,13 +216,10 @@ export default {
 .edit-allowance-icon {
   cursor: pointer;
   position: absolute;
-  margin-right: -1px;
-  right: 1px;
   background-color: #fff;
   border-radius: 6px;
-  height: 20px;
-  width: 30px;
   top: 0;
-  left: 0;
+  right: -1px;
+  margin: 1px;
 }
 </style>

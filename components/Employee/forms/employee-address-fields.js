@@ -3,7 +3,8 @@ import {
   validatePostalCode,
 } from "@/utils/form-validations/string-validations";
 
-import { COUNTRIES, STATES } from "@/utils/constant/Constant";
+import { STATES } from "@/utils/constant/Constant";
+import COUNTRIES from "@/utils/constant/countries";
 import { generateEmptyOptions } from "./form-helpers";
 export default {
   address: {

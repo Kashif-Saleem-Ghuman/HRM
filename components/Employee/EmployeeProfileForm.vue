@@ -323,7 +323,8 @@
 </template>
 
 <script>
-import { COUNTRIES, SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
+import { SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
+import COUNTRIES from "@/utils/constant/countries";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import {
   sendMeet,

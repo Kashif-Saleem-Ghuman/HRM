@@ -149,7 +149,7 @@ export default {
       editAllowanceIcon: false,
       editAllowance: false,
       editAllowanceValue: 0,
-      progressKey:0
+      progressKey: 0,
     };
   },
   computed: {
@@ -197,7 +197,6 @@ export default {
 .info-card-leave-container {
   overflow: hidden;
 }
-
 
 .edit-allowance {
   display: flex;

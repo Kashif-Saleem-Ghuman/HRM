@@ -111,15 +111,14 @@ export default {
       background: var(--bib-white);
       li {
         padding: 0.5rem;
-        
       }
     }
   }
   .button {
-    .icon{
-        margin-left: 10px;
-        margin-right: -5px;
-      }
+    .icon {
+      margin-left: 10px;
+      margin-right: -5px;
+    }
   }
 }
 </style>

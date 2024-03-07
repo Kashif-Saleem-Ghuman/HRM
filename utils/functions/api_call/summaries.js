@@ -1,6 +1,6 @@
 import { createConfig } from "./config";
 import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
-export async function getSummaryByDate({ date }) {
+export async function getSummaryByDate({ date, employeeId }) {
   if (!date) {
     throw new Error("date is required for fetching summary");
   }
@@ -9,6 +9,7 @@ export async function getSummaryByDate({ date }) {
     const config = createConfig();
     config.params = {
       date,
+      employeeId
     };
     const { data } = await hrmApiAxiosInstance.get(url, config);
 

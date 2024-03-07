@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="title" title="getEmployeeFullName(data.value)">
+            <div class="title" :title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
             </div>
             <div class="description">

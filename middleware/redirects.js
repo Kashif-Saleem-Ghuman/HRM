@@ -14,9 +14,7 @@ export default async function ({ route, redirect, store }) {
     if (userRole === USER_ROLES.ADMIN) {
       return redirect(ADMIN_HOME_PATH);
     } else if (userRole === USER_ROLES.USER) {
-      return setTimeout(() => {
-        redirect(USER_HOME_PATH);
-      }, 2000);
+      return redirect(USER_HOME_PATH);
     }
   }
 }

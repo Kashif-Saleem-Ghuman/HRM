@@ -14,7 +14,7 @@ export async function updateEmployee(payload) {
     );
     return data
   } catch (e) {
-    console.error(e);
+    throw e
   }
 }
 

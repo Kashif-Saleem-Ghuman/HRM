@@ -226,7 +226,11 @@ export default {
         employee: form,
       }).then(() => {
         this.openPopupNotification(1);
-      });
+      })
+      .catch((error) => {
+        console.error(error);
+        this.openPopupNotification({ text: "Error while updating employee", variant: "danger"})
+      })
     },
 
     async fetchEmployee() {
@@ -244,7 +248,7 @@ export default {
     async setReportToList() {
       await this.$store.dispatch("employee/setReportsToList").then((result) => {
         const employees = result.filter((e) => e?.value != this.id);
-        this.reportOptions = [{ label: "", value: "" }, ...employees];
+        this.reportOptions = [{ label: "", value: null }, ...employees];
      });
     }
   },

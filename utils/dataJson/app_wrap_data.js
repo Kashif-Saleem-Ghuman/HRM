@@ -58,8 +58,8 @@ const data = () => {
         img: "partners",
         color: "primary",
         text: "HRM",
-        href: "",
         active: true, 
+        href: process.env.HRM_APP_URL
       },
     ],
     navItemsUser: [

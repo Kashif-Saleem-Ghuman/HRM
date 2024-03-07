@@ -5,11 +5,10 @@ export default async function ({ route, redirect, store }) {
   const { path } = route;
   let userRole = localStorage.getItem("userRole");
 
-  if (!userRole) {
+  if (userRole) {
     userRole = store.state.token.isAdmin ? USER_ROLES.ADMIN : USER_ROLES.USER;
     localStorage.setItem("userRole", userRole);
   }
-
   if (path === "/") {
     if (userRole === USER_ROLES.ADMIN) {
       return redirect(ADMIN_HOME_PATH);

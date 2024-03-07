@@ -221,8 +221,5 @@ export default {
   top: 0;
   right: -1px;
   margin: 1px;
-  svg{
-    width: 50px;
-  }
 }
 </style>

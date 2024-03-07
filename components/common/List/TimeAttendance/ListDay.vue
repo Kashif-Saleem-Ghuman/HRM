@@ -161,7 +161,8 @@ export default {
 
     async getSummary() {
       const { date } = this
-      const summary = await getSummaryByDate({ date: DateTime.fromJSDate(date).toFormat("yyyy-MM-dd") });
+      const employeeId = this.$route.params.id
+      const summary = await getSummaryByDate({ date: DateTime.fromJSDate(date).toFormat("yyyy-MM-dd"), employeeId });
       this.summary = summary
     }
   },

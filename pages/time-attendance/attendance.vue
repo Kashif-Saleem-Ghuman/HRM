@@ -93,7 +93,7 @@ export default {
 
     formatDate(isoDate) {
       return DateTime.fromFormat(isoDate, DATETIME_FORMAT).toFormat(
-        "EEEE, LLLL d, yyyy"
+        DATETIME_FORMAT
       );
     },
     onDateChange(value) {

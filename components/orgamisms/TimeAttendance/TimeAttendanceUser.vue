@@ -364,8 +364,8 @@ export default {
     formatDates({ from, to }) {
       const fromFormat = DateTime.fromISO(from)
         .toLocal()
-        .toFormat("MMMM d, yyyy");
-      const toFormat = DateTime.fromISO(to).toLocal().toFormat("MMMM d, yyyy");
+        .toFormat(DATETIME_FORMAT);
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat(DATETIME_FORMAT);
       return `${fromFormat} -> ${toFormat}`;
     },
   },

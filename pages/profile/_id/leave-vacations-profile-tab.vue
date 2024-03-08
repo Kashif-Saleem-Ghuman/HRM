@@ -14,6 +14,7 @@
               :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
               :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
               :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
+              :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
               buttonLable="Request Vacation"
               icon="airplane-solid"
               className="button-wrapper__bgsucess"

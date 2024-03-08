@@ -373,7 +373,7 @@ export default {
 
       hrmRoleOptions: [
         { label: "Admin", value: USER_ROLES.ADMIN },
-        { label: "User", value: USER_ROLES.USER },
+        { label: "Employee", value: USER_ROLES.USER },
         { label: "HR Manager", value: USER_ROLES.MANAGER },
       ],
       countries: COUNTRIES,

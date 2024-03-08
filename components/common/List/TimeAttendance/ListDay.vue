@@ -27,7 +27,7 @@
       <employee-summary
         :date="getSelectedDate()"
         :summary="summary"
-        :disabled="dailySummaryDisable"
+        :disabled="disabled"
         @update="getSummary"
       ></employee-summary>
     </div>
@@ -125,9 +125,6 @@ export default {
         (entry) => !existingEntries.includes(entry.activity)
       );
     },
-    dailySummaryDisable(){
-      return this.entries[0].status === TIMESHEET_STATUSES.APPROVED ? !this.disabled : this.disabled;
-    }
   },
   methods: {
     openPopupNotification(notification) {

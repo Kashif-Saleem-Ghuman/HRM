@@ -87,6 +87,7 @@
               @delete-entry="handleDeleteEntry"
               :date="dayListDate"
               :total="totalWork"
+              :disabled="getDailyTimeEntries[0]?.status === 'approved' ? true : false"
             ></list-day>
             <list-week
               v-else-if="weekListView && timesheetId"
@@ -112,6 +113,7 @@ import { getWeekTimesheets } from "@/utils/functions/api_call/timeattendance/tim
 import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
+  TIMESHEET_STATUSES,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";

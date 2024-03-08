@@ -140,6 +140,10 @@ export default {
     type: {
       type: String,
     },
+    daysUsedCarryOver: {
+      type: Number,
+      default:  0
+    }
   },
   data() {
     return {
@@ -161,8 +165,8 @@ export default {
 
     balanceLeaveValue() {
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
-        const balance = this.totalAllowance - this.daysUsed;
-        return balance < 0 ? 0 : balance;
+        const balance = this.totalAllowance - this.daysUsed - this.daysUsedCarryOver
+        return balance
       }
       return 0;
     },

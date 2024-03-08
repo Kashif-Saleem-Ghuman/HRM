@@ -27,7 +27,7 @@
       <employee-summary
         :date="getSelectedDate()"
         :summary="summary"
-        :disabled="disabled"
+        :disabled="dailySummaryDisable"
         @update="getSummary"
       ></employee-summary>
     </div>
@@ -48,12 +48,11 @@ import {
   ACTIVITY_DICTIONARY,
   ACTIVITY_HEADER_DATA,
 } from "../../../../utils/constant/TimesheetData";
-import { ACTIVITY_TYPE } from "../../../../utils/constant/Constant";
+import { ACTIVITY_TYPE, TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
 import { getSummaryByDate } from "../../../../utils/functions/api_call/summaries"
-
 const DELETE_MESSAGE = {
   confirmatinData: {
     title: "Delete Time Entry",
@@ -126,6 +125,9 @@ export default {
         (entry) => !existingEntries.includes(entry.activity)
       );
     },
+    dailySummaryDisable(){
+      return this.entries[0].status === TIMESHEET_STATUSES.APPROVED ? !this.disabled : this.disabled;
+    }
   },
   methods: {
     openPopupNotification(notification) {

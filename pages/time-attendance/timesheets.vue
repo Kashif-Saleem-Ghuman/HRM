@@ -58,6 +58,7 @@ import { processEmployeeRequests } from "../../utils/requests/employee-request-p
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
 import { weekToUTCWeek } from "../../utils/functions/dates"
 import { DateTime } from "luxon";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
 export default {
   data() {
@@ -120,8 +121,8 @@ export default {
     },
 
     formatDates({ from, to }) {
-      const fromFormat = DateTime.fromISO(from).toLocal().toFormat('MMMM d, yyyy');
-      const toFormat = DateTime.fromISO(to).toLocal().toFormat('MMMM d, yyyy');
+      const fromFormat = DateTime.fromISO(from).toLocal().toFormat(DATETIME_FORMAT);
+      const toFormat = DateTime.fromISO(to).toLocal().toFormat(DATETIME_FORMAT);
       return `${fromFormat} -> ${toFormat}`
     }
   },

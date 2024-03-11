@@ -18,7 +18,9 @@ export async function addLeaveVacations() {
     this.openPopupNotification(addLeaveErrorMessage[1]);
     return;
   }
-  if (this.addForm.start > this.addForm.end) {
+  const date1 = new Date(this.addForm.start);
+  const date2 = new Date(this.addForm.end);
+  if (date1 > date2) {
     this.openPopupNotification(addLeaveErrorMessage[2]);
     return;
   }

@@ -20,7 +20,7 @@ export default {
       label: "State/Province",
       model: "address.state",
       options: [generateEmptyOptions(), ...STATES],
-      validations: [isRequired],
+      // validations: [isRequired],
     },
     city: {
       type: "text",

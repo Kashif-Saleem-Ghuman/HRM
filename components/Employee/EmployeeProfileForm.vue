@@ -224,7 +224,7 @@
                           placeholder=""
                         ></form-input>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" v-show="states">
                         <form-input
                           type="select"
                           label="Province/State"
@@ -451,16 +451,14 @@ export default {
   computed: {
     states() {
       if (this.updatedCountry) {
-        return [
-          { label: "", value: "" },
-          ...STATES.filter((s) => s.code == this.updatedCountry),
-        ];
+        const states = [...STATES.filter((s) => s.code == this.updatedCountry)];
+        if (!states.length) return null;
+        return [{ label: "Select...", value: "" }, ...states];
       }
 
-      return [
-        { label: "", value: "" },
-        ...STATES.filter((s) => s.code == this.originalCountry),
-      ];
+      const country = [...STATES.filter((s) => s.code == this.originalCountry)];
+      if (!country.length) return null;
+      return [{ label: "Select...", value: "" }, ...country];
     },
     originalCountry() {
       return this.form?.address?.country;

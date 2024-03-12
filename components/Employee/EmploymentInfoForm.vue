@@ -189,6 +189,7 @@ export default {
   computed: {
     isDisabled() {
       if (this.$store.state.token.hrmRole === USER_ROLES.ADMIN) return false;
+      if (this.$store.state.token.hrmRole === USER_ROLES.MANAGER) return false;
       return true;
       // return this.$isAdmin
     },

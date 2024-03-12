@@ -146,6 +146,7 @@ export const actions = {
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
       }
+      return this.entryStatus = data.timeSheetOfthisDateStatus;
     } catch (e) {
       console.log(e);
     }

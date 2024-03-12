@@ -87,7 +87,7 @@
               @delete-entry="handleDeleteEntry"
               :date="dayListDate"
               :total="totalWork"
-              :disabled="getDailyTimeEntries[0]?.status === 'approved' ? true : false"
+              :disabled="entryStatus === 'approved' ? true : false"
             ></list-day>
             <list-week
               v-else-if="weekListView && timesheetId"
@@ -169,6 +169,7 @@ export default {
       timer: 1,
       maxDate: DateTime.now().toISO(),
       refusalReason: null,
+      entryStatus:''
     };
   },
   computed: {
@@ -323,7 +324,9 @@ export default {
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
-      );
+      ).then((result)=>{
+        this.entryStatus = result;
+      });
 
       this.parseTimeEntries();
     },

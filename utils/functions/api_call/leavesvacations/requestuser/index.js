@@ -58,6 +58,7 @@ export async function addLeaveVacations() {
         .then((result) => {
           this.$nuxt.$emit("update-key");
           this.$nuxt.$emit("fetched-leave-vacation");
+          this.$nuxt.$emit("render-leave-actual-data");
           this.slideClass = "slide-out";
           setTimeout(() => {
             this.openSidebar = false;
@@ -73,6 +74,7 @@ export async function addLeaveVacations() {
         .then(() => {
           this.$nuxt.$emit("leaves-list");
           this.$nuxt.$emit("fetched-leave-vacation");
+          this.$nuxt.$emit("render-leave-actual-data");
           this.slideClass = "slide-out";
           setTimeout(() => {
             this.openSidebar = false;

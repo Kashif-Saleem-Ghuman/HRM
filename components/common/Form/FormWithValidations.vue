@@ -19,7 +19,7 @@
                 label="Cancel"
                 variant="gray"
                 size="lg"
-                class="mr-1 w-50 justify-center d-flex"
+                class="mr-1 w-100 button-wrapper-align"
                 :disabled="buttonDisable"
               ></bib-button>
               <bib-button
@@ -27,7 +27,7 @@
                 variant="primary-24"
                 size="lg"
                 @click="handleSubmit"
-                class="w-50 justify-center d-flex"
+                class="w-100 button-wrapper-align"
                 :disabled="buttonDisable"
               ></bib-button>
             </div>

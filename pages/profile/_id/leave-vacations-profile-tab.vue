@@ -8,6 +8,7 @@
             class="d-grid d-flex gap-1 py-05"
             style="grid-template-columns: repeat(3, 1fr)"
             v-if="is_data_fetched"
+            :key="refreshCard"
           >
             <info-card-leave-vacation
               title="Vacation"
@@ -101,6 +102,7 @@ export default {
       toDate: "",
       dropMenuYear: [],
       selectedYear: new Date().getFullYear(),
+      refreshCard:0
     };
   },
   computed: {
@@ -163,9 +165,18 @@ export default {
           this.leaveVacationDataUser = result;
         });
     });
-    this.$root.$on("render-leave-yearly", (e) => {
-      console.log(e)
-      // this.changeYearView(e)
+    this.$root.$on("render-leave-actual-data", (e) => {
+      this.$store
+      .dispatch("leavesdata/setLeaveVacationsAllowance", {
+        id: Number(this.id),
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      })
+      .then((result) => {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      });
+      this.refreshCard += 1;
     });
     this.loading = false
   },

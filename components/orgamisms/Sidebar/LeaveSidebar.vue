@@ -85,6 +85,7 @@ import {
   apiKeyAllowanceValue,
 } from "@/utils/constant/Constant";
 import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
@@ -183,7 +184,7 @@ export default {
       this.confirmastionMessageModal = false;
     },
     getMessage(MESSAGE) {
-      const statusChangeDate = DateTime.fromISO(this.form.statusChangeDate).toFormat('dd-MM-yyyy');
+      const statusChangeDate = DateTime.fromISO(this.form.statusChangeDate).toFormat(DATETIME_FORMAT);
       const messageStatus = {
         approved: this.form.statusChangeDate === null ? 'Request approved' : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
           this.form.manager

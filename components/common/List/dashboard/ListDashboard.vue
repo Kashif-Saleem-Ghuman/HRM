@@ -204,7 +204,7 @@ export default {
       }
     },
     getTotalHours(minutes) {
-      if (minutes == 0 || !minutes) return 0;
+      if (minutes == 0 || !minutes) return '00:00';
       const hours = minutes / 60;
       return formatHoursToHHMM(hours);
     },

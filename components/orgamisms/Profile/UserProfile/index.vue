@@ -111,6 +111,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.scroll-wrapper{
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+ 
+}
 @media (max-width: 1900px) {
   .scroll-wrapper {
     height: 80vh !important;

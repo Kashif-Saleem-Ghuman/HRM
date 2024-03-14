@@ -4,6 +4,7 @@
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
         <bib-button
+          v-show="!show"
           :label="buttonConfig?.label"
           :variant="buttonConfig?.variant || 'light'"
           size="lg"
@@ -85,28 +86,11 @@ export default {
   .btn-overlay {
     // box-shadow: rgba(133, 132, 132, 0.16) 1px 1px 2px;
     border-radius: 6px;
-    position: absolute;
     background-color: $light;
-    top: 0;
-    bottom: 0;
     min-width: 100%;
     height: 50px;
     border: solid 1px $light;
     padding: 0px;
-  }
-  .button-wrapper {
-    &__bgblack {
-      background-color: #000 !important;
-      color: #fff !important;
-      svg {
-        fill: #fff !important;
-      }
-      span {
-        color: #fff !important;
-        font-weight: 400;
-        font-size: 14px;
-      }
-    }
   }
 }
 </style>

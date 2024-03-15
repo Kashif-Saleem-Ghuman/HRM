@@ -67,7 +67,9 @@
             />
           </div>
         </div>
-        <div class="d-flex justify-end align-center">
+        
+      </div>
+      <div class="d-flex justify-end align-center pt-05">
           <bib-button
             v-if="!disabled"
             label="Submit"
@@ -75,7 +77,6 @@
             @click="onSubmit"
           ></bib-button>
         </div>
-      </div>
     </div>
   </client-only>
 </template>

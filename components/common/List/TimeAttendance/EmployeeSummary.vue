@@ -158,14 +158,6 @@ export default {
       faVideo,
     };
   },
-  computed: {
-    textareaHeight() {
-      const lineHeight = 1.1;
-      const numLines = Math.max(this.summaryText.split("\n").length, 1);
-      return `${numLines * lineHeight}rem`;
-    },
-  },
-
   created() {
     const linkExtension = Link.configure({
       openOnClick: false,

@@ -46,7 +46,7 @@
         </div>
         <div class="info_wrapper cursor-pointer w-100">
           <div class="title" :title="getEmployeeFullName(data.value)">
-            {{ getEmployeeFullName(data.value) | truncate(22, "...") }}
+            {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
           </div>
           <div class="description">
             {{ data.value.jobTitle }}
@@ -137,6 +137,14 @@ export default {
     employees() {
       if (!this.sortByField) return this.userList;
       return sortColumn({ items: this.userList, field: this.sortByField });
+    },
+    truncateText(){
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+      return 30;
+    } else {
+      return 20;
+    }
     },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",

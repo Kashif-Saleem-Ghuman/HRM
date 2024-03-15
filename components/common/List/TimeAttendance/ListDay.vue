@@ -27,6 +27,7 @@
       <employee-summary
         :date="getSelectedDate()"
         :summary="summary"
+        :editable="!disabled"
         :disabled="disabled"
         @update="getSummary"
       ></employee-summary>

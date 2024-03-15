@@ -84,15 +84,17 @@ export default {
   }
   .btn-overlay {
     // box-shadow: rgba(133, 132, 132, 0.16) 1px 1px 2px;
-    border-radius: 6px;
+    border-radius: 4px;
     position: absolute;
     background-color: $light;
-    top: 0;
+    top: 0px;
     bottom: 0;
     min-width: 100%;
     height: 50px;
     border: solid 1px $light;
     padding: 0px;
+    z-index: 9999;
+    box-shadow: 0 0 0.2rem 1px #e8e8e8;
   }
 }
 </style>

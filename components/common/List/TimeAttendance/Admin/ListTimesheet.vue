@@ -46,7 +46,7 @@
             @click="handleItemClick_Table(data.value.id, $event)"
           >
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(20, "...") }}
+              {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -170,6 +170,14 @@ export default {
         items: this.timesheetsList,
         field: this.sortByField,
       });
+    },
+    truncateText(){
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+      return 30;
+    } else {
+      return 20;
+    }
     },
   },
   methods: {

@@ -10,7 +10,7 @@
       <div>
         <div class="user_card_detail align-center d-flex">
           <label :title="getEmployeeFullName(user)">
-            {{ getEmployeeFullName(user) | truncate(16, "...") }}
+            {{ getEmployeeFullName(user) | truncate(truncateText, "...") }}
             <span>
               {{ user.jobTitle }}
             </span>
@@ -85,6 +85,14 @@ export default {
       if (this.user.active) return true;
       return false;
     },
+    truncateText(){
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+      return 30;
+    } else {
+      return 20;
+    }
+  }
   },
   methods: {
     getEmployeeFullName,

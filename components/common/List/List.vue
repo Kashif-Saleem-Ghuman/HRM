@@ -49,7 +49,7 @@
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(16, "...") }}
+              {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
             <div class="description">
               {{ data.value.jobTitle }}
@@ -127,6 +127,14 @@ export default {
       if (!this.sortByField) return this.userList;
 
       return sortColumn({ items: this.userList, field: this.sortByField });
+    },
+    truncateText(){
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+      return 30;
+    } else {
+      return 20;
+    }
     },
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",

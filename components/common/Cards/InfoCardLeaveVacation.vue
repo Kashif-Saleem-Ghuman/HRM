@@ -142,8 +142,8 @@ export default {
     },
     daysUsedCarryOver: {
       type: Number,
-      default:  0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
@@ -160,13 +160,18 @@ export default {
     getpercentageValue() {
       const totalLeave = this.daysUsed + this.scheduledDays;
       this.progressKey += 1;
-      return (totalLeave / this.totalAllowance).toFixed(2) * 100 || "0";
+      if (this.totalAllowance !== 0) {
+        return Math.round((totalLeave / this.totalAllowance) * 100);
+      } else {
+        return "0";
+      }
     },
 
     balanceLeaveValue() {
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
-        const balance = this.totalAllowance - this.daysUsed - this.daysUsedCarryOver
-        return balance
+        const balance =
+          this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;
+        return balance;
       }
       return 0;
     },

@@ -1,28 +1,84 @@
 <template>
-  <div class="w-100">
-    <label class="text-gray6 font-w-600 font-md">Daily summary</label>
-    <!-- <bib-input v-model="summaryText" class="w-100" type="textarea" :disabled="disabled" @input="resize()" ref="textarea"></bib-input> -->
-    <div class="w-100 input-cus">
-      <textarea
-        v-model="summaryText"
-        class="w-100"
-        :style="{ height: textareaHeight }"
-        type="textarea"
-        :disabled="disabled"
-        @input="resizeTextarea()"
-        ref="textarea"
-      ></textarea>
+  <client-only>
+    <div class="w-100">
+      <div class="text-gray6 font-w-600 font-md pb-05">Daily summary</div>
+      <div class="editor-wrapper">
+        <div v-if="editor">
+          <div class="toolbar">
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('bold') }"
+              @click="editor.chain().focus().toggleBold().run()"
+            >
+              <fa :icon="faBold"></fa>
+            </div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('italic') }"
+              @click="editor.chain().focus().toggleItalic().run()"
+            >
+              <fa :icon="faItalic"></fa>
+            </div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('underline') }"
+              @click="editor.chain().focus().toggleUnderline().run()"
+            >
+              <fa :icon="faUnderline"></fa>
+            </div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('strike') }"
+              @click="editor.chain().focus().toggleStrike().run()"
+            >
+              <fa :icon="faStrikethrough"></fa>
+            </div>
+            <div class="toolbar-separator"></div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('link') }"
+              @click="toggleLink"
+            >
+              <fa :icon="faLink"></fa>
+            </div>
+            <div class="toolbar-separator"></div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('bulletList') }"
+              @click="editor.chain().focus().toggleBulletList().run()"
+            >
+              <fa :icon="faListUl"></fa>
+            </div>
+            <div
+              class="toolbar-icon"
+              :class="{ 'is-active': editor.isActive('orderedList') }"
+              @click="editor.chain().focus().toggleOrderedList().run()"
+            >
+              <fa :icon="faListOl"></fa>
+            </div>
+          </div>
+        </div>
+        <div class="editor-container">
+          <div>
+            <editor-content
+              :editor="editor"
+              class="p-05"
+              :editable="editable"
+            />
+          </div>
+        </div>
+        
+      </div>
+      <div class="d-flex justify-end align-center pt-05">
+          <bib-button
+            v-if="!disabled"
+            label="Submit"
+            variant="primary"
+            @click="onSubmit"
+          ></bib-button>
+        </div>
     </div>
-    <div class="d-flex justify-end align-center">
-      <!-- <label class="px-05 font-md text-dark">Submit timesheet:</label> -->
-      <bib-button
-        v-if="!disabled"
-        label="Submit"
-        variant="primary"
-        @click="onSubmit"
-      ></bib-button>
-    </div>
-  </div>
+  </client-only>
 </template>
 
 <script>
@@ -30,8 +86,36 @@ import {
   createSummary,
   updateSummary,
 } from "../../../../utils/functions/api_call/summaries";
+import { Editor, EditorContent } from "@tiptap/vue-2";
+import StarterKit from "@tiptap/starter-kit";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Underline from "@tiptap/extension-underline";
+import Link from "@tiptap/extension-link";
+import {
+  faGrin,
+  faPaperPlane,
+  faPaperclip,
+  faBold,
+  faItalic,
+  faUnderline,
+  faStrikethrough,
+  faListUl,
+  faListOl,
+  faLink,
+  faCode,
+  faCodeBranch,
+  faFile,
+  faTimes,
+  faAddressCard,
+  faMicrophone,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default {
+  components: {
+    EditorContent,
+    fa: FontAwesomeIcon,
+  },
   props: {
     date: {
       type: String,
@@ -46,32 +130,49 @@ export default {
     summary: {
       type: Object | null,
     },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   data() {
     return {
       summaryText: "",
+      faPaperclip,
+      faPaperPlane,
+      faGrin,
+      faBold,
+      faItalic,
+      faUnderline,
+      faStrikethrough,
+      faListUl,
+      faListOl,
+      faLink,
+      faCode,
+      faCodeBranch,
+      faFile,
+      faTimes,
+      faAddressCard,
+      faMicrophone,
+      faVideo,
     };
   },
-  computed: {
-    textareaHeight() {
-      const lineHeight = 1.1;
-      const numLines = Math.max(this.summaryText.split("\n").length, 1);
-      return `${numLines * lineHeight }rem`;
-    },
+  created() {
+    const linkExtension = Link.configure({
+      openOnClick: false,
+    });
+    this.editor = new Editor({
+      content: this.summaryText,
+      extensions: [StarterKit, Underline, Link],
+      editable: this.editable,
+    });
   },
   methods: {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    resizeTextarea() {
-      {
-        const textarea = this.$refs.textarea;
-        textarea.style.minHeight = "130px"; 
-        textarea.style.maxHeight = "280px"; 
-        textarea.style.height = textarea.scrollHeight + "px";
-      }
-    },
+
     async onSubmit() {
       if (this.summary?.id) {
         this.updateSummary();
@@ -79,10 +180,48 @@ export default {
         this.createSummary();
       }
     },
+    toggleLink() {
+      if (this.editor.isActive("link")) {
+        // unset link
+        this.editor.chain().focus().unsetLink().run();
+      } else {
+        // show link modal
+        // this.isLinkModalShown = true;
+        this.setLink();
+      }
+    },
 
+    closeAndResetLinkModal() {
+      this.isLinkModalShown = false;
+      this.linkUrl = "";
+    },
+    setLink() {
+      const previousUrl = this.editor.getAttributes("link").href;
+      const url = window.prompt("URL", previousUrl);
+
+      // cancelled
+      if (url === null) {
+        return;
+      }
+
+      // empty
+      if (url === "") {
+        this.editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+        return;
+      }
+
+      // update link
+      this.editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
+        .run();
+    },
     async createSummary() {
       const { date } = this;
-      const text = this.summaryText;
+      const text = this.editor.getHTML();
       const summary = await createSummary({ text, date });
       if (summary) {
         this.$emit("update");
@@ -99,7 +238,8 @@ export default {
     },
     async updateSummary() {
       const { date, summary } = this;
-      const text = this.summaryText;
+      const text = this.editor.getHTML();
+      console.log(text, "summaryText");
       const updatedSummary = await updateSummary({
         text,
         date,
@@ -122,15 +262,17 @@ export default {
     setSummaryText() {
       if (this.summary?.id) {
         this.summaryText = this.summary.text;
+        if (this.editor) {
+          this.editor.commands.setContent(this.summary.text); // Update the content of the editor
+        }
       } else {
-        this.summaryText = "";
+        this.editor.commands.setContent();
       }
     },
   },
 
   mounted() {
     this.setSummaryText();
-    this.resizeTextarea();
   },
   watch: {
     summary: {
@@ -140,51 +282,40 @@ export default {
         this.setSummaryText();
       },
     },
+    editable(newValue) {
+      if (this.editor) {
+        this.editor.options.editable = newValue;
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss">
-.input-cus {
-  position: relative;
-  width: 100%;
-
-  input,
-  textarea,
-  select {
-    padding: 0rem 0.5rem 0rem 0.5rem;
-    font-size: $base-size;
-    line-height: 1.2;
-    width: 100%;
-    border: 1px solid $gray4;
-    border-radius: 0.2rem;
-    margin: 0.5rem 0;
-    color: $dark;
-    min-height: 2.5rem;
-    outline: none;
-
-    &:hover {
-      border-color: $gray5;
-      border: 1.5px solid $gray6;
+.editor-wrapper {
+  // padding: 10px;
+  border-bottom: 6px;
+  border: solid 1px var(--bib-light);
+  .toolbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: solid 1px var(--bib-light);
+    height: 40px;
+    background-color: var(--bib-light);
+    .toolbar-icon {
+      svg {
+        margin-right: 1rem;
+        cursor: pointer;
+      }
     }
   }
-  select {
-    height: calc(1.5em + 0.75rem + 2px);
-    background-color: $white;
-  }
-
-  textarea {
-    resize: none;
-    width: 100%;
-    height: auto;
-    border: 1px solid $gray4;
-    padding: 0.5em 0.5rem;
-    border-radius: 0.25rem;
-    font-size: $base-size;
-
-    &:focus {
-      outline: none;
-    }
-  }
+}
+.editor-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.ProseMirror:focus {
+  outline: none;
 }
 </style>

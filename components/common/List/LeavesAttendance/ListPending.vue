@@ -50,7 +50,7 @@
         </div>
         <div class="info_wrapper">
           <div class="title-user" :title="getEmployeeFullName(data.value.employee)">
-            {{ getEmployeeFullName(data.value.employee) | truncate(16, "...") }}
+            {{ getEmployeeFullName(data.value.employee) | truncate(truncateText, "...") }}
           </div>
           <div class="description">
             {{ data.value.employee.jobTitle }}
@@ -145,6 +145,14 @@ export default {
       if (!this.sortByField) return this.listPending;
 
       return sortColumn({ items: this.listPending, field: this.sortByField });
+    },
+    truncateText(){
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+      return 30;
+    } else {
+      return 20;
+    }
     },
   },
 

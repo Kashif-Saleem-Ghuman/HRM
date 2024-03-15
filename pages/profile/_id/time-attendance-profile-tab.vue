@@ -32,7 +32,7 @@
                 :button-config="{ label: dateBtnLabel }"
                 v-slot="scope"
               >
-                <div>
+                <div class="pl-05">
                   <week-date-picker
                     :dates.sync="weekDates"
                     class="custom_date_picker"
@@ -43,6 +43,7 @@
                         weekSelection();
                       }
                     "
+                    style="z-index: 999999; height: 46px"
                   ></week-date-picker>
                 </div>
               </button-with-overlay>

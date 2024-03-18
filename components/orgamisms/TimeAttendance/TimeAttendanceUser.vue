@@ -237,7 +237,7 @@ export default {
     },
   },
   async created() {
-    this.loading = true;
+    // this.loading = true;
     this.setView();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
@@ -245,7 +245,7 @@ export default {
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
     this.getTimesheetWidget();
-    this.loading = false;
+    // this.loading = false;
   },
   methods: {
     weekToUTCWeek,
@@ -338,7 +338,7 @@ export default {
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {
-      this.loading = true;
+      // this.loading = true;
       const weekRange = this.weekToUTCWeek({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),

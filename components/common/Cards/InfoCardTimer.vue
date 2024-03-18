@@ -105,7 +105,9 @@ export default {
     close() {
       this.clockModal = false;
     },
-
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     async handleClockInOutClick() {
       if (this.active) {
         this.stopClick = true;
@@ -114,6 +116,15 @@ export default {
       } else {
         await this.startTimer();
       }
+    },
+    handleWrapperClick() {
+      if(this.disabled){
+        this.openPopupNotification({
+            text: "For clock in need to be delete exsitng entry",
+            variant: "danger",
+          });
+      }
+      // this.handleClockInOutClick(); // Call the handleClockInOutClick function
     },
   },
   computed: {

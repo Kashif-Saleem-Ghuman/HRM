@@ -363,21 +363,21 @@ export default {
       const isTotalTimeNegative = this.totalTimeInMinutes < 0;
       if (isTotalTimeNegative) return false;
 
-      if (this.isStartDateGreatherThanNow()) {
-        this.startTime = undefined;
-        return this.openPopupNotification({
-          text: "Start time cannot be greater than current time",
-          variant: "danger",
-        });
-      }
+      // if (this.isStartDateGreatherThanNow()) {
+      //   this.startTime = undefined;
+      //   return this.openPopupNotification({
+      //     text: "Start time cannot be greater than current time",
+      //     variant: "danger",
+      //   });
+      // }
 
-      if (this.isEndDateGreatherThanNow()) {
-        this.endTime = undefined;
-        return this.openPopupNotification({
-          text: "End time cannot be greater than current time",
-          variant: "danger",
-        });
-      }
+      // if (this.isEndDateGreatherThanNow()) {
+      //   this.endTime = undefined;
+      //   return this.openPopupNotification({
+      //     text: "End time cannot be greater than current time",
+      //     variant: "danger",
+      //   });
+      // }
 
       if (!this.validateBreakIsWithinWorkingHours()) return false;
       if (!this.validateInEntryWithExistingBreak()) return false;
@@ -385,7 +385,7 @@ export default {
       return true;
     },
     async makeNewTimeEntry() {
-      if (!this.isEntryValid()) return;
+      // if (!this.isEntryValid()) return;
 
       const { startDate, endDate, date } = this.calculateDates();
       try {

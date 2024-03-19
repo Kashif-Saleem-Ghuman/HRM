@@ -120,7 +120,7 @@ export default {
     handleWrapperClick() {
       if(this.disabled){
         this.openPopupNotification({
-            text: "For clock in again, please delete existing time entry",
+            text: "Please delete the time entry to clock-in again for the day.",
             variant: "danger",
           });
       }

@@ -95,13 +95,7 @@ export default {
       appWrapItems: appWrapItems,
     };
   },
-created(){
-  const path = this.$router.history.current.fullPath;
-  if(path === '/time-attendance/attendance/?view=week'){
-    return this.changeRole(USER_ROLES.USER);
-    // this.$router.push("/time-attendance/attendance/?view=week");
-  }
-},
+
   methods: {
     changeDashboard() {
       this.$router.push("/dashboard");

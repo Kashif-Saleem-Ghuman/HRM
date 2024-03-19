@@ -63,7 +63,7 @@ export default {
     },
 
     setCurrentWeek(date = null) {
-      const now = date ? DateTime.fromFormat(date, 'dd-MM-yyyy').toUTC().toISO() : DateTime.now().toISO();
+      const now = date ? DateTime.fromFormat(date, 'yyyy-MM-dd').toUTC().toISO() : DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
       this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
       this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);

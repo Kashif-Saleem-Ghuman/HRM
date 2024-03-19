@@ -32,6 +32,7 @@
 import { DateTime } from "luxon";
 import { getWeekStartEndDates } from "../../../utils/functions/dates";
 import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
+import {USER_WEEK_VIEW_PATH} from "@/utils/constant/routes";
 
 export default {
   data() {
@@ -61,8 +62,8 @@ export default {
       this.$emit("close")
     },
 
-    setCurrentWeek() {
-      const now = DateTime.now().toISO();
+    setCurrentWeek(date = null) {
+      const now = date ? DateTime.fromFormat(date, 'yyyy-MM-dd').toUTC().toISO() : DateTime.now().toISO();
       const { from, to } = getWeekStartEndDates(now);
       this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
       this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
@@ -86,7 +87,14 @@ export default {
   },
 
   created() {
-    this.setCurrentWeek();
+    const path = this.$router.history.current.fullPath;
+    if(path.startsWith(USER_WEEK_VIEW_PATH)){
+      const date = path.split("=")[2]
+      this.setCurrentWeek(date);
+    }else {
+      this.setCurrentWeek();
+    }
+
   },
 };
 </script>

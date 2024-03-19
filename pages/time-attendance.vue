@@ -27,7 +27,7 @@ export default {
 
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path === USER_WEEK_VIEW || path.startsWith(USER_WEEK_VIEW_PATH))
+    if (path.startsWith(USER_WEEK_VIEW_PATH))
       return this.changeRole(USER_ROLES.USER);
   },
   computed: {

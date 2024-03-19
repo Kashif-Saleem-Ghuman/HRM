@@ -11,26 +11,36 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { USER_ROLES } from "@/utils/constant/Constant";
+import { USER_WEEK_VIEW_PATH, USER_WEEK_VIEW } from "@/utils/constant/routes";
 
 export default {
-  
   data() {
-    return {
-    };
+    return {};
   },
-  
+  methods: {
+    changeRole(role) {
+      localStorage.setItem("userRole", role);
+      this.$store.dispatch("token/setViewRole", { role });
+    },
+  },
+
+  created() {
+    const path = this.$router.history.current.fullPath;
+    if (path === USER_WEEK_VIEW || path.startsWith(USER_WEEK_VIEW_PATH))
+      return this.changeRole(USER_ROLES.USER);
+  },
   computed: {
     isAdmin() {
-      return this.$store.state.token.isAdmin
+      return this.$store.state.token.isAdmin;
     },
     isUser() {
-      return this.$store.state.token.isUser
+      return this.$store.state.token.isUser;
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",
     }),
   },
-  
 };
 </script>
 

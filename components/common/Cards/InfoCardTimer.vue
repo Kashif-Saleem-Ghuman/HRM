@@ -33,7 +33,7 @@
       >
         <span>{{ buttonLable }}</span>
       </div> -->
-      <div class="d-flex justify-center">
+      <div class="d-flex justify-center" @click="handleWrapperClick">
         <bib-button
           :label="buttonLable"
           :variant="buttonVariant"
@@ -120,7 +120,7 @@ export default {
     handleWrapperClick() {
       if(this.disabled){
         this.openPopupNotification({
-            text: "For clock in need to be delete exsitng entry",
+            text: "For clock in again, please delete existing time entry",
             variant: "danger",
           });
       }

@@ -141,9 +141,9 @@ export default {
     truncateText(){
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-      return 30;
+      return 40;
     } else {
-      return 20;
+      return 25;
     }
     },
     ...mapGetters({

@@ -26,15 +26,12 @@ export function myProfile() {
 }
 
 export function openTeamPage() {
-  window.open(`${process.env.BIB_ACCOUNT_URL}/people`, "_blank")
+  window.open(`${process.env.TEAM_URL}`, "_blank")
 }
 
 export function openBillingPage() {
-  window.open(`${process.env.BIB_ACCOUNT_URL}/subscription_billing`, "_blank")
+  window.open(`${process.env.BILLING_URL}`, "_blank")
 }
-export function openAccountPage() {
-    window.open(process.env.ACCOUNT_PAGE_URL, "_blank")
-  }
 export function isThemeCheck(){
     let isTheme = this.$cookies.get('isLightTheme');
     if (isTheme == undefined) {

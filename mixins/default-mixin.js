@@ -4,7 +4,6 @@ import getJson from "@/utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
 import {
   handleToggleWrapperTheme,
-  openAccountPage,
   myProfile,
   openBillingPage,
   openTeamPage,
@@ -48,7 +47,6 @@ export default {
     getEmployeeFullName,
     isThemeCheck,
     handleToggleWrapperTheme,
-    openAccountPage,
     myProfile,
     openTeamPage,
     openBillingPage,

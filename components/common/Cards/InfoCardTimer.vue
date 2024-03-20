@@ -124,7 +124,6 @@ export default {
             variant: "danger",
           });
       }
-      // this.handleClockInOutClick(); // Call the handleClockInOutClick function
     },
   },
   computed: {

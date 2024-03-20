@@ -166,6 +166,7 @@ export default {
       content: this.summaryText,
       extensions: [StarterKit, Underline, Link],
       editable: this.editable,
+      
     });
   },
   methods: {
@@ -314,7 +315,14 @@ export default {
 .editor-container {
   max-height: 300px;
   overflow-y: auto;
+  min-height: 100px;
+  p{
+    line-height: 1.3rem;
+    padding: 0;
+    margin: 0;
+  }
 }
+
 .ProseMirror:focus {
   outline: none;
 }

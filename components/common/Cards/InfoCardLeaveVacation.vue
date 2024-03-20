@@ -171,7 +171,7 @@ export default {
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
         const balance =
           this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;
-        return balance.toFixed(2);
+        return balance % 1 === 0 ? balance : balance.toFixed(2);
       }
       return 0;
     },

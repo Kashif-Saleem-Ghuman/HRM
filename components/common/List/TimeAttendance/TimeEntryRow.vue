@@ -379,13 +379,13 @@ export default {
       //   });
       // }
 
-      if (!this.validateBreakIsWithinWorkingHours()) return false;
+      // if (!this.validateBreakIsWithinWorkingHours()) return false;
       if (!this.validateInEntryWithExistingBreak()) return false;
 
       return true;
     },
     async makeNewTimeEntry() {
-      // if (!this.isEntryValid()) return;
+      if (!this.isEntryValid()) return;
 
       const { startDate, endDate, date } = this.calculateDates();
       try {

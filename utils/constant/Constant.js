@@ -86,6 +86,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
+      width: `${100 / 5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,

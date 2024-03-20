@@ -7,7 +7,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      width: `${100 / 5}%`,
+      width: `${100 / 4.3}%`,
       style: "text-align:left",
       header_icon: {
         icon: "long-arrow-up",
@@ -20,7 +20,6 @@ export const TABLE_HEAD = {
     {
       key: "status",
       label: "Status",
-      width: `${100 / 6}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-status-sort",
@@ -32,7 +31,6 @@ export const TABLE_HEAD = {
     {
       key: "in",
       label: "In",
-      width: `${100 / 6}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-in-sort",
@@ -44,7 +42,6 @@ export const TABLE_HEAD = {
     {
       key: "out",
       label: "Out",
-      width: `${100 / 6}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-out-sort",
@@ -56,7 +53,6 @@ export const TABLE_HEAD = {
     {
       key: "breaks",
       label: "Breaks",
-      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-breaks-sort",
@@ -68,7 +64,6 @@ export const TABLE_HEAD = {
     {
       key: "total",
       label: "Total hours",
-      width: `${100 / 3}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-total-sort",
@@ -86,7 +81,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      width: `${100 / 5}%`,
+      width: `${100 / 4.3}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,

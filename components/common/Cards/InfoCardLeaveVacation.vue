@@ -172,7 +172,6 @@ export default {
         const balance =
           this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;
         return balance.toFixed(2);
-        return roundedBalance.toString();
       }
       return 0;
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="widget  d-flex">
+  <div class="widget d-flex">
     <div class="widget-container">
       <div>
         <label>{{ title }}</label>
@@ -10,11 +10,22 @@
           <span>{{ value }}</span>
         </div>
 
-        <div v-if="avatars && avatarsPosition === 'center'" class="widget-avatars-container">
-          <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" class="widget-avatars" :key="avatar.id">
+        <div
+          v-if="avatars && avatarsPosition === 'center'"
+          class="widget-avatars-container"
+        >
+          <div
+            v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)"
+            class="widget-avatars"
+            :key="avatar.id"
+          >
             <NuxtLink :to="`/profile/${avatar.id}`">
-              <bib-avatar class="avatar" :src="avatar.photo" size="1.5rem"
-                :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
+              <bib-avatar
+                class="avatar"
+                :src="avatar.photo"
+                size="1.5rem"
+                :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+              ></bib-avatar>
             </NuxtLink>
           </div>
         </div>
@@ -27,25 +38,67 @@
         </div>
       </div>
 
-
-      <div v-if="avatars && avatarsPosition === 'bottom'" class="widget-avatars-container-bottom pt-05">
-        <div v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)" :key="avatar.id" class="cursor-pointer">
+      <div
+        v-if="avatars && avatarsPosition === 'bottom'"
+        class="widget-avatars-container-bottom pt-05"
+      >
+        <div
+          v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)"
+          :key="avatar.id"
+          class="cursor-pointer"
+        >
           <NuxtLink :to="`/profile/${avatar.id}`">
-            <bib-avatar :src="avatar.photo" size="1.5rem"
-              :text="avatar.photo ? null : getEmployeeInitials(avatar)"></bib-avatar>
+            <bib-avatar
+              :src="avatar.photo"
+              size="1.5rem"
+              :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+            ></bib-avatar>
           </NuxtLink>
         </div>
-        <div v-if="avatars.length > MAX_VISIBLE_AVATARS" class="d-flex align-center">
-        <span class="avatar__text text-gray1 mr-025 cursor-default">... {{ avatars.length - MAX_VISIBLE_AVATARS  }} more </span>
+        <div
+          v-if="avatars.length > MAX_VISIBLE_AVATARS"
+          class="d-flex align-center item"
+          style="position: relative"
+          @mouseover="showEmployeeList"
+          v-click-outside="hideEmployeeList"
+        >
+          <span
+            class="avatar__text text-gray1 mr-025 cursor-default position-relative cursor-pointer"
+            >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
+            <div class="list position-absolute" v-show="employeeList">
+              <div
+                class="list__item"
+                v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
+                :key="avatar.id"
+                @mouseout="hideEmployeeList"
+              >
+                <NuxtLink :to="`/profile/${avatar.id}`">
+                  <div class="d-flex align-center">
+                    <bib-avatar
+                      :src="avatar.photo"
+                      size="1.5rem"
+                      class="mr-05"
+                      :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+                    ></bib-avatar>
+                    <div>
+                      {{ getEmployeeFullName(avatar) | truncate(25, "...") }}
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+            </div>
+          </span>
+        </div>
       </div>
-      </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import { getEmployeeInitials } from '../../../utils/functions/common_functions';
+import {
+  getEmployeeInitials,
+  getEmployeeFullName,
+} from "../../../utils/functions/common_functions";
 
 const MAX_VISIBLE_AVATARS = 3;
 
@@ -53,8 +106,8 @@ export default {
   props: {
     avatarsPosition: {
       type: String,
-      default: 'bottom'
-    }
+      default: "bottom",
+    },
   },
 
   data() {
@@ -64,7 +117,8 @@ export default {
       subData: null,
       avatars: null,
       loading: false,
-      avatarsBottom: null
+      avatarsBottom: null,
+      employeeList: false,
     };
   },
 
@@ -82,12 +136,20 @@ export default {
 
   methods: {
     getEmployeeInitials,
-    async fetchData() {
-      throw new Error(`Widget fetchaData function needs to be implemented!`);
+    getEmployeeFullName,
+    // async fetchData() {
+    //   throw new Error(`Widget fetchaData function needs to be implemented!`);
+    // },
+    showEmployeeList() {
+      this.employeeList = true;
+    },
+
+    hideEmployeeList() {
+      this.employeeList = false;
     },
   },
   created() {
-    this.fetchData();
+    // this.fetchData();
   },
 };
 </script>
@@ -107,7 +169,7 @@ $text-font-size: 14px;
   background: #fff;
   border-radius: 24px;
   border: 1px solid #f2f2f5;
-  overflow-wrap: break-word;
+  // overflow-wrap: break-word;
 
   label {
     font-size: 1rem;
@@ -144,18 +206,17 @@ $text-font-size: 14px;
 
     .widget-avatars-container {
       display: flex;
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
       justify-content: flex-start;
-      gap: .5rem;
-      overflow: hidden;
-      max-height: 2rem;
+      gap: 0.5rem;
+      // overflow: hidden;
+      // max-height: 2rem;
 
       .avatar {
         flex: 0 0 auto;
         margin: 1px;
-        overflow: hidden;
+        // overflow: hidden;
       }
-
     }
   }
 
@@ -191,12 +252,11 @@ $text-font-size: 14px;
     justify-content: space-between;
     flex-wrap: wrap;
 
-
     .sub-data {
       display: flex;
       justify-content: space-between;
       width: 48%;
-      padding-top: .2rem;
+      padding-top: 0.2rem;
       // border-bottom: 1px solid $light;
       // height: 40px;
 
@@ -216,18 +276,34 @@ $text-font-size: 14px;
   .widget-avatars-container-bottom {
     display: flex;
     align-items: center;
-    gap: .5rem;
-    flex-wrap: wrap;
+    gap: 0.5rem;
+    // flex-wrap: wrap;
     max-height: 2rem;
-    overflow: hidden;
-    .span{
+    // overflow: hidden;
+    .list {
+      z-index: 999999;
+      width: 250px;
+      left: 0px;
+      top: 22px;
+      max-height: 250px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      a {
+        text-decoration: none;
+        color: $black;
+      }
+    }
+    .span {
       height: 1.5rem;
       width: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .list__item {
+      // width: 200px;
+      cursor: pointer;
+    }
   }
 }
 </style>
-  

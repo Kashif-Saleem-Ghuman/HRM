@@ -84,12 +84,21 @@
         }}</span>
       </div>
     </template>
+    <template #cell_action="data">
+        <bib-button pop="horizontal-dots" @click.native.stop>
+          <template v-slot:menu>
+            <div class="list">
+              <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>
+            </div>
+          </template>
+        </bib-button>
+      </template>
   </bib-table>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { TABLE_HEAD } from "../../../../utils/constant/Constant.js";
+import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../../utils/constant/Constant.js";
 import {
   dateCheck,
   meetLink,
@@ -119,6 +128,7 @@ export default {
       modal3Opened: false,
       showTooltip: false,
       tableFields: TABLE_HEAD.tHeadDashboard,
+      peopleActionItems:PEOPLE_ACTION_ITEMS,
       activityReportClass: [],
       satisfaction: "",
       userPhotoClick: false,
@@ -159,6 +169,11 @@ export default {
     getEmployeeInitials,
     meetLink,
     makeCall,
+    async callAction(data, value){
+      if(value === 'View Profile') return this.viewProfile(data.value.id);
+      if(value === 'Send Message') return this.sendMessage(data.value.userId);
+      if(value === 'Call') return await this.makeCall(data.value.userId, this.getUser.userId);
+    },
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in && data.activityReport?.out;

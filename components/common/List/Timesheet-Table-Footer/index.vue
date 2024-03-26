@@ -217,7 +217,7 @@ export default {
   .footer-items {
     display: flex;
     .footer-item-left {
-      width: 90.05%;
+      width: 90.25%;
       border-right: 1px solid $light;
       border-bottom: 1px solid $light;
       padding: 1rem 0.5rem;
@@ -227,7 +227,7 @@ export default {
       justify-content: end;
     }
     .footer-item-right {
-      width: 9.95%;
+      width: 10.75%;
       border-bottom: 1px solid $light;
       padding: 1rem 0 1rem 0.5rem;
       font-weight: 600;

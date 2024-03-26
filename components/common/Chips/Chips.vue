@@ -5,8 +5,10 @@
         shapeCircle ? 'chip-wrapper' + shapeCircle : '',
         shapeRound ? 'chip-wrapper' + shapeRound : '',
         defaultPointer ? '' : 'cursor-pointer',
+        centerAlign ? 'd-align' : '',
         variant,
         className,
+
       ]"
       class="chip-wrapper"
       
@@ -67,6 +69,9 @@ export default {
     defaultPointer: {
       type: Boolean,
       default: false,
+    },
+    centerAlign:{
+      type:String
     }
   },
   data() {

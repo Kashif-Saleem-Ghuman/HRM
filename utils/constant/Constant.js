@@ -478,31 +478,31 @@ export const TABLE_HEAD = {
       key: "name",
       label: "Day of week",
       center: false,
-      width: `${100 / 4}%`,
+      width: `${100 / 4.5}%`,
     },
     {
       key: "in",
       label: "IN",
-      center: true,
-      width: `${100 / 5}%`,
+      center: false,
+      width: `${100 / 4.5}%`,
     },
     {
       key: "break",
       label: "Break",
-      center: true,
-      width: `${100 / 4}%`,
+      center: false,
+      width: `${100 / 4.5}%`,
     },
     {
       key: "out",
       label: "Out",
       center: true,
-      width: `${100 / 5}%`,
+      width: `${100 / 4.5}%`,
     },
     {
       key: "total",
       label: "Total",
       center: true,
-      width: `${100 / 7}%`,
+      width: `${100 / 5.3}%`,
     },
   ],
 };
@@ -1203,5 +1203,5 @@ export const apiKeyAllowanceValue = {
 export const PEOPLE_ACTION_ITEMS = {
   viewProfile: "View Profile",
   sendMessage: "Send Message",
-  call: "Call",
+  meet: "Meet",
 };

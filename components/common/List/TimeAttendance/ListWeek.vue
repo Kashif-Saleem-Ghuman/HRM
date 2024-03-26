@@ -1,5 +1,5 @@
 <template>
-  <div class="th-align">
+  <div>
     <bib-table
       :fields="tableFields"
       class="bg-white"

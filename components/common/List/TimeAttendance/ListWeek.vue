@@ -8,9 +8,11 @@
       :showTotal="true"
       :fixHeader="true"
       v-if="id >= 0"
+      @item-clicked="tableItemClick"
+      
     >
       <template #cell(name)="data">
-          <div class="text-gray1 font-md text-left font-w-500">
+          <div class="text-gray1 font-md text-left font-w-500 cursor-pointer">
             <div :class="getClassName(data.value.date)">
               {{ getWeekDay(data.value.weekDayLabel) }}
             </div>
@@ -20,25 +22,36 @@
           </div>
       </template>
       <template #cell(in)="data">
+        <div class="cursor-pointer">
         <chips
           :defaultPointer="true"
           :title="getInOut(data.value.in)"
           :className="getInOutClass(data.value.entryExists)"
+          centerAlign="d-align"
         ></chips>
+      </div>
       </template>
       <template #cell(break)="data">
+        <div class="cursor-pointer">
         <chips
           :defaultPointer="true"
           :title="getInOut(data.value.break)"
           :className="getInOutClass(data.value.entryExists)"
+          class="d-align text-center"
+          centerAlign="d-align"
         ></chips>
+      </div>
       </template>
       <template #cell(out)="data">
+        <div class="cursor-pointer">
         <chips
           :defaultPointer="true"
           :title="getInOut(data.value.out)"
           :className="getInOutClass(data.value.entryExists)"
+          class="cursor-pointer"
+          centerAlign="d-align"
         ></chips>
+      </div>
       </template>
       <template #cell(total)="data">
         <div
@@ -47,6 +60,7 @@
             'align-center',
             data.value.entryExists ? 'text-bold' : 'disabled',
           ]"
+          class="cursor-pointer"
         >
           <span>{{ formatTime(data.value.total * 60, false) }}</span>
         </div>
@@ -168,7 +182,9 @@ export default {
     getTodayDate() {
       this.todayDate;
     },
-
+    tableItemClick(event, key, item) {
+      this.$emit("day-view", item);
+    },
     dateFormat(item) {
       return item == null ? "---" : DateTime.fromISO(item).toFormat(DATETIME_FORMAT)
     },

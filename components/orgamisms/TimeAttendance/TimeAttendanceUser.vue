@@ -98,6 +98,7 @@
               :id="timesheetId"
               :startOfWeek="weekDates.from"
               @timesheet-submitted="onTimesheetSubmitted"
+              @day-view="enterDetail"
             ></list-week>
             <no-record v-else />
           </template>
@@ -357,6 +358,12 @@ export default {
       if (!event) return;
       await this.fillDailyTimeEntries();
       // this.loading = false;
+    },
+    async enterDetail(item){
+      const date = item.date
+      this.todayDate = DateTime.fromISO(date).toFormat(DATETIME_FORMAT)
+      this.$router.push({ query: { view: "day" } });
+      await this.fillDailyTimeEntries();
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();

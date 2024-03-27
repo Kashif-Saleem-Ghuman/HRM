@@ -50,9 +50,7 @@
                   )} by  ${getEmployeeFullName(refusalReasonData.manager)}`
                 }}
               </div>
-              <div>
-                Reason: {{ refusalReasonData.refusalReason }}
-              </div>
+              <div>Reason: {{ refusalReasonData.refusalReason }}</div>
             </div>
           </div>
         </div>
@@ -63,7 +61,7 @@
           {{ getSubmitText() }}
         </div>
       </div>
-      <div class="footer-item-left" v-else>{{ getSubmitText() }}</div>
+      <div class="footer-item-left" v-else v-html="getSubmitText()"></div>
       <div class="footer-item-right d-flex align-center">
         <div v-if="status === 'approved' || status === 'pending'">
           <chips
@@ -148,7 +146,11 @@ export default {
         this.status == TIMESHEET_STATUSES.NOT_SUBMITTED ||
         this.status == TIMESHEET_STATUSES.PAST_DUE
       )
-        return "Submit your weekly timesheet";
+        return `${
+          this.status === "past_due"
+            ? 'Submit your <div class="text-bold text-primary-24" style="padding:0 5px">Past Due</div> timesheet'
+            : "Submit your weekly timesheet"
+        }`;
       return `Timesheet is ${this.getStatusLabel()?.toLowerCase()}`;
     },
     getSubmitIcon() {
@@ -249,10 +251,10 @@ export default {
     }
   }
 }
-.bottom-border-remove{
-  border-bottom: 0px !important
+.bottom-border-remove {
+  border-bottom: 0px !important;
 }
-.margin-minus{
-  margin-top: -16px
+.margin-minus {
+  margin-top: -16px;
 }
 </style>

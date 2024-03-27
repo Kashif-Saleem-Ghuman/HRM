@@ -65,7 +65,10 @@
                 class="d-flex align-center text-left gap-05"
                 style="position: relative"
               >
-                <div style="cursor: pointer">
+                <div
+                  class="cursor-pointer"
+                  v-on:mouseover="profiletab('id_' + item.id)"
+                  v-on:mouseleave="profiletab('id_' + item.id, true)">
                   <bib-avatar
                     variant="secondary-sub3"
                     :text="
@@ -83,6 +86,15 @@
                     size="2.3rem"
                   >
                   </bib-avatar>
+                  <div :id="'id_' + item.id" class="userCard">
+                    <user-info-card
+                      :user="item"
+                      @viewProfile="viewProfile(item.id)"
+                      @sendMeet.stop="sendMeet(item.userId)"
+                      @sendMessage="sendMessage(item.userId)"
+                      :active="item.active"
+                    ></user-info-card>
+                  </div>
                 </div>
                 <div class="info_wrapper">
                   <div class="title" style="text-transform: capitalize;">
@@ -154,6 +166,10 @@
 </template>
 
 <script>
+import {
+  sendMeet,
+  sendMessage
+} from "@/utils/functions/functions_lib";
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { WEEK_DAY } from "../../utils/constant/Constant";
 
@@ -244,6 +260,8 @@ export default {
     this.cols.shift();
   },
   methods: {
+    sendMeet,
+    sendMessage,
     formatIsoDateToYYYYMMDD,
     clickItem(key) {
       this.$emit("item-dblclicked", this.sections[key]);
@@ -267,6 +285,14 @@ export default {
         event: event,
         column: this.cols[key],
       });
+    },
+    viewProfile(id) {
+      this.$router.push("/profile/" + id);
+    },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
     },
   },
   computed: {
@@ -307,7 +333,7 @@ export default {
       border: $gray4 1px solid;
       border-top: none;
       text-align: left;
-      
+
       &:not(:last-child) {
         border-right: none;
       }

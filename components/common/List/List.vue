@@ -89,7 +89,6 @@ import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../utils/constant/Constant.js";
 import {
-  sendMeet,
   sendMessage,
   handleItemClick_Table,
   meetLink,
@@ -142,7 +141,6 @@ export default {
     }),
   },
   methods: {
-    sendMeet,
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,

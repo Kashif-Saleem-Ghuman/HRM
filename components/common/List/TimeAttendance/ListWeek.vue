@@ -2,56 +2,55 @@
   <div>
     <bib-table
       :fields="tableFields"
-      class="bg-white"
+      class="bg-white align-wrapper"
       :sections="activityReportsList"
       :hide-no-column="true"
       :showTotal="true"
       :fixHeader="true"
       v-if="id >= 0"
       @item-clicked="tableItemClick"
-      
     >
       <template #cell(name)="data">
-          <div class="text-gray1 font-md text-left font-w-500 cursor-pointer">
-            <div :class="getClassName(data.value.date)">
-              {{ getWeekDay(data.value.weekDayLabel) }}
-            </div>
-            <div :class="getClassName(data.value.date)">
-              {{ dateFormat(data.value.date) }}
-            </div>
+        <div class="text-gray1 font-md text-left font-w-500 cursor-pointer">
+          <div :class="getClassName(data.value.date)">
+            {{ getWeekDay(data.value.weekDayLabel) }}
           </div>
+          <div :class="getClassName(data.value.date)">
+            {{ dateFormat(data.value.date) }}
+          </div>
+        </div>
       </template>
       <template #cell(in)="data">
         <div class="cursor-pointer">
-        <chips
-          :defaultPointer="true"
-          :title="getInOut(data.value.in)"
-          :className="getInOutClass(data.value.entryExists)"
-          centerAlign="d-align"
-        ></chips>
-      </div>
+          <chips
+            :defaultPointer="true"
+            :title="getInOut(data.value.in)"
+            :className="getInOutClass(data.value.entryExists)"
+            centerAlign="d-align"
+          ></chips>
+        </div>
       </template>
       <template #cell(break)="data">
         <div class="cursor-pointer">
-        <chips
-          :defaultPointer="true"
-          :title="getInOut(data.value.break)"
-          :className="getInOutClass(data.value.entryExists)"
-          class="d-align text-center"
-          centerAlign="d-align"
-        ></chips>
-      </div>
+          <chips
+            :defaultPointer="true"
+            :title="getInOut(data.value.break)"
+            :className="getInOutClass(data.value.entryExists)"
+            class="d-align text-center"
+            centerAlign="d-align"
+          ></chips>
+        </div>
       </template>
       <template #cell(out)="data">
         <div class="cursor-pointer">
-        <chips
-          :defaultPointer="true"
-          :title="getInOut(data.value.out)"
-          :className="getInOutClass(data.value.entryExists)"
-          class="cursor-pointer"
-          centerAlign="d-align"
-        ></chips>
-      </div>
+          <chips
+            :defaultPointer="true"
+            :title="getInOut(data.value.out)"
+            :className="getInOutClass(data.value.entryExists)"
+            class="cursor-pointer"
+            centerAlign="d-align"
+          ></chips>
+        </div>
       </template>
       <template #cell(total)="data">
         <div
@@ -171,7 +170,7 @@ export default {
   methods: {
     formatTime,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
@@ -186,7 +185,9 @@ export default {
       this.$emit("day-view", item);
     },
     dateFormat(item) {
-      return item == null ? "---" : DateTime.fromISO(item).toFormat(DATETIME_FORMAT)
+      return item == null
+        ? "---"
+        : DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
     getClassName(value) {
       return this.todayDate === this.dateFormat(value) ? "text-bold" : "";
@@ -211,3 +212,20 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.align-wrapper {
+  tr.table__hrow {
+    th {
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        span {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+</style>

@@ -172,7 +172,7 @@ export default {
     async callAction(data, value){
       if(value === 'View Profile') return this.viewProfile(data.value.id);
       if(value === 'Send Message') return this.sendMessage(data.value.userId);
-      if(value === 'Call') return await this.makeCall(data.value.userId, this.getUser.userId);
+      if(value === 'Meet') return await this.makeCall(data.value.userId, this.getUser.userId);
     },
     getStatusTitle(data) {
       const timers = data.timers ?? [];

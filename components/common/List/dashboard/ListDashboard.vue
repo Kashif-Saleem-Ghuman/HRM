@@ -112,7 +112,6 @@ import {
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import {
-  sendMeet,
   sendMessage,
   handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
@@ -162,7 +161,6 @@ export default {
   },
   methods: {
     dateCheck,
-    sendMeet,
     sendMessage,
     handleItemClick_Table,
     getEmployeeFullName,

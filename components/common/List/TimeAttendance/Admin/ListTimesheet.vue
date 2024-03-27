@@ -35,7 +35,7 @@
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
-                @sendMeet="sendMeet(data.value.userId)"
+                @sendMeet="makeCall(getUser.userId, data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.active"
               ></user-info-card>
@@ -105,9 +105,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import {
-  sendMeet,
+  makeCall,
   sendMessage,
+  meetLink,
   handleItemClick_Table,
 } from "../../../../../utils/functions/functions_lib";
 import { sortColumn } from "../../../../../utils/functions/table-sort";
@@ -179,13 +182,17 @@ export default {
       return 25;
     }
     },
+    ...mapGetters({
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
   },
   methods: {
     formatHoursToHHMM,
     getStatusIcon,
     getStatusVariant,
-    sendMeet,
     sendMessage,
+    makeCall,
+    meetLink,
     handleItemClick_Table,
     getEmployeeFullName,
     getEmployeeInitials,

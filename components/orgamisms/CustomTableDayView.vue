@@ -90,7 +90,7 @@
                     <user-info-card
                       :user="item"
                       @viewProfile="viewProfile(item.id)"
-                      @sendMeet.stop="sendMeet(item.userId)"
+                      @sendMeet.stop="makeCall(getUser.userId, item.userId)"
                       @sendMessage="sendMessage(item.userId)"
                       :active="item.active"
                     ></user-info-card>
@@ -166,9 +166,11 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import {
-  sendMeet,
-  sendMessage
+  meetLink,
+  sendMessage,
+  makeCall
 } from "@/utils/functions/functions_lib";
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { WEEK_DAY } from "../../utils/constant/Constant";
@@ -260,8 +262,9 @@ export default {
     this.cols.shift();
   },
   methods: {
-    sendMeet,
+    meetLink,
     sendMessage,
+    makeCall,
     formatIsoDateToYYYYMMDD,
     clickItem(key) {
       this.$emit("item-dblclicked", this.sections[key]);
@@ -299,6 +302,9 @@ export default {
     activeClass() {
       return (keyI) => (this.sections[keyI].active ? "active" : "");
     },
+    ...mapGetters({
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
   },
 };
 </script>

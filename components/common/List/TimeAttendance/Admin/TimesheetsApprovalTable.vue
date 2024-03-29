@@ -278,7 +278,7 @@ export default {
 
       if (hours >= "08") return "chip-wrapper__bgsucess";
 
-      if (hours <= "07" && hours >= "05") return "chip-wrapper__bgabsent";
+      if (hours <= "08" && hours >= "05") return "chip-wrapper__bgabsent";
 
       if (hours <= "05") return "chip-wrapper__bgabsentpink";
 

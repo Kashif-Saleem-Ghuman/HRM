@@ -180,7 +180,7 @@ export default {
   }
 
   &__bgabsent {
-    background-color: rgba(255, 171, 0, 0.16);
+    background-color: rgba(255, 171, 0, 0.16) !important;
     svg {
       fill: #ffab00 !important;
     }

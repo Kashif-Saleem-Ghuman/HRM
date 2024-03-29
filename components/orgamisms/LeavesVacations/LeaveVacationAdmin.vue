@@ -93,7 +93,7 @@ export default {
 }
 .fc-theme-standard {
   th {
-    background-color: #fff !important;
+    background-color: $white !important;
     // padding: 5px 0;
     border-right: 0px;
     border-left: 0px;
@@ -106,7 +106,7 @@ export default {
   border: 1px solid #eee !important;
 }
 .fc-day-today {
-  background-color: #fff !important;
+  background-color: $white !important;
 }
 .fc-daygrid-event-harness {
   a {
@@ -114,9 +114,9 @@ export default {
   }
 }
 .fc-button-primary {
-  color: #ffffff;
-  background-color: #000 !important;
-  border-color: #ffffff !important;
+  color: $white;
+  background-color: $black !important;
+  border-color: $white !important;
   border-radius: 6px;
   padding-right: 10px;
 }
@@ -176,7 +176,6 @@ export default {
   height: 3rem;
   // justify-content: center;
   align-items: center;
-  // background-color: #f2f2f5;
 
   &__shape-circle {
     width: 3rem;
@@ -198,8 +197,8 @@ export default {
   }
 
   &__bghoilday {
-    background-color: #1f42a2;
-    color: #fff;
+    background-color:  $primary;
+    color: $white;
   }
   &__bgvacation {
     background-color: #f2f2f2;
@@ -209,37 +208,37 @@ export default {
     color: #e6000e;
   }
   &__bgpending {
-    background-color: #ffffff;
+    background-color: $white;
     border: 1px solid #e1e0e0;
     svg {
-      fill: #b1b1b4 !important;
+      fill: $secondary-sub1 !important;
     }
     span {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       font-weight: 600;
       font-size: 14px;
     }
   }
   &__bgdefault {
-    background-color: #ffffff;
+    background-color: $white;
     border: 1px solid #e1e0e0;
     svg {
-      fill: #b1b1b4 !important;
+      fill: $secondary-sub1 !important;
     }
     span {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       font-weight: 600;
       font-size: 14px;
     }
   }
   &__bggray {
-    background-color: #f2f2f5;
+    background-color: $secondary-sub3;
     border-radius: 0.5rem;
     svg {
-      fill: #000 !important;
+      fill: $black !important;
     }
     span {
-      color: #000;
+      color: $black;
       font-weight: 600;
       font-size: 14px;
     }
@@ -248,7 +247,7 @@ export default {
     }
   }
   &__bgwhite {
-    background-color: #fff;
+    background-color: $white;
     border-radius: 0.5rem;
     color: #eee;
     span {

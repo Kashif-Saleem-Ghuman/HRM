@@ -3,13 +3,6 @@ html,
 body {
   font-family: $font-family;
 }
-$input-label-color: #85858f;
-$input-label-size: 12px;
-$input-bg-color: #f8f8f9;
-$input-placeholder-color: #b1b1b4;
-$input-border-color: #e8e8eb;
-$input-borderradius: 4px;
-$validation-star-color: #fa0f00;
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;
@@ -43,7 +36,7 @@ $validation-star-color: #fa0f00;
   }
 }
 .switcher_label {
-  color: #86868a;
+  color: $dark;
 }
 .py-cus {
   padding: 24px 0;
@@ -63,16 +56,10 @@ $validation-star-color: #fa0f00;
 }
 .custom-input {
   input {
-    // background-color: $input-bg-color;
-    // border: 1px solid $input-border-color;
-    // // font-size: 11px !important;
     margin-bottom: 16px !important;
-    // border-radius:$input-borderradius;
   }
 
   label {
-    font-size: $input-label-size !important;
-    color: $input-label-color;
     font-weight: 600;
   }
 }
@@ -84,10 +71,10 @@ $validation-star-color: #fa0f00;
   cursor: pointer;
 }
 .bottom_border_wrapper {
-  border-bottom: 1px solid #f2f2f5;
+  border-bottom: 1px solid $secondary-sub3 ;
 }
 .bottom_top_wrapper {
-  border-top: 1px solid #f2f2f5;
+  border-top: 1px solid $secondary-sub3;
 }
 /** layout **/
 .row {
@@ -176,14 +163,14 @@ $validation-star-color: #fa0f00;
 .info-card-leave-wrapper {
   padding: 24px;
   font-size: 14px;
-  background: #fff;
+  background: $white;
   border-radius: 24px;
-  border: 1px solid #f2f2f5;
+  border: 1px solid $secondary-sub3;
   overflow-wrap: break-word;
   label {
     font-size: 1rem !important;
     font-weight: 600;
-    color: #1d1d20;
+    color: $dark;
   }
   .info-card-items {
     display: flex;
@@ -191,7 +178,7 @@ $validation-star-color: #fa0f00;
     align-items: center;
     .subheading {
       font-weight: 500;
-      color: #b1b1b4;
+      color: $secondary-sub1;
       margin-bottom: -10px;
       font-size: 14px;
     }
@@ -202,7 +189,7 @@ $validation-star-color: #fa0f00;
     }
     .subheading_footer {
       font-weight: 500;
-      color: #b1b1b4;
+      color: $secondary-sub1;
       margin-top: -10px;
     }
     &_desc {
@@ -224,7 +211,7 @@ $validation-star-color: #fa0f00;
       align-items: center;
       
       label {
-        color: #b1b1b4;
+        color: $secondary-sub1;
         font-weight: normal;
         font-size: 14px;
         padding-right: 10px;
@@ -245,12 +232,12 @@ $validation-star-color: #fa0f00;
   justify-content: center;
   cursor: pointer;
   &__bgsucess {
-    background-color: #2ba026;
+    background-color: $success;
     svg {
-      fill: #fff !important;
+      fill: $white !important;
     }
     span {
-      color: #fff;
+      color: $white;
       font-weight: 400;
       font-size: 14px;
     }
@@ -258,10 +245,10 @@ $validation-star-color: #fa0f00;
   &__bgprimary {
     background-color: #0741a3;
     svg {
-      fill: #fff !important;
+      fill: $white !important;
     }
     span {
-      color: #fff;
+      color: $white;
       font-weight: 400;
       font-size: 14px;
     }
@@ -269,10 +256,10 @@ $validation-star-color: #fa0f00;
   &__bgalert {
     background-color: #d9000d;
     svg {
-      fill: #fff !important;
+      fill: $white !important;
     }
     span {
-      color: #fff;
+      color: $white;
       font-weight: 400;
       font-size: 14px;
     }
@@ -280,10 +267,10 @@ $validation-star-color: #fa0f00;
   &__bgwarnning {
     background-color: #f7b500;
     svg {
-      fill: #fff !important;
+      fill: $white !important;
     }
     span {
-      color: #fff;
+      color: $white;
       font-weight: 400;
       font-size: 14px;
     }
@@ -329,7 +316,7 @@ $validation-star-color: #fa0f00;
   border-right: none !important;
 }
 .table__irow td {
-  color: #000 !important;
+  color: $black !important;
   border-right: none !important;
 }
 .table__irow td:first-child {

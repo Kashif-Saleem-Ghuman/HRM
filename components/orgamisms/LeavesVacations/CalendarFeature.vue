@@ -472,14 +472,14 @@ export default {
       width: 100%;
       // border: 1px solid var(--bib-gray4);
       color: var(--bib-dark);
-      background-color: #000;
-      color: #fff;
+      background-color: $black;
+      color: $white;
       padding: 0 10px;
       border-radius: 6px;
       // border-right: 10px solid transparent;
       option {
-        background-color: #fff;
-        color: #000;
+        background-color: $white;
+        color: $black;
       }
     }
   }
@@ -530,7 +530,7 @@ export default {
     position: relative;
     white-space: unset !important;
     word-wrap: break-word !important;
-    background-color: #000;
+    background-color: $black;
   }
 
   &__employee_info {
@@ -555,18 +555,14 @@ export default {
   background-color: #f8f8f9;
   font-size: 14px;
   th {
-    // padding: 5px 0;
-    // border-right: 0px;
-    // border-left: 0px;
     .fc-scrollgrid-sync-inner {
       padding: 0.5rem !important;
       font-weight: 400;
       font-size: 14px !important;
-      color: #1d1d20;
-      border-right: 1px solid #f2f2f5;
-      border-left: 1px solid #f2f2f5;
+      color: $dark;
+      border-right: 1px solid $secondary-sub3;
+      border-left: 1px solid $secondary-sub3;
       border-top: 0px !important;
-      // border-bottom: 0px solid #000 !important;
     }
   }
 }
@@ -585,19 +581,16 @@ export default {
   -webkit-box-shadow: inset 0 0 6px rgb(216, 216, 216);
 }
 .fc-theme-standard td {
-  border: 1px solid #f2f2f5 !important;
+  border: 1px solid $secondary-sub3 !important;
 }
 .fc-theme-standard th {
-  border-top: 0px solid #000 !important;
+  border-top: 0px solid $black !important;
   z-index: 9999;
   border-bottom: 0px !important;
 }
 
-// .fc-theme-standard th {
-//   border: 10px solid #f2f2f5 !important;
-// }
 .fc-day-today {
-  background-color: #fff !important;
+  background-color: $white !important;
   font-weight: bold;
 }
 
@@ -632,7 +625,6 @@ export default {
   border-radius: 6px;
   border: none;
   display: flex;
-  // background-color: #fff !important;
   align-items: center;
 
   &__bgevent {
@@ -651,17 +643,17 @@ export default {
   }
 
   &__bghoilday {
-    background-color: #1f42a2 !important;
-    color: #fff;
+    background-color:  $primary !important;
+    color: $white;
   }
   &__bgvacations {
     background-color: #d5e8d4;
-    color: #2ba026;
+    color: $success;
     label {
-      color: #2ba026;
+      color: $success;
     }
     span {
-      color: #2ba026;
+      color: $success;
       text-transform: capitalize;
     }
   }
@@ -671,27 +663,27 @@ export default {
     text-transform: capitalize;
   }
   &__bgpending {
-    background-color: #ffffff;
+    background-color: $white;
     border: 1px solid #e1e0e0;
     svg {
-      fill: #b1b1b4 !important;
+      fill: $secondary-sub1 !important;
     }
     span {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       font-weight: 600;
       font-size: 14px;
     }
   }
 }
 .fc-h-event {
-  background-color: #fff !important;
+  background-color: $white !important;
   border: none !important;
 }
 .fc-event:focus::after {
   background-color: none !important;
 }
 .fc-event-main {
-  background-color: #f2f2f5 !important;
+  background-color: $secondary-sub3 !important;
 }
 .fc-event:focus {
   box-shadow: none !important;

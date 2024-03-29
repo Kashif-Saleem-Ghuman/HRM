@@ -110,7 +110,6 @@ export default {
   display: flex;
   justify-content: center;
   .vdpComponent__input{
-    // background-color: #fff !important;
     border: 1px solid $gray4 !important;
     min-width: 180px !important;
   }
@@ -123,7 +122,7 @@ export default {
     justify-content: center;
     align-items: center;
     label {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       padding-right: 0.5rem;
     }
   }

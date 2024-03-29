@@ -39,7 +39,7 @@ $date-btn-height: calc($date-btn-width / $btn-aspect-ratio);
 $padding-value: 10px;
 $border-radius-value: 5%;
 $disabled-background: #e7e7e7;
-$dropdown-background: #fff;
+$dropdown-background: $white;
 $dropdown-item-hover-bg: #f0f0f0;
 $dropdown-item-padding: 8px;
 

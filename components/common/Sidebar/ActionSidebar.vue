@@ -137,11 +137,11 @@ export default {
   bottom: 0;
   background-color: $white;
   right: 0px;
-  border-left: 1px solid #f2f2f5;
+  border-left: 1px solid $secondary-sub3;
   label {
     font-size: 14px;
     font-weight: 600;
-    color: #1d1d20;
+    color: $dark;
   }
   // box-shadow: 5px 2px 15px $gray6;
   &__slide-in {

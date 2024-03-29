@@ -255,7 +255,7 @@ export default {
   height: max-content;
   margin: 0;
   border: none !important;
-  color: #1d1d20;
+  color: $dark;
   .bold-text {
     input {
       font-weight: bold;

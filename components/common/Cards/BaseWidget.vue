@@ -166,10 +166,9 @@ $text-font-size: 14px;
   height: 100%;
   padding: 24px;
   font-size: $text-font-size;
-  background: #fff;
+  background: $white;
   border-radius: 24px;
-  border: 1px solid #f2f2f5;
-  // overflow-wrap: break-word;
+  border: 1px solid $secondary-sub3;
 
   label {
     font-size: 1rem;
@@ -183,7 +182,7 @@ $text-font-size: 14px;
 
     &__subheading {
       font-weight: 500;
-      color: #b1b1b4;
+      color: $secondary-sub1;
       margin-bottom: -10px;
       font-size: $text-font-size;
     }
@@ -196,7 +195,7 @@ $text-font-size: 14px;
 
     .subheading_footer {
       font-weight: 500;
-      color: #b1b1b4;
+      color: $secondary-sub1;
       margin-top: -10px;
     }
 
@@ -234,7 +233,7 @@ $text-font-size: 14px;
       align-items: center;
 
       label {
-        color: #b1b1b4;
+        color: $secondary-sub1;
         font-weight: normal;
         font-size: $text-font-size;
       }
@@ -261,7 +260,7 @@ $text-font-size: 14px;
       // height: 40px;
 
       &__title {
-        color: #b1b1b4;
+        color: $secondary-sub1;
         font-size: $text-font-size;
         font-weight: 500;
       }

@@ -57,7 +57,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .nav_wrapper {
-  border-bottom: 1px solid #f2f2f5;
+  border-bottom: 1px solid $secondary-sub3;
 }
 
 .page_title {

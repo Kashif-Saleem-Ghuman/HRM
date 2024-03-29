@@ -305,7 +305,7 @@ export default {
   &__sucess {
     background-color: #d5e8d4;
     span {
-      color: #2ba026;
+      color: $success;
       font-weight: 500;
       font-size: 14px;
     }
@@ -322,7 +322,7 @@ export default {
   &__vacation {
     background-color: rgba(31, 66, 162, 0.16);
     span {
-      color: #1f42a2;
+      color:  $primary;
       font-weight: 500;
       font-size: 14px;
     }
@@ -336,9 +336,9 @@ export default {
     }
   }
   &__default {
-    background-color: #ffffff;
+    background-color: $white;
     span {
-      color: #000;
+      color: $black;
       font-weight: 500;
       font-size: 14px;
     }

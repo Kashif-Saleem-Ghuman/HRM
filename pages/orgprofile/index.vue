@@ -277,7 +277,7 @@ export default {
     padding-left: 1rem;
     label {
       font-size: 18px;
-      color: #000;
+      color: $black;
       display: block;
       font-weight: 600;
     }

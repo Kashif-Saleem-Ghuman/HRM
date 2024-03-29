@@ -458,7 +458,7 @@ export default {
 }
 .uneditable-cell {
   label {
-    color: #000;
+    color: $black;
     font-size: 14px !important;
     padding-left: 10px !important;
   }

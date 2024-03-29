@@ -192,17 +192,17 @@ export default {
   display: flex;
   border: 1px dotted $gray4 !important;
   justify-content: space-between;
-  background-color: #fff;
+  background-color: $white;
   align-items: flex-start;
   border-radius: 6px;
   padding: 10px;
   margin: 20px 0;
   .input--file {
-    background: #fff;
+    background: $white;
     margin: 0 10px;
     border-radius: 6px;
     div {
-      background-color: #fff;
+      background-color: $white;
       border-radius: 10px;
       max-height: 150px !important;
       div:nth-child(1) {

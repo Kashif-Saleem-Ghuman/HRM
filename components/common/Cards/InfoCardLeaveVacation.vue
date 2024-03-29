@@ -211,7 +211,7 @@ export default {
   display: flex;
   align-items: center;
   width: 4.5rem;
-  background-color: #fff;
+  background-color: $white;
   justify-content: left;
 
   &__action-icon {
@@ -227,7 +227,7 @@ export default {
 .edit-allowance-icon {
   cursor: pointer;
   position: absolute;
-  background-color: #fff;
+  background-color: $white;
   border-radius: 6px;
   top: 0;
   right: -1px;

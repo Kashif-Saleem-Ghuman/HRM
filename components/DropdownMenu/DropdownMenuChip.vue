@@ -65,7 +65,7 @@ export default {
   position: relative;
   .menu-items {
     position: absolute;
-    background-color: #fff;
+    background-color: $white;
     width: 10px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
@@ -75,7 +75,7 @@ export default {
 }
 }
 .chip-wrapper-com {
-  background-color: #fff !important;
+  background-color: $white !important;
   width: 157px !important;
   z-index: 99999999999;
   border-radius: 6px !important;
@@ -83,7 +83,6 @@ export default {
   // padding: 10px;
   .chip-wrapper-inner {
     box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
-    // box-shadow: 0 1rem 0.8rem 0.8rem #000, 0.3 !important;
     border-radius: 6px !important;
     padding: 0.5rem 0.5rem 0 0.5rem;
   }

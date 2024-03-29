@@ -55,7 +55,7 @@ export default {
     margin-top: 2px;
   }
   button {
-    background-color: #fff;
+    background-color: $white;
     border: 0;
     margin-top: 2px;
     text-decoration: underline;

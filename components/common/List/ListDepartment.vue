@@ -68,7 +68,7 @@ export default {
 }
 .first_letter {
   padding: 10px 12px;
-  background-color: #f2f2f5;
+  background-color: $secondary-sub3;
   border-radius: 8px;
   margin-right: 8px;
 }

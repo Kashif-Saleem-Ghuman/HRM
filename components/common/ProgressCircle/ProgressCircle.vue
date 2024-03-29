@@ -17,7 +17,7 @@
       :show-percent="false"
     >
      <div class="font-sm">
-      <div class="#86868a font-sm" v-if="progressTitle">{{ progressTitle }}</div>
+      <div class="font-sm" v-if="progressTitle">{{ progressTitle }}</div>
       <div class="font-w-600">
          {{ progressPercentage }}
       </div>
@@ -73,7 +73,7 @@ export default {
     height: 50px;
     width: 50px;
     p {
-      color: #2ba026;
+      color: $success;
     }
   }
 }

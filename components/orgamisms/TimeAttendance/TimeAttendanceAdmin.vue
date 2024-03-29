@@ -84,7 +84,7 @@ export default {
       padding: 5px 10px;
       line-height: 30px;
       text-decoration: none;
-      color: #000;
+      color: $black;
       background-color: #d5e8d4;
       border: 1px solid #8dd488;
       margin-left: -1px;
@@ -121,7 +121,7 @@ export default {
     &:hover,
     &:focus {
       z-index: 3;
-      color: #fff;
+      color: $white;
       background-color: #31a22c;
       // border-color: @pagination-active-border;
       cursor: default;

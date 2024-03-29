@@ -87,7 +87,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f2f2f5;
+  background-color: $secondary-sub3;
 
   &__shape-circle {
     width: 3rem;
@@ -103,10 +103,10 @@ export default {
   &__bgsucess {
     // background-color: #d5e8d4;
     svg {
-      fill: #2ba026 !important;
+      fill: $success !important;
     }
     span {
-      color: #2ba026;
+      color: $success;
       font-weight: 500;
       font-size: 14px;
     }
@@ -125,10 +125,10 @@ export default {
   &__bgvacation {
     // background-color: rgba(31, 66, 162, 0.16);
     svg {
-      fill: #1f42a2 !important;
+      fill: $primary !important;
     }
     span {
-      color: #1f42a2;
+      color:  $primary;
       font-weight: 500;
       font-size: 14px;
     }
@@ -168,12 +168,12 @@ export default {
 
   &__bgsucess {
     background-color: #d5e8d4;
-    color: #2ba026;
+    color: $success;
     svg {
-      fill: #2ba026 !important;
+      fill: $success !important;
     }
     span {
-      color: #2ba026 !important;
+      color: $success !important;
       font-weight: 400;
       font-size: 14px;
     }
@@ -204,10 +204,10 @@ export default {
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
     svg {
-      fill: #1f42a2 !important;
+      fill:  $primary !important;
     }
     span {
-      color: #1f42a2;
+      color:  $primary;
       font-weight: 400;
       font-size: 14px;
     }
@@ -224,34 +224,34 @@ export default {
     }
   }
   &__bgpending {
-    background-color: #ffffff;
+    background-color: $white;
     border: 1px solid #e1e0e0;
     svg {
-      fill: #b1b1b4 !important;
+      fill: $secondary-sub1 !important;
     }
     span {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       font-weight: 400;
       font-size: 14px;
     }
   }
   &__bgdefault {
-    background-color: #ffffff;
+    background-color: $white;
     border: 1px solid #e1e0e0;
     svg {
-      fill: #b1b1b4 !important;
+      fill: $secondary-sub1 !important;
     }
     span {
-      color: #b1b1b4;
+      color: $secondary-sub1;
       font-weight: 400;
       font-size: 14px;
     }
   }
   &__bggray {
-    background-color: #f2f2f5;
+    background-color: $secondary-sub3;
     border-radius: 0.5rem;
     svg {
-      fill: #000 !important;
+      fill: $black !important;
     }
     span {
       color: #999;
@@ -262,19 +262,6 @@ export default {
       text-transform: uppercase;
     }
   }
-  &__bgwhite {
-    background-color: #fff;
-    border-radius: 0.5rem;
-    color: #eee;
-    span {
-      color: #e2e2e3;
-      font-weight: 400;
-      font-size: 14px;
-    }
-    // span:first-letter{
-    //   text-transform: uppercase
-    // }
-  }
 }
 .chip-wrapper-without-bg {
   border-radius: 1rem;
@@ -283,7 +270,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: $white;
   font-size: 14px;
   &__shape-circle {
     width: 3rem;
@@ -294,51 +281,6 @@ export default {
     width: 3rem;
     height: 3rem;
     border-radius: 5px;
-  }
-
-  &__bgsucess {
-    // background-color: #d5e8d4;
-    // svg {
-    //   fill: #2ba026 !important;
-    // }
-    span {
-      // color: #2ba026;
-      // font-weight: 500;
-      // font-size: 14px;
-    }
-  }
-  &__bgabsent {
-    // background-color: rgba(255, 171, 0, 0.16);
-    // svg {
-    //   fill: #ffab00 !important;
-    // }
-    span {
-      // color: #ffab00;
-      // font-weight: 500;
-      // font-size: 14px;
-    }
-  }
-  &__bgrejected {
-    // background-color: rgba(31, 66, 162, 0.16);
-    // svg {
-    //   fill: #000 !important;
-    // }
-    span {
-      // color: #1f42a2;
-      // font-weight: 500;
-      // font-size: 14px;
-    }
-  }
-  &__bgabsentpink {
-    // background-color: rgba(230, 0, 14, 0.16);
-    // svg {
-    //   fill: #e6000e !important;
-    // }
-    span {
-      // color: #e6000e;
-      // font-weight: 500;
-      // font-size: 14px;
-    }
   }
 }
 .text-bold {

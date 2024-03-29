@@ -110,7 +110,7 @@ export default {
   display: none;
   position: absolute;
   padding: 24px;
-  background-color: #fff;
+  background-color: $white;
   z-index: 200000;
   border-radius: 10px;
   // width: 350px;
@@ -120,7 +120,7 @@ export default {
     max-width: 300px;
     label {
       font-weight: 600;
-      color: #000;
+      color: $black;
       display: flex;
       font-size: 16px !important;
       flex-direction: column;
@@ -138,7 +138,7 @@ export default {
         color: #6a6d76;
       }
       .phone_color {
-        color: #1f42a2;
+        color:  $primary;
       }
       p {
         padding: 1px 0;
@@ -158,7 +158,7 @@ export default {
 
           &.online {
             background-color: #d6f6d5;
-            color: #2ba026;
+            color: $success;
           }
         }
       }

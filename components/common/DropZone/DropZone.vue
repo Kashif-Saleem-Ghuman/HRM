@@ -267,7 +267,6 @@ export default {
 .vue-dropzone > .dz-preview .dz-remove {
   border-radius: 50%;
   margin-bottom: -50px;
-  //    background-color: #000;
   opacity: 1 !important;
   line-height: 100px;
   border: 0px $light solid;
@@ -276,7 +275,6 @@ export default {
   margin-bottom: -20px;
   width: 120px;
   height: 120px;
-  // display:none;
 }
 .vue-dropzone > .dz-preview .dz-filename {
   display: none;
@@ -288,7 +286,7 @@ export default {
   background-color: transparent !important;
 }
 .vue-dropzone > .dz-preview .dz-remove:hover {
-  color: #fff;
+  color: $white;
   background-color: none;
   border: 0px $light solid;
   line-height: 100px;

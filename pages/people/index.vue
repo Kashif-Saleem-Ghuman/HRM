@@ -185,7 +185,7 @@ export default {
     }
     .active {
       color: #fff !important;
-      background-color: #000 !important;
+      background-color: $black !important;
     }
   }
 }

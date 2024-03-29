@@ -29,16 +29,16 @@
     border-radius: 24px;
     width: 100%;
     height: 100%;
-    color: #fff;
+    color: $white;
     & label{
       font-size: 14px !important;
-      color: #fff;
+      color: $white;
     }
     &__bg-green{
       background-color: #6bbf68;
     }
     &__bg-black{
-      background-color: #000;
+      background-color: $black;
     }
     ul {
       padding: 24px 0 0 0;

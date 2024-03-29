@@ -253,7 +253,7 @@ export default {
   // padding: 0px;
 }
 .border-wrapper-box {
-  border: 1px solid #f2f2f5;
+  border: 1px solid $secondary-sub3;
   padding: 16px 16px 8px 16px;
   border-radius: 6px;
   margin-bottom: 1rem;

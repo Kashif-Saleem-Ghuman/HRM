@@ -95,19 +95,19 @@ export default {
   user-select: none;
   $self: &;
   &--lightsuccess {
-    background-color: #000 !important;
+    background-color: $black !important;
     display: flex;
     align-items: center;
     height: 32px;
     // max-width: 140px;
-    color: #fff !important;
+    color: $white !important;
     svg {
-      fill: #fff !important;
+      fill: $white !important;
     }
     span {
       font-weight: 500;
       font-size: 14px;
-      color: #fff !important;
+      color: $white !important;
     }
     &:focus,
     &:active,

@@ -234,10 +234,10 @@ export default {
   align-items: center;
   justify-content: center;
   span {
-    color: #fff;
+    color: $white;
   }
   svg {
-    fill: #fff !important;
+    fill: $white !important;
   }
 }
 .active-button {
@@ -250,16 +250,16 @@ export default {
 .time-log-wrapper {
   header {
     font-size: 14px;
-    color: #fff;
+    color: $white;
     margin-bottom: 10px;
   }
 
   .time-log-item {
     display: flex;
     justify-content: space-between;
-    border-top: dotted 1px #fff;
+    border-top: dotted 1px $white;
     padding: 10px 0;
-    color: #fff;
+    color: $white;
   }
 }
 .stop-watch {

@@ -157,7 +157,7 @@ export default {
     list-style: none;
     text-align: left;
     border-radius: 0.5rem;
-    background-color: #000;
+    background-color: $black;
     z-index: 10000;
     padding: 0 10px;
     ul {
@@ -165,7 +165,7 @@ export default {
       padding: 0 15px 0 10px;
       position: absolute;
       right: 1px;
-      background-color: #fff;
+      background-color: $white;
       border-radius: 0.5rem;
       border: #f0f4f8 solid 1px;
       box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);

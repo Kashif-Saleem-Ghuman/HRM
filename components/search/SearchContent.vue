@@ -59,7 +59,7 @@ ul{
   }
   :hover{
       background-color: $light;
-      color: #000;
+      color: $black;
     }
 }
 }

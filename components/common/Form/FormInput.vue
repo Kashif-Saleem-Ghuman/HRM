@@ -113,7 +113,7 @@ export default {
 .form-date-picker {
   width: 100%;
   .vdpComponent__input {
-    background-color: #fff !important;
+    background-color: $white !important;
     border: 1px solid $gray4 !important;
     display: flex;
     align-items: center;

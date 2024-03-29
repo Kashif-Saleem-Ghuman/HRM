@@ -26,14 +26,6 @@ export default {
 <style lang="scss">
 .file__preview {
   width: 260px;
-  // align-items: center;
-  // justify-content: center;
-  // border-top-left-radius: 8px;
-  // border-top-right-radius: 8px;
-  // border: solid 1px #f2f2f5;
-  // transition: border 0.3s linear;
-  // position: relative;
-  // background: #fbfbfc;
 }
 .flex_grid {
   flex-direction: row;

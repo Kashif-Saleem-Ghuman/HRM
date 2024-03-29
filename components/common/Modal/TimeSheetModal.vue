@@ -106,7 +106,7 @@ export default {
 .timesheet-wrapper {
   padding: 1rem;
   font-size: 12px;
-  color: #86868a;
+  color: $dark;
   .list-item {
     width: 100%;
     display: flex;
@@ -120,7 +120,7 @@ export default {
     label {
       font-size: 14px;
       font-weight: 600;
-      color: #000;
+      color: $black;
     }
     .em-desc {
       font-size: 12px;

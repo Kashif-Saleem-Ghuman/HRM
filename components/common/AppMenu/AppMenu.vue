@@ -230,20 +230,17 @@ export default {
   display: flex;
   align-items: center;
   span {
-    // font-size: 30px;
     margin: 0px;
     padding-left: 6px;
   }
   &_light {
-    // background-color: #f2f2f5;
     span {
       color: #6d7278;
     }
   }
   &_dark {
-    // background-color: #2E2F31;
     span {
-      color: #86868a;
+      color: $dark;
     }
   }
 }
@@ -259,7 +256,7 @@ export default {
   }
   .custom-menu-light {
     .nav-item__label {
-      color: #fff !important;
+      color: $white !important;
     }
   }
 }

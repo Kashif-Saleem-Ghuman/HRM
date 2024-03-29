@@ -69,15 +69,15 @@ export default {
     select {
       font-size: 14px;
       width: 100%;
-      border: 1px solid #f2f2f5;
+      border: 1px solid $secondary-sub3;
       border-radius: 0.2rem;
-      background-color: #f2f2f5;
+      background-color: $secondary-sub3;
       color: #6d7278;
       padding: 10px;
       border-radius: 10px;
       border-right: 10px solid transparent;
       option {
-        background-color: #fff;
+        background-color: $white;
         color: #6d7278;
       }
     }

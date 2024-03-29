@@ -35,7 +35,7 @@ import { mapGetters } from "vuex";
     font-size: 0.8rem;
     &:hover {
       text-decoration: underline;
-      color: #000;
+      color: $black;
     }
   }
 }

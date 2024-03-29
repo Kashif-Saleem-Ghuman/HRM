@@ -206,12 +206,12 @@ export default {
 .title-user {
   font-size: 14px;
   font-weight: 600;
-  color: #1d1d20;
+  color: $dark;
 }
 
 .description {
   font-size: 14px;
   font-weight: normal;
-  color: #1d1d20;
+  color: $dark;
 }
 </style>

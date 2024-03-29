@@ -54,13 +54,13 @@ export default {
   &__sucess {
     //   background-color: #d5e8d4;
     li {
-      color: #2ba026;
+      color: $success;
 
     }
   }
   &__default {
     li {
-      color: #21db00 !important;
+      color: $success !important;
     }
   }
   &__light {

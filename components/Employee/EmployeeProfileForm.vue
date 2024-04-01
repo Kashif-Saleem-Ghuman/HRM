@@ -121,6 +121,19 @@
                           ></form-input>
                         </div>
                       </div>
+
+                      <div class="row mx-0">
+                        <div class="col-6">
+                          <form-input
+                            type="select"
+                            label="Timezone"
+                            field-key="timezone"
+                            :value="form?.timezone"
+                            :options="timezones"
+                            placeholder="Please select employee timezone"
+                          ></form-input>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -339,7 +352,7 @@ import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-
+import timezones from "../../utils/constant/timezones"
 export default {
   props: {
     show: {
@@ -349,6 +362,10 @@ export default {
   },
   data() {
     return {
+      timezones: [
+        { text: '', value: '' },
+        ...timezones.map(timezone => ({ label: timezone, value: timezone }))
+      ],
       contactFormFieds,
       employeeProfileFields,
       employeeAddressFields,

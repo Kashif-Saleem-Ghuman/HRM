@@ -23,11 +23,11 @@
                           <form-input
                             type="select"
                             label="Employee Status"
-                            field-key="status"
+                            field-key="employeeStatus"
                             :value="form.employeeStatus"
                             :options="statusOptions"
                             placeholder="Select your employee status"
-                            disabled="disabled"
+                            :disabled="disabled"
                           ></form-input>
                         </div>
                         <div class="col-6">

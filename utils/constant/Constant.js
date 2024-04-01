@@ -621,10 +621,10 @@ export const SELECT_OPTIONS = {
     // { label: "Female", value: "female" },
   ],
   esstatusOptions: [
-    { label: "ACTIVE", value: "ACTIVE" },
-    { label: "Serving notice period", value: "Serving notice period" },
-    { label: "Terminated", value: "Terminated" },
-    { label: "Relieved", value: "Relieved" },
+    { label: "ACTIVE", value: "active " },
+    { label: "Serving notice period", value: "serving_notice_period" },
+    { label: "Terminated", value: "terminated" },
+    { label: "Relieved", value: "relieved" },
     // { label: "IN ACTIVE", value: "IN ACTIVE" },
   ],
   departmentOptions: [

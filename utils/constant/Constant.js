@@ -621,8 +621,11 @@ export const SELECT_OPTIONS = {
     // { label: "Female", value: "female" },
   ],
   esstatusOptions: [
-    { label: "ACTIVE", value: "ACTIVE" },
-    { label: "IN ACTIVE", value: "IN ACTIVE" },
+    { label: "ACTIVE", value: "active " },
+    { label: "Serving notice period", value: "serving_notice_period" },
+    { label: "Terminated", value: "terminated" },
+    { label: "Relieved", value: "relieved" },
+    // { label: "IN ACTIVE", value: "IN ACTIVE" },
   ],
   departmentOptions: [
     { label: "Please choose one", value: null },

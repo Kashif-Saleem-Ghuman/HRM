@@ -10,7 +10,6 @@ import {
 } from "./app_wrapper/app_wrap_functions.js";
 
 import {
-  openPopupNotification,
   dateCheck,
   getCurrentDateMonth,
   getCurrentYear,
@@ -45,7 +44,6 @@ export {
   isThemeCheck,
   
   // From common_functions.js
-  openPopupNotification,
   dateCheck,
   getCurrentDateMonth,
   getCurrentYear,

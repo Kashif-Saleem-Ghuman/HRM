@@ -622,7 +622,10 @@ export const SELECT_OPTIONS = {
   ],
   esstatusOptions: [
     { label: "ACTIVE", value: "ACTIVE" },
-    { label: "IN ACTIVE", value: "IN ACTIVE" },
+    { label: "Serving notice period", value: "Serving notice period" },
+    { label: "Terminated", value: "Terminated" },
+    { label: "Relieved", value: "Relieved" },
+    // { label: "IN ACTIVE", value: "IN ACTIVE" },
   ],
   departmentOptions: [
     { label: "Please choose one", value: null },

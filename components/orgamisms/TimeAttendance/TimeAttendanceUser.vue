@@ -128,7 +128,6 @@ import {
   getDatetimeCommonProps,
   DATETIME_FORMAT,
 } from "../../../utils/functions/datetime-input";
-import {padWithZero} from "@/utils/functions/time";
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
@@ -266,11 +265,6 @@ export default {
     setView() {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
-    },
-    calculateTotalWorkMs({ timeEntry }) {
-      return (
-        new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
-      );
     },
     calculateDuration(start, end) {
       const startDateTime = DateTime.fromFormat(start, "HH:mm");

@@ -18,8 +18,8 @@ export default {
     model: "workEmail",
     validations: [isEmail],
   },
-  workTelephone: {
-    model: "workTelephone",
+  phone: {
+    model: "phone",
     validations: [isPhoneNumber],
   },
   workExtenstion: {

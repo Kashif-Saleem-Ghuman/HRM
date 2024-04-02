@@ -419,7 +419,17 @@ export default {
       return true;
     },
     async makeNewTimeEntry() {
-      if (!this.isStartValid()) return
+      // we accept time entry with only start time when its for current day.
+      if (isToday(this.date)) {
+        if (!this.isStartValid()) {
+          return;
+        }
+      } else {
+        if (!this.isEntryValid()) {
+          return;
+        }
+      }
+
 
       const { startDate, endDate, date } = this.calculateDates();
       try {

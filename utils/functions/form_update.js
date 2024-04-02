@@ -89,6 +89,10 @@ export function handleInputObject(event, name, emContact) {
   }
 }
 export function addHandleInput(event, name, addresses) {
+  if(name === 'isHalfday'){
+    this.isHalfday = event;
+    return
+  }
   this.addForm[name] = event;
   if (
     this.addForm.start != null ||
@@ -101,7 +105,6 @@ export function addHandleInput(event, name, addresses) {
   }
 }
 export async function selectUserHandle(event, name) {
-  console.log(event, "selectUserHandleselectUserHandleselectUserHandle")
   this.id = event;
   this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
     employeeId: this.id,

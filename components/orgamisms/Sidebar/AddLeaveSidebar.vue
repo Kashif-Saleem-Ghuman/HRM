@@ -115,6 +115,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
+      isHalfday:false,
     };
   },
   created() {

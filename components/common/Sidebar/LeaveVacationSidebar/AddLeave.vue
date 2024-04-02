@@ -101,6 +101,17 @@
             </form-datepicker>
           </div>
         </div>
+        <div class="py-05 checkbox">
+          <bib-checkbox
+            label="Half day"
+            fieldKey="isHalfDay"
+            :value="isHalfDay"
+            :checked="isHalfDay"
+            :disabled="inActive"
+            size="md"
+            @change="setValueIsHalfDay"
+          ></bib-checkbox>
+        </div>
       </div>
     </div>
     <div>
@@ -187,6 +198,9 @@ export default {
       type: Boolean,
       default: true,
     },
+    isHalfDay: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -210,6 +224,10 @@ export default {
     menuClick(value, fieldKey) {
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
+    },
+    setValueIsHalfDay(value, fieldKey) {
+      this[fieldKey] = value;
+      this.$emit("change", fieldKey, "isHalfday");
     },
 
     displayEmployeeField() {
@@ -262,7 +280,15 @@ export default {
   label {
     font-size: 14px;
     color: #85858f;
-    padding-bottom: 0.7rem;
+    margin-bottom: 0.7rem;
+  }
+  .checkbox {
+    label {
+      margin-top: 2px !important;
+    }
+  }
+  input {
+    margin-bottom: 0 !important;
   }
 }
 @media (min-width: 500px) {

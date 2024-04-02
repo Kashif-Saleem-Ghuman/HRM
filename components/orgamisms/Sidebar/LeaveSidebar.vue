@@ -22,6 +22,7 @@
           :showAllowance="showAllowance"
           :note="form.note"
           inActive="disabled"
+          :isHalfDay="isHalfDay"
           :edit="false"
         ></add-leave>
         <div class="row">
@@ -30,7 +31,11 @@
               <info-card-success
                 :label="getStatusLabel(leaveStatus.status)"
                 :managerAction="getMessage(leaveStatus.status)"
-                :icon="getStatusLabel(leaveStatus.status) === 'Rejected' ? 'tick' : getLeaveStatusIcon(leaveStatus.status)"
+                :icon="
+                  getStatusLabel(leaveStatus.status) === 'Rejected'
+                    ? 'tick'
+                    : getLeaveStatusIcon(leaveStatus.status)
+                "
                 :variant="getLeaveTypeIconVariant(leaveStatus.status)"
                 :className="getLeaveTypeClassName(leaveStatus.status)"
                 :classNameWrapper="getTextVariant(leaveStatus.status)"
@@ -85,7 +90,7 @@ import {
   apiKeyAllowanceValue,
 } from "@/utils/constant/Constant";
 import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
-import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
@@ -93,13 +98,13 @@ const CLOSE_SIDEBAR_EVENT = "close-sidebar";
 export default {
   props: {
     leaveData: {
-      type: [Array,String],
+      type: [Array, String],
       default: "",
     },
   },
   data() {
     return {
-      loading: false, 
+      loading: false,
       openSidebar: false,
       form: {},
       slideClass: "slide-in",
@@ -118,6 +123,7 @@ export default {
       deleteButtonShowHide: false,
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[1],
+      isHalfDay: null,
     };
   },
   created() {
@@ -127,7 +133,7 @@ export default {
       this.employeeNameSelectShow = true;
     });
     this.$store.dispatch("leavesdata/setLeaveVacationsAllowanceUser");
-    this.registerRootListeners()
+    this.registerRootListeners();
   },
   computed: {
     ...mapGetters({
@@ -159,9 +165,8 @@ export default {
       }
     },
   },
-  mounted(){
-    this.registerRootListeners()
-
+  mounted() {
+    this.registerRootListeners();
   },
   methods: {
     getLeaveStatusIcon,
@@ -173,7 +178,7 @@ export default {
     getLeaveTypeClassName,
     getEmployeeFullName,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     deleteLevaeVacation,
     deleteConfirmation(id) {
@@ -184,11 +189,16 @@ export default {
       this.confirmastionMessageModal = false;
     },
     getMessage(MESSAGE) {
-      const statusChangeDate = DateTime.fromISO(this.form.statusChangeDate).toFormat(DATETIME_FORMAT);
+      const statusChangeDate = DateTime.fromISO(
+        this.form.statusChangeDate
+      ).toFormat(DATETIME_FORMAT);
       const messageStatus = {
-        approved: this.form.statusChangeDate === null ? 'Request approved' : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
-          this.form.manager
-        )}`,
+        approved:
+          this.form.statusChangeDate === null
+            ? "Request approved"
+            : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
+                this.form.manager
+              )}`,
         pending: "Pending",
         rejected: `Request Rejected on ${statusChangeDate} by ${getEmployeeFullName(
           this.form.manager
@@ -219,27 +229,36 @@ export default {
       this.employeeName = this.getEmployeeFullName(item);
       this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
-
+      this.setIsHalfDay(item.selectedDays);
       if (this.$isAdmin()) {
         await this.$store
-        .dispatch("leavesdata/setLeaveVacationsAllowance", {id:item.employeeId})
-        .then((result) => {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        })
+          .dispatch("leavesdata/setLeaveVacationsAllowance", {
+            id: item.employeeId,
+          })
+          .then((result) => {
+            this.allowanceLeavesDetailedData = result;
+            this.is_data_fetched = true;
+          });
       }
 
       if (this.$isUser()) {
         await this.$store
-        .dispatch("leavesdata/setLeaveVacationsAllowanceUser",)
-        .then((result) => {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        })
+          .dispatch("leavesdata/setLeaveVacationsAllowanceUser")
+          .then((result) => {
+            this.allowanceLeavesDetailedData = result;
+            this.is_data_fetched = true;
+          });
       }
-      ;
     },
-
+    setIsHalfDay(selectedDays) {
+      for (const date in selectedDays) {
+        if (selectedDays[date] === 0.5) {
+          this.isHalfDay = true;
+          return;
+        }
+      }
+      this.isHalfDay = false;
+    },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
@@ -252,7 +271,7 @@ export default {
       });
     },
     unregisterCloseSideBarRootListener() {
-      this.$root.$off(CLOSE_SIDEBAR_EVENT)
+      this.$root.$off(CLOSE_SIDEBAR_EVENT);
     },
     registerOpenSideBarRootListener() {
       this.$root.$on(OPEN_SIDEBAR_EVENT, (item) => {
@@ -263,20 +282,20 @@ export default {
       this.$root.$off(OPEN_SIDEBAR_EVENT);
     },
     registerRootListeners() {
-      this.registerOpenSideBarRootListener()
-      this.registerCloseSideBarRootListener()
+      this.registerOpenSideBarRootListener();
+      this.registerCloseSideBarRootListener();
     },
     unregisterRootListeners() {
-      this.unregisterCloseSideBarRootListener()
-      this.unregisterOpenSideBarRootListener()
-    }
+      this.unregisterCloseSideBarRootListener();
+      this.unregisterOpenSideBarRootListener();
+    },
   },
   handleClickOutside() {
-      this.$nuxt.$emit("close-sidebar");
-    },
+    this.$nuxt.$emit("close-sidebar");
+  },
   beforeDestroy() {
-    this.unregisterRootListeners()
-  }
+    this.unregisterRootListeners();
+  },
 };
 </script>
 

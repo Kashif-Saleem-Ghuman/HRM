@@ -190,10 +190,12 @@ export default {
       );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+        if (!entry.end) return 0
         return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 
       const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
+        if (!entry.end) return 0
         return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 

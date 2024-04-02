@@ -180,15 +180,18 @@ export default {
     },
     calculateDates() {
       return {
+        date: new Date(this.date).toISOString(),
         startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.startTime),
           this.date
         ).toISOString(),
-        endDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.endTime),
-          this.getEndDate(this.startTime, this.endTime)
-        ).toISOString(),
-        date: new Date(this.date).toISOString(),
+
+        ...(this.endTime && {
+          endDate: this.hoursAndMinutesToJSDate(
+            ...this.parseInputTimeIntoArray(this.endTime),
+            this.getEndDate(this.startTime, this.endTime)
+          ).toISOString()
+        }),
       };
     },
     async editThisEntry() {
@@ -306,6 +309,31 @@ export default {
       return true;
     },
 
+
+    validateStartIsBeforeBreak() {
+      if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
+        const breakEntry =
+          this.$store.state.timeattendance.dailyTimeEntries.find(
+            (entry) => entry.activity === ACTIVITY_TYPE.BREAK && entry.end
+          );
+        const breakEntryStartTime = DateTime.fromISO(
+          breakEntry.start
+        ).toJSDate();
+        const inEntryStartTime = this.getDateFromTime(this.startTime);
+        const isBreakAfterStart = breakEntryStartTime > inEntryStartTime
+        if (!isBreakAfterStart) {
+          this.openPopupNotification({
+            text: "Your break cannot be before work start time",
+            variant: "danger",
+          });
+          this.clearStartTime();
+          this.clearEndTime();
+          return false;
+        }
+      }
+      return true;
+    },
+
     validateBreakIsWithinWorkingHours() {
       if (this.newData.activity === ACTIVITY_TYPE.BREAK && this.hasInEntry) {
         const inEntry = this.$store.state.timeattendance.dailyTimeEntries.find(
@@ -356,6 +384,11 @@ export default {
       return true;
     },
 
+    isStartValid() {
+      if (!this.startTime) return false
+      if (!this.validateStartIsBeforeBreak()) return false;
+      return true;
+    },
     isEntryValid() {
       const startAndTimeValid = this.startAndEndTimeValid();
       if (!startAndTimeValid) return false;
@@ -385,7 +418,7 @@ export default {
       return true;
     },
     async makeNewTimeEntry() {
-      if (!this.isEntryValid()) return;
+      if (!this.isStartValid()) return
 
       const { startDate, endDate, date } = this.calculateDates();
       try {

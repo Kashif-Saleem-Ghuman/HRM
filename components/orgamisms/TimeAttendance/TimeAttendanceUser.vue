@@ -121,7 +121,7 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import { isSameDate, weekToUTCWeek } from "@/utils/functions/dates";
+import {getTimeFromDate, isSameDate, weekToUTCWeek} from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { getUserTimesheetWidget } from "@/utils/functions/api_call/timeattendance/time.js";
 import {
@@ -190,11 +190,11 @@ export default {
       );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
-        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+        return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 
       const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
-        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+        return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
@@ -266,10 +266,15 @@ export default {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
     },
-    calculateTotalWorkMs({ timeEntry }) {
-      return (
-        new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
-      );
+    calculateDuration(start, end) {
+      const startDateTime = DateTime.fromFormat(start, "HH:mm");
+      let endDateTime = DateTime.fromFormat(end, "HH:mm");
+
+      if (endDateTime < startDateTime) {
+        endDateTime = endDateTime.plus({ days: 1 });
+      }
+      const duration = endDateTime.diff(startDateTime);
+      return duration;
     },
     handleNewEntryEvent() {
       this.fillDailyTimeEntries();

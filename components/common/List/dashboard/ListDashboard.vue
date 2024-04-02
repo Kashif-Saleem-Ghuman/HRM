@@ -194,7 +194,7 @@ export default {
     getTimezoneInOut(value, day) {
       const now = DateTime.now();
       const clientTimezone = now.zoneName;
-      if(!value?.activityReport?.[day] || value.timezone == clientTimezone){
+      if(!value?.activityReport?.[day] || value.timezone == clientTimezone || !value.timezone){
         return '';
       }
       let inOutTimeEntry = value.timers.length ?

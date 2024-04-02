@@ -127,6 +127,9 @@ export default {
         isToday(this.date)
       );
     },
+    isActivityIN() {
+      return this.newData.activity === ACTIVITY_TYPE.IN
+    },
     startTime: {
       get() {
         if (this.newData?.startTime) return this.newData?.startTime;
@@ -276,11 +279,8 @@ export default {
     },
 
     validateInEntryWithExistingBreak() {
-      if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
-        const breakEntry =
-          this.$store.state.timeattendance.dailyTimeEntries.find(
-            (entry) => entry.activity === ACTIVITY_TYPE.BREAK && entry.end
-          );
+      if (this.isActivityIN && this.hasBreakEntry) {
+        const breakEntry = this.findBreakEntry()
         const breakEntryStartTime = DateTime.fromISO(
           breakEntry.start
         ).toJSDate();
@@ -297,7 +297,6 @@ export default {
           breakEntryEndTime <= inEntryEndTime;
         if (!isBreakAfterInEntry) {
           this.openPopupNotification({
-            // text: "in entry start time and end time must be before break entry start and end time",
             text: "Your existing break is not within work entry time range",
             variant: "danger",
           });
@@ -309,13 +308,15 @@ export default {
       return true;
     },
 
+    findBreakEntry() {
+      return this.$store.state.timeattendance.dailyTimeEntries.find(
+        (entry) => entry.activity === ACTIVITY_TYPE.BREAK && entry.end
+      );
+    },
 
     validateStartIsBeforeBreak() {
-      if (this.newData.activity === ACTIVITY_TYPE.IN && this.hasBreakEntry) {
-        const breakEntry =
-          this.$store.state.timeattendance.dailyTimeEntries.find(
-            (entry) => entry.activity === ACTIVITY_TYPE.BREAK && entry.end
-          );
+      if (this.isActivityIN && this.hasBreakEntry) {
+        const breakEntry = this.findBreakEntry()
         const breakEntryStartTime = DateTime.fromISO(
           breakEntry.start
         ).toJSDate();

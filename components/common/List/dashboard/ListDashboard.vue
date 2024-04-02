@@ -67,7 +67,7 @@
     <template v-for="(day, dayIndex) in inOutAction" #[`cell(${day})`]="data">
       <div class="cursor-pointer">
         <chips
-          :title="getInOutValue(data.value?.activityReport?.[day])"
+          :title="getInOutActivityTime(data.value, day)"
           :className="[getInOutClass(data.value?.activityReport?.[day])]"
         ></chips>
       </div>
@@ -115,6 +115,7 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
+import {DateTime} from "luxon";
 export default {
   props: {
     userList: {
@@ -183,8 +184,29 @@ export default {
       return "Absent";
     },
 
+    getInOutActivityTime(value, day){
+      return this.getInOutValue(value?.activityReport?.[day]) + this.getTimezoneInOut(value, day)
+    },
+
     getInOutValue(data) {
       return data ?? "--";
+    },
+    getTimezoneInOut(value, day) {
+      const now = DateTime.now();
+      const clientTimezone = now.zoneName;
+      if(!value?.activityReport?.[day] || value.timezone == clientTimezone){
+        return '';
+      }
+      let inOutTimeEntry = value.timers.length ?
+        value.timers.find((timeEntry) => timeEntry.type === 'in') :
+        value.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
+      let time;
+      if(day === 'in'){
+        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: value.timezone })
+      }else{
+        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: value.timezone })
+      }
+      return ' (' + time.toLocaleString(DateTime.TIME_SIMPLE) + (value.timezone ? ' ' + value.timezone : '') + ')';
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

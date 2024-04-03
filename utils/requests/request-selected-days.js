@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
 
 export function generateRequestSelectedDays(startDate, endDate, isHalfday) {
-  console.log(isHalfday, "isHalfdayyyyyyyyyyyyyyy")
   let selectedDays = {};
 
   const start = DateTime.fromISO(startDate);

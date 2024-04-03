@@ -89,12 +89,11 @@ export function handleInputObject(event, name, emContact) {
   }
 }
 export function addHandleInput(event, name, addresses) {
-  if (name === "isHalfday") {
-    return (this.isHalfday = event);
-  } else {
-    this.isHalfday = false;
+  if (name === "isHalfDay") {
+    this.isHalfday = event;
   }
   this.addForm[name] = event;
+  console.log(this.addForm, "this.addForm");
   if (
     this.addForm.start != null ||
     this.addForm.endDate != null ||

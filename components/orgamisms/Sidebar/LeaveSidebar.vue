@@ -23,6 +23,7 @@
           :note="form.note"
           inActive="disabled"
           :isHalfDay="isHalfDay"
+          :shouldShowHalfDayCheckbox="isHalfDay"
           :edit="false"
         ></add-leave>
         <div class="row">
@@ -229,7 +230,7 @@ export default {
       this.employeeName = this.getEmployeeFullName(item);
       this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
-      this.setIsHalfDay(item.selectedDays);
+      this.setIsHalfDay(item);
       if (this.$isAdmin()) {
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowance", {
@@ -250,14 +251,9 @@ export default {
           });
       }
     },
-    setIsHalfDay(selectedDays) {
-      for (const date in selectedDays) {
-        if (selectedDays[date] === 0.5) {
-          this.isHalfDay = true;
-          return;
-        }
-      }
-      this.isHalfDay = false;
+    setIsHalfDay(item) {
+      let isHalfDay = item.isHalfDay
+        return this.isHalfDay = isHalfDay
     },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");

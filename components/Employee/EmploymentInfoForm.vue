@@ -27,7 +27,7 @@
                             :value="form.employeeStatus"
                             :options="statusOptions"
                             placeholder="Select your employee status"
-                            :disabled="disabled"
+                            :disabled="isDisabled"
                           ></form-input>
                         </div>
                         <div class="col-6">

@@ -101,7 +101,8 @@
             </form-datepicker>
           </div>
         </div>
-        <div class="py-05 checkbox">
+        <transition name="fade">
+        <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
           <bib-checkbox
             label="Half day"
             fieldKey="isHalfDay"
@@ -112,6 +113,7 @@
             @change="setValueIsHalfDay"
           ></bib-checkbox>
         </div>
+        </transition>
       </div>
     </div>
     <div>
@@ -130,6 +132,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { DateTime } from "luxon";
+
 export default {
   props: {
     edit: {
@@ -201,6 +205,10 @@ export default {
     isHalfDay: {
       type: Boolean,
     },
+    shouldShowHalfDayCheckbox: {
+      type: Boolean,
+      default:false,
+    },
   },
   data() {
     return {
@@ -208,6 +216,7 @@ export default {
       disable: this.edit,
       start: null,
       end: null,
+      // shouldShowHalfDayCheckbox: false,
     };
   },
   created() {
@@ -220,8 +229,19 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
+
   methods: {
     menuClick(value, fieldKey) {
+      if (fieldKey === "start") {
+        this.start = value;
+      } else if (fieldKey === "end") {
+        this.end = value;
+      }
+      const startDefined = typeof this.start === "string";
+      const endDefined = typeof this.end === "string";
+      const datesMatch = startDefined && endDefined && this.start === this.end;
+
+      this.shouldShowHalfDayCheckbox = datesMatch;
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
     },
@@ -238,7 +258,6 @@ export default {
       return this.$route.path.includes("leave-vacations-profile-tab");
     },
   },
-  mounted() {},
 };
 </script>
 <style lang="scss">
@@ -286,10 +305,11 @@ export default {
     label {
       margin-top: 2px !important;
     }
-  }
-  input {
+    input {
     margin-bottom: 0 !important;
   }
+  }
+  
 }
 @media (min-width: 500px) {
   .end-date-wrapper {
@@ -312,5 +332,11 @@ export default {
       bottom: 50% !important;
     }
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

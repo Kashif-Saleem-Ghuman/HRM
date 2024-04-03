@@ -37,7 +37,7 @@ export async function addLeaveVacations() {
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate, isHalfday);
-
+  this.addForm.isHalfDay = isHalfday;
   try {
     const url = `/requests`;
     const request = this.addForm;

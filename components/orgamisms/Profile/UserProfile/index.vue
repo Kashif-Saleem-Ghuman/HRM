@@ -50,7 +50,7 @@ export default {
       id: "",
       topNav: 0,
       name: {},
-      loading:true,
+      loading: true,
     };
   },
   computed: {
@@ -60,30 +60,34 @@ export default {
     }),
   },
   async created() {
-    this.loading = true
+    this.loading = true;
     await this.$store.dispatch("employee/setActiveUser");
-    await this.$store.dispatch("employee/setUser", this.getUser.id);
+    // await this.$store.dispatch("employee/setUser", this.getUser.id);
     this.id = this.$route.params.id ?? this.getUser.id;
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
-    await this.$store.dispatch("employee/setUser", this.id).then((result) => {
-      this.form = result;
-      this.loading = false
-    });
+    this.fetchData();
     this.setActiveTab();
     this.$root.$on("top-nav-key", () => {
-      this.loading = true
-      this.$store.dispatch("employee/setUser", this.id).then((result) => {
-        this.form = result;
-        this.topNav += 1;
-        this.loading = false
-      });
+      this.fetchData();
       return;
     });
   },
-
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
+    async fetchData() {
+      this.loading = true;
+      const id = this.$route.params.id ?? this.getUser?.id;
+      if (id) {
+        this.id = id;
+        await this.$store
+          .dispatch("employee/setUser", this.id)
+          .then((result) => {
+            this.form = result;
+            this.loading = false;
+          });
+      }
+    },
     onTabChange(tab) {
       this.$router.push(tab.route);
       this.$nuxt.$emit("close-sidebar");
@@ -111,10 +115,9 @@ export default {
 };
 </script>
 <style lang="scss">
-.scroll-wrapper{
+.scroll-wrapper {
   overflow-y: auto !important;
   overflow-x: hidden !important;
- 
 }
 @media (max-width: 1900px) {
   .scroll-wrapper {

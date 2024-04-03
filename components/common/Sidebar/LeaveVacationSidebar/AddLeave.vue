@@ -204,6 +204,7 @@ export default {
     },
     isHalfDay: {
       type: Boolean,
+      default:false,
     },
     shouldShowHalfDayCheckbox: {
       type: Boolean,
@@ -247,7 +248,7 @@ export default {
     },
     setValueIsHalfDay(value, fieldKey) {
       this[fieldKey] = value;
-      this.$emit("change", fieldKey, "isHalfday");
+      this.$emit("change", fieldKey, "isHalfDay");
     },
 
     displayEmployeeField() {

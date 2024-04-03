@@ -97,7 +97,7 @@ export default {
         type: null,
         start: null,
         end: null,
-        isHalfDay:false,
+        isHalfDay:null,
       },
       allowanceDays: "",
       sidebarHeading: "",

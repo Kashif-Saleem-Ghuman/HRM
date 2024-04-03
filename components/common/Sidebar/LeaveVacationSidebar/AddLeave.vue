@@ -101,6 +101,8 @@
             </form-datepicker>
           </div>
         </div>
+        {{ isHalfDay }}
+
         <transition name="fade">
         <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
           <bib-checkbox
@@ -204,6 +206,7 @@ export default {
     },
     isHalfDay: {
       type: Boolean,
+      default:false,
     },
     shouldShowHalfDayCheckbox: {
       type: Boolean,

@@ -53,7 +53,7 @@ import {
 } from "../../../utils/functions/clock_functions";
 import { mapGetters } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
-
+const MAX_TIMER_DURATION = 12;
 export default {
   mixins: [timerMixin],
 
@@ -114,8 +114,8 @@ export default {
       return elapsedHours;
     },
     scheduleStopTimer() {
-      const hoursInTwelve = 1;
-      const millisecondsInHour = 1000 * 60;
+      const hoursInTwelve = MAX_TIMER_DURATION;
+      const millisecondsInHour = 1000 * 60 * 60;
       const twelveHoursInMilliseconds = hoursInTwelve * millisecondsInHour;
       setTimeout(async () => {
         if (this.active) {

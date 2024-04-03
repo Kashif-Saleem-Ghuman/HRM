@@ -48,6 +48,7 @@ export async function addLeaveVacations() {
       config
     );
     this.addForm = {};
+    this.isHalfday = false;
     this.leaveVacationData = addLeaveVacations.data;
     if (this.$store.state.token.isAdmin) {
       await this.$store

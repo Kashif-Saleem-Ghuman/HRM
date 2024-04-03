@@ -193,8 +193,9 @@ export default {
     },
     getTimezoneInOut(value, day) {
       const now = DateTime.now();
-      const clientTimezone = now.zoneName;
-      if(!value?.activityReport?.[day] || value.timezone == clientTimezone || !value.timezone){
+      const clientTimezone = value.timezone ?? now.zoneName;
+
+      if(!value?.activityReport?.[day] || value.timezone == clientTimezone){
         return '';
       }
       let inOutTimeEntry = value.timers.length ?
@@ -202,11 +203,12 @@ export default {
         value.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
       let time;
       if(day === 'in'){
-        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: value.timezone })
+        time = DateTime.fromISO(inOutTimeEntry?.start)
       }else{
-        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: value.timezone })
+        time = DateTime.fromISO(inOutTimeEntry?.end)
       }
-      return ' (' + time.toLocaleString(DateTime.TIME_SIMPLE) + (value.timezone ? ' ' + value.timezone : '') + ')';
+      time.setZone(clientTimezone);
+      return ' (' + time.toFormat("HH:mm ZZZZ") + ')';
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

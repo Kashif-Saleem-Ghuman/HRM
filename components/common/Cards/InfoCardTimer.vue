@@ -84,11 +84,16 @@ export default {
       loading: true,
       timerLoading: false,
       stopClick: false,
+      startTime: null,
     };
   },
   async mounted() {
     this.startTimerInterval();
+    // Set the start time when the timer is started
+    this.startTime = new Date();
 
+    // Call the function to stop the timer after 12 hours
+    this.scheduleStopTimer();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (this.$store.state.token.isUser) {
@@ -102,11 +107,29 @@ export default {
     this.timeEntriesLoading = false;
   },
   methods: {
+    getTimeElapsed() {
+      const currentTime = new Date();
+      const elapsedMilliseconds = currentTime - this.startTime;
+      const elapsedHours = elapsedMilliseconds / (1000 * 60 * 60);
+      return elapsedHours;
+    },
+    scheduleStopTimer() {
+      const hoursInTwelve = 1;
+      const millisecondsInHour = 1000 * 60;
+      const twelveHoursInMilliseconds = hoursInTwelve * millisecondsInHour;
+      setTimeout(async () => {
+        if (this.active) {
+        this.stopClick = true;
+        await this.stopTimer();
+        this.$emit("timer-stop");
+      }
+      }, twelveHoursInMilliseconds);
+    },
     close() {
       this.clockModal = false;
     },
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     async handleClockInOutClick() {
       if (this.active) {
@@ -118,11 +141,11 @@ export default {
       }
     },
     handleWrapperClick() {
-      if(this.disabled){
+      if (this.disabled) {
         this.openPopupNotification({
-            text: "Please delete the time entry to clock-in again for the day.",
-            variant: "danger",
-          });
+          text: "Please delete the time entry to clock-in again for the day.",
+          variant: "danger",
+        });
       }
     },
   },
@@ -144,11 +167,11 @@ export default {
         this.getDailyTimeEntries
       );
     },
-    buttonVariant(){
-      if(this.disabled) return "light"
+    buttonVariant() {
+      if (this.disabled) return "light";
       if (this.$store.state.token.isUser) {
         if (this?.active) return "danger";
-        if(!this?.active) return "primary-24"
+        if (!this?.active) return "primary-24";
       }
     },
     buttonLable() {
@@ -169,4 +192,3 @@ export default {
   },
 };
 </script>
-

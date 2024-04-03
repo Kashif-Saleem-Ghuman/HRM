@@ -24,7 +24,7 @@ export async function vfileAdded(file, name, event) {
       this.$nuxt.$emit("dropzone-key");
       // this.openPopupNotification(0);
       this.avatarUrl = res;
-      this.form.photo=res;
+      this.form.photo = res;
       // this.$nuxt.$emit("dropzone-key");
       // this.avatarUrl[name] = res;
     })
@@ -89,9 +89,11 @@ export function handleInputObject(event, name, emContact) {
   }
 }
 export function addHandleInput(event, name, addresses) {
-  if(name === 'isHalfday'){
-    return this.isHalfday = event;
-  }else{ this.isHalfday = false; }
+  if (name === "isHalfday") {
+    return (this.isHalfday = event);
+  } else {
+    this.isHalfday = false;
+  }
   this.addForm[name] = event;
   if (
     this.addForm.start != null ||
@@ -109,7 +111,7 @@ export async function selectUserHandle(event, name) {
     employeeId: this.id,
   });
   await this.$store
-    .dispatch("leavesdata/setLeaveVacationsAllowance", {id:this.id})
+    .dispatch("leavesdata/setLeaveVacationsAllowance", { id: this.id })
     .then((result) => {
       this.allowanceLeavesDetailedData = result;
       this.is_data_fetched = true;

@@ -212,7 +212,7 @@ export default {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
       return entries.some((entry) => {
-        return entry.activity === ACTIVITY_TYPE.IN && entry.end;
+        return entry.activity === ACTIVITY_TYPE.IN
       });
     },
     todayListView() {

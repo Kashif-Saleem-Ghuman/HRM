@@ -97,6 +97,7 @@ export default {
         type: null,
         start: null,
         end: null,
+        isHalfDay:false,
       },
       allowanceDays: "",
       sidebarHeading: "",
@@ -115,6 +116,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
+      isHalfday:false,
     };
   },
   created() {

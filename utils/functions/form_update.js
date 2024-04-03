@@ -93,7 +93,6 @@ export function addHandleInput(event, name, addresses) {
     this.isHalfday = event;
   }
   this.addForm[name] = event;
-  console.log(this.addForm, "this.addForm");
   if (
     this.addForm.start != null ||
     this.addForm.endDate != null ||

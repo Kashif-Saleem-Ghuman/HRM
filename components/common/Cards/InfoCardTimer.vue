@@ -89,11 +89,7 @@ export default {
   },
   async mounted() {
     this.startTimerInterval();
-    // Set the start time when the timer is started
-    this.startTime = new Date();
-
-    // Call the function to stop the timer after 12 hours
-    this.scheduleStopTimer();
+    // this.scheduleStopTimer();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (this.$store.state.token.isUser) {
@@ -107,23 +103,18 @@ export default {
     this.timeEntriesLoading = false;
   },
   methods: {
-    getTimeElapsed() {
-      const currentTime = new Date();
-      const elapsedMilliseconds = currentTime - this.startTime;
-      const elapsedHours = elapsedMilliseconds / (1000 * 60 * 60);
-      return elapsedHours;
-    },
     scheduleStopTimer() {
-      const hoursInTwelve = MAX_TIMER_DURATION;
-      const millisecondsInHour = 1000 * 60 * 60;
-      const twelveHoursInMilliseconds = hoursInTwelve * millisecondsInHour;
+      const minutes = MAX_TIMER_DURATION; // Change to duration
+      const millisecondsInMinute = 1000 * 60 * 60;
+      const durationInMilliseconds = minutes * millisecondsInMinute;
       setTimeout(async () => {
+        // Check if the timer is active before stopping it
         if (this.active) {
-        this.stopClick = true;
-        await this.stopTimer();
-        this.$emit("timer-stop");
-      }
-      }, twelveHoursInMilliseconds);
+          this.stopClick = true;
+          await this.stopTimer();
+          this.$emit("timer-stop");
+        }
+      }, durationInMilliseconds);
     },
     close() {
       this.clockModal = false;
@@ -189,6 +180,11 @@ export default {
     disabled() {
       this.stopClick = false;
     },
+    active(newValue) {
+    if (newValue) {
+      this.scheduleStopTimer();
+    }
+  },
   },
 };
 </script>

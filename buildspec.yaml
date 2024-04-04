@@ -21,6 +21,11 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - >
+        echo '[' > dist/_nuxt_contents.json &&
+        find dist/_nuxt -type f | awk -F/ '{print "\"" $NF "\""}' | paste -sd, - >> dist/_nuxt_contents.json &&
+        echo ']' >> dist/_nuxt_contents.json
+      - cat dist/_nuxt_contents.json
 artifacts:
   base-directory: 'dist'
 

@@ -53,7 +53,7 @@ import {
 } from "../../../utils/functions/clock_functions";
 import { mapGetters } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
-const MAX_TIMER_DURATION = 12;
+
 export default {
   mixins: [timerMixin],
 
@@ -84,12 +84,11 @@ export default {
       loading: true,
       timerLoading: false,
       stopClick: false,
-      startTime: null,
     };
   },
   async mounted() {
     this.startTimerInterval();
-    // this.scheduleStopTimer();
+
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (this.$store.state.token.isUser) {
@@ -103,24 +102,11 @@ export default {
     this.timeEntriesLoading = false;
   },
   methods: {
-    scheduleStopTimer() {
-      const minutes = MAX_TIMER_DURATION; // Change to duration
-      const millisecondsInMinute = 1000 * 60 * 60;
-      const durationInMilliseconds = minutes * millisecondsInMinute;
-      setTimeout(async () => {
-        // Check if the timer is active before stopping it
-        if (this.active) {
-          this.stopClick = true;
-          await this.stopTimer();
-          this.$emit("timer-stop");
-        }
-      }, durationInMilliseconds);
-    },
     close() {
       this.clockModal = false;
     },
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification });
+      this.$store.dispatch("app/addNotification", { notification })
     },
     async handleClockInOutClick() {
       if (this.active) {
@@ -132,11 +118,11 @@ export default {
       }
     },
     handleWrapperClick() {
-      if (this.disabled) {
+      if(this.disabled){
         this.openPopupNotification({
-          text: "Please delete the time entry to clock-in again for the day.",
-          variant: "danger",
-        });
+            text: "Please delete the time entry to clock-in again for the day.",
+            variant: "danger",
+          });
       }
     },
   },
@@ -158,11 +144,11 @@ export default {
         this.getDailyTimeEntries
       );
     },
-    buttonVariant() {
-      if (this.disabled) return "light";
+    buttonVariant(){
+      if(this.disabled) return "light"
       if (this.$store.state.token.isUser) {
         if (this?.active) return "danger";
-        if (!this?.active) return "primary-24";
+        if(!this?.active) return "primary-24"
       }
     },
     buttonLable() {
@@ -180,11 +166,7 @@ export default {
     disabled() {
       this.stopClick = false;
     },
-    active(newValue) {
-    if (newValue) {
-      this.scheduleStopTimer();
-    }
-  },
   },
 };
 </script>
+

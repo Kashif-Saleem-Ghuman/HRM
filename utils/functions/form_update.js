@@ -92,23 +92,17 @@ export function addHandleInput(event, name, addresses) {
   if (name === "isHalfDay") {
     this.isHalfday = event;
   }
-  // if (name === "start" || name === "end") {
-  //   this.addForm.isHalfDay = false;
-  //   this.isHalfday = false;
-  // }
   if (name === "start" || name === "end") {
     this[name] = event;
-    // this.updateCheckbox += 1;
-    // this.addForm.isHalfDay = false;
   }
   const startDefined = typeof this.start === "string";
   const endDefined = typeof this.end === "string";
   const datesMatch = startDefined && endDefined && this.start === this.end;
-if(!datesMatch){
-  this.isHalfday = false;
-  this.$nuxt.$emit("update-checkbox");
-  this.addForm.isHalfDay = false;
-}
+  if (!datesMatch) {
+    this.isHalfday = false;
+    this.$nuxt.$emit("update-checkbox");
+    this.addForm.isHalfDay = false;
+  }
   this.addForm[name] = event;
   if (
     this.addForm.start != null ||

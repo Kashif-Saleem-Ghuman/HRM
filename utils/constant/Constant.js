@@ -1208,3 +1208,5 @@ export const PEOPLE_ACTION_ITEMS = {
   sendMessage: "Send Message",
   meet: "Meet",
 };
+
+export const TIMEZONE_ABBR_DEFAULT = 'IST';

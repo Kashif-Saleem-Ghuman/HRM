@@ -98,7 +98,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../../utils/constant/Constant.js";
+import {TABLE_HEAD, PEOPLE_ACTION_ITEMS, TIMEZONE_ABBR_DEFAULT} from "../../../../utils/constant/Constant.js";
 import {
   dateCheck,
   meetLink,
@@ -110,6 +110,7 @@ import {
   getEmployeeInitials,
 } from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
+import timezoneAbbr from "@/utils/constant/timezoneAbbreviations";
 
 import {
   sendMessage,
@@ -206,7 +207,12 @@ export default {
       }else{
         time = DateTime.fromISO(inOutTimeEntry?.end, { zone: clientTimezone })
       }
-      return ' (' + time.toFormat("HH:mm ZZZZ") + ')';
+      return ' (' + time.toFormat("HH:mm") + ' '+ this.getTimeAbbrByTimezoneName(clientTimezone) + ')';
+    },
+
+    getTimeAbbrByTimezoneName(timeZoneName){
+      const timeZone = timezoneAbbr.find(timezone => timeZoneName === timezone.name);
+      return timeZone ? timeZone.abbreviation : TIMEZONE_ABBR_DEFAULT;
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

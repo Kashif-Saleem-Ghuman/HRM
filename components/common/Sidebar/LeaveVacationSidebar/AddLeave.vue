@@ -101,6 +101,20 @@
             </form-datepicker>
           </div>
         </div>
+        <transition name="fade">
+          <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
+            <bib-checkbox
+              label="Half day"
+              fieldKey="isHalfDay"
+              :value="isHalfDay"
+              :checked="isHalfDay"
+              :disabled="inActive"
+              size="md"
+              @change="setValueIsHalfDay"
+              :key="updateCheckbox"
+            ></bib-checkbox>
+          </div>
+        </transition>
       </div>
     </div>
     <div>
@@ -119,6 +133,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { DateTime } from "luxon";
+
 export default {
   props: {
     edit: {
@@ -187,6 +203,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    isHalfDay: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowHalfDayCheckbox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -194,11 +218,16 @@ export default {
       disable: this.edit,
       start: null,
       end: null,
+      updateCheckbox:0,
+      // shouldShowHalfDayCheckbox: false,
     };
   },
   created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
+    });
+    this.$root.$on("update-checkbox", () => {
+      this.updateCheckbox += 1;
     });
   },
   computed: {
@@ -206,12 +235,28 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
+
   methods: {
     menuClick(value, fieldKey) {
+      if (fieldKey === "start" || fieldKey === "end") {
+        this[fieldKey] = value;
+        // this.updateCheckbox += 1;
+      }
+      const startDefined = typeof this.start === "string";
+      const endDefined = typeof this.end === "string";
+      const datesMatch = startDefined && endDefined && this.start === this.end;
+      // if(!datesMatch){
+      //   this.updateCheckbox += 1;
+      // }
+
+      this.shouldShowHalfDayCheckbox = datesMatch;
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
     },
-
+    setValueIsHalfDay(value, fieldKey) {
+      this[fieldKey] = value;
+      this.$emit("change", fieldKey, "isHalfDay");
+    },
     displayEmployeeField() {
       return this.$store.state.token.isAdmin;
     },
@@ -220,7 +265,6 @@ export default {
       return this.$route.path.includes("leave-vacations-profile-tab");
     },
   },
-  mounted() {},
 };
 </script>
 <style lang="scss">
@@ -262,7 +306,15 @@ export default {
   label {
     font-size: 14px;
     color: #85858f;
-    padding-bottom: 0.7rem;
+    margin-bottom: 0.7rem;
+  }
+  .checkbox {
+    label {
+      margin-top: 2px !important;
+    }
+    input {
+      margin-bottom: 0 !important;
+    }
   }
 }
 @media (min-width: 500px) {
@@ -286,5 +338,13 @@ export default {
       bottom: 50% !important;
     }
   }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

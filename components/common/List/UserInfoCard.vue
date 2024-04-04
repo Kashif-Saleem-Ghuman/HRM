@@ -83,6 +83,7 @@ export default {
       if (!this.user) return false;
       if (this.user.presence && this.user.presence == "in") return true;
       if (this.user.active) return true;
+      if (this.user?.activityReport?.in && !this.user?.activityReport?.out) return true
       return false;
     },
     truncateText(){

@@ -190,10 +190,12 @@ export default {
       );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+        if (!entry.end) return 0
         return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 
       const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
+        if (!entry.end) return 0
         return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
       }, 0);
 
@@ -210,7 +212,7 @@ export default {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
       return entries.some((entry) => {
-        return entry.activity === ACTIVITY_TYPE.IN && entry.end;
+        return entry.activity === ACTIVITY_TYPE.IN
       });
     },
     todayListView() {

@@ -194,7 +194,7 @@ export default {
         editable: false,
         selectable: false,
         selectHelper: false,
-        dayMaxEvents: 1,
+        dayMaxEvents: 2,
         weekends: true,
         contentHeight: "100vh",
         select: this.handleDateSelect,
@@ -299,6 +299,7 @@ export default {
     },
     actionBY($event, key) {
       this.$nuxt.$emit("open-sidebar-admin", $event, key);
+      this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },
 

@@ -24,7 +24,7 @@ export async function vfileAdded(file, name, event) {
       this.$nuxt.$emit("dropzone-key");
       // this.openPopupNotification(0);
       this.avatarUrl = res;
-      this.form.photo=res;
+      this.form.photo = res;
       // this.$nuxt.$emit("dropzone-key");
       // this.avatarUrl[name] = res;
     })
@@ -89,6 +89,20 @@ export function handleInputObject(event, name, emContact) {
   }
 }
 export function addHandleInput(event, name, addresses) {
+  if (name === "isHalfDay") {
+    this.isHalfday = event;
+  }
+  if (name === "start" || name === "end") {
+    this[name] = event;
+  }
+  const startDefined = typeof this.start === "string";
+  const endDefined = typeof this.end === "string";
+  const datesMatch = startDefined && endDefined && this.start === this.end;
+  if (!datesMatch) {
+    this.isHalfday = false;
+    this.$nuxt.$emit("update-checkbox");
+    this.addForm.isHalfDay = false;
+  }
   this.addForm[name] = event;
   if (
     this.addForm.start != null ||
@@ -101,13 +115,12 @@ export function addHandleInput(event, name, addresses) {
   }
 }
 export async function selectUserHandle(event, name) {
-  console.log(event, "selectUserHandleselectUserHandleselectUserHandle")
   this.id = event;
   this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
     employeeId: this.id,
   });
   await this.$store
-    .dispatch("leavesdata/setLeaveVacationsAllowance", {id:this.id})
+    .dispatch("leavesdata/setLeaveVacationsAllowance", { id: this.id })
     .then((result) => {
       this.allowanceLeavesDetailedData = result;
       this.is_data_fetched = true;

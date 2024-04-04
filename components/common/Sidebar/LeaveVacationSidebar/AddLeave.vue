@@ -102,17 +102,18 @@
           </div>
         </div>
         <transition name="fade">
-        <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
-          <bib-checkbox
-            label="Half day"
-            fieldKey="isHalfDay"
-            :value="isHalfDay"
-            :checked="isHalfDay"
-            :disabled="inActive"
-            size="md"
-            @change="setValueIsHalfDay"
-          ></bib-checkbox>
-        </div>
+          <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
+            <bib-checkbox
+              label="Half day"
+              fieldKey="isHalfDay"
+              :value="isHalfDay"
+              :checked="isHalfDay"
+              :disabled="inActive"
+              size="md"
+              @change="setValueIsHalfDay"
+              :key="updateCheckbox"
+            ></bib-checkbox>
+          </div>
         </transition>
       </div>
     </div>
@@ -204,11 +205,11 @@ export default {
     },
     isHalfDay: {
       type: Boolean,
-      default:false,
+      default: false,
     },
     shouldShowHalfDayCheckbox: {
       type: Boolean,
-      default:false,
+      default: false,
     },
   },
   data() {
@@ -217,12 +218,16 @@ export default {
       disable: this.edit,
       start: null,
       end: null,
+      updateCheckbox:0,
       // shouldShowHalfDayCheckbox: false,
     };
   },
   created() {
     this.$root.$on("used-days", () => {
       this.usedDayLeave += 1;
+    });
+    this.$root.$on("update-checkbox", () => {
+      this.updateCheckbox += 1;
     });
   },
   computed: {
@@ -233,14 +238,16 @@ export default {
 
   methods: {
     menuClick(value, fieldKey) {
-      if (fieldKey === "start") {
-        this.start = value;
-      } else if (fieldKey === "end") {
-        this.end = value;
+      if (fieldKey === "start" || fieldKey === "end") {
+        this[fieldKey] = value;
+        // this.updateCheckbox += 1;
       }
       const startDefined = typeof this.start === "string";
       const endDefined = typeof this.end === "string";
       const datesMatch = startDefined && endDefined && this.start === this.end;
+      // if(!datesMatch){
+      //   this.updateCheckbox += 1;
+      // }
 
       this.shouldShowHalfDayCheckbox = datesMatch;
       this[fieldKey] = value;
@@ -250,7 +257,6 @@ export default {
       this[fieldKey] = value;
       this.$emit("change", fieldKey, "isHalfDay");
     },
-
     displayEmployeeField() {
       return this.$store.state.token.isAdmin;
     },
@@ -307,10 +313,9 @@ export default {
       margin-top: 2px !important;
     }
     input {
-    margin-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
   }
-  }
-  
 }
 @media (min-width: 500px) {
   .end-date-wrapper {
@@ -334,10 +339,12 @@ export default {
     }
   }
 }
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

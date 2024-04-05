@@ -194,8 +194,12 @@ export default {
     },
     getTimezoneInOut(employee, activityType) {
       const now = DateTime.now();
-      const clientTimezone = employee.timezone ?? now.zoneName;
-      if(!employee?.activityReport?.[activityType] || employee.timezone == now.zoneName){
+      const zoneName = employee.timezone ?? now.zoneName;
+
+      const emplZoneAbbr = this.getTimeAbbrByTimezoneName(zoneName);
+      const clientZoneAbbr = this.getTimeAbbrByTimezoneName(now.zoneName);
+      
+      if(!employee?.activityReport?.[activityType] || (clientZoneAbbr === emplZoneAbbr)){
         return '';
       }
       let inOutTimeEntry = employee.timers.length ?
@@ -203,16 +207,15 @@ export default {
         employee.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
       let time;
       if(activityType === 'in'){
-        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: clientTimezone })
+        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: zoneName })
       }else{
-        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: clientTimezone })
+        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: zoneName })
       }
-      return ' (' + time.toFormat("HH:mm") + this.getTimeAbbrByTimezoneName(clientTimezone) + ')';
+      return ' (' + time.toFormat("HH:mm") + (emplZoneAbbr ? ' ' + emplZoneAbbr : '') + ')';
     },
 
     getTimeAbbrByTimezoneName(timeZoneName){
-      const timeZoneAbbr = timezoneAbbr.get(timeZoneName);
-      return timeZoneAbbr ? ` ${timeZoneAbbr}` : '';
+      return timezoneAbbr.get(timeZoneName);
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

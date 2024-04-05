@@ -1,5 +1,5 @@
 import { mapGetters } from "vuex";
-
+import{FILL_DAILY_ENTRY_EVENT} from '../utils/constant/Constant'
 export default {
   data() {
     return {
@@ -45,20 +45,17 @@ export default {
               );
           const MAX_DURATION_TIMER = 12 * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
-            if (this.active) {
               this.stopClick = true;
               await this.stopTimer();
               this.$store.commit("timeattendance/SET_CHRONOMETER", {
                 chronometer: 0,
               });
-              await this.$nuxt.$emit("filldaily-entry");
-            }
+              await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
           } else {
             this.$store.commit("timeattendance/SET_CHRONOMETER", {
               chronometer,
             });
           }
-
           this.timerLoading = false;
         }, 1000);
       }

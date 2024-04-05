@@ -1208,3 +1208,4 @@ export const PEOPLE_ACTION_ITEMS = {
   sendMessage: "Send Message",
   meet: "Meet",
 };
+export const FILL_DAILY_ENTRY_EVENT = 'filldaily-entry'

@@ -115,6 +115,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
+  FILL_DAILY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -132,7 +133,7 @@ const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
 ];
-const FILL_DAILY_ENTRY = "filldaily-entry";
+// const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
 export default {
   data() {
@@ -259,12 +260,12 @@ export default {
     weekToUTCWeek,
     getDatetimeCommonProps,
     registerFillDailyEntryListener() {
-      this.$root.$on(FILL_DAILY_ENTRY, () => {
+      this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
       this.fillDailyTimeEntries();
     });
     },
     unregisterFillDailyEntryListener() {
-      this.$root.$off(FILL_DAILY_ENTRY);
+      this.$root.$off(FILL_DAILY_ENTRY_EVENT);
     },
     registerRootListeners() {
       this.registerFillDailyEntryListener();

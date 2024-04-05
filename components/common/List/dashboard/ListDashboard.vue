@@ -98,7 +98,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {TABLE_HEAD, PEOPLE_ACTION_ITEMS, TIMEZONE_ABBR_DEFAULT} from "../../../../utils/constant/Constant.js";
+import {TABLE_HEAD, PEOPLE_ACTION_ITEMS} from "../../../../utils/constant/Constant.js";
 import {
   dateCheck,
   meetLink,
@@ -185,34 +185,34 @@ export default {
       return "Absent";
     },
 
-    getInOutActivityTime(value, day){
-      return this.getInOutValue(value?.activityReport?.[day]) + this.getTimezoneInOut(value, day)
+    getInOutActivityTime(employee, activityType){
+      return this.getInOutValue(employee?.activityReport?.[activityType]) + this.getTimezoneInOut(employee, activityType)
     },
 
     getInOutValue(data) {
       return data ?? "--";
     },
-    getTimezoneInOut(value, day) {
+    getTimezoneInOut(employee, activityType) {
       const now = DateTime.now();
-      const clientTimezone = value.timezone ?? now.zoneName;
-      if(!value?.activityReport?.[day] || value.timezone == now.zoneName){
+      const clientTimezone = employee.timezone ?? now.zoneName;
+      if(!employee?.activityReport?.[activityType] || employee.timezone == now.zoneName){
         return '';
       }
-      let inOutTimeEntry = value.timers.length ?
-        value.timers.find((timeEntry) => timeEntry.type === 'in') :
-        value.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
+      let inOutTimeEntry = employee.timers.length ?
+        employee.timers.find((timeEntry) => timeEntry.type === 'in') :
+        employee.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
       let time;
-      if(day === 'in'){
+      if(activityType === 'in'){
         time = DateTime.fromISO(inOutTimeEntry?.start, { zone: clientTimezone })
       }else{
         time = DateTime.fromISO(inOutTimeEntry?.end, { zone: clientTimezone })
       }
-      return ' (' + time.toFormat("HH:mm") + ' '+ this.getTimeAbbrByTimezoneName(clientTimezone) + ')';
+      return ' (' + time.toFormat("HH:mm") + this.getTimeAbbrByTimezoneName(clientTimezone) + ')';
     },
 
     getTimeAbbrByTimezoneName(timeZoneName){
-      const timeZone = timezoneAbbr.find(timezone => timeZoneName === timezone.name);
-      return timeZone ? timeZone.abbreviation : TIMEZONE_ABBR_DEFAULT;
+      const timeZoneAbbr = timezoneAbbr.get(timeZoneName);
+      return timeZoneAbbr ? ` ${timeZoneAbbr}` : '';
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

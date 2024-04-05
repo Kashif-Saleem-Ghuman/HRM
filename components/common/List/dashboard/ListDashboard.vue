@@ -40,7 +40,6 @@
               @viewProfile="viewProfile(data.value.id)"
               @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
-              :active="data.value.active"
             ></user-info-card>
           </div>
         </div>
@@ -174,7 +173,7 @@ export default {
     },
     getStatusTitle(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in && data.activityReport?.out;
+      const inEntry = data.activityReport?.in
 
       if (timers.length || inEntry) {
         return "Present";
@@ -188,7 +187,7 @@ export default {
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in && data.activityReport?.out;
+      const inEntry = data.activityReport?.in
 
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";

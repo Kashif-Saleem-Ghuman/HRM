@@ -44,7 +44,7 @@ export default {
                   1000
               );
           this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-          const MAX_DURATION_TIMER = 0.15 * 60;
+          const MAX_DURATION_TIMER = 12 * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
             this.stopClick = true;
             await this.stopTimer();

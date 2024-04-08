@@ -27,6 +27,14 @@ const buttonConfig = {
     icon: "check-circle-solid",
     statusLabel: "Approved",
   },
+  approved_g: {
+    label: "Approve",
+    value: "approved",
+    key: "approved",
+    variant: "success",
+    icon: "check-circle-solid",
+    statusLabel: "Approved",
+  },
   rejected: {
     label: "Reject",
     value: "rejected",

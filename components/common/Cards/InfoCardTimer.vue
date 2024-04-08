@@ -1,3 +1,4 @@
+
 <template>
   <div class="d-flex">
     <div class="info-card-leave-wrapper w-100">
@@ -53,6 +54,7 @@ import {
 } from "../../../utils/functions/clock_functions";
 import { mapGetters } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
+import { DateTime } from "luxon";
 
 export default {
   mixins: [timerMixin],
@@ -105,6 +107,23 @@ export default {
     close() {
       this.clockModal = false;
     },
+    handleWrapperClick() {
+      if (this.disabled) {
+        this.debouncedNotification();
+      }
+    },
+    debouncedNotification() {
+      if (!this.debounced) {
+        this.openPopupNotification({
+          text: "Please delete the time entry to clock-in again for the day.",
+          variant: "danger",
+        });
+        this.debounced = true;
+        setTimeout(() => {
+          this.debounced = false;
+        }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
+      }
+    },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
@@ -117,14 +136,7 @@ export default {
         await this.startTimer();
       }
     },
-    handleWrapperClick() {
-      if(this.disabled){
-        this.openPopupNotification({
-            text: "Please delete the time entry to clock-in again for the day.",
-            variant: "danger",
-          });
-      }
-    },
+
   },
   computed: {
     ...mapGetters({

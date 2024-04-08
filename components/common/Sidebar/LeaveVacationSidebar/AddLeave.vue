@@ -108,7 +108,7 @@
               fieldKey="isHalfDay"
               :value="isHalfDay"
               :checked="isHalfDay"
-              :disabled="checkboxDisabled"
+              :disabled="inActive"
               size="md"
               @change="setValueIsHalfDay"
               :key="updateCheckbox"

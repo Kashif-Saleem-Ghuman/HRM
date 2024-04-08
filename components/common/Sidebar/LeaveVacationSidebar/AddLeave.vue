@@ -66,7 +66,7 @@
             <div class="last-child" v-if="showAllowance">
               <div class="d-flex input-display-wrapper">
                 <span>Available</span>
-                <span>{{ allowanceDays - usedDays }}</span>
+                <span>{{ balanceLeaveValue }}</span>
               </div>
             </div>
           </div>
@@ -237,6 +237,14 @@ export default {
     ...mapGetters({
       getUserRole: "token/getUserRole",
     }),
+    balanceLeaveValue() {
+      if (!Number.isNaN(this.allowanceDays) && !Number.isNaN(this.usedDays)) {
+        const balance =
+          this.allowanceDays - this.usedDays;
+        return balance % 1 === 0 ? balance : balance.toFixed(2);
+      }
+      return 0;
+  },
   },
 
   methods: {

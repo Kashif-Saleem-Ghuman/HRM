@@ -25,9 +25,7 @@
           inActive="disabled"
           :checkboxDisabled="false"
           :isHalfDay="isHalfDay"
-          :shouldShowHalfDayCheckbox="
-            leaveStatus === 'pending' ? true : false || isHalfDay
-          "
+          :shouldShowHalfDayCheckbox="shouldShowCheckbox"
           :edit="false"
         ></add-leave>
         <div class="row">
@@ -63,7 +61,7 @@
                 size="lg"
                 pill
                 @click="updateLeave(leaveStatus)"
-                v-if="leaveStatus === 'pending' ? true : false || isHalfDay"
+                v-if="shouldShowCheckbox"
               ></bib-button>
             </div>
           </div>
@@ -159,6 +157,12 @@ export default {
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    shouldShowCheckbox() {
+      return (
+        this.leaveStatus.status === "pending" &&
+        this.endDate === this.startDate
+      );
+    },
     useDaysDataValue() {
       const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValue];

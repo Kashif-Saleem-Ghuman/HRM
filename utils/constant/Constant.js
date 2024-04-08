@@ -31,6 +31,7 @@ export const TABLE_HEAD = {
     {
       key: "in",
       label: "In",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-in-sort",
@@ -49,6 +50,7 @@ export const TABLE_HEAD = {
         sortKey: "activityReport.out",
         type: "string",
       },
+      width: `${100 / 7}%`,
     },
     {
       key: "breaks",

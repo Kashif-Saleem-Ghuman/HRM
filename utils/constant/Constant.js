@@ -1208,3 +1208,11 @@ export const PEOPLE_ACTION_ITEMS = {
   sendMessage: "Send Message",
   meet: "Meet",
 };
+export const DOWNLOAD_REPORT_OPTIONS = [
+  { label: 'Select date range', value: '' },
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' },
+  { label: 'Orange', value: 'orange' },
+  { label: 'Mango', value: 'mango' },
+  { label: 'Grapes', value: 'grapes' }
+];

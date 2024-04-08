@@ -3,12 +3,13 @@
     <loader :loading="loading"></loader>
     <div id="people-action-wrapper">
       <div
-        class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
+        class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper mr-1"
       >
         <section-header-left
           title="Leaves and Vacations"
           headerRight="headerRight"
         ></section-header-left>
+        <download-file></download-file>
       </div>
       <div class="pl-1 py-1">
         <div

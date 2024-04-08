@@ -88,13 +88,6 @@ export function handleInputObject(event, name, emContact) {
     };
   }
 }
-export function editHandleLeave(event, name) {
-  if (name === "isHalfDay") {
-    this.isHalfday = event;
-  }
-  this.addForm[name] = event;
-  console.log(this.addForm, "this.addForm[name] = event;this.addForm[name] = event;this.addForm[name] = event;")
-}
 export function addHandleInput(event, name) {
   if (name === "isHalfDay") {
     this.isHalfday = event;

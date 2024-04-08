@@ -8,7 +8,7 @@ import {
   openBillingPage,
   isThemeCheck,
 } from "./app_wrapper/app_wrap_functions.js";
-
+import{ editRequest } from '../functions/api_call/requests.js'
 import {
   dateCheck,
   getCurrentDateMonth,
@@ -42,7 +42,7 @@ export {
   openTeamPage,
   openBillingPage,
   isThemeCheck,
-  
+  editRequest,
   // From common_functions.js
   dateCheck,
   getCurrentDateMonth,

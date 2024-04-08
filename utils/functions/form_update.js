@@ -88,7 +88,7 @@ export function handleInputObject(event, name, emContact) {
     };
   }
 }
-export function addHandleInput(event, name, addresses) {
+export function addHandleInput(event, name) {
   if (name === "isHalfDay") {
     this.isHalfday = event;
   }

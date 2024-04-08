@@ -418,7 +418,7 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Leave Type",
-      width: `${100 / 5}%`,
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-type-sort",
@@ -430,7 +430,7 @@ export const TABLE_HEAD = {
     {
       key: "start",
       label: "Start",
-      width: `${100 / 5}%`,
+      width: `${100 / 6}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-start-sort",
@@ -452,9 +452,21 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "duration",
+      label: "Duration",
+      width: `${100 / 8}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "leave-duration-sort",
+        isActive: false,
+        sortKey: "duration",
+        type: "number",
+      },
+    },
+    {
       key: "reason",
       label: "Reason",
-      width: `${100 / 6}%`,
+      width: `${100 / 4}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-reason-sort",

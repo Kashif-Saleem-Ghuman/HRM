@@ -78,6 +78,15 @@
         <span>{{ onLoad(data.value.end) }}</span>
       </div>
     </template>
+    <template #cell(duration)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.duration == null
+              ? "N/A"
+              : `${data.value.duration} day${
+                  data.value.duration > 1 ? "s" : ""
+                }` }}</span>
+      </div>
+    </template>
     <template #cell(reason)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.note }}</span>

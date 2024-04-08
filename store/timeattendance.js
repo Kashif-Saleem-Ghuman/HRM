@@ -93,7 +93,7 @@ export const actions = {
       if (timer && timer.active) {
         const timerStart = DateTime.fromJSDate(new Date(timer.start))
         const timerDiff = DateTime.now().diff(timerStart, 'hours')
-        const isExeedMaxDuration = timerDiff >= MAX_TIMER_DURATION_HOUR
+        const isExeedMaxDuration = timerDiff.hours >= MAX_TIMER_DURATION_HOUR
         if (isExeedMaxDuration) {
           end = timerStart.plus({ hours: MAX_TIMER_DURATION_HOUR }).toISO()
         }

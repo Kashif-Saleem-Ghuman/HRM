@@ -60,7 +60,7 @@ export async function addLeaveVacations() {
         })
         .then((result) => {
           this.$nuxt.$emit("update-key");
-          this.$nuxt.$emit("fetched-leave-vacation");
+          this.$nuxt.$emit("fetched-leave-vacation-admin");
           this.$nuxt.$emit("render-leave-actual-data");
           this.slideClass = "slide-out";
           setTimeout(() => {
@@ -100,7 +100,11 @@ export async function deleteLevaeVacation(value) {
     const request = value;
     const config = createConfig();
     const leaveDelete = await hrmApiAxiosInstance.delete(url + request, config);
-    this.$nuxt.$emit("fetched-leave-vacation");
+    if (this.$store.state.token.isAdmin) {
+      this.$nuxt.$emit("fetched-leave-vacation-admin");
+    }else{
+      this.$nuxt.$emit("fetched-leave-vacation");
+    }
     this.$nuxt.$emit("leave-list-key");
     this.loading = false;
     this.$nuxt.$emit("close-sidebar");

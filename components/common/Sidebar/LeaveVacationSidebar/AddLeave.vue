@@ -108,7 +108,7 @@
               fieldKey="isHalfDay"
               :value="isHalfDay"
               :checked="isHalfDay"
-              :disabled="inActive"
+              :disabled="checkboxDisabled"
               size="md"
               @change="setValueIsHalfDay"
               :key="updateCheckbox"
@@ -186,6 +186,9 @@ export default {
     },
     inActive: {
       type: String,
+    },
+    checkboxDisabled: {
+      type: Boolean,
     },
     errorMsgSelect: {
       type: Boolean,

@@ -13,6 +13,7 @@
           :employeeName="employeeName"
           :allowanceDays="getAllownaceDataValue"
           :usedDays="useDaysDataValue"
+          @change="editHandleLeave"
           :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
@@ -22,8 +23,9 @@
           :showAllowance="showAllowance"
           :note="form.note"
           inActive="disabled"
+          :checkboxDisabled="false"
           :isHalfDay="isHalfDay"
-          :shouldShowHalfDayCheckbox="isHalfDay"
+          :shouldShowHalfDayCheckbox="shouldShowCheckbox"
           :edit="false"
         ></add-leave>
         <div class="row">
@@ -53,6 +55,14 @@
                 pill
                 @click="deleteConfirmation(leaveStatus.id)"
               ></bib-button>
+              <bib-button
+                label="Save"
+                variant="primary-24"
+                size="lg"
+                pill
+                @click="updateLeave(leaveStatus)"
+                v-if="shouldShowCheckbox"
+              ></bib-button>
             </div>
           </div>
         </div>
@@ -72,7 +82,7 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { DateTime } from "luxon";
-
+import { editHandleLeave, editRequest } from "@/utils/functions/functions_lib";
 import {
   getLeaveStatusIcon,
   getLeaveStatusIconVariant,
@@ -95,7 +105,10 @@ import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
-
+const EDIT_MESSAGE = {
+  text: "Leave updated successfully...",
+  variant: "primary-24",
+};
 export default {
   props: {
     leaveData: {
@@ -125,6 +138,9 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[1],
       isHalfDay: null,
+      addForm: {
+        isHalfDay: null,
+      },
     };
   },
   created() {
@@ -141,6 +157,12 @@ export default {
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    shouldShowCheckbox() {
+      return (
+        this.leaveStatus.status === "pending" &&
+        this.endDate === this.startDate
+      );
+    },
     useDaysDataValue() {
       const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValue];
@@ -178,6 +200,8 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     getEmployeeFullName,
+    editHandleLeave,
+    editRequest,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -185,6 +209,31 @@ export default {
     deleteConfirmation(id) {
       this.deletedfileId = id;
       this.confirmastionMessageModal = true;
+    },
+    async updateLeave(leaveStatus) {
+      try {
+        await this.editRequest(leaveStatus);
+        if (this.$store.state.token.isAdmin) {
+          this.$nuxt.$emit("fetched-leave-vacation-admin");
+          this.$nuxt.$emit("render-leave-actual-data");
+          this.slideClass = "slide-out";
+          setTimeout(() => {
+            this.openSidebar = false;
+            this.openPopupNotification(EDIT_MESSAGE);
+          }, 700);
+        } else {
+          this.$nuxt.$emit("fetched-leave-vacation");
+          this.$nuxt.$emit("render-leave-actual-data");
+          this.slideClass = "slide-out";
+          setTimeout(() => {
+            this.openSidebar = false;
+            this.openPopupNotification(EDIT_MESSAGE);
+          }, 700);
+        }
+      } catch (error) {
+        console.error("Error updating leave:", error);
+        // Handle error appropriately, e.g., show error message
+      }
     },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
@@ -252,8 +301,8 @@ export default {
       }
     },
     setIsHalfDay(item) {
-      let isHalfDay = item.isHalfDay
-        return this.isHalfDay = isHalfDay
+      let isHalfDay = item.isHalfDay;
+      return (this.isHalfDay = isHalfDay);
     },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");

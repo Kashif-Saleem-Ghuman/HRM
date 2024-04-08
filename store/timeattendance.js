@@ -5,6 +5,7 @@ import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/tim
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
 import { cloneDeep } from "lodash";
+import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 
 export const state = () => ({
   timer: {
@@ -86,9 +87,18 @@ export const actions = {
     }
   },
 
-  async stopTimer({ commit }) {
+  async stopTimer({ commit }, { timer }) {
     try {
-      await stopTimer()
+      let end = null
+      if (timer && timer.active) {
+        const timerStart = DateTime.fromJSDate(new Date(timer.start))
+        const timerDiff = DateTime.now().diff(timerStart, 'hours')
+        const isExeedMaxDuration = timerDiff.hours >= MAX_TIMER_DURATION_HOUR
+        if (isExeedMaxDuration) {
+          end = timerStart.plus({ hours: MAX_TIMER_DURATION_HOUR }).toISO()
+        }
+      }
+      await stopTimer({ end })
     } catch (error) {
       console.error(error);
     }

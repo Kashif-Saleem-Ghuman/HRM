@@ -20,11 +20,11 @@ export async function startTimer() {
   }
 }
 
-export async function stopTimer() {
+export async function stopTimer({ end }) {
   const config = createConfig();
   const url = "/timers/stop";
   try {
-    const timer = await hrmApiAxiosInstance.put(url, {}, config);
+    const timer = await hrmApiAxiosInstance.put(url, { end }, config);
     return timer.data;
   } catch (e) {
     console.error(e);

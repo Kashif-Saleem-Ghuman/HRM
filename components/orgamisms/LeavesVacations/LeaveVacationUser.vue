@@ -172,6 +172,10 @@ export default {
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
+    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
     this.getUserLeavesDetailUser({
       from: this.getformToDate.from,
         to: this.getformToDate.to,
@@ -186,10 +190,7 @@ export default {
     this.activeUserData = this.getActiveUser;
     this.selectedMonth = this.currentMonth;
     
-    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
+   
 
     await this.$store
       .dispatch("leavevacation/setLeaveVacationsUser", {

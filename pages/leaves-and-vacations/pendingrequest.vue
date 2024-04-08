@@ -16,10 +16,10 @@
         </div>
         <div class="d-flex align-center" v-show="showBatchApproveButton">
           <bib-button
-            :icon="$button.approved.icon"
-            :variant="$button.approved.variant"
-            :scale="$button.approved.scale"
-            :label="$button.approved.label"
+            :icon="$button.approved_g.icon"
+            :variant="$button.approved_g.variant"
+            :scale="$button.approved_g.scale"
+            :label="$button.approved_g.label"
             @click="pendingApproveRequest('approve')"
           ></bib-button>
         </div>

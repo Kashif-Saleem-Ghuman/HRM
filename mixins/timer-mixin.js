@@ -1,5 +1,5 @@
 import { mapGetters } from "vuex";
-import { FILL_DAILY_ENTRY_EVENT } from "../utils/constant/Constant";
+import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 export default {
   data() {
     return {
@@ -44,7 +44,7 @@ export default {
                   1000
               );
           this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-          const MAX_DURATION_TIMER = 12 * 60 * 60;
+          const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
             this.stopClick = true;
             await this.stopTimer();
@@ -59,7 +59,8 @@ export default {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running
       }
-      await this.$store.dispatch("timeattendance/stopTimer");
+      const timer = this.getTimerData
+      await this.$store.dispatch("timeattendance/stopTimer", { timer });
       this.clearChronometerInterval();
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,

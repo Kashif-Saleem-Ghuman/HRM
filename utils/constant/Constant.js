@@ -1209,3 +1209,5 @@ export const PEOPLE_ACTION_ITEMS = {
   meet: "Meet",
 };
 export const FILL_DAILY_ENTRY_EVENT = 'filldaily-entry'
+
+export const MAX_TIMER_DURATION_HOUR = 12 

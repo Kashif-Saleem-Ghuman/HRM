@@ -54,7 +54,6 @@ import {
 } from "../../../utils/functions/clock_functions";
 import { mapGetters } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
-import { DateTime } from "luxon";
 
 export default {
   mixins: [timerMixin],

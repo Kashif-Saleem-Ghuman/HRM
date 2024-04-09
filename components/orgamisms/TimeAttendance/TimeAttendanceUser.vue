@@ -115,6 +115,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
+  FILL_DAILY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -132,6 +133,7 @@ const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
 ];
+// const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
 export default {
   data() {
@@ -249,10 +251,29 @@ export default {
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
     this.getTimesheetWidget();
     // this.loading = false;
+   
+  },
+  mounted(){
+    this.registerRootListeners();
   },
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
+    registerFillDailyEntryListener() {
+      this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
+      this.fillDailyTimeEntries();
+    });
+    },
+    unregisterFillDailyEntryListener() {
+      this.$root.$off(FILL_DAILY_ENTRY_EVENT);
+    },
+    registerRootListeners() {
+      this.registerFillDailyEntryListener();
+    },
+    unregisterRootListeners() {
+      this.unregisterFillDailyEntryListener();
+    },
+
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
       if (
@@ -386,7 +407,9 @@ export default {
       return `${fromFormat} -> ${toFormat}`;
     },
   },
-
+  beforeDestroy() {
+    this.unregisterRootListeners();
+  },
   watch: {
     "$route.query.view"(newVal) {
       this.view.value = newVal || "day";

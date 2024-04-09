@@ -31,6 +31,7 @@ export const TABLE_HEAD = {
     {
       key: "in",
       label: "In",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-in-sort",
@@ -49,6 +50,7 @@ export const TABLE_HEAD = {
         sortKey: "activityReport.out",
         type: "string",
       },
+      width: `${100 / 7}%`,
     },
     {
       key: "breaks",
@@ -1220,3 +1222,6 @@ export const PEOPLE_ACTION_ITEMS = {
   sendMessage: "Send Message",
   meet: "Meet",
 };
+export const FILL_DAILY_ENTRY_EVENT = 'filldaily-entry'
+
+export const MAX_TIMER_DURATION_HOUR = 12 

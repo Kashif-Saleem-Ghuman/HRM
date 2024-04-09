@@ -66,7 +66,7 @@
     <template v-for="(day, dayIndex) in inOutAction" #[`cell(${day})`]="data">
       <div class="cursor-pointer">
         <chips
-          :title="getInOutValue(data.value?.activityReport?.[day])"
+          :title="getInOutActivityTime(data.value, day)"
           :className="[getInOutClass(data.value?.activityReport?.[day])]"
         ></chips>
       </div>
@@ -97,7 +97,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../../utils/constant/Constant.js";
+import {TABLE_HEAD, PEOPLE_ACTION_ITEMS} from "../../../../utils/constant/Constant.js";
 import {
   dateCheck,
   meetLink,
@@ -109,11 +109,13 @@ import {
   getEmployeeInitials,
 } from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
+import timezoneAbbr from "@/utils/constant/timezoneAbbreviations";
 
 import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
+import {DateTime} from "luxon";
 export default {
   props: {
     userList: {
@@ -182,8 +184,37 @@ export default {
       return "Absent";
     },
 
+    getInOutActivityTime(employee, activityType){
+      return this.getInOutValue(employee?.activityReport?.[activityType]) + this.getTimezoneInOut(employee, activityType)
+    },
+
     getInOutValue(data) {
       return data ?? "--";
+    },
+    getTimezoneInOut(employee, activityType) {
+      const now = DateTime.now();
+      const zoneName = employee.timezone ?? now.zoneName;
+
+      const emplZoneAbbr = this.getTimeAbbrByTimezoneName(zoneName);
+      const clientZoneAbbr = this.getTimeAbbrByTimezoneName(now.zoneName);
+      
+      if(!employee?.activityReport?.[activityType] || (clientZoneAbbr === emplZoneAbbr)){
+        return '';
+      }
+      let inOutTimeEntry = employee.timers.length ?
+        employee.timers.find((timeEntry) => timeEntry.type === 'in') :
+        employee.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
+      let time;
+      if(activityType === 'in'){
+        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: zoneName })
+      }else{
+        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: zoneName })
+      }
+      return ' (' + time.toFormat("HH:mm") + (emplZoneAbbr ? ' ' + emplZoneAbbr : '') + ')';
+    },
+
+    getTimeAbbrByTimezoneName(timeZoneName){
+      return timezoneAbbr.get(timeZoneName);
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

@@ -408,7 +408,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee Name",
-      width: `${100 / 4}%`,
+      width: `${100 / 4.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-name-sort",
@@ -420,7 +420,7 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Leave Type",
-      width: `${100 / 7}%`,
+      width: `${100 / 8.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-type-sort",
@@ -432,7 +432,7 @@ export const TABLE_HEAD = {
     {
       key: "start",
       label: "Start",
-      width: `${100 / 6}%`,
+      width: `${100 / 8.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-start-sort",
@@ -444,7 +444,7 @@ export const TABLE_HEAD = {
     {
       key: "end",
       label: "End",
-      width: `${100 / 6}%`,
+      width: `${100 / 8.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-end-sort",
@@ -456,7 +456,7 @@ export const TABLE_HEAD = {
     {
       key: "duration",
       label: "Duration",
-      width: `${100 / 8}%`,
+      width: `${100 / 8.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "leave-duration-sort",
@@ -468,7 +468,7 @@ export const TABLE_HEAD = {
     {
       key: "reason",
       label: "Reason",
-      width: `${100 / 4}%`,
+      width: `${100 / 3}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-reason-sort",

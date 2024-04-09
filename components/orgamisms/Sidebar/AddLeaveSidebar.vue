@@ -31,7 +31,6 @@
             :activeUserAllowanceData="getAllownaceDataValue"
             :edit="true"
             style="z-index: 999"
-            :daysUsedCarryOver="getAllownaceDataValue.vacationCarryOver"
           ></add-leave>
         </div>
       </template>

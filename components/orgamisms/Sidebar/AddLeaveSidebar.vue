@@ -30,7 +30,8 @@
             :key="addLeaveKey"
             :activeUserAllowanceData="getAllownaceDataValue"
             :edit="true"
-            style="z-index: 999;"
+            style="z-index: 999"
+            :daysUsedCarryOver="getAllownaceDataValue.vacationCarryOver"
           ></add-leave>
         </div>
       </template>
@@ -97,7 +98,7 @@ export default {
         type: null,
         start: null,
         end: null,
-        isHalfDay:null,
+        isHalfDay: null,
       },
       allowanceDays: "",
       sidebarHeading: "",
@@ -116,7 +117,7 @@ export default {
       flag: false,
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
-      isHalfday:false,
+      isHalfday: false,
     };
   },
   created() {
@@ -163,6 +164,7 @@ export default {
       this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
       this.employeeNameSelectShow = true;
     });
+
     const user = this.$store.state.employee.activeUser;
     this.employeeNameSelect = user.id;
     this.employeesOptions = this.getReportList;
@@ -170,7 +172,7 @@ export default {
   methods: {
     getEmployeeFullName,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     addHandleInput,
     selectUserHandle,
@@ -186,10 +188,25 @@ export default {
     async addLeave(payload, key) {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
-        this.$store.dispatch("employee/setUser", this.getUser.id);
+        this.$store.dispatch("employee/setUser", this.id);
         this.employeeName = getEmployeeFullName(this.getUser);
+        this.$store.dispatch("employee/setUser", this.id);
+        await this.$store
+          .dispatch("leavesdata/setLeaveVacationsAllowance", {
+            id: this.id,
+          })
+          .then((result) => {
+            this.allowanceLeavesDetailedData = result;
+            this.is_data_fetched = true;
+          });
       } else {
         this.employeeName = getEmployeeFullName(this.getActiveUser);
+        await this.$store
+          .dispatch("leavesdata/setLeaveVacationsAllowanceUser")
+          .then((result) => {
+            this.allowanceLeavesDetailedData = result;
+            this.is_data_fetched = true;
+          });
       }
       this.slideClass = "slide-in";
       if (payload === this.leaveRequestTypes[payload].type) {

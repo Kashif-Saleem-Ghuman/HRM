@@ -31,6 +31,7 @@ export const TABLE_HEAD = {
     {
       key: "in",
       label: "In",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-in-sort",
@@ -49,6 +50,7 @@ export const TABLE_HEAD = {
         sortKey: "activityReport.out",
         type: "string",
       },
+      width: `${100 / 7}%`,
     },
     {
       key: "breaks",
@@ -418,7 +420,7 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Leave Type",
-      width: `${100 / 5}%`,
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-type-sort",
@@ -430,7 +432,7 @@ export const TABLE_HEAD = {
     {
       key: "start",
       label: "Start",
-      width: `${100 / 5}%`,
+      width: `${100 / 6}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-start-sort",
@@ -452,9 +454,21 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "duration",
+      label: "Duration",
+      width: `${100 / 8}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "leave-duration-sort",
+        isActive: false,
+        sortKey: "duration",
+        type: "number",
+      },
+    },
+    {
       key: "reason",
       label: "Reason",
-      width: `${100 / 6}%`,
+      width: `${100 / 4}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-reason-sort",
@@ -1098,7 +1112,7 @@ export const TIMESHEET_STATUS = {
     label: "Approve",
     value: "approved",
     key: "approved",
-    variant: "primary-24",
+    variant: "success",
     icon: "check-circle-solid",
   },
   rejected: {
@@ -1208,11 +1222,6 @@ export const PEOPLE_ACTION_ITEMS = {
   sendMessage: "Send Message",
   meet: "Meet",
 };
-export const DOWNLOAD_REPORT_OPTIONS = [
-  { label: 'Select date range', value: '' },
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Orange', value: 'orange' },
-  { label: 'Mango', value: 'mango' },
-  { label: 'Grapes', value: 'grapes' }
-];
+export const FILL_DAILY_ENTRY_EVENT = 'filldaily-entry'
+
+export const MAX_TIMER_DURATION_HOUR = 12 

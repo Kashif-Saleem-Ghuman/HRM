@@ -78,6 +78,15 @@
         <span>{{ onLoad(data.value.end) }}</span>
       </div>
     </template>
+    <template #cell(duration)="data">
+      <div class="justify-between text-dark">
+        <span>{{ data.value.duration == null
+              ? "N/A"
+              : `${data.value.duration} day${
+                  data.value.duration > 1 ? "s" : ""
+                }` }}</span>
+      </div>
+    </template>
     <template #cell(reason)="data">
       <div class="justify-between text-dark">
         <span>{{ data.value.note }}</span>
@@ -87,10 +96,10 @@
       <div class="d-flex align-center justify-center space-between">
         
         <bib-button
-          :icon="$button.approved.icon"
-          :variant="$button.approved.variant"
-          :scale="$button.approved.scale"
-          :label="$button.approved.label"
+          :icon="$button.approved_g.icon"
+          :variant="$button.approved_g.variant"
+          :scale="$button.approved_g.scale"
+          :label="$button.approved_g.label"
           class="mr-05 w-50"
           @click="$emit('approve-item', data.value.id)"
         ></bib-button>

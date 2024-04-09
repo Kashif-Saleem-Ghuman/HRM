@@ -154,7 +154,7 @@ export default {
       .then((result) => {
         this.leaveVacationDataUser = result;
       });
-    this.$root.$on("fetched-leave-vacation", () => {
+    this.$root.$on("fetched-leave-vacation-admin", () => {
       this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
           from: this.getformToDate.from,

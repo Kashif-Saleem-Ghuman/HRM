@@ -141,7 +141,7 @@ export default {
       );
     },
   },
-  async created() {
+  async mounted() {
     this.$root.$on("fetched-leave-vacation", () => {
       this.$store
         .dispatch("leavevacation/setLeaveVacationsUser", {
@@ -156,42 +156,39 @@ export default {
           }
         });
       this.getUserLeavesDetailUser({
-      from: this.getformToDate.from,
-      to: this.getformToDate.to,
-    }).then((result) => {
-        if(result){
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      }).then((result) => {
+        if (result) {
           this.allowanceLeavesDetailedData = result;
-        this.is_data_fetched = true;
-        }else{
-          this.openPopupNotification(this.$error.common_message)
+          this.is_data_fetched = true;
+        } else {
+          this.openPopupNotification(this.$error.common_message);
         }
       });
     });
-  },
-  async mounted() {
     this.getCurrentYear();
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
+    this.getUserLeavesDetailUser({
+      from: this.getformToDate.from,
+      to: this.getformToDate.to,
+    }).then((result) => {
+      if (result) {
+        this.allowanceLeavesDetailedData = result;
+        this.is_data_fetched = true;
+      } else {
+        this.openPopupNotification(this.$error.common_message);
+      }
+    });
+    this.activeUserData = this.getActiveUser;
+    this.selectedMonth = this.currentMonth;
+
     await this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
     });
-    this.getUserLeavesDetailUser({
-      from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      }).then((result) => {
-      if(result){
-          this.allowanceLeavesDetailedData = result;
-        this.is_data_fetched = true;
-        }else{
-          this.openPopupNotification(this.$error.common_message)
-        }
-    });
-    this.activeUserData = this.getActiveUser;
-    this.selectedMonth = this.currentMonth;
-    
-   
 
     await this.$store
       .dispatch("leavevacation/setLeaveVacationsUser", {
@@ -214,7 +211,7 @@ export default {
     getEmployeeFullName,
     generateYearList,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     async changeYearView(e) {
       this.selectedYear = e.label;

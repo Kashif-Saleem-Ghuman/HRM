@@ -45,7 +45,9 @@
         </div>
         <div class="info_wrapper cursor-pointer w-100">
           <div class="title" :title="getEmployeeFullName(data.value)">
-            {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
+            {{
+              getEmployeeFullName(data.value) | truncate(truncateText, "...")
+            }}
           </div>
           <div class="description">
             {{ data.value.jobTitle }}
@@ -84,20 +86,28 @@
       </div>
     </template>
     <template #cell_action="data">
-        <bib-button pop="horizontal-dots" @click.native.stop>
-          <template v-slot:menu>
-            <div class="list">
-              <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>
-            </div>
-          </template>
-        </bib-button>
-      </template>
+      <bib-button pop="horizontal-dots" @click.native.stop>
+        <template v-slot:menu>
+          <div class="list">
+            <span
+              class="list__item"
+              v-for="item in peopleActionItems"
+              @click.stop="callAction(data, item)"
+              >{{ item }}</span
+            >
+          </div>
+        </template>
+      </bib-button>
+    </template>
   </bib-table>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import {TABLE_HEAD, PEOPLE_ACTION_ITEMS} from "../../../../utils/constant/Constant.js";
+import {
+  TABLE_HEAD,
+  PEOPLE_ACTION_ITEMS,
+} from "../../../../utils/constant/Constant.js";
 import {
   dateCheck,
   meetLink,
@@ -115,7 +125,7 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 export default {
   props: {
     userList: {
@@ -128,7 +138,7 @@ export default {
       modal3Opened: false,
       showTooltip: false,
       tableFields: TABLE_HEAD.tHeadDashboard,
-      peopleActionItems:PEOPLE_ACTION_ITEMS,
+      peopleActionItems: PEOPLE_ACTION_ITEMS,
       activityReportClass: [],
       satisfaction: "",
       userPhotoClick: false,
@@ -148,13 +158,13 @@ export default {
       if (!this.sortByField) return this.userList;
       return sortColumn({ items: this.userList, field: this.sortByField });
     },
-    truncateText(){
+    truncateText() {
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-      return 40;
-    } else {
-      return 25;
-    }
+        return 40;
+      } else {
+        return 25;
+      }
     },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",
@@ -168,24 +178,36 @@ export default {
     getEmployeeInitials,
     meetLink,
     makeCall,
-    async callAction(data, value){
-      if(value === 'View Profile') return this.viewProfile(data.value.id);
-      if(value === 'Send Message') return this.sendMessage(data.value.userId);
-      if(value === 'Meet') return await this.makeCall(data.value.userId, this.getUser.userId);
+    async callAction(data, value) {
+      if (value === "View Profile") return this.viewProfile(data.value.id);
+      if (value === "Send Message") return this.sendMessage(data.value.userId);
+      if (value === "Meet")
+        return await this.makeCall(data.value.userId, this.getUser.userId);
     },
     getStatusTitle(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
-
-      if (timers.length || inEntry) {
+      const inEntry = data.activityReport?.in;
+      if (timers.length > 0 || inEntry) {
         return "Present";
       }
-
-      return "Absent";
+      if (data.requests.length === 0) {
+        return "Absent";
+      }
+      const firstRequestType = data.requests[0].type;
+      const titleMap = {
+        medical: "Medical Leave",
+        leave: "Personal Leave",
+        vacation: "On Vacation",
+        other: "Other Leave",
+      };
+      return titleMap[firstRequestType] || "Unknown Request Type";
     },
 
-    getInOutActivityTime(employee, activityType){
-      return this.getInOutValue(employee?.activityReport?.[activityType]) + this.getTimezoneInOut(employee, activityType)
+    getInOutActivityTime(employee, activityType) {
+      return (
+        this.getInOutValue(employee?.activityReport?.[activityType]) +
+        this.getTimezoneInOut(employee, activityType)
+      );
     },
 
     getInOutValue(data) {
@@ -197,33 +219,43 @@ export default {
 
       const emplZoneAbbr = this.getTimeAbbrByTimezoneName(zoneName);
       const clientZoneAbbr = this.getTimeAbbrByTimezoneName(now.zoneName);
-      
-      if(!employee?.activityReport?.[activityType] || (clientZoneAbbr === emplZoneAbbr)){
-        return '';
+
+      if (
+        !employee?.activityReport?.[activityType] ||
+        clientZoneAbbr === emplZoneAbbr
+      ) {
+        return "";
       }
-      let inOutTimeEntry = employee.timers.length ?
-        employee.timers.find((timeEntry) => timeEntry.type === 'in') :
-        employee.timeEntries.find((timeEntry) => timeEntry.activity === 'in');
+      let inOutTimeEntry = employee.timers.length
+        ? employee.timers.find((timeEntry) => timeEntry.type === "in")
+        : employee.timeEntries.find((timeEntry) => timeEntry.activity === "in");
       let time;
-      if(activityType === 'in'){
-        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: zoneName })
-      }else{
-        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: zoneName })
+      if (activityType === "in") {
+        time = DateTime.fromISO(inOutTimeEntry?.start, { zone: zoneName });
+      } else {
+        time = DateTime.fromISO(inOutTimeEntry?.end, { zone: zoneName });
       }
-      return ' (' + time.toFormat("HH:mm") + (emplZoneAbbr ? ' ' + emplZoneAbbr : '') + ')';
+      return (
+        " (" +
+        time.toFormat("HH:mm") +
+        (emplZoneAbbr ? " " + emplZoneAbbr : "") +
+        ")"
+      );
     },
 
-    getTimeAbbrByTimezoneName(timeZoneName){
+    getTimeAbbrByTimezoneName(timeZoneName) {
       return timezoneAbbr.get(timeZoneName);
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
+      const inEntry = data.activityReport?.in;
 
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";
       }
-
+      if (data.requests.length != 0) {
+        return "chip-list-wrapper__black";
+      }
       return "chip-list-wrapper__light";
     },
     getInOutClass(data) {
@@ -255,7 +287,7 @@ export default {
       }
     },
     getTotalHours(minutes) {
-      if (minutes == 0 || !minutes) return '00:00';
+      if (minutes == 0 || !minutes) return "00:00";
       const hours = minutes / 60;
       return formatHoursToHHMM(hours);
     },

@@ -18,7 +18,7 @@
               </div>
               <div class="col-4">
                 <celebrations-widget
-                  avatars-position="center"
+                  avatars-position="bottom"
                 ></celebrations-widget>
               </div>
             </div>

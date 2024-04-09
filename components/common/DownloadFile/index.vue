@@ -16,7 +16,8 @@
         class="max-z-index"
       >
         <template v-slot:menu>
-          <ul class="min-height-10">
+          <ul>
+            <!-- Loop through DOWNLOAD_REPORT_OPTIONS to populate dropdown items -->
             <li
               class="option-item"
               v-for="option in downloadFileOptions"
@@ -32,9 +33,9 @@
 
     <!-- Custom Range Date Picker Modal -->
     <bib-modal-wrapper
-      title="Download Leave Summary"
+      title="Download Leave Report"
       v-if="showCustomRangePicker"
-      @close="showCustomRangePicker = false"
+      @close="cancelCustomRange"
     >
       <template #content>
         <div class="d-flex">
@@ -44,6 +45,7 @@
             placeholder="Select start date"
             label="Start Date:"
             @input="updateStartDate"
+            class="mr-1"
           ></bib-datetime-picker>
 
           <!-- End Date Picker -->
@@ -73,16 +75,37 @@
     </bib-modal-wrapper>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 
 const DOWNLOAD_REPORT_OPTIONS = [
-  { label: "Last Week", value: "week" },
-  { label: "Last Month", value: "month" },
-  { label: "Last Year", value: "year" },
-  { label: "Custom Range", value: "custom" },
+  { label: "Download Report", value: "download_report" },
+  { label: "Download Summary", value: "download_summary" },
 ];
+
+// Constants for API endpoints
+const SUMMARY_REPORT_ENDPOINT = "/dashboard/admin/leave-summary-report";
+const DETAIL_REPORT_ENDPOINT = "/dashboard/admin/leave-detail-report";
+
+// Constant for popup notification settings
+const NOTIFICATION_MESSAGES = {
+  SUCCESS_DOWNLOAD: {
+    text: "File has been downloaded successfully...",
+    variant: "primary-24",
+  },
+  ERROR_DOWNLOAD: {
+    text: "Failed to download file. Please try again.",
+    variant: "danger",
+  },
+  BOTH_DATES_REQUIRED: {
+    text: "Please select both start and end dates for the custom range.",
+    variant: "danger",
+  },
+  DATE_VALIDATION_ERROR: {
+    text: "End date cannot be earlier than the start date. Please adjust.",
+    variant: "danger",
+  },
+};
 
 export default {
   data() {
@@ -105,49 +128,30 @@ export default {
       this.showOptions = false;
     },
     selectReport(reportType) {
-      if (reportType === "custom") {
+      if (reportType === "download_report") {
         this.showCustomRangePicker = true;
-        this.showOptions = false; // Hide report options after selecting Custom Range
       } else {
-        this.downloadFile(reportType);
-        this.showOptions = false; // Hide report options after selecting other report types
+        this.downloadReport(reportType);
+        this.hideReportOptions();
       }
     },
-    async downloadFile(reportType) {
-      let fromDate = new Date();
-      let toDate = new Date();
+    async downloadReport(reportType) {
+      const endpoint =
+        reportType === "download_report"
+          ? SUMMARY_REPORT_ENDPOINT
+          : DETAIL_REPORT_ENDPOINT;
 
-      switch (reportType) {
-        case "week":
-          fromDate.setDate(fromDate.getDate() - 7);
-          break;
-        case "month":
-          fromDate.setMonth(fromDate.getMonth() - 1);
-          break;
-        case "year":
-          fromDate.setFullYear(fromDate.getFullYear() - 1);
-          break;
-        default:
-          break; // No changes needed for other report types
-      }
-
-      await this.fetchAndDownloadReport(fromDate, toDate);
-    },
-    async fetchAndDownloadReport(fromDate, toDate) {
       try {
-        const response = await axios.get(
-            `${process.env.API_URL}/dashboard/admin/leave-summary-report`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-            params: {
-              from: fromDate.toISOString(),
-              to: toDate.toISOString(),
-            },
-          }
-        );
-        console.log(response, "response")
+        const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          params: {
+            from: this.startDate,
+            to: this.endDate,
+          },
+        });
+
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -155,16 +159,11 @@ export default {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        this.openPopupNotification({
-          text: "File has been downloaded successfully...",
-          variant: "primary-24",
-        });
+
+        this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
       } catch (error) {
         console.error("Error downloading file:", error);
-        this.openPopupNotification({
-          text: "Failed to download file. Please try again.",
-          variant: "danger",
-        });
+        this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
     updateStartDate(date) {
@@ -181,10 +180,7 @@ export default {
     },
     async downloadCustomRange() {
       if (!this.startDate || !this.endDate) {
-        this.openPopupNotification({
-          text: "Please select both start and end dates for the custom range.",
-          variant: "danger",
-        });
+        this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
         return;
       }
 
@@ -192,14 +188,11 @@ export default {
       const endDate = new Date(this.endDate);
 
       if (endDate < startDate) {
-        this.openPopupNotification({
-          text: "End date cannot be earlier than the start date. Please adjust.",
-          variant: "danger",
-        });
+        this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
         return;
       }
 
-      await this.fetchAndDownloadReport(startDate, endDate);
+      await this.downloadReport("download_report");
 
       this.showCustomRangePicker = false; // Hide custom range modal after download
     },

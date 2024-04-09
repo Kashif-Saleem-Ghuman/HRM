@@ -13,6 +13,7 @@
         :avatar="form.photo"
         :key="topNav"
       ></section-header-left>
+      <download-file></download-file>
     </div>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">

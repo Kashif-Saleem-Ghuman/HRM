@@ -9,7 +9,6 @@
           title="Leaves and Vacations"
           headerRight="headerRight"
         ></section-header-left>
-        <download-file></download-file>
       </div>
       <div class="pl-1 py-1">
         <div

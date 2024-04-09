@@ -3,7 +3,7 @@
     <!-- Dropdown for Selecting Report Type -->
     <div v-click-outside="hideReportOptions">
       <bib-button
-        label="Download Report"
+        label="Download"
         variant="primary-24"
         size="lg"
         class="w-100"
@@ -12,7 +12,7 @@
       <bib-button
         dropdown=""
         label=""
-        style="transform: translateY(-30px); margin-bottom: -30px"
+        style="transform: translateY(-30px); margin-bottom: -30px; right: 30px"
         class="max-z-index"
       >
         <template v-slot:menu>
@@ -142,14 +142,21 @@ export default {
           : DETAIL_REPORT_ENDPOINT;
 
       try {
+        let params = {}; // Initialize params object
+
+        if (reportType === "download_report") {
+          // Include additional parameters for "download_report" type
+          params = {
+            from: this.startDate,
+            to: this.endDate,
+          };
+        }
+
         const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-          params: {
-            from: this.startDate,
-            to: this.endDate,
-          },
+          params: params, 
         });
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -166,6 +173,7 @@ export default {
         this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
+
     updateStartDate(date) {
       this.startDate = date;
     },

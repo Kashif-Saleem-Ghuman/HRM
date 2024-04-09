@@ -137,9 +137,9 @@ export default {
   methods: {
     getEmployeeInitials,
     getEmployeeFullName,
-    // async fetchData() {
-    //   throw new Error(`Widget fetchaData function needs to be implemented!`);
-    // },
+    async fetchData() {
+      throw new Error(`Widget fetchaData function needs to be implemented!`);
+    },
     showEmployeeList() {
       this.employeeList = true;
     },
@@ -149,7 +149,7 @@ export default {
     },
   },
   created() {
-    // this.fetchData();
+    this.fetchData();
   },
 };
 </script>

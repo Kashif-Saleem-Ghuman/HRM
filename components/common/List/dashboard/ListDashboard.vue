@@ -176,13 +176,21 @@ export default {
     },
     getStatusTitle(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in && data.activityReport?.out;
-
-      if (timers.length || inEntry) {
+      const inEntry = data.activityReport?.in;
+      if (timers.length > 0 || inEntry) {
         return "Present";
       }
-
-      return "Absent";
+      if (data.requests.length === 0) {
+        return "Absent";
+      }
+      const firstRequestType = data.requests[0].type;
+      const titleMap = {
+        medical: "Medical Leave",
+        leave: "Personal Leave",
+        vacation: "On Vacation",
+        other: "Other Leave",
+      };
+      return titleMap[firstRequestType] || "Unknown Request Type";
     },
 
     getInOutActivityTime(employee, activityType){
@@ -219,12 +227,14 @@ export default {
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in && data.activityReport?.out;
+      const inEntry = data.activityReport?.in;
 
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";
       }
-
+      if (data.requests.length != 0) {
+        return "chip-list-wrapper__black";
+      }
       return "chip-list-wrapper__light";
     },
     getInOutClass(data) {

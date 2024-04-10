@@ -61,7 +61,7 @@ export default {
   components: { PresentWidget },
   data() {
     return {
-      date: DateTime.now().startOf("day").toFormat(DATETIME_FORMAT),
+      date: DateTime.now().toISODate(),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
@@ -103,7 +103,9 @@ export default {
       );
     },
 
-    async generateOrganizationEntries(isoDate) {
+    async generateOrganizationEntries() {
+      const isoDate = DateTime.fromISO(this.date).toISODate(); // Convert date to ISO format (YYYY-MM-DD)
+
       const { searchString } = this;
       this.loading = true;
       this.employees = await this.$store.dispatch(

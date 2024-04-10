@@ -183,9 +183,7 @@ export default {
       if (data.requests.length === 0) {
         return "Absent";
       }
-      if(data.requests.length != 0 ){
-        return "On Leave"
-      }
+      return 'On Leave';
     },
 
     getInOutActivityTime(employee, activityType){

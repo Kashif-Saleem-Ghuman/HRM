@@ -53,7 +53,6 @@
           <add-leave-sidebar></add-leave-sidebar>
         </div>
         <div>
-          <bib-clock-wrapper> </bib-clock-wrapper>
         </div>
         <loader :loading="loading"></loader>
       </template>

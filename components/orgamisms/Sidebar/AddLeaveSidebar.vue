@@ -26,6 +26,7 @@
             :leaveTypeSelect="leaveTypeSelect"
             :allowanceDays="getAllownaceDataValue"
             :usedDays="useDaysDataValue"
+            :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
             :employeeNameSelect="employeeNameSlectedValue"
             :key="addLeaveKey"
             :activeUserAllowanceData="getAllownaceDataValue"
@@ -146,6 +147,7 @@ export default {
       this.addForm.type =
         this.leaveRequestTypes[this.leaveTypeActiveValue].type;
       const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
+      this.leaveType = this.leaveRequestTypes[this.leaveTypeActiveValue].type;
       return this.getLeaveAllowance[keyValue];
     },
     getAllownaceDataValue() {
@@ -215,6 +217,7 @@ export default {
           this.employeeNameSelectShow = true;
           this.leaveTypeSelect = true;
           this.openSidebar = true;
+          this.leaveType = this.leaveRequestTypes.leave.type;
           this.addForm.type = this.leaveRequestTypes.leave.type;
           this.addForm.employeeId = this.getActiveUser.id;
           this.addLeaveKey += 1;

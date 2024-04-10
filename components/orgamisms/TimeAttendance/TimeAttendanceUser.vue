@@ -398,7 +398,7 @@ export default {
 
       if (itemDateTime > currentDate) {
         this.openPopupNotification({
-          text: "Cannot proceed with future date..",
+          text: "Cannot proceed with future date.",
           variant: "danger",
         });
         return true;

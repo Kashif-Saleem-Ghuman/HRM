@@ -41,7 +41,6 @@ import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
 import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
-import { DateTime } from "luxon";
 
 export default {
   data() {
@@ -79,7 +78,7 @@ export default {
   methods: {
     async getOrganizationEntries() {
       const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date:DateTime.fromJSDate(new Date(date)).toFormat('yyyy-MM-dd') });
+      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
 
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);

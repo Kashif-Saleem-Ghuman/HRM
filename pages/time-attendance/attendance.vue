@@ -103,14 +103,13 @@ export default {
       );
     },
 
-    async generateOrganizationEntries() {
-      const isoDate = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISODate(); // Convert date to ISO format (YYYY-MM-DD)
-
+    async generateOrganizationEntries(isoDate) {
+      const date = DateTime.fromJSDate(new Date(isoDate)).toFormat('yyyy-MM-dd');
       const { searchString } = this;
       this.loading = true;
       this.employees = await this.$store.dispatch(
         "timeattendance/getEmployeesAttendance",
-        { date: isoDate, searchString }
+        { date, searchString }
       ).finally(() => {
         this.loading = false;
       });

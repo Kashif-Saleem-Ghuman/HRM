@@ -61,7 +61,7 @@ export default {
   components: { PresentWidget },
   data() {
     return {
-      date: DateTime.now().toISODate(),
+      date: DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
@@ -88,7 +88,7 @@ export default {
       this.generateOrganizationEntries(isoDate);
     },
     isDateToday(date) {
-      return DateTime.fromISO(date).hasSame(DateTime.local(), "day");
+      return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(DateTime.local(), "day");
     },
 
     formatDate(isoDate) {
@@ -104,7 +104,7 @@ export default {
     },
 
     async generateOrganizationEntries() {
-      const isoDate = DateTime.fromISO(this.date).toISODate(); // Convert date to ISO format (YYYY-MM-DD)
+      const isoDate = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISODate(); // Convert date to ISO format (YYYY-MM-DD)
 
       const { searchString } = this;
       this.loading = true;

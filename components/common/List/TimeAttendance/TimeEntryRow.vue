@@ -115,6 +115,8 @@ export default {
       });
     },
     timer() {
+      if (this.$route.params.id) return this.$store.state.employee.selectedEmployee?.timer
+
       return this.$store.state.timeattendance.timer?.active
         ? this.$store.state.timeattendance.timer
         : null;

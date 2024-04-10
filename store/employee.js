@@ -1,4 +1,5 @@
 import { redirectToLogin } from "../utils/functions/api_call/auth";
+import { getActiveTimer } from "../utils/functions/api_call/timeattendance/timer";
 
 export const state = () => ({
   user: [],
@@ -6,7 +7,8 @@ export const state = () => ({
   userList: [],
   departmentList: [],
   reportList: [],
-  selectedEmployeeId: null
+  selectedEmployeeId: null,
+  selectedEmployee: null
 });
 
 export const getters = {
@@ -47,9 +49,31 @@ export const mutations = {
     const { employeeId } = payload
     state.selectedEmployeeId = employeeId;
   },
+  SET_SELECTED_EMPLOYEE: (state, { employee }) => {
+    state.selectedEmployee = employee
+  }
 };
 
 export const actions = {
+
+  async setSelelectedEmployee({ state, commit}, { employeeId }) {
+    if (!employeeId) return  commit("SET_SELECTED_EMPLOYEE", { employee: null })
+    if (state.selectedEmployee && state.selectedEmployee.id == employeeId) return state.selectedEmployee
+
+    const employee = { id: employeeId }
+    commit("SET_SELECTED_EMPLOYEE", { employee })
+    return employee
+  },
+
+  async setSelectedEmployeeTimer({ state, commit}) {
+    const employeeId = state.selectedEmployee?.id
+    if (!employeeId) return 
+    const timer = await getActiveTimer({ employeeId })
+    const employee = { ...state.selectedEmployee, timer }
+    commit("SET_SELECTED_EMPLOYEE", { employee })
+    return employee
+  },
+
   async setUserListPayload(ctx, payload) {
     try {
       const employeeList = await this.$axios.$get(

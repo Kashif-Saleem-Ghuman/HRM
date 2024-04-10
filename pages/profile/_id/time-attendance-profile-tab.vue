@@ -287,6 +287,7 @@ export default {
   async created() {
     this.setView();
     this.id = this.$route.params.id;
+    this.$store.dispatch("employee/setSelectedEmployeeTimer")
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
   },

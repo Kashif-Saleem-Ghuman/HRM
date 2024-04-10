@@ -30,3 +30,20 @@ export async function stopTimer({ end }) {
     console.error(e);
   }
 }
+
+
+export async function getActiveTimer({ employeeId }) {
+  const config = createConfig();
+  let url = "/timers?";
+
+  if (employeeId) {
+    url += `employeeId=${employeeId}`
+  }
+  try {
+    const timer = await hrmApiAxiosInstance.get(url, config);
+    console.log();
+    return timer.data;
+  } catch (e) {
+    console.error(e);
+  }
+}

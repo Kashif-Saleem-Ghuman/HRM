@@ -183,14 +183,9 @@ export default {
       if (data.requests.length === 0) {
         return "Absent";
       }
-      const firstRequestType = data.requests[0].type;
-      const titleMap = {
-        medical: "Medical Leave",
-        leave: "Personal Leave",
-        vacation: "On Vacation",
-        other: "Other Leave",
-      };
-      return titleMap[firstRequestType] || "Unknown Request Type";
+      if(data.requests.length != 0 ){
+        return "On Leave"
+      }
     },
 
     getInOutActivityTime(employee, activityType){

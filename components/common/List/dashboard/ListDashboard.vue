@@ -212,6 +212,9 @@ export default {
       }else{
         time = DateTime.fromISO(inOutTimeEntry?.end, { zone: zoneName })
       }
+
+      if (!time.isValid) return ""
+      
       return ' (' + time.toFormat("HH:mm") + (emplZoneAbbr ? ' ' + emplZoneAbbr : '') + ')';
     },
 

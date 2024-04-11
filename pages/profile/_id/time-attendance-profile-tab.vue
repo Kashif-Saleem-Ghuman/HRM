@@ -231,6 +231,8 @@ export default {
       return `${fromFormat} -> ${toFormat}`;
     },
     calculateTotalWorkMs({ timeEntry }) {
+      if (!timeEntry.end) return 0
+
       return (
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );

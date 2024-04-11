@@ -58,6 +58,12 @@ export default {
 
     }
   }
+  &__black {
+    //   background-color: #d5e8d4;
+    li {
+      color: $dark;
+    }
+  }
   &__default {
     li {
       color: $success !important;

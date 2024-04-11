@@ -214,6 +214,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    daysUsedCarryOver: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -221,7 +225,7 @@ export default {
       disable: this.edit,
       start: null,
       end: null,
-      updateCheckbox:0,
+      updateCheckbox: 0,
       // shouldShowHalfDayCheckbox: false,
     };
   },
@@ -239,12 +243,14 @@ export default {
     }),
     balanceLeaveValue() {
       if (!Number.isNaN(this.allowanceDays) && !Number.isNaN(this.usedDays)) {
-        const balance =
-          this.allowanceDays - this.usedDays;
+        let balance = this.allowanceDays - this.usedDays;
+        if (this.leaveType === "vacation") {
+          balance -= this.daysUsedCarryOver;
+        }
         return balance % 1 === 0 ? balance : balance.toFixed(2);
       }
       return 0;
-  },
+    },
   },
 
   methods: {

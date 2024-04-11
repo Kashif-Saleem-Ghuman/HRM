@@ -259,6 +259,9 @@ export default {
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     registerFillDailyEntryListener() {
       this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
       this.fillDailyTimeEntries();
@@ -387,9 +390,21 @@ export default {
       await this.fillDailyTimeEntries();
       // this.loading = false;
     },
-    async enterDetail(item){
-      const date = item.date
-      this.todayDate = DateTime.fromISO(date).toFormat(DATETIME_FORMAT)
+      async enterDetail(item) {
+      const date = item.date;
+      const itemDateTime = DateTime.fromISO(date);
+
+      const currentDate = DateTime.now();
+
+      if (itemDateTime > currentDate) {
+        this.openPopupNotification({
+          text: "Cannot proceed with future date.",
+          variant: "danger",
+        });
+        return true;
+      }
+
+      this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
       this.$router.push({ query: { view: "day" } });
       await this.fillDailyTimeEntries();
     },

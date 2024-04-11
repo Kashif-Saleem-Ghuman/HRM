@@ -12,6 +12,8 @@
         <add-leave
           :employeeName="employeeName"
           :allowanceDays="getAllownaceDataValue"
+          :daysUsedCarryOver="getLeaveAllowance.vacationCarryOver"
+          :leaveType="leaveTypeActiveValue"
           :usedDays="useDaysDataValue"
           :employeeNameSelect="employeeNameSlectedValue"
           :employeesOptions="employeesOptions"

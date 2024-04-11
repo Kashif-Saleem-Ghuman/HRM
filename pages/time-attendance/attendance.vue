@@ -61,7 +61,7 @@ export default {
   components: { PresentWidget },
   data() {
     return {
-      date: DateTime.now().startOf("day").toFormat(DATETIME_FORMAT),
+      date: DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
@@ -88,7 +88,7 @@ export default {
       this.generateOrganizationEntries(isoDate);
     },
     isDateToday(date) {
-      return DateTime.fromISO(date).hasSame(DateTime.local(), "day");
+      return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(DateTime.local(), "day");
     },
 
     formatDate(isoDate) {
@@ -104,11 +104,12 @@ export default {
     },
 
     async generateOrganizationEntries(isoDate) {
+      const date = DateTime.fromJSDate(new Date(isoDate)).toFormat('yyyy-MM-dd');
       const { searchString } = this;
       this.loading = true;
       this.employees = await this.$store.dispatch(
         "timeattendance/getEmployeesAttendance",
-        { date: isoDate, searchString }
+        { date, searchString }
       ).finally(() => {
         this.loading = false;
       });

@@ -31,7 +31,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       .split(' ')
       [0];
 
-    outTime = new Date(clockInTimeEntry.end)
+    outTime = clockInTimeEntry.end && new Date(clockInTimeEntry.end)
       .toTimeString()
       .split(' ')
       [0];
@@ -47,6 +47,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   const breaks = timeEntries.filter((t) => t.activity === 'break');
 
   for (let entry of breaks) {
+    if (!entry.end) continue
     breaksSeconds += Math.floor(
       (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000
     );
@@ -54,8 +55,8 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   }
 
   return {
-    in: inTime === null ? '00:00' : inTime.trim().slice(0, 5),
-    out: outTime === null ? '00:00' : outTime.trim().slice(0, 5),
+    in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
+    out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
     breaks: formatTime(breaksSeconds, false),
     total: formatTime(totalSeconds, false),
   };

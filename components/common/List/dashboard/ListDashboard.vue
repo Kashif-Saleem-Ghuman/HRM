@@ -40,6 +40,7 @@
               @viewProfile="viewProfile(data.value.id)"
               @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
+              :active="data.value.active"
             ></user-info-card>
           </div>
         </div>
@@ -175,13 +176,14 @@ export default {
     },
     getStatusTitle(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
-
-      if (timers.length || inEntry) {
+      const inEntry = data.activityReport?.in;
+      if (timers.length > 0 || inEntry) {
         return "Present";
       }
-
-      return "Absent";
+      if (data.requests.length === 0) {
+        return "Absent";
+      }
+      return 'On Leave';
     },
 
     getInOutActivityTime(employee, activityType){
@@ -218,12 +220,14 @@ export default {
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
+      const inEntry = data.activityReport?.in;
 
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";
       }
-
+      if (data.requests.length != 0) {
+        return "chip-list-wrapper__black";
+      }
       return "chip-list-wrapper__light";
     },
     getInOutClass(data) {

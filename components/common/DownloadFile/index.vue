@@ -10,7 +10,7 @@
         @click="toggleReportOptions"
       ></bib-button>
       <bib-button
-        dropdown=""
+        dropdown
         label=""
         style="transform: translateY(-30px); margin-bottom: -30px; right: 30px"
         class="max-z-index"
@@ -44,7 +44,7 @@
             v-model="startDate"
             placeholder="Select start date"
             label="Start Date:"
-            @input="updateStartDate"
+            @change="updateStartDate"
             class="mr-1"
           ></bib-datetime-picker>
 
@@ -53,7 +53,7 @@
             v-model="endDate"
             placeholder="Select end date"
             label="End Date:"
-            @input="updateEndDate"
+            @change="updateEndDate"
           ></bib-datetime-picker>
         </div>
       </template>
@@ -75,19 +75,20 @@
     </bib-modal-wrapper>
   </div>
 </template>
+
 <script>
 import axios from "axios";
+import { DateTime } from "luxon";
 
 const DOWNLOAD_REPORT_OPTIONS = [
-  { label: "Download Report", value: "download_report" },
-  { label: "Download Summary", value: "download_summary" },
+  { label: "Month", value: "month" },
+  { label: "Six Months", value: "six_months" },
+  { label: "Yearly", value: "yearly" },
+  { label: "Custom Range", value: "custom_range" },
 ];
 
-// Constants for API endpoints
-const SUMMARY_REPORT_ENDPOINT = "/dashboard/admin/leave-summary-report";
 const DETAIL_REPORT_ENDPOINT = "/dashboard/admin/leave-detail-report";
 
-// Constant for popup notification settings
 const NOTIFICATION_MESSAGES = {
   SUCCESS_DOWNLOAD: {
     text: "File has been downloaded successfully...",
@@ -128,27 +129,57 @@ export default {
       this.showOptions = false;
     },
     selectReport(reportType) {
-      if (reportType === "download_report") {
+      if (reportType === "custom_range") {
         this.showCustomRangePicker = true;
+      } else if (reportType === "month") {
+        this.setMonthDateRange();
+      } else if (reportType === "six_months") {
+        this.setSixMonthDateRange();
+      } else if (reportType === "yearly") {
+        this.setYearDateRange();
       } else {
         this.downloadReport(reportType);
         this.hideReportOptions();
       }
     },
     async downloadReport(reportType) {
-      const endpoint =
-        reportType === "download_report"
-          ? SUMMARY_REPORT_ENDPOINT
-          : DETAIL_REPORT_ENDPOINT;
+      const endpoint = DETAIL_REPORT_ENDPOINT;
 
       try {
-        let params = {}; // Initialize params object
+        let params = {};
 
-        if (reportType === "download_report") {
-          // Include additional parameters for "download_report" type
+        if (reportType === "custom_range") {
+          if (!this.startDate || !this.endDate) {
+            this.openPopupNotification(
+              NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED
+            );
+            return;
+          }
+
           params = {
             from: this.startDate,
             to: this.endDate,
+          };
+        } else if (reportType === "six_months") {
+          // Calculate six months ago
+          const sixMonthsAgo = DateTime.local().minus({ months: 6 });
+          params = {
+            from: sixMonthsAgo.startOf("month").toJSDate(),
+            to: DateTime.local().endOf("month").toJSDate(),
+          };
+        } else if (reportType === "yearly") {
+          // Calculate last year
+          const lastYearStart = DateTime.local()
+            .minus({ years: 1 })
+            .startOf("year")
+            .toJSDate();
+          const lastYearEnd = DateTime.local()
+            .minus({ years: 1 })
+            .endOf("year")
+            .toJSDate();
+          params = {
+            from: lastYearStart,
+            to: lastYearEnd,
           };
         }
 
@@ -156,7 +187,7 @@ export default {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-          params: params, 
+          params: params,
         });
 
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -173,7 +204,6 @@ export default {
         this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
-
     updateStartDate(date) {
       this.startDate = date;
     },
@@ -182,9 +212,54 @@ export default {
     },
     cancelCustomRange() {
       this.showCustomRangePicker = false;
-      // Reset start and end date if needed
       this.startDate = null;
       this.endDate = null;
+    },
+    async setMonthDateRange() {
+      const today = DateTime.local();
+      const lastMonthStart = today
+        .minus({ months: 1 })
+        .startOf("month")
+        .toJSDate();
+      const lastMonthEnd = today.minus({ months: 1 }).endOf("month").toJSDate();
+
+      this.startDate = lastMonthStart;
+      this.endDate = lastMonthEnd;
+
+      await this.downloadReport("custom_range");
+      this.hideReportOptions();
+    },
+
+    async setSixMonthDateRange() {
+      const today = DateTime.local();
+      const firstDayOfCurrentMonth = today.startOf("month");
+      const sixMonthsAgo = firstDayOfCurrentMonth.minus({ months: 6 });
+
+      const startDate = sixMonthsAgo.startOf("month").toJSDate();
+      const endDate = firstDayOfCurrentMonth.endOf("month").toJSDate();
+
+      this.startDate = startDate;
+      this.endDate = endDate;
+
+      await this.downloadReport("six_months");
+      this.hideReportOptions();
+    },
+
+    async setYearDateRange() {
+      const lastYearStart = DateTime.local()
+        .minus({ years: 1 })
+        .startOf("year")
+        .toJSDate();
+      const lastYearEnd = DateTime.local()
+        .minus({ years: 1 })
+        .endOf("year")
+        .toJSDate();
+
+      this.startDate = lastYearStart;
+      this.endDate = lastYearEnd;
+
+      await this.downloadReport("yearly");
+      this.hideReportOptions();
     },
     async downloadCustomRange() {
       if (!this.startDate || !this.endDate) {
@@ -192,17 +267,16 @@ export default {
         return;
       }
 
-      const startDate = new Date(this.startDate);
-      const endDate = new Date(this.endDate);
+      const startDate = DateTime.fromJSDate(this.startDate);
+      const endDate = DateTime.fromJSDate(this.endDate);
 
       if (endDate < startDate) {
         this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
         return;
       }
 
-      await this.downloadReport("download_report");
-
-      this.showCustomRangePicker = false; // Hide custom range modal after download
+      await this.downloadReport("custom_range");
+      this.showCustomRangePicker = false;
     },
   },
 };

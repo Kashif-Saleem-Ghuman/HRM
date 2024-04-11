@@ -221,10 +221,10 @@ export default {
         .minus({ months: 1 })
         .startOf("month")
         .toJSDate();
-      const lastMonthEnd = today.minus({ months: 1 }).endOf("month").toJSDate();
+      const endDate = today.endOf("day").toJSDate(); // Set end date to the current day's date
 
       this.startDate = lastMonthStart;
-      this.endDate = lastMonthEnd;
+      this.endDate = endDate;
 
       await this.downloadReport("custom_range");
       this.hideReportOptions();

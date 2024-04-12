@@ -403,10 +403,11 @@ export default {
         });
         return true;
       }
-
+      if(this.weekDataStatus != 'approved'){
       this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
       this.$router.push({ query: { view: "day" } });
       await this.fillDailyTimeEntries();
+      }
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();

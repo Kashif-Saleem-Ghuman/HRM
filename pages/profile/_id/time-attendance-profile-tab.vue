@@ -161,7 +161,6 @@ export default {
       // this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
     leaveStatus(e) {
-      console.log(e, "vihange");
       if (e.key == "approve") {
         this.buttonTitle = "Approved";
       }

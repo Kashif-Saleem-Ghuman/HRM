@@ -87,7 +87,7 @@
               @delete-entry="handleDeleteEntry"
               :date="dayListDate"
               :total="totalWork"
-              :disabled="entryStatus === 'approved' ? true : false"
+              :disabled="isTimesheetLocked"
             ></list-day>
             <list-week
               v-else-if="weekListView && timesheetId"
@@ -129,6 +129,9 @@ import {
   getDatetimeCommonProps,
   DATETIME_FORMAT,
 } from "../../../utils/functions/datetime-input";
+
+import { Timesheet } from "@/components/common/models/timesheet";
+
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
@@ -172,10 +175,13 @@ export default {
       timer: 1,
       maxDate: DateTime.now().toISO(),
       refusalReason: null,
-      entryStatus:''
+      timesheet: null
     };
   },
   computed: {
+    isTimesheetLocked() {
+      return this.timesheet?.isLocked()
+    },
     dayListDate() {
       if (!this.todayDate) return null
       return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate()
@@ -357,7 +363,9 @@ export default {
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
       ).then((result)=>{
-        this.entryStatus = result;
+        if (result?.timesheet?.status) {
+         this.timesheet = new Timesheet(result.timesheet)
+        }
       });
 
       this.parseTimeEntries();

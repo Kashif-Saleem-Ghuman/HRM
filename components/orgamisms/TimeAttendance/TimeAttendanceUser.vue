@@ -111,6 +111,7 @@
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { getWeekTimesheets } from "@/utils/functions/api_call/timeattendance/time";
+import { debounceAction } from "@/utils/functions/debounce"
 import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
@@ -122,7 +123,11 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
-import {getTimeFromDate, isSameDate, weekToUTCWeek} from "@/utils/functions/dates";
+import {
+  getTimeFromDate,
+  isSameDate,
+  weekToUTCWeek,
+} from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { getUserTimesheetWidget } from "@/utils/functions/api_call/timeattendance/time.js";
 import {
@@ -172,13 +177,14 @@ export default {
       timer: 1,
       maxDate: DateTime.now().toISO(),
       refusalReason: null,
-      entryStatus:''
+      entryStatus: "",
+      debounced: false,
     };
   },
   computed: {
     dayListDate() {
-      if (!this.todayDate) return null
-      return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate()
+      if (!this.todayDate) return null;
+      return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate();
     },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
@@ -192,13 +198,25 @@ export default {
       );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
-        if (!entry.end) return 0
-        return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
+        if (!entry.end) return 0;
+        return (
+          total +
+          this.calculateDuration(
+            getTimeFromDate(entry.start),
+            getTimeFromDate(entry.end)
+          )
+        );
       }, 0);
 
       const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
-        if (!entry.end) return 0
-        return total + this.calculateDuration(getTimeFromDate(entry.start), getTimeFromDate(entry.end));
+        if (!entry.end) return 0;
+        return (
+          total +
+          this.calculateDuration(
+            getTimeFromDate(entry.start),
+            getTimeFromDate(entry.end)
+          )
+        );
       }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
@@ -214,7 +232,7 @@ export default {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
       return entries.some((entry) => {
-        return entry.activity === ACTIVITY_TYPE.IN
+        return entry.activity === ACTIVITY_TYPE.IN;
       });
     },
     todayListView() {
@@ -237,7 +255,7 @@ export default {
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
         icon: "arrowhead-down",
-        varint:'light'
+        varint: "light",
       };
     },
   },
@@ -251,21 +269,21 @@ export default {
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
     this.getTimesheetWidget();
     // this.loading = false;
-   
   },
-  mounted(){
+  mounted() {
     this.registerRootListeners();
   },
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
+    debounceAction,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     registerFillDailyEntryListener() {
       this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
-      this.fillDailyTimeEntries();
-    });
+        this.fillDailyTimeEntries();
+      });
     },
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
@@ -353,12 +371,14 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      await this.$store.dispatch(
-        "timeattendance/setDailyTimeEntries",
-        DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
-      ).then((result)=>{
-        this.entryStatus = result;
-      });
+      await this.$store
+        .dispatch(
+          "timeattendance/setDailyTimeEntries",
+          DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
+        )
+        .then((result) => {
+          this.entryStatus = result;
+        });
 
       this.parseTimeEntries();
     },
@@ -390,23 +410,32 @@ export default {
       await this.fillDailyTimeEntries();
       // this.loading = false;
     },
-      async enterDetail(item) {
+    async enterDetail(item) {
       const date = item.date;
       const itemDateTime = DateTime.fromISO(date);
 
       const currentDate = DateTime.now();
 
       if (itemDateTime > currentDate) {
-        this.openPopupNotification({
-          text: "Cannot proceed with future date.",
-          variant: "danger",
+        this.debounceAction(() => {
+          this.openPopupNotification({
+            text: "Cannot proceed with future date.",
+            variant: "danger",
+          });
         });
         return true;
       }
-      if(this.weekDataStatus != 'approved'){
-      this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
-      this.$router.push({ query: { view: "day" } });
-      await this.fillDailyTimeEntries();
+      if (this.weekDataStatus != "approved") {
+        this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
+        this.$router.push({ query: { view: "day" } });
+        await this.fillDailyTimeEntries();
+      } else {
+        this.debounceAction(() => {
+          this.openPopupNotification({
+            text: "Your timesheet has been locked.",
+            variant: "danger",
+          });
+        });
       }
     },
     async weekSelection() {

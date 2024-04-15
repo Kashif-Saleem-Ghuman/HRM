@@ -244,15 +244,13 @@ export default {
       return timezoneAbbr.get(timeZoneName);
     },
     getStatusClass(data) {
-      const inEntry = data;
-      const outEntry = data;
-      if (inEntry) {
-        return "chip-wrapper__bgsucess";
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in
+      if (timers.length || inEntry) {
+        return "chip-list-wrapper__sucess";
       }
-      if (outEntry === null) {
-        return "chip-wrapper__bggray";
-      }
-      return "chip-wrapper__bggray";
+
+      return "chip-list-wrapper__light";
     },
     getInOutClass(data) {
       const inEntry = data;

@@ -188,17 +188,13 @@ export default {
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
-      const outEntry = data.activityReport?.out;
-      if (inEntry && outEntry) {
-        return "Log Off";
-      }
-      if (timers.length > 0) {
+      if (timers.length > 0 || inEntry) {
         return "Present";
       }
       if (data.requests.length === 0) {
         return "Absent";
       }
-      return "On Leave";
+      return 'On Leave';
     },
 
     getInOutActivityTime(employee, activityType) {
@@ -248,19 +244,15 @@ export default {
       return timezoneAbbr.get(timeZoneName);
     },
     getStatusClass(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in;
-      const outEntry = data.activityReport?.out;
-      if (inEntry && outEntry) {
-        return ("chip-list-wrapper__light");
+      const inEntry = data;
+      const outEntry = data;
+      if (inEntry) {
+        return "chip-wrapper__bgsucess";
       }
-      if (timers.length) {
-        return "chip-list-wrapper__sucess";
+      if (outEntry === null) {
+        return "chip-wrapper__bggray";
       }
-      if (data.requests.length != 0) {
-        return "chip-list-wrapper__black";
-      }
-      return "chip-list-wrapper__light";
+      return "chip-wrapper__bggray";
     },
     getInOutClass(data) {
       const inEntry = data;

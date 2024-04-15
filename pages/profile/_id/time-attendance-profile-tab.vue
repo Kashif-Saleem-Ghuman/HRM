@@ -161,7 +161,6 @@ export default {
       // this.totalWork = formatTime(this.totalWorkInMS / 1000, false);
     },
     leaveStatus(e) {
-      console.log(e, "vihange");
       if (e.key == "approve") {
         this.buttonTitle = "Approved";
       }
@@ -231,6 +230,8 @@ export default {
       return `${fromFormat} -> ${toFormat}`;
     },
     calculateTotalWorkMs({ timeEntry }) {
+      if (!timeEntry.end) return 0
+
       return (
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );

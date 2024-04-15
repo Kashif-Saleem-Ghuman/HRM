@@ -138,11 +138,15 @@ export default {
 
   },
   computed: {
+    isTimesheetLocked() {
+      const timesheet = this.$store.state.timeattendance.timesheetToday
+      if (timesheet) return timesheet.isLocked()
+    },
     ...mapGetters({
       getDailyTimeEntries: "timeattendance/getdailyTimeEntriesToday",
     }),
     buttonDisabled() {
-      return this.stopClick || this.disabled;
+      return this.stopClick || this.disabled || this.isTimesheetLocked
     },
 
     stopWatchTime() {

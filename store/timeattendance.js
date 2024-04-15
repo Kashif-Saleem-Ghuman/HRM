@@ -4,6 +4,7 @@ import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance
 import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
+import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 
@@ -18,7 +19,8 @@ export const state = () => ({
   dailyTimeEntriesToday: [],
   chronometer: 0,
   isTimerRunning: false,
-  employeesAttendance: null
+  employeesAttendance: null,
+  timesheetToday: null
 });
 
 export const getters = {
@@ -53,6 +55,10 @@ export const mutations = {
 
   SET_DAILY_TIME_ENTRIES_TODAY: (state, payload) => {
     state.dailyTimeEntriesToday = payload;
+  },
+
+  SET_TIMESHEET_TODAY: (state, { timesheet }) => {
+    state.timesheetToday = timesheet ? new Timesheet(timesheet) : null
   },
 
   SET_CHRONOMETER: (state, payload) => {
@@ -155,8 +161,9 @@ export const actions = {
 
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
+        ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet}); 
       }
-      return this.entryStatus = data.timeSheetOfthisDateStatus;
+      return data
     } catch (e) {
       console.log(e);
     }

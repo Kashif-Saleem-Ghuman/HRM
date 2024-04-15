@@ -39,8 +39,8 @@ export default class BaseTimesheetParser {
 
     const timeEntryBreak = timeEntriesByActivity.break?.start
       ? getDateDiffInMinutes(
-          timeEntriesByActivity.break.start,
-          timeEntriesByActivity.break.end
+          getTimeFromDate(timeEntriesByActivity.break.start),
+          getTimeFromDate(timeEntriesByActivity.break.end)
         )
       : null;
 
@@ -48,14 +48,14 @@ export default class BaseTimesheetParser {
 
     if (timeEntriesByActivity.in?.start && timeEntriesByActivity.in?.end) {
       total = getDateDiffInMinutes(
-        timeEntriesByActivity.in?.start,
-        timeEntriesByActivity.in?.end
+          getTimeFromDate(timeEntriesByActivity.in?.start),
+          getTimeFromDate(timeEntriesByActivity.in?.end)
       );
 
       if ( timeEntryBreak ) {
         total -= timeEntryBreak
       }
-    } 
+    }
 
     const activityReport = {
       in: timeEntryIn,

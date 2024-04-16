@@ -149,6 +149,7 @@ export default {
       this.openPopupNotification(DELETE_MESSAGE.notification);
       this.idToDelete = null;
       this.$emit("delete-entry", id);
+      this.$nuxt.$emit("chronometer");
     },
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;

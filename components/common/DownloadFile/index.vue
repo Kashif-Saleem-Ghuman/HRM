@@ -1,44 +1,48 @@
 <template>
   <div>
     <!-- Dropdown for Selecting Report Type -->
-   <div class="d-flex">
-    <bib-button
+    <div class="d-flex">
+      <bib-button
         label="Download Summary"
         variant="primary-24"
         size="lg"
         class="w-100 mr-05"
         @click="downloadSummary"
       ></bib-button>
-    <div v-click-outside="hideReportOptions">
-      <bib-button
-        label="Download Reports"
-        variant="primary-24"
-        size="lg"
-        class="w-100"
-        @click="toggleReportOptions"
-      ></bib-button>
-      <bib-button
-        dropdown
-        label=""
-        style="transform: translateY(-30px); margin-bottom: -30px; right: 30px"
-        class="max-z-index"
-      >
-        <template v-slot:menu>
-          <ul>
-            <!-- Loop through DOWNLOAD_REPORT_OPTIONS to populate dropdown items -->
-            <li
-              class="option-item"
-              v-for="option in downloadFileOptions"
-              :key="option.value"
-              @click="selectReport(option.value)"
-            >
-              {{ option.label }}
-            </li>
-          </ul>
-        </template>
-      </bib-button>
+      <div v-click-outside="hideReportOptions">
+        <bib-button
+          label="Download Reports"
+          variant="primary-24"
+          size="lg"
+          class="w-100"
+          @click="toggleReportOptions"
+        ></bib-button>
+        <bib-button
+          dropdown
+          label=""
+          style="
+            transform: translateY(-30px);
+            margin-bottom: -30px;
+            right: 30px;
+          "
+          class="max-z-index"
+        >
+          <template v-slot:menu>
+            <ul>
+              <!-- Loop through DOWNLOAD_REPORT_OPTIONS to populate dropdown items -->
+              <li
+                class="option-item"
+                v-for="option in downloadFileOptions"
+                :key="option.value"
+                @click="selectReport(option.value)"
+              >
+                {{ option.label }}
+              </li>
+            </ul>
+          </template>
+        </bib-button>
+      </div>
     </div>
-   </div>
 
     <!-- Custom Range Date Picker Modal -->
     <bib-modal-wrapper
@@ -49,21 +53,23 @@
       <template #content>
         <div class="d-flex">
           <!-- Start Date Picker -->
-          <bib-datetime-picker
-            v-model="startDate"
-            placeholder="Select start date"
-            label="Start Date:"
-            @input="updateStartDate"
+          <form-datepicker
+            label="Start Date"
+            :value="selectedStartDate"
+            @change="updateStartDate"
+            :dis="true"
             class="mr-1"
-          ></bib-datetime-picker>
-
+          >
+          </form-datepicker>
           <!-- End Date Picker -->
-          <bib-datetime-picker
-            v-model="endDate"
-            placeholder="Select end date"
-            label="End Date:"
+          <form-datepicker
+            label="Start Date"
+            :value="selectedEndDate"
+            fieldKey="start"
             @change="updateEndDate"
-          ></bib-datetime-picker>
+            :dis="true"
+          >
+          </form-datepicker>
         </div>
       </template>
       <template #footer>
@@ -88,6 +94,7 @@
 <script>
 import axios from "axios";
 import { DateTime } from "luxon";
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 
 export const DOWNLOAD_REPORT_OPTIONS = [
   { label: "Monthly Report", value: "month" },
@@ -125,6 +132,8 @@ export default {
       showCustomRangePicker: false,
       startDate: null,
       endDate: null,
+      selectedStartDate: null,
+      selectedEndDate: null,
       downloadFileOptions: DOWNLOAD_REPORT_OPTIONS,
     };
   },
@@ -133,8 +142,8 @@ export default {
       switch (reportType) {
         case "custom_range":
           this.showCustomRangePicker = true;
-          this.startDate = null;
-          this.endDate = null;
+          this.selectedStartDate = null;
+          this.selectedEndDate = null;
           break;
         case "month":
           this.setMonthDates();
@@ -151,41 +160,49 @@ export default {
           break;
       }
     },
-    
+
     setMonthDates() {
       const today = DateTime.local();
       const lastMonthStart = today.minus({ months: 1 }).startOf("month");
       const currentDay = today.endOf("day");
-      this.startDate = lastMonthStart.toUTC().toISO();
-      this.endDate = currentDay.toUTC().toISO();;
+      this.startDate = DateTime.fromISO(lastMonthStart)
+        .endOf("day")
+        .toUTC()
+        .toISO();
+      this.endDate = DateTime.fromISO(currentDay).toUTC().toISO();
       this.downloadReport();
       this.hideReportOptions();
     },
     setSixMonthsDates() {
-      const sixMonthsAgo = DateTime.local().minus({ months: 6 }).startOf("month");
+      const sixMonthsAgo = DateTime.local()
+        .minus({ months: 6 })
+        .startOf("month");
       const endOfMonth = DateTime.local().endOf("month");
-      this.startDate = sixMonthsAgo.toUTC().toISO();
-      this.endDate = endOfMonth.toUTC().toISO();
+      this.startDate = DateTime.fromISO(sixMonthsAgo)
+        .startOf("day")
+        .toUTC()
+        .toISO();
+      this.endDate = DateTime.fromISO(endOfMonth).endOf("day").toUTC().toISO();
       this.downloadReport();
       this.hideReportOptions();
     },
     setYearlyDates() {
       const currentYearStart = DateTime.local().startOf("year");
       const currentYearEnd = DateTime.local().endOf("year");
-      this.startDate = currentYearStart.toUTC().toISO();
-      this.endDate = currentYearEnd.toUTC().toISO();
+      this.startDate = DateTime.fromISO(currentYearStart)
+        .startOf("day")
+        .toUTC()
+        .toISO();
+      this.endDate = DateTime.fromISO(currentYearEnd)
+        .endOf("day")
+        .toUTC()
+        .toISO();
       this.downloadReport();
       this.hideReportOptions();
     },
     async downloadReport(reportType) {
       const endpoint = DETAIL_REPORT_ENDPOINT;
       const { startDate, endDate } = this;
-
-      if (!startDate || !endDate) {
-        this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
-        return;
-      }
-
       try {
         const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
           headers: {
@@ -219,13 +236,17 @@ export default {
       }
     },
     downloadFile(data) {
+      const start = DateTime.fromISO(this.startDate).toISODate();
+      const end = DateTime.fromISO(this.endDate).toISODate();
       const url = window.URL.createObjectURL(new Blob([data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "filename.csv");
+      link.setAttribute("download", `${start}-${end}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      this.startDate = null;
+      this.endDate = null;
     },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
@@ -237,30 +258,48 @@ export default {
       this.showOptions = false;
     },
     updateStartDate(date) {
-      this.startDate = date;
+      this.selectedStartDate = date;
     },
     updateEndDate(date) {
-      this.endDate = date;
+      this.selectedEndDate = date;
     },
     cancelCustomRange() {
       this.showCustomRangePicker = false;
-      this.startDate = null;
-      this.endDate = null;
+      this.selectedStartDate = null;
+      this.selectedEndDate = null;
     },
     async downloadCustomRange() {
-      if (!this.startDate || !this.endDate) {
+      if (!this.selectedStartDate || !this.selectedEndDate) {
         this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
         return;
       }
-
-      if (DateTime.fromISO(this.startDate) > DateTime.fromISO(this.endDate)) {
+      if (this.selectedStartDate > this.selectedEndDate) {
         this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
         return;
       }
-      this.startDate = DateTime.fromISO(this.startDate).toUTC().toISO();
-      this.endDate = DateTime.fromISO(this.endDate).toUTC().toISO();
+      const dateFormat = "yyyy-MMM-dd";
+      const parsedStartDate = DateTime.fromFormat(
+        this.selectedStartDate,
+        dateFormat
+      );
+      const parsedEndDate = DateTime.fromFormat(
+        this.selectedEndDate,
+        dateFormat
+      );
+
+      const start = parsedStartDate.endOf("day").toUTC().toISO();
+      const end = parsedEndDate.endOf("day").toUTC().toISO();
+
+      this.startDate = start;
+      this.endDate = end;
+
       await this.downloadReport("custom_range");
       this.showCustomRangePicker = false;
+    },
+  },
+  watch: {
+    dateValue() {
+      this.setDateValue();
     },
   },
 };

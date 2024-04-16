@@ -6,7 +6,6 @@
       <section-header-left
       title="Leave & Vacations"
       ></section-header-left>
-      <download-file></download-file>
     </div>
     <div class="tab-wrapper">
       <div class="row mx-0 px-1 bottom_border_wrapper">

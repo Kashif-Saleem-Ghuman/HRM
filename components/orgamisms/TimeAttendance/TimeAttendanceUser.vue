@@ -413,6 +413,7 @@ export default {
       // this.loading = true;
       if (!event) return;
       await this.fillDailyTimeEntries();
+      this.$nuxt.$emit("chronometer");
       // this.loading = false;
     },
     async enterDetail(item) {

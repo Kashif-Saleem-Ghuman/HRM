@@ -1,5 +1,6 @@
 import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+const EmitValurChronometer = 'chronometer';
 export default {
   data() {
     return {
@@ -65,18 +66,31 @@ export default {
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,
       });
-      this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
+      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
-
     async clearChronometerInterval() {
       clearInterval(this.chronometerInterval);
       this.chronometerInterval = null;
-      this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
+      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
 
     async startTimer() {
       if (this.active) return;
       await this.$store.dispatch("timeattendance/startTimer");
+    },
+    registerDefaultValueChronometer() {
+      this.$root.$on(EmitValurChronometer, () => {
+        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
+      });
+    },
+    unregisterDefaultValueChronometer() {
+      this.$root.$off(EmitValurChronometer);
+    },
+    registerRootListeners() {
+      this.registerDefaultValueChronometer();
+    },
+    unregisterRootListeners() {
+      this.unregisterDefaultValueChronometer();
     },
   },
 
@@ -86,6 +100,7 @@ export default {
         status: false,
       });
       this.clearChronometerInterval();
+      this.unregisterRootListeners();
     }
   },
 

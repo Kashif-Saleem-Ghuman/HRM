@@ -4,8 +4,13 @@ export const formatHoursToHHMM = (hours) => {
   if (!hours === null || hours === undefined) {
     hours = 0;
   }
+  // return Duration.fromObject({ minutes: hours * 60 }).toFormat("hh:mm");
+  // added new changes to fix the minus value isSecureContext
+  const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
+  const sign = hours < 0 ? "-" : ""; 
 
-  return Duration.fromObject({ minutes: hours * 60 }).toFormat("hh:mm");
+  return `${sign}${duration.toFormat("hh:mm")}`;
+
 };
 
 export function calculateTimeDifferenceInMinutes(startTime, endTime) {

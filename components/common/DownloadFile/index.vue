@@ -165,38 +165,38 @@ export default {
       const today = DateTime.local();
       const lastMonthStart = today.minus({ months: 1 }).startOf("month");
       const currentDay = today.endOf("day");
-      this.startDate = DateTime.fromISO(lastMonthStart)
-        .endOf("day")
-        .toUTC()
-        .toISO();
-      this.endDate = DateTime.fromISO(currentDay).toUTC().toISO();
+      this.startDate = DateTime.fromISO(lastMonthStart).toISO({ includeOffset: false })
+      this.endDate = DateTime.fromISO(currentDay).toISO({ includeOffset: false })
       this.downloadReport();
       this.hideReportOptions();
     },
     setSixMonthsDates() {
-      const sixMonthsAgo = DateTime.local()
-        .minus({ months: 6 })
-        .startOf("month");
-      const endOfMonth = DateTime.local().endOf("month");
-      this.startDate = DateTime.fromISO(sixMonthsAgo)
-        .startOf("day")
-        .toUTC()
-        .toISO();
-      this.endDate = DateTime.fromISO(endOfMonth).endOf("day").toUTC().toISO();
+      const today = DateTime.local();
+      const sixMonthsAgo = DateTime.local().minus({ months: 6 });
+      const endOfMonth = today.endOf("day");
+      this.startDate = DateTime.fromISO(sixMonthsAgo).toISO({
+        includeOffset: false,
+      });
+      this.endDate = DateTime.fromISO(endOfMonth).toISO({
+        includeOffset: false,
+      });
       this.downloadReport();
       this.hideReportOptions();
     },
     setYearlyDates() {
+      const today = DateTime.local();
       const currentYearStart = DateTime.local().startOf("year");
-      const currentYearEnd = DateTime.local().endOf("year");
-      this.startDate = DateTime.fromISO(currentYearStart)
-        .startOf("day")
-        .toUTC()
-        .toISO();
-      this.endDate = DateTime.fromISO(currentYearEnd)
-        .endOf("day")
-        .toUTC()
-        .toISO();
+      console.log(
+        currentYearStart,
+        "currentYearStartcurrentYearStartcurrentYearStart"
+      );
+      const currentYearEnd = today.endOf("day");
+      this.startDate = DateTime.fromISO(currentYearStart).toISO({
+        includeOffset: false,
+      });
+      this.endDate = DateTime.fromISO(currentYearEnd).toISO({
+        includeOffset: false,
+      });
       this.downloadReport();
       this.hideReportOptions();
     },
@@ -287,8 +287,12 @@ export default {
         dateFormat
       );
 
-      const start = parsedStartDate.endOf("day").toUTC().toISO();
-      const end = parsedEndDate.endOf("day").toUTC().toISO();
+      const start = parsedStartDate.endOf("day").toISO({
+        includeOffset: false,
+      });
+      const end = parsedEndDate.endOf("day").toISO({
+        includeOffset: false,
+      });
 
       this.startDate = start;
       this.endDate = end;

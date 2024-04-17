@@ -101,6 +101,9 @@ export default {
       });
     }
     this.timeEntriesLoading = false;
+    const chronometer = localStorage.getItem("chronometerValue")
+    formatTime(chronometer);
+    return this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
   },
   methods: {
     close() {

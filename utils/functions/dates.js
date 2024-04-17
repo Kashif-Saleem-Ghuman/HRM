@@ -45,8 +45,8 @@ export const getTimeFromDate = (date) => {
 export const getDateDiffInMinutes = (start, end) => {
   if (!start || !end) return null;
 
-  const startDate = DateTime.fromISO(start);
-  const endDate = DateTime.fromISO(end);
+  const startDate = DateTime.fromFormat(start, "HH:mm");
+  const endDate = DateTime.fromFormat(end, "HH:mm");
   const diff = endDate.diff(startDate, "minutes");
   const { minutes } = diff.toObject();
   return minutes;

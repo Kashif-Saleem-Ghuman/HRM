@@ -89,7 +89,7 @@ export default {
   },
   async mounted() {
     this.startTimerInterval();
-
+    this.registerDefaultValueChronometer();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (this.$store.state.token.isUser) {

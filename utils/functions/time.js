@@ -5,11 +5,20 @@ export const formatHoursToHHMM = (hours) => {
     hours = 0;
   }
   // return Duration.fromObject({ minutes: hours * 60 }).toFormat("hh:mm");
+  
   // added new changes to fix the minus value isSecureContext
-  const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
-  const sign = hours < 0 ? "-" : ""; 
+  // const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
+  // const sign = hours < 0 ? "-" : ""; 
 
-  return `${sign}${duration.toFormat("hh:mm")}`;
+  // return `${sign}${duration.toFormat("hh:mm")}`;
+  const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
+  const formattedDuration = duration.toFormat("hh:mm");
+  
+  if (hours < 0) {
+    return "00:00"; // Return 0 for negative hours
+  } else {
+    return formattedDuration;
+  }
 
 };
 

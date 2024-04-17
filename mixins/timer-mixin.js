@@ -53,8 +53,6 @@ export default {
             await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
           }
           this.timerLoading = false;
-          console.log("asdasdasd", chronometer)
-
         }, 1000);
       }
     },

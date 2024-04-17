@@ -45,6 +45,7 @@ export default {
                   1000
               );
           this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+          localStorage.setItem("chronometerValue", chronometer);
           const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
             this.stopClick = true;
@@ -52,6 +53,8 @@ export default {
             await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
           }
           this.timerLoading = false;
+          console.log("asdasdasd", chronometer)
+
         }, 1000);
       }
     },

@@ -185,16 +185,22 @@ export default {
       if (value === "Meet")
         return await this.makeCall(data.value.userId, this.getUser.userId);
     },
+    
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
+      
+      const leaveRequest = this.checkLeaveRequest(data);
+      
+      if (leaveRequest) {
+        return 'On Leave';
+      }
+
       if (timers.length > 0 || inEntry) {
         return "Present";
       }
-      if (data.requests.length === 0) {
-        return "Absent";
-      }
-      return 'On Leave';
+      
+      return "Absent";
     },
 
     getInOutActivityTime(employee, activityType) {
@@ -243,6 +249,18 @@ export default {
     getTimeAbbrByTimezoneName(timeZoneName) {
       return timezoneAbbr.get(timeZoneName);
     },
+
+    checkLeaveRequest(data){
+      const currentDate = new Date().toISOString().slice(0, 10);
+      const leaveRequest = data.requests.find(request => {
+        const startDate = request.start.slice(0, 10);
+        const endDate = request.end.slice(0, 10);
+        return currentDate >= startDate && currentDate <= endDate;
+      });
+
+      return leaveRequest;
+    },
+    
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in

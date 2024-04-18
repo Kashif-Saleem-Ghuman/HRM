@@ -43,7 +43,7 @@
 
     <div class="scroll_wrapper">
       <div>
-        <list-dashboard :userList="employees" :selectedDate="date"></list-dashboard>
+        <list-dashboard :userList="employees" ></list-dashboard>
         <loader :loading="loading"></loader>
       </div>
     </div>

@@ -28,7 +28,7 @@
             <no-record v-if="showNoData"></no-record>
 
             <div v-else-if="showTable">
-              <list-dashboard :userList="employees"></list-dashboard>
+              <list-dashboard :userList="employees" :selectedDate="getCurrentDate"></list-dashboard>
             </div>
           </div>
         </div>

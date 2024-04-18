@@ -59,7 +59,7 @@
     <template #cell(status)="data">
       <div class="cursor-pointer">
         <chips-list
-          :title="getStatusTitle(data.value)"
+          :title="getStatusTitle(data.value, selectedDate)"
           iconShow="iconShow"
           icon="add"
           :className="[getStatusClass(data.value)]"
@@ -133,6 +133,10 @@ export default {
       type: Array,
       default: "",
     },
+    selectedDate: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -186,11 +190,12 @@ export default {
         return await this.makeCall(data.value.userId, this.getUser.userId);
     },
     
-    getStatusTitle(data) {
+    getStatusTitle(data, selectedDate) {
+      console.log("selectedDate", selectedDate);
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       
-      const leaveRequest = this.checkLeaveRequest(data);
+      const leaveRequest = this.checkLeaveRequest(data, selectedDate);
       
       if (leaveRequest) {
         return 'On Leave';
@@ -250,15 +255,19 @@ export default {
       return timezoneAbbr.get(timeZoneName);
     },
 
-    checkLeaveRequest(data){
-      const currentDate = new Date().toISOString().slice(0, 10);
-      const leaveRequest = data.requests.find(request => {
-        const startDate = request.start.slice(0, 10);
-        const endDate = request.end.slice(0, 10);
+    checkLeaveRequest(data, selectedDate){
+      let currentDate;
+      if (DateTime.fromISO(selectedDate).isValid) {
+        currentDate = DateTime.fromISO(selectedDate).toISODate();
+      } else {
+        currentDate = DateTime.fromFormat(selectedDate, 'dd-MMM-yyyy').toISODate();
+      }
+
+      return data.requests.find(request => {
+        const startDate = DateTime.fromISO(request.start).toISODate();
+        const endDate = DateTime.fromISO(request.end).toISODate();
         return currentDate >= startDate && currentDate <= endDate;
       });
-
-      return leaveRequest;
     },
     
     getStatusClass(data) {

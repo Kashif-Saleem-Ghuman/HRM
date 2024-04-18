@@ -88,7 +88,6 @@ export default {
     };
   },
   async mounted() {
-    localStorage.removeItem("chronometerValue", chronometer);
     this.startTimerInterval();
     this.registerDefaultValueChronometer();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);

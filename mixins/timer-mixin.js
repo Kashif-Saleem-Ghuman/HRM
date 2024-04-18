@@ -29,7 +29,7 @@ export default {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
-
+        
         if (!this.isTimerRunning)
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,
@@ -50,6 +50,7 @@ export default {
           if (chronometer > MAX_DURATION_TIMER) {
             this.stopClick = true;
             await this.stopTimer();
+            localStorage.removeItem("chronometerValue", chronometer);
             await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
           }
           this.timerLoading = false;

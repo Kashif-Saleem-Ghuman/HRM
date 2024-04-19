@@ -208,6 +208,15 @@ export default {
       }
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
     },
+    calculateDuration(start, end) {
+      const startDateTime = DateTime.fromFormat(start, "HH:mm");
+      let endDateTime = DateTime.fromFormat(end, "HH:mm");
+      if (endDateTime < startDateTime) {
+        endDateTime = endDateTime.plus({ days: 1 });
+      }
+      const duration = endDateTime.diff(startDateTime);
+      return duration;
+    },
     async fillWeeklyTimeEntries() {
       this.loading = true;
       const {from, to} = startOfDayEndOfDayRange({ startDate: this.weekDates.from, endDate: this.weekDates.to })
@@ -250,11 +259,25 @@ export default {
       );
 
       const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
-        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+        if (!entry.end) return 0;
+        return (
+          total +
+          this.calculateDuration(
+            getTimeFromDate(entry.start),
+            getTimeFromDate(entry.end)
+          )
+        );
       }, 0);
 
       const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
-        return total + this.calculateTotalWorkMs({ timeEntry: entry });
+        if (!entry.end) return 0;
+        return (
+          total +
+          this.calculateDuration(
+            getTimeFromDate(entry.start),
+            getTimeFromDate(entry.end)
+          )
+        );
       }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;

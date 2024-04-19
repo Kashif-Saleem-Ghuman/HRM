@@ -27,44 +27,54 @@ export default class BaseTimesheetParser {
     return groupedByWeekDay;
   }
   generateActivityReport = (timeEntries) => {
-    const timeEntriesByActivity = keyBy(timeEntries, "activity");
+    const timeEntriesIn = timeEntries?.filter(
+      (entry) => entry.activity === "in"
+    );
+    const timeEntriesBreak = timeEntries?.filter(
+      (entry) => entry.activity === "break"
+    );
 
-    const timeEntryIn = timeEntriesByActivity.in?.start
-      ? getTimeFromDate(timeEntriesByActivity.in.start)
+    const timeEntryIn = timeEntriesIn?.[0]?.start
+      ? getTimeFromDate(timeEntriesIn?.[0]?.start)
       : null;
 
-    const timeEntryOut = timeEntriesByActivity.in?.end
-      ? getTimeFromDate(timeEntriesByActivity.in.end)
+    const timeEntryOut = timeEntriesIn?.[0]?.end
+      ? getTimeFromDate(timeEntriesIn?.[0]?.end)
       : null;
 
-    const timeEntryBreak = timeEntriesByActivity.break?.start
-      ? getDateDiffInMinutes(
-          getTimeFromDate(timeEntriesByActivity.break.start),
-          getTimeFromDate(timeEntriesByActivity.break.end)
-        )
-      : null;
+    const totalBreakTime = this.getTotalBreakTime(timeEntriesBreak);
 
     let total = 0;
 
-    if (timeEntriesByActivity.in?.start && timeEntriesByActivity.in?.end) {
-      total = getDateDiffInMinutes(
-          getTimeFromDate(timeEntriesByActivity.in?.start),
-          getTimeFromDate(timeEntriesByActivity.in?.end)
-      );
+    if (timeEntryIn && timeEntryOut) {
+      total = getDateDiffInMinutes(timeEntryIn, timeEntryOut);
 
-      if ( timeEntryBreak ) {
-        total -= timeEntryBreak
+      if (totalBreakTime) {
+        total -= totalBreakTime;
       }
-    }
+    } 
 
     const activityReport = {
       in: timeEntryIn,
       out: timeEntryOut,
-      break: timeEntryBreak && timeEntryBreak > 0 ?  formatHoursToHHMM(timeEntryBreak / 60) : "00:00",
+      break:
+        totalBreakTime && totalBreakTime > 0
+          ? formatHoursToHHMM(totalBreakTime / 60)
+          : "00:00",
       total,
     };
 
     return activityReport;
+  };
+
+  getTotalBreakTime = (timeEntries) => {
+    return timeEntries?.reduce((total, entry) => {
+      total += getDateDiffInMinutes(
+        getTimeFromDate(entry.start),
+        getTimeFromDate(entry.end)
+      );
+      return total;
+    }, 0);
   };
 
   generateActivityReportFromTimer = (timers, timeEntries) => {

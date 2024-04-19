@@ -6,13 +6,14 @@
         <div class="cell trash" v-if="!disabled"></div>
       </div>
       <time-entry-row
-        v-for="entry in entries"
+        v-for="(entry, index) in entries"
         :key="entry.id ?? entry.activity + date"
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteConfirmation"
         :date="date"
+        :number="' #'+index"
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
@@ -120,7 +121,7 @@ export default {
       );
     },
     defaultEntries() {
-      const entries = [this.clockInEntry, this.breakEntry];
+      const entries = [this.clockInEntry, ...[this.breakEntry]];
       const existingEntries = this.listToday.map((item) => item.activity);
       return entries.filter(
         (entry) => !existingEntries.includes(entry.activity)
@@ -137,7 +138,11 @@ export default {
       return DateTime.fromJSDate(this.date).toFormat("yyyy-MM-dd")
     },
     async makeNewTimeEntry(newEntry) {
-      this.$emit("new-entry", newEntry);
+      if (newEntry.activity === ACTIVITY_TYPE.BREAK && this.canAddBreakEntry()) {
+         return this.$emit("new-entry", newEntry);
+      } else {
+        this.$emit("new-entry", newEntry);
+      }
     },
     editSpecificEntry(entry) {
       this.$emit("edit-entry", entry);
@@ -159,7 +164,10 @@ export default {
       this.idToDelete = id;
       this.confirmastionMessageModal = true;
     },
-
+    canAddBreakEntry() {
+      const breakEntriesCount = this.entries.filter(entry => entry.activity === ACTIVITY_TYPE.BREAK).length;
+      return breakEntriesCount < 3;
+    },
     async getSummary() {
       const { date } = this
       const employeeId = this.$route.params.id
@@ -177,6 +185,21 @@ export default {
       if (value != old) {
         this.getSummary()
       }
+    },
+    'entries': {
+      handler(breaks) {
+        const lastBreak = breaks[breaks.length - 1];
+        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) 
+        {
+          const newBreakEntry = {
+            activity: ACTIVITY_TYPE.BREAK,
+            start: null,
+            end: null
+          };
+          this.entries.push(newBreakEntry);
+        }
+      },
+      deep: true
     }
   }
 };

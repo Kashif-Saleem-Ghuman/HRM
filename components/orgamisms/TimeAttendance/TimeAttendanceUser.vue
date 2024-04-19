@@ -325,8 +325,8 @@ export default {
       const duration = endDateTime.diff(startDateTime);
       return duration;
     },
-    handleNewEntryEvent() {
-      this.fillDailyTimeEntries();
+    async handleNewEntryEvent() {
+      await this.fillDailyTimeEntries();
     },
     async handleEditEntry() {
       await this.fillDailyTimeEntries();

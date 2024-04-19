@@ -1,5 +1,6 @@
 import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+import { DateTime } from 'luxon';
 const EmitValurChronometer = 'chronometer';
 export default {
   data() {
@@ -29,12 +30,13 @@ export default {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
-
+        
         if (!this.isTimerRunning)
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,
           });
         this.chronometerInterval = setInterval(async () => {
+          this.removeChronometerValueAfter12Hours();
           this.time = new Date().toTimeString().split(" ")[0];
           this.date = new Date().toDateString();
           const chronometer = !this.getTimerData.start
@@ -56,7 +58,16 @@ export default {
         }, 1000);
       }
     },
-
+    removeChronometerValueAfter12Hours() {
+      const twelveHoursFromNow = DateTime.local().plus({ hours: 12 });
+      const millisecondsUntilTwelveHoursFromNow = twelveHoursFromNow.diffNow().milliseconds;
+    
+      setTimeout(() => {
+        localStorage.removeItem("chronometerValue");
+        this.$nuxt.$emit("chronometer");
+      }, millisecondsUntilTwelveHoursFromNow);
+    },
+    
     async stopTimer() {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running

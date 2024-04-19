@@ -352,7 +352,7 @@ import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-import timezones from "../../utils/constant/timezones"
+import timezones from "../../utils/constant/new_timezones"
 export default {
   props: {
     show: {
@@ -363,8 +363,7 @@ export default {
   data() {
     return {
       timezones: [
-        { text: '', value: '' },
-        ...timezones.map(timezone => ({ label: timezone, value: timezone }))
+        ...timezones.map(timezone => ({ label: timezone.location, value: timezone.name }))
       ],
       contactFormFieds,
       employeeProfileFields,

@@ -132,7 +132,7 @@ export default {
     userList: {
       type: Array,
       default: "",
-    },
+    }
   },
   data() {
     return {
@@ -185,16 +185,22 @@ export default {
       if (value === "Meet")
         return await this.makeCall(data.value.userId, this.getUser.userId);
     },
+    
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
+      
+      const leaveRequest = this.checkLeaveRequest(data);
+      
+      if (leaveRequest) {
+        return 'On Leave';
+      }
+
       if (timers.length > 0 || inEntry) {
         return "Present";
       }
-      if (data.requests.length === 0) {
-        return "Absent";
-      }
-      return 'On Leave';
+      
+      return "Absent";
     },
 
     getInOutActivityTime(employee, activityType) {
@@ -216,6 +222,7 @@ export default {
 
       if (
         !employee?.activityReport?.[activityType] ||
+        !employee.timezone ||
         clientZoneAbbr === emplZoneAbbr
       ) {
         return "";
@@ -243,6 +250,15 @@ export default {
     getTimeAbbrByTimezoneName(timeZoneName) {
       return timezoneAbbr.get(timeZoneName);
     },
+
+    checkLeaveRequest(data){
+      if (data.requests && data.requests.length > 0) {
+          return true;
+      }
+
+      return false;
+    },
+    
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in

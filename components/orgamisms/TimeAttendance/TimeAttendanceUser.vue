@@ -422,10 +422,10 @@ export default {
 
       const currentDate = DateTime.now();
 
-      if (itemDateTime > currentDate) {
+      if (itemDateTime > currentDate && this.weekDataStatus != "approved") {
         this.debounceAction(() => {
           this.openPopupNotification({
-            text: "Cannot proceed with future date.",
+            text: "Time entries cannot be added for a future date",
             variant: "danger",
           });
         });

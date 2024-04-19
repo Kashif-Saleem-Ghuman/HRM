@@ -222,6 +222,7 @@ export default {
 
       if (
         !employee?.activityReport?.[activityType] ||
+        !employee.timezone ||
         clientZoneAbbr === emplZoneAbbr
       ) {
         return "";

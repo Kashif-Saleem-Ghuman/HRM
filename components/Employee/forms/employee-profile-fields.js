@@ -44,4 +44,10 @@ export default {
     model: "hrmRole",
     validations: [isRequired],
   },
+  timezone: {
+    type: "select",
+    label: "Timezone",
+    model: "timezone",
+    validations: [isRequired],
+  },
 };

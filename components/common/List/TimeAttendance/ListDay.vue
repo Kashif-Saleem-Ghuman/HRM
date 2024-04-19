@@ -6,13 +6,14 @@
         <div class="cell trash" v-if="!disabled"></div>
       </div>
       <time-entry-row
-        v-for="entry in entries"
+        v-for="(entry, index) in entries"
         :key="entry.id ?? entry.activity + date"
         :entry="entry"
         class="row"
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteConfirmation"
         :date="date"
+        :number="' #'+index"
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
@@ -188,8 +189,14 @@ export default {
     'entries': {
       handler(breaks) {
         const lastBreak = breaks[breaks.length - 1];
-        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) {
-          this.entries.push(this.breakEntry);
+        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) 
+        {
+          const newBreakEntry = {
+            activity: ACTIVITY_TYPE.BREAK,
+            start: null,
+            end: null
+          };
+          this.entries.push(newBreakEntry);
         }
       },
       deep: true

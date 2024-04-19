@@ -2,7 +2,7 @@
   <div>
     <div class="cell activity">
       <label>
-        {{ label }}
+        {{ isBreak ? label + this.number : label }}
       </label>
     </div>
     <div class="cell">
@@ -88,6 +88,10 @@ export default {
       type: Date,
       required: true,
     },
+    number: {
+      type: String,
+      default: '',
+    }
   },
   data() {
     return {
@@ -95,6 +99,9 @@ export default {
     };
   },
   computed: {
+    isBreak() {
+      return this.entry.activity === ACTIVITY_TYPE.BREAK;
+    },
     showDeleteIcon() {
       if (!this.newData.id) return false;
       if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;

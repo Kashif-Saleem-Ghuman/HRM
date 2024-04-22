@@ -178,6 +178,17 @@ export default {
 
   mounted() {
     this.getSummary()
+    const breaks = this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK);
+    const lastBreak = breaks[breaks.length-1];
+    if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) 
+    {
+      const newBreakEntry = {
+        activity: ACTIVITY_TYPE.BREAK,
+        start: null,
+        end: null
+      };
+      this.entries.push(newBreakEntry);
+    }
   },
 
   watch: {

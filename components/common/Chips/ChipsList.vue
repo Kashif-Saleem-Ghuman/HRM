@@ -71,7 +71,7 @@ export default {
   }
   &__light {
     li {
-      color: #E2E2E3 !important;
+      color: $gray1 !important;
     }
   }
 }

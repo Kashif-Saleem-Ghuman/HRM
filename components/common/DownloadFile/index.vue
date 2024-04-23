@@ -63,9 +63,8 @@
           </form-datepicker>
           <!-- End Date Picker -->
           <form-datepicker
-            label="Start Date"
+            label="End Date"
             :value="selectedEndDate"
-            fieldKey="start"
             @change="updateEndDate"
             :dis="true"
           >
@@ -186,10 +185,6 @@ export default {
     setYearlyDates() {
       const today = DateTime.local();
       const currentYearStart = DateTime.local().startOf("year");
-      console.log(
-        currentYearStart,
-        "currentYearStartcurrentYearStartcurrentYearStart"
-      );
       const currentYearEnd = today.endOf("day");
       this.startDate = DateTime.fromISO(currentYearStart).toISO({
         includeOffset: false,

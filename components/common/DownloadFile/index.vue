@@ -239,9 +239,10 @@ export default {
       const start = DateTime.fromISO(this.startDate).toISODate();
       const end = DateTime.fromISO(this.endDate).toISODate();
       const url = window.URL.createObjectURL(new Blob([data]));
+      const filename = start && end ? `${start}-${end}.csv` : 'download_summary.csv';
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${start}-${end}.csv`);
+      link.setAttribute("download", filename);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

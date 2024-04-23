@@ -122,7 +122,7 @@ export const actions = {
     commit("SET_TIMER_DATA", {})
     commit("SET_IS_TIMER_RUNNING", { status: false });
   },
-  
+
   async setTimerData(ctx, employeeId = '') {
     this.loading = true;
     const defaultUrl = `${process.env.API_URL}/timers`;
@@ -161,7 +161,7 @@ export const actions = {
 
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
-        ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet}); 
+        ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
       }
       return data
     } catch (e) {
@@ -208,6 +208,39 @@ export const actions = {
         },
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries.map((te) => ({
+        start: te.start,
+        end: te.end,
+        total: te.total,
+        status: te.status,
+        activity: te.activity
+      })));
+    } catch (e) {
+      if (e.response.status === 500) {
+        return window.open('/not-found',"_self")
+      }
+      console.log(e);
+    }
+  },
+
+  async setEmployeeDailyTimeEntryToday(ctx, { date, employeeId }) {
+    try {
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
+      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
+      const { data } = await axios.get(
+        process.env.API_URL
+        + "/timesheets/daily?from="
+        + startOfDay
+        + "&to="
+        + endOfDay
+        + "&employeeId="
+        + employeeId,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      );
+      ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries.map((te) => ({
         start: te.start,
         end: te.end,
         total: te.total,

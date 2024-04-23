@@ -45,3 +45,21 @@ export const popupNotificationMsgs = [
     variant:"danger"
   }
 ];
+export const NOTIFICATION_MESSAGES = {
+  SUCCESS_DOWNLOAD: {
+    text: "File has been downloaded successfully...",
+    variant: "primary-24",
+  },
+  ERROR_DOWNLOAD: {
+    text: "Failed to download file. Please try again.",
+    variant: "danger",
+  },
+  BOTH_DATES_REQUIRED: {
+    text: "Please select both start and end dates for the custom range.",
+    variant: "danger",
+  },
+  DATE_VALIDATION_ERROR: {
+    text: "End date cannot be earlier than the start date. Please adjust.",
+    variant: "danger",
+  },
+};

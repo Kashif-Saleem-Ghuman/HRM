@@ -43,11 +43,38 @@
             <div class="d-flex align-center">
               <div class="custom_date_picker">
                 <!-- <div class="mr-05">Date:</div> -->
+                <div v-if="view.value === 'month'" class="py-05">
+                  <div class="custom_date_picker">
+                    <custom-date-selector :year.sync="year" :month.sync="month" :dates.sync="dates" />
+                  </div>
+                </div>
+                <div v-if="view.value === 'month'" class="py-05 pl-05">
+                  <button-with-overlay
+                    :button-config="{ label: dateBtnLabel }"
+                    v-slot="scope"
+                  >
+                    <div class="pl-05">
+                      <week-date-picker
+                        :dates.sync="weekDates"
+                        class="custom_date_picker"
+                        :format="format"
+                        @onChange="weekDateChangeInMonthView"
+                        @close="
+                        () => {
+                          scope.close();
+                          weekSelectionInMonthView();
+                        }
+                      "
+                        style="z-index: 999999; height: 46px"
+                      ></week-date-picker>
+                    </div>
+                  </button-with-overlay>
+                </div>
                 <bib-datetime-picker
-                  v-if="view.value === 'day'"
+                  v-if="view.value === 'day' || view.value === 'month'"
                   v-model="todayDate"
                   :maxDate="maxDate"
-                  class="custom_date_picker"
+                  :class="`custom_date_picker ${view.value === 'month' ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
@@ -75,12 +102,28 @@
                   </div>
                 </button-with-overlay>
               </div>
-              <div v-if="view.value === 'month'" class="py-05">
-                <div class="custom_date_picker">
-                  <custom-date-selector :year.sync="year" :month.sync="month" :dates.sync="dates" />
+
+<!--              <div class="custom_date_picker ml-05" v-if="view.value === 'month'">-->
+<!--                <bib-datetime-picker-->
+<!--                  class="custom_date_picker"-->
+<!--                  size="sm"-->
+<!--                  v-model="todayDate"-->
+<!--                  :placeholder="'Select day'"-->
+<!--                  @input="dateSelection($event)"-->
+<!--                  hide-quick-select-->
+<!--                  v-bind="{ ...getDatetimeCommonProps() }"-->
+<!--                >-->
+<!--                </bib-datetime-picker>-->
+<!--              </div>-->
+              <div v-if="!monthListView && !weekListView" class="pl-05 my-05">
+                <div>
+                  <bib-button
+                    :label="getTotalWeeks"
+                    @click="onWeekDayViewChange"
+                    variant="light"
+                  ></bib-button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -97,7 +140,7 @@
               :disabled="isTimesheetLocked"
             ></list-day>
             <list-week
-              v-else-if="weekListView && timesheetId"
+              v-else-if="(weekListView || weekListInMonthView) && timesheetId"
               :activityReports="weekDataActivityReports"
               :totalWork="weekDataTotalWork"
               :status="weekDataStatus"
@@ -204,6 +247,7 @@ export default {
       },
       year: null,
       month: null,
+      monthView: null,
     };
   },
   computed: {
@@ -272,6 +316,9 @@ export default {
     monthListView() {
       return this.view.value === "month";
     },
+    weekListInMonthView() {
+      return this.monthView === 'week';
+    },
     dateBtnLabel() {
       if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to)
         return "";
@@ -285,6 +332,10 @@ export default {
         icon: "arrowhead-down",
         variant: "light",
       };
+    },
+    getTotalWeeks() {
+      const totalWeeks = this.calculateTotalWeeksThisYear();
+      return 'Week ' + totalWeeks.totalWeeks + ' / ' + totalWeeks.startDate + '->' + totalWeeks.endDate;
     },
   },
   async created() {
@@ -452,6 +503,9 @@ export default {
       await this.fillDailyTimeEntries();
       // this.$nuxt.$emit("chronometer");
       // this.loading = false;
+      if(this.view.value === 'month'){
+        this.$router.push({ query: { view: "day" } });
+      }
     },
     async enterDetail(item) {
       const date = item.date;
@@ -484,6 +538,15 @@ export default {
     async weekSelection() {
       await this.fillWeeklyTimeEntries();
     },
+    async weekSelectionInMonthView() {
+      await this.fillWeeklyTimeEntries();
+    },
+    weekDateChangeInMonthView() {
+      this.monthView = 'week';
+    },
+    resetMonthView() {
+      this.monthView = null;
+    },
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
     },
@@ -497,12 +560,25 @@ export default {
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
     },
+    calculateTotalWeeksThisYear() {
+      const currentDate = DateTime.now();
+      const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
+      this.setWeekDayDates(startOfYear.toISO(), currentDate.toISO());
+      const totalWeeks = Math.floor(currentDate.diff(startOfYear, 'weeks').weeks);
+      const startDate = DateTime.now().startOf("week").toISO();
+      const endDate = DateTime.now().endOf("week").toISO();
+      return {totalWeeks, startDate: DateTime.fromISO(startDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT), endDate: DateTime.fromISO(endDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT) };
+    },
+    async onWeekDayViewChange() {
+      this.$router.push({ query: { view: 'month' } });
+    },
   },
   beforeDestroy() {
     this.unregisterRootListeners();
   },
   watch: {
     "$route.query.view"(newVal) {
+      this.resetMonthView();
       this.view.value = newVal || "day";
       this.view.label = this.VIEWS.find(
         (v) => v.value === this.view.value
@@ -518,6 +594,7 @@ export default {
       if(newval.from && newval.to) {
         this.setWeekDayDates(newval.from, newval.to);
         this.generateWeekDaysEntries();
+        this.resetMonthView();
       }
     },
   },

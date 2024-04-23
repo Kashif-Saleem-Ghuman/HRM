@@ -95,7 +95,7 @@ export default {
     if (this.$store.state.token.isUser) {
       await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
     } else {
-      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
+      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
         employeeId: this.employeeId,
         date: new Date().toISOString(),
       });

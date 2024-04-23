@@ -164,8 +164,12 @@ export default {
       const today = DateTime.local();
       const lastMonthStart = today.minus({ months: 1 }).startOf("month");
       const currentDay = today.endOf("day");
-      this.startDate = DateTime.fromISO(lastMonthStart).toISO({ includeOffset: false })
-      this.endDate = DateTime.fromISO(currentDay).toISO({ includeOffset: false })
+      this.startDate = DateTime.fromISO(lastMonthStart).toISO({
+        includeOffset: false,
+      });
+      this.endDate = DateTime.fromISO(currentDay).toISO({
+        includeOffset: false,
+      });
       this.downloadReport();
       this.hideReportOptions();
     },
@@ -234,7 +238,8 @@ export default {
       const start = DateTime.fromISO(this.startDate).toISODate();
       const end = DateTime.fromISO(this.endDate).toISODate();
       const url = window.URL.createObjectURL(new Blob([data]));
-      const filename = start && end ? `${start}-${end}.csv` : 'download_summary.csv';
+      const filename =
+        start && end ? `${start}-${end}.csv` : "download_summary.csv";
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", filename);
@@ -269,7 +274,12 @@ export default {
         this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
         return;
       }
-      if (this.selectedStartDate > this.selectedEndDate) {
+      const startDate = DateTime.fromFormat(
+        this.selectedStartDate,
+        "yyyy-MMM-dd"
+      );
+      const endDate = DateTime.fromFormat(this.selectedEndDate, "yyyy-MMM-dd");
+      if (startDate > endDate) {
         this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
         return;
       }

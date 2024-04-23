@@ -724,7 +724,23 @@ export const TIME_ATTENDANCE_TAB = [
     route: "/time-attendance/past-due/",
   },
 ];
-
+export const DOWNLOAD_REPORT_TAB = [
+  {
+    title: "Leave Report",
+    value: "leaveReport",
+    route: "/demo/leave-report/",
+  },
+  {
+    title: "Leave Summary",
+    value: "leaveSummary",
+    route: "/demo/leave-summary/",
+  },
+  {
+    title: "Timesheet",
+    value: "timesheetReport",
+    route: "/demo/timesheet-report/",
+  },
+];
 export const TABLE_FIELDS = [
   {
     key: "",

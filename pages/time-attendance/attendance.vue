@@ -11,7 +11,7 @@
         >
           <div class="pl-05 pr-05">
             <bib-datetime-picker
-              v-model="date"
+              :value="date"
               @input="
                 onDateChange($event);
                 scope.close();
@@ -97,6 +97,7 @@ export default {
       );
     },
     onDateChange(value) {
+      if(((value === '' || value == this.todayDate ) && this.date == this.todayDate) || value == this.date) return;
       this.date = value === "" ? this.todayDate : value;
       this.generateOrganizationEntries(
         DateTime.fromFormat(this.date, DATETIME_FORMAT).toUTC().toISO()

@@ -56,7 +56,7 @@ export function validatePostalCode(value, form = {}) {
 export function isValidUrl(url) {
   if (isUrl(url)) return true
 
-  const domainRegex = /^[a-zA-Z0-9_-]+(\.[a-zA-Z]{2,})+$/
+  const domainRegex = /^www\.[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
   return domainRegex.test(url) || "Invalid URL" 
 
 }

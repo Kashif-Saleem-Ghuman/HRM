@@ -34,7 +34,7 @@
         ></bib-button>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -85,7 +85,7 @@ export default {
         });
 
         if (response) {
-          this.downloadFile(response.data, "report");
+          this.downloadFile(response.data, "leave-details-report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEmployeeId = null;
           this.selectedMonth = null;

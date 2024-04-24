@@ -726,7 +726,7 @@ export const TIME_ATTENDANCE_TAB = [
 ];
 export const DOWNLOAD_REPORT_TAB = [
   {
-    title: "Leave Report",
+    title: "Leave Details",
     value: "leaveReport",
     route: "/demo/leave-report/",
   },
@@ -736,7 +736,7 @@ export const DOWNLOAD_REPORT_TAB = [
     route: "/demo/leave-summary/",
   },
   {
-    title: "Timesheet",
+    title: "Time & Attendance",
     value: "timesheetReport",
     route: "/demo/timesheet-report/",
   },

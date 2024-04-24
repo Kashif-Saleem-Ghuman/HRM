@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <div>
+      <demo-time-attendance-user></demo-time-attendance-user>
+    </div>
+  </div>
+</template>
+<script>
+</script>

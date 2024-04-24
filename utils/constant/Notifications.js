@@ -59,7 +59,11 @@ export const NOTIFICATION_MESSAGES = {
     variant: "danger",
   },
   DATE_VALIDATION_ERROR: {
-    text: "End date cannot be earlier than the start date. Please adjust.",
+    text: "End date cannot be earlier than the start date.",
+    variant: "danger",
+  },
+  SAME_DATE_VALIDATION_ERROR: {
+    text: "A request cannot have same start and end date.",
     variant: "danger",
   },
 };

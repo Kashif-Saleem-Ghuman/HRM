@@ -72,7 +72,6 @@ export default {
     downloadFile,
     generateYearList,
     async downloadReport() {
-      this.loading = true;
       const employeeId = this.selectedEmployeeId;
       const month = this.selectedMonth;
       const year = this.selectedYear;
@@ -88,9 +87,9 @@ export default {
         });
 
         if (response) {
+          this.loading = true;
           this.downloadFile(response.data, "report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
-
           this.selectedEmployeeId = null;
           this.selectedMonth = null;
           this.selectedYear = null;

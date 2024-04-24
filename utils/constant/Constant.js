@@ -204,6 +204,139 @@ export const TABLE_HEAD = {
       },
     },
   ],
+  tHeadTimesheetListWeekTab: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "date",
+      label: "Date",
+      width: `${100 / 5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
+        isActive: false,
+        sortKey: "date",
+        type: "string",
+      },
+    },
+    {
+      key: "mon",
+      label: "MON",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-mon-sort",
+        isActive: false,
+        sortKey: "weekData.1.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "tue",
+      label: "TUE",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-tue-sort",
+        isActive: false,
+        sortKey: "weekData.1.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "wed",
+      label: "WED",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-wed-sort",
+        isActive: false,
+        sortKey: "weekData.3.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "thu",
+      label: "THU",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-thu-sort",
+        isActive: false,
+        sortKey: "weekData.4.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "fri",
+      label: "FRI",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-fri-sort",
+        isActive: false,
+        sortKey: "weekData.5.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "sat",
+      label: "SAT",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sat-sort",
+        isActive: false,
+        sortKey: "weekData.6.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 13}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
+        isActive: false,
+        sortKey: "weekData.7.totalHours",
+        type: "week",
+      },
+    },
+    {
+      key: "total",
+      label: "TOTAL HRS",
+      style: "text-align:left",
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-total-hours-sort",
+        isActive: false,
+        sortKey: "total",
+        type: "number",
+      },
+    },
+    {
+      key: "status",
+      label: "STATUS",
+      style: "text-align:left",
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-status-sort",
+        isActive: false,
+        sortKey: "timesheets[0].status",
+        type: "string",
+      },
+    },
+  ],
   tHeadTimesheetTab: [
     {
       key: "",
@@ -1240,4 +1373,19 @@ export const PEOPLE_ACTION_ITEMS = {
 };
 export const FILL_DAILY_ENTRY_EVENT = 'filldaily-entry'
 
-export const MAX_TIMER_DURATION_HOUR = 12 
+export const MAX_TIMER_DURATION_HOUR = 12
+
+export const MONTH_SELECTOR_DEFAULT = {
+  label: "Select Month",
+  value: 'select_month',
+};
+
+export const WEEK_SELECTOR_DEFAULT = {
+  label: 'Select Week',
+  value: 'select_week',
+};
+
+export const DAY_SELECTOR_DEFAULT = {
+  label: 'Select Day',
+  value: 'select_day',
+};

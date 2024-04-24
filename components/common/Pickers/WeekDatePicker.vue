@@ -47,6 +47,7 @@ export default {
     getDatetimeCommonProps,
     onDateChange(value) {
       //When user clicks X button
+      this.$emit('onChange');
       if (!this.from) {
        return  this.setCurrentWeek()
       }

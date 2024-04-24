@@ -1,13 +1,14 @@
 <template>
   <div class="download-wrapper py-1 mt-1 bg-light px-1 mx-1 w-50 shape-rounded">
     <div>
-      <div>
+      <div :key="update">
         <!-- Start Date Picker -->
         <form-datepicker
           label="Start Date"
           :value="selectedStartDate"
           @change="updateStartDate"
           :dis="true"
+          :variant="variantStart"
         >
         </form-datepicker>
         <!-- End Date Picker -->
@@ -16,13 +17,14 @@
           :value="selectedEndDate"
           @change="updateEndDate"
           :dis="true"
+          :variant="variantEnd"
         >
         </form-datepicker>
       </div>
       <div id="fotter">
         <div class="d-flex pt-1">
           <bib-button
-            label="Download Timesheet"
+            label="Download Report"
             variant="primary-24"
             class="ml-auto"
             @click="fetchTimesheetReport"
@@ -47,6 +49,9 @@ export default {
     return {
       selectedStartDate: null,
       selectedEndDate: null,
+      variantStart:null,
+      variantEnd:null,
+      update:0,
     };
   },
   methods: {
@@ -55,7 +60,17 @@ export default {
       const endpoint = DETAIL_SUMMARY_ENDPOINT;
 
       if (!this.selectedStartDate || !this.selectedEndDate) {
-        this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
+        if(!this.selectedStartDate){
+          this.variantStart = 'alert';
+          this.variantEnd = null;
+          return
+        }
+        if(!this.selectedEndDate){
+          this.variantStart = null;
+          this.variantEnd = 'alert';
+          this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
+          return; 
+        }
         return;
       }
 
@@ -71,9 +86,13 @@ export default {
           this.openPopupNotification(NOTIFICATION_MESSAGES.SAME_DATE_VALIDATION_ERROR);
           return;
         }
+        this.variantEnd = null;
+        this.variantStart = null;
+        const startOfWeek = startDate.startOf("week");
+        const start = startOfWeek.toISODate();
 
-        const start = startDate.toISODate();
-        const end = endDate.toISODate();
+        const endOfWeek = endDate.endOf("week");
+        const end = endOfWeek.toISODate();
 
         const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
           headers: {
@@ -84,10 +103,11 @@ export default {
         });
 
         if (response) {
-          this.downloadFile(response.data, 'timesheet');
+          this.downloadFile(response.data, 'attendance-report');
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
-          this.selectedEndDate = null;
+          this.selectedStartDate = null;
           this.selectedEndDate= null;
+          this.update += 1;
         }
       } catch (error) {
         console.error("Error downloading file:", error);
@@ -100,9 +120,11 @@ export default {
     },
     updateStartDate(date) {
       this.selectedStartDate = date;
+      this.selectedStartDate ? this.variantStart = null : 'danger';
     },
     updateEndDate(date) {
       this.selectedEndDate = date;
+      this.selectedEndDate ? this.variantEnd = null : 'danger';
     },
   },
 };

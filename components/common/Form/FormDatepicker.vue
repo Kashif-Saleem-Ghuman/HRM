@@ -8,6 +8,7 @@
     :editable="dis"
     :disable-weekends="true"
     v-bind="{ ...getDatetimeCommonProps() }"
+    :variant="variant"
     v-if="dis"
   ></bib-datetime-picker>
   <bib-datetime-picker
@@ -40,6 +41,9 @@ export default {
       type: Boolean,
     },
     dateValue:{
+      type: String,
+    },
+    variant:{
       type: String,
     }
   },

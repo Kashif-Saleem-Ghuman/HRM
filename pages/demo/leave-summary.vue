@@ -12,7 +12,7 @@
       <div id="fotter">
         <div class="d-flex pt-1">
           <bib-button
-            label="Download Summary"
+            label="Download Report"
             variant="primary-24"
             class="ml-auto"
             @click="fetchSummaryReport"
@@ -58,7 +58,7 @@ export default {
           responseType: "blob",
         });
         if (response) {
-          this.downloadFile(response.data, "summary");
+          this.downloadFile(response.data, "leave-summary-report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedYear = null;
         }

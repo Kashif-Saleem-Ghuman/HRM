@@ -1,6 +1,11 @@
 <template>
   <div>
-    <download-file></download-file>
+    <div v-if="isUser">
+      <page-not-found></page-not-found>
+    </div>
+    <div v-else>
+      <download-file></download-file>
+    </div>
   </div>
 </template>
 

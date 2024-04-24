@@ -36,7 +36,7 @@ export default {
             status: true,
           });
         this.chronometerInterval = setInterval(async () => {
-          this.removeChronometerValueAfter12Hours();
+          this.removeChronometerValueAtMidnight();
           this.time = new Date().toTimeString().split(" ")[0];
           this.date = new Date().toDateString();
           const chronometer = !this.getTimerData.start
@@ -58,14 +58,13 @@ export default {
         }, 1000);
       }
     },
-    removeChronometerValueAfter12Hours() {
-      const twelveHoursFromNow = DateTime.local().plus({ hours: 12 });
-      const millisecondsUntilTwelveHoursFromNow = twelveHoursFromNow.diffNow().milliseconds;
-    
+    removeChronometerValueAtMidnight() {
+      const endOfDay = DateTime.local().endOf('day');
+      const millisecondsUntilEndOfDay = endOfDay.diffNow().milliseconds;
       setTimeout(() => {
         localStorage.removeItem("chronometerValue");
         this.$nuxt.$emit("chronometer");
-      }, millisecondsUntilTwelveHoursFromNow);
+      }, millisecondsUntilEndOfDay);
     },
     
     async stopTimer() {

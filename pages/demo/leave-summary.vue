@@ -48,7 +48,6 @@ export default {
     downloadFile,
     generateYearList,
     async fetchSummaryReport() {
-      this.loading = true;
       const year = this.selectedYear;
 
       const endpoint = DETAIL_SUMMARY_ENDPOINT;
@@ -61,6 +60,7 @@ export default {
           responseType: "blob",
         });
         if (response) {
+          this.loading = true;
           this.downloadFile(response.data, "summary");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedYear = null;

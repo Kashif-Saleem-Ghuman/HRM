@@ -54,7 +54,6 @@ export default {
   methods: {
     downloadFile,
     async fetchTimesheetReport() {
-      this.loading = true;
       const endpoint = DETAIL_SUMMARY_ENDPOINT;
 
       if (!this.selectedStartDate || !this.selectedEndDate) {
@@ -66,8 +65,12 @@ export default {
         const startDate = DateTime.fromFormat(this.selectedStartDate, "yyyy-MMM-dd");
         const endDate = DateTime.fromFormat(this.selectedEndDate, "yyyy-MMM-dd");
 
-        if (startDate >= endDate) {
+        if (startDate > endDate) {
           this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
+          return;
+        }
+        if (startDate.toMillis() === endDate.toMillis()) {
+          this.openPopupNotification(NOTIFICATION_MESSAGES.SAME_DATE_VALIDATION_ERROR);
           return;
         }
 
@@ -83,6 +86,7 @@ export default {
         });
 
         if (response) {
+          this.loading = true;
           this.downloadFile(response.data, 'timesheet');
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEndDate = null;

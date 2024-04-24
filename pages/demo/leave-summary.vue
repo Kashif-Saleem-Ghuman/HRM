@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-    <loader :loading="loading"></loader>
   </div>
 </template>
 
@@ -38,7 +37,6 @@ export default {
     return {
       yearOptions: null,
       selectedYear: null,
-      loading: false,
     };
   },
   mounted() {
@@ -60,7 +58,6 @@ export default {
           responseType: "blob",
         });
         if (response) {
-          this.loading = true;
           this.downloadFile(response.data, "summary");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedYear = null;
@@ -69,7 +66,6 @@ export default {
         console.error("Error downloading file:", error);
         this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
-      this.loading = false;
     },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });

@@ -34,7 +34,6 @@
         ></bib-button>
       </div>
     </div>
-    <loader :loading="loading"></loader>
   </div>
 </template>
 
@@ -57,7 +56,6 @@ export default {
       selectedEmployeeId: null,
       selectedMonth: null,
       selectedYear: null,
-      loading: false,
     };
   },
   async created() {
@@ -87,7 +85,6 @@ export default {
         });
 
         if (response) {
-          this.loading = true;
           this.downloadFile(response.data, "report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEmployeeId = null;
@@ -98,7 +95,6 @@ export default {
         console.error("Error downloading file:", error);
         this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
-      this.loading = false;
     },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });

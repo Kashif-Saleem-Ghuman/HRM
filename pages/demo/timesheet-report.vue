@@ -30,7 +30,6 @@
         </div>
       </div>
     </div>
-    <loader :loading="loading"></loader>
   </div>
 </template>
 
@@ -48,7 +47,6 @@ export default {
     return {
       selectedStartDate: null,
       selectedEndDate: null,
-      loading: false,
     };
   },
   methods: {
@@ -86,7 +84,6 @@ export default {
         });
 
         if (response) {
-          this.loading = true;
           this.downloadFile(response.data, 'timesheet');
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEndDate = null;
@@ -96,7 +93,6 @@ export default {
         console.error("Error downloading file:", error);
         this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
-      this.loading = false;
     },
 
     openPopupNotification(notification) {

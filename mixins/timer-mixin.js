@@ -36,7 +36,6 @@ export default {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
-
         if (!this.isTimerRunning)
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,
@@ -56,7 +55,6 @@ export default {
             "chronometerValue",
             JSON.stringify({ chronometer, date: this.date })
           );
-          console.log(chronometer, "chronometer")
           const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
             this.stopClick = true;
@@ -79,10 +77,8 @@ export default {
           localStorage.removeItem("chronometerValue");
         }
       }
-
       const nextDay = DateTime.local().plus({ days: 1 }).startOf("day");
       const millisecondsUntilNextDay = nextDay.diffNow().milliseconds;
-
       setTimeout(() => {
         localStorage.removeItem("chronometerValue");
         this.$nuxt.$emit("chronometer");

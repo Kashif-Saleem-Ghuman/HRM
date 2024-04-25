@@ -67,8 +67,13 @@ export default {
     },
     removeChronometerValueAtMidnight() {
       const storedValue = localStorage.getItem("chronometerValue");
+      
       if (storedValue) {
-        const { date } = JSON.parse(storedValue);
+        const { date, chronometer } = JSON.parse(storedValue);
+        if (!date || !chronometer) {
+          localStorage.removeItem("chronometerValue");
+          return;
+        }
         const storedDate = DateTime.fromISO(date).startOf("day");
         const currentDate = DateTime.local().startOf("day");
 

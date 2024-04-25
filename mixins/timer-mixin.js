@@ -1,10 +1,7 @@
 import { mapGetters } from "vuex";
-import {
-  FILL_DAILY_ENTRY_EVENT,
-  MAX_TIMER_DURATION_HOUR,
-} from "../utils/constant/Constant";
-import { DateTime } from "luxon";
-const EmitValurChronometer = "chronometer";
+import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+import { DateTime } from 'luxon';
+const EmitValurChronometer = 'chronometer';
 export default {
   data() {
     return {
@@ -29,20 +26,23 @@ export default {
       getTimerData: "timeattendance/getTimerData",
     }),
   },
-  mounted() {
+  mounted(){
     this.removeChronometerValueAtMidnight();
   },
   methods: {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
+        
         if (!this.isTimerRunning)
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,
           });
         this.chronometerInterval = setInterval(async () => {
+          const now = DateTime.local();
           this.time = new Date().toTimeString().split(" ")[0];
           this.date = new Date().toDateString();
+          const setCurrentDate = now.toISODate();
           const chronometer = !this.getTimerData.start
             ? 0
             : Math.floor(
@@ -53,7 +53,7 @@ export default {
           this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
           localStorage.setItem(
             "chronometerValue",
-            JSON.stringify({ chronometer, date: this.date })
+            JSON.stringify({ chronometer, date: setCurrentDate })
           );
           const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
           if (chronometer > MAX_DURATION_TIMER) {
@@ -67,7 +67,6 @@ export default {
     },
     removeChronometerValueAtMidnight() {
       const storedValue = localStorage.getItem("chronometerValue");
-
       if (storedValue) {
         const { date } = JSON.parse(storedValue);
         const storedDate = DateTime.fromISO(date).startOf("day");
@@ -84,11 +83,12 @@ export default {
         this.$nuxt.$emit("chronometer");
       }, millisecondsUntilNextDay);
     },
+    
     async stopTimer() {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running
       }
-      const timer = this.getTimerData;
+      const timer = this.getTimerData
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
       this.clearChronometerInterval();
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
@@ -108,9 +108,7 @@ export default {
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {
-        this.$store.commit("timeattendance/SET_CHRONOMETER", {
-          chronometer: 0,
-        });
+        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
       });
     },
     unregisterDefaultValueChronometer() {

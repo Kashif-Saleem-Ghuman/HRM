@@ -61,6 +61,7 @@ export default {
       }
     },
     removeChronometerValueAtSpecificTime(hour, minute) {
+      alert("called")
       const now = DateTime.local();
       const specificTimeToday = now.set({ hour, minute, second: 0, millisecond: 0 });
     

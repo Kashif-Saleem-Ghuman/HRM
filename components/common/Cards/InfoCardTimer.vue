@@ -101,9 +101,13 @@ export default {
       });
     }
     this.timeEntriesLoading = false;
-    const chronometer = localStorage.getItem("chronometerValue")
+    const storedValue = localStorage.getItem("chronometerValue");
+    if (storedValue) {
+    const { chronometer } = JSON.parse(storedValue);
     formatTime(chronometer);
     return this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+    }
+    return this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer:0 });
   },
   methods: {
     close() {

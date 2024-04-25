@@ -38,7 +38,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    localStorage.removeItem("chronometerValue");
     this.isThemeCheck();
     this.accountType = this.$store.state.token.accountType;
     this.setDebouncedSearch();

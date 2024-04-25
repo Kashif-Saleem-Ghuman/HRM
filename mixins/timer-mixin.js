@@ -27,8 +27,7 @@ export default {
     }),
   },
   mounted(){
-    this.removeChronometerValueAtSpecificTime(0, 0);
-    localStorage.removeItem("chronometerValue");
+    this.removeChronometerValueAtSpecificTime(8, 25);
   },
   methods: {
     startTimerInterval() {
@@ -72,6 +71,7 @@ export default {
       const millisecondsUntilSpecificTime = specificTimeToday.diff(now).milliseconds;
     
       setTimeout(() => {
+        alert("called")
         localStorage.removeItem("chronometerValue");
         this.$nuxt.$emit("chronometer");
       }, millisecondsUntilSpecificTime);

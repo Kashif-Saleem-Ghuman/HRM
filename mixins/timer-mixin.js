@@ -26,6 +26,10 @@ export default {
       getTimerData: "timeattendance/getTimerData",
     }),
   },
+  mounted(){
+    this.removeChronometerValueAtSpecificTime(0, 0);
+    localStorage.removeItem("chronometerValue");
+  },
   methods: {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
@@ -36,7 +40,6 @@ export default {
             status: true,
           });
         this.chronometerInterval = setInterval(async () => {
-          this.removeChronometerValueAtMidnight();
           this.time = new Date().toTimeString().split(" ")[0];
           this.date = new Date().toDateString();
           const chronometer = !this.getTimerData.start
@@ -58,14 +61,22 @@ export default {
         }, 1000);
       }
     },
-    removeChronometerValueAtMidnight() {
-      const endOfDay = DateTime.local().endOf('day');
-      const millisecondsUntilEndOfDay = endOfDay.diffNow().milliseconds;
+    removeChronometerValueAtSpecificTime(hour, minute) {
+      const now = DateTime.local();
+      const specificTimeToday = now.set({ hour, minute, second: 0, millisecond: 0 });
+    
+      if (now > specificTimeToday) {
+        specificTimeToday = specificTimeToday.plus({ days: 1 });
+      }
+    
+      const millisecondsUntilSpecificTime = specificTimeToday.diff(now).milliseconds;
+    
       setTimeout(() => {
         localStorage.removeItem("chronometerValue");
         this.$nuxt.$emit("chronometer");
-      }, millisecondsUntilEndOfDay);
+      }, millisecondsUntilSpecificTime);
     },
+    
     
     async stopTimer() {
       if (!this.isTimerRunning) {

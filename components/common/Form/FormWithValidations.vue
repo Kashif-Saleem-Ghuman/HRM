@@ -89,7 +89,11 @@ export default {
 
   data() {
     return {
-      updateForm: {},
+      updateForm: {
+        address:{
+          state:""
+        }
+      },
       errors: {},
     };
   },

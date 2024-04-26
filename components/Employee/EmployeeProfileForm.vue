@@ -352,7 +352,7 @@ import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
-import timezones from "../../utils/constant/new_timezones"
+import timezones from "../../utils/constant/new_timezones";
 export default {
   props: {
     show: {
@@ -363,7 +363,10 @@ export default {
   data() {
     return {
       timezones: [
-        ...timezones.map(timezone => ({ label: timezone.location, value: timezone.name }))
+        ...timezones.map((timezone) => ({
+          label: timezone.location,
+          value: timezone.name,
+        })),
       ],
       contactFormFieds,
       employeeProfileFields,
@@ -465,15 +468,21 @@ export default {
     states() {
       if (this.updatedCountry) {
         const states = [...STATES.filter((s) => s.code == this.updatedCountry)];
-        // if (!states.length) return null;
+        if (!states.length) {
+          this.updateForm.state = undefined;
+          return null;
+        }
         return [{ label: "Select...", value: "" }, ...states];
       }
 
       const country = [...STATES.filter((s) => s.code == this.originalCountry)];
-      // if (!country.length) return null;
+      if (!country.length) {
+        this.updateForm.state = undefined;
+          return null;
+      }
       return [{ label: "Select...", value: "" }, ...country];
     },
-    countriesOptions(){
+    countriesOptions() {
       return [{ label: "Select...", value: "" }, ...COUNTRIES];
     },
     originalCountry() {
@@ -490,7 +499,7 @@ export default {
 
   mounted() {
     this.fetchEmployee();
-    this.states
+    this.states;
   },
 
   watch: {

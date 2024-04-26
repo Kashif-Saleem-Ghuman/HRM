@@ -6,7 +6,7 @@
     hide-quick-select
     @input="onChange"
     :editable="dis"
-    :disable-weekends="true"
+    :disable-weekends="disableWeekends"
     v-bind="{ ...getDatetimeCommonProps() }"
     :variant="variant"
     v-if="dis"
@@ -17,7 +17,7 @@
     @input="onChange"
     :editable="dis"
     class="align-items"
-    :disable-weekends="true"
+    :disable-weekends="disableWeekends"
     v-if="!dis"
     v-bind="{ ...getDatetimeCommonProps() }"    
   ></bib-datetime-picker>
@@ -28,6 +28,7 @@
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
 import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
+import { type } from "jquery";
 
 export default {
   props: {
@@ -45,7 +46,11 @@ export default {
     },
     variant:{
       type: String,
-    }
+    },
+    disableWeekends:{
+      type:Boolean,
+      default:true
+    },
   },
   data() {
     return {

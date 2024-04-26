@@ -12,15 +12,15 @@
         <bib-checkbox
           size="md"
           :key="data.value.id"
-          @change="$emit('item-checked', { id:data.value.id, key:data.value.id })"
+          @change="
+            $emit('item-checked', { id: data.value.id, key: data.value.id })
+          "
           :checked="data.value.checked"
         ></bib-checkbox>
       </div>
     </template>
     <template #cell(name)="data">
-      <div
-        class="d-flex align-center text-left gap-05 position-relative"
-      >
+      <div class="d-flex align-center text-left gap-05 position-relative">
         <div
           class="cursor-pointer"
           v-on:mouseover="profiletab('id_' + data.value.employee.id)"
@@ -42,15 +42,24 @@
           >
           </bib-avatar>
           <div :id="'id_' + data.value.employee.id" class="userCard">
+           
             <user-info-card
               :user="data.value.employee"
               @viewProfile="viewProfile(data.value.employee.id)"
+              @sendMeet.stop="makeCall(getUser.userId, data.value.employee.userId)"
+              @sendMessage="sendMessage(data.value.employee.userId)"
             ></user-info-card>
           </div>
         </div>
         <div class="info_wrapper">
-          <div class="title-user" :title="getEmployeeFullName(data.value.employee)">
-            {{ getEmployeeFullName(data.value.employee) | truncate(truncateText, "...") }}
+          <div
+            class="title-user"
+            :title="getEmployeeFullName(data.value.employee)"
+          >
+            {{
+              getEmployeeFullName(data.value.employee)
+                | truncate(truncateText, "...")
+            }}
           </div>
           <div class="description">
             {{ data.value.employee.jobTitle }}
@@ -80,11 +89,11 @@
     </template>
     <template #cell(duration)="data">
       <div class="justify-between text-dark">
-        <span>{{ data.value.duration == null
-              ? "N/A"
-              : `${data.value.duration} day${
-                  data.value.duration > 1 ? "s" : ""
-                }` }}</span>
+        <span>{{
+          data.value.duration == null
+            ? "N/A"
+            : `${data.value.duration} day${data.value.duration > 1 ? "s" : ""}`
+        }}</span>
       </div>
     </template>
     <template #cell(reason)="data">
@@ -94,7 +103,6 @@
     </template>
     <template #cell(action)="data">
       <div class="d-flex align-center justify-center space-between">
-        
         <bib-button
           :icon="$button.approved_g.icon"
           :variant="$button.approved_g.variant"
@@ -118,13 +126,18 @@
 
 <script>
 import fecha, { format } from "fecha";
+import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 import {
   getEmployeeFullName,
   getEmployeeInitials,
 } from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
-
+import {
+  meetLink,
+  sendMessage,
+  makeCall,
+} from "../../../../utils/functions/functions_lib";
 export default {
   props: {
     listPending: {
@@ -149,25 +162,34 @@ export default {
       sortByField: null,
     };
   },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser");
+  },
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.listPending;
 
       return sortColumn({ items: this.listPending, field: this.sortByField });
     },
-    truncateText(){
+    truncateText() {
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-      return 40;
-    } else {
-      return 25;
-    }
+        return 40;
+      } else {
+        return 25;
+      }
     },
+    ...mapGetters({
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
   },
 
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
+    meetLink,
+    sendMessage,
+    makeCall,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;

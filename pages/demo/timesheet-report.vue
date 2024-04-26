@@ -9,6 +9,7 @@
           @change="updateStartDate"
           :dis="true"
           :variant="variantStart"
+          :disableWeekends="false"
         >
         </form-datepicker>
         <!-- End Date Picker -->
@@ -18,6 +19,7 @@
           @change="updateEndDate"
           :dis="true"
           :variant="variantEnd"
+          :disableWeekends="false"
         >
         </form-datepicker>
       </div>

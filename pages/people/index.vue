@@ -1,14 +1,21 @@
 <template>
-  <div id="people-action-wrapper">
-    <loader :loading="loading"></loader>
-
-    <div class="d-flex justify-between align-center bottom_border_wrapper">
-      <section-header-left title="People"></section-header-left>
+  <div>
+    <div v-if="isUser">
+      <page-not-found></page-not-found>
     </div>
-    <no-record v-if="showNoData"></no-record>
+    <div v-else>
+      <div id="people-action-wrapper">
+        <loader :loading="loading"></loader>
 
-    <div v-else-if="showTable">
-      <list :userList="employees"></list>
+        <div class="d-flex justify-between align-center bottom_border_wrapper">
+          <section-header-left title="People"></section-header-left>
+        </div>
+        <no-record v-if="showNoData"></no-record>
+
+        <div v-else-if="showTable">
+          <list :userList="employees"></list>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +62,12 @@ export default {
     },
     showNoData() {
       return !this.loading && (!this.employees || !this.employees?.length);
+    },
+    isAdmin() {
+      return this.$store.state.token.isAdmin;
+    },
+    isUser() {
+      return this.$store.state.token.isUser;
     },
   },
   mounted() {

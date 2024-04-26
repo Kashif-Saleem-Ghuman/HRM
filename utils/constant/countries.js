@@ -1,8 +1,8 @@
 export default [
-  {
-    label: "Select...",
-    value: "",
-  },
+  // {
+  //   label: "Select...",
+  //   value: "",
+  // },
   {
     label: "United States",
     value: "United States",

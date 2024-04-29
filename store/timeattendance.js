@@ -49,6 +49,10 @@ export const mutations = {
     state.timer.active = active || false;
   },
 
+  RESET_TIME_ATTENDANCE_ENTRIES: (state, payload) => {
+    state.dailyTimeEntries = [];
+  },
+  
   SET_DAILY_TIME_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = payload;
   },
@@ -142,6 +146,10 @@ export const actions = {
       console.log(e);
     }
     this.loading = false;
+  },
+  
+  resetTimeAttendanceEntries(ctx) {
+    ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
   },
 
   async setDailyTimeEntries(ctx, date = new Date().toISOString()) {

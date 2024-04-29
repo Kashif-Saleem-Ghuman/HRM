@@ -193,8 +193,11 @@ export default {
 
   watch: {
     date(value, old) {
-      if (value != old) {
+      if (value != old && value !=null) {
         this.getSummary()
+      }
+      else if (value==null)  {
+        this.summary=null
       }
     },
     'entries': {

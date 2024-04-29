@@ -411,7 +411,10 @@ export default {
     },
     async dateSelection(event) {
       // this.loading = true;
-      if (!event) return;
+      if (!event) {
+        await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
+        return;
+      }
       await this.fillDailyTimeEntries();
       // this.$nuxt.$emit("chronometer");
       // this.loading = false;

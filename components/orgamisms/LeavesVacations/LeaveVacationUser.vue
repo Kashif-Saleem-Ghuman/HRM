@@ -201,6 +201,9 @@ export default {
           this.leaveVacationDataUser = result;
         }
       });
+      if(this.$route.query?.request){
+      this.addLeaves(this.$route.query?.request)
+    }
   },
   methods: {
     getCurrentDateMonth,

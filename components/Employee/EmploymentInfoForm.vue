@@ -278,3 +278,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.vdpInnerWrap {
+  position: absolute;
+}
+</style>

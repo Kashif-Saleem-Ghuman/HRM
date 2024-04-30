@@ -232,19 +232,28 @@
                             type="select"
                             label="Country"
                             field-key="address.country"
-                            :options="countriesOptions"
+                            :options="countries"
                             :value="form.address?.country"
                             placeholder=""
                           ></form-input>
                         </div>
-                        <div class="col-4" v-show="states">
+                        <div class="col-4">
                           <form-input
                             type="select"
                             label="Province/State"
                             field-key="address.state"
-                            :options="states"
+                            :options="regions"
                             :value="form.address?.state"
                             placeholder="Please select state"
+                            v-show="regions && !otherCountry"
+                          ></form-input>
+                          <form-input
+                            type="text"
+                            label="Province/State"
+                            field-key="address.state"
+                            :value="form.address?.state"
+                            placeholder="Please select state"
+                            v-show="otherCountry"
                           ></form-input>
                         </div>
 
@@ -336,7 +345,8 @@
 
 <script>
 import { SELECT_OPTIONS, STATES } from "@/utils/constant/Constant";
-import COUNTRIES from "@/utils/constant/countries";
+import countries from "@/utils/constant/countries";
+import regions from "../../utils/constant/regions";
 import { updateEmployee } from "@/utils/functions/api_call/employees";
 import {
   sendMessage,
@@ -393,17 +403,24 @@ export default {
         { label: "User", value: USER_ROLES.USER },
         { label: "HR Manager", value: USER_ROLES.MANAGER },
       ],
-      countries: COUNTRIES,
+      countries,
       STATES,
       currentState: STATES,
       id: null,
       form: {},
-      updateForm: {},
+      updateForm: {
+        address: {
+          country: null,
+          state: null,
+        },
+      },
       errors: {},
       avatarUrl: "",
       activeUser: "",
       uniqueId: null,
       loading: false,
+      otherCountry: false,
+      originalStateProvince: "",
     };
   },
   async created() {
@@ -426,6 +443,7 @@ export default {
         this.id = id;
         const employee = await getEmployee({ id });
         this.form = employee;
+        this.originalStateProvince = this.form.address.state;
         this.loading = false;
       }
     },
@@ -457,40 +475,43 @@ export default {
         this.openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
+        this.originalStateProvince = this.form.address.state;
         this.avatarUrl = "";
         return;
       });
     },
 
     sendMessage,
+    clearAddressState() {
+      this.form.address.state = "";
+      this.updateForm.address.state = "";
+    },
+    updateAddressState(newCountry) {
+      const newStateProvince =
+        newCountry === this.form.address.country
+          ? this.originalStateProvince
+          : "";
+      this.form.address.state = newStateProvince;
+      this.updateForm.address.state = newStateProvince;
+    },
   },
   computed: {
-    states() {
-      if (this.updatedCountry) {
-        const states = [...STATES.filter((s) => s.code == this.updatedCountry)];
-        if (!states.length) {
-          this.updateForm.state = undefined;
-          return null;
-        }
-        return [{ label: "Select...", value: "" }, ...states];
+    regions() {
+      const country =
+        this.updateForm.address && this.updateForm.address.country !== null
+          ? this.updateForm.address.country
+          : this.form.address
+          ? this.form.address.country
+          : null;
+      if (country && regions[country]) {
+        this.otherCountry = false;
+        return regions[country];
+      } else {
+        this.otherCountry = true;
+        return null;
       }
+    },
 
-      const country = [...STATES.filter((s) => s.code == this.originalCountry)];
-      if (!country.length) {
-        this.updateForm.state = undefined;
-          return null;
-      }
-      return [{ label: "Select...", value: "" }, ...country];
-    },
-    countriesOptions() {
-      return [{ label: "Select...", value: "" }, ...COUNTRIES];
-    },
-    originalCountry() {
-      return this.form?.address?.country;
-    },
-    updatedCountry() {
-      return this.updateForm.address?.country;
-    },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",
       getUserRole: "token/getUserRole",
@@ -499,13 +520,22 @@ export default {
 
   mounted() {
     this.fetchEmployee();
-    this.states;
   },
 
   watch: {
     getUser() {
       if (this.id) return;
       this.fetchEmployee();
+    },
+    "updateForm.address.country"(newCountry) {
+      if (!regions[newCountry]) {
+        if (!newCountry) {
+          return this.clearAddressState();
+        }
+        return this.updateAddressState(newCountry);
+      } else {
+        return this.updateAddressState(newCountry);
+      }
     },
   },
 };

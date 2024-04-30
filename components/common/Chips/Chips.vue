@@ -165,6 +165,9 @@ export default {
     padding: 6px;
     border-radius: 1px;
   }
+  &__border-radius {
+    border-radius: 0.5rem;
+  }
 
   &__bgsucess {
     background-color: #d5e8d4;

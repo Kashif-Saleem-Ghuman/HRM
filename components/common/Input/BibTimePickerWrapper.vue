@@ -1,16 +1,19 @@
 <template>
-  <bib-time-picker
-    v-model="time"
-    :name="name"
-    :placeholder="placeholder"
-    @change="onInput"
-    @select-change="onInput"
-    :disabled="disabled"
-  ></bib-time-picker>
+  <div style="display: block; position: relative">
+    <bib-time-picker
+      v-model="time"
+      :name="name"
+      :placeholder="placeholder"
+      @change="onInput"
+      @select-change="onInput"
+      :disabled="disabled"
+    ></bib-time-picker>
+    <div v-show="disabled" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"></div>
+  </div>
 </template>
 
 <script>
-import { isTimeFormat } from '../../../utils/functions/time';
+import { isTimeFormat } from "../../../utils/functions/time";
 
 export default {
   props: {
@@ -40,15 +43,15 @@ export default {
 
   methods: {
     onInput(time) {
-     if (!isTimeFormat(time)) {
-      this.time = this.value
-      return
-     }
+      if (!isTimeFormat(time)) {
+        this.time = this.value;
+        return;
+      }
       return this.$emit("input", time);
     },
 
     setTime(time) {
-      this.time = time
+      this.time = time;
     },
   },
 

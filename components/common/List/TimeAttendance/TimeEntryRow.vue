@@ -5,24 +5,16 @@
         {{ isBreak ? label + this.number : label }}
       </label>
     </div>
-    <div class="cell">
-    <bib-time-picker-wrapper
-      v-model="startTime"
-      name="startTime"
-      placeholder="--"
-      @input="timeInputBlur"
-      :disabled="disabled"
-    ></bib-time-picker-wrapper>
-      <!-- <bib-input
-        type="time"
-        name="name"
-        v-model="startTime"
-        @blur="timeInputBlur"
-        :step="60"
-        :disabled="disabled"
-      ></bib-input> -->
+    <div class="cell" @click="handleWrapperClick">
+        <bib-time-picker-wrapper
+          v-model="startTime"
+          name="startTime"
+          placeholder="--"
+          @input="timeInputBlur"
+          :disabled="disabled"
+        ></bib-time-picker-wrapper>
     </div>
-    <div class="cell">
+    <div class="cell" @click="handleWrapperClick">
       <bib-time-picker-wrapper
         v-model="endTime"
         name="endTime"
@@ -90,8 +82,8 @@ export default {
     },
     number: {
       type: String,
-      default: '',
-    }
+      default: "",
+    },
   },
   data() {
     return {
@@ -122,7 +114,8 @@ export default {
       });
     },
     timer() {
-      if (this.$route.params.id) return this.$store.state.employee.selectedEmployee?.timer
+      if (this.$route.params.id)
+        return this.$store.state.employee.selectedEmployee?.timer;
 
       return this.$store.state.timeattendance.timer?.active
         ? this.$store.state.timeattendance.timer
@@ -137,7 +130,7 @@ export default {
       );
     },
     isActivityIN() {
-      return this.newData.activity === ACTIVITY_TYPE.IN
+      return this.newData.activity === ACTIVITY_TYPE.IN;
     },
     startTime: {
       get() {
@@ -180,7 +173,24 @@ export default {
     numberToClockDigits,
     hoursAndMinutesToJSDate,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
+    },
+    handleWrapperClick() {
+      if (this.disabled && this.timer){
+        this.debouncedNotification();
+      }
+    },
+    debouncedNotification() {
+      if (!this.debounced) {
+        this.openPopupNotification({
+          text: "Please clock out to edit the time entry for the day.",
+          variant: "danger",
+        });
+        this.debounced = true;
+        setTimeout(() => {
+          this.debounced = false;
+        }, 3000); 
+      }
     },
     getTimeFromDate,
 
@@ -202,7 +212,7 @@ export default {
           endDate: this.hoursAndMinutesToJSDate(
             ...this.parseInputTimeIntoArray(this.endTime),
             this.getEndDate(this.startTime, this.endTime)
-          ).toISOString()
+          ).toISOString(),
         }),
       };
     },
@@ -242,7 +252,10 @@ export default {
       });
 
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        if (DateTime.fromFormat(this.endTime, "HH:mm") > DateTime.fromFormat(this.startTime, "HH:mm") ) {
+        if (
+          DateTime.fromFormat(this.endTime, "HH:mm") >
+          DateTime.fromFormat(this.startTime, "HH:mm")
+        ) {
           date = date.plus({ day: 1 });
         }
       }
@@ -289,7 +302,7 @@ export default {
 
     validateInEntryWithExistingBreak() {
       if (this.isActivityIN && this.hasBreakEntry) {
-        const breakEntry = this.findBreakEntry()
+        const breakEntry = this.findBreakEntry();
         const breakEntryStartTime = DateTime.fromISO(
           breakEntry.start
         ).toJSDate();
@@ -325,12 +338,12 @@ export default {
 
     validateStartIsBeforeBreak() {
       if (this.isActivityIN && this.hasBreakEntry) {
-        const breakEntry = this.findBreakEntry()
+        const breakEntry = this.findBreakEntry();
         const breakEntryStartTime = DateTime.fromISO(
           breakEntry.start
         ).toJSDate();
         const inEntryStartTime = this.getDateFromTime(this.startTime);
-        const isBreakAfterStart = breakEntryStartTime > inEntryStartTime
+        const isBreakAfterStart = breakEntryStartTime > inEntryStartTime;
         if (!isBreakAfterStart) {
           this.openPopupNotification({
             text: "Your break cannot be before work start time",
@@ -395,7 +408,7 @@ export default {
     },
 
     isStartValid() {
-      if (!this.startTime) return false
+      if (!this.startTime) return false;
       if (!this.validateStartIsBeforeBreak()) return false;
       return true;
     },
@@ -438,7 +451,6 @@ export default {
           return;
         }
       }
-
 
       const { startDate, endDate, date } = this.calculateDates();
       try {

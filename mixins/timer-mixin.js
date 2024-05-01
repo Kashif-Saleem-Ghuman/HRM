@@ -81,12 +81,6 @@ export default {
           localStorage.removeItem("chronometerValue");
         }
       }
-      const nextDay = DateTime.local().plus({ days: 1 }).startOf("day");
-      const millisecondsUntilNextDay = nextDay.diffNow().milliseconds;
-      setTimeout(() => {
-        localStorage.removeItem("chronometerValue");
-        this.$nuxt.$emit("chronometer");
-      }, millisecondsUntilNextDay);
     },
     
     async stopTimer() {

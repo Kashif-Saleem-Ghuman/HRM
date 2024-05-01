@@ -7,7 +7,6 @@ export const formatIsoDateToYYYYMMDD = (date) => {
 };
 
 export const getWeekStartEndDates = (dateIso) => {
-  console.log(dateIso, "dateIso")
   const date = DateTime.fromISO(dateIso);
   const from = date.minus({ days: date.weekday % 7 });
   const to = from.plus({ days: 6 });
@@ -30,7 +29,6 @@ export const weekToUTCWeek = ({ from, to }) => {
 
   let utcTo = DateTime.fromJSDate(to).toUTC().endOf("day");
   if (utcTo.weekday == 7) utcTo = utcTo.minus({ days: 1 });
-  console.log({utcFrom, utcTo})
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 

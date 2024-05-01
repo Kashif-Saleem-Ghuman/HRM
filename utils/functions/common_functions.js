@@ -25,8 +25,6 @@ export function getCurrentWeek() {
 
   var firstday = new Date(curr.setDate(first)).toUTCString();
   var lastday = new Date(curr.setDate(last)).toUTCString();
-
-console.log(firstday, lastday, "current week")
 }
 export function sendMeet(userId) {
   var genratedId = userId;

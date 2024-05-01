@@ -169,7 +169,6 @@ export default {
     },
     async approveItem(event) {
       const requestIds = [event + ""];
-      console.log(requestIds, event, "requestIds");
       await this.getApproveLeaveVacationsAdmin({ requestIds }).then(() => {
         this.getPendingLeaveVacationsAdmin({
         from: this.fromDate,
@@ -177,25 +176,6 @@ export default {
       });
       });
     },
-    // async getIdValue(event) {
-    //   const { id, key } = event;
-    //   this.checkedAll = false;
-    //   if (this.addIds.includes(id + "")) {
-    //     for (var i = 0; i < this.addIds.length; i++) {
-    //       if (this.addIds[i] === id + "") {
-    //         this.addIds.splice(i, 1);
-    //         console.log(this.addIds, "item");
-    //       }
-    //       if (!this.addIds.length) {
-    //         this.checked = false;
-    //       }
-    //     }
-    //   } else {
-    //     this.checkedAll = false;
-    //     this.addIds.push(id + "");
-    //     console.log(this.addIds, "item");
-    //   }
-    // },
     selectAllItems() {
       this.checkedAll = !this.checkedAll;
 

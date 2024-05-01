@@ -279,7 +279,6 @@ export default {
     summary: {
       deep: true,
       handler: function () {
-        console.log("summary changed");
         this.setSummaryText();
       },
     },

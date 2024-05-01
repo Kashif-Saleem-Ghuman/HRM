@@ -4,7 +4,6 @@ import { set } from "lodash";
 
 function filterSelectedDays(request, from, to) {
   return Object.keys(request?.selectedDays ?? {}).filter((date) => {
-    console.log({ date, from, to, selectedDay: request?.selectedDays });
     return request.selectedDays[date] && isDateInRange(date, from, to);
   });
 }

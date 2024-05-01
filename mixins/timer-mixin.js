@@ -56,7 +56,7 @@ export default {
             JSON.stringify({ chronometer, date: setCurrentDate })
           );
           const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
-          if (chronometer > MAX_DURATION_TIMER) {
+          if (chronometer >= MAX_DURATION_TIMER) {
             this.stopClick = true;
             await this.stopTimer();
             await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);

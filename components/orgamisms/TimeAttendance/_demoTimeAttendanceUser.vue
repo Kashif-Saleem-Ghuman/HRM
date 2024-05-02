@@ -151,7 +151,7 @@
               @day-view="enterDetail"
             ></list-week>
             <month-list
-              v-else-if="monthListView"
+              v-else-if="monthListView && timesheetsList.length > 0"
               :timesheetsList="timesheetsList"
               :is-full-year-list="isFullYearList"
             ></month-list>

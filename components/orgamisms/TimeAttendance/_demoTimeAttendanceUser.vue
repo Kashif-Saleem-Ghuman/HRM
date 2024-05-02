@@ -1,6 +1,6 @@
 <template>
   <div id="time-attendance-wrapper">
-    <loader :loading="loading"></loader>
+    <loader v-if="!monthListView" :loading="loading"></loader>
     <div class="scroll_wrapper">
       <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left title="Time & Attendance"></section-header-left>
@@ -153,6 +153,8 @@
             <month-list
               v-else-if="monthListView"
               :timesheetsList="timesheetsList"
+              :loading="loading"
+              :is-full-year-list="isFullYearList"
             ></month-list>
             <no-record v-else />
           </template>
@@ -170,7 +172,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT,
+  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -248,6 +250,7 @@ export default {
       year: null,
       month: null,
       monthView: null,
+      isFullYearList: false,
     };
   },
   computed: {
@@ -597,6 +600,13 @@ export default {
         this.resetMonthView();
       }
     },
+    month(val) {
+      if(val === MONTH_SELECTOR_DEFAULT.value){
+        this.isFullYearList = true;
+      }else {
+        this.isFullYearList = false;
+      }
+    }
   },
 };
 </script>

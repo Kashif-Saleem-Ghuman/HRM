@@ -7,7 +7,7 @@
           variant="light"
           @click="toggleDropdown"
           v-click-outside="clickOutside"
-          icon-right="close"
+          :icon-right="iconName"
           @click-right-icon="resetMonth"
         ></bib-button>
         <div class="menu-items">
@@ -37,6 +37,14 @@ export default {
     return {
       options: MONTHS_LABEL_VALUE,
     };
+  },
+  computed: {
+    iconName() {
+      if(this.value === MONTH_SELECTOR_DEFAULT.value){
+        return 'arrowhead-down'
+      }
+      return 'close';
+    },
   },
   methods: {
     clickOutside() {

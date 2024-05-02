@@ -225,7 +225,7 @@ export const TABLE_HEAD = {
       key: "mon",
       label: "MON",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-mon-sort",
@@ -238,7 +238,7 @@ export const TABLE_HEAD = {
       key: "tue",
       label: "TUE",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-tue-sort",
@@ -251,7 +251,7 @@ export const TABLE_HEAD = {
       key: "wed",
       label: "WED",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-wed-sort",
@@ -264,7 +264,7 @@ export const TABLE_HEAD = {
       key: "thu",
       label: "THU",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-thu-sort",
@@ -277,7 +277,7 @@ export const TABLE_HEAD = {
       key: "fri",
       label: "FRI",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-fri-sort",
@@ -290,7 +290,7 @@ export const TABLE_HEAD = {
       key: "sat",
       label: "SAT",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-sat-sort",
@@ -303,7 +303,7 @@ export const TABLE_HEAD = {
       key: "sun",
       label: "SUN",
       style: "text-align:center",
-      width: `${100 / 13}%`,
+      width: `${100 / 12}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-sun-sort",
@@ -1279,6 +1279,46 @@ export const TIMESHEET_STATUS = {
     icon: "eye-open",
   },
 };
+
+export const MONTH_VIEW_TIMESHEET_STATUS = {
+  not_submitted: {
+    label: "Not submitted",
+    value: "not_submitted",
+  },
+  pending: {
+    label: "Pending",
+    value: "pending",
+    key: "pending",
+    variant: "warning",
+    icon: "eye-open",
+  },
+  vacation: {
+    label: "Vacation",
+    value: "vacation",
+    key: "vacation",
+  },
+  approved: {
+    label: "Approved",
+    value: "approved",
+    key: "approved",
+    variant: "success",
+    icon: "check-circle-solid",
+  },
+  rejected: {
+    label: "Rejected",
+    value: "rejected",
+    key: "rejected",
+    variant: "danger",
+    icon: "close",
+  },
+  past_due: {
+    label: "Past Due",
+    value: "past_due",
+    key: "past_due",
+    variant: "warning",
+    icon: "eye-open",
+  },
+}
 
 export const TIMESHEET_STATUSES = {
   NOT_SUBMITTED: "not_submitted",

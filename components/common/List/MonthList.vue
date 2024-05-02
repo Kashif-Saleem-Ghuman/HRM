@@ -1,6 +1,10 @@
 <template>
   <div>
+    <loader :loading="loading"></loader>
+    <no-record v-if="showNoData"></no-record>
+
     <bib-table
+      v-else-if="showTable"
       :fields="tableFields"
       :sections="timesheetList"
       :hide-no-column="true"
@@ -9,7 +13,7 @@
     >
       <template #cell(date)="data">
         <div
-          class="d-flex flex-d-column text-left gap-05"
+          class="d-flex flex-d-column text-left gap-01"
         >
           <div class="font-md font-w-700">Week {{ getWeekNumber(data.value.end) }}</div>
           <div class="font-w-400 text-black">
@@ -29,20 +33,30 @@
 
       <template #cell(total)="data">
         <div>
-          {{ data.value.refusalReason }}
           <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
-          <dropdown-menu-chip
-            :items="timesheetStatusOptions.slice(1)"
-            :button-config="statusButtonConfig(data.value?.status)"
-            @on-click="deleteConfirmation($event, data)"
-          ></dropdown-menu-chip>
+          <chips
+            :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+            iconShow="iconShow"
+            :icon="getStatusIcon(data.value?.status)"
+            :variant="[getStatusVariant(data.value?.status)]"
+            :defaultPointer="true"
+            :className="['width-auto']"
+          ></chips>
         </div>
       </template>
     </bib-table>
+    <div v-if="!isFullYearList && timesheetList.length !== 0 && showTable" class="table-footer">
+      <div class="footer-items">
+        <div class="footer-item-left font-w-600">Month Total</div>
+        <div class="footer-item-middle">{{ getMonthTotal() }}</div>
+        <div class="footer-item-right">
+        </div>
+      </div>
+    </div>
     <time-sheet-modal
       @close="timesheetModal = false"
       :timesheetModal="timesheetModal"
@@ -55,7 +69,7 @@ import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { sortColumn } from "@/utils/functions/table-sort";
 import {
   TABLE_HEAD,
-  TIMESHEET_STATUS,
+  MONTH_VIEW_TIMESHEET_STATUS as TIMESHEET_STATUS,
   WEEK_DAY,
   TIMESHEET_STATUSES,
   ACTIVITY_TYPE,
@@ -64,6 +78,7 @@ import {
 import { formatHoursToHHMM } from "@/utils/functions/time";
 import {DateTime} from "luxon";
 import {buttonVariant as TIMESHEET_DELETE_CONFIRMATION_MESSAGE} from "@/utils/constant/DropdownMenu";
+import {getStatusIcon, getStatusVariant} from "@/utils/functions/status";
 export default {
   props: {
     timesheetsList: {
@@ -76,6 +91,14 @@ export default {
     endDate: {
       type: Date | String,
     },
+    isFullYearList: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -95,6 +118,9 @@ export default {
     };
   },
   computed: {
+    TIMESHEET_STATUS() {
+      return TIMESHEET_STATUS
+    },
     timesheetList() {
       if (!this.sortByField) return this.timesheetsList;
       return sortColumn({
@@ -102,8 +128,16 @@ export default {
         field: this.sortByField,
       });
     },
+    showTable() {
+      return !this.loading && this.timesheetsList?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.timesheetsList || !this.timesheetsList?.length);
+    },
   },
   methods: {
+    getStatusVariant,
+    getStatusIcon,
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     sortColumn(columnKey) {
@@ -171,17 +205,17 @@ export default {
         return "chip-wrapper__bggray";
       }
       if (data.vacation) {
-        return "chip-wrapper__bgvacation";
+        return "chip-wrapper__bgvacation chip-wrapper__border-radius";
       }
       const totalHours = Number(data.totalHours);
       if (totalHours >= 8) {
-        return "chip-wrapper__bgsucess";
+        return "chip-wrapper__bgsucess chip-wrapper__border-radius";
       } else if (totalHours >= 5 && totalHours < 8) {
-        return "chip-wrapper__bgabsent";
+        return "chip-wrapper__bgabsent chip-wrapper__border-radius";
       } else if (totalHours <= 3) {
-        return "chip-wrapper__bgabsentpink";
+        return "chip-wrapper__bgabsentpink chip-wrapper__border-radius";
       } else {
-        return "chip-wrapper__bgdefault";
+        return "chip-wrapper__bgdefault chip-wrapper__border-radius";
       }
     },
     close() {
@@ -201,6 +235,51 @@ export default {
         ? "none"
         : "block";
     },
+    getMonthTotal() {
+      let totalHrs = 0;
+      this.timesheetList.forEach((item) => {
+        totalHrs += item.total;
+      })
+      return formatHoursToHHMM(totalHrs);
+    }
   },
 };
 </script>
+
+<style scoped lang="scss">
+.table-footer {
+  //   border: 1px solid $light;
+  border-top: 0;
+  border-right: 0;
+  font-size: 14px;
+  .footer-items {
+    display: flex;
+    .footer-item-left {
+      width: 78.38%;
+      border-right: 1px solid $light;
+      border-bottom: 1px solid $light;
+      padding: 1rem 0.5rem;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+    .footer-item-middle {
+      border-bottom: 1px solid $light;
+      padding: 1rem 0 1rem 0.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+    .footer-item-right {
+      border-bottom: 1px solid $light;
+      padding: 1rem 0 1rem 0.5rem;
+      font-weight: 600;
+    }
+  }
+  .status-text {
+    padding: 0.5rem;
+  }
+}
+</style>

@@ -1,6 +1,10 @@
 <template>
   <div>
+    <loader :loading="loading"></loader>
+    <no-record v-if="showNoData"></no-record>
+
     <bib-table
+      v-else-if="showTable"
       :fields="tableFields"
       :sections="timesheetList"
       :hide-no-column="true"
@@ -29,7 +33,6 @@
 
       <template #cell(total)="data">
         <div>
-          {{ data.value.refusalReason }}
           <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
       </template>
@@ -46,9 +49,9 @@
         </div>
       </template>
     </bib-table>
-    <div v-if="!isFullYearList && timesheetList.length !== 0" class="table-footer">
+    <div v-if="!isFullYearList && timesheetList.length !== 0 && showTable" class="table-footer">
       <div class="footer-items">
-        <div class="footer-item-left">Month Total</div>
+        <div class="footer-item-left font-w-600">Month Total</div>
         <div class="footer-item-middle">{{ getMonthTotal() }}</div>
         <div class="footer-item-right">
         </div>
@@ -66,7 +69,7 @@ import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { sortColumn } from "@/utils/functions/table-sort";
 import {
   TABLE_HEAD,
-  TIMESHEET_STATUS,
+  MONTH_VIEW_TIMESHEET_STATUS as TIMESHEET_STATUS,
   WEEK_DAY,
   TIMESHEET_STATUSES,
   ACTIVITY_TYPE,
@@ -89,6 +92,10 @@ export default {
       type: Date | String,
     },
     isFullYearList: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     }
@@ -120,6 +127,12 @@ export default {
         items: this.timesheetsList,
         field: this.sortByField,
       });
+    },
+    showTable() {
+      return !this.loading && this.timesheetsList?.length;
+    },
+    showNoData() {
+      return !this.loading && (!this.timesheetsList || !this.timesheetsList?.length);
     },
   },
   methods: {

@@ -1,6 +1,6 @@
 <template>
   <div id="time-attendance-wrapper">
-    <loader :loading="loading"></loader>
+    <loader v-if="!monthListView" :loading="loading"></loader>
     <div class="scroll_wrapper">
       <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left title="Time & Attendance"></section-header-left>
@@ -151,8 +151,9 @@
               @day-view="enterDetail"
             ></list-week>
             <month-list
-              v-else-if="monthListView && timesheetsList.length > 0"
+              v-else-if="monthListView"
               :timesheetsList="timesheetsList"
+              :loading="loading"
               :is-full-year-list="isFullYearList"
             ></month-list>
             <no-record v-else />

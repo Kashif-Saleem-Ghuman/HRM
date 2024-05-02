@@ -1280,6 +1280,46 @@ export const TIMESHEET_STATUS = {
   },
 };
 
+export const MONTH_VIEW_TIMESHEET_STATUS = {
+  not_submitted: {
+    label: "Not submitted",
+    value: "not_submitted",
+  },
+  pending: {
+    label: "Pending",
+    value: "pending",
+    key: "pending",
+    variant: "warning",
+    icon: "eye-open",
+  },
+  vacation: {
+    label: "Vacation",
+    value: "vacation",
+    key: "vacation",
+  },
+  approved: {
+    label: "Approved",
+    value: "approved",
+    key: "approved",
+    variant: "success",
+    icon: "check-circle-solid",
+  },
+  rejected: {
+    label: "Rejected",
+    value: "rejected",
+    key: "rejected",
+    variant: "danger",
+    icon: "close",
+  },
+  past_due: {
+    label: "Past Due",
+    value: "past_due",
+    key: "past_due",
+    variant: "warning",
+    icon: "eye-open",
+  },
+}
+
 export const TIMESHEET_STATUSES = {
   NOT_SUBMITTED: "not_submitted",
   PENDING: "pending",

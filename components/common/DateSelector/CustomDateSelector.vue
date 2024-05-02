@@ -35,8 +35,8 @@ export default {
   methods: {
     generateYearDates() {
       return {
-        from: DateTime.utc(this.year).startOf("year").toISO(),
-        to: DateTime.utc(this.year).endOf("year").toISO(),
+        from: DateTime.utc(this.year).startOf("year").minus({days: 1}).toISO(),
+        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 3}).toISO(),
       };
     },
     generateMonthDates() {

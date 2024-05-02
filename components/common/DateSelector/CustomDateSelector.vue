@@ -42,9 +42,9 @@ export default {
     generateMonthDates() {
       return {
         from: DateTime.utc(this.year, Number(this.month))
-          .startOf("month")
+          .startOf("month").startOf('week').minus({days: 1})
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").toISO(),
+        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 3}).toISO(),
       };
     },
   },

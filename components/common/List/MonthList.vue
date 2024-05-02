@@ -46,7 +46,12 @@
         </div>
       </template>
     </bib-table>
-    <div v-if="!isFullYearList" class="table-footer">
+    <div v-if="timesheetList.length === 0" class="nf_table-footer">
+      <div class="footer-items">
+        <div class="footer-item">No records found</div>
+      </div>
+    </div>
+    <div v-if="!isFullYearList && timesheetList.length !== 0" class="table-footer">
       <div class="footer-items">
         <div class="footer-item-left">Month Total</div>
         <div class="footer-item-middle">{{ getMonthTotal() }}</div>
@@ -267,6 +272,26 @@ export default {
   }
   .status-text {
     padding: 0.5rem;
+  }
+}
+
+.nf_table-footer {
+  //   border: 1px solid $light;
+  border-top: 0;
+  border-right: 0;
+  font-size: 14px;
+  .footer-items {
+    display: flex;
+    .footer-item {
+      width: 100%;
+      border-right: 1px solid $light;
+      border-bottom: 1px solid $light;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 </style>

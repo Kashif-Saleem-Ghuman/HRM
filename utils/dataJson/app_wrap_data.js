@@ -170,6 +170,13 @@ const data = () => {
         url: "/leaves-and-vacations/dashboard/",
         selected: false,
       },
+      {
+        label: "Reports",
+        icon: "calendar-event",
+        key: "reports",
+        url: "/reports/",
+        selected: false,
+      },
       // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],
     navItemsUserSwitch: [

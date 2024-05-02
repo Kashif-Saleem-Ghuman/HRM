@@ -51,9 +51,9 @@ export default {
     return {
       selectedStartDate: null,
       selectedEndDate: null,
-      variantStart:null,
-      variantEnd:null,
-      update:0,
+      variantStart: null,
+      variantEnd: null,
+      update: 0,
     };
   },
   methods: {
@@ -62,38 +62,51 @@ export default {
       const endpoint = DETAIL_SUMMARY_ENDPOINT;
 
       if (!this.selectedStartDate || !this.selectedEndDate) {
-        if(!this.selectedStartDate){
-          this.variantStart = 'alert';
+        if (!this.selectedStartDate) {
+          this.variantStart = "alert";
           this.variantEnd = null;
-          return
+          return;
         }
-        if(!this.selectedEndDate){
+        if (!this.selectedEndDate) {
           this.variantStart = null;
-          this.variantEnd = 'alert';
+          this.variantEnd = "alert";
           this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
-          return; 
+          return;
         }
         return;
       }
 
       try {
-        const startDate = DateTime.fromFormat(this.selectedStartDate, "yyyy-MMM-dd");
-        const endDate = DateTime.fromFormat(this.selectedEndDate, "yyyy-MMM-dd");
+        const startDate = DateTime.fromFormat(
+          this.selectedStartDate,
+          "yyyy-MMM-dd"
+        );
+        const endDate = DateTime.fromFormat(
+          this.selectedEndDate,
+          "yyyy-MMM-dd"
+        );
 
         if (startDate > endDate) {
-          this.openPopupNotification(NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR);
+          this.openPopupNotification(
+            NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR
+          );
           return;
         }
         if (startDate.toMillis() === endDate.toMillis()) {
-          this.openPopupNotification(NOTIFICATION_MESSAGES.SAME_DATE_VALIDATION_ERROR);
+          this.openPopupNotification(
+            NOTIFICATION_MESSAGES.SAME_DATE_VALIDATION_ERROR
+          );
           return;
         }
         this.variantEnd = null;
         this.variantStart = null;
-        const startOfWeek = startDate.startOf("week");
+        let startOfWeek = startDate;
+        if (startDate.weekday !== 7) {
+          startOfWeek = startDate.startOf("week", { weekStartsOn: 7 }).toUTC();
+        }
         const start = startOfWeek.toISODate();
 
-        const endOfWeek = endDate.endOf("week");
+        const endOfWeek = endDate.endOf("week", { weekStartsOn: 7 }).minus({ days: 1 }).toUTC();
         const end = endOfWeek.toISODate();
 
         const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
@@ -105,10 +118,10 @@ export default {
         });
 
         if (response) {
-          this.downloadFile(response.data, 'attendance-report');
+          this.downloadFile(response.data, "attendance-report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedStartDate = null;
-          this.selectedEndDate= null;
+          this.selectedEndDate = null;
           this.update += 1;
         }
       } catch (error) {
@@ -122,11 +135,11 @@ export default {
     },
     updateStartDate(date) {
       this.selectedStartDate = date;
-      this.selectedStartDate ? this.variantStart = null : 'danger';
+      this.selectedStartDate ? (this.variantStart = null) : "danger";
     },
     updateEndDate(date) {
       this.selectedEndDate = date;
-      this.selectedEndDate ? this.variantEnd = null : 'danger';
+      this.selectedEndDate ? (this.variantEnd = null) : "danger";
     },
   },
 };
@@ -135,6 +148,7 @@ export default {
 .download-wrapper {
   .vdpComponent {
     display: unset !important;
+
     label {
       font-weight: bold !important;
       font-size: 14px !important;

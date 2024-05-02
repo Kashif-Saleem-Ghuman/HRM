@@ -2,7 +2,7 @@
   <div>
     <!-- Dropdown for Selecting Report Type -->
     <div class="d-flex justify-between align-center bottom_border_wrapper">
-        <section-header-left title="Download"></section-header-left>
+        <section-header-left title="Reports"></section-header-left>
       </div>
     <div class="tab-wrapper">
       <div class="row mx-0 bottom_border_wrapper">

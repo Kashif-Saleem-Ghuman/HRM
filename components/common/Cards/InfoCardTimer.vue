@@ -134,17 +134,7 @@ export default {
         await this.startTimer();
       }
     },
-    setChronoMeter(timeEntryValue) {
-      let timeEntry = timeEntryValue.find((timeEntry) => timeEntry.activity === 'in')
-      if(timeEntry && timeEntry?.isTimerEntry){
-        const chronometer = Math.floor(
-          (new Date(timeEntry.end).getTime() -
-            new Date(timeEntry.start).getTime()) /
-          1000
-        )
-        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer })
-      }
-    },
+
 
   },
   computed: {
@@ -190,11 +180,6 @@ export default {
   watch: {
     disabled() {
       this.stopClick = false;
-    },
-    getDailyTimeEntries(timeEntryValue) {
-      if(timeEntryValue.length > 0){
-        this.setChronoMeter(timeEntryValue);
-      }
     },
   },
 };

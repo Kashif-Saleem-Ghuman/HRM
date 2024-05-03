@@ -1,6 +1,10 @@
 import axios from "axios";
 import { DateTime } from "luxon";
-import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance/timer";
+import {
+  setChronoMeter,
+  startTimer,
+  stopTimer
+} from "@/utils/functions/api_call/timeattendance/timer";
 import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
@@ -191,6 +195,10 @@ export const actions = {
         },
       );
 
+      if(ctx.state.chronometer === 0) {
+        const chronometer = setChronoMeter(data.timeEntries);
+        ctx.commit("SET_CHRONOMETER", {chronometer});
+      }
       ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {
       console.log(e);

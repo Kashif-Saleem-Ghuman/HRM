@@ -100,14 +100,6 @@ export default {
         date: new Date().toISOString(),
       });
     }
-    this.timeEntriesLoading = false;
-    const storedValue = localStorage.getItem("chronometerValue");
-    if (storedValue) {
-    const { chronometer } = JSON.parse(storedValue);
-    formatTime(chronometer);
-    return this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-    }
-    return this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer:0 });
   },
   methods: {
     close() {
@@ -140,6 +132,17 @@ export default {
         this.$emit("timer-stop");
       } else {
         await this.startTimer();
+      }
+    },
+    setChronoMeter(timeEntryValue) {
+      let timeEntry = timeEntryValue.find((timeEntry) => timeEntry.activity === 'in')
+      if(timeEntry && timeEntry?.isTimerEntry){
+        const chronometer = Math.floor(
+          (new Date(timeEntry.end).getTime() -
+            new Date(timeEntry.start).getTime()) /
+          1000
+        )
+        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer })
       }
     },
 
@@ -187,6 +190,11 @@ export default {
   watch: {
     disabled() {
       this.stopClick = false;
+    },
+    getDailyTimeEntries(timeEntryValue) {
+      if(timeEntryValue.length > 0){
+        this.setChronoMeter(timeEntryValue);
+      }
     },
   },
 };

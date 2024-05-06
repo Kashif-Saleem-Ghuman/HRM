@@ -368,7 +368,7 @@ const PHOTO_UPDATE = {
   variant: "primary-24",
 };
 const PHOTO_DELETE = {
-  text: "The profile image has been deletd successfully.",
+  text: "The profile image has been deleted successfully.",
   variant: "primary-24",
 };
 export default {

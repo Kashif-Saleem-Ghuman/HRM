@@ -43,16 +43,17 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       ) / 1000
     );
   }
-
+  
   const breaks = timeEntries.filter((t) => t.activity === 'break');
-
+  
   for (let entry of breaks) {
     if (!entry.end) continue
-    breaksSeconds += Math.floor(
-      (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000
-    );
-    totalSeconds -= breaksSeconds;
+    breaksSeconds += (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000;
+    
   }
+
+  totalSeconds -= breaksSeconds;
+
 
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),

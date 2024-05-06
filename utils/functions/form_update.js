@@ -1,4 +1,4 @@
-export async function vfileAdded(file, name, event) {
+export async function vfileAdded(file, id, name, event) {
   if (file.size > 2000000) {
     return true;
   }
@@ -25,6 +25,8 @@ export async function vfileAdded(file, name, event) {
       // this.openPopupNotification(0);
       this.avatarUrl = res;
       this.form.photo = res;
+      
+      this.$root.$emit("photo-updated");
       // this.$nuxt.$emit("dropzone-key");
       // this.avatarUrl[name] = res;
     })

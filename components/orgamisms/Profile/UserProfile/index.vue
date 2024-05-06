@@ -36,6 +36,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { USER_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
+import { getEmployee } from "@/utils/functions/api_call/employees.js";
+
 import {
   getEmployeeFullName,
   getEmployeeInitials,
@@ -80,12 +82,9 @@ export default {
       const id = this.$route.params.id ?? this.getUser?.id;
       if (id) {
         this.id = id;
-        await this.$store
-          .dispatch("employee/setUser", this.id)
-          .then((result) => {
-            this.form = result;
-            this.loading = false;
-          });
+        const employee = await getEmployee({ id });
+        this.form = employee;
+        this.loading = false;
       }
     },
     onTabChange(tab) {

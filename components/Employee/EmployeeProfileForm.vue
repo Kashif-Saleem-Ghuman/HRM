@@ -251,8 +251,8 @@
                             type="text"
                             label="Province/State"
                             field-key="address.state"
-                            :value="form.address?.state"
-                            placeholder="Please select state"
+                            :value="originalStateProvince"
+                            placeholder=""
                             v-show="otherCountry"
                           ></form-input>
                         </div>
@@ -262,7 +262,7 @@
                             type="text"
                             label="City"
                             field-key="address.city"
-                            :value="form.address?.city"
+                            :value="originalCity"
                             placeholder=""
                           ></form-input>
                         </div>
@@ -363,6 +363,14 @@ import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import timezones from "../../utils/constant/new_timezones";
+const PHOTO_UPDATE = {
+  text: "The photo has been updated successfully.",
+  variant: "primary-24",
+};
+const PHOTO_DELETE = {
+  text: "The photo has been deletd successfully.",
+  variant: "primary-24",
+};
 export default {
   props: {
     show: {
@@ -408,25 +416,19 @@ export default {
       currentState: STATES,
       id: null,
       form: {},
-      updateForm: {
-        address: {
-          country: null,
-          state: null,
-        },
-      },
+      updateForm: {},
       errors: {},
       avatarUrl: "",
-      activeUser: "",
       uniqueId: null,
       loading: false,
       otherCountry: false,
       originalStateProvince: "",
+      originalCity: "",
     };
   },
-  async created() {
-    await this.$store.dispatch("employee/setActiveUser").then((result) => {
-      this.activeUser = result;
-    });
+  mounted() {
+    this.fetchEmployee();
+    this.photoUpdateListner();
   },
   methods: {
     vfileAdded,
@@ -444,6 +446,7 @@ export default {
         const employee = await getEmployee({ id });
         this.form = employee;
         this.originalStateProvince = this.form.address.state;
+        this.originalCity = this.form.address.city;
         this.loading = false;
       }
     },
@@ -452,22 +455,50 @@ export default {
       const id = this.$route.params.id ?? this.getUser?.id;
       updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
-          this.openPopupNotification(1);
+          this.debouncedNotification(PHOTO_DELETE);
           this.dropzone += 1;
           this.$nuxt.$emit("top-nav-key");
           this.form = data;
           this.avatarUrl = "";
           this.confirmastionMessageModal = false;
-          this.$nuxt.$emit("dropzone-key");
           return;
         }
       );
     },
-    submitToApi(form) {
-      if (this.avatarUrl != "") {
-        form.photo = this.avatarUrl;
-        this.updateForm.photo = this.avatarUrl;
+    photoUpdateListner() {
+      this.$root.$on("photo-updated", async () => {
+        try {
+          if (this.avatarUrl) {
+            this.form.photo = this.avatarUrl;
+            this.updateForm.photo = this.avatarUrl;
+            const updatedEmployee = await updateEmployee({
+              id: this.form.id,
+              employee: this.updateForm,
+            });
+            this.form = updatedEmployee;
+            this.avatarUrl = "";
+            this.debouncedNotification(PHOTO_UPDATE);
+          }
+        } catch (error) {
+          console.error("Error updating employee details:", error);
+        }
+      });
+    },
+    debouncedNotification(value) {
+      if (!this.debounced) {
+        this.openPopupNotification(value);
+        this.debounced = true;
+        setTimeout(() => {
+          this.debounced = false;
+        }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
       }
+    },
+    removephotoUpdateListener() {
+      this.$root.$off("photo-updated", () => {
+        this.submitToApi();
+      });
+    },
+    submitToApi(form) {
       if (JSON.stringify(this.updateForm) === "{}") {
         return this.openPopupNotification(6);
       }
@@ -476,50 +507,49 @@ export default {
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
         this.originalStateProvince = this.form.address.state;
+        this.originalCity = this.form.address.city;
         this.avatarUrl = "";
         return;
       });
     },
 
     sendMessage,
-    clearAddressState() {
-      this.form.address.state = "";
-      this.updateForm.address.state = "";
-    },
-    updateAddressState(newCountry) {
-      const newStateProvince =
-        newCountry === this.form.address.country
-          ? this.originalStateProvince
-          : "";
-      this.form.address.state = newStateProvince;
-      this.updateForm.address.state = newStateProvince;
+    updateStateAndCity(newCountry) {
+      const newStateProvince = this.updateForm.address.state;
+      const newCity = this.updateForm.address.city;
+      if (newCountry === this.originalCountry) {
+        this.originalStateProvince = this.form.address.state;
+        this.originalCity = this.form.address.city;
+      } else {
+        this.originalStateProvince = newStateProvince ?? (this.updateForm.address["state"] = "");;
+        this.originalCity = newCity ?? (this.updateForm.address["city"] = "");;
+      }
     },
   },
   computed: {
     regions() {
-      const country =
-        this.updateForm.address && this.updateForm.address.country !== null
-          ? this.updateForm.address.country
-          : this.form.address
-          ? this.form.address.country
-          : null;
-      if (country && regions[country]) {
+      const country = this.updatedCountry ?? this.originalCountry;
+      if (country === "United States" || country === "Canada") {
         this.otherCountry = false;
         return regions[country];
       } else {
         this.otherCountry = true;
-        return null;
       }
     },
-
+    originalCountry() {
+      return this.form?.address?.country;
+    },
+    updatedCountry() {
+      return this.updateForm.address?.country;
+    },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",
       getUserRole: "token/getUserRole",
     }),
   },
 
-  mounted() {
-    this.fetchEmployee();
+  beforeDestroy() {
+    this.removephotoUpdateListener();
   },
 
   watch: {
@@ -528,14 +558,7 @@ export default {
       this.fetchEmployee();
     },
     "updateForm.address.country"(newCountry) {
-      if (!regions[newCountry]) {
-        if (!newCountry) {
-          return this.clearAddressState();
-        }
-        return this.updateAddressState(newCountry);
-      } else {
-        return this.updateAddressState(newCountry);
-      }
+      this.updateStateAndCity(newCountry);
     },
   },
 };

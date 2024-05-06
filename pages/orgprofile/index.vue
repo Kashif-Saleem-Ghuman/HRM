@@ -161,7 +161,7 @@
                           <form-input
                             type="text"
                             label="Province/State"
-                            :value="org.stateProvince"
+                            :value="originalStateProvince"
                             field-key="stateProvince"
                             placeholder="Please select state"
                             v-show="otherCountry"
@@ -171,7 +171,7 @@
                           <form-input
                             type="text"
                             label="City"
-                            :value="org.city"
+                            :value="originalCity"
                             field-key="city"
                             placeholder="Enter your city"
                           ></form-input>
@@ -217,34 +217,13 @@ export default {
       countries,
       id: this.$route.params.id,
       org: {},
-      updateForm: {
-        stateProvince: null,
-        country: null,
-      },
+      updateForm: {},
       errors: {},
       loading: false,
       otherCountry: false,
       originalStateProvince: "",
+      originalCity: "",
     };
-  },
-  computed: {
-    regions() {
-      const country =
-        this.updateForm && this.updateForm.country !== null
-          ? this.updateForm.country
-          : this.org.country;
-      if (country && regions[country]) {
-        this.otherCountry = false;
-        return regions[country];
-      } else {
-        this.otherCountry = true;
-        return null;
-      }
-    },
-    ...mapGetters({
-      getAccessToken: "token/getAccessToken",
-      organizationId: "organizations/organizationId",
-    }),
   },
   async mounted() {
     this.fetchOrganization();
@@ -263,31 +242,54 @@ export default {
       const organization = await getOrganization({ id: organizationId });
       this.org = organization;
       this.originalStateProvince = this.org.stateProvince;
+      this.originalCity = this.org.city;
       this.loading = false;
     },
 
     async submitToApi(form) {
       const payload = {
         id: this.org.id,
-        organization: form,
+        organization: this.updateForm,
       };
       await updateOrganization(payload).then(() => {
         this.originalStateProvince = this.org.stateProvince;
+        this.originalCity = this.org.city;
         this.openPopupNotification(4);
       });
     },
-    clearStateProvince() {
-      this.org.stateProvince = "";
-      this.updateForm.stateProvince = "";
-    },
-    updateStateProvince(newCountry) {
-      const newStateProvince =
-        newCountry === this.org.country ? this.originalStateProvince : "";
-      this.org.stateProvince = newStateProvince;
-      this.updateForm.stateProvince = newStateProvince;
+    updateStateAndCity(newCountry) {
+      const newStateProvince = this.updateForm.stateProvince;
+      const newCity = this.updateForm.city;
+      if (newCountry === this.originalCountry) {
+        this.originalStateProvince = this.org.stateProvince;
+        this.originalCity = this.org.city;
+      } else {
+        this.originalStateProvince =  newStateProvince ?? (this.updateForm["stateProvince"] = "");
+        this.originalCity = newCity ?? (this.updateForm["city"] = "");;
+      }
     },
   },
-
+  computed: {
+    regions() {
+      const country = this.updatedCountry ?? this.originalCountry;
+      if (country === "United States" || country === "Canada") {
+        this.otherCountry = false;
+        return regions[country];
+      } else {
+        this.otherCountry = true;
+      }
+    },
+    originalCountry() {
+      return this.org?.country;
+    },
+    updatedCountry() {
+      return this.updateForm.country;
+    },
+    ...mapGetters({
+      getAccessToken: "token/getAccessToken",
+      organizationId: "organizations/organizationId",
+    }),
+  },
   watch: {
     organizationId(val) {
       if (val && !this.org?.id) {
@@ -295,14 +297,7 @@ export default {
       }
     },
     "updateForm.country"(newCountry) {
-      if (!regions[newCountry]) {
-        if (!newCountry) {
-          this.clearStateProvince();
-        }
-        this.updateStateProvince(newCountry);
-      } else {
-        this.updateStateProvince(newCountry);
-      }
+      this.updateStateAndCity(newCountry);
     },
   },
 };

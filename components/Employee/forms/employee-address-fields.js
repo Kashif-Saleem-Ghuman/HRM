@@ -27,7 +27,7 @@ export default {
       label: "City",
       model: "address.city",
       options: [generateEmptyOptions(), ...STATES],
-      validations: [isRequired],
+      // validations: [isRequired],
     },
     postalCode: {
       type: "text",

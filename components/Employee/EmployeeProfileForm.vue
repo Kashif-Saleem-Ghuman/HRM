@@ -364,11 +364,11 @@ import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import timezones from "../../utils/constant/new_timezones";
 const PHOTO_UPDATE = {
-  text: "The photo has been updated successfully.",
+  text: "The profile image has been updated successfully.",
   variant: "primary-24",
 };
 const PHOTO_DELETE = {
-  text: "The photo has been deletd successfully.",
+  text: "The profile image has been deletd successfully.",
   variant: "primary-24",
 };
 export default {

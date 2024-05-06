@@ -83,3 +83,11 @@ export function downloadFile(data, filename) {
   link.click();
   document.body.removeChild(link);
 }
+
+export function getTimeDiffInSeconds(start, end) {
+  return Math.floor(
+    (new Date(end).getTime() -
+      new Date(start).getTime()) /
+    1000
+  );
+}

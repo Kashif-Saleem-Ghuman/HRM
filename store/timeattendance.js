@@ -1,7 +1,6 @@
 import axios from "axios";
 import { DateTime } from "luxon";
 import {
-  setChronoMeter,
   startTimer,
   stopTimer
 } from "@/utils/functions/api_call/timeattendance/timer";
@@ -11,6 +10,7 @@ import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+import {getChronometerDuration} from "@/utils/functions/timer";
 
 export const state = () => ({
   timer: {
@@ -196,7 +196,7 @@ export const actions = {
       );
 
       if(ctx.state.chronometer === 0) {
-        const chronometer = setChronoMeter(data.timeEntries);
+        const chronometer = getChronometerDuration(data.timeEntries);
         ctx.commit("SET_CHRONOMETER", {chronometer});
       }
       ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);

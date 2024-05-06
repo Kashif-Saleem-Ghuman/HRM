@@ -21,22 +21,6 @@ export async function startTimer() {
   }
 }
 
-function getTimeDiffInSeconds(start, end) {
-  return Math.floor(
-    (new Date(end).getTime() -
-      new Date(start).getTime()) /
-    1000
-  );
-}
-export function setChronoMeter(timeEntryValue) {
-  let chronometer = 0;
-  let timeEntry = timeEntryValue.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
-  if(timeEntry && timeEntry?.isTimerEntry){
-    chronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end)
-  }
-  return chronometer;
-}
-
 export async function stopTimer({ end }) {
   const config = createConfig();
   const url = "/timers/stop";

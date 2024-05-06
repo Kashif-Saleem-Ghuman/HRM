@@ -11,52 +11,37 @@ export function formatTime(timeInSeconds, includeSeconds = true) {
 }
 
 export function calculateActivityDetails(currentTimerStart, timeEntries) {
-  // by default, just consider the start time of the current timer
+  
   let inTime = currentTimerStart
-    ? new Date(currentTimerStart).toTimeString().split(' ')[0]
-    : null; 
-  // there is no out time before there is a timeEntry record
+    ? new Date(currentTimerStart).toISOString().substring(11, 16)
+    : null;
+
   let outTime = null;
-
-  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in');
-
-  let breaksSeconds = 0;
   let totalSeconds = 0;
+  let breaksSeconds = 0;
 
-  if (clockInTimeEntry) {
-    // when there is a record in daily entries, override inTime
-    // with starting time of the first record
-    inTime = new Date(clockInTimeEntry.start)
-      .toTimeString()
-      .split(' ')
-      [0];
+  const clockInTimeEntry = timeEntries?.find((t) => t.activity === 'in');
+  if (clockInTimeEntry && clockInTimeEntry.end) {
+    inTime = new Date(clockInTimeEntry.start).toISOString().substring(11, 16);
+    outTime = new Date(clockInTimeEntry.end).toISOString().substring(11, 16);
 
-    outTime = clockInTimeEntry.end && new Date(clockInTimeEntry.end)
-      .toTimeString()
-      .split(' ')
-      [0];
-    
-    totalSeconds = Math.floor(
-      (
-        new Date(clockInTimeEntry.end).getTime()
-        - new Date(clockInTimeEntry.start).getTime()
-      ) / 1000
-    );
+    totalSeconds = (new Date(clockInTimeEntry.end).getTime() - new Date(clockInTimeEntry.start).getTime()) / 1000;
   }
 
   const breaks = timeEntries.filter((t) => t.activity === 'break');
-
+  
   for (let entry of breaks) {
-    if (!entry.end) continue
-    breaksSeconds += Math.floor(
-      (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000
-    );
-    totalSeconds -= breaksSeconds;
+    if (entry.end) {
+      breaksSeconds += (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000;
+    }
   }
 
+  totalSeconds -= breaksSeconds;
+
+
   return {
-    in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
-    out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
+    in: inTime || '--:--',
+    out: outTime || '--:--',
     breaks: formatTime(breaksSeconds, false),
     total: formatTime(totalSeconds, false),
   };

@@ -12,6 +12,7 @@
         "
         :avatar="form.photo"
         :key="topNav"
+        :back="true"
       ></section-header-left>
     </div>
     <div class="section-wrapper custom-input">

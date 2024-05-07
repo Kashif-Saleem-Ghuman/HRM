@@ -132,19 +132,10 @@ const data = () => {
     ],
     navItemsAdmin: [
       {
-        label: "Organization Admin",
+        label: "Dashboard",
         icon: "user",
         key: "dashboard",
         url: "/dashboard/",
-        selected: false,
-        id: "",
-      },
-      // { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox/", selected: false},
-      {
-        label: "Organization Profile",
-        icon: "bib-logo",
-        key: "orgprofile",
-        url: "/orgprofile/",
         selected: false,
         id: "",
       },
@@ -156,6 +147,7 @@ const data = () => {
         selected: false,
         id: "",
       },
+      // { label: "Inbox", icon: "add", key: "inbox",  url:"/inbox/", selected: false},
       {
         label: "Time & Attendance",
         icon: "time-history",
@@ -176,6 +168,14 @@ const data = () => {
         key: "reports",
         url: "/reports/",
         selected: false,
+      },
+      {
+        label: "Organization Profile",
+        icon: "bib-logo",
+        key: "orgprofile",
+        url: "/orgprofile/",
+        selected: false,
+        id: "",
       },
       // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],

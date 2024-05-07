@@ -5,13 +5,26 @@
     <no-record v-if="showNoData"></no-record>
 
     <custom-table-day-view
-      v-else-if="showTable"
-      :fields="tableFields"
-      class="bg-white"
-      :sections="employees"
-      :hide-no-column="true"
-      :fixHeader="true"
+        v-else-if="showTable"
+        :fields="tableFields"
+        class="bg-white"
+        :allChecked="allChecked"
+        :type="type"
+        @select-all="selectAllItems"
+        :sections="employees"
+        :hide-no-column="true"
+        :fixHeader="true"
     >
+      <template v-if="type === PENDING_TYPE" #cell_action="data">
+        <div class="d-flex justify-center align-center">
+          <bib-checkbox
+              size="md"
+              :key="data.items.id"
+              @change="handleItemChecked({ id: data.items.id, key: data.items.id })"
+              :checked="data.items.checked"
+          ></bib-checkbox>
+        </div>
+      </template>
       <!-- Timsheet date range -->
       <template #cell(name)="data">
         <div
@@ -72,6 +85,8 @@
 <script>
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
+  PAST_DUE_TYPE,
+  PENDING_TYPE,
   TABLE_HEAD,
   TIMESHEET_STATUS,
   TIMESHEET_STATUSES,
@@ -90,8 +105,7 @@ import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 
 import { random } from "lodash";
 
-const PENDING_TYPE = "pending";
-const PAST_DUE_TYPE = "past_due";
+
 
 const fetchTimesheetsFunctionMap = {
   [PENDING_TYPE]: getPendingTimesheets,
@@ -124,10 +138,20 @@ export default {
       type: String,
       default: null,
     },
+    requestData: {
+      type: Array,
+      required: false,
+    },
+    isStatusUpdated: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {
     return {
+      PENDING_TYPE,
+      PAST_DUE_TYPE,
       WEEK_DAY,
       TIMESHEET_STATUS,
       timesheetStatusOptions: [
@@ -143,6 +167,8 @@ export default {
       variantButton: "",
       showRefusalModal: false,
       refusalReason: null,
+      checked: false,
+      allChecked: false,
     };
   },
 
@@ -188,7 +214,7 @@ export default {
         //   TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
         this.enableRefusalModal()
       }
-      
+
       return;
     },
     cancelRejectRequest() {
@@ -210,7 +236,7 @@ export default {
       const id = data?.value?.id;
       const status = data?.value?.status;
       event = event?.value ?? event;
-      
+
 
       if (event == TIMESHEET_STATUS["approved"].value) {
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
@@ -271,6 +297,7 @@ export default {
 
       this.employees = employees;
       this.loading = false;
+      this.$emit('update:isStatusUpdated', false);
     },
 
     getDayClassName(hours) {
@@ -285,6 +312,43 @@ export default {
       return "";
     },
 
+    selectAllItems() {
+      this.allChecked = !this.allChecked;
+
+      this.employees?.forEach((employee, empIndex) => {
+        employee.timesheets.forEach((timesheet, timeSheetIndex) => {
+          this.$set(this.employees[empIndex].timesheets[timeSheetIndex], "checked", this.allChecked);
+        })
+      });
+      this.$emit("update:requestData", this.employees);
+    },
+    handleItemChecked({ id }) {
+      let timesheetIndex = -1;
+      let employeeIndex = -1;
+
+      this.employees.some((employee, index) => {
+        const foundTimesheetIndex = employee.timesheets.findIndex((timesheet) => timesheet.id === id);
+        if (foundTimesheetIndex !== -1) {
+          timesheetIndex = foundTimesheetIndex;
+          employeeIndex = index;
+          return;
+        }
+        return;
+      });
+
+      if (employeeIndex === -1 || timesheetIndex === -1) {
+        console.error(`Timesheet with id ${id} not found`);
+        return;
+      }
+
+      const timesheet = this.employees[employeeIndex].timesheets[timesheetIndex];
+      this.$set(timesheet, "checked", !timesheet.checked);
+
+      this.allChecked = this.employees.every((employee) =>
+          employee.timesheets.every((timesheet) => timesheet.checked)
+      );
+      this.$emit("update:requestData", this.employees);
+    },
     getTotalClassName(total) {
       if (total <= "10") return "chip-wrapper__bgabsentpink";
 
@@ -344,6 +408,11 @@ export default {
     searchString(value) {
       this.getAndParseTimesheets();
     },
+    isStatusUpdated(value) {
+      this.getAndParseTimesheets();
+      this.allChecked = false;
+      this.$emit("update:requestData", this.employees);
+    }
   },
 };
 </script>
@@ -377,3 +446,4 @@ export default {
   color: $black;
 }
 </style>
+

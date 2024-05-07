@@ -371,6 +371,10 @@ const PHOTO_DELETE = {
   text: "The profile image has been deleted successfully.",
   variant: "primary-24",
 };
+const COMMON_MESSAGE = {
+  text: "The information is currently being updated. Please check back shortly.",
+  variant: "primary-24",
+};
 export default {
   props: {
     show: {
@@ -456,6 +460,9 @@ export default {
       updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
           this.debouncedNotification(PHOTO_DELETE);
+          setTimeout(()=>{
+            this.debouncedNotification(COMMON_MESSAGE);
+          },3000)
           this.dropzone += 1;
           this.$nuxt.$emit("top-nav-key");
           this.form = data;
@@ -478,6 +485,9 @@ export default {
             this.form = updatedEmployee;
             this.avatarUrl = "";
             this.debouncedNotification(PHOTO_UPDATE);
+            setTimeout(()=>{
+            this.debouncedNotification(COMMON_MESSAGE);
+          },3000)
           }
         } catch (error) {
           console.error("Error updating employee details:", error);

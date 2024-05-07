@@ -1,12 +1,16 @@
 import axios from "axios";
 import { DateTime } from "luxon";
-import { startTimer, stopTimer } from "@/utils/functions/api_call/timeattendance/timer";
+import {
+  startTimer,
+  stopTimer
+} from "@/utils/functions/api_call/timeattendance/timer";
 import { getTimeAttendance } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+import {getChronometerDuration, checkIsManualEntry} from "@/utils/functions/timer";
 
 export const state = () => ({
   timer: {
@@ -167,6 +171,10 @@ export const actions = {
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
+      const isManualEntry = checkIsManualEntry(data.timeEntries);
+      if(isManualEntry){
+        ctx.commit("SET_CHRONOMETER", {chronometer: 0});
+      }
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
@@ -191,6 +199,10 @@ export const actions = {
         },
       );
 
+      if(ctx.state.chronometer === 0) {
+        const chronometer = getChronometerDuration(data.timeEntries);
+        ctx.commit("SET_CHRONOMETER", {chronometer});
+      }
       ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {
       console.log(e);

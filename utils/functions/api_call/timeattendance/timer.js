@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 import { createConfig } from "../config";
+import {ACTIVITY_TYPE} from "@/utils/constant/Constant";
 
 export async function startTimer() {
   const config = createConfig();

@@ -1,6 +1,7 @@
 import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
+import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 const EmitValurChronometer = 'chronometer';
 export default {
   data() {
@@ -26,9 +27,6 @@ export default {
       getTimerData: "timeattendance/getTimerData",
     }),
   },
-  mounted(){
-    this.removeChronometerValueAtMidnight();
-  },
   methods: {
     startTimerInterval() {
       if (this.active && !this.isTimerRunning) {
@@ -43,18 +41,12 @@ export default {
           this.time = new Date().toTimeString().split(" ")[0];
           this.date = new Date().toDateString();
           const setCurrentDate = now.toISODate();
-          const chronometer = !this.getTimerData.start
+          const chronometer = this.getTimerData.active && !this.getTimerData.start
             ? 0
-            : Math.floor(
-                (new Date().getTime() -
-                  new Date(this.getTimerData.start).getTime()) /
-                  1000
-              );
-          this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-          localStorage.setItem(
-            "chronometerValue",
-            JSON.stringify({ chronometer, date: setCurrentDate })
-          );
+            : getTimeDiffInSeconds(this.getTimerData.start, new Date());
+          if(this.getTimerData.start != 0){
+            this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+          }
           const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
           if (chronometer >= MAX_DURATION_TIMER) {
             this.stopClick = true;
@@ -65,24 +57,7 @@ export default {
         }, 1000);
       }
     },
-    removeChronometerValueAtMidnight() {
-      const storedValue = localStorage.getItem("chronometerValue");
-      
-      if (storedValue) {
-        const { date, chronometer } = JSON.parse(storedValue);
-        if (!date || !chronometer) {
-          localStorage.removeItem("chronometerValue");
-          return;
-        }
-        const storedDate = DateTime.fromISO(date).startOf("day");
-        const currentDate = DateTime.local().startOf("day");
 
-        if (storedDate.toISODate() !== currentDate.toISODate()) {
-          localStorage.removeItem("chronometerValue");
-        }
-      }
-    },
-    
     async stopTimer() {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running
@@ -120,17 +95,6 @@ export default {
       this.unregisterDefaultValueChronometer();
     },
   },
-
-  beforeDestroy() {
-    if (this.chronometerInterval) {
-      this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-        status: false,
-      });
-      this.clearChronometerInterval();
-      this.unregisterRootListeners();
-    }
-  },
-
   watch: {
     active() {
       if (!this.chronometerInterval) {

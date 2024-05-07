@@ -8,3 +8,10 @@ export function getChronometerDuration(todayTimeEntries) {
   }
   return chronometer;
 }
+export function checkIsManualEntry(dailTimeEntries) {
+  let timeEntry = dailTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
+  if(timeEntry && !timeEntry?.isTimerEntry){
+    return true
+  }
+  return false;
+}

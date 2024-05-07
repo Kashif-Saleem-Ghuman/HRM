@@ -149,7 +149,7 @@ export async function getUserTimesheetWidget() {
   try {
     const config = createConfig();
     config.params = {
-      from: DateTime.now().minus({ months: 3}).toISO(),
+      from: DateTime.now().startOf('year').toISO(),
       to: DateTime.now().toISO()
     };
     const widget = await hrmApiAxiosInstance.get(

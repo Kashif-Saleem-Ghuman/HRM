@@ -4,7 +4,11 @@
       class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
     >
       <section-header-left
-        :title="getEmployeeFullName(form) != 'undefined undefined' ? getEmployeeFullName(form) : '---'"
+        :title="
+          getEmployeeFullName(form) != 'undefined undefined'
+            ? getEmployeeFullName(form)
+            : '---'
+        "
         :key="topNav"
       ></section-header-left>
     </div>
@@ -28,7 +32,9 @@
           </div>
           <div id="employee-information-wrapper">
             <div v-if="activeTab == personalTabItem[1].value">
-              <employment-info-form :buttonDisable="true"></employment-info-form>
+              <employment-info-form
+                :buttonDisable="true"
+              ></employment-info-form>
             </div>
           </div>
           <div id="files-information-wrapper">
@@ -47,10 +53,11 @@
 import { mapGetters } from "vuex";
 import { EMPLOYEE_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 
+import { vfileAdded } from "../../../../utils/functions/functions_lib.js";
 import {
-  vfileAdded,
-} from "../../../../utils/functions/functions_lib.js";
-import { getEmployeeFullName, getEmployeeInitials } from "@/utils/functions/common_functions";
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "@/utils/functions/common_functions";
 
 import fecha from "fecha";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
@@ -81,7 +88,9 @@ export default {
       getUserRole: "token/getUserRole",
     }),
   },
-
+mounted(){
+  this.profileUpdateListener();
+},
   async created() {
     this.id = this.getUser.id;
     await this.$store.dispatch("employee/setActiveUser");
@@ -92,7 +101,18 @@ export default {
     getEmployeeFullName,
     getEmployeeInitials,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
+    },
+    profileUpdateListener() {
+      this.$root.$on("profile-updated", async () => {
+        await this.$store.dispatch("employee/setActiveUser");
+        var users = this.getUser;
+        this.form = users;
+        this.topNav += 1;
+      });
+    },
+    removeProfileUpdateListener() {
+      this.$root.$off("profile-updated");
     },
     vfileAdded,
     async handleChange_Tabs(tab) {
@@ -128,6 +148,9 @@ export default {
           this.$nuxt.$emit("leaves-list");
         });
     },
+  },
+  beforeDestroy() {
+    this.removeProfileUpdateListener();
   },
 };
 </script>

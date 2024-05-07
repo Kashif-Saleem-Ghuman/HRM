@@ -460,6 +460,8 @@ export default {
       updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
           this.debouncedNotification(PHOTO_DELETE);
+          this.$root.$emit("profile-updated");
+
           setTimeout(()=>{
             this.debouncedNotification(COMMON_MESSAGE);
           },3000)
@@ -518,6 +520,7 @@ export default {
         this.form = data;
         this.originalStateProvince = this.form.address.state;
         this.originalCity = this.form.address.city;
+        this.$root.$emit("profile-updated");
         this.avatarUrl = "";
         return;
       });

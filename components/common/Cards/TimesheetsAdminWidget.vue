@@ -6,7 +6,7 @@ export default {
   extends: BaseWidget,
   methods: {
     async fetchData() {
-      const from = DateTime.now().minus({ months: 3 }).toJSDate()
+      const from = DateTime.now().startOf("year").toJSDate()
       const to = DateTime.now().toJSDate()
       const data = await getAdminTimesheetWidget({ from, to })
       this.setData(data)

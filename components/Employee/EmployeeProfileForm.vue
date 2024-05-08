@@ -522,6 +522,9 @@ export default {
         this.originalCity = this.form.address.city;
         this.$root.$emit("profile-updated");
         this.avatarUrl = "";
+        setTimeout(()=>{
+            this.debouncedNotification(COMMON_MESSAGE);
+          },3000)
         return;
       });
     },

@@ -1,10 +1,10 @@
 <template>
   <div>
   <bib-modal-wrapper v-if="confirmastionMessageModal"
-    @close="$emit('close')" :title="title">
+    @close="$emit('close')" :title="title" class="text-gray6 font-w-600 font-md">
     <template slot="content">
       <div class="text-center p-2">
-        <p class="font-w-600">{{confirmationMessage}}</p>
+        <p class="text-gray6 font-w-600 font-md">{{confirmationMessage}}</p>
       </div>
     </template>
     <template slot="footer">

@@ -20,7 +20,7 @@ export default {
   },
   phone: {
     model: "phone",
-    validations: [isPhoneNumber],
+    validations: [],
   },
   workExtenstion: {
     model: "workExtenstion",

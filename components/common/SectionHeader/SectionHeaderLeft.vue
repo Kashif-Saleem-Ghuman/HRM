@@ -41,7 +41,7 @@ export default {
       type: Array,
     },
     back: {
-      type: String,
+      type: Boolean,
     },
   },
   data() {

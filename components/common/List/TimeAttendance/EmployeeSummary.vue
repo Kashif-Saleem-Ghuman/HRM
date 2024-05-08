@@ -111,6 +111,8 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { escape, unescape } from "lodash"
+
 export default {
   components: {
     EditorContent,
@@ -242,7 +244,7 @@ export default {
       const text = this.editor.getHTML();
       console.log(text, "summaryText");
       const updatedSummary = await updateSummary({
-        text,
+        text: escape(text),
         date,
         id: summary.id,
       });
@@ -262,9 +264,9 @@ export default {
 
     setSummaryText() {
       if (this.summary?.id) {
-        this.summaryText = this.summary.text;
+        this.summaryText = `${unescape(this.summary.text)}`
         if (this.editor) {
-          this.editor.commands.setContent(this.summary.text); // Update the content of the editor
+          this.editor.commands.setContent(`${unescape(this.summary.text)}`); // Update the content of the editor
         }
       } else {
         this.editor.commands.setContent();

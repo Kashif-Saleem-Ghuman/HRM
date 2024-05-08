@@ -1429,3 +1429,7 @@ export const DAY_SELECTOR_DEFAULT = {
   label: 'Select Day',
   value: 'select_day',
 };
+
+export const PENDING_TYPE = "pending";
+export const PAST_DUE_TYPE = "past_due";
+

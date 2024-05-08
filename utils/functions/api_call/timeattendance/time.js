@@ -69,6 +69,43 @@ export async function getPendingTimesheets(payload) {
   }
 }
 
+export async function approveTimesheets({ timesheetIds }) {
+  const ids = {timesheetIds}
+  try {
+    const url = '/timesheets/admin/approve'
+    const config = createConfig()
+    await hrmApiAxiosInstance.post(
+        url,
+        ids,
+        config
+    );
+    this.openPopupNotification(2);
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
+export async function rejectTimesheets({ timesheetIds }) {
+  const ids = {timesheetIds};
+  try {
+    const url = '/timesheets/admin/reject'
+    const config = createConfig()
+    await hrmApiAxiosInstance.post(
+        url,
+        ids,
+        config
+    );
+    this.openPopupNotification(2);
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
+
 
 export async function getPastDueTimesheets(payload) {
   const { from, to, searchString } = payload

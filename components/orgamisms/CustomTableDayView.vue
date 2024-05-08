@@ -14,6 +14,16 @@
         <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
+        <th v-if="type === PENDING_TYPE" class="cell_action_header">
+          <div v-if="$scopedSlots.cell_action" class="d-flex justify-center align-center">
+            <bib-checkbox
+                size="md"
+                @change="$emit('select-all', $event)"
+                :checked="allChecked"
+                style="margin: 0; padding: 0px"
+            ></bib-checkbox>
+          </div>
+        </th>
         <th
           v-for="(field, key) in fields.slice(1)"
           @click="clickColumnHeader($event, key)"
@@ -131,7 +141,7 @@
           <slot
             name="cell_action"
             v-bind:keyI="keyI"
-            v-bind:value="sections[keyI]"
+            v-bind:value="sections[keyI], items"
           ></slot>
         </td>
         <td v-for="(col, key) in cols" :key="key">
@@ -173,7 +183,7 @@ import {
   makeCall
 } from "@/utils/functions/functions_lib";
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
-import { WEEK_DAY } from "../../utils/constant/Constant";
+import {PENDING_TYPE, WEEK_DAY} from "../../utils/constant/Constant";
 
 export default {
   props: {
@@ -245,10 +255,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    allChecked: {
+      type: Boolean,
+    },
+    type: {
+      type: String,
+    }
   },
   data() {
     return {
       // WEEK_DAY starts with sunday but need to start with monday
+      PENDING_TYPE,
       weekDays: [...WEEK_DAY.slice(1), WEEK_DAY[0]].map((day) =>
         day.value.substring(0, 3)
       ),

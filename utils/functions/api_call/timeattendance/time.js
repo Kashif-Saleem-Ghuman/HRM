@@ -69,13 +69,14 @@ export async function getPendingTimesheets(payload) {
   }
 }
 
-export async function approveTimesheets({ requestIds }) {
+export async function approveTimesheets({ timesheetIds }) {
+  const ids = {timesheetIds}
   try {
     const url = '/timesheets/admin/approve'
     const config = createConfig()
-    await hrmApiAxiosInstance.put(
+    await hrmApiAxiosInstance.post(
         url,
-        requestIds,
+        ids,
         config
     );
     this.openPopupNotification(2);
@@ -86,13 +87,14 @@ export async function approveTimesheets({ requestIds }) {
     });
   }
 }
-export async function rejectTimesheets({ requestIds }) {
+export async function rejectTimesheets({ timesheetIds }) {
+  const ids = {timesheetIds};
   try {
     const url = '/timesheets/admin/reject'
     const config = createConfig()
-    await hrmApiAxiosInstance.put(
+    await hrmApiAxiosInstance.post(
         url,
-        requestIds,
+        ids,
         config
     );
     this.openPopupNotification(2);

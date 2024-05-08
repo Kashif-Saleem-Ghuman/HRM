@@ -75,19 +75,18 @@ export default {
       this.searchString = value
     },
     async pendingMultiRequestHandler(event) {
-      const requestIds = this.requestData
+      const timesheetIds = this.requestData
           .flatMap((item) => item.timesheets)
           .filter((timesheet) => timesheet.checked)
           .map((timesheet) => timesheet.id);
-      if(requestIds?.length <= 0){
+      if(timesheetIds?.length <= 0){
         return;
       }
       if (event == "approve") {
-        await this.approveTimesheets({ requestIds });
+        await this.approveTimesheets({ timesheetIds });
       } else if (event == "reject") {
-        await this.rejectTimesheets({requestIds});
+        await this.rejectTimesheets({timesheetIds});
       }
-      console.log('thisIsupdated', this.isStatusUpdated)
       this.isStatusUpdated = true;
     },
   },

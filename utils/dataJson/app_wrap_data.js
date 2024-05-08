@@ -88,7 +88,7 @@ const data = () => {
         label: "My Profile",
         icon: "user",
         key: "profile",
-        url: "/profile",
+        url: "/profile/",
         selected: false,
       },
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},

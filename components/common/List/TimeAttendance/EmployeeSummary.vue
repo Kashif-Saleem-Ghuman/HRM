@@ -317,11 +317,13 @@ export default {
   max-height: 300px;
   overflow-y: auto;
   min-height: 100px;
+  div{
+    height: 100px;
+  }
   p{
     line-height: 1.3rem;
     padding: 0;
     margin: 0;
-    height:100px;
   }
 }
 

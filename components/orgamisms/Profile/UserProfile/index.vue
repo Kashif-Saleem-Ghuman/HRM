@@ -24,6 +24,7 @@
               :tabs="personalTabItem"
               :value="activeTab"
               @change="onTabChange"
+              :key="updateTabs"
             ></bib-tabs>
           </div>
         </div>
@@ -54,6 +55,7 @@ export default {
       topNav: 0,
       name: {},
       loading: true,
+      updateTabs:0
     };
   },
   computed: {
@@ -99,6 +101,7 @@ export default {
         route.includes(tab.route)
       );
       this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value;
+      this.updateTabs +=1;
     },
   },
 
@@ -110,6 +113,12 @@ export default {
           window.location.reload();
         }
       },
+    },
+    '$route': {
+      immediate: true,
+      handler(to, from) {
+        this.setActiveTab();
+      }
     },
   },
 };

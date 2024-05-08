@@ -321,6 +321,7 @@ export default {
     line-height: 1.3rem;
     padding: 0;
     margin: 0;
+    height:100px;
   }
 }
 

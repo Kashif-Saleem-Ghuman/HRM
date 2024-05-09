@@ -100,6 +100,17 @@ export default {
         date: new Date().toISOString(),
       });
     }
+
+    document.addEventListener("visibilitychange",  () => {
+      if (document.hidden) {
+        this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
+          status: false,
+        });
+        this.clearChronometerInterval();
+      } else {
+        this.startTimerInterval();
+      }
+    });
   },
   methods: {
     close() {

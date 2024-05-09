@@ -62,12 +62,13 @@ export default {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running
       }
-      const timer = this.getTimerData
-      await this.$store.dispatch("timeattendance/stopTimer", { timer });
       this.clearChronometerInterval();
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,
       });
+      const timer = this.getTimerData
+      await this.$store.dispatch("timeattendance/stopTimer", { timer });
+
       // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
     async clearChronometerInterval() {

@@ -770,6 +770,8 @@ export const SELECT_OPTIONS = {
     { label: "Separated", value: "separated" },
     { label: "Widowed", value: "widowed" },
     { label: "Divorced", value: "divorced" },
+    { label: "Cohabiting Couples", value: "couple" },
+
   ],
   genderOptions: [
     {

@@ -56,13 +56,14 @@ export default {
       topNav: 0,
       name: {},
       loading: true,
-      updateTabs:0
+      updateTabs: 0,
     };
   },
   computed: {
     ...mapGetters({
       getUser: "employee/GET_USER",
       getUserRole: "token/getUserRole",
+      previousPath: "previouspath/getPreviousPath",
     }),
   },
   async created() {
@@ -77,13 +78,24 @@ export default {
       this.fetchData();
       return;
     });
+    this.$nuxt.$on("routeChanged", (to, from) => {
+      this.$store.dispatch("previouspath/setPreviousPath", from.path);
+    });
   },
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
-    backToPage(){
-      this.$router.push('/people');
+    backToPage() {
+      switch (true) {
+        case this.previousPath === "/time-attendance/attendance/":
+          this.$router.push(this.previousPath);
+          break;
+        default:
+          this.$router.push("/people/");
+          break;
+      }
     },
+
     async fetchData() {
       this.loading = true;
       const id = this.$route.params.id ?? this.getUser?.id;
@@ -105,7 +117,7 @@ export default {
         route.includes(tab.route)
       );
       this.activeTab = activeTab?.value ?? USER_PROFILE_TAB[0]?.value;
-      this.updateTabs +=1;
+      this.updateTabs += 1;
     },
   },
 
@@ -117,12 +129,6 @@ export default {
           window.location.reload();
         }
       },
-    },
-    '$route': {
-      immediate: true,
-      handler(to, from) {
-        this.setActiveTab();
-      }
     },
   },
 };

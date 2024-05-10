@@ -318,7 +318,8 @@ export default {
   overflow-y: auto;
   min-height: 100px;
   div{
-    height: 100px;
+    min-height: 100px;
+    max-height: 300px;
   }
   p{
     line-height: 1.3rem;

@@ -50,7 +50,7 @@ export default {
 
   methods: {
     backRouter() {
-      this.$router.back();
+      this.$emit('on-click')
     },
   },
 };

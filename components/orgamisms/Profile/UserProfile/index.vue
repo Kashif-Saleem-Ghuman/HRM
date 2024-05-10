@@ -13,6 +13,7 @@
         :avatar="form.photo"
         :key="topNav"
         :back="true"
+        @on-click="backToPage()"
       ></section-header-left>
     </div>
     <div class="section-wrapper custom-input">
@@ -80,6 +81,9 @@ export default {
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
+    backToPage(){
+      this.$router.push('/people');
+    },
     async fetchData() {
       this.loading = true;
       const id = this.$route.params.id ?? this.getUser?.id;

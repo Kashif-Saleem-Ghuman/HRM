@@ -25,7 +25,7 @@
               @update="setAllowance"
             ></info-card-leave-vacation>
             <info-card-leave-vacation
-              title="Medical/sick"
+              title="Medical/Sick"
               :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
@@ -39,7 +39,7 @@
             ></info-card-leave-vacation>
 
             <info-card-leave-vacation
-              title="Personal leave"
+              title="Request Personal Leave"
               :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"

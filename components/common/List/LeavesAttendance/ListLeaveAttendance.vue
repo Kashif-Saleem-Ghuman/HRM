@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-cus">
     <bib-table
     :fields="tableFields"
     class="border-gray4 bg-white"
@@ -133,10 +133,18 @@ export default {
 </script>
 
 <style lang="scss">
+.table__hrow__active{
+  border-left: 1px solid var(--bib-gray4) !important;
+  border-bottom: 1px solid !important;
+}
+body .table .table__hrow__active {
+  border-bottom-color: var(--bib-gray4) !important;
+}
 .minus-ml {
   margin-left: -8px;
 }
 .upper-case {
   text-transform: capitalize;
 }
+
 </style>

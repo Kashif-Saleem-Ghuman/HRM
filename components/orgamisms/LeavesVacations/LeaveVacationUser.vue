@@ -29,7 +29,7 @@
             @on-click="addLeaves('vacation')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
-            title="Medical/sick"
+            title="Medical/Sick"
             :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
             :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
             :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
@@ -40,7 +40,7 @@
             @on-click="addLeaves('medical')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
-            title="Request Personal leave"
+            title="Request Personal Leave"
             :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
             :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
             :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"

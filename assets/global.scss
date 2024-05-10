@@ -3,6 +3,7 @@ html,
 body {
   font-family: $font-family;
 }
+
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;
@@ -328,9 +329,6 @@ body {
   top: -1px !important;
   z-index: 4;
   left: 0;
-}
-.table__hrow__active {
-  border: none !important;
 }
 .capitalize {
   text-transform: capitalize;

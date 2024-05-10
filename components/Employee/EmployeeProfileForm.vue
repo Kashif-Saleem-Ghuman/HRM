@@ -459,12 +459,10 @@ export default {
       const id = this.$route.params.id ?? this.getUser?.id;
       updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
-          this.debouncedNotification(PHOTO_DELETE);
+          // this.debouncedNotification(PHOTO_DELETE);
           this.$root.$emit("profile-updated");
 
-          setTimeout(()=>{
-            this.debouncedNotification(COMMON_MESSAGE);
-          },3000)
+          this.debouncedNotification(COMMON_MESSAGE);
           this.dropzone += 1;
           this.$nuxt.$emit("top-nav-key");
           this.form = data;
@@ -486,10 +484,7 @@ export default {
             });
             this.form = updatedEmployee;
             this.avatarUrl = "";
-            this.debouncedNotification(PHOTO_UPDATE);
-            setTimeout(()=>{
             this.debouncedNotification(COMMON_MESSAGE);
-          },3000)
           }
         } catch (error) {
           console.error("Error updating employee details:", error);
@@ -515,16 +510,14 @@ export default {
         return this.openPopupNotification(6);
       }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
-        this.openPopupNotification(1);
+        // this.openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key");
         this.form = data;
         this.originalStateProvince = this.form.address.state;
         this.originalCity = this.form.address.city;
         this.$root.$emit("profile-updated");
         this.avatarUrl = "";
-        setTimeout(()=>{
-            this.debouncedNotification(COMMON_MESSAGE);
-          },3000)
+        this.debouncedNotification(COMMON_MESSAGE);
         return;
       });
     },

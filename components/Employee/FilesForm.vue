@@ -1,75 +1,79 @@
 <template>
- <div>
-  <loader :loading="loading"></loader>
+  <div>
+    <loader :loading="loading"></loader>
 
-  <div class="px-1 py-1 of-scroll-y">
-    <div class="py-cus custom-dropzone" :key="fileList">
-      <bib-input
-        type="file"
-        ref="filesUploaded"
-        @files-dropped="handleChange__FileInput"
-        variant="primary-24"
-        iconLeft="upload"
-        placeholder="Drop file here or click to upload"
-      ></bib-input>
-      <bib-button
+    <div class="px-1 py-1">
+      <div class="py-cus file-ulpoad-custom" :key="fileList">
+        <bib-input
+          type="file"
+          ref="filesUploaded"
+          @files-dropped="handleChange__FileInput"
+          variant="primary-24"
+          iconLeft="upload"
+          placeholder="Drop file here or click to upload"
+        ></bib-input>
+        <!-- <bib-button
         label="Upload"
         size="lg"
         variant="primary"
         @click="fileUpload"
         class="mt-025"
-      ></bib-button>
-    </div>
-    <no-record v-if="showNoData"></no-record>
+      ></bib-button> -->
+      </div>
+      <no-record v-if="showNoData"></no-record>
 
-    <div
-      class="d-grid gap-2 py-1 of-scroll-y"
-      style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
-      v-else-if="showTable"
-    >
       <div
-        v-for="file in filesUploaded"
-        class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
-        :key="file.id"
+        class="d-grid gap-2 py-1"
+        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
+        v-else-if="showTable"
       >
         <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          "
+          v-for="file in filesUploaded"
+          class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+          :key="file.id"
         >
-          <div class="d-flex align-center" @click="handleFileClick(file)">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div class="d-flex align-center" @click="handleFileClick(file)">
+              <bib-icon
+                :icon="
+                  getFileExtension(extensionsName(file)) === undefined
+                    ? 'image'
+                    : getFileExtension(extensionsName(file))
+                "
+                variant="gray5"
+              ></bib-icon>
+              <h5
+                class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+                :title="file.name"
+              >
+                {{ file.name | truncate(45, "...") }}
+              </h5>
+            </div>
+          </div>
+          <div @click="deleteConfirmation(file.id)">
             <bib-icon
-              :icon="getFileExtension(extensionsName(file)) === undefined ? 'image' : getFileExtension(extensionsName(file)) "
-              variant="gray5"
+              icon="trash"
+              class="mr-05 cursor-pointer"
+              variant="danger"
             ></bib-icon>
-            <h5
-              class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
-              :title="file.name"
-            >
-              {{ file.name | truncate(45, "...") }}
-            </h5>
           </div>
         </div>
-        <div @click="deleteConfirmation(file.id)">
-          <bib-icon
-            icon="trash"
-            class="mr-05 cursor-pointer"
-            variant="danger"
-          ></bib-icon>
-        </div>
       </div>
+      <confirmation-modal
+        :title="deleteModalContent.title"
+        :confirmationMessage="deleteModalContent.message"
+        :confirmastionMessageModal="confirmastionMessageModal"
+        @close="closeconfirmastionMessageModal"
+        @delete="deleteFile($event)"
+      ></confirmation-modal>
     </div>
-    <confirmation-modal
-      :title="deleteModalContent.title"
-      :confirmationMessage="deleteModalContent.message"
-      :confirmastionMessageModal="confirmastionMessageModal"
-      @close="closeconfirmastionMessageModal"
-      @delete="deleteFile($event)"
-    ></confirmation-modal>
   </div>
- </div>
 </template>
 
 <script>
@@ -93,7 +97,7 @@ export default {
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       fileName: "",
-      loading:true,
+      loading: true,
     };
   },
   computed: {
@@ -106,7 +110,9 @@ export default {
       return !this.loading && this.filesUploaded?.length;
     },
     showNoData() {
-      return !this.loading && (!this.filesUploaded || !this.filesUploaded?.length);
+      return (
+        !this.loading && (!this.filesUploaded || !this.filesUploaded?.length)
+      );
     },
   },
   async created() {
@@ -118,7 +124,7 @@ export default {
     getFiles,
     deleteFiles,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     getFileExtension,
     extensionsName(file) {
@@ -159,6 +165,7 @@ export default {
     },
     async handleChange__FileInput(files) {
       this.files = files;
+      await this.fileUpload();
     },
     async fileUpload() {
       await this.addFiles(this.id, this.files);
@@ -167,6 +174,10 @@ export default {
         this.fileList += 1;
         this.files = [];
         this.filesUploaded.reverse();
+        this.openPopupNotification({
+          text: "The file has been successfully uploaded.",
+          variant: "primary-24",
+        });
       });
     },
     deleteConfirmation(id) {
@@ -187,24 +198,12 @@ export default {
 </script>
 
 <style lang="scss">
-.custom-dropzone {
+.file-ulpoad-custom {
   width: 50%;
   display: flex;
-  border: 1px dotted $gray4 !important;
-  justify-content: space-between;
-  background-color: $white;
-  align-items: flex-start;
-  border-radius: 6px;
-  padding: 10px;
-  margin: 20px 0;
   .input--file {
-    background: $white;
-    margin: 0 10px;
-    border-radius: 6px;
     div {
       background-color: $white;
-      border-radius: 10px;
-      max-height: 150px !important;
       div:nth-child(1) {
         align-items: center;
         display: flex;

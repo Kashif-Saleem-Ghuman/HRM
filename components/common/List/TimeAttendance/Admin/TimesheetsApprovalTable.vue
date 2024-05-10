@@ -15,7 +15,7 @@
         :hide-no-column="true"
         :fixHeader="true"
     >
-      <template v-if="type === PENDING_TYPE" #cell_action="data">
+      <template v-if="type === PAST_DUE_TYPE || PENDING_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox
               size="md"
@@ -108,8 +108,8 @@ import { random } from "lodash";
 
 
 const fetchTimesheetsFunctionMap = {
-  [PENDING_TYPE]: getPendingTimesheets,
   [PAST_DUE_TYPE]: getPastDueTimesheets,
+  [PENDING_TYPE]: getPendingTimesheets,
 };
 const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
   approved: {
@@ -150,8 +150,8 @@ export default {
 
   data() {
     return {
-      PENDING_TYPE,
       PAST_DUE_TYPE,
+      PENDING_TYPE,
       WEEK_DAY,
       TIMESHEET_STATUS,
       timesheetStatusOptions: [
@@ -323,6 +323,7 @@ export default {
       this.$emit("update:requestData", this.employees);
     },
     handleItemChecked({ id }) {
+      console.log("id", id);
       let timesheetIndex = -1;
       let employeeIndex = -1;
 

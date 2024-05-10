@@ -2,6 +2,7 @@
 import { getAdminTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time';
 import BaseWidget from './BaseWidget.vue';
 import { DateTime } from 'luxon';
+import { uniqBy } from "lodash";
 export default {
   extends: BaseWidget,
   methods: {
@@ -11,6 +12,7 @@ export default {
       const data = await getAdminTimesheetWidget({ from, to })
       this.setData(data)
       this.setSubData(data)
+      this.setAvatars(data)
     },
     setData(data) {
       const { pastDue } = data
@@ -30,6 +32,10 @@ export default {
         { title: "Rejected", value: rejected || 0 }
       ]
     },
+    setAvatars(data) {
+      const { pending, rejected } = data
+      this.avatars =  uniqBy([...pending, ...rejected], 'id')
+    }
   }
 }
 </script>

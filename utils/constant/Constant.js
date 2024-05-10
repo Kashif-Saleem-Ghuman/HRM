@@ -736,7 +736,7 @@ export const DOWNLOAD_REPORT_TAB = [
     route: "/reports/leave-summary/",
   },
   {
-    title: "Time Sheet Report",
+    title: "Time Sheet",
     value: "timesheetReport",
     route: "/reports/timesheet-report/",
   },

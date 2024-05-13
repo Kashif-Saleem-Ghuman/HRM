@@ -33,6 +33,12 @@ import { MONTH_SELECTOR_DEFAULT } from "../../../utils/constant/Constant";
 import BaseDateButton from "./BaseDateButton.vue";
 export default {
   extends: BaseDateButton,
+    props: {
+      isAdminView: {
+          type: Boolean,
+          default: false,
+      }
+    },
   data() {
     return {
       options: MONTHS_LABEL_VALUE,
@@ -57,9 +63,14 @@ export default {
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
-      const month = new Date().getMonth();
-      this.selected = this.options[month].label;
-      this.value = this.options[month].value;
+      if(this.isAdminView) {
+        this.selected = MONTH_SELECTOR_DEFAULT.label;
+        this.value = MONTH_SELECTOR_DEFAULT.value;
+      }else {
+        const month = new Date().getMonth();
+        this.selected = this.options[month].label;
+        this.value = this.options[month].value;
+      }
     },
     onClose() {
       this.isDropdownOpen = false;

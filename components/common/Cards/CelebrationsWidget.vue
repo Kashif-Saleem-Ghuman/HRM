@@ -1,42 +1,54 @@
 <script>
 import { uniqBy } from "lodash";
-import { getAdminCelebrationWidget } from '../../../utils/functions/api_call/timeattendance/time';
-import BaseWidget from './BaseWidget.vue';
+import { getAdminCelebrationWidget } from "../../../utils/functions/api_call/timeattendance/time";
+import BaseWidget from "./BaseWidget.vue";
 
 export default {
   extends: BaseWidget,
   methods: {
     async fetchData() {
-      const data = await getAdminCelebrationWidget()
-      this.setData(data)
-      this.setSubData(data)
-      this.setAvatars(data)
+      const data = await getAdminCelebrationWidget();
+      this.setData(data);
+      this.setSubData(data);
+      this.setAvatars(data);
     },
     setData(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data
-      const title = "Birthdays & Work Anniversaries"
-      const subheading = 'Whooohooo!'
-      const value = (birthdayEmployees?.length || 0) + (workAnniversaryEmployees?.length || 0)
+      const { birthdayEmployees, workAnniversaryEmployees } = data;
+      const title = "Birthdays & Work Anniversaries";
+      const subheading = "Whooohooo!";
+      const value =
+        (birthdayEmployees?.length || 0) +
+        (workAnniversaryEmployees?.length || 0);
       this.data = {
         title,
         subheading,
-        value
-      }
+        value,
+      };
     },
     setSubData(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data
+      const { birthdayEmployees, workAnniversaryEmployees } = data;
+      const birthdayLength = birthdayEmployees?.length || 0;
+      const anniversaryLength = workAnniversaryEmployees?.length || 0;
+
+      const birthdayLabel = birthdayLength <= 1 ? "Birthday" : "Birthdays";
+      const anniversaryLabel =
+        anniversaryLength <= 1 ? "Anniversary" : "Anniversaries";
+
       this.subData = [
-        { title: "Birthdays", value: birthdayEmployees?.length || 0 },
-        { title: "Anniversaries", value: workAnniversaryEmployees?.length || 0 }
-      ]
+        { title: birthdayLabel, value: birthdayLength },
+        { title: anniversaryLabel, value: anniversaryLength },
+      ];
     },
 
     setAvatars(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data
-      this.avatars = uniqBy([...birthdayEmployees, ...workAnniversaryEmployees], 'id')
-    }
-  }
-}
+      const { birthdayEmployees, workAnniversaryEmployees } = data;
+      this.avatars = uniqBy(
+        [...birthdayEmployees, ...workAnniversaryEmployees],
+        "id"
+      );
+    },
+  },
+};
 </script>
 
 <style></style>

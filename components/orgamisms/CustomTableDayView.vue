@@ -14,7 +14,7 @@
         <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
-        <th v-if="type === PENDING_TYPE" class="cell_action_header">
+        <th v-if="type === PAST_DUE_TYPE || PENDING_TYPE" class="cell_action_header">
           <div v-if="$scopedSlots.cell_action" class="d-flex justify-center align-center">
             <bib-checkbox
                 size="md"
@@ -183,7 +183,7 @@ import {
   makeCall
 } from "@/utils/functions/functions_lib";
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
-import {PENDING_TYPE, WEEK_DAY} from "../../utils/constant/Constant";
+import {PAST_DUE_TYPE, PENDING_TYPE, WEEK_DAY} from "../../utils/constant/Constant";
 
 export default {
   props: {
@@ -266,6 +266,7 @@ export default {
     return {
       // WEEK_DAY starts with sunday but need to start with monday
       PENDING_TYPE,
+      PAST_DUE_TYPE,
       weekDays: [...WEEK_DAY.slice(1), WEEK_DAY[0]].map((day) =>
         day.value.substring(0, 3)
       ),

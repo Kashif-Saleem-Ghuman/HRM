@@ -2,6 +2,7 @@
 import BaseWidget from "./BaseWidget.vue";
 import { onLeaveEmployees } from "../../../utils/functions/api_call/on-leave-employee";
 import { DateTime } from "luxon";
+import { uniqBy } from "lodash";
 
 export default {
   extends: BaseWidget,
@@ -20,6 +21,7 @@ export default {
       const onLeave = await onLeaveEmployees({ date });
       this.setData(presentEmployees, onLeave);
       this.setSubData(presentEmployees, onLeave);
+      this.setAvatars({ presentEmployees, onLeave});
     },
     setData(data, onLeave) {
       const onLeaves = onLeave;
@@ -38,6 +40,11 @@ export default {
         { title: "Absent", value: this.employees.length - data.length || 0 },
         { title: "On leave", value: onLeave.leaveCount || 0 },
       ];
+    },
+
+    setAvatars(data) {
+      const { presentEmployees, onLeave } = data;
+      this.avatars = uniqBy([...presentEmployees, ...onLeave], "id");
     },
   },
 

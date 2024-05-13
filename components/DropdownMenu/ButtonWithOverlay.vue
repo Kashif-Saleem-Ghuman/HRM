@@ -3,7 +3,10 @@
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
-        <bib-button
+        <div class="" v-show="show" @click.stop="() => {}">
+          <slot :close="clickOutside"></slot>
+        </div>
+        <!-- <bib-button
           :label="buttonConfig?.label"
           :variant="buttonConfig?.variant || 'light'"
           size="lg"
@@ -11,12 +14,9 @@
           :icon="buttonConfig?.icon ?? ''"
           :class="className"
           v-click-outside="clickOutside"
-        ></bib-button>
+        ></bib-button> -->
 
         <!-- @click.stop is to prevent v-click-outside to trigger -->
-        <div class="btn-overlay" v-show="show" @click.stop="() => {}">
-          <slot :close="clickOutside"></slot>
-        </div>
       </div>
     </div>
   </div>
@@ -45,12 +45,12 @@ export default {
   data() {
     return {
       viewChange: "Today",
-      show: false,
+      show: true,
     };
   },
   methods: {
     clickOutside() {
-      this.show = false;
+      this.show = true;
     },
   },
 };
@@ -96,5 +96,8 @@ export default {
     z-index: 9999;
     box-shadow: 0 0 0.2rem 1px #e8e8e8;
   }
+}
+.vdpComponent__input {
+  max-width: 200px;
 }
 </style>

@@ -149,10 +149,14 @@ export default {
       inOutAction: TABLE_HEAD.tHeadDashboard.map((day) =>
         day.key.substring(0, 3)
       ),
+      leaveType: ""
     };
   },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
+    const totalField = this.tableFields.find((field) => field.key === 'total');
+    totalField.header_icon.isActive = true; // Set total hours as active by default
+    this.sortByField = totalField; // Set sortByField to totalField by default
   },
   computed: {
     employees() {
@@ -185,15 +189,19 @@ export default {
       if (value === "Meet")
         return await this.makeCall(data.value.userId, this.getUser.userId);
     },
-    
     getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
+      const outEntry = data.activityReport?.out;
       
       const leaveRequest = this.checkLeaveRequest(data);
-      
+
       if (leaveRequest) {
-        return 'On Leave';
+        return 'On Leave' + " - " + (this.leaveType ? this.leaveType.charAt(0).toUpperCase() + this.leaveType.slice(1) : '');
+      }
+      if ( inEntry && outEntry)
+      {
+        return "Shift End"
       }
 
       if (timers.length > 0 || inEntry) {
@@ -253,12 +261,14 @@ export default {
 
     checkLeaveRequest(data){
       if (data.requests && data.requests.length > 0) {
+        data.requests.forEach(request => {
+          this.leaveType = request.type;
+        });
           return true;
       }
 
       return false;
     },
-    
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in
@@ -302,7 +312,7 @@ export default {
       return formatHoursToHHMM(hours);
     },
     viewProfile(id) {
-      this.$router.push("/profile/" + id);
+      this.$router.push("/profile/" + id + "/time-attendance-profile-tab");
     },
     mouseover() {
       this.showTooltip = true;

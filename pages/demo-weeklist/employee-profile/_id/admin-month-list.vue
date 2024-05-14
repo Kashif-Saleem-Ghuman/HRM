@@ -267,7 +267,7 @@ export default {
         from: new Date(this.weekDayDates.from),
         to: new Date(this.weekDayDates.to),
       });
-      let timesheets = await getTimesheets({ from, to });
+      let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("weekDaysYearly");

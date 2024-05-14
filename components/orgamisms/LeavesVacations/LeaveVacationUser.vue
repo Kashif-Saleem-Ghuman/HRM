@@ -40,7 +40,7 @@
             @on-click="addLeaves('medical')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
-            title="Request Personal Leave"
+            title="Personal Leave"
             :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
             :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
             :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"

@@ -20,7 +20,7 @@
               <div class="py-cus px-05">
                 <div class="company-info">
                   <div class="company-logo">
-                    <bib-icon icon="bib-logo" :scale="5"></bib-icon>
+                    <img src="/img/bib-logo.png" />
                   </div>
                   <div class="company-items">
                     <label>{{ org.companyName }}</label>
@@ -264,8 +264,9 @@ export default {
         this.originalStateProvince = this.org.stateProvince;
         this.originalCity = this.org.city;
       } else {
-        this.originalStateProvince =  newStateProvince ?? (this.updateForm["stateProvince"] = "");
-        this.originalCity = newCity ?? (this.updateForm["city"] = "");;
+        this.originalStateProvince =
+          newStateProvince ?? (this.updateForm["stateProvince"] = "");
+        this.originalCity = newCity ?? (this.updateForm["city"] = "");
       }
     },
   },

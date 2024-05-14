@@ -1,27 +1,28 @@
 import axios from "axios";
+import { DateTime } from "luxon";
 export const state = () => ({
   leaveVacationList: [],
   leaveVacationListUser: [],
-  formToDAte:{},
+  formToDAte: {},
 });
 
 export const getters = {
-    getLeaveVacation(state) {
-      return state.leaveVacationList
-    },
-    getLeaveVacationUser(state) {
-      return state.leaveVacationListUser
-    },
-    getformToDate(state) {
-      return state.formToDAte
-    },
-    getActiveTab(state){
-      return state.activeTab
-    },
-    getUserRole(state){
-      return state.userRole
-    }
-  }
+  getLeaveVacation(state) {
+    return state.leaveVacationList;
+  },
+  getLeaveVacationUser(state) {
+    return state.leaveVacationListUser;
+  },
+  getformToDate(state) {
+    return state.formToDAte;
+  },
+  getActiveTab(state) {
+    return state.activeTab;
+  },
+  getUserRole(state) {
+    return state.userRole;
+  },
+};
 export const mutations = {
   SET_LEAVEVACATION_LIST: (state, payload) => {
     state.leaveVacationList = payload;
@@ -34,9 +35,9 @@ export const mutations = {
   },
 };
 
-export const  actions = {
-    async setLeaveVacations(ctx, payload) {
-    const { from, to, search, status } = payload
+export const actions = {
+  async setLeaveVacations(ctx, payload) {
+    const { from, to, search, status } = payload;
     try {
       const leaveVacations = await axios.get(
         `${process.env.API_URL}/requests/admin`,
@@ -49,12 +50,12 @@ export const  actions = {
             to,
             search,
             status,
-            split: true
+            split: true,
           },
         }
       );
       ctx.commit("SET_LEAVEVACATION_LIST", leaveVacations.data.requests);
-      return leaveVacations.data.requests
+      return leaveVacations.data.requests;
     } catch (e) {
       console.log(e);
     }
@@ -69,24 +70,28 @@ export const  actions = {
           },
           params: {
             from: payload?.from,
-            to:payload?.to,
-            employeeId:payload?.employeeId,
-            search:payload?.search
+            to: payload?.to,
+            employeeId: payload?.employeeId,
+            search: payload?.search,
           },
         }
       );
-      var leave = leaveVacations.data.requests.sort((a, b) => b.id - a.id);
-      ctx.commit("SET_LEAVEVACATION_LIST_USER", leave);
+      const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
+        const endDateA = DateTime.fromISO(a.end);
+        const endDateB = DateTime.fromISO(b.end);
+        return endDateB - endDateA;
+      });
+      ctx.commit("SET_LEAVEVACATION_LIST_USER", sortedLeave);
       // var data = leave.data.requests
-      return leave
+      return sortedLeave;
     } catch (e) {
       if (e.response.status === 500) {
-        return window.open('/not-found',"_self")
+        return window.open("/not-found", "_self");
       }
       console.log(e);
     }
   },
   setActiveFromToDate(context, payload) {
-    context.commit('SET_FROMTODATE_LIST', payload)
+    context.commit("SET_FROMTODATE_LIST", payload);
   },
-}
+};

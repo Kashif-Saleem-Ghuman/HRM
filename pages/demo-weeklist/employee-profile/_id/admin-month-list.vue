@@ -28,7 +28,6 @@
                 :formatDate="formatDate"
                 class="custom_date_picker"
                 :maxDate="maxDate"
-                style="margin-bottom: -7px;"
                 size="sm"
                 @input="dateSelection($event)"
             ></bib-datetime-picker>

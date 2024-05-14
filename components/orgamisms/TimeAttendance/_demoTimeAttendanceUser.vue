@@ -71,7 +71,7 @@
                   </button-with-overlay>
                 </div>
                 <bib-datetime-picker
-                  v-if="view.value === 'day'"
+                  v-if="view.value === 'day' || view.value === 'month'"
                   v-model="todayDate"
                   :maxDate="maxDate"
                   :class="`custom_date_picker ${view.value === 'month' ? 'pl-05' : ''} `"

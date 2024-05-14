@@ -15,11 +15,6 @@
           </div>
 
           <div class="d-flex align-center">
-            <div v-if="view.value === 'month'" class="py-05">
-              <div class="custom_date_picker">
-                <custom-date-selector :isAdminView="true" :year.sync="year" :month.sync="month" :dates.sync="dates" />
-              </div>
-            </div>
             <bib-datetime-picker
               v-if="view.value === 'day'"
               v-model="todayDate"
@@ -32,7 +27,7 @@
               size="sm"
               @input="dateSelection($event)"
             ></bib-datetime-picker>
-            <div class="py-05" v-if="view.value === 'week' || view.value === 'month'">
+            <div class="py-05" v-if="view.value === 'week'">
               <button-with-overlay
                 :button-config="{ label: dateBtnLabel }"
                 v-slot="scope"
@@ -42,7 +37,6 @@
                     :dates.sync="weekDates"
                     class="custom_date_picker"
                     :format="format"
-                    @onChange="weekDateChangeInMonthView"
                     @close="
                       () => {
                         scope.close();
@@ -69,19 +63,13 @@
             :disabled="true"
           ></list-day>
           <list-week
-            v-else-if="(weekListView || weekListInMonthView) && timesheetId"
+            v-else-if="weekListView && timesheetId"
             :activityReports="weekDataActivityReports"
             :totalWork="weekDataTotalWork"
             :status="weekDataStatus"
             :id="timesheetId"
             :startOfWeek="weekDates.from"
           ></list-week>
-          <month-list
-            v-else-if="monthListView"
-            :timesheetsList="timesheetsList"
-            :loading="loading"
-            :is-full-year-list="isFullYearList"
-          ></month-list>
           <no-record v-else />
         </template>
       </div>
@@ -92,7 +80,7 @@
 import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import fecha from "fecha";
-import {getDateDiffInHHMM, getTimeFromDate, weekToUTCWeek} from "@/utils/functions/dates";
+import { getDateDiffInHHMM, getTimeFromDate } from "@/utils/functions/dates";
 import { formatTime } from "@/utils/functions/clock_functions";
 import {
   ACTIVITY_DICTIONARY,
@@ -108,7 +96,6 @@ import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
-  { label: "Month", value: "month", variant: "light" },
 ];
 
 export default {
@@ -142,24 +129,9 @@ export default {
       weekDataStatus: "",
       timesheetId: -1,
       loading: false,
-      timesheetsList: [],
-      isFullYearList: false,
-      dates: {
-        from: null,
-        to: null,
-      },
-      year: null,
-      month: null,
-      weekDayDates: {
-        from: null,
-        to: null,
-      },
-      monthView: null,
-      isAdminView: false,
     };
   },
   methods: {
-    weekToUTCWeek,
     setView() {
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
@@ -261,20 +233,6 @@ export default {
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
-    async generateWeekDaysEntries() {
-      this.loading = true;
-      const { from, to } = this.weekToUTCWeek({
-        from: new Date(this.weekDayDates.from),
-        to: new Date(this.weekDayDates.to),
-      });
-      let timesheets = await getTimesheets({ from, to });
-      timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("weekDaysYearly");
-      });
-      this.timesheetsList = timesheets;
-      this.loading = false;
-    },
     formatDates({ from, to }) {
       const fromFormat = fecha.format(new Date(from), this.format);
       const toFormat = fecha.format(new Date(to), this.format);
@@ -286,15 +244,6 @@ export default {
       return (
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );
-    },
-    setWeekDayDates(from, to) {
-      this.weekDayDates = {from: from, to: to}
-    },
-    resetMonthView() {
-      this.monthView = null;
-    },
-    weekDateChangeInMonthView() {
-      this.monthView = 'week';
     },
   },
   computed: {
@@ -345,12 +294,6 @@ export default {
     weekListView() {
       return this.view.value === "week";
     },
-    monthListView() {
-      return this.view.value === "month";
-    },
-    weekListInMonthView() {
-      return this.monthView === 'week';
-    },
     dateBtnLabel() {
       if (!this.weekDates || !this.weekDates?.from || !this.weekDates?.to)
         return "";
@@ -374,18 +317,10 @@ export default {
   },
   watch: {
     "$route.query.view"(newVal) {
-      this.resetMonthView();
       this.view.value = newVal || "day";
       this.view.label = this.VIEWS.find(
         (v) => v.value === this.view.value
       ).label;
-    },
-    dates(newval, old) {
-      if(newval.from && newval.to) {
-        this.setWeekDayDates(newval.from, newval.to);
-        this.generateWeekDaysEntries();
-        this.resetMonthView();
-      }
     },
   },
 };

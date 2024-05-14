@@ -20,7 +20,7 @@ export default {
     validations: [isEmail],
   },
   contactPhone: {
-    validations: [isPhoneNumber],
+    // validations: [isPhoneNumber],
   },
   addressL1: {
     validations: [isRequired],

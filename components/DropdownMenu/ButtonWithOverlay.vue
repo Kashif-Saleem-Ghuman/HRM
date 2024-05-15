@@ -57,7 +57,7 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
-  z-index: 99999;
+  z-index: 999;
   .button-items {
     display: flex;
     align-items: center;

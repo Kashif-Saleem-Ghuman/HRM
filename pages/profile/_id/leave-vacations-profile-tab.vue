@@ -39,7 +39,7 @@
             ></info-card-leave-vacation>
 
             <info-card-leave-vacation
-              title="Request Personal Leave"
+              title="Personal Leave"
               :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"

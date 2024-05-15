@@ -91,13 +91,15 @@ export default {
       const now = DateTime.now();
       const toDate = DateTime.fromISO(dates.to);
       this.from = DateTime.fromISO(dates.from).toFormat(DATETIME_FORMAT);
-      this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);
+
       this.minDate = DateTime.fromISO(dates.from).toISO();
 
       if(toDate <= now ) {
         this.maxDate = DateTime.fromISO(dates.to).toISO();
+        this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);
       }else {
         this.maxDate = DateTime.fromISO(now).toISO();
+        this.to = DateTime.fromISO(now).toFormat(DATETIME_FORMAT);
       }
     },
 

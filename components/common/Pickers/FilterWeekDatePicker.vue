@@ -19,13 +19,12 @@
         <label for="end-date">To</label>
         <bib-datetime-picker
             v-model="to"
-            placeholder="Choose Start Of Week Date"
+            placeholder="Choose End Of Week Date"
             :maxDate="maxDate"
             :minDate="minDate"
             @input="onToDateChange"
             size="sm"
             icon=""
-            hide-quick-select
             v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
       </div>
@@ -75,7 +74,7 @@ export default {
     onToDateChange(value) {
       //When user clicks X button
       this.$emit('onChange');
-      if (!this.from) {
+      if (!this.to) {
         return this.setDefaultWeek(this.filterDate)
       }
 

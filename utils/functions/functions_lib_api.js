@@ -27,6 +27,7 @@ import {
   import {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
+    approveLeaveVacationsAdmin
   } from "./api_call/leavesvacations/requestadmin";
   import {
     addLeaveVacations,
@@ -40,6 +41,7 @@ import {
     // leave vacations admin functions
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
+    approveLeaveVacationsAdmin,
 
     // leave vacations user functions
     addLeaveVacations,

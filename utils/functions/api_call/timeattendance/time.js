@@ -79,7 +79,7 @@ export async function approveTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(2);
+    this.openPopupNotification(11);
   } catch (e) {
     this.openPopupNotification({
       text: e.response.data.message,
@@ -97,7 +97,7 @@ export async function rejectTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(2);
+    this.openPopupNotification(12);
   } catch (e) {
     this.openPopupNotification({
       text: e.response.data.message,

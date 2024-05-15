@@ -19,13 +19,12 @@
         <label for="end-date">To</label>
         <bib-datetime-picker
             v-model="to"
-            placeholder="Choose Start Of Week Date"
+            placeholder="Choose End Of Week Date"
             :maxDate="maxDate"
             :minDate="minDate"
             @input="onToDateChange"
             size="sm"
             icon=""
-            hide-quick-select
             v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
       </div>
@@ -59,8 +58,8 @@ export default {
     getDatetimeCommonProps,
     onFromDateChange(value) {
       //When user clicks X button
-      this.$emit('onChange');
       if (!this.from) {
+        this.$emit('onClose');
         return this.setDefaultWeek(this.filterDate)
       }
 
@@ -74,8 +73,8 @@ export default {
     },
     onToDateChange(value) {
       //When user clicks X button
-      this.$emit('onChange');
-      if (!this.from) {
+      if (!this.to) {
+        this.$emit('onClose');
         return this.setDefaultWeek(this.filterDate)
       }
 
@@ -89,16 +88,18 @@ export default {
     },
 
     setDefaultWeek(dates) {
-      const now = DateTime.now();
-      const toDate = DateTime.fromISO(dates.to);
       this.from = DateTime.fromISO(dates.from).toFormat(DATETIME_FORMAT);
-      this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);
       this.minDate = DateTime.fromISO(dates.from).toISO();
 
+      const now = DateTime.now();
+      const toDate = DateTime.fromISO(dates.to);
       if(toDate <= now ) {
         this.maxDate = DateTime.fromISO(dates.to).toISO();
+        this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);
       }else {
         this.maxDate = DateTime.fromISO(now).toISO();
+        let to = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
+        this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
       }
     },
 

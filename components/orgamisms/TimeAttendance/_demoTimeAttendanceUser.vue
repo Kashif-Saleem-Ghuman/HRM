@@ -59,6 +59,7 @@
                         :filterDate="dates"
                         class="custom_date_picker"
                         :format="format"
+                        @onClose="onCloseWeekRange"
                         @close="
                         () => {
                           scope.close();
@@ -543,6 +544,9 @@ export default {
     },
     async weekSelectionInMonthView() {
       await this.generateWeekDaysEntries(true);
+    },
+    async onCloseWeekRange() {
+       await this.generateWeekDaysEntries();
     },
     weekDateChangeInMonthView() {
       this.monthView = 'week';

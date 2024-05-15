@@ -202,7 +202,9 @@ export default {
         this.form.statusChangeDate
       ).toFormat(DATETIME_FORMAT);
       const messageStatus = {
-        approved: `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
+        approved: this.form.statusChangeDate === null
+            ? "Request approved"
+            : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
                 this.form.manager
               )}`,
         pending: "Pending",

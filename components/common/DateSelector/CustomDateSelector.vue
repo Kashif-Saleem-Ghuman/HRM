@@ -5,6 +5,7 @@
       :isDisabled="isMonthDisabled"
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
+      :isAdminView="isAdminView"
     />
   </div>
 </template>
@@ -13,6 +14,12 @@
 import { DateTime } from "luxon";
 import {MONTH_SELECTOR_DEFAULT} from "@/utils/constant/Constant";
 export default {
+  props: {
+    isAdminView: {
+      type: Boolean,
+      default: false,
+    }
+  },
   data() {
     return {
       isYearDisabled: false,
@@ -36,7 +43,7 @@ export default {
     generateYearDates() {
       return {
         from: DateTime.utc(this.year).startOf("year").minus({days: 1}).toISO(),
-        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 3}).toISO(),
+        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 2}).toISO(),
       };
     },
     generateMonthDates() {
@@ -44,7 +51,7 @@ export default {
         from: DateTime.utc(this.year, Number(this.month))
           .startOf("month").startOf('week').minus({days: 1})
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 3}).toISO(),
+        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 2}).toISO(),
       };
     },
   },

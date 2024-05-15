@@ -12,6 +12,15 @@ export const getWeekStartEndDates = (dateIso) => {
   const to = from.plus({ days: 6 });
   return { from: from.toISO(), to: to.toISO() };
 };
+export const getWeekStart = (dateIso) => {
+  const date = DateTime.fromISO(dateIso);
+  return date.minus({ days: date.weekday % 7 }).toISO();
+}
+export const getWeekEnd = (dateIso) => {
+  const date = DateTime.fromISO(dateIso);
+  const from = date.minus({ days: date.weekday % 7 });
+  return from.plus({ days: 6 }).toISO();
+}
 
 /**
  * @typedef { Object } DateRange

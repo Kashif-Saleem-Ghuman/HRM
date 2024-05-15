@@ -42,7 +42,7 @@
                 :variant="getLeaveTypeIconVariant(leaveStatus.status)"
                 :className="getLeaveTypeClassName(leaveStatus.status)"
                 :classNameWrapper="getTextVariant(leaveStatus.status)"
-                :refusalReason="leaveStatus.refusalReason"
+                :refusalReason="getReason(leaveStatus)"
               ></info-card-success>
             </div>
             <div class="d-flex justify-end text-dark py-1" v-if="showDelButton">
@@ -191,15 +191,18 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
+    getReason(leaveStatus){
+      if(leaveStatus.status === 'approved'){
+        return leaveStatus.approvalComment
+      }
+      return leaveStatus.refusalReason
+    },
     getMessage(MESSAGE) {
       const statusChangeDate = DateTime.fromISO(
         this.form.statusChangeDate
       ).toFormat(DATETIME_FORMAT);
       const messageStatus = {
-        approved:
-          this.form.statusChangeDate === null
-            ? "Request approved"
-            : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
+        approved: `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
                 this.form.manager
               )}`,
         pending: "Pending",

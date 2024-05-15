@@ -46,3 +46,26 @@ export async function getApproveLeaveVacationsAdmin({ requestIds }) {
   }
 }
 
+export async function approveLeaveVacationsAdmin(payload) {
+  const { id, request } = payload;
+  try {
+    const url = `/requests/admin/approve/${id}`
+    const config = createConfig()
+    const approveLeaveVacationsAdmin = await hrmApiAxiosInstance.put(
+     url,
+     {...request},
+     config
+    );
+    this.$nuxt.$emit("pending-key");
+    this.openPopupNotification(2);
+    this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
+
+
+

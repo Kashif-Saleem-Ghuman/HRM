@@ -35,7 +35,7 @@
             :checked="checked"
             :checkedAll="checkedAll"
             @reject-item="enableRefusalModal"
-            @approve-item="approveItem($event)"
+            @approve-item="enableApproveModal"
             @item-checked="handleItemChecked"
           ></list-pending>
         </div>
@@ -47,6 +47,12 @@
       @close="cancelRejectRequest"
       @confirm="rejectEmployeeRequest"
     ></request-refusal-modal>
+    <request-approve-modal
+      v-if="showApproveModal"
+      @cancel="cancelApproveRequest"
+      @close="cancelApproveRequest"
+      @confirm="approveItem"
+    ></request-approve-modal>
   </div>
 </template>
 
@@ -56,6 +62,7 @@ import { mapGetters } from "vuex";
 import {
   getPendingLeaveVacationsAdmin,
   getApproveLeaveVacationsAdmin,
+  approveLeaveVacationsAdmin,
 } from "../../utils/functions/functions_lib_api";
 import {
   getCurrentYear,
@@ -69,7 +76,9 @@ export default {
     return {
       showRefusalModal: false,
       refusalReason: null,
+      showApproveModal: false,
       rejectedRequestId: null,
+      approvedRequestId: null,
       componentKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: null,
@@ -121,9 +130,9 @@ export default {
     this.addIds = [];
     this.getCurrentYear();
     this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
+      from: this.fromDate,
+      to: this.toDate,
+    });
   },
   mounted() {
     this.dropMenuYear = this.generateYearList();
@@ -131,8 +140,9 @@ export default {
   methods: {
     getPendingLeaveVacationsAdmin,
     getApproveLeaveVacationsAdmin,
+    approveLeaveVacationsAdmin,
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     getCurrentYear,
     generateYearList,
@@ -140,16 +150,24 @@ export default {
       this.addIds.pop();
       this.showRefusalModal = false;
     },
+    cancelApproveRequest() {
+      this.addIds.pop();
+      this.showApproveModal = false;
+    },
     async enableRefusalModal(event) {
       this.showRefusalModal = true;
       this.rejectedRequestId = event;
     },
+    async enableApproveModal(event) {
+      this.showApproveModal = true;
+      this.approvedRequestId = event;
+    },
     async rejectEmployeeRequest(request) {
       await rejectRequest({ id: this.rejectedRequestId, request }).then(() => {
         this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
+          from: this.fromDate,
+          to: this.toDate,
+        });
         this.showRefusalModal = false;
         this.pendingList += 1;
       });
@@ -167,13 +185,15 @@ export default {
         to: this.toDate,
       });
     },
-    async approveItem(event) {
-      const requestIds = [event + ""];
-      await this.getApproveLeaveVacationsAdmin({ requestIds }).then(() => {
+    async approveItem(request) {
+      const payload = { id: this.approvedRequestId, request };
+      await this.approveLeaveVacationsAdmin(payload).then(() => {
         this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
+          from: this.fromDate,
+          to: this.toDate,
+        });
+        this.showApproveModal = false;
+        this.pendingList += 1;
       });
     },
     selectAllItems() {
@@ -205,9 +225,9 @@ export default {
           .map((item) => item.id);
         await this.getApproveLeaveVacationsAdmin({ requestIds });
         await this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
+          from: this.fromDate,
+          to: this.toDate,
+        });
         this.checkedAll = false;
       } else if (event == "reject") {
         this.getPendingLeaveVacationsAdmin();

@@ -6,6 +6,6 @@ export function Timesheet(timesheet) {
   }
 
   this.isLocked = () => {
-    return this.status === TIMESHEET_STATUSES.APPROVED || this.status === TIMESHEET_STATUSES.REJECTED
+    return this.status === TIMESHEET_STATUSES.APPROVED
   }
 }

@@ -43,6 +43,14 @@ export const popupNotificationMsgs = [
   {
     text:"You can't upload files of this type.",
     variant:"danger"
+  },
+  {
+    text: "Timesheet has been Approved...",
+    variant: "primary-24",
+  },
+  {
+    text: "Timesheet has been Rejected...",
+    variant: "primary-24",
   }
 ];
 export const NOTIFICATION_MESSAGES = {

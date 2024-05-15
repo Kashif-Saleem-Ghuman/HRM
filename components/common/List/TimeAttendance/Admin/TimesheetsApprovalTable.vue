@@ -117,13 +117,6 @@ const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
     message: "Are you sure you want to approve the selected timesheet?",
   },
 };
-const TIMESHEET_NOTIFICATIN_MESSAGE = {
-  approved: {
-    text: "Timesheet has been approved successfully",
-    variant: "primary-24",
-  },
-  rejected: { text: "Timesheet has been rejected", variant: "danger" },
-};
 export default {
   props: {
     dates: {
@@ -246,11 +239,11 @@ export default {
             date,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+          this.openPopupNotification(11);
           this.confirmastionMessageModal = false;
         } else {
           await approveTimesheet({ id });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+          this.openPopupNotification(11);
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
@@ -263,12 +256,12 @@ export default {
             refusalReason,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+          this.openPopupNotification(12);
           this.showRefusalModal = false;
         }else{
         await rejectTimesheet({ id, refusalReason });
         this.showRefusalModal = false;
-        this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+        this.openPopupNotification(12);
         }
       }
 

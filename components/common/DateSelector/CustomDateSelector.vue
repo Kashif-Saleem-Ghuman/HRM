@@ -43,7 +43,7 @@ export default {
     generateYearDates() {
       return {
         from: DateTime.utc(this.year).startOf("year").minus({days: 1}).toISO(),
-        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 3}).toISO(),
+        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 2}).toISO(),
       };
     },
     generateMonthDates() {
@@ -51,7 +51,7 @@ export default {
         from: DateTime.utc(this.year, Number(this.month))
           .startOf("month").startOf('week').minus({days: 1})
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 3}).toISO(),
+        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 2}).toISO(),
       };
     },
   },

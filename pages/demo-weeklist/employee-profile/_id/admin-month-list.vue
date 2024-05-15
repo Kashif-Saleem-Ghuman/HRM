@@ -31,7 +31,7 @@
                 size="sm"
                 @input="dateSelection($event)"
             ></bib-datetime-picker>
-            <div class="py-05" v-if="view.value === 'week' || view.value === 'month'">
+            <div class="py-05" v-if="view.value === 'week'">
               <button-with-overlay
                   :button-config="{ label: dateBtnLabel }"
                   v-slot="scope"
@@ -41,7 +41,6 @@
                       :dates.sync="weekDates"
                       class="custom_date_picker"
                       :format="format"
-                      @onChange="weekDateChangeInMonthView"
                       @close="
                       () => {
                         scope.close();
@@ -50,6 +49,28 @@
                     "
                       style="z-index: 999999; height: 46px"
                   ></week-date-picker>
+                </div>
+              </button-with-overlay>
+            </div>
+            <div class="py-05" v-if="view.value === 'month' && !isFullYearList">
+              <button-with-overlay
+                :button-config="{ label: dateBtnLabel }"
+                v-slot="scope"
+              >
+                <div class="pl-05">
+                  <filter-week-date-picker
+                    :dates.sync="weekDates"
+                    class="custom_date_picker"
+                    :filterDate="dates"
+                    :format="format"
+                    @close="
+                      () => {
+                        scope.close();
+                        weekSelectionInMonthView();
+                      }
+                    "
+                    style="z-index: 999999; height: 46px"
+                  ></filter-week-date-picker>
                 </div>
               </button-with-overlay>
             </div>
@@ -260,11 +281,11 @@ export default {
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
-    async generateWeekDaysEntries() {
+    async generateWeekDaysEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(this.weekDayDates.from),
-        to: new Date(this.weekDayDates.to),
+        from: new Date(isWeekRange ? this.weekDates.from : this.weekDayDates.from),
+        to: new Date(isWeekRange ? this.weekDates.to : this.weekDayDates.to),
       });
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
@@ -288,12 +309,16 @@ export default {
     },
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
+      this.weekDates = {from: from, to: to}
     },
     resetMonthView() {
       this.monthView = null;
     },
     weekDateChangeInMonthView() {
       this.monthView = 'week';
+    },
+    async weekSelectionInMonthView() {
+      await this.generateWeekDaysEntries(true);
     },
   },
   computed: {

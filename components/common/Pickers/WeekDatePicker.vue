@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 #to-date * {
   //because :disabled props doesn't work on bib-datetime-picker

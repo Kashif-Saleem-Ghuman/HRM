@@ -14,7 +14,7 @@
         <th v-if="!hideNoColumn" class="table__hrow__no">
           {{ fields[0].label }}
         </th>
-        <th v-if="type === PAST_DUE_TYPE || PENDING_TYPE" class="cell_action_header">
+        <th v-if="type === PENDING_TYPE" class="cell_action_header">
           <div v-if="$scopedSlots.cell_action" class="d-flex justify-center align-center">
             <bib-checkbox
                 size="md"

@@ -28,7 +28,6 @@
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
 import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
-import { type } from "jquery";
 
 export default {
   props: {

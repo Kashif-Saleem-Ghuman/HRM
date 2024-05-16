@@ -15,7 +15,7 @@
         :hide-no-column="true"
         :fixHeader="true"
     >
-      <template v-if="type === PAST_DUE_TYPE || PENDING_TYPE" #cell_action="data">
+      <template v-if="type === PENDING_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox
               size="md"

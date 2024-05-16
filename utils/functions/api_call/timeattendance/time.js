@@ -1,6 +1,7 @@
 import { createConfig } from "../config";
 import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 import { DateTime } from "luxon"
+import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications"
 
 export async function getTimeAttendance(payload) {
   const { date, searchString } = payload
@@ -79,7 +80,7 @@ export async function approveTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(11);
+    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
     this.openPopupNotification({
       text: e.response.data.message,
@@ -97,7 +98,8 @@ export async function rejectTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(12);
+    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+
   } catch (e) {
     this.openPopupNotification({
       text: e.response.data.message,

@@ -58,7 +58,7 @@
             </template>
           </div>
         </th>
-        <th v-if="$scopedSlots.cell_action" class="cell_action_header">
+        <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
           <div class="d-flex justify-center align-center">
             <bib-icon icon="horizontal-dots"></bib-icon>
           </div>
@@ -68,7 +68,7 @@
 
     <template v-for="(item, keyI) in sections">
       <tr class="table__irow">
-        <td colspan="10">
+        <td colspan="11">
           <div class="d-flex justify-between align-center py-025">
             <div class="" style="text-align: left">
               <div

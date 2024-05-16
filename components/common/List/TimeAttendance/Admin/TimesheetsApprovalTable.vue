@@ -290,6 +290,7 @@ export default {
 
       this.employees = employees;
       this.loading = false;
+      this.$emit("update:requestData", this.employees);
       this.$emit('update:isStatusUpdated', false);
     },
 

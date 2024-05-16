@@ -44,15 +44,14 @@ export const popupNotificationMsgs = [
     text:"You can't upload files of this type.",
     variant:"danger"
   },
-  {
-    text: "Timesheet has been Approved...",
+];
+export const TIMESHEET_NOTIFICATIN_MESSAGE = {
+  approved: {
+    text: "Timesheet has been approved successfully",
     variant: "primary-24",
   },
-  {
-    text: "Timesheet has been Rejected...",
-    variant: "primary-24",
-  }
-];
+  rejected: { text: "Timesheet has been rejected", variant: "primary-24" },
+};
 export const NOTIFICATION_MESSAGES = {
   SUCCESS_DOWNLOAD: {
     text: "File has been downloaded successfully...",

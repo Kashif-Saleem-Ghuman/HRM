@@ -102,7 +102,7 @@ import {
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
-
+import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "../../../../../utils/constant/Notifications"
 import { random } from "lodash";
 
 
@@ -239,11 +239,11 @@ export default {
             date,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(11);
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           this.confirmastionMessageModal = false;
         } else {
           await approveTimesheet({ id });
-          this.openPopupNotification(11);
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           this.confirmastionMessageModal = false;
         }
       } else if (event == TIMESHEET_STATUS["rejected"].value) {
@@ -256,12 +256,12 @@ export default {
             refusalReason,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(12);
+          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
           this.showRefusalModal = false;
         }else{
         await rejectTimesheet({ id, refusalReason });
         this.showRefusalModal = false;
-        this.openPopupNotification(12);
+        this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
         }
       }
 

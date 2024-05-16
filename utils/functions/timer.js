@@ -15,3 +15,6 @@ export function checkIsManualEntry(dailTimeEntries) {
   }
   return false;
 }
+export const getInTimeEntry = (dailyTimeEntries) => {
+  return dailyTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
+}

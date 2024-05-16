@@ -118,7 +118,7 @@ export default {
         });
 
         if (response) {
-          this.downloadFile(response.data, "attendance-report");
+          this.downloadFile(response.data, "timesheet-report");
           this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedStartDate = null;
           this.selectedEndDate = null;

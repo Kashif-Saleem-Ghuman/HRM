@@ -147,7 +147,7 @@ export default {
           });
           this.clearChronometerInterval();
         } else {
-          this.startTimerInterval();
+          this.startTimerInterval(true);
         }
     }
 

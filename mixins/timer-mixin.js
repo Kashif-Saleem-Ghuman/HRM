@@ -28,7 +28,7 @@ export default {
     }),
   },
   methods: {
-    startTimerInterval() {
+    startTimerInterval(isVisibilityChange = false) {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
         
@@ -36,28 +36,32 @@ export default {
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,
           });
-        this.chronometerInterval = setInterval(async () => {
-          const now = DateTime.local();
-          this.time = new Date().toTimeString().split(" ")[0];
-          this.date = new Date().toDateString();
-          const setCurrentDate = now.toISODate();
-          const chronometer = this.getTimerData.active && !this.getTimerData.start
-            ? 0
-            : getTimeDiffInSeconds(this.getTimerData.start, new Date());
-          if(this.getTimerData.start != 0){
-            this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-          }
-          const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
-          if (chronometer >= MAX_DURATION_TIMER) {
-            this.stopClick = true;
-            await this.stopTimer();
-            await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
-          }
-          this.timerLoading = false;
-        }, 1000);
+        if(isVisibilityChange) {
+          this.timerCallbackFunc();
+        }
+        this.chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }
     },
 
+    async timerCallbackFunc() {
+      const now = DateTime.local();
+      this.time = new Date().toTimeString().split(" ")[0];
+      this.date = new Date().toDateString();
+      const setCurrentDate = now.toISODate();
+      const chronometer = this.getTimerData.active && !this.getTimerData.start
+        ? 0
+        : getTimeDiffInSeconds(this.getTimerData.start, new Date());
+      if(this.getTimerData.start != 0){
+        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+      }
+      const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
+      if (chronometer >= MAX_DURATION_TIMER) {
+        this.stopClick = true;
+        await this.stopTimer();
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+      }
+      this.timerLoading = false;
+    },
     async stopTimer() {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running

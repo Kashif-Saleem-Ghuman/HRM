@@ -41,11 +41,16 @@ export default {
     },
 
     setAvatars(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data;
-      this.avatars = uniqBy(
-        [...birthdayEmployees, ...workAnniversaryEmployees],
-        "id"
-      );
+      try {
+        const { birthdayEmployees, workAnniversaryEmployees } = data;
+        this.avatars = uniqBy(
+          [...birthdayEmployees, ...workAnniversaryEmployees],
+          "id"
+        );
+      } catch (error) {
+        console.error("Error while setting celebration widget avatars", error);
+      }
+      
     },
   },
 };

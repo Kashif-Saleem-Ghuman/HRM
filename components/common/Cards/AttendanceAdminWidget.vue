@@ -43,8 +43,8 @@ export default {
     },
 
     setAvatars(data) {
-      const { presentEmployees, onLeave } = data;
-      this.avatars = uniqBy([...presentEmployees, ...onLeave], "id");
+      // const { presentEmployees, onLeave } = data;
+      // this.avatars = uniqBy([...presentEmployees, ...onLeave], "id");
     },
   },
 

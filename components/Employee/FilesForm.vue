@@ -70,7 +70,7 @@
         :confirmationMessage="deleteModalContent.message"
         :confirmastionMessageModal="confirmastionMessageModal"
         @close="closeconfirmastionMessageModal"
-        @delete="deleteFile($event)"
+        @on-click="deleteFile($event)"
       ></confirmation-modal>
     </div>
   </div>

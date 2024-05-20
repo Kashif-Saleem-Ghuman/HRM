@@ -20,7 +20,7 @@
           label="Confirm"
           :variant="variant || 'danger'"
           class="mr-1"
-          @click="$emit('delete')"
+          @click="$emit('on-click')"
           pill
         ></bib-button>
       </div>

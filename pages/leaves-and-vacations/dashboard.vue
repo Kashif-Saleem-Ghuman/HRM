@@ -12,11 +12,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-
-import {
-  getPendingLeaveVacationsAdmin,
-  getApproveLeaveVacationsAdmin,
-} from "../../utils/functions/functions_lib_api";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 
 export default {
@@ -50,7 +45,6 @@ export default {
   },
   mounted() {
     this.$nuxt.$emit("add-leave");
-    // this.getPendingLeaveVacationsAdmin();
     if (this.requestListData.lenghth <= 0) {
       this.noRecord = true;
     } else {
@@ -58,8 +52,6 @@ export default {
     }
   },
   methods: {
-    getPendingLeaveVacationsAdmin,
-    getApproveLeaveVacationsAdmin,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },

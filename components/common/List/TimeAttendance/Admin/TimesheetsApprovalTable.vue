@@ -69,7 +69,7 @@
       :title="deleteModalContent.title"
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
-      @delete="onStatusChange()"
+      @on-click="onStatusChange()"
       @close="closeconfirmastionMessageModal"
       :variant="variantButton"
     ></confirmation-modal>

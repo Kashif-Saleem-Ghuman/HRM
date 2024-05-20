@@ -31,7 +31,7 @@
             ></dropdown-menu-calendar>
             <dropdown-menu-calendar
               :items="dropMenuYear"
-              :label="selectedYear"
+              :label="selectedYear.toString()"
               @on-click="changeYearView($event)"
               class="mr-05"
             ></dropdown-menu-calendar>

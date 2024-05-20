@@ -1,5 +1,4 @@
 export const popupNotificationMsgs = [
-
   {
     text: "Leave Added successfully...",
     variant: "primary-24",
@@ -41,10 +40,17 @@ export const popupNotificationMsgs = [
     variant: "primary-24",
   },
   {
-    text:"You can't upload files of this type.",
-    variant:"danger"
+    text: "You can't upload files of this type.",
+    variant: "danger",
   },
 ];
+export const LEAVE_NOTIFICATIN_MESSAGE = {
+  approved: {
+    text: "Leave has been approved successfully",
+    variant: "primary-24",
+  },
+  rejected: { text: "Leave has been rejected", variant: "primary-24" },
+};
 export const TIMESHEET_NOTIFICATIN_MESSAGE = {
   approved: {
     text: "Timesheet has been approved successfully",

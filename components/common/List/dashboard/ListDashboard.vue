@@ -260,14 +260,14 @@ export default {
     },
 
     checkLeaveRequest(data){
-      if (data.requests && data.requests.length > 0) {
-        data.requests.forEach(request => {
-          this.leaveType = request.type;
-        });
-          return true;
-      }
+      // if (data.requests && data.requests.length > 0) {
+      //   data.requests.forEach(request => {
+      //     this.leaveType = request.type;
+      //   });
+      //     return true;
+      // }
 
-      return false;
+      // return false;
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];

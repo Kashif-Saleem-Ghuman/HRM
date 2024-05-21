@@ -193,8 +193,9 @@ export default {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
+      this.leaveType = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
+      const leaveRequest = this.leaveType;
       
-      const leaveRequest = this.checkLeaveRequest(data);
 
       if (leaveRequest) {
         return 'On Leave' + " - " + (this.leaveType ? this.leaveType.charAt(0).toUpperCase() + this.leaveType.slice(1) : '');
@@ -259,16 +260,18 @@ export default {
       return timezoneAbbr.get(timeZoneName);
     },
 
-    checkLeaveRequest(data){
-      if (data.requests && data.requests.length > 0) {
-        data.requests.forEach(request => {
-          this.leaveType = request.type;
-        });
-          return true;
-      }
+    // checkLeaveRequest(data){
+    //   if (data.requests && data.requests.length > 0) {
+    //     data.requests.forEach(request => {
+    //       this.leaveType = request.type;
+    //       console.log(this.leaveType, "asdkjanskdaksdkahsdkjahskdjasdhk")
 
-      return false;
-    },
+    //     });
+    //       return true;
+    //   }
+
+    //   return false;
+    // },
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in

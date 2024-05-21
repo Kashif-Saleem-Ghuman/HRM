@@ -11,7 +11,7 @@
           <div class="container pt-1 pb-1 pl-1 pr-1">
             <div class="row">
               <div class="col-4">
-                <attendance-admin-widget :employees="employees"></attendance-admin-widget>
+                <!-- <attendance-admin-widget :employees="employees"></attendance-admin-widget> -->
               </div>
               <div class="col-4">
                 <!-- <timesheets-admin-widget></timesheets-admin-widget> -->

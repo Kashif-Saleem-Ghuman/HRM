@@ -193,12 +193,9 @@ export default {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
-      this.leaveType = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
-      const leaveRequest = this.leaveType;
-      
-
+      const leaveRequest = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
       if (leaveRequest) {
-        return 'On Leave' + " - " + (this.leaveType ? this.leaveType.charAt(0).toUpperCase() + this.leaveType.slice(1) : '');
+        return 'On Leave' + " - " + (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1));
       }
       if ( inEntry && outEntry)
       {

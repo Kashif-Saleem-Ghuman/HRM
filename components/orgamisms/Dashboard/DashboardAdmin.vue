@@ -15,7 +15,7 @@
               </div>
               <div class="col-4">
                 <!-- <timesheets-admin-widget></timesheets-admin-widget> -->
-                <absent-widget avatars-position="bottom"></absent-widget>
+                <!-- <absent-widget avatars-position="bottom"></absent-widget> -->
               </div>
               <div class="col-4">
                 <celebrations-widget

@@ -193,11 +193,11 @@ export default {
       this.disableModal();
     },
     async handleApproveMultiple(requestIds) {
-      await this.approveTimesheets({ requestIds });
+      await this.approveTimesheets({ timesheetIds: requestIds });
     },
 
     async handleRejectMultiple(requestIds) {
-      await this.rejectTimesheets({requestIds});
+      await this.rejectTimesheets({timesheetIds: requestIds});
     },
 
     async handleApproveSingle(request) {

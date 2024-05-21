@@ -18,9 +18,9 @@
                 <!-- <absent-widget avatars-position="bottom"></absent-widget> -->
               </div>
               <div class="col-4">
-                <celebrations-widget
+                <!-- <celebrations-widget
                   avatars-position="center"
-                ></celebrations-widget>
+                ></celebrations-widget> -->
               </div>
             </div>
           </div>
@@ -78,16 +78,16 @@ export default {
   },
   methods: {
     async getOrganizationEntries() {
-      const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
+      // const date = this.getCurrentDate;
+      // const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
 
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("day");
-      });
+      // employees.forEach((employee) => {
+      //   const parser = new TimesheetParser(employee);
+      //   return parser.parse("day");
+      // });
 
-      this.employees = employees;
-      this.loading = false
+      // this.employees = employees;
+      // this.loading = false
     },
   },
 };

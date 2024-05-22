@@ -74,17 +74,7 @@ import {
   rejectTimesheet,
   rejectTimesheets
 } from "@/utils/functions/api_call/timeattendance/time";
-import {TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications";
-const TIMESHEET_CONFIRMATION_MESSAGE = {
-  approved: {
-    title: "Approve Timesheet Request",
-    message: "Are you sure you want to approve the selected timesheet?",
-  },
-  rejected: {
-    title: "Reject Request",
-    message: "Are you sure you want to reject the selected timesheet?",
-  },
-};
+import {TIMESHEET_NOTIFICATIN_MESSAGE, TIMESHEET_CONFIRMATION_MESSAGE} from "@/utils/constant/Notifications";
 export default {
   data() {
     return {

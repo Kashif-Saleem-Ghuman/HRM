@@ -7,43 +7,50 @@
         <div class="custom_date_picker">
           <date-selector :dates.sync="dates" />
         </div>
-        <div class="ml-05 d-flex align-center" v-show="showMultiRecordActionButton">
+        <div
+          class="ml-05 d-flex align-center"
+          v-show="showMultiRecordActionButton"
+        >
           <bib-button
-              :icon="$button.approved_g.icon"
-              :variant="$button.approved_g.variant"
-              :scale="$button.approved_g.scale"
-              :label="$button.approved_g.label"
-              @click="enableModal($event, 'approveMultiple')"
+            :icon="$button.approved_g.icon"
+            :variant="$button.approved_g.variant"
+            :scale="$button.approved_g.scale"
+            :label="$button.approved_g.label"
+            @click="enableModal($event, 'approveMultiple')"
           ></bib-button>
         </div>
-        <div class="ml-05 d-flex align-center" v-show="showMultiRecordActionButton">
+        <div
+          class="ml-05 d-flex align-center"
+          v-show="showMultiRecordActionButton"
+        >
           <bib-button
-              :icon="$button.rejected.icon"
-              :variant="$button.rejected.variant"
-              :scale="$button.rejected.scale"
-              :label="$button.rejected.label"
-              @click="enableModal($event, 'rejectMultiple')"
+            :icon="$button.rejected.icon"
+            :variant="$button.rejected.variant"
+            :scale="$button.rejected.scale"
+            :label="$button.rejected.label"
+            @click="enableModal($event, 'rejectMultiple')"
           ></bib-button>
         </div>
       </div>
 
-
       <div class="d-flex align-center">
-        <search-input :on-change-fn="onSearchChange" :debounce-ms="300"></search-input>
+        <search-input
+          :on-change-fn="onSearchChange"
+          :debounce-ms="300"
+        ></search-input>
       </div>
     </div>
     <div class="scroll_wrapper">
       <div>
         <timesheets-approval-table
-
           v-if="dates.from && dates.to"
-            type="past_due"
-            :dates.sync="dates"
-            :requestData.sync="requestData"
-            :searchString="searchString"
-            :isStatusUpdated.sync="isStatusUpdated"
-            @reject-item="enableModal($event, 'rejectSingle')"
-            @approve-item="enableModal($event, 'approveSingle')"
+          type="past_due"
+          :dates.sync="dates"
+          :requestData.sync="requestData"
+          :searchString="searchString"
+          :isStatusUpdated.sync="isStatusUpdated"
+          @reject-item="enableModal($event, 'rejectSingle')"
+          @approve-item="enableModal($event, 'approveSingle')"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -51,6 +58,7 @@
       v-if="showRefusalModal"
       @cancel="disableModal"
       @close="disableModal"
+      title="Reject Timesheet/Request"
       @confirm="actionPerformOnRequest"
     ></request-refusal-modal>
     <request-approve-modal
@@ -63,7 +71,7 @@
       :title="confirmationPopupData?.title"
       :confirmationMessage="confirmationPopupData?.message"
       :confirmastionMessageModal="confirmastionMessageModal"
-      @on-click ="actionPerformOnRequest"
+      @on-click="actionPerformOnRequest"
       @close="disableModal"
       :variant="variantButton"
     ></confirmation-modal>
@@ -79,7 +87,10 @@ import {
   approveTimesheet,
   rejectTimesheet,
 } from "@/utils/functions/api_call/timeattendance/time";
-import {TIMESHEET_NOTIFICATIN_MESSAGE, TIMESHEET_CONFIRMATION_MESSAGE} from "@/utils/constant/Notifications";
+import {
+  TIMESHEET_NOTIFICATIN_MESSAGE,
+  TIMESHEET_CONFIRMATION_MESSAGE,
+} from "@/utils/constant/Notifications";
 export default {
   data() {
     return {
@@ -101,14 +112,16 @@ export default {
   computed: {
     showMultiRecordActionButton() {
       return (
-          this.requestData?.length &&
-          this.requestData?.some((employee) => employee?.timesheets?.some((timesheet) => timesheet.checked))
+        this.requestData?.length &&
+        this.requestData?.some((employee) =>
+          employee?.timesheets?.some((timesheet) => timesheet.checked)
+        )
       );
     },
   },
   methods: {
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     pastDueBatchApproveTimesheets,
     pastDueBatchRejectTimesheets,
@@ -117,20 +130,20 @@ export default {
     approveTimesheet,
     rejectTimesheet,
     onSearchChange(value) {
-      this.searchString = value
+      this.searchString = value;
     },
     async pendingMultiRequestHandler(event) {
       const timesheetIds = this.requestData
-          .flatMap((item) => item.timesheets)
-          .filter((timesheet) => timesheet.checked)
-          .map((timesheet) => timesheet.id);
-      if(timesheetIds?.length <= 0){
+        .flatMap((item) => item.timesheets)
+        .filter((timesheet) => timesheet.checked)
+        .map((timesheet) => timesheet.id);
+      if (timesheetIds?.length <= 0) {
         return;
       }
       if (event == "approve") {
         await this.approveTimesheets({ timesheetIds });
       } else if (event == "reject") {
-        await this.rejectTimesheets({timesheetIds});
+        await this.rejectTimesheets({ timesheetIds });
       }
       this.isStatusUpdated = true;
     },
@@ -141,20 +154,29 @@ export default {
       this.confirmastionMessageModal = false;
     },
     async enableModal(timesheetReq, event) {
+      const checkedCount = this.requestData
+        .flatMap((employee) => employee.timesheets)
+        .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approved;
+          this.confirmationPopupData =
+            checkedCount > 1
+              ? TIMESHEET_CONFIRMATION_MESSAGE.approved
+              : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
           this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.rejected;
+          this.confirmationPopupData =
+            checkedCount > 1
+              ? TIMESHEET_CONFIRMATION_MESSAGE.rejected
+              : TIMESHEET_CONFIRMATION_MESSAGE.rejectedSingle;
           this.variantButton = "danger";
           break;
         case "approveSingle":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approved;
+          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
           this.variantButton = "primary-24";
           break;
         default:
@@ -166,7 +188,6 @@ export default {
       this.timesheetReq = timesheetReq;
     },
     async actionPerformOnRequest(request) {
-
       let type = this.actionToPerformOnButton;
       const timesheets = this.requestData
         .flatMap((item) => item.timesheets)
@@ -175,7 +196,6 @@ export default {
           employeeId: timesheet.employeeId,
           date: timesheet.end,
         }));
-
 
       switch (type) {
         case "approveMultiple":
@@ -199,36 +219,42 @@ export default {
       this.disableModal();
     },
     async handleApproveMultiple(timesheets) {
-      await this.pastDueBatchApproveTimesheets({timesheets: timesheets});
+      await this.pastDueBatchApproveTimesheets({ timesheets: timesheets });
     },
 
     async handleRejectMultiple(timesheets) {
-      await this.pastDueBatchRejectTimesheets({timesheets: timesheets});
+      await this.pastDueBatchRejectTimesheets({ timesheets: timesheets });
     },
 
     async handleApproveSingle(request) {
-      if(this.id != "-1") {
-        await this.approveTimesheet({id: this.id});
-      }else {
+      if (this.id != "-1") {
+        await this.approveTimesheet({ id: this.id });
+      } else {
         await this.approvePastDueTimesheet(this.timesheetReq);
       }
       this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
     },
 
     async handleRejectSingle(request) {
-      if(this.id != "-1"){
-        const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
+      if (this.id != "-1") {
+        const rejectPayload = {
+          id: this.id,
+          refusalReason: request.refusalReason,
+        };
         await this.rejectTimesheet(rejectPayload);
-      }else {
-        const rejectPayload = { id: this.timesheetReq.id, refusalReason: request.refusalReason, employeeId: this.timesheetReq.employeeId, date: this.timesheetReq.date };
+      } else {
+        const rejectPayload = {
+          id: this.timesheetReq.id,
+          refusalReason: request.refusalReason,
+          employeeId: this.timesheetReq.employeeId,
+          date: this.timesheetReq.date,
+        };
         await this.rejectPastDueTimesheet(rejectPayload);
       }
       this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
     },
   },
-
 };
 </script>
 
-<style>
-</style>
+<style></style>

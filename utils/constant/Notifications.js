@@ -85,8 +85,16 @@ export const TIMESHEET_CONFIRMATION_MESSAGE = {
     title: "Approve Timesheets/Requests",
     message: "Are you sure you want to approve the selected Timesheets/Requests?",
   },
+  approvedSingle: {
+    title: "Approve Timesheet/Request",
+    message: "Are you sure you want to approve the selected Timesheet/Request?",
+  },
   rejected: {
     title: "Reject Timesheets/Requests",
     message: "Are you sure you want to reject the selected Timesheets/Requests?",
+  },
+  rejectedSingle: {
+    title: "Reject Timesheet/Request",
+    message: "Are you sure you want to reject the selected Timesheet/Request?",
   },
 };

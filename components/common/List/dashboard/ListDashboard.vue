@@ -193,11 +193,9 @@ export default {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
-      
-      const leaveRequest = this.checkLeaveRequest(data);
-
+      const leaveRequest = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
       if (leaveRequest) {
-        return 'On Leave' + " - " + (this.leaveType ? this.leaveType.charAt(0).toUpperCase() + this.leaveType.slice(1) : '');
+        return 'On Leave' + " - " + (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1));
       }
       if ( inEntry && outEntry)
       {
@@ -259,16 +257,18 @@ export default {
       return timezoneAbbr.get(timeZoneName);
     },
 
-    checkLeaveRequest(data){
-      if (data.requests && data.requests.length > 0) {
-        data.requests.forEach(request => {
-          this.leaveType = request.type;
-        });
-          return true;
-      }
+    // checkLeaveRequest(data){
+    //   if (data.requests && data.requests.length > 0) {
+    //     data.requests.forEach(request => {
+    //       this.leaveType = request.type;
+    //       console.log(this.leaveType, "asdkjanskdaksdkahsdkjahskdjasdhk")
 
-      return false;
-    },
+    //     });
+    //       return true;
+    //   }
+
+    //   return false;
+    // },
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in

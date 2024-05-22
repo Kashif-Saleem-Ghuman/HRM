@@ -33,8 +33,13 @@ export default {
       ]
     },
     setAvatars(data) {
-      const { pending, rejected } = data
-      this.avatars =  uniqBy([...pending, ...rejected], 'id')
+      try {
+        const { pending, rejected } = data
+        this.avatars =  uniqBy([...pending, ...rejected], 'id')
+      } catch (error) {
+        console.error("Error while setting timesheet widget avatars", error);
+      }
+      
     }
   }
 }

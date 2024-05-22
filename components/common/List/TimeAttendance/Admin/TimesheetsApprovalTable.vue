@@ -15,12 +15,12 @@
         :hide-no-column="true"
         :fixHeader="true"
     >
-      <template v-if="type === PENDING_TYPE" #cell_action="data">
+      <template v-if="type === PENDING_TYPE || type === PAST_DUE_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox
               size="md"
               :key="data.items.id"
-              @change="handleItemChecked({ id: data.items.id, key: data.items.id })"
+              @change="handleItemChecked(data.items)"
               :checked="data.items.checked"
           ></bib-checkbox>
         </div>
@@ -180,9 +180,9 @@ export default {
     },
     actionConfirmation(event, data) {
       if (event.key === "approved") {
-        this.$emit('approve-item', data.value.id);
+        this.$emit('approve-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
       } else if(event.key === 'rejected') {
-        this.$emit('reject-item', data.value.id);
+        this.$emit('reject-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
       }
     },
     cancelRejectRequest() {
@@ -291,13 +291,15 @@ export default {
       });
       this.$emit("update:requestData", this.employees);
     },
-    handleItemChecked({ id }) {
-      console.log("id", id);
+    handleItemChecked(timesheetEntries) {
+      const {employeeId, id, end} = timesheetEntries;
       let timesheetIndex = -1;
       let employeeIndex = -1;
 
       this.employees.some((employee, index) => {
-        const foundTimesheetIndex = employee.timesheets.findIndex((timesheet) => timesheet.id === id);
+        const foundTimesheetIndex = employee.timesheets.findIndex((timesheet) => timesheet.id === id &&
+          timesheet.end == end &&
+          timesheet.employeeId == employeeId);
         if (foundTimesheetIndex !== -1) {
           timesheetIndex = foundTimesheetIndex;
           employeeIndex = index;

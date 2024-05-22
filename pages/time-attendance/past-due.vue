@@ -71,7 +71,14 @@
 </template>
 
 <script>
-import {approveTimesheets, rejectTimesheets, rejectTimesheet, approveTimesheet} from "@/utils/functions/api_call/timeattendance/time";
+import {
+  pastDueBatchApproveTimesheets,
+  pastDueBatchRejectTimesheets,
+  approvePastDueTimesheet,
+  rejectPastDueTimesheet,
+  approveTimesheet,
+  rejectTimesheet,
+} from "@/utils/functions/api_call/timeattendance/time";
 import {TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications";
 
 const TIMESHEET_CONFIRMATION_MESSAGE = {
@@ -99,6 +106,7 @@ export default {
       confirmationPopupData: null,
       variantButton: "",
       id: null,
+      timesheetReq: null,
     };
   },
   computed: {
@@ -113,8 +121,12 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
-    approveTimesheets,
-    rejectTimesheets,
+    pastDueBatchApproveTimesheets,
+    pastDueBatchRejectTimesheets,
+    approvePastDueTimesheet,
+    rejectPastDueTimesheet,
+    approveTimesheet,
+    rejectTimesheet,
     onSearchChange(value) {
       this.searchString = value
     },
@@ -139,7 +151,7 @@ export default {
       this.showRefusalModal = false;
       this.confirmastionMessageModal = false;
     },
-    async enableModal(id, event) {
+    async enableModal(timesheetReq, event) {
       switch (event) {
         case "approveMultiple":
           this.confirmastionMessageModal = true;
@@ -161,22 +173,27 @@ export default {
           break;
       }
       this.actionToPerformOnButton = event;
-      this.id = id;
+      this.id = timesheetReq?.id;
+      this.timesheetReq = timesheetReq;
     },
     async actionPerformOnRequest(request) {
 
       let type = this.actionToPerformOnButton;
-      const timesheetIds = this.requestData
+      const timesheets = this.requestData
         .flatMap((item) => item.timesheets)
         .filter((timesheet) => timesheet.checked)
-        .map((timesheet) => timesheet.id);
+        .map((timesheet) => ({
+          employeeId: timesheet.employeeId,
+          date: timesheet.end,
+        }));
+
 
       switch (type) {
         case "approveMultiple":
-          await this.handleApproveMultiple(timesheetIds);
+          await this.handleApproveMultiple(timesheets);
           break;
         case "rejectMultiple":
-          await this.handleRejectMultiple(timesheetIds);
+          await this.handleRejectMultiple(timesheets);
           break;
         case "approveSingle":
           await this.handleApproveSingle(request);
@@ -192,22 +209,31 @@ export default {
       this.checkedAll = false;
       this.disableModal();
     },
-    async handleApproveMultiple(requestIds) {
-      await this.approveTimesheets({ timesheetIds: requestIds });
+    async handleApproveMultiple(timesheets) {
+      await this.pastDueBatchApproveTimesheets({timesheets: timesheets});
     },
 
-    async handleRejectMultiple(requestIds) {
-      await this.rejectTimesheets({timesheetIds: requestIds});
+    async handleRejectMultiple(timesheets) {
+      await this.pastDueBatchRejectTimesheets({timesheets: timesheets});
     },
 
     async handleApproveSingle(request) {
-      await approveTimesheet({id: this.id});
+      if(this.id != "-1") {
+        await this.approveTimesheet({id: this.id});
+      }else {
+        await this.approvePastDueTimesheet(this.timesheetReq);
+      }
       this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
     },
 
     async handleRejectSingle(request) {
-      const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
-      await rejectTimesheet(rejectPayload);
+      if(this.id != "-1"){
+        const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
+        await this.rejectTimesheet(rejectPayload);
+      }else {
+        const rejectPayload = { id: this.timesheetReq.id, refusalReason: request.refusalReason, employeeId: this.timesheetReq.employeeId, date: this.timesheetReq.date };
+        await this.rejectPastDueTimesheet(rejectPayload);
+      }
       this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
     },
   },

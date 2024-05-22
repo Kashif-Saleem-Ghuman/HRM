@@ -34,7 +34,7 @@
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
-      @delete="$emit('vfileRemove')"
+      @on-click="$emit('vfileRemove')"
     ></confirmation-modal>
   </div>
 </template>

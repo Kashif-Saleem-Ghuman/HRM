@@ -1,5 +1,7 @@
 import { createConfig } from "../../config";
 import { hrmApiAxiosInstance } from "../../hrm-api-axios-instance";
+import { LEAVE_NOTIFICATIN_MESSAGE } from '../../../functions_lib'
+
 export async function getPendingLeaveVacationsAdmin(payload) {
   // this.loading = true;
   try {
@@ -25,7 +27,7 @@ export async function getPendingLeaveVacationsAdmin(payload) {
   }
 }
 
-export async function getApproveLeaveVacationsAdmin({ requestIds }) {
+export async function multiApproveLeaveRequests({requestIds}) {  
   try {
     const url = '/requests/admin/approve'
     const requestId = {requestIds}
@@ -36,7 +38,7 @@ export async function getApproveLeaveVacationsAdmin({ requestIds }) {
      config
     );
     this.$nuxt.$emit("pending-key");
-    this.openPopupNotification(2);
+    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
     this.openPopupNotification({
@@ -46,7 +48,7 @@ export async function getApproveLeaveVacationsAdmin({ requestIds }) {
   }
 }
 
-export async function approveLeaveVacationsAdmin(payload) {
+export async function approveLeaveRequest(payload) {
   const { id, request } = payload;
   try {
     const url = `/requests/admin/approve/${id}`
@@ -57,7 +59,7 @@ export async function approveLeaveVacationsAdmin(payload) {
      config
     );
     this.$nuxt.$emit("pending-key");
-    this.openPopupNotification(2);
+    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
     this.openPopupNotification({

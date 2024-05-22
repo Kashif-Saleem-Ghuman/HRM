@@ -31,7 +31,7 @@ import {
 } from "../functions/form_update.js";
 
 import { meetLink, makeCall } from "../../utils/functions/api_call/meet";
-
+import { LEAVE_NOTIFICATIN_MESSAGE } from '../../utils/constant/Notifications.js'
 // Export all imported functions
 export {
   // From app_wrap_functions.js
@@ -65,4 +65,7 @@ export {
   // From meet.js
   meetLink,
   makeCall,
+
+  // Notification
+  LEAVE_NOTIFICATIN_MESSAGE
 };

@@ -108,7 +108,7 @@
           :variant="$button.approved_g.variant"
           :scale="$button.approved_g.scale"
           :label="$button.approved_g.label"
-          class="mr-05 w-50"
+          class="mr-05"
           @click="$emit('approve-item', data.value.id)"
         ></bib-button>
         <bib-button
@@ -116,7 +116,7 @@
           :variant="$button.rejected.variant"
           :scale="$button.rejected.scale"
           :label="$button.rejected.label"
-          class="mr-05 w-50"
+          class="mr-05"
           @click="$emit('reject-item', data.value.id)"
         ></bib-button>
       </div>

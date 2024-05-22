@@ -26,23 +26,27 @@ import {
   } from "./api_call/timeattendance/timesheets";
   import {
     getPendingLeaveVacationsAdmin,
-    getApproveLeaveVacationsAdmin,
-    approveLeaveVacationsAdmin
+    multiApproveLeaveRequests,
+    approveLeaveRequest
   } from "./api_call/leavesvacations/requestadmin";
   import {
     addLeaveVacations,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
   } from "./api_call/leavesvacations/requestuser";
-  
+  import {
+    multipleRejectRequest,
+    rejectLeaveRequest,
+  } from "./api_call/requests";
   export {
     employeeTime,
 
     // leave vacations admin functions
     getPendingLeaveVacationsAdmin,
-    getApproveLeaveVacationsAdmin,
-    approveLeaveVacationsAdmin,
-
+    multiApproveLeaveRequests,
+    approveLeaveRequest,
+    multipleRejectRequest,
+    rejectLeaveRequest,
     // leave vacations user functions
     addLeaveVacations,
     deleteLevaeVacation,

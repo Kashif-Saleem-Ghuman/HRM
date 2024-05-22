@@ -2,13 +2,12 @@
 <template>
   <div id="pending-request-wrapper">
     <loader :loading="loading"></loader>
-
     <div class="" id="pending_request_wrapper">
       <div class="d-flex jutify-between">
         <div class="align-center nav_wrapper px-05 py-05 bottom_border_wrapper">
           <dropdown-menu-calendar
             :items="dropMenuYear"
-            :label="selectedYear"
+            :label="selectedYear.toString()"
             icon="arrowhead-down"
             @on-click="changeYearView($event)"
             className="button-wrapper__bgblack"
@@ -20,7 +19,15 @@
             :variant="$button.approved_g.variant"
             :scale="$button.approved_g.scale"
             :label="$button.approved_g.label"
-            @click="pendingApproveRequest('approve')"
+            @click="enableModal($event, 'approveMultiple')"
+            class="mr-05"
+          ></bib-button>
+          <bib-button
+            :icon="$button.rejected.icon"
+            :variant="$button.rejected.variant"
+            :scale="$button.rejected.scale"
+            :label="$button.rejected.label"
+            @click="enableModal($event, 'rejectMultiple')"
           ></bib-button>
         </div>
       </div>
@@ -34,8 +41,8 @@
             :key="pendingList"
             :checked="checked"
             :checkedAll="checkedAll"
-            @reject-item="enableRefusalModal"
-            @approve-item="enableApproveModal"
+            @reject-item="enableModal($event, 'rejectSingle')"
+            @approve-item="enableModal($event, 'approveSingle')"
             @item-checked="handleItemChecked"
           ></list-pending>
         </div>
@@ -43,16 +50,24 @@
     </div>
     <request-refusal-modal
       v-if="showRefusalModal"
-      @cancel="cancelRejectRequest"
-      @close="cancelRejectRequest"
-      @confirm="rejectEmployeeRequest"
+      @cancel="disableModal"
+      @close="disableModal"
+      @confirm="actionPerformOnRequest"
     ></request-refusal-modal>
     <request-approve-modal
       v-if="showApproveModal"
-      @cancel="cancelApproveRequest"
-      @close="cancelApproveRequest"
-      @confirm="approveItem"
+      @cancel="disableModal"
+      @close="disableModal"
+      @confirm="actionPerformOnRequest"
     ></request-approve-modal>
+    <confirmation-modal
+      :title="confirmationPopupData?.title"
+      :confirmationMessage="confirmationPopupData?.message"
+      :confirmastionMessageModal="confirmastionMessageModal"
+      @on-click ="actionPerformOnRequest"
+      @close="disableModal"
+      :variant="variantButton"
+    ></confirmation-modal>
   </div>
 </template>
 
@@ -61,24 +76,34 @@ import { mapGetters } from "vuex";
 
 import {
   getPendingLeaveVacationsAdmin,
-  getApproveLeaveVacationsAdmin,
-  approveLeaveVacationsAdmin,
+  multiApproveLeaveRequests,
+  approveLeaveRequest,
+  multipleRejectRequest,
+  rejectLeaveRequest,
 } from "../../utils/functions/functions_lib_api";
 import {
   getCurrentYear,
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
-import { rejectRequest } from "@/utils/functions/api_call/requests";
-
+const LEAVE_CONFIRMATION_MESSAGE = {
+  approved: {
+    title: "Approve Leave Requests",
+    message: "Are you sure you want to approve the selected Leaves?",
+  },
+  rejected: {
+    title: "Reject Leave Requests",
+    message: "Are you sure you want to reject the selected Leaves?",
+  },
+};
 export default {
   data() {
     return {
       showRefusalModal: false,
       refusalReason: null,
       showApproveModal: false,
-      rejectedRequestId: null,
-      approvedRequestId: null,
+      confirmastionMessageModal: false,
+      id: null,
       componentKey: 0,
       leaveVacation: LEAVEVACATION_TAB,
       activeTab: null,
@@ -96,6 +121,9 @@ export default {
       selectedYear: new Date().getFullYear(),
       fromDate: "",
       toDate: "",
+      actionToPerformOnButton: null,
+      confirmationPopupData: null,
+      variantButton: null,
     };
   },
   computed: {
@@ -121,12 +149,8 @@ export default {
     },
   },
   async created() {
-    this.$root.$on("update-key", () => {
-      this.componentKey += 1;
-    });
-    this.$root.$on("pending-key", () => {
-      this.pendingList += 1;
-    });
+    this.$root.$on("update-key", () => this.componentKey++);
+    this.$root.$on("pending-key", () => this.pendingList++);
     this.addIds = [];
     this.getCurrentYear();
     this.getPendingLeaveVacationsAdmin({
@@ -139,66 +163,31 @@ export default {
   },
   methods: {
     getPendingLeaveVacationsAdmin,
-    getApproveLeaveVacationsAdmin,
-    approveLeaveVacationsAdmin,
+    multiApproveLeaveRequests,
+    approveLeaveRequest,
+    multipleRejectRequest,
+    rejectLeaveRequest,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
     getCurrentYear,
     generateYearList,
-    cancelRejectRequest() {
-      this.addIds.pop();
-      this.showRefusalModal = false;
-    },
-    cancelApproveRequest() {
-      this.addIds.pop();
-      this.showApproveModal = false;
-    },
-    async enableRefusalModal(event) {
-      this.showRefusalModal = true;
-      this.rejectedRequestId = event;
-    },
-    async enableApproveModal(event) {
-      this.showApproveModal = true;
-      this.approvedRequestId = event;
-    },
-    async rejectEmployeeRequest(request) {
-      await rejectRequest({ id: this.rejectedRequestId, request }).then(() => {
-        this.getPendingLeaveVacationsAdmin({
-          from: this.fromDate,
-          to: this.toDate,
-        });
-        this.showRefusalModal = false;
-        this.pendingList += 1;
-      });
-      this.openPopupNotification(3);
-    },
+
     async changeYearView(e) {
       this.selectedYear = e.label;
       this.getCurrentYear();
-      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      const dateRange = {
         from: this.fromDate,
         to: this.toDate,
-      });
-      await this.getPendingLeaveVacationsAdmin({
-        from: this.fromDate,
-        to: this.toDate,
-      });
-    },
-    async approveItem(request) {
-      const payload = { id: this.approvedRequestId, request };
-      await this.approveLeaveVacationsAdmin(payload).then(() => {
-        this.getPendingLeaveVacationsAdmin({
-          from: this.fromDate,
-          to: this.toDate,
-        });
-        this.showApproveModal = false;
-        this.pendingList += 1;
-      });
+      };
+      await this.$store.dispatch(
+        "leavevacation/setActiveFromToDate",
+        dateRange
+      );
+      await this.getPendingLeaveVacationsAdmin(dateRange);
     },
     selectAllItems() {
       this.checkedAll = !this.checkedAll;
-
       this.requestListData.forEach((item, index) => {
         this.$set(this.requestListData[index], "checked", this.checkedAll);
       });
@@ -207,34 +196,97 @@ export default {
       const requestIndex = this.requestListData.findIndex(
         (item) => item.id === id
       );
-
+      this.id = id;
       if (requestIndex === -1) {
         console.error(`Request with id ${id} not found`);
         return;
       }
-
       const request = this.requestListData[requestIndex];
       this.$set(request, "checked", !request.checked);
 
       this.checkedAll = this.requestListData.every((item) => item.checked);
     },
-    async pendingApproveRequest(event) {
-      if (event == "approve") {
-        const requestIds = this.requestListData
-          .filter((item) => item.checked)
-          .map((item) => item.id);
-        await this.getApproveLeaveVacationsAdmin({ requestIds });
-        await this.getPendingLeaveVacationsAdmin({
-          from: this.fromDate,
-          to: this.toDate,
-        });
-        this.checkedAll = false;
-      } else if (event == "reject") {
-        this.getPendingLeaveVacationsAdmin();
-      }
+    disableModal() {
+      this.addIds.pop();
+      this.showApproveModal = false;
+      this.showRefusalModal = false;
+      this.confirmastionMessageModal = false;
     },
+    async enableModal(id, event) {
+      switch (event) {
+        case "approveMultiple":
+          this.confirmastionMessageModal = true;
+          this.confirmationPopupData = LEAVE_CONFIRMATION_MESSAGE.approved;
+          this.variantButton = "primary-24";
+          break;
+        case "rejectMultiple":
+          this.confirmastionMessageModal = true;
+          this.confirmationPopupData = LEAVE_CONFIRMATION_MESSAGE.rejected;
+          this.variantButton = "danger";
+          break;
+        case "approveSingle":
+          this.showApproveModal = true;
+          break;
+        default:
+          this.showRefusalModal = true;
+          break;
+      }
+      this.actionToPerformOnButton = event;
+      this.id = id;
+    },
+    async actionPerformOnRequest(request) {
+      let type = this.actionToPerformOnButton;
+      const requestIds = this.requestListData
+        .filter((item) => item.checked)
+        .map((item) => item.id);
+
+      switch (type) {
+        case "approveMultiple":
+          await this.handleApproveMultiple(requestIds);
+          break;
+        case "rejectMultiple":
+          await this.handleRejectMultiple(requestIds);
+          break;
+        case "approveSingle":
+          await this.handleApproveSingle(request);
+          break;
+        case "rejectSingle":
+          await this.handleRejectSingle(request);
+          break;
+        default:
+          console.error("Unknown action type");
+          break;
+      }
+
+      await this.getPendingLeaveVacationsAdmin({
+        from: this.fromDate,
+        to: this.toDate,
+      });
+      this.checkedAll = false;
+      this.disableModal();
+    },
+
+    async handleApproveMultiple(requestIds) {
+      const approveMultiPayload = { requestIds };
+      await this.multiApproveLeaveRequests(approveMultiPayload);
+    },
+
+    async handleRejectMultiple(requestIds) {
+      await this.multipleRejectRequest({ requestIds });
+    },
+
+    async handleApproveSingle(request) {
+      const approvePayload = { id: this.id, request };
+      await this.approveLeaveRequest(approvePayload);
+    },
+
+    async handleRejectSingle(request) {
+      const rejectPayload = { id: this.id, request };
+      await this.rejectLeaveRequest(rejectPayload);
+    },
+  },
+  beforeDestroy() {
+    this.$root.$off();
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

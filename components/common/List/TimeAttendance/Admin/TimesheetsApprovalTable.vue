@@ -60,25 +60,11 @@
           <dropdown-menu-chip
             :items="timesheetStatusOptions.slice(1)"
             :button-config="statusButtonConfig"
-            @on-click="deleteConfirmation($event, data)"
+            @on-click="actionConfirmation($event, data)"
           ></dropdown-menu-chip>
         </div>
       </template>
     </custom-table-day-view>
-    <confirmation-modal
-      :title="deleteModalContent.title"
-      :confirmationMessage="deleteModalContent.message"
-      :confirmastionMessageModal="confirmastionMessageModal"
-      @delete="onStatusChange()"
-      @close="closeconfirmastionMessageModal"
-      :variant="variantButton"
-    ></confirmation-modal>
-    <request-refusal-modal
-      v-if="showRefusalModal"
-      @cancel="cancelRejectRequest"
-      @close="cancelRejectRequest"
-      @confirm="onStatusChange"
-    ></request-refusal-modal>
   </div>
 </template>
 
@@ -192,23 +178,12 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
-    deleteConfirmation(event, data) {
-      this.event = event;
-      this.data = data;
+    actionConfirmation(event, data) {
       if (event.key === "approved") {
-        this.confirmastionMessageModal = true;
-        this.showRefusalModal = false;
-        this.deleteModalContent =
-          TIMESHEET_DELETE_CONFIRMATION_MESSAGE.approved;
-        this.variantButton = "success";
-        return;
-      } else {
-        // this.deleteModalContent =
-        //   TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
-        this.enableRefusalModal()
+        this.$emit('approve-item', data.value.id);
+      } else if(event.key === 'rejected') {
+        this.$emit('reject-item', data.value.id);
       }
-
-      return;
     },
     cancelRejectRequest() {
       // this.addIds.pop();

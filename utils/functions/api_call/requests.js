@@ -2,7 +2,7 @@ import { createConfig } from "./config";
 import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
 import { generateRequestSelectedDays } from "../../requests/request-selected-days";
 import { DateTime } from "luxon";
-
+import { LEAVE_NOTIFICATIN_MESSAGE } from '../functions_lib'
 export async function createRequest(payload) {
   const { request } = payload;
 
@@ -20,8 +20,28 @@ export async function createRequest(payload) {
     console.error(e);
   }
 }
+export async function multipleRejectRequest({ requestIds }) {
+  try {
+    const url = '/requests/admin/batch-reject'
+    const requestId = {requestIds}
+    const config = createConfig()
+    const rejectLeaveVacationsAdmin = await hrmApiAxiosInstance.put(
+     url,
+     requestId,
+     config
+    );
+    this.$nuxt.$emit("pending-key");
+    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.rejected);
+    this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
 
-export async function rejectRequest(payload) {
+export async function rejectLeaveRequest(payload) {
   const { id, request } = payload;
 
   try {
@@ -34,6 +54,7 @@ export async function rejectRequest(payload) {
     console.error(e);
   }
 }
+
 export async function editRequest(payload) {
   const { id } = payload;
   var data = payload;

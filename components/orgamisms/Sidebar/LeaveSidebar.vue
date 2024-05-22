@@ -65,7 +65,7 @@
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
-      @delete="deleteLevaeVacation(leaveStatus.id)"
+      @on-click="deleteLevaeVacation(leaveStatus.id)"
     ></confirmation-modal>
   </div>
 </template>
@@ -127,6 +127,7 @@ export default {
       confirmastionMessageModal: false,
       deleteModalContent: DELETE_MESSAGE[1],
       isHalfDay: null,
+      leaveTypeActiveValue: "",
     };
   },
   created() {

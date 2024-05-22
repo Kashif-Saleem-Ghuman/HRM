@@ -39,7 +39,7 @@
         :confirmationMessage="deleteModalContent.message"
         :confirmastionMessageModal="confirmastionMessageModal"
         @close="closeconfirmastionMessageModal"
-        @delete="deleteSpecificEntry"
+        @on-click="deleteSpecificEntry"
       ></confirmation-modal>
     </div>
   </div>

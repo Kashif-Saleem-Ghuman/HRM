@@ -22,7 +22,7 @@ export async function createRequest(payload) {
 }
 export async function multipleRejectRequest({ requestIds }) {
   try {
-    const url = '/requests/admin/reject'
+    const url = '/requests/admin/batch-reject'
     const requestId = {requestIds}
     const config = createConfig()
     const rejectLeaveVacationsAdmin = await hrmApiAxiosInstance.put(

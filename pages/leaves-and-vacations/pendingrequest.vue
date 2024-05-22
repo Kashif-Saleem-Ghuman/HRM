@@ -242,10 +242,10 @@ export default {
 
       switch (type) {
         case "approveMultiple":
-          await this.handleApproveMultiple(requestIds, request);
+          await this.handleApproveMultiple(requestIds);
           break;
         case "rejectMultiple":
-          await this.handleRejectMultiple(requestIds, request);
+          await this.handleRejectMultiple(requestIds);
           break;
         case "approveSingle":
           await this.handleApproveSingle(request);
@@ -266,27 +266,23 @@ export default {
       this.disableModal();
     },
 
-    async handleApproveMultiple(requestIds, request) {
-      const approveMultiPayload = { requestIds: requestIds, request };
+    async handleApproveMultiple(requestIds) {
+      const approveMultiPayload = { requestIds };
       await this.multiApproveLeaveRequests(approveMultiPayload);
-      console.log(requestIds, request, "multipleApprove");
     },
 
-    async handleRejectMultiple(requestIds, request) {
-      await this.multipleRejectRequest({ requestIds, request });
-      console.log(requestIds, request, "multiplereject");
+    async handleRejectMultiple(requestIds) {
+      await this.multipleRejectRequest({ requestIds });
     },
 
     async handleApproveSingle(request) {
       const approvePayload = { id: this.id, request };
       await this.approveLeaveRequest(approvePayload);
-      console.log(this.id, request, "singleApprove");
     },
 
     async handleRejectSingle(request) {
       const rejectPayload = { id: this.id, request };
       await this.rejectLeaveRequest(rejectPayload);
-      console.log(this.id, request, "rejectSingle");
     },
   },
   beforeDestroy() {

@@ -27,17 +27,14 @@ export async function getPendingLeaveVacationsAdmin(payload) {
   }
 }
 
-export async function multiApproveLeaveRequests(payload) {
-  const { requestIds, request } = payload;
-
-  console.log(requestIds, request, "asdjkasdkhsakdkjasdhk")
-  
+export async function multiApproveLeaveRequests({requestIds}) {  
   try {
     const url = '/requests/admin/approve'
+    const requestId = {requestIds}
     const config = createConfig()
     const approveLeaveVacationsAdmin = await hrmApiAxiosInstance.put(
      url,
-     {requestIds, ...request},
+     requestId,
      config
     );
     this.$nuxt.$emit("pending-key");

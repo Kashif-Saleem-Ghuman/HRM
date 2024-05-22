@@ -88,6 +88,24 @@ export async function approveTimesheets({ timesheetIds }) {
     });
   }
 }
+
+export async function pastDueBatchApproveTimesheets(request) {
+  try {
+    const url = '/timesheets/admin/batch-approve/past-due'
+    const config = createConfig()
+    await hrmApiAxiosInstance.post(
+      url,
+      request,
+      config
+    );
+    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
 export async function rejectTimesheets({ timesheetIds }) {
   const ids = {timesheetIds};
   try {
@@ -97,6 +115,25 @@ export async function rejectTimesheets({ timesheetIds }) {
         url,
         ids,
         config
+    );
+    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+
+  } catch (e) {
+    this.openPopupNotification({
+      text: e.response.data.message,
+      variant: "danger",
+    });
+  }
+}
+
+export async function pastDueBatchRejectTimesheets(request) {
+  try {
+    const url = '/timesheets/admin/batch-reject/past-due'
+    const config = createConfig()
+    await hrmApiAxiosInstance.post(
+      url,
+      request,
+      config
     );
     this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
 

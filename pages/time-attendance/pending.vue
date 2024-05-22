@@ -49,6 +49,7 @@
       @cancel="disableModal"
       @close="disableModal"
       @confirm="actionPerformOnRequest"
+      title="Reject Timesheet/Request"
     ></request-refusal-modal>
     <request-approve-modal
       v-if="showApproveModal"
@@ -129,21 +130,30 @@ export default {
       this.showRefusalModal = false;
       this.confirmastionMessageModal = false;
     },
-    async enableModal(id, event) {
+    async enableModal(timesheetReq, event) {
+      const checkedCount = this.requestData
+        .flatMap((employee) => employee.timesheets)
+        .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approved;
+          this.confirmationPopupData =
+            checkedCount > 1
+              ? TIMESHEET_CONFIRMATION_MESSAGE.approved
+              : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
           this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.rejected;
+          this.confirmationPopupData =
+            checkedCount > 1
+              ? TIMESHEET_CONFIRMATION_MESSAGE.rejected
+              : TIMESHEET_CONFIRMATION_MESSAGE.rejectedSingle;
           this.variantButton = "danger";
           break;
         case "approveSingle":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approved;
+          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
           this.variantButton = "primary-24";
           break;
         default:
@@ -151,7 +161,8 @@ export default {
           break;
       }
       this.actionToPerformOnButton = event;
-      this.id = id;
+      this.id = timesheetReq?.id;
+      this.timesheetReq = timesheetReq;
     },
     async actionPerformOnRequest(request) {
 

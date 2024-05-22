@@ -1,5 +1,5 @@
 <template>
-  <bib-modal-wrapper title="Reject Request" @close="$emit('close')">
+  <bib-modal-wrapper :title="title" @close="$emit('close')">
     <template slot="content">
       <div>
         <bib-input
@@ -30,7 +30,15 @@
 </template>
 
 <script>
+import { type } from "jquery";
+
 export default {
+  props: {
+    title: {
+      type: String,
+      default: "Reject Request",
+    },
+  },
   data() {
     return {
       refusalReason: null,
@@ -39,9 +47,9 @@ export default {
 
   methods: {
     handleConfirmClick() {
-      const { refusalReason } = this
-      this.$emit("confirm", { refusalReason })
-    }
-  }
+      const { refusalReason } = this;
+      this.$emit("confirm", { refusalReason });
+    },
+  },
 };
 </script>

@@ -80,3 +80,13 @@ export const NOTIFICATION_MESSAGES = {
     variant: "danger",
   },
 };
+export const TIMESHEET_CONFIRMATION_MESSAGE = {
+  approved: {
+    title: "Approve Timesheets/Requests",
+    message: "Are you sure you want to approve the selected Timesheets/Requests?",
+  },
+  rejected: {
+    title: "Reject Requests",
+    message: "Are you sure you want to reject the selected Timesheets/Requests?",
+  },
+};

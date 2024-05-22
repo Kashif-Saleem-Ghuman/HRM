@@ -179,20 +179,25 @@ export default {
       this.confirmastionMessageModal = false;
     },
     actionConfirmation(event, data) {
-      if(this.type === PENDING_TYPE) {
-        if (event.key === "approved") {
-          this.$emit('approve-item', this.$emit('approve-item', data.value.id));
-        } else if(event.key === 'rejected') {
-          this.$emit('reject-item', this.$emit('approve-item', data.value.id));
-        }
-      } else {
-        if (event.key === "approved") {
-          this.$emit('approve-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
-        } else if(event.key === 'rejected') {
-          this.$emit('reject-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
-        }
+      const { id, employeeId, end: date } = data.value;
+      switch (event.key) {
+        case "approved":
+          if (this.type === PENDING_TYPE) {
+            this.$emit('approve-item', id);
+          } else {
+            this.$emit('approve-item', { id, employeeId, date });
+          }
+          break;
+        case "rejected":
+          if (this.type === PENDING_TYPE) {
+            this.$emit('reject-item', id);
+          } else {
+            this.$emit('reject-item', { id, employeeId, date });
+          }
+          break;
+        default:
+          console.error(`Unhandled event key: ${event.key}`);
       }
-
     },
     cancelRejectRequest() {
       // this.addIds.pop();

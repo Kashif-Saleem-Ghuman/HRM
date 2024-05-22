@@ -179,11 +179,20 @@ export default {
       this.confirmastionMessageModal = false;
     },
     actionConfirmation(event, data) {
-      if (event.key === "approved") {
-        this.$emit('approve-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
-      } else if(event.key === 'rejected') {
-        this.$emit('reject-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
+      if(this.type === PENDING_TYPE) {
+        if (event.key === "approved") {
+          this.$emit('approve-item', this.$emit('approve-item', data.value.id));
+        } else if(event.key === 'rejected') {
+          this.$emit('reject-item', this.$emit('approve-item', data.value.id));
+        }
+      } else {
+        if (event.key === "approved") {
+          this.$emit('approve-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
+        } else if(event.key === 'rejected') {
+          this.$emit('reject-item', {id: data.value.id, employeeId: data.value.employeeId, date: data.value.end});
+        }
       }
+
     },
     cancelRejectRequest() {
       // this.addIds.pop();

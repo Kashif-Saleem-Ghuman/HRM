@@ -295,7 +295,7 @@ export default {
       const checkedCount = this.employees
         .flatMap((employee) => employee.timesheets)
         .filter((timesheet) => timesheet.checked).length;
-      this.disableButtonMultiselect = checkedCount > 1;
+      this.disableButtonMultiselect = checkedCount > 1 ? true : false;
     },
     selectAllItems() {
       this.allChecked = !this.allChecked;
@@ -402,7 +402,14 @@ export default {
       this.getAndParseTimesheets();
       this.allChecked = false;
       this.$emit("update:requestData", this.employees);
+    },
+    employees: {
+    deep: true, // Watch for nested changes
+    handler() {
+      // Call the checkCount function
+      this.checkCount();
     }
+  }
   },
 };
 </script>

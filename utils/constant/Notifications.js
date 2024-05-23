@@ -105,7 +105,7 @@ export const LEAVE_CONFIRMATION_MESSAGE = {
   },
   approvedSingle: {
     title: "Approve Leave Request",
-    message: "Are you sure you want to approve the selected Leave",
+    message: "Are you sure you want to approve the selected Leave?",
   },
   rejected: {
     title: "Reject Leave Requests",

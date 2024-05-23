@@ -182,7 +182,7 @@ export default {
     },
     checkCount(){
       const checkedCount = this.requestListData.filter((item) => item.checked).length;
-      this.disableButtonMultiselect = checkedCount > 1;
+      this.disableButtonMultiselect = checkedCount > 1 ? true : false;
     },
     selectAllItems() {
       this.checkedAll = !this.checkedAll;
@@ -294,5 +294,14 @@ export default {
   beforeDestroy() {
     this.$root.$off();
   },
+  watch:{
+    requestListData: {
+    deep: true, // Watch for nested changes
+    handler() {
+      // Call the checkCount function
+      this.checkCount();
+    }
+  }
+  }
 };
 </script>

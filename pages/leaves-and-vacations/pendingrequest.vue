@@ -44,6 +44,7 @@
             @reject-item="enableModal($event, 'rejectSingle')"
             @approve-item="enableModal($event, 'approveSingle')"
             @item-checked="handleItemChecked"
+            :disabled="disableButtonMultiselect"
           ></list-pending>
         </div>
       </div>
@@ -53,6 +54,7 @@
       @cancel="disableModal"
       @close="disableModal"
       @confirm="actionPerformOnRequest"
+      title="Reject Leave Request"
     ></request-refusal-modal>
     <request-approve-modal
       v-if="showApproveModal"
@@ -86,16 +88,7 @@ import {
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
 import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
-const LEAVE_CONFIRMATION_MESSAGE = {
-  approved: {
-    title: "Approve Leave Requests",
-    message: "Are you sure you want to approve the selected Leaves?",
-  },
-  rejected: {
-    title: "Reject Leave Requests",
-    message: "Are you sure you want to reject the selected Leaves?",
-  },
-};
+import { LEAVE_CONFIRMATION_MESSAGE } from '../../utils/constant/Notifications'
 export default {
   data() {
     return {
@@ -124,6 +117,7 @@ export default {
       actionToPerformOnButton: null,
       confirmationPopupData: null,
       variantButton: null,
+      disableButtonMultiselect: false, 
     };
   },
   computed: {
@@ -186,11 +180,16 @@ export default {
       );
       await this.getPendingLeaveVacationsAdmin(dateRange);
     },
+    checkCount(){
+      const checkedCount = this.requestListData.filter((item) => item.checked).length;
+      this.disableButtonMultiselect = checkedCount > 1;
+    },
     selectAllItems() {
       this.checkedAll = !this.checkedAll;
       this.requestListData.forEach((item, index) => {
         this.$set(this.requestListData[index], "checked", this.checkedAll);
       });
+      this.checkCount();
     },
     handleItemChecked({ id }) {
       const requestIndex = this.requestListData.findIndex(
@@ -205,6 +204,7 @@ export default {
       this.$set(request, "checked", !request.checked);
 
       this.checkedAll = this.requestListData.every((item) => item.checked);
+      this.checkCount();
     },
     disableModal() {
       this.addIds.pop();
@@ -213,15 +213,20 @@ export default {
       this.confirmastionMessageModal = false;
     },
     async enableModal(id, event) {
+      const checkedCount = this.requestListData.filter((item) => item.checked).length;
       switch (event) {
         case "approveMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = LEAVE_CONFIRMATION_MESSAGE.approved;
+          this.confirmationPopupData = checkedCount > 1
+              ? LEAVE_CONFIRMATION_MESSAGE.approved
+              : LEAVE_CONFIRMATION_MESSAGE.approvedSingle;
           this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
-          this.confirmationPopupData = LEAVE_CONFIRMATION_MESSAGE.rejected;
+          this.confirmationPopupData = checkedCount > 1
+              ? LEAVE_CONFIRMATION_MESSAGE.rejected
+              : LEAVE_CONFIRMATION_MESSAGE.rejectedSingle;;
           this.variantButton = "danger";
           break;
         case "approveSingle":
@@ -234,6 +239,7 @@ export default {
       this.actionToPerformOnButton = event;
       this.id = id;
     },
+    
     async actionPerformOnRequest(request) {
       let type = this.actionToPerformOnButton;
       const requestIds = this.requestListData

@@ -8,6 +8,7 @@
           @click="show = !show"
           :icon-right="buttonConfig.icon ?? ''"
           v-click-outside="clickOutside"
+          :disabled="disabled"
           class="pr-05"
         ></bib-button>
         <div class="menu-items chip-wrapper-com">
@@ -19,6 +20,7 @@
                 size="lg"
                 :icon="item.icon ?? ''"
                 class="pr-05 mb-05 w-100"
+                :disabled="disabled"
               ></bib-button>
             </div>
           </div>
@@ -39,6 +41,10 @@ export default {
      */
     buttonConfig: {
       type: Object,
+    },
+    disabled:{
+      type:Boolean,
+      default:false
     },
     size: {
       type: String,

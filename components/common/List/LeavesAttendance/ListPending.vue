@@ -109,6 +109,7 @@
           :scale="$button.approved_g.scale"
           :label="$button.approved_g.label"
           class="mr-05"
+          :disabled="disabled"
           @click="$emit('approve-item', data.value.id)"
         ></bib-button>
         <bib-button
@@ -117,6 +118,7 @@
           :scale="$button.rejected.scale"
           :label="$button.rejected.label"
           class="mr-05"
+          :disabled="disabled"
           @click="$emit('reject-item', data.value.id)"
         ></bib-button>
       </div>
@@ -151,6 +153,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {

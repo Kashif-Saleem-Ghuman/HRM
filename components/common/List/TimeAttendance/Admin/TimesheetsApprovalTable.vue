@@ -61,6 +61,7 @@
             :items="timesheetStatusOptions.slice(1)"
             :button-config="statusButtonConfig"
             @on-click="actionConfirmation($event, data)"
+            :disabled="disableButtonMultiselect"
           ></dropdown-menu-chip>
         </div>
       </template>
@@ -97,12 +98,6 @@ const fetchTimesheetsFunctionMap = {
   [PAST_DUE_TYPE]: getPastDueTimesheets,
   [PENDING_TYPE]: getPendingTimesheets,
 };
-const TIMESHEET_DELETE_CONFIRMATION_MESSAGE = {
-  approved: {
-    title: "Approve Timesheet Request",
-    message: "Are you sure you want to approve the selected timesheet?",
-  },
-};
 export default {
   props: {
     dates: {
@@ -124,7 +119,7 @@ export default {
     isStatusUpdated: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   data() {
@@ -148,6 +143,8 @@ export default {
       refusalReason: null,
       checked: false,
       allChecked: false,
+      disableButtonMultiselect: false, 
+      
     };
   },
 
@@ -294,7 +291,12 @@ export default {
 
       return "";
     },
-
+    checkCount(){
+      const checkedCount = this.employees
+        .flatMap((employee) => employee.timesheets)
+        .filter((timesheet) => timesheet.checked).length;
+      this.disableButtonMultiselect = checkedCount > 1;
+    },
     selectAllItems() {
       this.allChecked = !this.allChecked;
 
@@ -303,6 +305,7 @@ export default {
           this.$set(this.employees[empIndex].timesheets[timeSheetIndex], "checked", this.allChecked);
         })
       });
+      this.checkCount();
       this.$emit("update:requestData", this.employees);
     },
     handleItemChecked(timesheetEntries) {
@@ -333,6 +336,7 @@ export default {
       this.allChecked = this.employees.every((employee) =>
           employee.timesheets.every((timesheet) => timesheet.checked)
       );
+      this.checkCount(timesheetEntries);
       this.$emit("update:requestData", this.employees);
     },
     getTotalClassName(total) {

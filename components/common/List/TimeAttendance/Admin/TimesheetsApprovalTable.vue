@@ -164,11 +164,15 @@ export default {
   mounted() {
     this.addTypeToTimesheetStatusOptions();
     this.getAndParseTimesheets();
+    this.$nuxt.$on("disable-multiselect", this.handleDisableMultiselect);
   },
   methods: {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
+    handleDisableMultiselect() {
+    this.disableButtonMultiselect = false;
+  },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
@@ -295,7 +299,7 @@ export default {
       const checkedCount = this.employees
         .flatMap((employee) => employee.timesheets)
         .filter((timesheet) => timesheet.checked).length;
-      this.disableButtonMultiselect = checkedCount > 1;
+      this.disableButtonMultiselect = checkedCount > 1 ? true : false;
     },
     selectAllItems() {
       this.allChecked = !this.allChecked;
@@ -392,6 +396,7 @@ export default {
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
           this.getAndParseTimesheets();
         }
+        this.checkCount();
       },
     },
 
@@ -402,7 +407,14 @@ export default {
       this.getAndParseTimesheets();
       this.allChecked = false;
       this.$emit("update:requestData", this.employees);
+    },
+    employees: {
+    deep: true, // Watch for nested changes
+    handler() {
+      // Call the checkCount function
+      this.checkCount();
     }
+  }
   },
 };
 </script>

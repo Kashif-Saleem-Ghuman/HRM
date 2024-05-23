@@ -76,7 +76,7 @@ export default {
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
-    right: -10px;
+    right: -3px;
     top: 0px;
 }
 }

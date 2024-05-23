@@ -82,37 +82,37 @@ export const NOTIFICATION_MESSAGES = {
 };
 export const TIMESHEET_CONFIRMATION_MESSAGE = {
   approved: {
-    title: "Approve Timesheets/Requests",
-    message: "Are you sure you want to approve the selected Timesheets/Requests?",
+    title: "Approve Timesheet Requests",
+    message: "Are you sure you want to approve the selected Timesheet Requests?",
   },
   approvedSingle: {
-    title: "Approve Timesheet/Request",
-    message: "Are you sure you want to approve the selected Timesheet/Request?",
+    title: "Approve Timesheet Request",
+    message: "Are you sure you want to approve the selected Timesheet Request?",
   },
   rejected: {
-    title: "Reject Timesheets/Requests",
-    message: "Are you sure you want to reject the selected Timesheets/Requests?",
+    title: "Reject Timesheet Requests",
+    message: "Are you sure you want to reject the selected Timesheet Requests?",
   },
   rejectedSingle: {
-    title: "Reject Timesheet/Request",
-    message: "Are you sure you want to reject the selected Timesheet/Request?",
+    title: "Reject Timesheet Request",
+    message: "Are you sure you want to reject the selected Timesheet Request?",
   },
 };
 export const LEAVE_CONFIRMATION_MESSAGE = {
   approved: {
     title: "Approve Leave Requests",
-    message: "Are you sure you want to approve the selected Leaves?",
+    message: "Are you sure you want to approve the selected Leave Requests?",
   },
   approvedSingle: {
     title: "Approve Leave Request",
-    message: "Are you sure you want to approve the selected Leave?",
+    message: "Are you sure you want to approve the selected Leave Request?",
   },
   rejected: {
     title: "Reject Leave Requests",
-    message: "Are you sure you want to reject the selected Leaves?",
+    message: "Are you sure you want to reject the selected Leave Requests?",
   },
   rejectedSingle: {
     title: "Reject Leave Request",
-    message: "Are you sure you want to reject the selected Leave?",
+    message: "Are you sure you want to reject the selected Leave Request?",
   },
 };

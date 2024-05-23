@@ -10,7 +10,7 @@ import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
-import {getChronometerDuration, checkIsManualEntry, getInTimeEntry} from "@/utils/functions/timer";
+import {getChronometerDuration, checkIsManualEntry, getInTimeEntry, checkIsTodayDate} from "@/utils/functions/timer";
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 
 export const state = () => ({
@@ -173,16 +173,16 @@ export const actions = {
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
       const isManualEntry = checkIsManualEntry(data.timeEntries);
-      if(isManualEntry){
-        ctx.commit("SET_CHRONOMETER", {chronometer: 0});
-      }
-
       const inTimeEntry = getInTimeEntry(data.timeEntries);
-      if(inTimeEntry?.start && inTimeEntry?.end && !isManualEntry) {
-        let duration = getTimeDiffInSeconds(inTimeEntry.start, inTimeEntry.end);
-        ctx.commit("SET_CHRONOMETER", {chronometer: duration});
-      }
 
+      if(checkIsTodayDate(date)) {
+        if(isManualEntry){
+          ctx.commit("SET_CHRONOMETER", {chronometer: 0});
+        } else if(inTimeEntry?.start && inTimeEntry?.end) {
+          let duration = getTimeDiffInSeconds(inTimeEntry.start, inTimeEntry.end);
+          ctx.commit("SET_CHRONOMETER", {chronometer: duration});
+        }
+      }
 
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);

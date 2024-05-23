@@ -172,19 +172,9 @@ export const actions = {
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
-      const isManualEntry = checkIsManualEntry(data.timeEntries);
-      const inTimeEntry = getInTimeEntry(data.timeEntries);
-
-      if(checkIsTodayDate(date)) {
-        if(isManualEntry){
-          ctx.commit("SET_CHRONOMETER", {chronometer: 0});
-        } else if(inTimeEntry?.start && inTimeEntry?.end) {
-          let duration = getTimeDiffInSeconds(inTimeEntry.start, inTimeEntry.end);
-          ctx.commit("SET_CHRONOMETER", {chronometer: duration});
-        }
-      }
-
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
+        checkIsManualEntry(data.timeEntries) ? ctx.commit("SET_CHRONOMETER", {chronometer: 0}) : "";
+        
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
       }

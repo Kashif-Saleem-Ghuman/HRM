@@ -211,11 +211,19 @@ export default {
 
       if (item.url) this.$router.push(item.url);
     },
+    updateSelectedNavItems() {
+      this.setSelectedNavItem(this.appWrapItems.navItemsAdmin);
+      this.setSelectedNavItem(this.appWrapItems.navItemsUser);
+    }
   },
 
   mounted() {
-    this.setSelectedNavItem(this.appWrapItems.navItemsAdmin);
-    this.setSelectedNavItem(this.appWrapItems.navItemsUser);
+   this.updateSelectedNavItems();
+  },
+  watch: {
+    '$route'() {
+     this.updateSelectedNavItems();
+    }
   },
 };
 </script>

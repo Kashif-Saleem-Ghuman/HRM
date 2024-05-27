@@ -4,7 +4,7 @@
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
         <bib-button
-          :label="label"
+          :label="String(label)"
           :variant="variant ?? $button.blackButton.variant"
           size="lg"
           :icon-right="icon ?? $button.blackButton.icon"

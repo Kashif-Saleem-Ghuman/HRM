@@ -256,19 +256,6 @@ export default {
     getTimeAbbrByTimezoneName(timeZoneName) {
       return timezoneAbbr.get(timeZoneName);
     },
-
-    // checkLeaveRequest(data){
-    //   if (data.requests && data.requests.length > 0) {
-    //     data.requests.forEach(request => {
-    //       this.leaveType = request.type;
-    //       console.log(this.leaveType, "asdkjanskdaksdkahsdkjahskdjasdhk")
-
-    //     });
-    //       return true;
-    //   }
-
-    //   return false;
-    // },
     getStatusClass(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in

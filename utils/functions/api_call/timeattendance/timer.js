@@ -42,7 +42,6 @@ export async function getActiveTimer({ employeeId }) {
   }
   try {
     const timer = await hrmApiAxiosInstance.get(url, config);
-    console.log();
     return timer.data;
   } catch (e) {
     console.error(e);

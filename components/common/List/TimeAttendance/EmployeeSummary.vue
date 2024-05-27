@@ -242,7 +242,6 @@ export default {
     async updateSummary() {
       const { date, summary } = this;
       const text = this.editor.getHTML();
-      console.log(text, "summaryText");
       const updatedSummary = await updateSummary({
         text: escape(text),
         date,

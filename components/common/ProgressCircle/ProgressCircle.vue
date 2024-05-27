@@ -6,7 +6,7 @@
     @mouseleave="$emit('mouseleave')"
   >
     <vue-circle
-      :progress="progressCount"
+      :progress="Number(progressCount)"
       :size="60"
       :reverse="false"
       :fill="fill"

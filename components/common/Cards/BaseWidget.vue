@@ -108,6 +108,7 @@ export default {
       type: String,
       default: "bottom",
     },
+
   },
 
   data() {
@@ -150,7 +151,7 @@ export default {
   },
   created() {
     this.fetchData();
-  },
+  }
 };
 </script>
 
@@ -166,9 +167,7 @@ $text-font-size: 14px;
   height: 100%;
   padding: 24px;
   font-size: $text-font-size;
-  background: $white;
   border-radius: 24px;
-  border: 1px solid $secondary-sub3;
 
   label {
     font-size: 1rem;

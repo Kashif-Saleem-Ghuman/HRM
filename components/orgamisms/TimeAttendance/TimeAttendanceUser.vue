@@ -138,8 +138,8 @@ import {
 import { Timesheet } from "@/components/common/models/timesheet";
 
 const VIEWS = [
-  { label: "Day", value: "day", variant: "light" },
-  { label: "Week", value: "week", variant: "light" },
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week"},
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -180,10 +180,14 @@ export default {
       timer: 1,
       maxDate: DateTime.now().toISO(),
       refusalReason: null,
-      timesheet: null
+      timesheet: null,
+      variantColor:null
     };
   },
   computed: {
+    variant() {
+      this.variantColor = this.isLightThemeCheck ? "light" : "dark";
+    },
     isTimesheetLocked() {
       return this.timesheet?.isLocked()
     },

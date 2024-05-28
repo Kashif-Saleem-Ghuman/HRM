@@ -10,6 +10,7 @@
           @input="onDateChange"
           size="sm"
           icon=""
+          :variant="this.isLightThemeCheck ? 'light' : 'dark'"
           hide-quick-select
           v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
@@ -22,6 +23,7 @@
           size="sm"
           hide-quick-select
           v-bind="{ ...getDatetimeCommonProps() }"
+          :variant="this.isLightThemeCheck ? 'light' : 'dark'"
         ></bib-datetime-picker>
       </div>
     </div>

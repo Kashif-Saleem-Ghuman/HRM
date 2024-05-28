@@ -1,4 +1,5 @@
 @import "../assets/variable.scss";
+@import "../assets/theme.scss";
 html,
 body {
   font-family: $font-family;
@@ -71,9 +72,7 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
-.bottom_border_wrapper {
-  border-bottom: 1px solid $secondary-sub3 ;
-}
+
 .bottom_top_wrapper {
   border-top: 1px solid $secondary-sub3;
 }
@@ -161,69 +160,7 @@ body {
 
 // infocard leave vacations
 
-.info-card-leave-wrapper {
-  padding: 24px;
-  font-size: 14px;
-  background: $white;
-  border-radius: 24px;
-  border: 1px solid $secondary-sub3;
-  overflow-wrap: break-word;
-  label {
-    font-size: 1rem !important;
-    font-weight: 600;
-    color: $dark;
-  }
-  .info-card-items {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .subheading {
-      font-weight: 500;
-      color: $secondary-sub1;
-      margin-bottom: -10px;
-      font-size: 14px;
-    }
-    span {
-      font-size: 56px;
-      font-weight: 500;
-      margin-left: -4px;
-    }
-    .subheading_footer {
-      font-weight: 500;
-      color: $secondary-sub1;
-      margin-top: -10px;
-    }
-    &_desc {
-      font-size: 10px;
-    }
-  }
-  .footer-item {
-    padding-top: 8px;
-    padding-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    .items {
-      display: flex;
-      justify-content: space-between;
-      width: 48%;
-      border-bottom: 1px solid $light;
-      height: 40px;
-      // padding-right: 10px;
-      align-items: center;
-      
-      label {
-        color: $secondary-sub1;
-        font-weight: normal;
-        font-size: 14px;
-        padding-right: 10px;
-      }
-      span {
-        font-weight: 600;
-        font-size: 14px;
-      }
-    }
-  }
-}
+
 .button-wrapper {
   background-color: $light;
   border-radius: 6px;

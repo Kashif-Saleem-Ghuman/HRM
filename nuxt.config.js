@@ -40,6 +40,7 @@ export default {
     "~/plugins/validate-jwt",
     "~/plugins/set-active-user",
     "~/plugins/employees/employee-role",
+    '~/plugins/injectIsThemeCheck.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

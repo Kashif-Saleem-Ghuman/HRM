@@ -1,0 +1,180 @@
+/* Leave and vacation card */
+.light-theme {
+  background-color: $white;
+  color: $black;
+
+  .info-card-leave-wrapper {
+    padding: 24px;
+    font-size: 14px;
+    background: $white;
+    border-radius: 24px;
+    border: 1px solid $secondary-sub3;
+    overflow-wrap: break-word;
+    label {
+      font-size: 1rem !important;
+      font-weight: 600;
+      color: $dark;
+    }
+    .info-card-items {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .subheading {
+        font-weight: 500;
+        color: $secondary-sub1;
+        margin-bottom: -10px;
+        font-size: 14px;
+      }
+      span {
+        font-size: 56px;
+        font-weight: 500;
+        margin-left: -4px;
+      }
+      .subheading_footer {
+        font-weight: 500;
+        color: $secondary-sub1;
+        margin-top: -10px;
+      }
+      &_desc {
+        font-size: 10px;
+      }
+    }
+    .footer-item {
+      padding-top: 8px;
+      padding-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      .items {
+        display: flex;
+        justify-content: space-between;
+        width: 48%;
+        border-bottom: 1px solid $light;
+        height: 40px;
+        // padding-right: 10px;
+        align-items: center;
+
+        label {
+          color: $secondary-sub1;
+          font-weight: normal;
+          font-size: 14px;
+          padding-right: 10px;
+        }
+        span {
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .bottom_border_wrapper {
+    border-bottom: 1px solid $secondary-sub3;
+  }
+  .dropdown-chip-menu {
+    .menu-items {
+      background-color: $white;
+    }
+  }
+}
+.dark-theme {
+  background-color: $dark-sub2;
+  color: $white;
+  .info-card-leave-wrapper {
+    padding: 24px;
+    font-size: 14px;
+    background: $dark-sub1;
+    border-radius: 24px;
+    border: 1px solid $dark;
+    overflow-wrap: break-word;
+    label {
+      font-size: 1rem !important;
+      font-weight: 600;
+      color: $gray7;
+    }
+    .info-card-items {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .subheading {
+        font-weight: 500;
+        color: $secondary-sub1;
+        margin-bottom: -10px;
+        font-size: 14px;
+      }
+      span {
+        font-size: 56px;
+        font-weight: 500;
+        margin-left: -4px;
+      }
+      .subheading_footer {
+        font-weight: 500;
+        color: $secondary-sub1;
+        margin-top: -10px;
+      }
+      &_desc {
+        font-size: 10px;
+      }
+    }
+    .footer-item {
+      padding-top: 8px;
+      padding-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      .items {
+        display: flex;
+        justify-content: space-between;
+        width: 48%;
+        border-bottom: 1px solid $dark-sub3;
+        height: 40px;
+        // padding-right: 10px;
+        align-items: center;
+
+        label {
+          color: $secondary-sub1;
+          font-weight: normal;
+          font-size: 14px;
+          padding-right: 10px;
+        }
+        span {
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .bottom_border_wrapper {
+    border-bottom: 1px solid $dark-sub3;
+  }
+  .dropdown-chip-menu {
+    .menu-items {
+      background-color: $black;
+      box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
+    }
+    .chip-wrapper-inner {
+      box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
+    }
+  }
+  .custom-table {
+    border-top: 1px solid $dark-sub3;
+    border-bottom: 1px solid $dark-sub3;
+    .cell {
+      border-bottom: 1px solid $dark-sub3;
+      border-right: 1px solid $dark-sub3;
+    }
+    .thead {
+      background-color: $dark;
+      .cell {
+        border: $dark-sub3 1px solid;
+      }
+    }
+  }
+  .app-wrapper__navigation {
+    border-right: 1px solid $dark-sub1 !important;
+  }
+  .editor-wrapper {
+    border: solid 1px $dark-sub3;
+    .toolbar {
+      border-bottom: solid 1px $dark-sub2;
+      background-color: $dark-sub3;
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <div id="dashborad-wrapper">
     <loader :loading="loading"></loader>
 
-    <div class="d-flex justify-between align-center border-bottom-light">
+    <div class="d-flex justify-between align-center" :class="isLightTheme ? 'border-bottom-light' : 'border-bottom-gray1'">
       <section-header-left title="Dashboard"></section-header-left>
     </div>
     <div class="tab-wrapper">

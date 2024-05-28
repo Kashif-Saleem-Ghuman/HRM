@@ -2,7 +2,7 @@
   <div class="d-flex info-card-leave-container">
     <div class="info-card-leave-wrapper w-100">
       <div class="d-flex justify-between item">
-        <label>{{ title }}</label>
+        <label :class="isLightThemeCheck  ? 'text-gray' : 'text-gray'">{{ title }}</label>
       </div>
       <div class="info-card-items mt-05">
         <div>

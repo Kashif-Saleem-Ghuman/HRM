@@ -3,7 +3,7 @@
     <div class="d-flex align-center">
         <bib-button
           :label="buttonConfig.label"
-          :variant="buttonConfig.variant"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
           :size="size || 'lg'"
           @click="show = !show"
           :icon-right="buttonConfig.icon ?? ''"
@@ -16,7 +16,7 @@
             <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
               <bib-button
                 :label="item.label"
-                :variant="item.variant"
+                :variant="isLightThemeCheck ? 'light' : 'secondary'"
                 size="lg"
                 :icon="item.icon ?? ''"
                 class="pr-05 mb-05 w-100"
@@ -41,6 +41,11 @@ export default {
      */
     buttonConfig: {
       type: Object,
+      default() {
+      return {
+        variant: this.isLightThemeCheck ? 'primary' : 'success', // Set your default variant value here
+      };
+    },
     },
     disabled:{
       type:Boolean,
@@ -71,7 +76,7 @@ export default {
   position: relative;
   .menu-items {
     position: absolute;
-    background-color: $white;
+    // background-color: $white;
     width: 10px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
@@ -81,7 +86,7 @@ export default {
 }
 }
 .chip-wrapper-com {
-  background-color: $white !important;
+  // background-color: $white !important;
   width: 157px !important;
   z-index: 99999999999;
   border-radius: 6px !important;

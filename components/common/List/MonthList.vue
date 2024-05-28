@@ -10,10 +10,11 @@
       :hide-no-column="true"
       :fixHeader="true"
       @column-header-clicked="headerColumnClick($event.column)"
+      @item-clicked="tableItemClick"
     >
       <template #cell(date)="data">
         <div
-          class="d-flex flex-d-column text-left gap-01"
+          class="d-flex flex-d-column text-left gap-01 cursor-pointer"
         >
           <div class="font-md font-w-700">Week {{ getWeekNumber(data.value.end) }}</div>
           <div class="font-w-400 text-black">
@@ -38,14 +39,25 @@
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
-          <chips
-            :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
-            iconShow="iconShow"
-            :icon="getStatusIcon(data.value?.status)"
-            :variant="[getStatusVariant(data.value?.status)]"
-            :defaultPointer="true"
-            :className="['width-auto']"
-          ></chips>
+          <div v-if="data.value?.status=== 'approved' || data.value?.status === 'pending'">
+            <chips
+              :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+              iconShow="iconShow"
+              :icon="getStatusIcon(data.value?.status)"
+              :variant="[getStatusVariant(data.value?.status)]"
+              :defaultPointer="true"
+              :className="['width-auto chip-wrapper-without-bg']"
+            ></chips>
+          </div>
+          <div @click.native.stop class="ml-2" v-else>
+            <bib-button
+              :icon="getSubmitIcon(data.value?.status)"
+              :variant="getSubmitVariant(data.value?.status)"
+              :scale="$button.pending.scale"
+              :label="getSubmitLabel(data.value?.status)"
+              @click.native.stop="buttonClicked(data.value)"
+            ></bib-button>
+          </div>
         </div>
       </template>
     </bib-table>
@@ -79,6 +91,12 @@ import { formatHoursToHHMM } from "@/utils/functions/time";
 import {DateTime} from "luxon";
 import {buttonVariant as TIMESHEET_DELETE_CONFIRMATION_MESSAGE} from "@/utils/constant/DropdownMenu";
 import {getStatusIcon, getStatusVariant} from "@/utils/functions/status";
+import {submitTimesheet} from "@/utils/functions/functions_lib_api";
+const TIMESHEET_STATUS_TO_SUBMIT = [
+  TIMESHEET_STATUSES.NOT_SUBMITTED,
+  TIMESHEET_STATUSES.PAST_DUE,
+  TIMESHEET_STATUSES.REJECTED,
+];
 export default {
   props: {
     timesheetsList: {
@@ -140,6 +158,7 @@ export default {
     getStatusIcon,
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
+    submitTimesheet,
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;
@@ -147,6 +166,39 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    timesheetIsSubmitable(status) {
+      return TIMESHEET_STATUS_TO_SUBMIT.includes(status);
+    },
+    getSubmitIcon(status) {
+      if (this.timesheetIsSubmitable(status)) return "";
+      return this.getStatusIcon();
+    },
+    getSubmitVariant(status) {
+      if (this.timesheetIsSubmitable(status))
+        return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
+      return status === "approved"
+        ? "success"
+        : this.$button[status]?.variant;
+    },
+    getStatusLabel(status) {
+      return (
+        this.$button[status]?.statusLabel ??
+        this.$button[status]?.label
+      );
+    },
+    getSubmitLabel(status) {
+      if (status === TIMESHEET_STATUSES.REJECTED) return "Resubmit";
+      if (this.timesheetIsSubmitable(status)) return "Submit";
+      return this.getStatusLabel(status);
+    },
+    async buttonClicked({status, id}) {
+      if (this.timesheetIsSubmitable(status)) {
+        const response = await this.submitTimesheet(id);
+        if (response) {
+          this.$emit("weeklytimesheet-submitted");
+        }
+      }
     },
     statusButtonConfig(type) {
       if (!type) return {};
@@ -241,7 +293,11 @@ export default {
         totalHrs += item.total;
       })
       return formatHoursToHHMM(totalHrs);
-    }
+    },
+    tableItemClick(event, key, item) {
+      console.log('tableItemClick_item', item);
+      this.$emit("week-view", item);
+    },
   },
 };
 </script>

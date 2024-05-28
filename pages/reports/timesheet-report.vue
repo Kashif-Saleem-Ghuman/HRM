@@ -44,7 +44,7 @@ import { DateTime } from "luxon";
 import { downloadFile } from "../../utils/functions/common_functions";
 import { NOTIFICATION_MESSAGES } from "../../utils/constant/Notifications";
 export const DETAIL_SUMMARY_ENDPOINT =
-  "/requests/admin/timesheet/attendance-report";
+  "/requests/admin/timesheet/attendance-report-v2";
 
 export default {
   data() {

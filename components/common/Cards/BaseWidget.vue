@@ -1,6 +1,6 @@
 <template>
-  <div class="widget d-flex" :class="themeClass">
-    <div class="widget-container" :class="isLightThemeCheck ? 'bg-light' : 'bg-dark-sub3'">
+  <div class="widget d-flex" :class="themeClassWrapper">
+    <div class="widget-container">
       <div>
         <label>{{ title }}</label>
       </div>

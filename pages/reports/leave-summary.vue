@@ -1,5 +1,5 @@
 <template>
-  <div class="download-wrapper py-1 mt-1 bg-light px-1 mx-1 w-50 shape-rounded">
+  <div class="download-wrapper py-1 mt-1 px-1 mx-1 w-50 shape-rounded" :class="themeClassCommon">
     <div>
       <div>
         <bib-input

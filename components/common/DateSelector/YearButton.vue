@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-menu" :class="themeClass">
+  <div class="drop-menu" :class="themeClassWrapper">
     <div class="position-relative">
       <bib-button
         :label="selected?.toString()"

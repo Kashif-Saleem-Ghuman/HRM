@@ -74,7 +74,7 @@
         @click="nextWeek()"
       ></bib-button>
     </div>
-    <div :class="themeClass">
+    <div :class="themeClassWrapper">
       <FullCalendar
         :options="calendarOptions"
         ref="fullCalendar"

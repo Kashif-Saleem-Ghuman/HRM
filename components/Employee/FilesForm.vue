@@ -30,7 +30,7 @@
         <div
           v-for="file in filesUploaded"
           class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center"
-          :class="themeClassDarkLight"
+          :class="themeClassCommon"
           :key="file.id"
         >
           <div

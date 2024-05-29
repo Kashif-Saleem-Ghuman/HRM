@@ -1,5 +1,5 @@
 <template>
-  <bib-modal-wrapper :title="title" @close="$emit('close')" :class="themeClassDarkLightVariant">
+  <bib-modal-wrapper :title="title" @close="$emit('close')" :class="themeButtonVariant">
     <template slot="content">
       <div>
         <bib-input

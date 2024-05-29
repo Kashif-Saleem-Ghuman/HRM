@@ -6,22 +6,21 @@ export default {
     ...mapGetters({
       isLightThemeCheck: "theme/isLightTheme", // Mapping Vuex getter to computed
     }),
-    themeClass() {
+    themeClassWrapper() {
       return this.isLightThemeCheck ? "light-theme" : "dark-theme";
     },
-    themeClassDarkLight() {
-      return this.isLightThemeCheck ? "bg-light" : "bg-dark-sub2";
+    themeClassCommon() {
+      return this.isLightThemeCheck ? "bg-black" : "bg-dark-sub2";
     },
-    themeClassDarkLightVariant() {
+    themeButtonVariant() {
       return this.isLightThemeCheck ? "light" : "dark";
     },
     borderClassBottom() {
-      return this.isLightThemeCheck
-        ? "border-bottom-light"
-        : "border-bottom-dark-sub3";
+      return this.isLightThemeCheck ? "border-bottom-light" : "border-bottom-dark-sub3";
     },
     borderClass() {
       return this.isLightThemeCheck ? "border-gray" : "border-dark-sub3";
-    },
+    }
+    
   },
 };

@@ -285,6 +285,28 @@ export default {
     height: 3rem;
     border-radius: 5px;
   }
+  &__bg_success{
+    color: $success;
+    svg {
+      fill: $success !important;
+    }
+    span {
+      color: $success !important;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+  &__bgpending {
+    color: $success;
+    svg {
+      fill: #ffab00 !important;
+    }
+    span {
+      color: #ffab00;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
 }
 .text-bold {
   span {

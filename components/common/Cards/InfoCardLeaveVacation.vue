@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex info-card-leave-container">
+  <div class="d-flex info-card-leave-container" :class="themeClass">
     <div class="info-card-leave-wrapper w-100">
       <div class="d-flex justify-between item">
-        <label :class="isLightThemeCheck  ? 'text-gray' : 'text-gray'">{{ title }}</label>
+        <label>{{ title }}</label>
       </div>
       <div class="info-card-items mt-05">
         <div>

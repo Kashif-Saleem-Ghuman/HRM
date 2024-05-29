@@ -7,7 +7,6 @@
     <custom-table-day-view
         v-else-if="showTable"
         :fields="tableFields"
-        class="bg-white"
         :allChecked="allChecked"
         :type="type"
         @select-all="selectAllItems"

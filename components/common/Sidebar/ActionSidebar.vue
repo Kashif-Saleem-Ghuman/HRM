@@ -1,11 +1,12 @@
 <template>
-  <div
+  <div :class="[themeClass, themeClassDarkLight]">
+    <div
     v-click-outside="handleClickOutside"
     id="side-panel"
     :class="'side-panel ' + 'side-panel__' + className"
     @click.stop
   >
-    <div class="d-flex justify-between align-center sidebar-header p-1 m-05">
+    <div class="d-flex justify-between align-center sidebar-header p-1 m-05" :class="borderClassBottom">
       <div class="d-flex justify-between align-center">
         <bib-icon
           :icon="icon"
@@ -22,14 +23,12 @@
         class="cursor-pointer"
       ></bib-icon>
     </div>
-    <div class="height-1 bg-light"></div>
     <div class="sidebar-body">
-      <div :class="'of-scroll-y ' + classMain">
-        <div class="sidebarBodyPadd">
+      <div :class="'of-scroll-y ' + classMain" >
+        <div class="sidebarBodyPadd" :class="borderClassBottom">
           <slot name="sidebar-body"></slot>
         </div>
       </div>
-      <div class="height-1 bg-light"></div>
       <div
         class="sidebar-footer px-1 py-1 d-flex justify-end align-end h-100"
         v-if="show == 'true'"
@@ -37,6 +36,7 @@
         <slot name="sidebar-footer"> </slot>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script>

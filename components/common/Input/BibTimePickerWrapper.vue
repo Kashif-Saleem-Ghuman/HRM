@@ -7,6 +7,7 @@
       @change="onInput"
       @select-change="onInput"
       :disabled="disabled"
+      :variant="themeClassDarkLightVariant"
     ></bib-time-picker>
     <div v-show="disabled" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"></div>
   </div>

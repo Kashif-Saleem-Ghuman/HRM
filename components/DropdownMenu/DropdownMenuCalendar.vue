@@ -1,18 +1,30 @@
 <template>
-  <div class="dropdown-menu">
+  <div class="dropdown-chip-menu">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
         <bib-button
           :label="String(label)"
-          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
           size="lg"
           :icon-right="icon ?? $button.blackButton.icon"
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items">
-          <ul v-if="show">
+        <div class="menu-items chip-wrapper-com">
+          <div v-if="show" class="chip-wrapper-inner">
+            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
+              <bib-button
+                :label="item.label"
+                :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
+                size="lg"
+                :icon="item.icon ?? ''"
+                class="pr-05 mb-05 w-100"
+                :disabled="disabled"
+              ></bib-button>
+            </div>
+          </div>
+          <!-- <ul v-if="show">
             <li
               class="d-flex align-center cursor-pointer"
               v-for="item in items"
@@ -27,7 +39,7 @@
               ></bib-icon>
               <span>{{ item.label }}</span>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>
@@ -67,43 +79,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.dropdown-menu {
-  .button-items {
-    display: flex;
-    align-items: center;
 
-    label {
-      padding-right: 5px;
-      font-size: 14px;
-    }
-  }
-  .menu-items {
-    // background-color: $white;
-    width: 130px;
-    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
-    border-radius: 10px;
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    z-index: 9999 !important;
-    ul {
-      margin: 0;
-      padding: 0;
-      border: var(--bib-gray3) solid 1px;
-      border-radius: 0.5rem;
-      box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
-      // background: var(--bib-white);
-      li {
-        padding: 0.5rem;
-      }
-    }
-  }
-  .button {
-    .icon {
-      margin-left: 10px;
-      margin-right: -5px;
-    }
-  }
-}
-</style>

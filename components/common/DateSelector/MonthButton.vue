@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div class="drop-menu">
+    <div class="drop-menu" :class="themeClass">
       <div class="position-relative">
         <bib-button
           :label="selected"
-          variant="light"
+          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
           @click="toggleDropdown"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items">
-          <ul v-if="isDropdownOpen">
+        <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
+          <ul v-if="isDropdownOpen" class="border-white">
             <li
-              class="d-flex align-center w-100"
+              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
               v-for="(option, index) in options"
               :key="index"
               @click="selectOption(option)"
@@ -83,66 +83,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.black-custom {
-  display: inline-block;
-  align-items: center;
-  position: relative;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0.25rem 1rem !important;
-  border-radius: 0.25rem;
-  white-space: nowrap;
-  user-select: none;
-  $self: &;
-  &--lightsuccess {
-    background-color: $black !important;
-    display: flex;
-    align-items: center;
-    height: 32px;
-    // max-width: 140px;
-    color: $white !important;
-    svg {
-      fill: $white !important;
-    }
-    span {
-      font-weight: 500;
-      font-size: 14px;
-      color: $white !important;
-    }
-    &:focus,
-    &:active,
-    &:focus-within {
-      box-shadow: 0 0 0 0.2rem #207f1d29 !important;
-    }
-  }
-  &--pending {
-    background-color: #f3ced0 !important;
-    display: flex;
-    align-items: center;
-    height: 32px;
-    // max-width: 140px;
-    color: #e6000e !important;
-    svg {
-      fill: #e6000e !important;
-    }
-    span {
-      font-weight: 500;
-      font-size: 14px;
-      color: #e6000e !important;
-    }
-    &:focus,
-    &:active,
-    &:focus-within {
-      box-shadow: 0 0 0 0.2rem #f4c2c4 !important;
-    }
-  }
 
-  &--disabled {
-    cursor: not-allowed;
-    display: flex; /* For IE11/ MS Edge bug */
-    align-items: center;
-    pointer-events: none;
-    text-decoration: none;
-  }
-}
 </style>

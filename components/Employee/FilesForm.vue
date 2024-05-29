@@ -29,7 +29,8 @@
       >
         <div
           v-for="file in filesUploaded"
-          class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center bg-light"
+          class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center"
+          :class="themeClassDarkLight"
           :key="file.id"
         >
           <div
@@ -60,7 +61,7 @@
             <bib-icon
               icon="trash"
               class="mr-05 cursor-pointer"
-              variant="danger"
+              :variant="isLightThemeCheck ? 'danger' : 'light'"
             ></bib-icon>
           </div>
         </div>
@@ -203,7 +204,7 @@ export default {
   display: flex;
   .input--file {
     div {
-      background-color: $white;
+      // background-color: $white;
       div:nth-child(1) {
         align-items: center;
         display: flex;

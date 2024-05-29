@@ -3,7 +3,7 @@
     <div class="d-flex align-center">
         <bib-button
           :label="buttonConfig.label"
-          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          :variant="buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark-sub3')"
           :size="size || 'lg'"
           @click="show = !show"
           :icon-right="buttonConfig.icon ?? ''"
@@ -16,7 +16,7 @@
             <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
               <bib-button
                 :label="item.label"
-                :variant="isLightThemeCheck ? 'light' : 'secondary'"
+                :variant="item.variant || (isLightThemeCheck ? 'light' : 'dark-sub3')"
                 size="lg"
                 :icon="item.icon ?? ''"
                 class="pr-05 mb-05 w-100"
@@ -81,7 +81,7 @@ export default {
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
-    right: -3px;
+    left: 0px;
     top: 0px;
 }
 }

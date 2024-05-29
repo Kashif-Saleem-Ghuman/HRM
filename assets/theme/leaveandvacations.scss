@@ -1,8 +1,5 @@
 /* Leave and vacation card */
 .light-theme {
-  background-color: $white;
-  color: $black;
-
   .info-card-leave-wrapper {
     padding: 24px;
     font-size: 14px;
@@ -66,18 +63,8 @@
       }
     }
   }
-  .bottom_border_wrapper {
-    border-bottom: 1px solid $secondary-sub3;
-  }
-  .dropdown-chip-menu {
-    .menu-items {
-      background-color: $white;
-    }
-  }
 }
 .dark-theme {
-  background-color: $dark-sub2;
-  color: $white;
   .info-card-leave-wrapper {
     padding: 24px;
     font-size: 14px;
@@ -139,42 +126,6 @@
           font-size: 14px;
         }
       }
-    }
-  }
-  .bottom_border_wrapper {
-    border-bottom: 1px solid $dark-sub3;
-  }
-  .dropdown-chip-menu {
-    .menu-items {
-      background-color: $black;
-      box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
-    }
-    .chip-wrapper-inner {
-      box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
-    }
-  }
-  .custom-table {
-    border-top: 1px solid $dark-sub3;
-    border-bottom: 1px solid $dark-sub3;
-    .cell {
-      border-bottom: 1px solid $dark-sub3;
-      border-right: 1px solid $dark-sub3;
-    }
-    .thead {
-      background-color: $dark;
-      .cell {
-        border: $dark-sub3 1px solid;
-      }
-    }
-  }
-  .app-wrapper__navigation {
-    border-right: 1px solid $dark-sub1 !important;
-  }
-  .editor-wrapper {
-    border: solid 1px $dark-sub3;
-    .toolbar {
-      border-bottom: solid 1px $dark-sub2;
-      background-color: $dark-sub3;
     }
   }
 }

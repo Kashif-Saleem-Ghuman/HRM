@@ -9,6 +9,7 @@
     @input="onInput"
     hide-quick-select
     v-bind="{ ...getDatetimeCommonProps() }"
+    :variant="themeClassDarkLightVariant"
   ></bib-datetime-picker>
   <bib-input
     v-else
@@ -16,7 +17,7 @@
     v-bind="{ value, ...$attrs }"
     :instruction="error"
     @input="onInput"
-    :variant="error ? 'alert' : ''"
+    :variant="error ? 'alert' : themeClassDarkLightVariant"
     :disable="disable"
   ></bib-input>
 </template>

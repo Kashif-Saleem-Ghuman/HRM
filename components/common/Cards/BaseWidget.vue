@@ -1,6 +1,6 @@
 <template>
-  <div class="widget d-flex">
-    <div class="widget-container">
+  <div class="widget d-flex" :class="themeClass">
+    <div class="widget-container" :class="isLightThemeCheck ? 'bg-light' : 'bg-dark-sub3'">
       <div>
         <label>{{ title }}</label>
       </div>
@@ -63,11 +63,11 @@
           v-click-outside="hideEmployeeList"
         >
           <span
-            class="avatar__text text-gray1 mr-025 cursor-default position-relative cursor-pointer"
+            class="avatar__text  mr-025 cursor-default position-relative cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
             >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
-            <div class="list position-absolute" v-show="employeeList">
+            <div class="list position-absolute" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark' : 'bg-dark'">
               <div
-                class="list__item"
+                class="list__item " :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-black'"
                 v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
                 :key="avatar.id"
                 @mouseout="hideEmployeeList"
@@ -80,7 +80,7 @@
                       class="mr-05"
                       :text="avatar.photo ? null : getEmployeeInitials(avatar)"
                     ></bib-avatar>
-                    <div>
+                    <div :class="isLightThemeCheck ? 'text-gray1' : 'text-light'">
                       {{ getEmployeeFullName(avatar) | truncate(25, "...") }}
                     </div>
                   </div>

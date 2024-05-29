@@ -328,6 +328,9 @@ export default {
 </script>
 <style lang="scss">
 .timesheet-wrapper-main{
+  .table__irow{
+    background-color: #fff !important;
+  }
 .table {
   width: 100%;
   height: max-content;

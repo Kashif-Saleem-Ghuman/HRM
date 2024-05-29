@@ -1,0 +1,30 @@
+.light-theme {
+    
+  }
+  .dark-theme {
+    .custom-table {
+      border-top: 1px solid $dark-sub3;
+      border-bottom: 1px solid $dark-sub3;
+      .cell {
+        border-bottom: 1px solid $dark-sub3;
+        border-right: 1px solid $dark-sub3;
+      }
+      .thead {
+        background-color: $dark;
+        .cell {
+          border: $dark-sub3 1px solid;
+        }
+      }
+    }
+    .editor-wrapper {
+      border: solid 1px $dark-sub3;
+      .toolbar {
+        border-bottom: solid 1px $dark-sub2;
+        background-color: $dark-sub3;
+      }
+    }
+    .list{
+      background-color: #000 !important;
+    }
+  }
+  

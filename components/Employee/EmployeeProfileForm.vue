@@ -53,7 +53,7 @@
               GENDER
               MARITAL STATUS
           -->
-                <div id="my-profile-wrapper">
+                <div id="my-profile-wrapper" class="my-profile-wrapper">
                   <div class="py-cus row-custom">
                     <div>
                       <div class="row mx-0">
@@ -572,3 +572,17 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.my-profile-wrapper{
+  .vdpComponent {
+    // width: 100%;
+    .vdpComponent__input{
+      min-width: 100%;
+    }
+    label {
+      font-weight: bold !important;
+      font-size: 14px !important;
+    }
+  }
+}
+</style>

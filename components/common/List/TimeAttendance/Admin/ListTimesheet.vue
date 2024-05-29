@@ -5,6 +5,7 @@
       :sections="timesheetList"
       :hide-no-column="true"
       :fixHeader="true"
+      class="table bg-white"
       @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(name)="data">

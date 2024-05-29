@@ -102,6 +102,7 @@
               :timesheetsList="timesheetsList"
               :loading="loading"
               :is-full-year-list="isFullYearList"
+              :isAdmin="true"
           ></month-list>
           <no-record v-else />
         </template>
@@ -155,8 +156,8 @@ export default {
       VIEWS,
       view: VIEWS[0],
       weekDates: {
-        from: DateTime.now().startOf("week"),
-        to: DateTime.now().endOf("week"),
+        from: null,
+        to: null,
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
@@ -310,7 +311,6 @@ export default {
     },
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
-      this.weekDates = {from: from, to: to}
     },
     resetMonthView() {
       this.monthView = null;

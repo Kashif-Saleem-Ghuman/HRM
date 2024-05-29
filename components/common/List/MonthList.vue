@@ -33,31 +33,45 @@
       </template>
 
       <template #cell(total)="data">
-        <div>
+        <div class="cursor-pointer">
           <span>{{ formatHoursToHHMM(data.value.total) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
         <div class="text-dark">
-          <div v-if="data.value?.status=== 'approved' || data.value?.status === 'pending'">
-            <chips
-              :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
-              iconShow="iconShow"
-              :icon="getStatusIcon(data.value?.status)"
-              :variant="[getStatusVariant(data.value?.status)]"
-              :defaultPointer="true"
-              :className="['width-auto chip-wrapper-without-bg']"
-            ></chips>
+          <div v-if="isAdmin">
+            <div>
+              <chips
+                :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+                iconShow="iconShow"
+                :icon="getStatusIcon(data.value?.status)"
+                :variant="[getStatusVariant(data.value?.status)]"
+                :defaultPointer="true"
+                :className="['width-auto']"
+              ></chips>
+            </div>
           </div>
-          <div @click.native.stop class="ml-2" v-else>
-            <bib-button
-              :icon="getSubmitIcon(data.value?.status)"
-              :variant="getSubmitVariant(data.value?.status)"
-              :scale="$button.pending.scale"
-              :label="getSubmitLabel(data.value?.status)"
-              @click.native.stop="buttonClicked(data.value)"
-            ></bib-button>
+          <div v-else>
+            <div class="cursor-pointer" v-if="data.value?.status=== 'approved' || data.value?.status === 'pending'">
+              <chips
+                :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+                iconShow="iconShow"
+                :icon="getStatusIcon(data.value?.status)"
+                :defaultPointer="true"
+                :className="['width-auto chip-wrapper-without-bg', getStatusClassName(data.value?.status)]"
+              ></chips>
+            </div>
+            <div @click.native.stop class="ml-2" v-else>
+              <bib-button
+                :icon="getSubmitIcon(data.value?.status)"
+                :variant="getSubmitVariant(data.value?.status)"
+                :scale="$button.pending.scale"
+                :label="getSubmitLabel(data.value?.status)"
+                @click.native.stop="buttonClicked(data.value)"
+              ></bib-button>
+            </div>
           </div>
+
         </div>
       </template>
     </bib-table>
@@ -116,6 +130,10 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -166,6 +184,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    getStatusClassName(status) {
+      return status === 'pending' ? 'chip-wrapper-without-bg__bgpending' : 'chip-wrapper-without-bg__bg_success'
     },
     timesheetIsSubmitable(status) {
       return TIMESHEET_STATUS_TO_SUBMIT.includes(status);
@@ -295,7 +316,6 @@ export default {
       return formatHoursToHHMM(totalHrs);
     },
     tableItemClick(event, key, item) {
-      console.log('tableItemClick_item', item);
       this.$emit("week-view", item);
     },
   },

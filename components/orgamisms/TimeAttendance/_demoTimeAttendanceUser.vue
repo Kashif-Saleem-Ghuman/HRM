@@ -543,14 +543,12 @@ export default {
       }
     },
     async redirectWeekView(item) {
-      console.log('before_mod', this.weekDates)
       const {start, end} = item;
       this.$set(this.weekDates, 'from', DateTime.fromISO(start).toISO());
       this.$set(this.weekDates, 'to', DateTime.fromISO(end).toISO());
 
       this.$router.push({ query: { view: "week" } });
       await this.fillWeeklyTimeEntries();
-      console.log('after_mod', this.weekDates)
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();
@@ -582,7 +580,6 @@ export default {
     },
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
-      this.weekDates = {from: from, to: to}
     },
     calculateTotalWeeksThisYear() {
       const currentDate = DateTime.now();

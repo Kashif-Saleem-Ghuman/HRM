@@ -2,9 +2,7 @@
   <div id="time-attendance-wrapper">
     <loader v-if="!monthListView" :loading="loading"></loader>
     <div class="scroll_wrapper">
-      <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left title="Time & Attendance"></section-header-left>
-      </div>
       <div class="time-attandance-wrapper">
         <div class="px-1">
           <div

@@ -9,11 +9,9 @@
       :update-form.sync="updateForm"
     >
       <div class="employee_wrapper">
-        <div class="d-flex justify-between align-center bottom_border_wrapper">
           <section-header-left
             title="Organization Profile"
           ></section-header-left>
-        </div>
         <div class="scroll-wrapper" style="min-height: 770px">
           <div class="px-1">
             <div id="info-wrapper">

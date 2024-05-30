@@ -231,23 +231,25 @@ export default {
       const data = weekData[day.weekday];
       if (!data) return "--";
 
-      let vacationName = "";
-      for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
-        if (data[activity]) {
-          vacationName =  ACTIVITY_TYPE_LABEL_VALUE[activity];
-          break;
-        };
-      }
+      let vacationName = this.getVacationName(data);
+
       if (typeof data.totalHours === "number") {
-        return this.getWeekDayDetail(data, vacationName);
+        return this.getFormattedHoursWithVacation(data, vacationName);
       }
 
       return vacationName;
 
       return "--";
     },
-    getWeekDayDetail(weekData, vacationName) {
-      return vacationName ? vacationName + ' ' + '(' + formatHoursToHHMM(weekData.totalHours)  + ')': formatHoursToHHMM(weekData.totalHours);
+    getVacationName(data) {
+      const activity = Object.values(ACTIVITY_TYPE).find(activity => data[activity]);
+      return ACTIVITY_TYPE_LABEL_VALUE[activity]  ?? "";
+    },
+    getFormattedHoursWithVacation(weekData, vacationName) {
+      const formattedHours = formatHoursToHHMM(weekData.totalHours);
+      return vacationName
+        ? `${vacationName} (${formattedHours})`
+        : formattedHours;
     },
     getWeekdayClassNames(weekData, day) {
       if (!weekData) return "chip-wrapper__bggray";

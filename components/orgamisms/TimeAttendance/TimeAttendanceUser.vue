@@ -41,12 +41,43 @@
           <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">
               <div class="custom_date_picker">
+                <div v-if="view.value === 'timesheet'" class="py-05">
+                  <div class="custom_date_picker">
+                    <custom-date-selector
+                        :year.sync="year"
+                        :month.sync="month"
+                        :dates.sync="dates" />
+                  </div>
+                </div>
+                <div v-if="view.value === 'timesheet' && !isFullYearList" class="py-05 pl-05">
+                  <button-with-overlay
+                    :button-config="{ label: dateBtnLabel }"
+                    v-slot="scope"
+                  >
+                    <div class="pl-05">
+                      <filter-week-date-picker
+                        :dates.sync="weekDates"
+                        :filterDate="dates"
+                        class="custom_date_picker"
+                        :format="format"
+                        @onClose="onCloseWeekRange"
+                        @close="
+                        () => {
+                          scope.close();
+                          weekSelectionInMonthView();
+                        }
+                      "
+                        style="z-index: 999999; height: 46px"
+                      ></filter-week-date-picker>
+                    </div>
+                  </button-with-overlay>
+                </div>
                 <!-- <div class="mr-05">Date:</div> -->
                 <bib-datetime-picker
                   v-if="view.value === 'day'"
                   v-model="todayDate"
                   :maxDate="maxDate"
-                  class="custom_date_picker"
+                  :class="`custom_date_picker ${view.value === 'timesheet' ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
@@ -74,6 +105,15 @@
                   </div>
                 </button-with-overlay>
               </div>
+              <div v-if="!timesheetListView && !weekListView" class="pl-05 my-05">
+                <div>
+                  <bib-button
+                    :label="getTotalWeeksInfo"
+                    @click="onWeekDayViewChange"
+                    variant="light"
+                  ></bib-button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -100,6 +140,14 @@
               @timesheet-submitted="onTimesheetSubmitted"
               @day-view="enterDetail"
             ></list-week>
+            <month-list
+              v-else-if="timesheetListView"
+              :timesheetsList="timesheetsList"
+              :loading="loading"
+              :is-full-year-list="isFullYearList"
+              @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
+              @week-view="redirectWeekView"
+            ></month-list>
             <no-record v-else />
           </template>
         </div>
@@ -110,13 +158,13 @@
 <script>
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getWeekTimesheets } from "@/utils/functions/api_call/timeattendance/time";
+import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
 import { debounceAction } from "@/utils/functions/debounce"
 import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT,
+  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -124,7 +172,7 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
 import {
-  getTimeFromDate,
+  getTimeFromDate, getTotalWeeksNumber, getWeekStartEndDates,
   isSameDate,
   weekToUTCWeek,
 } from "@/utils/functions/dates";
@@ -140,6 +188,7 @@ import { Timesheet } from "@/components/common/models/timesheet";
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
+  { label: "Timesheet", value: "timesheet", variant: "light" },
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -180,7 +229,20 @@ export default {
       timer: 1,
       maxDate: DateTime.now().toISO(),
       refusalReason: null,
-      timesheet: null
+      timesheet: null,
+      timesheetsList: [],
+      weekDayDates: {
+        from: null,
+        to: null,
+      },
+      dates: {
+        from: null,
+        to: null,
+      },
+      year: null,
+      month: null,
+      monthView: null,
+      isFullYearList: false,
     };
   },
   computed: {
@@ -246,6 +308,9 @@ export default {
     weekListView() {
       return this.view.value === "week";
     },
+    timesheetListView() {
+      return this.view.value === "timesheet";
+    },
     monthListView() {
       return this.view.value === "month";
     },
@@ -262,6 +327,13 @@ export default {
         icon: "arrowhead-down",
         varint: "light",
       };
+    },
+    getTotalWeeksInfo() {
+      const formattedWeek = this.getFormattedWeekInfo();
+      return `Week
+              ${formattedWeek.totalWeeks} /
+              ${formattedWeek.startDate} ->
+              ${formattedWeek.endDate}`;
     },
   },
   async created() {
@@ -299,7 +371,17 @@ export default {
     unregisterRootListeners() {
       this.unregisterFillDailyEntryListener();
     },
+    getFormattedWeekInfo() {
+      const now = DateTime.now();
+      const totalWeeks = getTotalWeeksNumber(now);
 
+      const {from, to} = getWeekStartEndDates(now);
+      return {
+        totalWeeks,
+        startDate: DateTime.fromISO(from).toFormat(DATETIME_FORMAT),
+        endDate: DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
+      };
+    },
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
       if (
@@ -348,7 +430,6 @@ export default {
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
     },
-    getCurrentDateMonth,
 
     change(event, name) {
       this.updateForm[name] = event;
@@ -409,6 +490,20 @@ export default {
       this.timesheetId = weekData.id;
       (this.refusalReason = weekData), (this.loading = false);
     },
+    async fillTimesheetEntries(isWeekRange = false) {
+      this.loading = true;
+      const { from, to } = this.weekToUTCWeek({
+        from: new Date(isWeekRange ? this.weekDates.from : this.weekDayDates.from),
+        to: new Date(isWeekRange ? this.weekDates.to : this.weekDayDates.to),
+      });
+      let timesheets = await getTimesheets({ from, to });
+      timesheets = timesheets.map((employee) => {
+        const parser = new TimesheetParser({timesheets: employee});
+        return parser.parse("weekDays");
+      });
+      this.timesheetsList = timesheets;
+      this.loading = false;
+    },
     async dateSelection(event) {
       // this.loading = true;
       if (!event) {
@@ -453,12 +548,41 @@ export default {
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
     },
+    async redirectWeekView(item) {
+      const {start, end} = item;
+      this.$set(this.weekDates, 'from', DateTime.fromISO(start).toISO());
+      this.$set(this.weekDates, 'to', DateTime.fromISO(end).toISO());
+
+      this.$router.push({ query: { view: "week" } });
+      await this.fillWeeklyTimeEntries();
+    },
+    async onWeeklyTimesheetSubmitted() {
+      await this.fillTimesheetEntries();
+    },
     formatDates({ from, to }) {
       const fromFormat = DateTime.fromISO(from)
         .toLocal()
         .toFormat(DATETIME_FORMAT);
       const toFormat = DateTime.fromISO(to).toLocal().toFormat(DATETIME_FORMAT);
       return `${fromFormat} -> ${toFormat}`;
+    },
+    async onCloseWeekRange() {
+      await this.fillTimesheetEntries();
+    },
+    weekDateChangeInMonthView() {
+      this.monthView = 'week';
+    },
+    async weekSelectionInMonthView() {
+      await this.fillTimesheetEntries(true);
+    },
+    async onWeekDayViewChange() {
+      this.$router.push({ query: { view: 'timesheet' } });
+    },
+    setWeekDayDates(from, to) {
+      this.weekDayDates = {from: from, to: to}
+    },
+    resetMonthView() {
+      this.monthView = null;
     },
   },
   beforeDestroy() {
@@ -475,6 +599,20 @@ export default {
     getDailyTimeEntries(val, old) {
       if (val && old) {
         this.parseTimeEntries();
+      }
+    },
+    dates(newval, old) {
+      if(newval.from && newval.to) {
+        this.setWeekDayDates(newval.from, newval.to);
+        this.fillTimesheetEntries();
+        this.resetMonthView();
+      }
+    },
+    month(val) {
+      if(val === MONTH_SELECTOR_DEFAULT.value){
+        this.isFullYearList = true;
+      }else {
+        this.isFullYearList = false;
       }
     },
   },

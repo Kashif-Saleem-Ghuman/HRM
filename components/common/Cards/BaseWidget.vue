@@ -1,5 +1,5 @@
 <template>
-  <div class="widget d-flex" :class="themeClassWrapper">
+  <div class="widget d-flex">
     <div class="widget-container">
       <div>
         <label>{{ title }}</label>
@@ -168,6 +168,7 @@ $text-font-size: 14px;
   padding: 24px;
   font-size: $text-font-size;
   border-radius: 24px;
+  background-color: $light;
 
   label {
     font-size: 1rem;

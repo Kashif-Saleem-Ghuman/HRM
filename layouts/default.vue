@@ -1,5 +1,5 @@
 <template>
-  <div :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
+  <div>
     <bib-app-wrapper
       :navigationCollapsed="collapseNavigation1"
       :isLightTheme="isLightThemeCheck"
@@ -45,10 +45,10 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu :sectionHead="!collapseNavigation1"></app-menu>
+        <app-menu :sectionHead="!collapseNavigation1" ></app-menu>
       </template>
       <template #content>
-        <div id="main-content" >
+        <div id="main-content" :class="themeClassWrapper">
           <Nuxt />
           <add-leave-sidebar></add-leave-sidebar>
         </div>

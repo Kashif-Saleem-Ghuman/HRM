@@ -2,7 +2,7 @@
   <div class="custom-table2">
     <table
       v-click-outside="unselectAll"
-      class="table"
+      class="table bg-light"
       :class="{ table__headless: headless, resizableTable: resizableColumns }"
       cellspacing="0"
     >

@@ -2,6 +2,7 @@
 @import "./timeandattendance.scss";
 @import "./sidebar.scss";
 @import "./fullcalendar.scss";
+@import "./widget.scss";
 
 .light-theme {
     background-color: $white;
@@ -16,7 +17,7 @@
     }
   }
   .dark-theme {
-    background-color: $dark;
+    background-color: $black;
     color: $white;
     .bottom_border_wrapper {
       border-bottom: 1px solid $dark-sub3;

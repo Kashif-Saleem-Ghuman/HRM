@@ -358,3 +358,6 @@ body {
     justify-content: center !important;
   }
 }
+.ProseMirror:focus {
+  outline: none !important;
+}

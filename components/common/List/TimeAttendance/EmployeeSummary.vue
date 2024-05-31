@@ -1,100 +1,61 @@
 <template>
   <client-only>
-    <div class="w-100">
-      <div class="text-gray6 font-w-600 font-md pb-05">Daily summary</div>
-      <div class="editor-wrapper">
-        <div v-if="editor">
-          <div class="toolbar">
+    <div v-if="editor" class="wrapper" @click.stop>
+      <div class="container">
+        <div class="toolbar-top">
+          <div
+            v-for="item in toolbarItems"
+            :key="item.name"
+            class="toolbar-items"
+          >
             <div
               class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('bold') }"
-              @click="editor.chain().focus().toggleBold().run()"
+              :class="{ 'is-active': editor.isActive(item.name) }"
+              @click="item.action"
             >
-              <fa :icon="faBold"></fa>
-            </div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('italic') }"
-              @click="editor.chain().focus().toggleItalic().run()"
-            >
-              <fa :icon="faItalic"></fa>
-            </div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('underline') }"
-              @click="editor.chain().focus().toggleUnderline().run()"
-            >
-              <fa :icon="faUnderline"></fa>
-            </div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('strike') }"
-              @click="editor.chain().focus().toggleStrike().run()"
-            >
-              <fa :icon="faStrikethrough"></fa>
-            </div>
-            <div class="toolbar-separator"></div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('link') }"
-              @click="toggleLink"
-            >
-              <fa :icon="faLink"></fa>
-            </div>
-            <div class="toolbar-separator"></div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('bulletList') }"
-              @click="editor.chain().focus().toggleBulletList().run()"
-            >
-              <fa :icon="faListUl"></fa>
-            </div>
-            <div
-              class="toolbar-icon"
-              :class="{ 'is-active': editor.isActive('orderedList') }"
-              @click="editor.chain().focus().toggleOrderedList().run()"
-            >
-              <fa :icon="faListOl"></fa>
+              <fa :icon="item.icon"></fa>
             </div>
           </div>
+          <!-- <div class="toolbar-button d-inline-flex align-center ml-auto">
+            <bib-button
+              type="button"
+              label="Cancel"
+              class="cursor-pointer"
+              variant="light"
+              @click="cancelMessage"
+            >
+            </bib-button>
+          </div> -->
         </div>
         <div class="editor-container">
-          <div>
-            <editor-content
-              :editor="editor"
-              class="p-05"
-              :editable="editable"
-            />
+          <div class="editor-wrapper">
+            <editor-content :editor="editor" class="editor" />
           </div>
         </div>
-        
       </div>
       <div class="d-flex justify-end align-center pt-05">
-          <bib-button
-            v-if="!disabled"
-            label="Submit"
-            variant="primary"
-            @click="onSubmit"
-          ></bib-button>
-        </div>
+        <bib-button
+          v-if="!disabled"
+          label="Submit"
+          variant="primary"
+          @click="onSubmit"
+        ></bib-button>
+      </div>
     </div>
   </client-only>
 </template>
-
 <script>
 import {
   createSummary,
   updateSummary,
 } from "../../../../utils/functions/api_call/summaries";
-import { Editor, EditorContent } from "@tiptap/vue-2";
+import { Editor, EditorContent, Extension, VueRenderer } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
-  faGrin,
-  faPaperPlane,
-  faPaperclip,
   faBold,
   faItalic,
   faUnderline,
@@ -102,16 +63,9 @@ import {
   faListUl,
   faListOl,
   faLink,
-  faCode,
-  faCodeBranch,
-  faFile,
-  faTimes,
-  faAddressCard,
-  faMicrophone,
-  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { escape, unescape } from "lodash"
+import { escape, unescape } from "lodash";
 
 export default {
   components: {
@@ -141,9 +95,6 @@ export default {
   data() {
     return {
       summaryText: "",
-      faPaperclip,
-      faPaperPlane,
-      faGrin,
       faBold,
       faItalic,
       faUnderline,
@@ -151,13 +102,39 @@ export default {
       faListUl,
       faListOl,
       faLink,
-      faCode,
-      faCodeBranch,
-      faFile,
-      faTimes,
-      faAddressCard,
-      faMicrophone,
-      faVideo,
+      toolbarItems: [
+        {
+          name: "bold",
+          icon: faBold,
+          action: () => this.editor.chain().focus().toggleBold().run(),
+        },
+        {
+          name: "italic",
+          icon: faItalic,
+          action: () => this.editor.chain().focus().toggleItalic().run(),
+        },
+        {
+          name: "underline",
+          icon: faUnderline,
+          action: () => this.editor.chain().focus().toggleUnderline().run(),
+        },
+        {
+          name: "strike",
+          icon: faStrikethrough,
+          action: () => this.editor.chain().focus().toggleStrike().run(),
+        },
+        { name: "link", icon: faLink, action: this.toggleLink },
+        {
+          name: "bulletList",
+          icon: faListUl,
+          action: () => this.editor.chain().focus().toggleBulletList().run(),
+        },
+        {
+          name: "orderedList",
+          icon: faListOl,
+          action: () => this.editor.chain().focus().toggleOrderedList().run(),
+        },
+      ],
     };
   },
   created() {
@@ -165,10 +142,18 @@ export default {
       openOnClick: false,
     });
     this.editor = new Editor({
-      content: this.summaryText,
-      extensions: [StarterKit, Underline, Link],
-      editable: this.editable,
-      
+      content: "",
+      extensions: [
+        StarterKit,
+        Link.configure({
+          openOnClick: false,
+        }),
+        Underline,
+        Placeholder.configure({ placeholder: this.placeholder }),
+      ],
+      onUpdate: ({ editor }) => {
+        this.$forceUpdate();
+      },
     });
   },
   methods: {
@@ -263,13 +248,16 @@ export default {
 
     setSummaryText() {
       if (this.summary?.id) {
-        this.summaryText = `${unescape(this.summary.text)}`
+        this.summaryText = `${unescape(this.summary.text)}`;
         if (this.editor) {
           this.editor.commands.setContent(`${unescape(this.summary.text)}`); // Update the content of the editor
         }
       } else {
         this.editor.commands.setContent();
       }
+    },
+    cancelMessage() {
+      this.editor.commands.clearContent();
     },
   },
 
@@ -291,43 +279,62 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.editor-wrapper {
-  // padding: 10px;
-  border-bottom: 6px;
-  border: solid 1px var(--bib-light);
-  .toolbar {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: solid 1px var(--bib-light);
-    height: 40px;
-    background-color: var(--bib-light);
-    .toolbar-icon {
-      svg {
-        margin-right: 1rem;
-        cursor: pointer;
-      }
-    }
-  }
+<style lang="scss" scoped>
+.container {
+  width: auto;
+  border: 1px solid var(--bib-light);
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
 }
+
 .editor-container {
-  max-height: 300px;
+  // display: flex;
+  // flex-grow: 1;
+  align-items: center;
+  padding: 5px 8px;
+  max-height: 250px;
   overflow-y: auto;
-  min-height: 100px;
-  div{
-    min-height: 100px;
-    max-height: 300px;
+}
+.toolbar-top {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  padding: 5px 5px 5px;
+  background-color: var(--bib-light);
+  border-bottom: solid 1px $gray2;
+}
+.toolbar-items {
+  background-color: $light;
+  border-right: 1px solid $gray7;
+  width: 30px;
+  :hover {
+    background-color: $white;
   }
-  p{
-    line-height: 1.3rem;
-    padding: 0;
-    margin: 0;
+  &.is-active {
+    color: $black;
+    background-color: $white;
   }
 }
+::v-deep .toolbar-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bib-secondary);
+  &.is-active {
+    color: $black;
+    width: 26px;
+    height: 26px;
+    background-color: $white;
+  }
 
-.ProseMirror:focus {
-  outline: none;
+  svg {
+    height: 15px;
+  }
 }
 </style>

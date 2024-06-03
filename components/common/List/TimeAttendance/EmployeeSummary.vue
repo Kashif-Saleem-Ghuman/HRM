@@ -28,8 +28,12 @@
           </div> -->
         </div>
         <div class="editor-container">
-          <div class="editor-wrapper">
-            <editor-content :editor="editor" class="editor" />
+          <div>
+            <editor-content
+              :editor="editor"
+              class="editor"
+              :editable="editable"
+            />
           </div>
         </div>
       </div>
@@ -142,7 +146,8 @@ export default {
       openOnClick: false,
     });
     this.editor = new Editor({
-      content: "",
+      content: this.summaryText,
+      editable: this.editable,
       extensions: [
         StarterKit,
         Link.configure({
@@ -291,12 +296,16 @@ export default {
 }
 
 .editor-container {
-  // display: flex;
-  // flex-grow: 1;
-  align-items: center;
-  padding: 5px 8px;
-  max-height: 250px;
   overflow-y: auto;
+  min-height: 100px;
+  max-height: 300px;
+  padding: 0 1rem;
+
+  ::v-deep .ProseMirror {
+    min-height: 100px;
+    max-height: 300px;
+    background-color: white; /* Add any other styles you want */
+  }
 }
 .toolbar-top {
   display: flex;
@@ -336,5 +345,8 @@ export default {
   svg {
     height: 15px;
   }
+}
+::v-deep .ProseMirror:focus {
+  outline: none !important;
 }
 </style>

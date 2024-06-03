@@ -179,14 +179,14 @@ export default {
       switch (event.key) {
         case "approved":
           if (this.type === PENDING_TYPE) {
-            this.$emit('approve-item', id);
+            this.$emit('approve-item', {id});
           } else {
             this.$emit('approve-item', { id, employeeId, date });
           }
           break;
         case "rejected":
           if (this.type === PENDING_TYPE) {
-            this.$emit('reject-item', id);
+            this.$emit('reject-item', {id});
           } else {
             this.$emit('reject-item', { id, employeeId, date });
           }

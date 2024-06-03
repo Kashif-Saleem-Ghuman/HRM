@@ -154,6 +154,8 @@
               :timesheetsList="timesheetsList"
               :loading="loading"
               :is-full-year-list="isFullYearList"
+              @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
+              @week-view="redirectWeekView"
             ></month-list>
             <no-record v-else />
           </template>
@@ -226,8 +228,8 @@ export default {
       totalWorkInMS: 0,
       timesheetStatus: "",
       weekDates: {
-        from: DateTime.now().startOf("week").toISO(),
-        to: DateTime.now().endOf("week").toISO(),
+        from: null,
+        to: null,
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",
@@ -472,6 +474,7 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       // this.loading = true;
+      console.log('weeklytimeEntries', this.weekDates);
       const weekRange = this.weekToUTCWeek({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),
@@ -537,6 +540,14 @@ export default {
         });
       }
     },
+    async redirectWeekView(item) {
+      const {start, end} = item;
+      this.$set(this.weekDates, 'from', DateTime.fromISO(start).toISO());
+      this.$set(this.weekDates, 'to', DateTime.fromISO(end).toISO());
+
+      this.$router.push({ query: { view: "week" } });
+      await this.fillWeeklyTimeEntries();
+    },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();
     },
@@ -555,6 +566,9 @@ export default {
     async onTimesheetSubmitted() {
       await this.fillWeeklyTimeEntries();
     },
+    async onWeeklyTimesheetSubmitted() {
+      await this.generateWeekDaysEntries();
+    },
     formatDates({ from, to }) {
       const fromFormat = DateTime.fromISO(from)
         .toLocal()
@@ -564,7 +578,6 @@ export default {
     },
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
-      this.weekDates = {from: from, to: to}
     },
     calculateTotalWeeksThisYear() {
       const currentDate = DateTime.now();

@@ -232,17 +232,26 @@ export default {
       const data = weekData[day.weekday];
       if (!data) return "--";
 
+      let vacationName = this.getVacationName(data);
+
       if (typeof data.totalHours === "number") {
-        return formatHoursToHHMM(data.totalHours);
+        return this.getFormattedHoursWithVacation(data, vacationName);
       }
 
-      for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
-        if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
-      }
+      return vacationName;
 
       return "--";
     },
-
+    getVacationName(data) {
+      const activity = Object.values(ACTIVITY_TYPE).find(activity => data[activity]);
+      return ACTIVITY_TYPE_LABEL_VALUE[activity]  ?? "";
+    },
+    getFormattedHoursWithVacation(weekData, vacationName) {
+      const formattedHours = formatHoursToHHMM(weekData.totalHours);
+      return vacationName
+        ? `${vacationName} (${formattedHours})`
+        : formattedHours;
+    },
     getWeekdayClassNames(weekData, day) {
       if (!weekData) return "chip-wrapper__bggray";
       const data = weekData[day.weekday];

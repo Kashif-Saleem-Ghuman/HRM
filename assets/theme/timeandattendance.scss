@@ -16,11 +16,27 @@
         }
       }
     }
-    .editor-wrapper {
-      border: solid 1px $dark-sub3;
-      .toolbar {
-        border-bottom: solid 1px $dark-sub2;
-        background-color: $dark-sub3;
+    .container{
+      border: 1px solid $dark-sub3 !important;
+    }
+    .editor-container {
+      border: solid 0px $dark-sub3;
+     
+    }
+    .toolbar-top {
+      border-bottom: solid 1px $dark-sub3 !important;
+      background-color: $dark !important;
+    }
+    .toolbar-items {
+      background-color: $dark !important;
+      border-right: 1px solid $dark-sub3 !important;
+      width: 30px;
+      :hover {
+        background-color: $black !important;
+      }
+      &.is-active {
+        color: $white;
+        background-color: $black !important;
       }
     }
     .list{

@@ -10,7 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@bizinbox/bib-ui-lib": "^1.3.25",
+=======
+    "@bizinbox/bib-ui-lib": "^1.3.30",
+>>>>>>> main
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fullcalendar/common": "^5.11.5",
@@ -22,6 +26,7 @@
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/style-resources": "^1.2.1",
     "@tiptap/extension-link": "^2.2.4",
+    "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/extension-underline": "^2.2.4",
     "@tiptap/pm": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",

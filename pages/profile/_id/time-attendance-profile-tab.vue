@@ -121,8 +121,8 @@ export default {
       VIEWS,
       view: VIEWS[0],
       weekDates: {
-        from: DateTime.now().startOf("week"),
-        to: DateTime.now().endOf("week"),
+        from: null,
+        to: null,
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",

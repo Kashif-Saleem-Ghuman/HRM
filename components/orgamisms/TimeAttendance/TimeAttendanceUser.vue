@@ -169,8 +169,8 @@ export default {
       totalWorkInMS: 0,
       timesheetStatus: "",
       weekDates: {
-        from: DateTime.now().startOf("week").toISO(),
-        to: DateTime.now().endOf("week").toISO(),
+        from: null,
+        to: null,
       },
       weekDataActivityReports: [],
       weekDataTotalWork: "--:--",

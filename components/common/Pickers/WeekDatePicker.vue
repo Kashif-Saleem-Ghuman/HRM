@@ -32,7 +32,7 @@
 
 <script>
 import { DateTime } from "luxon";
-import { getWeekStartEndDates } from "../../../utils/functions/dates";
+import {getWeekEnd, getWeekStart, getWeekStartEndDates} from "../../../utils/functions/dates";
 import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 import {USER_WEEK_VIEW_PATH} from "@/utils/constant/routes";
 
@@ -44,7 +44,11 @@ export default {
       maxDate: DateTime.now().toISO()
     };
   },
-
+  props: {
+    dates: {
+      type: Object,
+    }
+  },
   methods: {
     getDatetimeCommonProps,
     onDateChange(value) {
@@ -77,6 +81,18 @@ export default {
       
       this.$emit("close")
     },
+
+    setWeekFromDates(dates) {
+      const { from, to } = getWeekStartEndDates(dates.from);
+
+      this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
+      this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
+
+      this.$emit("update:dates", {
+        from, to
+      });
+    },
+
     setToPreviousDates() {
       this.from = this.previousFrom;
       this.to = this.previousTo;
@@ -87,6 +103,9 @@ export default {
         to: DateTime.fromISO(to).endOf("day").toUTC().toISO(),
       };
     },
+    isPropsDatesSet(dates) {
+      return dates.from && dates.to;
+    },
   },
 
   created() {
@@ -95,7 +114,7 @@ export default {
       const date = path.split("=")[2]
       this.setCurrentWeek(date);
     }else {
-      this.setCurrentWeek();
+      this.isPropsDatesSet(this.dates) ? this.setWeekFromDates(this.dates) : this.setCurrentWeek();
     }
 
   },

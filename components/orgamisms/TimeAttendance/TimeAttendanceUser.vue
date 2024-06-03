@@ -213,8 +213,7 @@ export default {
         );
       }, 0);
 
-      const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
-        if (!entry.end) return 0;
+      const totalBreakInMS = timeEntriesBreak.filter(entry => entry.end).reduce((total, entry) => {
         return (
           total +
           this.calculateDuration(

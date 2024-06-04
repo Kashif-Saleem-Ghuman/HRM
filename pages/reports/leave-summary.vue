@@ -7,7 +7,7 @@
           label="Year"
           :options="yearOptions"
           v-model="selectedYear"
-          variant="white"
+          :variant="themeInputVariant"
         ></bib-input>
       </div>
       <div id="fotter">

@@ -6,7 +6,7 @@
         label="Employee"
         :options="employeesOptions"
         v-model="selectedEmployeeId"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div>
@@ -15,7 +15,7 @@
         label="Month"
         :options="monthOptions"
         v-model="selectedMonth"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div>
@@ -24,7 +24,7 @@
         label="Year"
         :options="yearOptions"
         v-model="selectedYear"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div id="fotter">

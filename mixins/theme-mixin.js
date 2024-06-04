@@ -10,10 +10,13 @@ export default {
       return this.isLightThemeCheck ? "light-theme" : "dark-theme";
     },
     themeClassCommon() {
-      return this.isLightThemeCheck ? "bg-black" : "bg-dark";
+      return this.isLightThemeCheck ? "bg-light" : "bg-dark";
     },
     themeButtonVariant() {
       return this.isLightThemeCheck ? "light" : "dark";
+    },
+    themeInputVariant() {
+      return this.isLightThemeCheck ? "white" : "dark";
     },
     borderClassBottom() {
       return this.isLightThemeCheck ? "border-bottom-light" : "border-bottom-dark-sub3";

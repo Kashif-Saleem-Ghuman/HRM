@@ -1,5 +1,5 @@
 <template>
-  <div :class="isLightThemeCheck ? '' : 'app-wrapper-dark-theme'" class="bg-black">
+  <div :class="isLightThemeCheck ? '' : 'app-wrapper-dark-theme bg-black'">
     <bib-app-wrapper
       :navigationCollapsed="collapseNavigation1"
       :isLightTheme="isLightThemeCheck"

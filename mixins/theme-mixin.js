@@ -16,7 +16,7 @@ export default {
       return this.isLightThemeCheck ? "light" : "dark";
     },
     themeInputVariant() {
-      return this.isLightThemeCheck ? "white" : "dark";
+      return this.isLightThemeCheck ? "light" : "dark";
     },
     borderClassBottom() {
       return this.isLightThemeCheck ? "border-bottom-light" : "border-bottom-dark-sub3";

@@ -103,7 +103,7 @@ export default class BaseTimesheetParser {
   };
 
   getDayTotalWorkHours(timeEntries = []) {
-    const timeEntriesInSum = sumBy(timeEntries.filter( t => t.activity == 'in'), 'total') ?? 0
+    const timeEntriesInSum = timeEntries.find( t => t.activity == 'in')?.total ?? 0;
     const timeEntriesBreakSum = sumBy(timeEntries.filter( t => t.activity == 'break'), 'total') ?? 0
     return timeEntriesInSum > timeEntriesBreakSum ? timeEntriesInSum - timeEntriesBreakSum : 0
   }

@@ -5,6 +5,7 @@
       :isDisabled="isMonthDisabled"
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
+      :year="year"
       :isAdminView="isAdminView"
     />
   </div>
@@ -51,7 +52,7 @@ export default {
         from: DateTime.utc(this.year, Number(this.month))
           .startOf("month").startOf('week').minus({days: 1})
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").startOf('week').minus({days: 2}).toISO(),
+        to: DateTime.utc(this.year, Number(this.month)).endOf("month").endOf('week').minus({days: 2}).toISO(),
       };
     },
   },

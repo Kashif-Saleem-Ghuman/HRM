@@ -222,6 +222,19 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
+        isActive: false,
+        sortKey: "weekData.7.totalHours",
+        type: "week",
+      },
+    },
+    {
       key: "mon",
       label: "MON",
       style: "text-align:center",
@@ -299,19 +312,7 @@ export const TABLE_HEAD = {
         type: "week",
       },
     },
-    {
-      key: "sun",
-      label: "SUN",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "employee-sun-sort",
-        isActive: false,
-        sortKey: "weekData.7.totalHours",
-        type: "week",
-      },
-    },
+
     {
       key: "total",
       label: "TOTAL HRS",
@@ -355,6 +356,19 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
+        isActive: false,
+        sortKey: "weekData.7.totalHours",
+        type: "week",
+      },
+    },
+    {
       key: "mon",
       label: "MON",
       style: "text-align:center",
@@ -433,19 +447,6 @@ export const TABLE_HEAD = {
       },
     },
     {
-      key: "sun",
-      label: "SUN",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "employee-sun-sort",
-        isActive: false,
-        sortKey: "weekData.7.totalHours",
-        type: "week",
-      },
-    },
-    {
       key: "total",
       label: "TOTAL HRS",
       style: "text-align:left",
@@ -481,6 +482,12 @@ export const TABLE_HEAD = {
       width: `${100 / 5}%`,
     },
     {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+    },
+    {
       key: "mon",
       label: "MON",
       style: "text-align:center",
@@ -513,12 +520,6 @@ export const TABLE_HEAD = {
     {
       key: "sat",
       label: "SAT",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-    },
-    {
-      key: "sun",
-      label: "SUN",
       style: "text-align:center",
       width: `${100 / 12}%`,
     },

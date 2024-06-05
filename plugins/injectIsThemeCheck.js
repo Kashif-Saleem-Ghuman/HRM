@@ -1,5 +1,6 @@
 export default ({ app, store }, inject) => {
   const handleToggleWrapperTheme = (value) => {
+    console.log(value, "asldjaslkdjlaksjdljasldjlaksjdlkajsdlkjalsdj")
     app.$cookies.set("isLightTheme", value, {
       path: "/",
       domain: location.host.includes("business-in-a-box.com") ? ".business-in-a-box.com" : undefined,
@@ -11,7 +12,7 @@ export default ({ app, store }, inject) => {
   const isThemeCheck = () => {
     let isTheme = app.$cookies.get('isLightTheme');
     if (isTheme === undefined) {
-      isTheme = false;
+      isTheme = true;
       app.$cookies.set("isLightTheme", isTheme, {
         path: "/",
         domain: location.host.includes("business-in-a-box.com") ? ".business-in-a-box.com" : undefined,

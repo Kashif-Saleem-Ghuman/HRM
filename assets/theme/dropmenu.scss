@@ -1,0 +1,12 @@
+.dark-theme{
+    .list{
+        &__item{
+            color: $white !important;
+            background-color: $dark;
+            &:hover{
+                background-color: $dark-sub3;
+            }    
+        }
+       
+    }
+}

@@ -48,7 +48,7 @@
           </template>
         </div>
         <bib-button
-          variant="light"
+          :variant="themeButtonVariant"
           :scale="1"
           :label="weekendsButtonView"
           @click="weekData()"

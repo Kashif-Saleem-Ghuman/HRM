@@ -39,7 +39,7 @@
         <bib-app-switcher
           v-if="!collapseNavigation1"
           :menuItems="appWrapItems.appItems"
-          :isLightTheme="isLightThemeCheck"
+          :isLightTheme="isLightTheme"
           @toggle-theme="toggleTheme"
         >
         </bib-app-switcher>
@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { debounce } from "lodash";
 import getJson from "@/utils/dataJson/app_wrap_data.js";
 const appWrapItems = getJson();
@@ -89,6 +89,7 @@ export default {
       userRole: "",
       addLeaveKey: 0,
       flag: false,
+      isLightTheme:this.$cookies.get('isLightTheme')
     };
   },
   computed: {
@@ -103,7 +104,6 @@ export default {
     this.setDebouncedSearch();
     this.loading = false;
     this.$isThemeCheck();
-
   },
   methods: {
     getEmployeeFullName,
@@ -113,6 +113,8 @@ export default {
     openBillingPage,
     headerHelpClick,
     headerActionCall,
+    ...mapActions('theme', ['initializeTheme']),
+
     toggleTheme() {
       const newTheme = !this.isLightThemeCheck;
       this.$handleToggleWrapperTheme(newTheme);

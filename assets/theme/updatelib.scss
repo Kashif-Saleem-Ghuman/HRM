@@ -1,0 +1,92 @@
+.dark-theme {
+  .pop {
+    border: 1px solid $border-primary !important;
+  }
+  .list {
+    background-color: $dark !important;
+    &__item {
+      color: $white !important;
+      background-color: $dark;
+      &:hover {
+        background-color: $dark-sub3;
+      }
+    }
+  }
+  .modal__wrapper {
+    background-color: $dark-sub2 !important;
+    border-radius: 10px;
+    &__header {
+      color: $white;
+      border-bottom: 1px solid $border-primary !important;
+    }
+  }
+  .table {
+    &__hrow {
+      background-color: $dark !important;
+      color: $gray7 !important;
+      th {
+        border: $border-primary 1px solid !important;
+      }
+      &__active {
+        border: 10px solid red !important;
+      }
+    }
+
+    &__irow {
+      color: $gray7 !important;
+      background-color: $dark;
+      td {
+        border: 1px solid $border-primary !important;
+        color: $gray7 !important;
+      }
+      &:hover {
+        cursor: default;
+        background-color: $dark-sub2 !important;
+        border-color: $border-primary;
+        td {
+          border-left: $border-primary 1px solid !important;
+        }
+      }
+    }
+    .icon {
+      fill: $white !important;
+    }
+  }
+  .table .table__hrow__active {
+    border-bottom: 1px solid $border-primary !important;
+    span {
+      color: $white !important;
+    }
+  }
+  .timesheet-wrapper-main{
+    .table__irow{
+      background-color: $dark !important;
+    }
+} 
+  .chip-list-wrapper {
+    &__light {
+      li {
+        color: $gray7 !important;
+      }
+    }
+  }
+  .info_wrapper {
+    color: $gray7;
+    font-weight: normal;
+  }
+  .description {
+    color: $gray7;
+  }
+  .chip-wrapper__bggray {
+    background-color: $dark-sub3;
+  }
+  .chip-wrapper__bgvacation{
+    background-color: $dark-sub3;
+    svg {
+      fill: $white !important;
+    }
+    span{
+      color: $white;
+    }
+  }
+}

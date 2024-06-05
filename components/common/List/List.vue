@@ -2,7 +2,7 @@
   <div class="position-relative h-300">
     <bib-table
       :fields="tableFields"
-      class="border-gray4 bg-white"
+      class="border-gray4"
       :sections="employees"
       :hide-no-column="true"
       :fixHeader="true"
@@ -58,14 +58,14 @@
         </div>
       </template>
       <template v-for="(day, dayIndex) in employeeData" #[`cell(${day.key})`]="data">
-        <div class="text-dark cursor-pointer">
-          <div class="justify-between text-dark">
+        <div class=" cursor-pointer">
+          <div class="justify-between ">
             <span>{{ getValue(data.value?.[day.key]) }}</span>
           </div>
         </div>
       </template>
       <template #cell(hiredate)="data">
-        <div class="justify-between text-dark cursor-pointer">
+        <div class="justify-between  cursor-pointer">
           <span>{{
             data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
           }}</span>

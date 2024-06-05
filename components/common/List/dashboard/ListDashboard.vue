@@ -87,7 +87,7 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots" @click.native.stop>
+      <bib-button pop="horizontal-dots" variant="white" @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span

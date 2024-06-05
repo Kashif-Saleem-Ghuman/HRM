@@ -6,6 +6,7 @@
           v-model="refusalReason"
           type="textarea"
           placeholder="Enter the reason for rejection"
+          :variant="themeInputVariant"
         ></bib-input>
       </div>
     </template>
@@ -13,7 +14,7 @@
       <div class="d-flex">
         <bib-button
           label="Cancel"
-          variant="light"
+          :variant="isLightThemeCheck ? 'light' : 'dark'"
           pill
           @click="$emit('cancel')"
         ></bib-button>

@@ -11,7 +11,7 @@
       <div class="d-flex justify-center">
         <bib-button
           label="Cancel"
-          variant="light"
+          :variant="isLightThemeCheck ? 'light' : 'dark'"
           class="mr-1"
           @click="$emit('close')"
           pill

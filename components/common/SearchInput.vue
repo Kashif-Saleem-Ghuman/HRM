@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center mr-05">
+  <div class="d-flex align-center">
     <span class="mr-05">{{  label  }}</span>
     <bib-input
       v-model="searchString"

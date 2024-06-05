@@ -14,7 +14,7 @@
           <ul v-if="isDropdownOpen">
             <li
               class="d-flex align-center w-100"
-              v-for="(option, index) in options"
+              v-for="(option, index) in getMonthsOptions"
               :key="index"
               @click="selectOption(option)"
             >
@@ -31,12 +31,16 @@
 import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
 import { MONTH_SELECTOR_DEFAULT } from "../../../utils/constant/Constant";
 import BaseDateButton from "./BaseDateButton.vue";
+import {DateTime} from "luxon";
 export default {
   extends: BaseDateButton,
   props: {
     isAdminView: {
       type: Boolean,
       default: false,
+    },
+    year: {
+      type: Number,
     }
   },
   data() {
@@ -51,7 +55,18 @@ export default {
       }
       return 'close';
     },
+    getMonthsOptions() {
+      const now = DateTime.now();
+      const currentYear = now.year;
+      const currentMonth = now.month;
+
+      if(currentYear == this.year) {
+        return this.options.slice(0, this.options.findIndex((option) => option.value == currentMonth) + 1)
+      }
+      return this.options;
+    }
   },
+
   methods: {
     clickOutside() {
       this.isDropdownOpen = false;

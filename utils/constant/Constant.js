@@ -215,10 +215,23 @@ export const TABLE_HEAD = {
       width: `${100 / 5}%`,
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-name-sort",
+        event: "employee-date-sort",
         isActive: false,
-        sortKey: "date",
+        sortKey: "start",
         type: "string",
+      },
+    },
+    {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
+        isActive: false,
+        sortKey: "weekData.7.totalHours",
+        type: "week",
       },
     },
     {
@@ -299,19 +312,7 @@ export const TABLE_HEAD = {
         type: "week",
       },
     },
-    {
-      key: "sun",
-      label: "SUN",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "employee-sun-sort",
-        isActive: false,
-        sortKey: "weekData.7.totalHours",
-        type: "week",
-      },
-    },
+
     {
       key: "total",
       label: "TOTAL HRS",
@@ -332,7 +333,7 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         event: "employee-status-sort",
         isActive: false,
-        sortKey: "timesheets[0].status",
+        sortKey: "status",
         type: "string",
       },
     },
@@ -355,6 +356,19 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-sun-sort",
+        isActive: false,
+        sortKey: "weekData.7.totalHours",
+        type: "week",
+      },
+    },
+    {
       key: "mon",
       label: "MON",
       style: "text-align:center",
@@ -429,19 +443,6 @@ export const TABLE_HEAD = {
         event: "employee-sat-sort",
         isActive: false,
         sortKey: "weekData.6.totalHours",
-        type: "week",
-      },
-    },
-    {
-      key: "sun",
-      label: "SUN",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "employee-sun-sort",
-        isActive: false,
-        sortKey: "weekData.7.totalHours",
         type: "week",
       },
     },
@@ -481,6 +482,12 @@ export const TABLE_HEAD = {
       width: `${100 / 5}%`,
     },
     {
+      key: "sun",
+      label: "SUN",
+      style: "text-align:center",
+      width: `${100 / 12}%`,
+    },
+    {
       key: "mon",
       label: "MON",
       style: "text-align:center",
@@ -513,12 +520,6 @@ export const TABLE_HEAD = {
     {
       key: "sat",
       label: "SAT",
-      style: "text-align:center",
-      width: `${100 / 12}%`,
-    },
-    {
-      key: "sun",
-      label: "SUN",
       style: "text-align:center",
       width: `${100 / 12}%`,
     },

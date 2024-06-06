@@ -1,11 +1,10 @@
 <template>
   <div>
     <div class="drop-menu">
-      <div class="position-relative">
+      <div class="position-relative" @click="isDropdownOpen = !isDropdownOpen">
         <bib-button
           :label="selected"
           variant="light"
-          @click="toggleDropdown"
           v-click-outside="clickOutside"
           :icon-right="iconName"
           @click-right-icon="resetMonth"

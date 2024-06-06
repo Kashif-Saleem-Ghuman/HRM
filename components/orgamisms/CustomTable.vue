@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <bib-table
+  <div class="custom-table2">
+    <table
       v-click-outside="unselectAll"
+      class="table"
       :class="{ table__headless: headless, resizableTable: resizableColumns }"
       cellspacing="0"
     >
@@ -17,6 +18,7 @@
                 @change="$emit('select-all', $event)"
                 :checked="allChecked"
                 style="margin: 0; padding: 0px"
+                :variant="isLightThemeCheck ? '' : 'secondary'"
               ></bib-checkbox>
             </div>
           </th>
@@ -114,7 +116,7 @@
           ></slot>
         </td>
       </tr>
-    </bib-table>
+    </table>
   </div>
 </template>
 
@@ -238,3 +240,140 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.custom-table2 {
+  .table {
+    width: 100%;
+    height: max-content;
+    margin: 0;
+    border: none !important;
+    // tr {
+    //   height: 2.5rem;
+    // }
+
+    th,
+    td {
+      padding-left: 8px;
+      padding-right: 6px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    &__hrow {
+      height: 2.5rem;
+      background-color: $light;
+      color: $gray5;
+      font-size: 13px;
+      font-weight: bold;
+
+      th {
+        border: $gray4 1px solid;
+        border-top: none;
+        text-align: left;
+
+        &:not(:last-child) {
+          border-right: none;
+        }
+
+        &.cell_action_header {
+          width: 0rem;
+        }
+      }
+
+      &__no {
+        text-align: center !important;
+      }
+
+      &__active {
+        border-bottom-color: $dark-sub1 !important;
+        span {
+          color: $dark-sub1 !important;
+        }
+      }
+
+      &.collapsed {
+        visibility: collapse;
+      }
+    }
+
+    &__srow {
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    &__irow {
+      color: $gray6;
+      font-weight: 400;
+      line-height: 2.5rem;
+      font-size: $base-size;
+      outline: 1px solid transparent;
+      transition: background-color 0.3s linear, outline-color 0.3s linear;
+
+      &-count {
+        width: 60px;
+      }
+
+      td {
+        border: 1px solid $light;
+
+        &:not(:last-child) {
+          border-right: none;
+        }
+        color: $gray5;
+        &:first-child {
+          text-align: center;
+        }
+      }
+      &:nth-child(2) td {
+        border-top: none;
+      }
+      &:not(:last-child) td {
+        border-bottom: none;
+      }
+      &:hover {
+        cursor: default;
+        background-color: $light;
+        border-color: $gray4;
+        td {
+          border-left: $gray4 1px solid;
+        }
+      }
+      &:active {
+        cursor: default;
+        background-color: $light;
+        outline: 1px solid $gray4;
+      }
+      &.active {
+        background-color: $light;
+        outline: 1px solid $gray4;
+      }
+    }
+
+    &__headless {
+      border-top: 0;
+      .table__hrow {
+        visibility: collapse;
+      }
+    }
+  }
+
+  .resizableTable {
+    th,
+    td {
+      min-width: 100px;
+      width: auto;
+      max-width: 300px;
+      resize: horizontal;
+      overflow: auto;
+      span {
+        word-break: break-word;
+      }
+      &::-webkit-resizer {
+        // background-color: transparent;
+        height: 100%;
+      }
+    }
+  }
+}
+</style>

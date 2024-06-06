@@ -5,76 +5,76 @@
 @import "./widget.scss";
 @import "./updatelib.scss";
 @import "./usercard.scss";
+@import "./tablefooter.scss";
 
 .light-theme {
-  body{
+  body {
     background-color: $white;
   }
-    background-color: $white;
-    color: $dark;
-    .bottom_border_wrapper {
-      border-bottom: 1px solid $secondary-sub3;
-    }
-    .dropdown-chip-menu {
-      .menu-items {
-        background-color: $white;
-      }
+  background-color: $white;
+  color: $dark;
+  .bottom_border_wrapper {
+    border-bottom: 1px solid $secondary-sub3;
+  }
+  .dropdown-chip-menu {
+    .menu-items {
+      background-color: $white;
     }
   }
-  .dark-theme {
-    background-color: $black;
-    color: $white;
-    .bottom_border_wrapper {
-      border-bottom: 1px solid $dark-sub3;
+}
+.dark-theme {
+  background-color: $black;
+  color: $white;
+  .bottom_border_wrapper {
+    border-bottom: 1px solid $dark-sub3;
+  }
+  .dropdown-chip-menu {
+    .menu-items {
+      background-color: $black;
+      box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
     }
-    .dropdown-chip-menu {
-      .menu-items {
-        background-color: $black;
-        box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
-      }
-      .chip-wrapper-inner {
-        box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
-      }
+    .chip-wrapper-inner {
+      box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
     }
-    .app-wrapper__navigation {
-      border-right: 1px solid $dark-sub1 !important;
-    }
-    .tab-wrapper {
-      .tabs {
-        height: 3rem !important;
-        border-bottom: 0px solid var(--bib-secondary-sub2) !important;
-        button {
-          padding: 0 !important;
-          margin-right: 1rem;
-          font-size: 14px;
-          font-weight: 500;
-        }
-      }
-      .tabs button:hover {
-        font-weight: 600;
-        color: $white !important;
-      }
-      .tabs button.active {
-        font-weight: 600;
-        color: $white !important;
-        // line-height: 3rem;
-        // height: 2.95rem;
-        border-color: $white ;
+  }
+  .app-wrapper__navigation {
+    border-right: 1px solid $dark-sub1 !important;
+  }
+  .tab-wrapper {
+    .tabs {
+      height: 3rem !important;
+      border-bottom: 0px solid var(--bib-secondary-sub2) !important;
+      button {
+        padding: 0 !important;
+        margin-right: 1rem;
+        font-size: 14px;
+        font-weight: 500;
       }
     }
-    .border-wrapper {
-      border: solid 1px $dark-sub1;
+    .tabs button:hover {
+      font-weight: 600;
+      color: $white !important;
     }
-    .dropzone .dz-preview.dz-image-preview{
-      background-color: $black !important;
+    .tabs button.active {
+      font-weight: 600;
+      color: $white !important;
+      // line-height: 3rem;
+      // height: 2.95rem;
+      border-color: $border-primary;
     }
-    .drop-menu{
-      .menu-items{
-
-        ul{
-          border: 0 !important;
-        }
+  }
+  .border-wrapper {
+    border: solid 1px $dark-sub1;
+  }
+  .dropzone .dz-preview.dz-image-preview {
+    background-color: $black !important;
+  }
+  .drop-menu {
+    .menu-items {
+      ul {
+        border: 0 !important;
       }
     }
   }
   
+}

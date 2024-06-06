@@ -167,7 +167,7 @@ export default {
     width: 30px;
     bottom: 0;
     padding: 8px;
-    background-color: #eee;
+    background-color: $light;
     position: relative;
   }
 }

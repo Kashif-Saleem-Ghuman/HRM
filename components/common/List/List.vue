@@ -51,7 +51,7 @@
             <div class="title" :title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
-            <div class="description">
+            <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
               {{ data.value.jobTitle }}
             </div>
           </div>

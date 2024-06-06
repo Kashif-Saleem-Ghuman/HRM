@@ -5,7 +5,7 @@
   >
     <nav class="gap-05 page_title">
       <bib-button
-        variant="secondary--light"
+        :variant="isLightThemeCheck ? 'secondary--light' : 'dark'"
         icon="arrow-left"
         pill
         @click="backRouter"

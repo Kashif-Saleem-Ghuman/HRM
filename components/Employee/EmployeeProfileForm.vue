@@ -30,14 +30,14 @@
           <div class="d-flex px-1" style="margin-top: 16px" v-if="show">
             <bib-button
               label="Send Message"
-              variant="light"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
               icon="chat"
               class="mr-05"
               @click="sendMessage(form.userId)"
             ></bib-button>
             <bib-button
               label="Make a Call"
-              variant="light"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
               icon="phone"
               @click="makeCall(getUser.userId, getUser.userId)"
             ></bib-button>

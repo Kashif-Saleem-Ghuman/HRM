@@ -296,4 +296,18 @@ body {
     justify-content: center !important;
   }
 }
-
+.app-wrapper-dark-theme{
+  .search-items {
+    ul {
+      li {
+        border-bottom: 1px solid $border-primary !important;
+        // background-color: red;
+        color: $gray7;
+      }
+      :hover {
+        background-color: $dark;
+        color: $white !important;
+      }
+    }
+  }
+}

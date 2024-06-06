@@ -1,5 +1,5 @@
 <template>
-  <div :class="[themeClass, themeClassDarkLight]">
+  <div :class="themeClassCommon">
     <div
     v-click-outside="handleClickOutside"
     id="side-panel"

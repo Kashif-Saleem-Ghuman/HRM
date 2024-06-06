@@ -41,7 +41,7 @@
           <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">
               <div class="custom_date_picker">
-                <div v-if="view.value === 'timesheet'" class="py-05">
+                <div v-if="monthListView" class="py-05">
                   <div class="custom_date_picker">
                     <custom-date-selector
                         :year.sync="year"
@@ -49,7 +49,7 @@
                         :dates.sync="dates" />
                   </div>
                 </div>
-                <div v-if="view.value === 'timesheet' && !isFullYearList" class="py-05 pl-05">
+                <div v-if="monthListView && !isFullYearList" class="py-05 pl-05">
                   <button-with-overlay
                     :button-config="{ label: dateBtnLabel }"
                     v-slot="scope"
@@ -77,7 +77,7 @@
                   v-if="view.value === 'day'"
                   v-model="todayDate"
                   :maxDate="maxDate"
-                  :class="`custom_date_picker ${view.value === 'timesheet' ? 'pl-05' : ''} `"
+                  :class="`custom_date_picker ${monthListView ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
@@ -105,7 +105,7 @@
                   </div>
                 </button-with-overlay>
               </div>
-              <div v-if="!timesheetListView && !weekListView" class="pl-05 my-05">
+              <div v-if="!monthListView && !weekListView" class="pl-05 my-05">
                 <div>
                   <bib-button
                     :label="getTotalWeeksInfo"
@@ -141,7 +141,7 @@
               @day-view="enterDetail"
             ></list-week>
             <month-list
-              v-else-if="timesheetListView"
+              v-else-if="monthListView"
               :timesheetsList="timesheetsList"
               :loading="loading"
               :is-full-year-list="isFullYearList"
@@ -188,7 +188,7 @@ import { Timesheet } from "@/components/common/models/timesheet";
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
   { label: "Week", value: "week", variant: "light" },
-  { label: "Timesheet", value: "timesheet", variant: "light" },
+  { label: "Month", value: "month", variant: "light" },
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -306,9 +306,6 @@ export default {
     },
     weekListView() {
       return this.view.value === "week";
-    },
-    timesheetListView() {
-      return this.view.value === "timesheet";
     },
     monthListView() {
       return this.view.value === "month";
@@ -575,7 +572,7 @@ export default {
       await this.fillTimesheetEntries(true);
     },
     async onWeekDayViewChange() {
-      this.$router.push({ query: { view: 'timesheet' } });
+      this.$router.push({ query: { view: 'month' } });
     },
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}

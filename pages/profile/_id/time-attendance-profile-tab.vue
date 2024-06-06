@@ -284,7 +284,7 @@ export default {
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
-    async generateWeekDaysEntries(isWeekRange = false) {
+    async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(isWeekRange ? this.weekDates.from : this.weekDayDates.from),
@@ -292,8 +292,8 @@ export default {
       });
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("weekDaysYearly");
+        const parser = new TimesheetParser({timesheets: employee});
+        return parser.parse("weekDays");
       });
       this.timesheetsList = timesheets;
       this.loading = false;
@@ -311,10 +311,10 @@ export default {
       );
     },
     async onCloseWeekRange() {
-      await this.generateWeekDaysEntries();
+      await this.fillTimesheetEntries();
     },
     async weekSelectionInMonthView() {
-      await this.generateWeekDaysEntries(true);
+      await this.fillTimesheetEntries(true);
     },
     resetMonthView() {
       this.monthView = null;
@@ -405,7 +405,7 @@ export default {
     dates(newval, old) {
       if(newval.from && newval.to) {
         this.setWeekDayDates(newval.from, newval.to);
-        this.generateWeekDaysEntries();
+        this.fillTimesheetEntries();
         this.resetMonthView();
       }
     },

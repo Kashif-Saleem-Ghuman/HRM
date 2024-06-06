@@ -9,13 +9,11 @@
             menuClick(item);
           }
         "
-        isLightTheme
         class="mt-05"
       ></bib-app-navigation>
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
-        isLightTheme
         class="mt-05 custom-menu"
       ></bib-app-navigation>
       <!-- <bib-button label="My Account" variant="secondary--outline" class="mt-1 ml-1" @click="myAccountClick"></bib-button> -->
@@ -48,7 +46,6 @@
         <bib-app-navigation
           :items="appWrapItems.navItemsUserSwitch.slice(-1)"
           @click.stop="organizationAdminClick"
-          isLightTheme
           class="mt-05 custom-menu"
           v-if="isOrganizationAdmin"
         ></bib-app-navigation>

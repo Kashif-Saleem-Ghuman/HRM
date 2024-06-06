@@ -1,7 +1,6 @@
 <template>
   <bib-table
     :fields="tableFields"
-    class="border-gray4 bg-white"
     :sections="employees"
     :hide-no-column="true"
     :fixHeader="true"

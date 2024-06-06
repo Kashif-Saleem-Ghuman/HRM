@@ -10,7 +10,7 @@ export default {
       return this.isLightThemeCheck ? "light-theme" : "dark-theme";
     },
     themeClassCommon() {
-      return this.isLightThemeCheck ? "bg-light" : "bg-dark";
+      return this.isLightThemeCheck ? "bg-light" : "bg-dark-sub2";
     },
     themeButtonVariant() {
       return this.isLightThemeCheck ? "light" : "dark";

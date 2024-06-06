@@ -1,8 +1,7 @@
 <template>
-  <div class="table-cus">
+  <div>
     <bib-table
     :fields="tableFields"
-    class="border-gray4 bg-white"
     :sections="leaveList"
     :hide-no-column="true"
     :fixHeader=true
@@ -11,7 +10,7 @@
     >
       <template #cell(leavetype)="data">
         <div
-          class="text-dark upper-case minus-ml cursor-pointer"
+          class="upper-case minus-ml cursor-pointer" 
           @click="leaveDetail(data.value)"
         >
           <chips
@@ -23,17 +22,17 @@
         </div>
       </template>
       <template #cell(start)="data">
-        <div class="justify-left text-dark cursor-pointer" @click="leaveDetail(data.value)">
+        <div class="justify-left cursor-pointer" @click="leaveDetail(data.value)">
           <span>{{ onLoad(data.value.start) }}</span>
         </div>
       </template>
       <template #cell(end)="data">
-        <div class="justify-left text-dark cursor-pointer" @click="leaveDetail(data.value)">
+        <div class="justify-left cursor-pointer" @click="leaveDetail(data.value)">
           <span>{{ onLoad(data.value.end) }}</span>
         </div>
       </template>
       <template #cell(duration)="data"> 
-        <div class="justify-left text-dark cursor-pointer" @click="leaveDetail(data.value)">
+        <div class="justify-left cursor-pointer" @click="leaveDetail(data.value)">
           <span>{{
             data.value.duration == null
               ? "N/A"

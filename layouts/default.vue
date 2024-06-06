@@ -1,8 +1,8 @@
 <template>
-  <div :class="isLightThemeCheck ? '' : 'app-wrapper-dark-theme bg-black'">
+  <div :class="isLightTheme ? '' : 'app-wrapper-dark-theme bg-black'">
     <bib-app-wrapper
       :navigationCollapsed="collapseNavigation1"
-      :isLightTheme="isLightThemeCheck"
+      :isLightTheme="isLightTheme"
     >
       <template #topbar>
         <bib-header
@@ -19,7 +19,7 @@
           :avatarLink="userPhoto"
           @logout="$signOut()"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
-          :isLightTheme="isLightThemeCheck"
+          :isLightTheme="isLightTheme"
           noResultText="No result"
           placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"
@@ -103,7 +103,8 @@ export default {
     this.accountType = this.$store.state.token.accountType;
     this.setDebouncedSearch();
     this.loading = false;
-    this.$isThemeCheck();
+    await this.$isThemeCheck();
+    this.isLightTheme = this.$cookies.get('isLightTheme')
   },
   methods: {
     getEmployeeFullName,
@@ -115,9 +116,10 @@ export default {
     headerActionCall,
     ...mapActions('theme', ['initializeTheme']),
 
-    toggleTheme() {
-      const newTheme = !this.isLightThemeCheck;
-      this.$handleToggleWrapperTheme(newTheme);
+    toggleTheme(flag) {
+      this.isLightTheme = flag;
+      this.$handleToggleWrapperTheme(flag);
+
     },
     routesCheck,
     setDebouncedSearch() {

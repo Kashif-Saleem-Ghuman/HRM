@@ -2,24 +2,7 @@
   .pop {
     border: 1px solid $border-primary !important;
   }
-  .list {
-    background-color: $dark !important;
-    &__item {
-      color: $white !important;
-      background-color: $dark;
-      &:hover {
-        background-color: $dark-sub3;
-      }
-    }
-  }
-  .modal__wrapper {
-    background-color: $dark-sub2 !important;
-    border-radius: 10px;
-    &__header {
-      color: $white;
-      border-bottom: 1px solid $border-primary !important;
-    }
-  }
+
   .table {
     &__hrow {
       background-color: $dark !important;

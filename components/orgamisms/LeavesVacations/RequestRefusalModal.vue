@@ -1,5 +1,5 @@
 <template>
-  <bib-modal-wrapper :title="title" @close="$emit('close')" :class="themeButtonVariant">
+  <bib-modal-wrapper :title="title" @close="$emit('close')" :class="isLightThemeCheck ? '' : 'modal__wrapper--dark'">
     <template slot="content">
       <div>
         <bib-input
@@ -14,7 +14,6 @@
       <div class="d-flex">
         <bib-button
           label="Cancel"
-          :variant="isLightThemeCheck ? 'light' : 'dark'"
           pill
           @click="$emit('cancel')"
         ></bib-button>

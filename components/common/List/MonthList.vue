@@ -68,6 +68,7 @@
                 :scale="$button.pending.scale"
                 :label="getSubmitLabel(data.value?.status)"
                 @click.native.stop="buttonClicked(data.value)"
+                :disabled="isSubmitted"
               ></bib-button>
             </div>
           </div>
@@ -151,6 +152,7 @@ export default {
         TIMESHEET_STATUS.approved,
         TIMESHEET_STATUS.rejected,
       ],
+      isSubmitted: false,
     };
   },
   computed: {
@@ -215,10 +217,12 @@ export default {
     },
     async buttonClicked({status, id}) {
       if (this.timesheetIsSubmitable(status)) {
+        this.isSubmitted = true;
         const response = await this.submitTimesheet(id);
         if (response) {
           this.$emit("weeklytimesheet-submitted");
         }
+        this.isSubmitted = false;
       }
     },
     statusButtonConfig(type) {

@@ -231,7 +231,7 @@ export default {
       refusalReason: null,
       timesheet: null,
       timesheetsList: [],
-      weekDayDates: {
+      timesheetDates: {
         from: null,
         to: null,
       },
@@ -489,8 +489,8 @@ export default {
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(isWeekRange ? this.weekDates.from : this.weekDayDates.from),
-        to: new Date(isWeekRange ? this.weekDates.to : this.weekDayDates.to),
+        from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
+        to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
       let timesheets = await getTimesheets({ from, to });
       timesheets = timesheets.map((employee) => {
@@ -574,8 +574,8 @@ export default {
     async onWeekDayViewChange() {
       this.$router.push({ query: { view: 'month' } });
     },
-    setWeekDayDates(from, to) {
-      this.weekDayDates = {from: from, to: to}
+    setTimesheetDates(from, to) {
+      this.timesheetDates = {from: from, to: to}
     },
     resetMonthView() {
       this.monthView = null;
@@ -599,7 +599,7 @@ export default {
     },
     dates(newval, old) {
       if(newval.from && newval.to) {
-        this.setWeekDayDates(newval.from, newval.to);
+        this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
         this.resetMonthView();
       }

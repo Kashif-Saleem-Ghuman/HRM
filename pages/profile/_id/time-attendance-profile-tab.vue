@@ -17,7 +17,7 @@
           <div class="d-flex align-center">
             <div v-if="view.value === 'month'" class="py-05">
               <div class="custom_date_picker">
-                <custom-date-selector :isAdminView="true" :year.sync="year" :month.sync="month" :dates.sync="dates" />
+                <custom-date-selector :year.sync="year" :month.sync="month" :dates.sync="dates" />
               </div>
             </div>
             <bib-datetime-picker
@@ -173,12 +173,11 @@ export default {
       },
       year: null,
       month: null,
-      weekDayDates: {
+      timesheetDates: {
         from: null,
         to: null,
       },
       monthView: null,
-      isAdminView: false,
     };
   },
   methods: {
@@ -287,8 +286,8 @@ export default {
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(isWeekRange ? this.weekDates.from : this.weekDayDates.from),
-        to: new Date(isWeekRange ? this.weekDates.to : this.weekDayDates.to),
+        from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
+        to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
@@ -319,8 +318,8 @@ export default {
     resetMonthView() {
       this.monthView = null;
     },
-    setWeekDayDates(from, to) {
-      this.weekDayDates = {from: from, to: to}
+    setTimesheetDates(from, to) {
+      this.timesheetDates = {from: from, to: to}
     },
   },
   computed: {
@@ -404,7 +403,7 @@ export default {
     },
     dates(newval, old) {
       if(newval.from && newval.to) {
-        this.setWeekDayDates(newval.from, newval.to);
+        this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
         this.resetMonthView();
       }

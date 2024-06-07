@@ -1436,3 +1436,8 @@ export const DAY_SELECTOR_DEFAULT = {
 export const PENDING_TYPE = "pending";
 export const PAST_DUE_TYPE = "past_due";
 
+export const MONTH_SELECTOR_ICONS = {
+  CLOSE: 'close',
+  ARROW_DOWN: 'arrowhead-down'
+}
+

@@ -6,7 +6,6 @@
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
       :year="year"
-      :isAdminView="isAdminView"
     />
   </div>
 </template>
@@ -15,12 +14,6 @@
 import { DateTime } from "luxon";
 import {MONTH_SELECTOR_DEFAULT} from "@/utils/constant/Constant";
 export default {
-  props: {
-    isAdminView: {
-      type: Boolean,
-      default: false,
-    }
-  },
   data() {
     return {
       isYearDisabled: false,

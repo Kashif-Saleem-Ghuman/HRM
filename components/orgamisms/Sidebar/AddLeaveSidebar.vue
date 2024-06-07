@@ -48,7 +48,8 @@
               label="Save"
               variant="primary-24"
               size="lg"
-              @click="addLeaveVacations"
+              @click.native.stop="handleSingleClick"
+              @dblclick.native.stop="handleDoubleClick"
             ></bib-button>
           </div>
         </div>
@@ -118,6 +119,7 @@ export default {
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
       isHalfday: false,
+      clickTimeout: null,
     };
   },
   created() {
@@ -268,6 +270,16 @@ export default {
       this.unregisterCloseSideBarRootListener();
       this.unregisterOpenSideBarRootListener();
       this.unregisterAddLeaveRootListener();
+    },
+    handleSingleClick() {
+      clearTimeout(this.clickTimeout);
+      this.clickTimeout = setTimeout(() => {
+        this.addLeaveVacations();
+      }, 300);
+    },
+    handleDoubleClick() {
+      clearTimeout(this.clickTimeout);
+      this.addLeaveVacations();
     },
   },
   beforeDestroy() {

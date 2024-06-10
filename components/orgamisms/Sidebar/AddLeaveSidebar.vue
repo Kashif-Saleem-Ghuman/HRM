@@ -191,8 +191,9 @@ export default {
     async addLeave(payload, key) {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
-        this.$store.dispatch("employee/setUser", this.id);
-        this.employeeName = getEmployeeFullName(this.getUser);
+        this.$store.dispatch("employee/setUser", this.id).then((result) =>{
+          this.employeeName = getEmployeeFullName(result);
+        });
         this.$store.dispatch("employee/setUser", this.id);
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowance", {

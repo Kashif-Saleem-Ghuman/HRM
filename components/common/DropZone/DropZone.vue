@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
     deleteConfirmation(src) {
       if (src === "" || src === "null") {
@@ -167,7 +167,7 @@ export default {
     width: 30px;
     bottom: 0;
     padding: 8px;
-    background-color: #eee;
+    background-color: $light;
     position: relative;
   }
 }
@@ -299,5 +299,9 @@ export default {
 }
 .dropzone-custom-content {
   margin-top: 30px;
+}
+.dropzone .dz-preview.dz-image-preview {
+  background-color: transparent !important;
+  z-index: 1;
 }
 </style>

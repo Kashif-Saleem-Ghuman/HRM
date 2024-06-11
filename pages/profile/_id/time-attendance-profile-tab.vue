@@ -86,7 +86,7 @@ import {
   ACTIVITY_DICTIONARY,
 } from "@/utils/constant/TimesheetData.js";
 import {
-  ACTIVITY_TYPE,
+  ACTIVITY_TYPE, FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
 import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
@@ -245,6 +245,20 @@ export default {
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );
     },
+    registerRootListeners() {
+      this.registerFillWeeklyEntryListener();
+    },
+    unregisterRootListeners() {
+      this.unregisterFillWeeklyEntryListener();
+    },
+    registerFillWeeklyEntryListener() {
+      this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
+        this.fillWeeklyTimeEntries();
+      });
+    },
+    unregisterFillWeeklyEntryListener() {
+      this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
+    },
   },
   computed: {
     totalWork() {
@@ -307,6 +321,12 @@ export default {
         icon: "arrowhead-down",
       };
     },
+  },
+  mounted() {
+    this.registerRootListeners();
+  },
+  beforeDestroy() {
+    this.unregisterRootListeners();
   },
   async created() {
     this.setView();

@@ -60,6 +60,7 @@
           class="d-flex align-center item"
           style="position: relative"
           @mouseover="showEmployeeList"
+          @mouseout="hideEmployeeList"
           v-click-outside="hideEmployeeList"
         >
           <span

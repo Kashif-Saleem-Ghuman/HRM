@@ -48,7 +48,7 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
-                  :variant="themeButtonVariant"
+                  
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>

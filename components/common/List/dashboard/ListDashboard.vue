@@ -11,6 +11,13 @@
         : 'empty-list-0'
     "
     @item-clicked="tableItemClick"
+    class="table"
+    :class="{
+      table__headless: headless,
+      resizableTable: resizableColumns,
+      'table--light': isLightThemeCheck,
+      'table--dark': !isLightThemeCheck,
+    }"
   >
     <template #cell(name)="data">
       <div class="d-flex align-center text-left gap-05 position-relative">
@@ -75,7 +82,7 @@
     </template>
     <template #cell(breaks)="data">
       <div class="cursor-pointer">
-        <span>{{ data.value?.activityReport.break ?? "--" }}</span>
+        <div>{{ data.value?.activityReport.break ?? "--" }}</div>
       </div>
     </template>
     <template #cell(total)="data">
@@ -86,7 +93,7 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots" variant="white" @click.native.stop>
+      <bib-button pop="horizontal-dots"  @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span

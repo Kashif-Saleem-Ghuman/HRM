@@ -10,7 +10,6 @@
           @input="onDateChange"
           size="sm"
           icon=""
-          :variant="themeInputVariant"
           hide-quick-select
           v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
@@ -23,7 +22,6 @@
           size="sm"
           hide-quick-select
           v-bind="{ ...getDatetimeCommonProps() }"
-          :variant="themeInputVariant"
         ></bib-datetime-picker>
       </div>
     </div>

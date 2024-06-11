@@ -5,7 +5,7 @@
       <div class="position-relative">
         <bib-button
           :label="String(label)"
-          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
+          :variant="isLightThemeCheck ? 'light' : 'dark'"
           size="lg"
           :icon-right="icon ?? $button.blackButton.icon"
           @click="show = !show"
@@ -16,7 +16,7 @@
             <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
               <bib-button
                 :label="item.label"
-                :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
+                :variant="isLightThemeCheck ? 'light' : 'dark'"
                 size="lg"
                 :icon="item.icon ?? ''"
                 class="pr-05 mb-05 w-100"

@@ -2,7 +2,13 @@
   <div class="position-relative h-300">
     <bib-table
       :fields="tableFields"
-      class="border-gray4"
+      class="table"
+      :class="{
+        table__headless: headless,
+        resizableTable: resizableColumns,
+        'table--light': isLightThemeCheck,
+        'table--dark': !isLightThemeCheck,
+      }"
       :sections="employees"
       :hide-no-column="true"
       :fixHeader="true"
@@ -15,9 +21,7 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
-        <div
-          class="d-flex align-center text-left gap-05 position-relative"
-        >
+        <div class="d-flex align-center text-left gap-05 position-relative">
           <div
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
@@ -37,7 +41,7 @@
               size="2.3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id"  class="userCard">
+            <div :id="'id_' + data.value.id" class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
@@ -49,33 +53,43 @@
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
             <div class="title" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
+              {{
+                getEmployeeFullName(data.value) | truncate(truncateText, "...")
+              }}
             </div>
-            <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
+            <div :class="isLightThemeCheck ? 'description' : 'text-gray1'">
               {{ data.value.jobTitle }}
             </div>
           </div>
         </div>
       </template>
-      <template v-for="(day, dayIndex) in employeeData" #[`cell(${day.key})`]="data">
-        <div class=" cursor-pointer">
-          <div class="justify-between ">
+      <template
+        v-for="(day, dayIndex) in employeeData"
+        #[`cell(${day.key})`]="data"
+      >
+        <div class="cursor-pointer">
+          <div class="justify-between">
             <span>{{ getValue(data.value?.[day.key]) }}</span>
           </div>
         </div>
       </template>
       <template #cell(hiredate)="data">
-        <div class="justify-between  cursor-pointer">
+        <div class="justify-between cursor-pointer">
           <span>{{
             data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
           }}</span>
         </div>
       </template>
       <template #cell_action="data">
-        <bib-button pop="horizontal-dots" @click.native.stop>
+        <bib-button pop="horizontal-dots" :variant="isLightThemeCheck ?'black' : 'secondary'" @click.native.stop>
           <template v-slot:menu>
             <div class="list">
-              <span class="list__item" v-for="item in peopleActionItems" @click.stop="callAction(data, item)">{{item}}</span>
+              <span
+                class="list__item"
+                v-for="item in peopleActionItems"
+                @click.stop="callAction(data, item)"
+                >{{ item }}</span
+              >
             </div>
           </template>
         </bib-button>
@@ -87,7 +101,10 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-import { TABLE_HEAD, PEOPLE_ACTION_ITEMS } from "../../../utils/constant/Constant.js";
+import {
+  TABLE_HEAD,
+  PEOPLE_ACTION_ITEMS,
+} from "../../../utils/constant/Constant.js";
 import {
   sendMessage,
   handleItemClick_Table,
@@ -114,8 +131,8 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      employeeData: TABLE_HEAD.tHeadPeople.slice(2,6),
-      peopleActionItems:PEOPLE_ACTION_ITEMS
+      employeeData: TABLE_HEAD.tHeadPeople.slice(2, 6),
+      peopleActionItems: PEOPLE_ACTION_ITEMS,
     };
   },
   created() {
@@ -127,13 +144,13 @@ export default {
 
       return sortColumn({ items: this.userList, field: this.sortByField });
     },
-    truncateText(){
+    truncateText() {
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-      return 40;
-    } else {
-      return 25;
-    }
+        return 40;
+      } else {
+        return 25;
+      }
     },
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
@@ -155,7 +172,7 @@ export default {
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
-    getValue(value){
+    getValue(value) {
       return value ?? "--";
     },
     headerColumnClick(column) {
@@ -167,7 +184,7 @@ export default {
         this.viewProfile(id);
       }
     },
-   
+
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
@@ -175,10 +192,11 @@ export default {
     viewProfile(id) {
       this.$router.push("/profile/" + id);
     },
-    callAction(data, value){
-      if(value === 'View Profile') return this.viewProfile(data.value.id);
-      if(value === 'Send Message') return this.sendMessage(data.value.userId);
-      if(value === 'Meet') return this.makeCall(data.value.userId, this.getUser.userId);
+    callAction(data, value) {
+      if (value === "View Profile") return this.viewProfile(data.value.id);
+      if (value === "Send Message") return this.sendMessage(data.value.userId);
+      if (value === "Meet")
+        return this.makeCall(data.value.userId, this.getUser.userId);
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

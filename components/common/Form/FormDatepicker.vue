@@ -8,7 +8,7 @@
     :editable="dis"
     :disable-weekends="disableWeekends"
     v-bind="{ ...getDatetimeCommonProps() }"
-    :variant="themeInputVariant"
+    :variant="variant"
     v-if="dis"
   ></bib-datetime-picker>
   <bib-datetime-picker
@@ -20,7 +20,7 @@
     :disable-weekends="disableWeekends"
     v-if="!dis"
     v-bind="{ ...getDatetimeCommonProps() }" 
-    :variant="themeInputVariant"   
+    :variant="variant"
   ></bib-datetime-picker>
   </div>
 </template>
@@ -110,8 +110,6 @@ export default {
 .form-date-picker {
   width: 100%;
   .vdpComponent__input {
-    background-color: $white !important;
-    border: 1px solid $gray4 !important;
     display: flex;
     align-items: center;
   }

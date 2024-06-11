@@ -6,7 +6,7 @@
     <div class="d-flex align-center">
       <bib-button
         :label="buttonConfig.label"
-        :variant="buttonConfig.variant"
+        :variant="buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark')"
         :size="size || 'lg'"
         @click="show = !show"
         :icon-right="buttonConfig.icon ?? ''"
@@ -23,7 +23,7 @@
           >
             <bib-button
               :label="item.label"
-              :variant="item.variant"
+              :variant="item.variant || (isLightThemeCheck ? 'light' : 'dark')"
               size="lg"
               :icon="item.icon ?? ''"
               class="pr-05 mb-05 w-100"

@@ -21,7 +21,6 @@
               style="min-width: 7vw"
               :maxDate="maxDate"
               v-bind="{ ...getDatetimeCommonProps() }"
-              :variant="isLightThemeCheck ? 'light' : 'dark'"
             ></bib-datetime-picker>
           </div>
         </button-with-overlay>

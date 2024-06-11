@@ -91,6 +91,7 @@ export default {
       this.disabled = true;
     },
     resetMonth() {
+      this.iconName === 'arrowhead-down' && this.toggleDropdown();
       this.selected = MONTH_SELECTOR_DEFAULT.label;
       this.value = MONTH_SELECTOR_DEFAULT.value;
     },

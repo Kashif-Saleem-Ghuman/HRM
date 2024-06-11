@@ -1,30 +1,37 @@
 <template>
-  <div class="dropdown-chip-menu">
+  <div
+    class="dropdown-chip-menu"
+    @mouseleave="hideMenu"
+  >
     <div class="d-flex align-center">
-        <bib-button
-          :label="buttonConfig.label"
-          :variant="buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark-sub3')"
-          :size="size || 'lg'"
-          @click="show = !show"
-          :icon-right="buttonConfig.icon ?? ''"
-          v-click-outside="clickOutside"
-          :disabled="disabled"
-          class="pr-05"
-        ></bib-button>
-        <div class="menu-items chip-wrapper-com">
-          <div v-if="show" class="chip-wrapper-inner">
-            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
-              <bib-button
-                :label="item.label"
-                :variant="item.variant || (isLightThemeCheck ? 'light' : 'dark-sub3')"
-                size="lg"
-                :icon="item.icon ?? ''"
-                class="pr-05 mb-05 w-100"
-                :disabled="disabled"
-              ></bib-button>
-            </div>
+      <bib-button
+        :label="buttonConfig.label"
+        :variant="buttonConfig.variant"
+        :size="size || 'lg'"
+        @click="show = !show"
+        :icon-right="buttonConfig.icon ?? ''"
+        :disabled="disabled"
+        class="pr-05"
+      ></bib-button>
+      <div class="menu-items chip-wrapper-com">
+        <div v-if="show" class="chip-wrapper-inner">
+          <div
+            v-for="item in items"
+            :key="item.key"
+            @click="$emit('on-click', item)"
+            class="cursor-pointer"
+          >
+            <bib-button
+              :label="item.label"
+              :variant="item.variant"
+              size="lg"
+              :icon="item.icon ?? ''"
+              class="pr-05 mb-05 w-100"
+              :disabled="disabled"
+            ></bib-button>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,9 +54,9 @@ export default {
       };
     },
     },
-    disabled:{
-      type:Boolean,
-      default:false
+    disabled: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: String,
@@ -65,7 +72,10 @@ export default {
     };
   },
   methods: {
-    clickOutside() {
+    toggleMenu() {
+      this.show = !this.show;
+    },
+    hideMenu() {
       this.show = false;
     },
   },
@@ -83,7 +93,7 @@ export default {
     position: absolute;
     left: 0px;
     top: 0px;
-}
+  }
 }
 .chip-wrapper-com {
   // background-color: $white !important;

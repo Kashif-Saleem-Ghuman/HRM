@@ -87,7 +87,7 @@ import fecha, { format } from "fecha";
 import {
   TABLE_HEAD,
   WEEK_DAY,
-  TIMESHEET_STATUS,
+  TIMESHEET_STATUS, FILL_DAILY_ENTRY_EVENT, FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";
@@ -210,6 +210,9 @@ export default {
       }
     },
   },
+  async mounted() {
+    await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
+  }
 };
 </script>
 <style lang="scss">

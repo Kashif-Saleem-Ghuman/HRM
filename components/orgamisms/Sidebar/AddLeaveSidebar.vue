@@ -48,7 +48,8 @@
               label="Save"
               variant="primary-24"
               size="lg"
-              @click="addLeaveVacations"
+              @click.native.stop="handleSingleClick"
+              @dblclick.native.stop="handleDoubleClick"
             ></bib-button>
           </div>
         </div>
@@ -118,6 +119,7 @@ export default {
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
       isHalfday: false,
+      clickTimeout: null,
     };
   },
   created() {
@@ -189,8 +191,9 @@ export default {
     async addLeave(payload, key) {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
-        this.$store.dispatch("employee/setUser", this.id);
-        this.employeeName = getEmployeeFullName(this.getUser);
+        this.$store.dispatch("employee/setUser", this.id).then((result) =>{
+          this.employeeName = getEmployeeFullName(result);
+        });
         this.$store.dispatch("employee/setUser", this.id);
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowance", {
@@ -268,6 +271,16 @@ export default {
       this.unregisterCloseSideBarRootListener();
       this.unregisterOpenSideBarRootListener();
       this.unregisterAddLeaveRootListener();
+    },
+    handleSingleClick() {
+      clearTimeout(this.clickTimeout);
+      this.clickTimeout = setTimeout(() => {
+        this.addLeaveVacations();
+      }, 300);
+    },
+    handleDoubleClick() {
+      clearTimeout(this.clickTimeout);
+      this.addLeaveVacations();
     },
   },
   beforeDestroy() {

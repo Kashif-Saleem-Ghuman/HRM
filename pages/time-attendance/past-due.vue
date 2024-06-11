@@ -58,7 +58,7 @@
       v-if="showRefusalModal"
       @cancel="disableModal"
       @close="disableModal"
-      title="Reject Timesheet Request"
+      title="Reject Timesheet"
       @confirm="actionPerformOnRequest"
     ></request-refusal-modal>
     <request-approve-modal

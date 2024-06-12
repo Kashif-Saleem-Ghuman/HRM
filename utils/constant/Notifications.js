@@ -82,20 +82,20 @@ export const NOTIFICATION_MESSAGES = {
 };
 export const TIMESHEET_CONFIRMATION_MESSAGE = {
   approved: {
-    title: "Approve Timesheet Requests",
-    message: "Are you sure you want to approve the selected Timesheet Requests?",
+    title: "Approve Timesheet",
+    message: "Are you sure you want to approve the selected Timesheet?",
   },
   approvedSingle: {
-    title: "Approve Timesheet Request",
-    message: "Are you sure you want to approve the selected Timesheet Request?",
+    title: "Approve Timesheet",
+    message: "Are you sure you want to approve the selected Timesheet?",
   },
   rejected: {
-    title: "Reject Timesheet Requests",
-    message: "Are you sure you want to reject the selected Timesheet Requests?",
+    title: "Reject Timesheet",
+    message: "Are you sure you want to reject the selected Timesheet?",
   },
   rejectedSingle: {
-    title: "Reject Timesheet Request",
-    message: "Are you sure you want to reject the selected Timesheet Request?",
+    title: "Reject Timesheet",
+    message: "Are you sure you want to reject the selected Timesheet?",
   },
 };
 export const LEAVE_CONFIRMATION_MESSAGE = {

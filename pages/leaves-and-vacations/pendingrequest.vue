@@ -291,9 +291,6 @@ export default {
       await this.rejectLeaveRequest(rejectPayload);
     },
   },
-  beforeDestroy() {
-    this.$root.$off();
-  },
   watch:{
     requestListData: {
     deep: true, // Watch for nested changes

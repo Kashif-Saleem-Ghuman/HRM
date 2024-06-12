@@ -193,7 +193,6 @@ export default {
         events: [],
         editable: false,
         selectable: false,
-        selectHelper: false,
         dayMaxEvents: 2,
         weekends: true,
         contentHeight: "100vh",

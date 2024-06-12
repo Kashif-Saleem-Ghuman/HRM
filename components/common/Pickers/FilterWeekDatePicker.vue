@@ -6,8 +6,6 @@
         <bib-datetime-picker
             v-model="from"
             placeholder="Choose Start Of Week Date"
-            :maxDate="maxDate"
-            :minDate="minDate"
             @input="onFromDateChange"
             size="sm"
             icon=""
@@ -20,8 +18,6 @@
         <bib-datetime-picker
             v-model="to"
             placeholder="Choose End Of Week Date"
-            :maxDate="maxDate"
-            :minDate="minDate"
             @input="onToDateChange"
             size="sm"
             icon=""
@@ -38,6 +34,7 @@ import {getWeekEnd, getWeekStart, getWeekStartEndDates} from "../../../utils/fun
 import { getDatetimeCommonProps, DATETIME_FORMAT } from "../../../utils/functions/datetime-input";
 import {USER_WEEK_VIEW_PATH} from "@/utils/constant/routes";
 
+const FILTER_WEEK_DATE_OVERLAP_MESSAGE = "The selected date overlapped the other";
 export default {
   props: {
     filterDate: {
@@ -56,13 +53,34 @@ export default {
 
   methods: {
     getDatetimeCommonProps,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification });
+    },
+    parseDate(dateStr) {
+      let date = DateTime.fromISO(dateStr);
+      if (!date.isValid) {
+        date = DateTime.fromFormat(dateStr, 'dd-MMM-yyyy');
+      }
+      return date;
+    },
+    isWeekDatesOverlap(from, to) {
+      return this.parseDate(from) > this.parseDate(to)
+    },
+    showOverlapNotification(message) {
+      this.openPopupNotification({
+        text: message,
+        variant: "warning",
+      });
+    },
     onFromDateChange(value) {
       //When user clicks X button
       if (!this.from) {
         this.$emit('onClose');
         return this.setDefaultWeek(this.filterDate)
       }
-
+      if(this.isWeekDatesOverlap(value, this.to)){
+        return this.showOverlapNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
+      }
       const from = getWeekStart(DateTime.fromFormat(value, DATETIME_FORMAT).toUTC().toISO());
       this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
 
@@ -76,8 +94,9 @@ export default {
       if (!this.to) {
         this.$emit('onClose');
         return this.setDefaultWeek(this.filterDate)
+      } if(this.isWeekDatesOverlap(this.from, value)){
+        return this.showOverlapNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
       }
-
       const to = getWeekEnd(DateTime.fromFormat(value, DATETIME_FORMAT).toUTC().toISO());
       this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
 

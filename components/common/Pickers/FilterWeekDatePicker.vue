@@ -7,6 +7,7 @@
             v-model="from"
             placeholder="Choose Start Of Week Date"
             @input="onFromDateChange"
+            :maxDate="maxDate"
             size="sm"
             icon=""
             hide-quick-select
@@ -19,6 +20,7 @@
             v-model="to"
             placeholder="Choose End Of Week Date"
             @input="onToDateChange"
+            :maxDate="maxDate"
             size="sm"
             icon=""
             v-bind="{ ...getDatetimeCommonProps() }"
@@ -113,10 +115,10 @@ export default {
       const now = DateTime.now();
       const toDate = DateTime.fromISO(dates.to);
       if(toDate <= now ) {
-        this.maxDate = DateTime.fromISO(dates.to).toISO();
+        this.maxDate = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
         this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);
       }else {
-        this.maxDate = DateTime.fromISO(now).toISO();
+        this.maxDate = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
         let to = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
         this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
       }

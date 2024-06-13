@@ -139,25 +139,16 @@ body {
 .button_color-wrapper {
   background-color: #f0f9ef;
 }
-// .custom_date_picker {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   align-items: center;
-//   font-size: 14px;
-//   .vdpComponent__input {
-//     display: flex;
-//     align-items: center;
-//   }
-//   input {
-//     border: none !important;
-//     background-color: $light;
-//     border-radius: 6px;
-//     font-size: 14px;
-//     width: 300px !important;
-//     // margin: 0 1rem;
-//   }
-// }
+.custom_date_picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  .vdpComponent__input {
+    display: flex;
+    align-items: center;
+  }
+}
 
 // infocard leave vacations
 

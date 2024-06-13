@@ -26,7 +26,6 @@
               style="margin-bottom: -7px;"
               size="sm"
               @input="dateSelection($event)"
-              :variant="isLightThemeCheck ? 'light' : 'dark'"
             ></bib-datetime-picker>
             <div class="py-05" v-if="view.value === 'week'">
               <button-with-overlay

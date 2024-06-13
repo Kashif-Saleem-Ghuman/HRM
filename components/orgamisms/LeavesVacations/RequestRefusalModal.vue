@@ -16,6 +16,7 @@
           label="Cancel"
           pill
           @click="$emit('cancel')"
+          :variant="isLightThemeCheck ? 'light' : 'dark'"
         ></bib-button>
         <bib-button
           label="Reject Request"

@@ -13,8 +13,6 @@
     @item-clicked="tableItemClick"
     class="table"
     :class="{
-      table__headless: headless,
-      resizableTable: resizableColumns,
       'table--light': isLightThemeCheck,
       'table--dark': !isLightThemeCheck,
     }"
@@ -93,7 +91,7 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots"  @click.native.stop>
+      <bib-button pop="horizontal-dots"  :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span

@@ -47,7 +47,7 @@
         </th>
         <th v-if="$scopedSlots.cell_action" class="cell_action_header">
           <div class="d-flex justify-center align-center">
-            <bib-icon icon="horizontal-dots"></bib-icon>
+            <bib-icon icon="horizontal-dots" :variant="isLightThemeCheck ? '' : 'light'"></bib-icon>
           </div>
         </th>
       </tr>

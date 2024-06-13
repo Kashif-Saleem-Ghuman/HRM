@@ -175,7 +175,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT,
+  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT, FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -375,9 +375,11 @@ export default {
     },
     registerRootListeners() {
       this.registerFillDailyEntryListener();
+      this.registerFillWeeklyEntryListener();
     },
     unregisterRootListeners() {
       this.unregisterFillDailyEntryListener();
+      this.unregisterFillWeeklyEntryListener();
     },
 
     async handleTimerStop() {
@@ -422,7 +424,16 @@ export default {
     clickOutside() {
       this.show = false;
     },
+    resetWeekDates() {
+      this.weekDates = {
+        from: null,
+        to: null,
+      }
+    },
     async onViewChange(e) {
+      if(e.value === 'week'){
+        this.resetWeekDates();
+      }
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
@@ -592,6 +603,15 @@ export default {
     },
     async onWeekDayViewChange() {
       this.$router.push({ query: { view: 'month' } });
+    },
+
+    registerFillWeeklyEntryListener() {
+      this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
+        this.fillWeeklyTimeEntries();
+      });
+    },
+    unregisterFillWeeklyEntryListener() {
+      this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
     },
   },
   beforeDestroy() {

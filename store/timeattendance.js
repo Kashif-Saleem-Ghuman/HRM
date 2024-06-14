@@ -169,6 +169,10 @@ export const actions = {
           },
         },
       );
+      if(!ctx.state.isTimerRunning){
+        const chronometerDuration = getChronometerDuration(data.timeEntries)
+        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+      }
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {

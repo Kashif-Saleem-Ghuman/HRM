@@ -57,12 +57,18 @@ export default {
       const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
       if (chronometer >= MAX_DURATION_TIMER) {
         this.stopClick = true;
-        await this.stopTimer();
+        const timer = {
+          active: this.getTimerData.active,
+          start: this.getTimerData.start,
+          end: this.getTimerData.end,
+          type: this.getTimerData.type,
+        };
+        await this.stopTimer(timer);
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       }
       this.timerLoading = false;
     },
-    async stopTimer() {
+    async stopTimer(timer = null) {
       if (!this.isTimerRunning) {
         return; // Stop the method if the timer is not running
       }
@@ -70,7 +76,6 @@ export default {
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,
       });
-      const timer = this.getTimerData
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
 
       // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });

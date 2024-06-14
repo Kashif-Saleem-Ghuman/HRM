@@ -50,7 +50,7 @@ import {
   ACTIVITY_DICTIONARY,
   ACTIVITY_HEADER_DATA,
 } from "../../../../utils/constant/TimesheetData";
-import { ACTIVITY_TYPE, TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
+import {ACTIVITY_TYPE, FILL_DAILY_ENTRY_EVENT, TIMESHEET_STATUSES} from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
@@ -177,6 +177,7 @@ export default {
   },
 
   mounted() {
+    this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
     this.getSummary()
     const breaks = this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK);
     const lastBreak = breaks[breaks.length-1];

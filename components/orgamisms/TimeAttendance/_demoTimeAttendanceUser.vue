@@ -430,10 +430,18 @@ export default {
         to: null,
       }
     },
-    async onViewChange(e) {
-      if(e.value === 'week'){
+    resetTodayDate() {
+      this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
+    },
+    setDefaultOnViewChange(view) {
+      if(view.value === 'week' && this.view.value !== 'week'){
         this.resetWeekDates();
+      }else if(view.value === 'day' && this.view.value !== 'day') {
+        this.resetTodayDate();
       }
+    },
+    async onViewChange(e) {
+      this.setDefaultOnViewChange(e);
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {

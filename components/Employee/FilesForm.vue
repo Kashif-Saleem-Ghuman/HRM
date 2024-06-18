@@ -42,7 +42,7 @@
             <div class="d-flex align-center" @click="handleFileClick(file)">
               <bib-icon
                 :icon="
-                  getFileExtension(extensionsName(file)) === undefined
+                  !getFileExtension(extensionsName(file))
                     ? 'image'
                     : getFileExtension(extensionsName(file))
                 "

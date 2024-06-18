@@ -359,3 +359,6 @@ body {
   }
 }
 
+.modal__mask{
+  z-index: 9999 !important;
+}

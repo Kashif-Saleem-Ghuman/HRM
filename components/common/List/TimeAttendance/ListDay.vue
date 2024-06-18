@@ -132,6 +132,7 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
+    
     deleteTimeEntry,
 
     getSelectedDate() {

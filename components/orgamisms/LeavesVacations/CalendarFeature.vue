@@ -34,6 +34,7 @@
               :label="selectedYear.toString()"
               @on-click="changeYearView($event)"
               class="mr-05"
+              style="z-index: 99 !important;"
             ></dropdown-menu-calendar>
           </div>
         </div>

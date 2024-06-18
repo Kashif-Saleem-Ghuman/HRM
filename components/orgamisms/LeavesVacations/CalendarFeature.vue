@@ -74,7 +74,7 @@
         @click="nextWeek()"
       ></bib-button>
     </div>
-    <div class="">
+    <div>
       <FullCalendar
         :options="calendarOptions"
         ref="fullCalendar"
@@ -585,7 +585,7 @@ export default {
 }
 .fc-theme-standard th {
   border-top: 0px solid $black !important;
-  z-index: 9999;
+  // z-index: 9999;
   border-bottom: 0px !important;
 }
 

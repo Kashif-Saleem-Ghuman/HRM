@@ -97,7 +97,5 @@ export default {
     box-shadow: 0 0 0.2rem 1px #e8e8e8;
   }
 }
-.vdpComponent__input {
-  max-width: 200px;
-}
+
 </style>

@@ -7,8 +7,7 @@
           :message="msg.text"
           :variant="msg.variant"
           :autohide="autohide"
-          @close="onClose(index)"
-          
+          @close="onClose(index)"  
         >
         </bib-popup-notification>
       </template>
@@ -30,10 +29,11 @@
       return {};
     },
     methods: {
-      onClose(index) {
+      onClose(index, event) {
         if (this.notifications.length === index + 1) {
           this.$store.commit("app/RESET_NOTIFICATIONS");
         }
+        // event.stopPropagation();
       },
     },
   };

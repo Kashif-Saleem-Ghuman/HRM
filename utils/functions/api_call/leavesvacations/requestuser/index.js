@@ -101,7 +101,9 @@ export async function deleteLevaeVacation(value) {
     const config = createConfig();
     const leaveDelete = await hrmApiAxiosInstance.delete(url + request, config);
     if (this.$store.state.token.isAdmin) {
-      this.$nuxt.$emit("fetched-leave-vacation-admin");
+      this.$nuxt.$emit("update-key");
+          this.$nuxt.$emit("fetched-leave-vacation-admin");
+          this.$nuxt.$emit("render-leave-actual-data");
     }else{
       this.$nuxt.$emit("fetched-leave-vacation");
     }

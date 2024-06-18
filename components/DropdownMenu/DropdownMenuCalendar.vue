@@ -100,7 +100,7 @@ export default {
     position: absolute;
     left: -1px;
     top: -1px;
-    z-index: 9999999999999999999999 !important;
+    z-index: 999 !important;
     ul {
       margin: 0;
       padding: 0;

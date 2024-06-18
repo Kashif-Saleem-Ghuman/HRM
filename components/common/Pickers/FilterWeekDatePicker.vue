@@ -24,6 +24,7 @@
             size="sm"
             icon=""
             v-bind="{ ...getDatetimeCommonProps() }"
+            hide-quick-select
         ></bib-datetime-picker>
       </div>
     </div>

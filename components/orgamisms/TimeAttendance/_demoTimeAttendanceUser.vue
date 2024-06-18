@@ -600,15 +600,23 @@ export default {
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
     },
+    // calculateTotalWeeksThisYear() {
+    //   const currentDate = DateTime.now();
+    //   const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
+    //   this.setWeekDayDates(startOfYear.toISO(), currentDate.toISO());
+    //   const totalWeeks = Math.floor(currentDate.diff(startOfYear, 'weeks').weeks);
+    //   const startDate = DateTime.now().startOf("week").toISO();
+    //   const endDate = DateTime.now().endOf("week").toISO();
+    //   return {totalWeeks, startDate: DateTime.fromISO(startDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT), endDate: DateTime.fromISO(endDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT) };
+    // },
     calculateTotalWeeksThisYear() {
-      const currentDate = DateTime.now();
-      const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
-      this.setWeekDayDates(startOfYear.toISO(), currentDate.toISO());
-      const totalWeeks = Math.floor(currentDate.diff(startOfYear, 'weeks').weeks);
-      const startDate = DateTime.now().startOf("week").toISO();
-      const endDate = DateTime.now().endOf("week").toISO();
-      return {totalWeeks, startDate: DateTime.fromISO(startDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT), endDate: DateTime.fromISO(endDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT) };
-    },
+    const currentDate = DateTime.now();
+    const startDate = currentDate.startOf('week').startOf('day').minus({ days: 1 }).toLocal().toFormat(DATETIME_FORMAT);
+    const endDate = currentDate.startOf('week').plus({ days: 6 }).endOf('day').minus({ days: 1 }).toLocal().toFormat(DATETIME_FORMAT);
+    const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
+    const totalWeeks = currentDate.weekNumber - startOfYear.weekNumber + 1;
+    return { totalWeeks, startDate, endDate };
+},
     async onWeekDayViewChange() {
       this.$router.push({ query: { view: 'month' } });
     },

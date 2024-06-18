@@ -52,7 +52,7 @@
                 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
                 :title="file.name"
               >
-                {{ file.name | truncate(45, "...") }}
+                {{ decodedFileName(file) | truncate(45, "...") }}
               </h5>
             </div>
           </div>
@@ -123,6 +123,9 @@ export default {
     addFiles,
     getFiles,
     deleteFiles,
+    decodedFileName(file) {
+      return decodeURIComponent(escape(file.name));
+    },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },

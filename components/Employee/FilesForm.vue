@@ -24,7 +24,12 @@
 
       <div
         class="d-grid gap-2 py-1"
-        :style="filesUploaded.length <= 1 ? 'grid-template-columns: repeat(3, minmax(300px, 1fr))' : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'"        v-else-if="showTable"
+        :style="
+          filesUploaded.length <= 1
+            ? 'grid-template-columns: repeat(3, minmax(300px, 1fr))'
+            : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
+        "
+        v-else-if="showTable"
       >
         <div
           v-for="file in filesUploaded"
@@ -211,10 +216,9 @@ export default {
         display: flex;
       }
     }
-    .of-scroll-y{
+    .of-scroll-y {
       max-height: 300px !important;
     }
   }
-  
 }
 </style>

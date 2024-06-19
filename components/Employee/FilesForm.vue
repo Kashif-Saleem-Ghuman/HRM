@@ -24,7 +24,11 @@
 
       <div
         class="d-grid gap-2 py-1"
-        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
+        :style="
+          filesUploaded.length <= 1
+            ? 'grid-template-columns: repeat(3, minmax(300px, 1fr))'
+            : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
+        "
         v-else-if="showTable"
       >
         <div
@@ -211,6 +215,9 @@ export default {
         align-items: center;
         display: flex;
       }
+    }
+    .of-scroll-y {
+      max-height: 300px !important;
     }
   }
 }

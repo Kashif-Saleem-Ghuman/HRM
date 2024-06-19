@@ -4,7 +4,7 @@
     <div v-if="isAdmin">
       <bib-app-navigation
         :items="appWrapItems.navItemsAdmin"
-        @click.stop="
+        @click="
           ($event, item) => {
             menuClick(item);
           }
@@ -25,7 +25,7 @@
     <div v-if="isUser" class="mt-1">
       <bib-app-navigation
         :items="appWrapItems.navItemsUser"
-        @click.stop="
+        @click="
           ($event, item) => {
             menuClick(item);
           }

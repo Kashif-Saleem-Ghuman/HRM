@@ -76,7 +76,7 @@ export default {
     border-radius: 10px;
     position: absolute;
     left: -1px;
-    // top: -1px;
+    top: -1px;
     z-index: 999;
     ul {
       margin: 0;

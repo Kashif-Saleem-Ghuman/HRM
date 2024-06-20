@@ -68,30 +68,6 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
-  .button-items {
-    display: flex;
-    align-items: center;
-
-    label {
-      padding-right: 5px;
-      font-size: 14px;
-    }
-    select {
-      font-size: 14px;
-      width: 100%;
-      border: 1px solid $secondary-sub3;
-      border-radius: 0.2rem;
-      background-color: $secondary-sub3;
-      color: #6d7278;
-      padding: 10px;
-      border-radius: 10px;
-      border-right: 10px solid transparent;
-      option {
-        background-color: $white;
-        color: #6d7278;
-      }
-    }
-  }
   .menu-items {
     background-color: $white;
     width: 120px;
@@ -112,6 +88,9 @@ export default {
       li {
         padding: 5px 10px;
         cursor: pointer;
+        span{
+          font-size: 14px;
+        }
       }
     }
   }

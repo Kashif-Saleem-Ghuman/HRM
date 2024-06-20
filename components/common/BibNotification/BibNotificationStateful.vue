@@ -1,15 +1,18 @@
 <template>
-    <bib-popup-notification-wrapper>
+      <bib-popup-notification-wrapper>
       <template #wrapper>
+        <div id="ignore-click-outside">
         <bib-popup-notification
           v-for="(msg, index) in notifications"
           :key="index"
           :message="msg.text"
           :variant="msg.variant"
           :autohide="autohide"
-          @close="onClose(index)"  
+          @close="onClose(index)"
+          
         >
         </bib-popup-notification>
+      </div>
       </template>
     </bib-popup-notification-wrapper>
   </template>
@@ -29,11 +32,10 @@
       return {};
     },
     methods: {
-      onClose(index, event) {
+      onClose(index) {
         if (this.notifications.length === index + 1) {
           this.$store.commit("app/RESET_NOTIFICATIONS");
         }
-        // event.stopPropagation();
       },
     },
   };

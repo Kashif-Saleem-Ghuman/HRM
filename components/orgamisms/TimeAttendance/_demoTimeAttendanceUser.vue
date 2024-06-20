@@ -173,7 +173,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT,
+  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT, FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -373,9 +373,11 @@ export default {
     },
     registerRootListeners() {
       this.registerFillDailyEntryListener();
+      this.registerFillWeeklyEntryListener();
     },
     unregisterRootListeners() {
       this.unregisterFillDailyEntryListener();
+      this.unregisterFillWeeklyEntryListener();
     },
 
     async handleTimerStop() {
@@ -420,7 +422,24 @@ export default {
     clickOutside() {
       this.show = false;
     },
+    resetWeekDates() {
+      this.weekDates = {
+        from: null,
+        to: null,
+      }
+    },
+    resetTodayDate() {
+      this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
+    },
+    setDefaultOnViewChange(view) {
+      if(view.value === 'week' && this.view.value !== 'week'){
+        this.resetWeekDates();
+      }else if(view.value === 'day' && this.view.value !== 'day') {
+        this.resetTodayDate();
+      }
+    },
     async onViewChange(e) {
+      this.setDefaultOnViewChange(e);
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
@@ -579,17 +598,34 @@ export default {
     setWeekDayDates(from, to) {
       this.weekDayDates = {from: from, to: to}
     },
+    // calculateTotalWeeksThisYear() {
+    //   const currentDate = DateTime.now();
+    //   const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
+    //   this.setWeekDayDates(startOfYear.toISO(), currentDate.toISO());
+    //   const totalWeeks = Math.floor(currentDate.diff(startOfYear, 'weeks').weeks);
+    //   const startDate = DateTime.now().startOf("week").toISO();
+    //   const endDate = DateTime.now().endOf("week").toISO();
+    //   return {totalWeeks, startDate: DateTime.fromISO(startDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT), endDate: DateTime.fromISO(endDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT) };
+    // },
     calculateTotalWeeksThisYear() {
-      const currentDate = DateTime.now();
-      const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
-      this.setWeekDayDates(startOfYear.toISO(), currentDate.toISO());
-      const totalWeeks = Math.floor(currentDate.diff(startOfYear, 'weeks').weeks);
-      const startDate = DateTime.now().startOf("week").toISO();
-      const endDate = DateTime.now().endOf("week").toISO();
-      return {totalWeeks, startDate: DateTime.fromISO(startDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT), endDate: DateTime.fromISO(endDate).minus({days: 1}).toLocal().toFormat(DATETIME_FORMAT) };
-    },
+    const currentDate = DateTime.now();
+    const startDate = currentDate.startOf('week').startOf('day').minus({ days: 1 }).toLocal().toFormat(DATETIME_FORMAT);
+    const endDate = currentDate.startOf('week').plus({ days: 6 }).endOf('day').minus({ days: 1 }).toLocal().toFormat(DATETIME_FORMAT);
+    const startOfYear = DateTime.fromObject({ year: currentDate.year, month: 1, day: 1 });
+    const totalWeeks = currentDate.weekNumber - startOfYear.weekNumber + 1;
+    return { totalWeeks, startDate, endDate };
+},
     async onWeekDayViewChange() {
       this.$router.push({ query: { view: 'month' } });
+    },
+
+    registerFillWeeklyEntryListener() {
+      this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
+        this.fillWeeklyTimeEntries();
+      });
+    },
+    unregisterFillWeeklyEntryListener() {
+      this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
     },
   },
   beforeDestroy() {

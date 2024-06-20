@@ -169,6 +169,10 @@ export const actions = {
           },
         },
       );
+      if(!ctx.state.isTimerRunning){
+        const chronometerDuration = getChronometerDuration(data.timeEntries)
+        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+      }
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
@@ -184,8 +188,9 @@ export const actions = {
 
   async setDailyTimeEntriesToday(ctx, date = new Date().toISOString()) {
     try {
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
-      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
+      const offset = -new Date().getTimezoneOffset() / 60;
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().plus({ hours: offset }).toISO();
+      const endOfDay =  DateTime.fromISO(date).endOf('day').toUTC().plus({ hours: offset }).toISO();
 
       const { data } = await axios.get(
         process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
@@ -196,9 +201,9 @@ export const actions = {
         },
       );
 
-      if(ctx.state.chronometer === 0) {
-        const chronometer = getChronometerDuration(data.timeEntries);
-        ctx.commit("SET_CHRONOMETER", {chronometer});
+      if(!ctx.state.isTimerRunning){
+        const chronometerDuration = getChronometerDuration(data.timeEntries)
+        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
       }
       ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {

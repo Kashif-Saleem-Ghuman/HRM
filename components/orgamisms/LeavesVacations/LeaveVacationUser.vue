@@ -252,9 +252,9 @@ export default {
   },
 };
 </script>
-
+<!-- 
 <style scoped>
 .dropdown-menu {
   z-index: 999;
 }
-</style>
+</style> -->

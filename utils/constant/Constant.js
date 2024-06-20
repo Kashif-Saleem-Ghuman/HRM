@@ -256,7 +256,7 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         event: "employee-tue-sort",
         isActive: false,
-        sortKey: "weekData.1.totalHours",
+        sortKey: "weekData.2.totalHours",
         type: "week",
       },
     },

@@ -1,6 +1,7 @@
 <template>
-    <bib-popup-notification-wrapper>
+      <bib-popup-notification-wrapper>
       <template #wrapper>
+        <div id="ignore-click-outside">
         <bib-popup-notification
           v-for="(msg, index) in notifications"
           :key="index"
@@ -11,6 +12,7 @@
           
         >
         </bib-popup-notification>
+      </div>
       </template>
     </bib-popup-notification-wrapper>
   </template>

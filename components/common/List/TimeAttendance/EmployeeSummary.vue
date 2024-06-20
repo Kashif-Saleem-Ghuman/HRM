@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div v-if="editor" class="wrapper" @click.stop>
+    <div v-if="editor" class="wrapper" @click="removeFocus">
       <div class="container">
         <div class="toolbar-top">
           <div
@@ -142,9 +142,6 @@ export default {
     };
   },
   created() {
-    const linkExtension = Link.configure({
-      openOnClick: false,
-    });
     this.editor = new Editor({
       content: this.summaryText,
       editable: this.editable,
@@ -152,6 +149,7 @@ export default {
         StarterKit,
         Link.configure({
           openOnClick: false,
+          autolink: false,
         }),
         Underline,
         Placeholder.configure({ placeholder: this.placeholder }),
@@ -165,7 +163,12 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-
+    removeFocus() {
+      const inputElement = document.querySelector('#timePickerId input[name="startTime"]');
+      if (inputElement) {
+        inputElement.blur(); // Remove focus from the input
+      }
+    },
     async onSubmit() {
       if (this.summary?.id) {
         this.updateSummary();

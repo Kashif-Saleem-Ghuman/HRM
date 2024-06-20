@@ -24,7 +24,11 @@
 
       <div
         class="d-grid gap-2 py-1"
-        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
+        :style="
+          filesUploaded.length <= 1
+            ? 'grid-template-columns: repeat(3, minmax(300px, 1fr)); overflow:hidden'
+            : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
+        "
         v-else-if="showTable"
       >
         <div
@@ -43,7 +47,7 @@
             <div class="d-flex align-center" @click="handleFileClick(file)">
               <bib-icon
                 :icon="
-                  getFileExtension(extensionsName(file)) === undefined
+                  !getFileExtension(extensionsName(file))
                     ? 'image'
                     : getFileExtension(extensionsName(file))
                 "
@@ -53,7 +57,7 @@
                 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
                 :title="file.name"
               >
-                {{ file.name | truncate(45, "...") }}
+                {{ decodedFileName(file) | truncate(45, "...") }}
               </h5>
             </div>
           </div>
@@ -124,6 +128,9 @@ export default {
     addFiles,
     getFiles,
     deleteFiles,
+    decodedFileName(file) {
+      return decodeURIComponent(escape(file.name));
+    },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -166,6 +173,8 @@ export default {
     },
     async handleChange__FileInput(files) {
       this.files = files;
+      const ofScrollYElement = document.querySelector('.input--file .of-scroll-y');
+      files.length === 1 ? ofScrollYElement.style.overflow = 'hidden' : ofScrollYElement.style.overflow = '';
       await this.fileUpload();
     },
     async fileUpload() {
@@ -209,6 +218,9 @@ export default {
         align-items: center;
         display: flex;
       }
+    }
+    .of-scroll-y {
+      max-height: 300px !important;
     }
   }
 }

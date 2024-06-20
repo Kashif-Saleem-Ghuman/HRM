@@ -202,7 +202,7 @@ export default {
     },
     calculateDates() {
       return {
-        date: new Date(this.date).toISOString(),
+        date: DateTime.fromJSDate(new Date(this.date)).toFormat("yyyy-MM-dd"),
         startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.startTime),
           this.date

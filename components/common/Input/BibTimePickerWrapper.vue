@@ -8,6 +8,7 @@
       @select-change="onInput"
       :disabled="disabled"
       :class="isLightThemeCheck ? 'bib-time-picker--light-theme' : 'bib-time-picker--dark-theme'"
+      id="timePickerId"
     ></bib-time-picker>
     <div v-show="disabled" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"></div>
   </div>

@@ -125,7 +125,7 @@ export default {
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
     this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
-      this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
+      this.employeesOptions = reportTo;
       this.employeeNameSelectShow = true;
     });
     this.$store.dispatch("leavesdata/setLeaveVacationsAllowanceUser");
@@ -164,7 +164,7 @@ export default {
   mounted() {
     this.registerRootListeners();
     this.$store.dispatch("employee/setReportsToList").then((reportTo) => {
-      this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
+      this.employeesOptions = reportTo;
       this.employeeNameSelectShow = true;
     });
 

@@ -1,92 +1,92 @@
-import { USER_ROLES } from "../utils/constant/Constant"
-import { getEmployeeRole } from "../utils/employees/get-employee-role"
-import { redirectToLogin, validateToken } from "../utils/functions/api_call/auth"
+import { USER_ROLES } from "../utils/constant/Constant";
+import { getEmployeeRole } from "../utils/employees/get-employee-role";
+import {
+  redirectToLogin,
+  validateToken,
+} from "../utils/functions/api_call/auth";
 
 export const state = () => ({
   accessToken: "",
-  activeTab:'Employee Profile',
-  userRole:'',
-  userId:'',
-  activeUserData:[],
+  activeTab: "Employee Profile",
+  userRole: "",
+  userId: "",
+  activeUserData: [],
   isAdmin: false,
   isUser: false,
   subr: null,
   hrmRole: null,
-  accountType: ''
-})
+  accountType: "",
+});
 export const getters = {
   getAccessToken(state) {
-    return state.accessToken
+    return state.accessToken;
   },
-  getActiveTab(state){
-    return state.activeTab
+  getActiveTab(state) {
+    return state.activeTab;
   },
-  getUserRole(state){
-    return state.userRole
+  getUserRole(state) {
+    return state.userRole;
   },
-  getUserId(state){
-    return state.userId
+  getUserId(state) {
+    return state.userId;
   },
-  getActiveUserData(state){
-    return state.activeUserData
+  getActiveUserData(state) {
+    return state.activeUserData;
   },
-}
+};
 export const mutations = {
   SET_TOKEN(state, value) {
-    state.accessToken = value
+    state.accessToken = value;
     // this.$cookies.set("b_ssojwt", value)
   },
   SET_ACTIVE_TAB(state, value) {
-    state.activeTab = value
+    state.activeTab = value;
   },
   SET_ACTIVE_USER_ROLE(state, value) {
-    state.userRole = value
+    state.userRole = value;
   },
   SET_ACTIVE_HRM_ROLE(state, value) {
-    state.hrmRole = value
+    state.hrmRole = value;
   },
   SET_ACTIVE_USER_ID(state, value) {
-    state.userId = value
+    state.userId = value;
   },
   SET_ACTIVE_USER_DATA(state, value) {
-    state.activeUserData = value
+    state.activeUserData = value;
   },
   SET_IS_ADMIN(state, value) {
-    state.isAdmin = value
+    state.isAdmin = value;
   },
   SET_IS_USER(state, value) {
-    state.isUser = value
+    state.isUser = value;
   },
 
   SET_IS_ROLE(state, value) {
-    state.isUser = value == USER_ROLES.USER 
-    state.isAdmin = value == USER_ROLES.ADMIN
+    state.isUser = value == USER_ROLES.USER;
+    state.isAdmin = value == USER_ROLES.ADMIN;
   },
 
   SET_SUBR(state, value) {
-    state.subr = value
+    state.subr = value;
   },
 
   SET_ACCOUNT_TYPE(state, value) {
-    state.accountType = value
+    state.accountType = value;
   },
-  
-}
+};
 
 export const actions = {
   setToken(context, token) {
-    context.commit('SET_TOKEN', token)
+    context.commit("SET_TOKEN", token);
   },
   setActiveTab(context, activetab) {
-    context.commit('SET_ACTIVE_TAB', activetab)
+    context.commit("SET_ACTIVE_TAB", activetab);
   },
   setActiveUserRole({ commit }, { employee }) {
     const viewRole = getEmployeeRole(employee);
-    commit("SET_ACTIVE_USER_ROLE", employee.role);
-    commit(
-      "SET_ACTIVE_HRM_ROLE",
-      employee.role === USER_ROLES.ADMIN ? USER_ROLES.ADMIN : employee.hrmRole
-    );
+    console.log(employee.hrmRole, employee, "employee.hrmRole");
+    commit("SET_ACTIVE_USER_ROLE", employee.hrmRole);
+    commit("SET_ACTIVE_HRM_ROLE", employee.hrmRole);
 
     commit("SET_IS_ROLE", viewRole);
   },
@@ -94,7 +94,7 @@ export const actions = {
     commit("SET_IS_ROLE", role);
   },
   setActiveUserId(context, userId) {
-    context.commit('SET_ACTIVE_USER_ID', userId)
+    context.commit("SET_ACTIVE_USER_ID", userId);
   },
   setActiveUserData(context, activeUserData) {
     context.commit("SET_ACTIVE_USER_DATA", activeUserData);
@@ -102,12 +102,12 @@ export const actions = {
   async validateJwtToken({ commit }, { token }) {
     const u = await validateToken({ token }).catch((e) => {
       if (e.response.status === 401) {
-        redirectToLogin()
+        redirectToLogin();
       }
     });
 
-    const accountType = u?.subbs
-    commit("SET_ACCOUNT_TYPE", accountType); 
+    const accountType = u?.subbs;
+    commit("SET_ACCOUNT_TYPE", accountType);
 
     const businessId = u?.subb;
     const userId = u?.sub;
@@ -121,5 +121,3 @@ export const actions = {
     return u;
   },
 };
-
-

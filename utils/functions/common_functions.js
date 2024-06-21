@@ -103,6 +103,7 @@ export function calculateTotalDays(start, end) {
         dayDifference = 0.5;
       }
       if (dayDifference < 0) {
+        this.openPopupNotification({ text: "Start date should be before end date", variant: "danger" });
         this.totalDays = `0`;
       } else if (dayDifference === 0.5) {
         this.totalDays = `0.5 day`;

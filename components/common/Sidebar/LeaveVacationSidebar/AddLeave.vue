@@ -266,6 +266,9 @@ export default {
 
   methods: {
     calculateTotalDays,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     menuClick(value, fieldKey) {
       if (fieldKey === "start" || fieldKey === "end") {
         this[fieldKey] = value;

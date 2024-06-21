@@ -115,6 +115,13 @@
             ></bib-checkbox>
           </div>
         </transition>
+        <bib-input
+          type="text"
+          label="Duration"
+          :value="totalDays"
+          disabled="disable"
+          class="duration"
+        ></bib-input>
       </div>
     </div>
     <div>
@@ -134,7 +141,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
-
+import {calculateTotalDays} from '../../../../utils/functions/common_functions'
 export default {
   props: {
     edit: {
@@ -183,6 +190,10 @@ export default {
     },
     note: {
       type: String,
+    },
+    totalDays: {
+      type: Number,
+      default:0,
     },
     inActive: {
       type: String,
@@ -254,6 +265,7 @@ export default {
   },
 
   methods: {
+    calculateTotalDays,
     menuClick(value, fieldKey) {
       if (fieldKey === "start" || fieldKey === "end") {
         this[fieldKey] = value;
@@ -269,10 +281,14 @@ export default {
       this.shouldShowHalfDayCheckbox = datesMatch;
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
+      this.calculateTotalDays(this.start, this.end);
+      
     },
     setValueIsHalfDay(value, fieldKey) {
       this[fieldKey] = value;
       this.$emit("change", fieldKey, "isHalfDay");
+      this.isHalfDay = !this.isHalfDay
+      this.calculateTotalDays(this.start, this.end)
     },
     displayEmployeeField() {
       return this.$store.state.token.isAdmin;
@@ -327,10 +343,10 @@ export default {
   }
   .checkbox {
     label {
-      margin-top: 2px !important;
+      padding-top:2px !important;
     }
     input {
-      margin-bottom: 0 !important;
+      margin-bottom: 0px !important;
     }
   }
 }
@@ -363,5 +379,12 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.duration{
+  padding-top: 6px;
+  label{
+    margin-bottom: 0rem;
+
+  }
 }
 </style>

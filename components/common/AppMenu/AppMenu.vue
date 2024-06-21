@@ -147,7 +147,15 @@ export default {
     },
 
     setSelectedNavItem(navItems) {
-      const path = this.$router.history.current.fullPath;
+      let path = this.$router.history.current.fullPath;
+      if (
+        path === "/time-attendance/attendance/?view=day" ||
+        path === "/time-attendance/attendance/?view=week" ||
+        path === "/time-attendance/attendance/?view=month"
+      ) {
+        path = "/time-attendance/attendance/";
+      }
+      console.log(path, "/time-attendance/attendance/");
       const item = navItems.find((item) => item.url === path);
       this.resetSelected(navItems);
       if (item) item.selected = true;
@@ -199,7 +207,8 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave") this.closeSidebar();
+      if (item.key != "requestVacation" && item.key != "requestLeave")
+        this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;
@@ -214,16 +223,16 @@ export default {
     updateSelectedNavItems() {
       this.setSelectedNavItem(this.appWrapItems.navItemsAdmin);
       this.setSelectedNavItem(this.appWrapItems.navItemsUser);
-    }
+    },
   },
 
   mounted() {
-   this.updateSelectedNavItems();
+    this.updateSelectedNavItems();
   },
   watch: {
-    '$route'() {
-     this.updateSelectedNavItems();
-    }
+    $route() {
+      this.updateSelectedNavItems();
+    },
   },
 };
 </script>

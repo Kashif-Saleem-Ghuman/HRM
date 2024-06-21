@@ -91,3 +91,25 @@ export function getTimeDiffInSeconds(start, end) {
     1000
   );
 }
+export function calculateTotalDays(start, end) {
+  if (typeof start === "string" && typeof end === "string") {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+      let dayDifference = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+
+      if (this.isHalfDay && start === end) {
+        dayDifference = 0.5;
+      }
+      if (dayDifference < 0) {
+        this.openPopupNotification({ text: "Start date should be before end date", variant: "danger" });
+        this.totalDays = `0`;
+      } else if (dayDifference === 0.5) {
+        this.totalDays = `0.5 day`;
+      } else {
+        this.totalDays = `${dayDifference} days`;
+      }
+    }
+  }
+}

@@ -147,7 +147,14 @@ export default {
     },
 
     setSelectedNavItem(navItems) {
-      const path = this.$router.history.current.fullPath;
+      let path = this.$router.history.current.fullPath;
+      if (
+        path === "/time-attendance/attendance/?view=day" ||
+        path === "/time-attendance/attendance/?view=week" ||
+        path === "/time-attendance/attendance/?view=month"
+      ) {
+        path = "/time-attendance/attendance/";
+      }
       const item = navItems.find((item) => item.url === path);
       this.resetSelected(navItems);
       if (item) item.selected = true;
@@ -214,16 +221,16 @@ export default {
     updateSelectedNavItems() {
       this.setSelectedNavItem(this.appWrapItems.navItemsAdmin);
       this.setSelectedNavItem(this.appWrapItems.navItemsUser);
-    }
+    },
   },
 
   mounted() {
-   this.updateSelectedNavItems();
+    this.updateSelectedNavItems();
   },
   watch: {
-    '$route'() {
-     this.updateSelectedNavItems();
-    }
+    $route() {
+      this.updateSelectedNavItems();
+    },
   },
 };
 </script>

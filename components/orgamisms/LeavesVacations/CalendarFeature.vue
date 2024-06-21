@@ -194,7 +194,7 @@ export default {
         events: [],
         editable: false,
         selectable: false,
-        dayMaxEvents: 2,
+        dayMaxEvents: 3,
         weekends: true,
         contentHeight: "100vh",
         select: this.handleDateSelect,

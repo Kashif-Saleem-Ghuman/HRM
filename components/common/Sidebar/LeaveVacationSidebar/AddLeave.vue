@@ -119,7 +119,7 @@
           type="text"
           label="Duration"
           :value="totalDays"
-          disabled="disable"
+          :disabled="true"
           class="duration"
         ></bib-input>
       </div>

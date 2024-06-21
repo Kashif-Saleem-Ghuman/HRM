@@ -155,7 +155,6 @@ export default {
       ) {
         path = "/time-attendance/attendance/";
       }
-      console.log(path, "/time-attendance/attendance/");
       const item = navItems.find((item) => item.url === path);
       this.resetSelected(navItems);
       if (item) item.selected = true;
@@ -207,8 +206,7 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave")
-        this.closeSidebar();
+      if (item.key != "requestVacation" && item.key != "requestLeave") this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

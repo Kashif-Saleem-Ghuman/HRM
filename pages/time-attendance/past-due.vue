@@ -147,6 +147,19 @@ export default {
       }
       this.isStatusUpdated = true;
     },
+    async approveMultipleTimesheets() {
+      const timesheets = this.requestData
+        .flatMap((item) => item.timesheets)
+        .filter((timesheet) => timesheet.checked)
+        .map((timesheet) => ({
+          employeeId: timesheet.employeeId,
+          date: timesheet.end,
+        }));
+      console.log('Payload:', timesheets);
+      await this.pastDueBatchApproveTimesheets({ timesheets });
+      this.isStatusUpdated = true;
+      this.checkedAll = false;
+    },
 
     disableModal() {
       this.showApproveModal = false;
@@ -159,12 +172,13 @@ export default {
         .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
-          this.confirmastionMessageModal = true;
+          // this.confirmastionMessageModal = true;
+          this.approveMultipleTimesheets();
           this.confirmationPopupData =
             checkedCount > 1
               ? TIMESHEET_CONFIRMATION_MESSAGE.approved
               : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          this.variantButton = "primary-24";
+          // this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;

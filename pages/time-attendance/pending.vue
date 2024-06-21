@@ -125,6 +125,18 @@ export default {
       }
       this.isStatusUpdated = true;
     },
+    async approveMultipleTimesheets() {
+      const timesheetIds = this.requestData
+        .flatMap((item) => item.timesheets)
+        .filter((timesheet) => timesheet.checked)
+        .map((timesheet) => timesheet.id);
+      if (timesheetIds.length <= 0) {
+        return;
+      }
+      await this.approveTimesheets({ timesheetIds });
+      this.isStatusUpdated = true;
+      this.checkedAll = false;
+    },
     disableModal() {
       this.showApproveModal = false;
       this.showRefusalModal = false;
@@ -136,12 +148,13 @@ export default {
         .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
-          this.confirmastionMessageModal = true;
+          // this.confirmastionMessageModal = true;
+          this.approveMultipleTimesheets();
           this.confirmationPopupData =
             checkedCount > 1
               ? TIMESHEET_CONFIRMATION_MESSAGE.approved
               : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          this.variantButton = "primary-24";
+          // this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;

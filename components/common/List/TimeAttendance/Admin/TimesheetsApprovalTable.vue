@@ -181,10 +181,10 @@ export default {
         case "approved":
           if (this.type === PENDING_TYPE) {
             // this.$emit('approve-item', {id});
-            this.approveTimesheetDirectly({id});
+            this.approveSingleTimesheet({id});
           } else {
             // this.$emit('approve-item', { id, employeeId, date });
-            this.approveTimesheetDirectly({ id, employeeId, date });
+            this.approveSingleTimesheet({ id, employeeId, date });
           }
             this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           break;
@@ -200,13 +200,13 @@ export default {
       }
     },
 
-    async approveTimesheetDirectly({ id, employeeId, date }) {
+    async approveSingleTimesheet({ id, employeeId, date }) {
       if (id !== "-1") {
         await approveTimesheet({ id });
       } else {
         await approvePastDueTimesheet({ id, date, employeeId });
-      } 
-        this.getAndParseTimesheets();
+      }
+      this.getAndParseTimesheets();
     },
 
     cancelRejectRequest() {

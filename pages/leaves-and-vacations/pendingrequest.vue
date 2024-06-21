@@ -54,7 +54,7 @@
       @cancel="disableModal"
       @close="disableModal"
       @confirm="actionPerformOnRequest"
-      title="Reject Leave Request"
+      title="Reject Leave"
     ></request-refusal-modal>
     <request-approve-modal
       v-if="showApproveModal"

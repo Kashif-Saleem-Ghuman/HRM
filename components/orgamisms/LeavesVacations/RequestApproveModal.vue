@@ -1,5 +1,5 @@
 <template>
-    <bib-modal-wrapper title="Approve Leave Request" @close="$emit('close')">
+    <bib-modal-wrapper title="Approve Leave" @close="$emit('close')">
       <template slot="content">
         <div>
           <bib-input

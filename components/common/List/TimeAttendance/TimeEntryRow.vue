@@ -12,6 +12,7 @@
           placeholder="--"
           @input="timeInputBlur"
           :disabled="disabled"
+          class="timepicker_input"
         ></bib-time-picker-wrapper>
     </div>
     <div class="cell" @click="handleWrapperClick">
@@ -21,6 +22,7 @@
         placeholder="--"
         @input="timeInputBlur"
         :disabled="disabled"
+        class="timepicker_input"
       ></bib-time-picker-wrapper>
       <!-- <bib-input
         type="time"
@@ -518,12 +520,19 @@ export default {
   .icon {
     margin-right: -10px !important;
   }
+  
 }
 .uneditable-cell {
   label {
     color: $black;
     font-size: 14px !important;
     padding-left: 10px !important;
+  }
+}
+.timepicker_input{
+  input{
+    margin-bottom: 12px !important;
+    margin-top: 12px !important;
   }
 }
 </style>

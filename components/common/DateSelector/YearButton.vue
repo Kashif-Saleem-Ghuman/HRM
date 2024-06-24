@@ -71,7 +71,7 @@ export default {
 .drop-menu {
   .menu-items {
     background-color: $white;
-    width: auto;
+    width: 120px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;

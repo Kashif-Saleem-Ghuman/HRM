@@ -83,7 +83,7 @@ export const NOTIFICATION_MESSAGES = {
 export const TIMESHEET_CONFIRMATION_MESSAGE = {
   approved: {
     title: "Approve Timesheet",
-    message: "Are you sure you want to approve the selected Timesheet?",
+    message: "Are you sure you want to approve the selected Timesheets?",
   },
   approvedSingle: {
     title: "Approve Timesheet",
@@ -91,7 +91,7 @@ export const TIMESHEET_CONFIRMATION_MESSAGE = {
   },
   rejected: {
     title: "Reject Timesheet",
-    message: "Are you sure you want to reject the selected Timesheet?",
+    message: "Are you sure you want to reject the selected Timesheets?",
   },
   rejectedSingle: {
     title: "Reject Timesheet",
@@ -100,19 +100,19 @@ export const TIMESHEET_CONFIRMATION_MESSAGE = {
 };
 export const LEAVE_CONFIRMATION_MESSAGE = {
   approved: {
-    title: "Approve Leave Requests",
-    message: "Are you sure you want to approve the selected Leave Requests?",
+    title: "Approve Leaves",
+    message: "Are you sure you want to approve the selected Leaves?",
   },
   approvedSingle: {
-    title: "Approve Leave Request",
-    message: "Are you sure you want to approve the selected Leave Request?",
+    title: "Approve Leave",
+    message: "Are you sure you want to approve the selected Leave?",
   },
   rejected: {
-    title: "Reject Leave Requests",
-    message: "Are you sure you want to reject the selected Leave Requests?",
+    title: "Reject Leaves",
+    message: "Are you sure you want to reject the selected Leaves?",
   },
   rejectedSingle: {
-    title: "Reject Leave Request",
-    message: "Are you sure you want to reject the selected Leave Request?",
+    title: "Reject Leave",
+    message: "Are you sure you want to reject the selected Leave?",
   },
 };

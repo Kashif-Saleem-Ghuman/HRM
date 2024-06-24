@@ -15,9 +15,7 @@ export function Employee(employee) {
   this.hasInEntry = () => {
     return this.timeEntries.some(
       (timeEntry) =>
-        timeEntry.activity === ACTIVITY_TYPE.IN &&
-        timeEntry.start &&
-        timeEntry.end
+        timeEntry.activity === ACTIVITY_TYPE.IN && timeEntry.start
     );
   };
 }

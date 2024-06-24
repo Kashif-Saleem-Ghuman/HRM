@@ -17,6 +17,11 @@ body {
   margin-top: -6px;
   animation: fadeInAnimation ease 2s;
 }
+.modal__wrapper__header{
+  span{
+    font-size: 14px;
+  }
+}
 .modal__wrapper__content[data-v-87ee3dba] {
   padding: 1rem 1rem 0 1rem;
 }
@@ -57,7 +62,7 @@ body {
 }
 .custom-input {
   input {
-    margin-bottom: 16px !important;
+    margin-bottom: 15px !important;
   }
 
   label {
@@ -359,3 +364,6 @@ body {
   }
 }
 
+.modal__mask{
+  z-index: 9999 !important;
+}

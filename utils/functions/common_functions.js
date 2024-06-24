@@ -7,16 +7,20 @@ export function getCurrentDateMonth() {
   var cuDate = this.selectedYear + "/" + this.selectedMonth + "/01";
   let date = new Date(cuDate);
   let firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toISOString();
-  let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString();
-  this.fromDate = DateTime.fromISO(firstDay).startOf('day').toUTC().toISO();
-  this.toDate = DateTime.fromISO(lastDay).endOf('day').toUTC().toISO();
+  let lastDay = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).toISOString();
+  this.fromDate = DateTime.fromISO(firstDay).startOf("day").toUTC().toISO();
+  this.toDate = DateTime.fromISO(lastDay).endOf("day").toUTC().toISO();
 }
 export function getCurrentYear() {
   const currentYear = this.selectedYear;
   const firstDay = new Date(currentYear, 0, 1).toISOString();
   const lastDay = new Date(currentYear, 11, 31).toISOString();
-  this.fromDate = DateTime.fromISO(firstDay).startOf('day').toUTC().toISO();
-  this.toDate = DateTime.fromISO(lastDay).endOf('day').toUTC().toISO();
+  this.fromDate = DateTime.fromISO(firstDay).startOf("day").toUTC().toISO();
+  this.toDate = DateTime.fromISO(lastDay).endOf("day").toUTC().toISO();
 }
 export function getCurrentWeek() {
   var curr = new Date(); // get current date
@@ -31,17 +35,10 @@ export function sendMeet(userId) {
   var meetId = genratedId.toUpperCase();
   var id = meetId.match(/.{1,6}/g);
   var newValue = id.join("-");
-  window.open(
-    process.env.VIDEO_CONF_APP_URL+
-      newValue ,
-    "_blank"
-  );
-};
+  window.open(process.env.VIDEO_CONF_APP_URL + newValue, "_blank");
+}
 export function sendMessage(userId) {
-  window.open(
-    process.env.BIB_CHAT_APP_URL + "/directs/" + userId,
-    "_blank"
-  );
+  window.open(process.env.BIB_CHAT_APP_URL + "/directs/" + userId, "_blank");
 }
 export function handleItemClick_Table(item, event) {
   event.preventDefault();
@@ -49,15 +46,15 @@ export function handleItemClick_Table(item, event) {
 }
 
 export function getEmployeeInitials(employee) {
-  if (!employee) return ""
-  const { firstName, lastName } = employee
-  return firstName?.charAt(0) + lastName?.charAt(0)
+  if (!employee) return "";
+  const { firstName, lastName } = employee;
+  return firstName?.charAt(0) + lastName?.charAt(0);
 }
 
 export function getEmployeeFullName(employee) {
-  if (!employee) return ""
-  const { firstName, lastName } = employee
-  return `${firstName} ${lastName}`
+  if (!employee) return "";
+  const { firstName, lastName } = employee;
+  return `${firstName} ${lastName}`;
 }
 const START_YEAR = 2023;
 export function generateYearList() {
@@ -86,8 +83,35 @@ export function downloadFile(data, filename) {
 
 export function getTimeDiffInSeconds(start, end) {
   return Math.floor(
-    (new Date(end).getTime() -
-      new Date(start).getTime()) /
-    1000
+    (new Date(end).getTime() - new Date(start).getTime()) / 1000
   );
+}
+export function calculateTotalDays(start, end) {
+  if (start === null || end === null) {
+    this.totalDays = 0;
+    return;
+  }
+  if (typeof start === "string" && typeof end === "string") {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+      let dayDifference = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+
+      if (this.isHalfDay && start === end) {
+        dayDifference = 0.5;
+      }
+      if (dayDifference < 0) {
+        this.openPopupNotification({
+          text: "Start date should be before end date",
+          variant: "danger",
+        });
+        this.totalDays = `0`;
+      } else if (dayDifference === 0.5) {
+        this.totalDays = `0.5 day`;
+      } else {
+        this.totalDays = `${dayDifference} days`;
+      }
+    }
+  }
 }

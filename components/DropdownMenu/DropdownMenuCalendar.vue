@@ -5,9 +5,8 @@
       <div class="position-relative">
         <bib-button
           :label="String(label)"
-          :variant="variant ?? $button.blackButton.variant"
+          :variant="variant ?? $button.lightButton.variant"
           size="lg"
-          :icon-right="icon ?? $button.blackButton.icon"
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
@@ -69,39 +68,15 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
-  .button-items {
-    display: flex;
-    align-items: center;
-
-    label {
-      padding-right: 5px;
-      font-size: 14px;
-    }
-    select {
-      font-size: 14px;
-      width: 100%;
-      border: 1px solid $secondary-sub3;
-      border-radius: 0.2rem;
-      background-color: $secondary-sub3;
-      color: #6d7278;
-      padding: 10px;
-      border-radius: 10px;
-      border-right: 10px solid transparent;
-      option {
-        background-color: $white;
-        color: #6d7278;
-      }
-    }
-  }
   .menu-items {
     background-color: $white;
-    width: 130px;
+    width: 120px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
     left: -1px;
     top: -1px;
-    z-index: 9999 !important;
+    z-index: 999 !important;
     ul {
       margin: 0;
       padding: 0;
@@ -109,8 +84,13 @@ export default {
       border-radius: 0.5rem;
       box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
       background: var(--bib-white);
+      z-index: 9999999 !important;
       li {
-        padding: 0.5rem;
+        padding: 5px 10px;
+        cursor: pointer;
+        span{
+          font-size: 14px;
+        }
       }
     }
   }

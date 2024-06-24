@@ -230,22 +230,7 @@ export default {
       event = event?.value ?? event;
 
 
-      if (event == TIMESHEET_STATUS["approved"].value) {
-        if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
-          const date = data?.value?.start;
-          await approvePastDueTimesheet({
-            id,
-            date,
-            employeeId: data.value.employeeId,
-          });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-          this.confirmastionMessageModal = false;
-        } else {
-          await approveTimesheet({ id });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-          this.confirmastionMessageModal = false;
-        }
-      } else if (event == TIMESHEET_STATUS["rejected"].value) {
+      if (event == TIMESHEET_STATUS["rejected"].value) {
         const refusalReason = request.refusalReason
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
           const date = data?.value?.start;

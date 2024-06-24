@@ -50,7 +50,6 @@
           :searchString="searchString"
           :isStatusUpdated.sync="isStatusUpdated"
           @reject-item="enableModal($event, 'rejectSingle')"
-          @approve-item="enableModal($event, 'approveSingle')"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -61,12 +60,6 @@
       title="Reject Timesheet"
       @confirm="actionPerformOnRequest"
     ></request-refusal-modal>
-    <request-approve-modal
-      v-if="showApproveModal"
-      @cancel="disableModal"
-      @close="disableModal"
-      @confirm="actionPerformOnRequest"
-    ></request-approve-modal>
     <confirmation-modal
       :title="confirmationPopupData?.title"
       :confirmationMessage="confirmationPopupData?.message"
@@ -100,7 +93,6 @@ export default {
       isStatusUpdated: false,
       showRefusalModal: false,
       refusalReason: null,
-      showApproveModal: false,
       confirmastionMessageModal: false,
       actionToPerformOnButton: null,
       confirmationPopupData: null,
@@ -140,9 +132,7 @@ export default {
       if (timesheetIds?.length <= 0) {
         return;
       }
-      if (event == "approve") {
-        await this.approveTimesheets({ timesheetIds });
-      } else if (event == "reject") {
+      if (event == "reject") {
         await this.rejectTimesheets({ timesheetIds });
       }
       this.isStatusUpdated = true;
@@ -155,14 +145,12 @@ export default {
           employeeId: timesheet.employeeId,
           date: timesheet.end,
         }));
-      console.log('Payload:', timesheets);
       await this.pastDueBatchApproveTimesheets({ timesheets });
       this.isStatusUpdated = true;
       this.checkedAll = false;
     },
 
     disableModal() {
-      this.showApproveModal = false;
       this.showRefusalModal = false;
       this.confirmastionMessageModal = false;
     },
@@ -172,13 +160,11 @@ export default {
         .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
-          // this.confirmastionMessageModal = true;
           this.approveMultipleTimesheets();
           this.confirmationPopupData =
             checkedCount > 1
               ? TIMESHEET_CONFIRMATION_MESSAGE.approved
               : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          // this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
@@ -187,11 +173,6 @@ export default {
               ? TIMESHEET_CONFIRMATION_MESSAGE.rejected
               : TIMESHEET_CONFIRMATION_MESSAGE.rejectedSingle;
           this.variantButton = "danger";
-          break;
-        case "approveSingle":
-          this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          this.variantButton = "primary-24";
           break;
         default:
           this.showRefusalModal = true;
@@ -212,14 +193,8 @@ export default {
         }));
 
       switch (type) {
-        case "approveMultiple":
-          await this.handleApproveMultiple(timesheets);
-          break;
         case "rejectMultiple":
           await this.handleRejectMultiple(timesheets);
-          break;
-        case "approveSingle":
-          await this.handleApproveSingle(request);
           break;
         case "rejectSingle":
           await this.handleRejectSingle(request);
@@ -232,22 +207,11 @@ export default {
       this.checkedAll = false;
       this.disableModal();
     },
-    async handleApproveMultiple(timesheets) {
-      await this.pastDueBatchApproveTimesheets({ timesheets: timesheets });
-    },
 
     async handleRejectMultiple(timesheets) {
       await this.pastDueBatchRejectTimesheets({ timesheets: timesheets });
     },
 
-    async handleApproveSingle(request) {
-      if (this.id != "-1") {
-        await this.approveTimesheet({ id: this.id });
-      } else {
-        await this.approvePastDueTimesheet(this.timesheetReq);
-      }
-      this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-    },
 
     async handleRejectSingle(request) {
       if (this.id != "-1") {

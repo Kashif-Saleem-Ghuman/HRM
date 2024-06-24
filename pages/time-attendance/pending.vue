@@ -40,7 +40,6 @@
             :searchString="searchString"
             :isStatusUpdated.sync="isStatusUpdated"
             @reject-item="enableModal($event, 'rejectSingle')"
-            @approve-item="enableModal($event, 'approveSingle')"
         ></timesheets-approval-table>
       </div>
     </div>
@@ -51,12 +50,6 @@
       @confirm="actionPerformOnRequest"
       title="Reject Timesheet"
     ></request-refusal-modal>
-    <request-approve-modal
-      v-if="showApproveModal"
-      @cancel="disableModal"
-      @close="disableModal"
-      @confirm="actionPerformOnRequest"
-    ></request-approve-modal>
     <confirmation-modal
       :title="confirmationPopupData?.title"
       :confirmationMessage="confirmationPopupData?.message"
@@ -85,7 +78,6 @@ export default {
       isStatusUpdated: false,
       showRefusalModal: false,
       refusalReason: null,
-      showApproveModal: false,
       confirmastionMessageModal: false,
       actionToPerformOnButton: null,
       confirmationPopupData: null,
@@ -118,9 +110,7 @@ export default {
       if(timesheetIds?.length <= 0){
         return;
       }
-      if (event == "approve") {
-        await this.approveTimesheets({ timesheetIds });
-      } else if (event == "reject") {
+      if (event == "reject") {
         await this.rejectTimesheets({timesheetIds});
       }
       this.isStatusUpdated = true;
@@ -138,7 +128,6 @@ export default {
       this.checkedAll = false;
     },
     disableModal() {
-      this.showApproveModal = false;
       this.showRefusalModal = false;
       this.confirmastionMessageModal = false;
     },
@@ -148,13 +137,11 @@ export default {
         .filter((timesheet) => timesheet.checked).length;
       switch (event) {
         case "approveMultiple":
-          // this.confirmastionMessageModal = true;
           this.approveMultipleTimesheets();
           this.confirmationPopupData =
             checkedCount > 1
               ? TIMESHEET_CONFIRMATION_MESSAGE.approved
               : TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          // this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
@@ -163,11 +150,6 @@ export default {
               ? TIMESHEET_CONFIRMATION_MESSAGE.rejected
               : TIMESHEET_CONFIRMATION_MESSAGE.rejectedSingle;
           this.variantButton = "danger";
-          break;
-        case "approveSingle":
-          this.confirmastionMessageModal = true;
-          this.confirmationPopupData = TIMESHEET_CONFIRMATION_MESSAGE.approvedSingle;
-          this.variantButton = "primary-24";
           break;
         default:
           this.showRefusalModal = true;
@@ -186,14 +168,8 @@ export default {
         .map((timesheet) => timesheet.id);
 
       switch (type) {
-        case "approveMultiple":
-          await this.handleApproveMultiple(timesheetIds);
-          break;
         case "rejectMultiple":
           await this.handleRejectMultiple(timesheetIds);
-          break;
-        case "approveSingle":
-          await this.handleApproveSingle(request);
           break;
         case "rejectSingle":
           await this.handleRejectSingle(request);
@@ -206,18 +182,11 @@ export default {
       this.checkedAll = false;
       this.disableModal();
     },
-    async handleApproveMultiple(requestIds) {
-      await this.approveTimesheets({ timesheetIds: requestIds });
-    },
 
     async handleRejectMultiple(requestIds) {
       await this.rejectTimesheets({timesheetIds: requestIds});
     },
 
-    async handleApproveSingle(request) {
-      await approveTimesheet({id: this.id});
-      this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-    },
 
     async handleRejectSingle(request) {
       const rejectPayload = { id: this.id, refusalReason: request.refusalReason };

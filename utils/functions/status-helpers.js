@@ -43,19 +43,23 @@ export const getLeaveStatusIconVariant = (type) => getTypeMapValue(type, {
   other: 'add'
 });
 
-export const getFileExtension = (icon) => getTypeMapValue(icon, {
-  pdf: "pdf",
-  jpg: "jpg",
-  jpeg: "jpg",
-  webp: "jpg",
-  png: "png",
-  docx: "docx",
-  doc: "docx",
-  csv: 'excel',
-  xls: 'excel',
-  xlsx: 'excel',
-  ppt: 'powerpoint',
-});
+export const getFileExtension = (icon) => {
+  const lowercaseIcon = icon.toLowerCase(); 
+
+  return getTypeMapValue(lowercaseIcon, {
+    pdf: "pdf",
+    jpg: "jpg",
+    jpeg: "jpg",
+    webp: "jpg",
+    png: "png",
+    docx: "docx",
+    doc: "docx",
+    csv: 'excel',
+    xls: 'excel',
+    xlsx: 'excel',
+    ppt: 'powerpoint',
+  });
+}
 
 function getStatusMapValue(status, statusMap) {
   return statusMap[status] || '';

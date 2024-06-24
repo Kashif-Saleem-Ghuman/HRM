@@ -34,6 +34,7 @@
               :label="selectedYear.toString()"
               @on-click="changeYearView($event)"
               class="mr-05"
+              style="z-index: 99 !important;"
             ></dropdown-menu-calendar>
           </div>
         </div>
@@ -74,7 +75,7 @@
         @click="nextWeek()"
       ></bib-button>
     </div>
-    <div class="">
+    <div>
       <FullCalendar
         :options="calendarOptions"
         ref="fullCalendar"
@@ -193,8 +194,7 @@ export default {
         events: [],
         editable: false,
         selectable: false,
-        selectHelper: false,
-        dayMaxEvents: 2,
+        dayMaxEvents: 3,
         weekends: true,
         contentHeight: "100vh",
         select: this.handleDateSelect,
@@ -586,7 +586,7 @@ export default {
 }
 .fc-theme-standard th {
   border-top: 0px solid $black !important;
-  z-index: 9999;
+  // z-index: 9999;
   border-bottom: 0px !important;
 }
 

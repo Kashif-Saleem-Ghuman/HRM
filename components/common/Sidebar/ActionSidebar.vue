@@ -63,6 +63,10 @@ export default {
   },
   methods: {
     handleClickOutside() {
+      const ignoreClickOutsideElement = document.getElementById('ignore-click-outside');
+      if (ignoreClickOutsideElement && ignoreClickOutsideElement.contains(event.target)) {
+          return; 
+        }
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
     },
@@ -131,7 +135,7 @@ export default {
 }
 .side-panel {
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   width: $sidebar-width;
   top: 65px;
   bottom: 0;

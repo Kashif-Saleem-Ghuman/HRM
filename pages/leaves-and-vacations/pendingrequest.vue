@@ -54,7 +54,7 @@
       @cancel="disableModal"
       @close="disableModal"
       @confirm="actionPerformOnRequest"
-      title="Reject Leave Request"
+      title="Reject Leave"
     ></request-refusal-modal>
     <request-approve-modal
       v-if="showApproveModal"
@@ -290,9 +290,6 @@ export default {
       const rejectPayload = { id: this.id, request };
       await this.rejectLeaveRequest(rejectPayload);
     },
-  },
-  beforeDestroy() {
-    this.$root.$off();
   },
   watch:{
     requestListData: {

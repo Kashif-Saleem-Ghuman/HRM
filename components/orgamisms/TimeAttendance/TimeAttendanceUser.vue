@@ -164,7 +164,9 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT, MONTH_SELECTOR_DEFAULT,
+  FILL_DAILY_ENTRY_EVENT, 
+  MONTH_SELECTOR_DEFAULT,
+  FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
 import { YEAR_LIST } from "@/utils/constant/Calander";
@@ -361,10 +363,20 @@ export default {
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
     },
+    registerFillWeeklyEntryListener() {
+      this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
+        this.fillWeeklyTimeEntries();
+      });
+    },
+    unregisterFillWeeklyEntryListener() {
+      this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
+    },
     registerRootListeners() {
+      this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
     },
     unregisterRootListeners() {
+      this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
     },
     getFormattedWeekInfo() {

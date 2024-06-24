@@ -21,6 +21,7 @@
                 size="lg"
                 class="mr-1 w-100 button-wrapper-align"
                 :disabled="buttonDisable"
+                @click="handleCancle"
               ></bib-button>
               <bib-button
                 label="Save"
@@ -89,11 +90,6 @@ export default {
 
   data() {
     return {
-      updateForm: {
-        address:{
-          state:""
-        }
-      },
       errors: {},
     };
   },
@@ -105,6 +101,9 @@ export default {
     emitFormInput(event) {
       const { fieldKey, value } = event;
       this.handleInput(event);
+    },
+    handleCancle(){
+      this.$router.push("/dashboard/");
     },
     handleSubmit() {
       // if (!Object.keys(this.updateForm).length) return;

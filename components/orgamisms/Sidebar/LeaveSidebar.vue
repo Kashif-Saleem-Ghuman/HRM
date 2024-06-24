@@ -25,6 +25,7 @@
           :note="form.note"
           inActive="disabled"
           :isHalfDay="isHalfDay"
+          :totalDays="totalDays"
           :shouldShowHalfDayCheckbox="isHalfDay"
           :edit="false"
         ></add-leave>
@@ -94,6 +95,7 @@ import {
 } from "@/utils/constant/Constant";
 import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
+import {calculateTotalDays} from '../../../utils/functions/common_functions'
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
@@ -128,6 +130,7 @@ export default {
       deleteModalContent: DELETE_MESSAGE[1],
       isHalfDay: null,
       leaveTypeActiveValue: "",
+      totalDays:0,
     };
   },
   created() {
@@ -181,6 +184,7 @@ export default {
     getLeaveTypeIconVariant,
     getLeaveTypeClassName,
     getEmployeeFullName,
+    calculateTotalDays,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -239,6 +243,7 @@ export default {
       this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
       this.setIsHalfDay(item);
+      this.calculateTotalDays(this.startDate, this.endDate);
       if (this.$isAdmin()) {
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowance", {
@@ -260,8 +265,8 @@ export default {
       }
     },
     setIsHalfDay(item) {
-      let isHalfDay = item.isHalfDay
-        return this.isHalfDay = isHalfDay
+        this.isHalfDay = item.isHalfDay
+        this.calculateTotalDays(this.startDate, this.endDate)
     },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");

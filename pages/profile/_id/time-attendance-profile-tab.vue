@@ -121,7 +121,9 @@ import {
   ACTIVITY_DICTIONARY,
 } from "@/utils/constant/TimesheetData.js";
 import {
-  ACTIVITY_TYPE, MONTH_SELECTOR_DEFAULT,
+  ACTIVITY_TYPE, 
+  MONTH_SELECTOR_DEFAULT,
+  FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
 import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
@@ -321,6 +323,20 @@ export default {
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}
     },
+    registerRootListeners() {
+      this.registerFillWeeklyEntryListener();
+    },
+    unregisterRootListeners() {
+      this.unregisterFillWeeklyEntryListener();
+    },
+    registerFillWeeklyEntryListener() {
+      this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
+        this.fillWeeklyTimeEntries();
+      });
+    },
+    unregisterFillWeeklyEntryListener() {
+      this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
+    },
   },
   computed: {
     totalWork() {
@@ -386,6 +402,12 @@ export default {
         icon: "arrowhead-down",
       };
     },
+  },
+  mounted() {
+    this.registerRootListeners();
+  },
+  beforeDestroy() {
+    this.unregisterRootListeners();
   },
   async created() {
     this.setView();

@@ -50,7 +50,7 @@ import {
   ACTIVITY_DICTIONARY,
   ACTIVITY_HEADER_DATA,
 } from "../../../../utils/constant/TimesheetData";
-import { ACTIVITY_TYPE, TIMESHEET_STATUSES } from "../../../../utils/constant/Constant";
+import {ACTIVITY_TYPE, FILL_DAILY_ENTRY_EVENT, TIMESHEET_STATUSES} from "../../../../utils/constant/Constant";
 import { orderBy } from "lodash";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
@@ -132,6 +132,7 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
+    
     deleteTimeEntry,
 
     getSelectedDate() {
@@ -177,6 +178,7 @@ export default {
   },
 
   mounted() {
+    this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
     this.getSummary()
     const breaks = this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK);
     const lastBreak = breaks[breaks.length-1];
@@ -255,6 +257,7 @@ export default {
     vertical-align: middle;
     text-align: left;
     font-weight: 600;
+    
     input {
       border: 0px !important;
       text-align: left !important;
@@ -289,6 +292,7 @@ export default {
       padding: 10px;
       border: $gray4 1px solid;
       border-top: none !important;
+      
     }
     :first-child {
       padding-left: 1rem;

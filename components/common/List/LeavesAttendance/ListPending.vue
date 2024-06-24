@@ -110,7 +110,7 @@
           :label="$button.approved_g.label"
           class="mr-05"
           :disabled="disabled"
-          @click="$emit('approve-item', data.value.id)"
+          @click="approveItem(data.value.id)"
         ></bib-button>
         <bib-button
           :icon="$button.rejected.icon"
@@ -230,6 +230,9 @@ export default {
         ? "none"
         : "block";
     },
+    async approveItem(id) {
+      this.$emit('approve-item-single', id);
+    }
   },
 };
 </script>

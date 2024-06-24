@@ -100,7 +100,7 @@ export const TIMESHEET_CONFIRMATION_MESSAGE = {
 };
 export const LEAVE_CONFIRMATION_MESSAGE = {
   approved: {
-    title: "Approve Leave",
+    title: "Approve Leaves",
     message: "Are you sure you want to approve the selected Leaves?",
   },
   approvedSingle: {
@@ -108,7 +108,7 @@ export const LEAVE_CONFIRMATION_MESSAGE = {
     message: "Are you sure you want to approve the selected Leave?",
   },
   rejected: {
-    title: "Reject Leave",
+    title: "Reject Leaves",
     message: "Are you sure you want to reject the selected Leaves?",
   },
   rejectedSingle: {

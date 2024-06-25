@@ -121,7 +121,7 @@ import {
   ACTIVITY_DICTIONARY,
 } from "@/utils/constant/TimesheetData.js";
 import {
-  ACTIVITY_TYPE, 
+  ACTIVITY_TYPE,
   MONTH_SELECTOR_DEFAULT,
   FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
@@ -179,7 +179,6 @@ export default {
         from: null,
         to: null,
       },
-      monthView: null,
     };
   },
   methods: {
@@ -271,8 +270,10 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
+      console.log('fillweekly===', this.weekDates);
       const {from, to} = startOfDayEndOfDayRange({ startDate: this.weekDates.from, endDate: this.weekDates.to })
 
+      console.log('from_to', from, to)
       const weekData = new TimesheetParser(
         await getTimesheets({from, to, employeeId: this.id })
       ).parse("week");
@@ -316,9 +317,6 @@ export default {
     },
     async weekSelectionInMonthView() {
       await this.fillTimesheetEntries(true);
-    },
-    resetMonthView() {
-      this.monthView = null;
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}
@@ -427,7 +425,6 @@ export default {
       if(newval.from && newval.to) {
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
-        this.resetMonthView();
       }
     },
     month(val) {

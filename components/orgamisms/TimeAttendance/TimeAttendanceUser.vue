@@ -164,7 +164,7 @@ import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
-  FILL_DAILY_ENTRY_EVENT, 
+  FILL_DAILY_ENTRY_EVENT,
   MONTH_SELECTOR_DEFAULT,
   FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
@@ -243,7 +243,6 @@ export default {
       },
       year: null,
       month: null,
-      monthView: null,
       isFullYearList: false,
     };
   },
@@ -432,7 +431,24 @@ export default {
     clickOutside() {
       this.show = false;
     },
+    resetWeekDates() {
+      this.weekDates = {
+        from: null,
+        to: null,
+      }
+    },
+    resetTodayDate() {
+      this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
+    },
+    setDefaultOnViewChange(view) {
+      if(view === 'week' && this.view.value !== 'week'){
+        this.resetWeekDates();
+      }else if(view === 'day' && this.view.value !== 'day') {
+        this.resetTodayDate();
+      }
+    },
     async onViewChange(e) {
+      this.setDefaultOnViewChange(e.value);
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
@@ -577,9 +593,6 @@ export default {
     async onCloseWeekRange() {
       await this.fillTimesheetEntries();
     },
-    weekDateChangeInMonthView() {
-      this.monthView = 'week';
-    },
     async weekSelectionInMonthView() {
       await this.fillTimesheetEntries(true);
     },
@@ -588,9 +601,6 @@ export default {
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}
-    },
-    resetMonthView() {
-      this.monthView = null;
     },
   },
   beforeDestroy() {
@@ -613,7 +623,6 @@ export default {
       if(newval.from && newval.to) {
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
-        this.resetMonthView();
       }
     },
     month(val) {

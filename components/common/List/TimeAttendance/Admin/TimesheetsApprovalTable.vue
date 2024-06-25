@@ -180,10 +180,13 @@ export default {
       switch (event.key) {
         case "approved":
           if (this.type === PENDING_TYPE) {
-            this.$emit('approve-item', {id});
+            // this.$emit('approve-item', {id});
+            this.approveSingleTimesheet({id});
           } else {
-            this.$emit('approve-item', { id, employeeId, date });
+            // this.$emit('approve-item', { id, employeeId, date });
+            this.approveSingleTimesheet({ id, employeeId, date });
           }
+            this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           break;
         case "rejected":
           if (this.type === PENDING_TYPE) {
@@ -196,6 +199,16 @@ export default {
           console.error(`Unhandled event key: ${event.key}`);
       }
     },
+
+    async approveSingleTimesheet({ id, employeeId, date }) {
+      if (id !== "-1") {
+        await approveTimesheet({ id });
+      } else {
+        await approvePastDueTimesheet({ id, date, employeeId });
+      }
+      this.getAndParseTimesheets();
+    },
+
     cancelRejectRequest() {
       // this.addIds.pop();
       this.showRefusalModal = false;
@@ -217,22 +230,7 @@ export default {
       event = event?.value ?? event;
 
 
-      if (event == TIMESHEET_STATUS["approved"].value) {
-        if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
-          const date = data?.value?.start;
-          await approvePastDueTimesheet({
-            id,
-            date,
-            employeeId: data.value.employeeId,
-          });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-          this.confirmastionMessageModal = false;
-        } else {
-          await approveTimesheet({ id });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
-          this.confirmastionMessageModal = false;
-        }
-      } else if (event == TIMESHEET_STATUS["rejected"].value) {
+      if (event == TIMESHEET_STATUS["rejected"].value) {
         const refusalReason = request.refusalReason
         if (status == TIMESHEET_STATUSES.PAST_DUE && id == "-1") {
           const date = data?.value?.start;

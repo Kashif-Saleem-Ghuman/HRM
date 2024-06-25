@@ -198,7 +198,7 @@ export default {
       // this.loading = true;
       if (!this.todayDate) return;
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
-        date: new Date(this.todayDate).toISOString(),
+        date: DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd"),
         employeeId: this.id,
       });
       this.todayData = [];

@@ -158,11 +158,8 @@ export const actions = {
 
   async setDailyTimeEntries(ctx, date = new Date().toISOString()) {
     try {
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
-      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
-
       const { data } = await axios.get(
-        process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
+        process.env.API_URL + `/timesheets/daily?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -186,14 +183,14 @@ export const actions = {
     }
   },
 
-  async setDailyTimeEntriesToday(ctx, date = new Date().toISOString()) {
+  async setDailyTimeEntriesToday(ctx, date) {
     try {
-      const offset = -new Date().getTimezoneOffset() / 60;
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().plus({ hours: offset }).toISO();
-      const endOfDay =  DateTime.fromISO(date).endOf('day').toUTC().plus({ hours: offset }).toISO();
+      if (!date) {
+        date = DateTime.now().toFormat("yyyy-MM-dd")
+      }
 
       const { data } = await axios.get(
-        process.env.API_URL + `/timesheets/daily?from=${startOfDay}&to=${endOfDay}`,
+        process.env.API_URL + `/timesheets/daily?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -213,14 +210,10 @@ export const actions = {
 
   async setEmployeeDailyTimeEntry(ctx, { date, employeeId }) {
     try {
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO()
-      const endOfDay = DateTime.fromISO(date).endOf('day').toUTC().toISO()
       const { data } = await axios.get(
         process.env.API_URL
-          + "/timesheets/daily?from="
-          + startOfDay
-          + "&to="
-          + endOfDay
+          + "/timesheets/daily?date="
+          + date
           + "&employeeId="
           + employeeId,
         {

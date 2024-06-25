@@ -388,7 +388,7 @@ export default {
       if (!this.todayDate) return;
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
-        DateTime.fromFormat(this.todayDate, this.format).toUTC().toISO()
+        DateTime.fromFormat(this.todayDate, this.format).toFormat("yyyy-MM-dd")
       ).then((result)=>{
         if (result?.timesheet?.status) {
          this.timesheet = new Timesheet(result.timesheet)

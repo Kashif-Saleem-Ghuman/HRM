@@ -126,7 +126,7 @@ import {
   FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
-import { getTimesheets } from "@/utils/functions/api_call/timeattendance/time";
+import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
 
@@ -270,12 +270,13 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      console.log('fillweekly===', this.weekDates);
-      const {from, to} = startOfDayEndOfDayRange({ startDate: this.weekDates.from, endDate: this.weekDates.to })
-
-      console.log('from_to', from, to)
+      const weekRange = this.weekToUTCWeek({
+        from: new Date(this.weekDates.from),
+        to: new Date(this.weekDates.to),
+      });
+      weekRange.employeeId = this.id;
       const weekData = new TimesheetParser(
-        await getTimesheets({from, to, employeeId: this.id })
+          await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
       this.weekDataTotalWork = formatTime(

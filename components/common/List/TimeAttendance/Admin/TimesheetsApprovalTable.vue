@@ -38,6 +38,7 @@
       </template>
 
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
+        {{ value.index }}
           <template>
             <chips
               :key="`${value.day}-${Math.random()}`"
@@ -289,7 +290,10 @@ export default {
           employee.timesheets.forEach(timesheet => {
               timesheet.timeEntries.forEach(timeEntry => {
                   const weekdayIndex = getWeekdayIndex(timeEntry.date);
-                  timeEntry.weekdayIndex = weekdayIndex + 1;
+                  timeEntry.weekdayIndex = weekdayIndex;
+                  if(weekdayIndex == 0){
+                    timeEntry.weekdayIndex = 7;
+                  }
               });
           });
       });
@@ -305,7 +309,7 @@ export default {
       });
 
       const parsedDate = new Date(value.date);
-      parsedDate.setDate(parsedDate.getDate() + 1);
+      parsedDate.setDate(parsedDate.getDate());
       const newDate = fecha.format(parsedDate, "DD-MMM-YYYY"); 
 
       this.$router.push({

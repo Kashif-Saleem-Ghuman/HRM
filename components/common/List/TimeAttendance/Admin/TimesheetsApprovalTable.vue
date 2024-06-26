@@ -38,13 +38,29 @@
       </template>
 
       <!-- Weekday cells -->
-      <template v-for="day in weekDays" #[`cell(${day})`]="data">
-        <chips
-          :key="day + random(day)"
-          :title="data.value[day] ? formatHoursToHHMM(data.value[day]) : '--'"
-          :className="[getDayClassName(data.value[day])]"
-        ></chips>
+      <template v-for="(day, index) in weekDays" #[`cell(${day})`]="data">
+        <template v-if="data.value.timeEntries.some(entry => entry.weekdayIndex === index)">
+          <template v-for="entry in data.value.timeEntries">
+            <template v-if="entry.weekdayIndex === index">
+              <chips
+                :key="day + random(day)"
+                :title="entry.total ? formatHoursToHHMM(entry.total) : '--'"
+                :className="[getDayClassName(entry.total)]"
+                @on-click="redirectToProfile(data.value, entry.date)"
+              ></chips>
+            </template>
+          </template>
+        </template>
+        <template v-else>
+          <chips
+            :key="day + random(day)"
+            :title="'--'"
+            :className="[getDayClassName(0)]"
+            @on-click="handleEmptyChipClick"
+          ></chips>
+        </template>
       </template>
+
 
       <template #cell(total)="data">
         <chips
@@ -91,7 +107,7 @@ import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timeshee
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "../../../../../utils/constant/Notifications"
 import { random } from "lodash";
-
+import fecha from "fecha";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -273,9 +289,44 @@ export default {
       });
 
       this.employees = employees;
+
+      function getWeekdayIndex(dateString) {
+          const date = new Date(dateString);
+          return date.getDay();
+      }
+
+      this.employees.forEach(employee => {
+          employee.timesheets.forEach(timesheet => {
+              timesheet.timeEntries.forEach(timeEntry => {
+                  const weekdayIndex = getWeekdayIndex(timeEntry.date);
+                  timeEntry.weekdayIndex = weekdayIndex + 1;
+                  if(timeEntry.weekdayIndex == 7){
+                    timeEntry.weekdayIndex = 0;
+                  }
+              });
+          });
+      });
       this.loading = false;
       this.$emit("update:requestData", this.employees);
       this.$emit('update:isStatusUpdated', false);
+    },
+
+    handleEmptyChipClick() {
+      this.openPopupNotification({
+        text: "Timesheet has no entries",
+        variant: "danger"
+      });
+    },
+
+    redirectToProfile(value, date) {
+      const parsedDate = new Date(date);
+      parsedDate.setDate(parsedDate.getDate() + 1);
+      const newDate = fecha.format(parsedDate, "DD-MMM-YYYY"); 
+
+      this.$router.push({
+        path: `/profile/${value.employeeId}/time-attendance-profile-tab`,
+        query: { date: newDate }
+      });
     },
 
     getDayClassName(hours) {

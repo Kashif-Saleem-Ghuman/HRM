@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="drop-menu">
-      <div class="position-relative">
+      <div class="position-relative" @mouseleave="handleMouseLeave">
         <bib-button
           :label="selected"
           variant="light"
@@ -100,6 +100,9 @@ export default {
     resetMonth() {
       this.iconName === MONTH_SELECTOR_ICONS.ARROW_DOWN && this.toggleDropdown();
       this.setDefaultMonth();
+    },
+    handleMouseLeave() {
+      this.isDropdownOpen = false;
     },
   },
 };

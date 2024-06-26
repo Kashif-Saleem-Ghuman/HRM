@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-menu">
+  <div class="drop-menu" @mouseleave="handleMouseLeave">
     <div class="position-relative">
       <bib-button
         :label="selected?.toString()"
@@ -59,6 +59,9 @@ export default {
       this.options = this.getYearList();
       this.selected = new Date().getFullYear();
       this.value = this.selected;
+    },
+    handleMouseLeave() {
+      this.isDropdownOpen = false;
     },
   },
 };

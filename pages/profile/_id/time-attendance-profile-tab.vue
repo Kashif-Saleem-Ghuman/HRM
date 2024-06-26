@@ -30,6 +30,7 @@
               :maxDate="maxDate"
               style="margin-bottom: -7px;"
               size="sm"
+              hide-quick-select
               @input="dateSelection($event)"
             ></bib-datetime-picker>
             <div class="py-05" v-if="view.value === 'week'">
@@ -123,12 +124,13 @@ import {
 import {
   ACTIVITY_TYPE,
   MONTH_SELECTOR_DEFAULT,
-  FILL_WEEKLY_ENTRY_EVENT,
+  FILL_WEEKLY_ENTRY_EVENT, FILL_DAILY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
 import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
 const VIEWS = [
   { label: "Day", value: "day", variant: "light" },
@@ -227,7 +229,24 @@ export default {
     clickOutside() {
       this.show = false;
     },
+    resetWeekDates() {
+      this.weekDates = {
+        from: null,
+        to: null,
+      }
+    },
+    resetTodayDate() {
+      this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
+    },
+    setDefaultOnViewChange(view) {
+      if(view === 'week' && this.view.value !== 'week'){
+        this.resetWeekDates();
+      }else if(view === 'day' && this.view.value !== 'day') {
+        this.resetTodayDate();
+      }
+    },
     onViewChange(e) {
+      this.setDefaultOnViewChange(e.value);
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
@@ -324,9 +343,19 @@ export default {
     },
     registerRootListeners() {
       this.registerFillWeeklyEntryListener();
+      this.registerFillDailyEntryListener();
     },
     unregisterRootListeners() {
       this.unregisterFillWeeklyEntryListener();
+      this.unregisterFillDailyEntryListener();
+    },
+    registerFillDailyEntryListener() {
+      this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
+        this.fillDailyTimeEntries();
+      });
+    },
+    unregisterFillDailyEntryListener() {
+      this.$root.$off(FILL_DAILY_ENTRY_EVENT);
     },
     registerFillWeeklyEntryListener() {
       this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {

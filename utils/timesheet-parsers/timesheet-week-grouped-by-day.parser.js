@@ -4,7 +4,8 @@ import BaseTimesheetParser from "./base-timesheet-parser";
 export default class TimesheetWeekGroupedByDayParser extends BaseTimesheetParser {
   parse() {
     const timesheets = this.timesheets.timesheets;
-    const timeEntries = timesheets.reduce((acc, current) => ([...acc, ...current.timeEntries]), []);
+    const isTimesheetArray = this.isTimesheetArray(timesheets);
+    const timeEntries = isTimesheetArray ? timesheets.reduce((acc, current) => ([...acc, ...current.timeEntries]), []) : timesheets?.timeEntries;
     const timeEntriesByWeek = this.groupTimeEntriesByWeekDay(timeEntries);
     const weekData = {};
     let total = 0;
@@ -19,7 +20,10 @@ export default class TimesheetWeekGroupedByDayParser extends BaseTimesheetParser
         totalHours,
       };
     });
-
-    return { ...this.timesheets, weekData, total };
+    const timesheetData = isTimesheetArray ? this.timesheets : timesheets;
+    return { ...timesheetData, weekData, total };
+  }
+  isTimesheetArray(timesheet) {
+    return Array.isArray(timesheet);
   }
 }

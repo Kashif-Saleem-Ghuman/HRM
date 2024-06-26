@@ -229,6 +229,15 @@ export default {
       if (!type) return {};
       return this.$button[type];
     },
+    deactivateAllColumns() {
+      this.tableFields.forEach((field) => {
+        if (field.header_icon) {
+          field.header_icon.isActive = false;
+          field.header_icon.icon = "long-arrow-up";
+        }
+      });
+      this.sortByField = null;
+    },
     headerColumnClick(column) {
       this.sortColumn(column);
     },
@@ -322,7 +331,13 @@ export default {
     tableItemClick(event, key, item) {
       this.$emit("week-view", item);
     },
+
   },
+  watch: {
+    timesheetsList(val) {
+      this.deactivateAllColumns();
+    },
+  }
 };
 </script>
 

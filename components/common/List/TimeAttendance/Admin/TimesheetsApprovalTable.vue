@@ -37,28 +37,15 @@
         </div>
       </template>
 
-      <!-- Weekday cells -->
-      <template v-for="(day, index) in weekDays" #[`cell(${day})`]="data">
-        <template v-if="data.value.timeEntries.some(entry => entry.weekdayIndex === index)">
-          <template v-for="entry in data.value.timeEntries">
-            <template v-if="entry.weekdayIndex === index">
-              <chips
-                :key="day + random(day)"
-                :title="entry.total ? formatHoursToHHMM(entry.total) : '--'"
-                :className="[getDayClassName(entry.total)]"
-                @on-click="redirectToProfile(data.value, entry.date)"
-              ></chips>
-            </template>
+      <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
+          <template>
+            <chips
+              :key="`${value.day}-${Math.random()}`"
+              :title="data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total ? formatHoursToHHMM(data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total) : '--'"
+              :className="[getDayClassName(data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total)]"
+              @on-click="redirectToProfile(data.value.employeeId, data.value.timeEntries.find(entry => entry.weekdayIndex === value.index))"
+            ></chips>
           </template>
-        </template>
-        <template v-else>
-          <chips
-            :key="day + random(day)"
-            :title="'--'"
-            :className="[getDayClassName(0)]"
-            @on-click="handleEmptyChipClick"
-          ></chips>
-        </template>
       </template>
 
 
@@ -148,7 +135,10 @@ export default {
         TIMESHEET_STATUS.approved,
         TIMESHEET_STATUS.rejected,
       ],
-      weekDays: WEEK_DAY.map((day) => day.value.substring(0, 3)),
+      weekDays: WEEK_DAY.map(day => ({
+          day: day.value.substring(0, 3),
+          index: day.weekday
+      })),
       tableFields: TABLE_HEAD.tHeadTimesheet,
       employees: [],
       loading: true,
@@ -300,9 +290,6 @@ export default {
               timesheet.timeEntries.forEach(timeEntry => {
                   const weekdayIndex = getWeekdayIndex(timeEntry.date);
                   timeEntry.weekdayIndex = weekdayIndex + 1;
-                  if(timeEntry.weekdayIndex == 7){
-                    timeEntry.weekdayIndex = 0;
-                  }
               });
           });
       });
@@ -311,20 +298,18 @@ export default {
       this.$emit('update:isStatusUpdated', false);
     },
 
-    handleEmptyChipClick() {
-      this.openPopupNotification({
+    redirectToProfile(userId, value) {
+      if(!value) return this.openPopupNotification({
         text: "Timesheet has no entries",
         variant: "danger"
       });
-    },
 
-    redirectToProfile(value, date) {
-      const parsedDate = new Date(date);
+      const parsedDate = new Date(value.date);
       parsedDate.setDate(parsedDate.getDate() + 1);
       const newDate = fecha.format(parsedDate, "DD-MMM-YYYY"); 
 
       this.$router.push({
-        path: `/profile/${value.employeeId}/time-attendance-profile-tab`,
+        path: `/profile/${userId}/time-attendance-profile-tab`,
         query: { date: newDate }
       });
     },

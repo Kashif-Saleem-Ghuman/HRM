@@ -38,13 +38,12 @@
       </template>
 
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
-        {{ value.index }}
           <template>
             <chips
               :key="`${value.day}-${Math.random()}`"
-              :title="data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total ? formatHoursToHHMM(data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total) : '--'"
-              :className="[getDayClassName(data.value.timeEntries.find(entry => entry.weekdayIndex === value.index)?.total)]"
-              @on-click="redirectToProfile(data.value.employeeId, data.value.timeEntries.find(entry => entry.weekdayIndex === value.index))"
+              :title="data.value[value.day] ? formatHoursToHHMM(data.value[value.day]) : '--'"
+              :className="[getDayClassName(data.value[value.day])]"
+              @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
             ></chips>
           </template>
       </template>
@@ -289,9 +288,10 @@ export default {
       this.employees.forEach(employee => {
           employee.timesheets.forEach(timesheet => {
               timesheet.timeEntries.forEach(timeEntry => {
-                  const weekdayIndex = getWeekdayIndex(timeEntry.date);
+                  const weekdayIndex = getWeekdayIndex(timeEntry.start);
                   timeEntry.weekdayIndex = weekdayIndex;
-                  if(weekdayIndex == 0){
+
+                  if(weekdayIndex === 0){
                     timeEntry.weekdayIndex = 7;
                   }
               });
@@ -302,13 +302,14 @@ export default {
       this.$emit('update:isStatusUpdated', false);
     },
 
-    redirectToProfile(userId, value) {
-      if(!value) return this.openPopupNotification({
+    redirectToProfile(userId, value, index) {
+      let currentValue = value.timeEntries.find(entry => entry.weekdayIndex === index)
+      if(!currentValue) return this.openPopupNotification({
         text: "Timesheet has no entries",
         variant: "danger"
       });
 
-      const parsedDate = new Date(value.date);
+      const parsedDate = new Date(currentValue.start);
       parsedDate.setDate(parsedDate.getDate());
       const newDate = fecha.format(parsedDate, "DD-MMM-YYYY"); 
 

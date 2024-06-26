@@ -29,7 +29,7 @@
 
 <script>
 import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
-import { MONTH_SELECTOR_DEFAULT } from "../../../utils/constant/Constant";
+import {MONTH_SELECTOR_DEFAULT, MONTH_SELECTOR_ICONS} from "../../../utils/constant/Constant";
 import BaseDateButton from "./BaseDateButton.vue";
 import {DateTime} from "luxon";
 export default {
@@ -51,9 +51,9 @@ export default {
   computed: {
     iconName() {
       if(this.value === MONTH_SELECTOR_DEFAULT.value){
-        return 'arrowhead-down'
+        return MONTH_SELECTOR_ICONS.ARROW_DOWN
       }
-      return 'close';
+      return MONTH_SELECTOR_ICONS.CLOSE;
     },
     getMonthsOptions() {
       const now = DateTime.now();
@@ -64,7 +64,10 @@ export default {
         return this.options.slice(0, this.options.findIndex((option) => option.value == currentMonth) + 1)
       }
       return this.options;
-    }
+    },
+    isAdmin() {
+      return this.$store.state.token.isAdmin
+    },
   },
 
   methods: {
@@ -78,9 +81,8 @@ export default {
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
-      if(this.isAdminView) {
-        this.selected = MONTH_SELECTOR_DEFAULT.label;
-        this.value = MONTH_SELECTOR_DEFAULT.value;
+      if(this.isAdmin) {
+        this.setDefaultMonth();
       }else {
         const month = new Date().getMonth();
         this.selected = this.options[month].label;
@@ -91,10 +93,13 @@ export default {
       this.isDropdownOpen = false;
       this.disabled = true;
     },
-    resetMonth() {
-      this.iconName === 'arrowhead-down' && this.toggleDropdown();
+    setDefaultMonth() {
       this.selected = MONTH_SELECTOR_DEFAULT.label;
       this.value = MONTH_SELECTOR_DEFAULT.value;
+    },
+    resetMonth() {
+      this.iconName === MONTH_SELECTOR_ICONS.ARROW_DOWN && this.toggleDropdown();
+      this.setDefaultMonth();
     },
   },
 };

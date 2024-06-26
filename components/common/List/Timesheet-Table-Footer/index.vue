@@ -33,7 +33,7 @@
       <div class="footer-item-left" v-if="status == 'rejected'">
         <div
           class="refusal-wrapper info-card-success-wrapper margin-minus"
-          v-if="refusalReasonData.refusalReason != null"
+          v-if="refusalReasonData?.refusalReason != null"
         >
           <div class="d-flex align-center info-card-inner-wrapper">
             <div
@@ -55,7 +55,7 @@
           </div>
         </div>
         <div
-          :class="refusalReasonData.refusalReason != null ? 'text-danger' : ''"
+          :class="refusalReasonData?.refusalReason != null ? 'text-danger' : ''"
           v-else
         >
           {{ getSubmitText() }}

@@ -149,7 +149,7 @@ export default {
       buttonIcon: "check-circle-solid",
       show: false,
       format: "DD-MMM-YYYY",
-      todayDate: new URLSearchParams(window.location.search) ? new URLSearchParams(window.location.search).get('date') : fecha.format(new Date(), "DD-MMM-YYYY"),
+      todayDate: new URLSearchParams(window.location.search).get('date') ? new URLSearchParams(window.location.search).get('date') : fecha.format(new Date(), "DD-MMM-YYYY"),
       ACTIVITY_DICTIONARY,
       reportOptions: "",
       activeRole: this.activeUserRole === "ADMIN" ? true : false,

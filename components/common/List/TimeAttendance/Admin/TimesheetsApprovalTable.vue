@@ -304,10 +304,7 @@ export default {
 
     redirectToProfile(userId, value, index) {
       let currentValue = value.timeEntries.find(entry => entry.weekdayIndex === index)
-      if(!currentValue) return this.openPopupNotification({
-        text: "Timesheet has no entries",
-        variant: "danger"
-      });
+      if(!currentValue) return this.debouncedNotification();
 
       const parsedDate = new Date(currentValue.start);
       parsedDate.setDate(parsedDate.getDate());
@@ -318,7 +315,18 @@ export default {
         query: { date: newDate }
       });
     },
-
+    debouncedNotification() {
+      if (!this.debounced) {
+        this.openPopupNotification({
+        text: "Timesheet has no entries",
+        variant: "danger"
+      });
+        this.debounced = true;
+        setTimeout(() => {
+          this.debounced = false;
+        }, 3000); 
+      }
+    },
     getDayClassName(hours) {
       if (!hours) return "chip-wrapper__bggray";
 

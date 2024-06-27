@@ -105,15 +105,6 @@
                   </div>
                 </button-with-overlay>
               </div>
-              <div v-if="!monthListView && !weekListView" class="pl-05 my-05">
-                <div>
-                  <bib-button
-                    :label="getTotalWeeksInfo"
-                    @click="onWeekDayViewChange"
-                    variant="light"
-                  ></bib-button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -325,13 +316,6 @@ export default {
         varint: "light",
       };
     },
-    getTotalWeeksInfo() {
-      const formattedWeek = this.getFormattedWeekInfo();
-      return `Week
-              ${formattedWeek.totalWeeks} /
-              ${formattedWeek.startDate} ->
-              ${formattedWeek.endDate}`;
-    },
   },
   async created() {
     // this.loading = true;
@@ -377,17 +361,6 @@ export default {
     unregisterRootListeners() {
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
-    },
-    getFormattedWeekInfo() {
-      const now = DateTime.now();
-      const totalWeeks = getTotalWeeksNumber(now);
-
-      const {from, to} = getWeekStartEndDates(now);
-      return {
-        totalWeeks,
-        startDate: DateTime.fromISO(from).toFormat(DATETIME_FORMAT),
-        endDate: DateTime.fromISO(to).toFormat(DATETIME_FORMAT)
-      };
     },
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
@@ -595,9 +568,6 @@ export default {
     },
     async weekSelectionInMonthView() {
       await this.fillTimesheetEntries(true);
-    },
-    async onWeekDayViewChange() {
-      this.$router.push({ query: { view: 'month' } });
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}

@@ -1,48 +1,86 @@
 
 <template>
   <div class="d-flex">
-    <div class="info-card-leave-wrapper w-100">
+    <div class="info-card-timer w-100" :key="timerRefresh">
       <div>
-        <label>My Status</label>
+        <label>Good Morning! Please Clock-In</label>
       </div>
-      <div class="info-card-items mt-05">
+      <div class="info-card-items">
         <div>
-          <div class="subheading">In {{ activityDetails.in }}</div>
-          <span>{{ stopWatchTime }}</span>
-
-          <div class="subheading_footer">Out {{ activityDetails.out }}</div>
+          <div class="subheading"> {{ currentDate }}</div>
+          <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
-      <div class="footer-item d-flex">
-        <div class="items">
-          <label>Break</label>
-          <span>{{ activityDetails.breaks }}</span>
-        </div>
-        <div class="items">
-          <label>Total work</label>
-          <span>{{ activityDetails.total }}</span>
-        </div>
-      </div>
-      <!-- <div
-        class="button-wrapper button-wrapper__bgprimary cursor-pointer"
-        :class="{
-          'button-custom--disabled': buttonDisabled,
-          'bg-secondary-sub3': buttonDisabled,
-          'bg-danger-sub1': active,
-        }"
-        @click="handleClockInOutClick"
-      >
-        <span>{{ buttonLable }}</span>
-      </div> -->
-      <div class="d-flex justify-center" @click="handleWrapperClick">
+      <div class="d-flex justify-center gap-1" @click="handleWrapperClick">
         <bib-button
           :label="buttonLable"
           :variant="buttonVariant"
           :icon="icon"
           :disabled="buttonDisabled ? true : false"
-          @click="handleClockInOutClick"
+          @click="handleClockIn()"
           class="button-wrapper-align w-100"
+          v-if="!active"
         ></bib-button>
+        <bib-button
+          :label="buttonLable"
+          :variant="buttonVariant"
+          :icon="icon"
+          :disabled="buttonDisabled ? true : false"
+          @click="handleBreakStartTime()"
+          class="button-wrapper-align w-100"
+          v-if="active"
+        ></bib-button>
+        <bib-button
+          :label="buttonLable"
+          :variant="buttonVariant"
+          :icon="icon"
+          :disabled="buttonDisabled ? true : false"
+          @click="handleBreakEndTime()"
+          class="button-wrapper-align w-100"
+          v-if="active"
+        ></bib-button>
+        <bib-button
+          label="Absent"
+          variant="danger--outline"
+          class="button-wrapper-align w-100"
+          @click="handleClockInOutClick()"
+          v-if="!active"
+        ></bib-button>
+        <bib-button
+          label="Clock out"
+          variant="light"
+          class="button-wrapper-align w-100"
+          @click="handleClockInOutClick()"
+          v-if="active"
+        ></bib-button>
+      </div>
+      <div class="activity-wrapper">
+        <div class="activity-item gap-1">
+        <div class="activity-items">
+          <label>In</label>
+          <span>{{ activityDetails.in }}</span>
+        </div>
+        <div class="activity-items">
+          <label>Out</label>
+          <span>{{ activityDetails.out }}</span>
+        </div>
+      </div>
+      <div class="activity-item gap-1">
+        <div class="activity-items">
+          <label>Break</label>
+          <span>{{ activityDetails.breaks }}</span>
+        </div>
+        <div class="activity-items">
+          <label>Overtime</label>
+          <span>{{ activityDetails.total }}</span>
+        </div>
+      </div>
+      <div class="activity-item gap-1">
+        <div class="activity-items">
+          <label>Total</label>
+          <span>{{ activityDetails.total }}</span>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -52,8 +90,10 @@ import {
   calculateActivityDetails,
   formatTime,
 } from "../../../utils/functions/clock_functions";
+import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
+import { mapState } from "vuex";
 
 export default {
   mixins: [timerMixin],
@@ -85,7 +125,22 @@ export default {
       loading: true,
       timerLoading: false,
       stopClick: false,
+      currentDate: DateTime.now().toFormat("MMMM dd, yyyy"),
+      timerRefresh:0
     };
+  },
+  created() {
+    this.$root.$on("update-timer", () => {
+      this.timerRefresh += 1;
+      if (this.$store.state.token.isUser) {
+       this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
+    } else {
+       this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
+        employeeId: this.employeeId,
+        date: new Date().toISOString(),
+      });
+    }
+    });
   },
   async mounted() {
     this.startTimerInterval();
@@ -129,13 +184,19 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification })
     },
-    async handleClockInOutClick() {
+    async handleClockInOutClick(value) {
       if (this.active) {
         this.stopClick = true;
         await this.stopTimer();
         this.$emit("timer-stop");
-      } else {
+      } 
+      else {
         await this.startTimer();
+      }
+    },
+    handleBreakTime(){
+      if (this.active) {
+        
       }
     },
 
@@ -153,6 +214,9 @@ export default {
 
   },
   computed: {
+    ...mapState({
+      dailyTimeEntries: state => state.timeattendance.dailyTimeEntries
+    }),
     isTimesheetLocked() {
       const timesheet = this.$store.state.timeattendance.timesheetToday
       if (timesheet) return timesheet.isLocked()
@@ -177,13 +241,13 @@ export default {
     buttonVariant(){
       if(this.disabled) return "light"
       if (this.$store.state.token.isUser) {
-        if (this?.active) return "danger";
+        if (this?.active) return "warning";
         if(!this?.active) return "primary-24"
       }
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
-        if (this?.active) return "Clock Out";
+        if (this?.active) return "Take a break";
         else return "Clock In";
       } else if (this.$store.state.token.isAdmin) {
         if (this?.active) return "Online";
@@ -199,4 +263,75 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.info-card-timer {
+  padding: 24px;
+  font-size: 14px;
+  background: $white;
+  border-radius: 24px;
+  border: 1px solid $secondary-sub3;
+  overflow-wrap: break-word;
+
+  label {
+    font-size: 1rem !important;
+    font-weight: 600;
+    color: $dark;
+  }
+
+  .info-card-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:1rem 0;
+
+    .subheading {
+      font-weight: 500;
+      color: $secondary-sub1;
+      font-size: 14px;
+    }
+
+    .timer-value {
+      font-size: 56px;
+      font-weight: 600;
+      margin-bottom:-8px;
+      margin-left:-4px;
+      color:$dark;
+    }
+    
+  }
+.activity-wrapper{
+  padding-top:0.5rem;
+  .activity-item {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .activity-items {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      border-bottom: 1px solid $light;
+      height: 35px;
+      align-items: center;
+      
+      
+      label {
+        color: var(--bib-text-secondary);
+        font-size: 12px !important;
+        padding-right: 10px;
+        font-weight: 500;
+
+      }
+
+      span {
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+  }
+}
+ 
+}
+</style>
 

@@ -1,13 +1,13 @@
-
 <template>
   <div class="d-flex">
     <div class="info-card-timer w-100" :key="timerRefresh">
       <div>
         <label>Good Morning! Please Clock-In</label>
       </div>
+      {{ getDailyTimeEntries }}
       <div class="info-card-items">
         <div>
-          <div class="subheading"> {{ currentDate }}</div>
+          <div class="subheading">{{ currentDate }}</div>
           <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
@@ -17,28 +17,10 @@
           :variant="buttonVariant"
           :icon="icon"
           :disabled="buttonDisabled ? true : false"
-          @click="handleClockIn()"
+          @click="handleClockInOutClick()"
           class="button-wrapper-align w-100"
-          v-if="!active"
         ></bib-button>
-        <bib-button
-          :label="buttonLable"
-          :variant="buttonVariant"
-          :icon="icon"
-          :disabled="buttonDisabled ? true : false"
-          @click="handleBreakStartTime()"
-          class="button-wrapper-align w-100"
-          v-if="active"
-        ></bib-button>
-        <bib-button
-          :label="buttonLable"
-          :variant="buttonVariant"
-          :icon="icon"
-          :disabled="buttonDisabled ? true : false"
-          @click="handleBreakEndTime()"
-          class="button-wrapper-align w-100"
-          v-if="active"
-        ></bib-button>
+
         <bib-button
           label="Absent"
           variant="danger--outline"
@@ -56,31 +38,31 @@
       </div>
       <div class="activity-wrapper">
         <div class="activity-item gap-1">
-        <div class="activity-items">
-          <label>In</label>
-          <span>{{ activityDetails.in }}</span>
+          <div class="activity-items">
+            <label>In</label>
+            <span>{{ activityDetails.in }}</span>
+          </div>
+          <div class="activity-items">
+            <label>Out</label>
+            <span>{{ activityDetails.out }}</span>
+          </div>
         </div>
-        <div class="activity-items">
-          <label>Out</label>
-          <span>{{ activityDetails.out }}</span>
+        <div class="activity-item gap-1">
+          <div class="activity-items">
+            <label>Break</label>
+            <span>{{ activityDetails.breaks }}</span>
+          </div>
+          <div class="activity-items">
+            <label>Overtime</label>
+            <span>{{ activityDetails.total }}</span>
+          </div>
         </div>
-      </div>
-      <div class="activity-item gap-1">
-        <div class="activity-items">
-          <label>Break</label>
-          <span>{{ activityDetails.breaks }}</span>
+        <div class="activity-item gap-1">
+          <div class="activity-items">
+            <label>Total</label>
+            <span>{{ activityDetails.total }}</span>
+          </div>
         </div>
-        <div class="activity-items">
-          <label>Overtime</label>
-          <span>{{ activityDetails.total }}</span>
-        </div>
-      </div>
-      <div class="activity-item gap-1">
-        <div class="activity-items">
-          <label>Total</label>
-          <span>{{ activityDetails.total }}</span>
-        </div>
-      </div>
       </div>
     </div>
   </div>
@@ -91,10 +73,18 @@ import {
   formatTime,
 } from "../../../utils/functions/clock_functions";
 import { DateTime } from "luxon";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import timerMixin from "../../../mixins/timer-mixin";
-import { mapState } from "vuex";
-
+import {
+  parseInputTimeIntoArray,
+  numberToClockDigits,
+  hoursAndMinutesToJSDate,
+} from "@/utils/functions/dates";
+import {
+  makeTimeEntry,
+  editTimeEntry,
+  deleteTimeEntry,
+} from "@/utils/functions/functions_lib_api";
 export default {
   mixins: [timerMixin],
 
@@ -126,20 +116,21 @@ export default {
       timerLoading: false,
       stopClick: false,
       currentDate: DateTime.now().toFormat("MMMM dd, yyyy"),
-      timerRefresh:0
+      timerRefresh: 0,
+      activityData:null,
     };
   },
   created() {
     this.$root.$on("update-timer", () => {
       this.timerRefresh += 1;
       if (this.$store.state.token.isUser) {
-       this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
-    } else {
-       this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-        employeeId: this.employeeId,
-        date: new Date().toISOString(),
-      });
-    }
+        this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
+      } else {
+        this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
+          employeeId: this.employeeId,
+          date: new Date().toISOString(),
+        });
+      }
     });
   },
   async mounted() {
@@ -150,20 +141,31 @@ export default {
     if (this.$store.state.token.isUser) {
       await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
     } else {
-      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-        employeeId: this.employeeId,
-        date: new Date().toISOString(),
-      });
+      await this.$store.dispatch(
+        "timeattendance/setEmployeeDailyTimeEntryToday",
+        {
+          employeeId: this.employeeId,
+          date: new Date().toISOString(),
+        }
+      );
     }
-    document.addEventListener("visibilitychange", this.handleVisibilityChange)
+    document.addEventListener("visibilitychange", this.handleVisibilityChange);
   },
   beforeDestroy() {
-    document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+    document.removeEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange
+    );
   },
   methods: {
     close() {
       this.clockModal = false;
     },
+    parseInputTimeIntoArray,
+    numberToClockDigits,
+    hoursAndMinutesToJSDate,
+    editTimeEntry,
+    makeTimeEntry,
     handleWrapperClick() {
       if (this.disabled) {
         this.debouncedNotification();
@@ -182,50 +184,94 @@ export default {
       }
     },
     openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+      this.$store.dispatch("app/addNotification", { notification });
     },
-    async handleClockInOutClick(value) {
-      if (this.active) {
-        this.stopClick = true;
-        await this.stopTimer();
-        this.$emit("timer-stop");
-      } 
-      else {
-        await this.startTimer();
+    calculateDates() {
+      const now = DateTime.now();
+      const currentDate = now.toISODate();
+      const currentTime = now.toISOTime();
+      return {
+        date: DateTime.fromJSDate(new Date(currentDate)).toFormat("yyyy-MM-dd"),
+        startDate: this.hoursAndMinutesToJSDate(
+          ...this.parseInputTimeIntoArray(currentTime),
+          currentDate
+        ).toISOString(),
+
+        // ...(this.endTime && {
+        //   endDate: this.hoursAndMinutesToJSDate(
+        //     ...this.parseInputTimeIntoArray(this.endTime),
+        //     this.getEndDate(this.startTime, this.endTime)
+        //   ).toISOString(),
+        // }),
+      };
+    },
+    async makeBreakEntry() {
+      const { startDate, endDate, date } = this.calculateDates();
+      const activityType = 'break'
+      console.log(this.getDailyTimeEntries, "getDailyTimeEntrygetDailyTimeEntrygetDailyTimeEntrygetDailyTimeEntry")
+      try {
+        const editedEntry = await this.makeTimeEntry(
+          activityType,
+          date,
+          startDate,
+          endDate
+        );
+
+        if (editedEntry) {
+          this.openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
+          // this.$emit("edit-entry", editedEntry);
+        }
+      } catch (error) {
+        console.log(error)
+        // this.clearStartTime();
+        // this.clearEndTime();
       }
     },
-    handleBreakTime(){
-      if (this.active) {
+    async handleClockInOutClick() {
+      console.log(this.getDailyTimeEntries, "this.getDailyTimeEntry.start")
+      if (this.active && !this.getDailyTimeEntries.start) {
+        this.makeBreakEntry();
+        // this.stopClick = true;
+        // await this.stopTimer();
+        // this.$emit("timer-stop");
+      }
+      // if (this.getDailyTimeEntry.start) {
+      //   alert("Break Entry Called");
+      // } else {
+        await this.startTimer();
         
+      // }
+    },
+    handleBreakTime() {
+      if (this.active) {
       }
     },
 
     handleVisibilityChange() {
-
-        if (document.hidden) {
-          this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-            status: false,
-          });
-          this.clearChronometerInterval();
-        } else {
-          this.startTimerInterval(true);
-        }
-    }
-
+      if (document.hidden) {
+        this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
+          status: false,
+        });
+        this.clearChronometerInterval();
+      } else {
+        this.startTimerInterval(true);
+      }
+    },
   },
   computed: {
-    ...mapState({
-      dailyTimeEntries: state => state.timeattendance.dailyTimeEntries
-    }),
     isTimesheetLocked() {
-      const timesheet = this.$store.state.timeattendance.timesheetToday
-      if (timesheet) return timesheet.isLocked()
+      const timesheet = this.$store.state.timeattendance.timesheetToday;
+      if (timesheet) return timesheet.isLocked();
     },
     ...mapGetters({
       getDailyTimeEntries: "timeattendance/getdailyTimeEntriesToday",
+      getDailyTimeEntry:"timeattendance/getDailyTimeEntries"
     }),
     buttonDisabled() {
-      return this.stopClick || this.disabled || this.isTimesheetLocked
+      return this.stopClick || this.disabled || this.isTimesheetLocked;
     },
 
     stopWatchTime() {
@@ -238,16 +284,17 @@ export default {
         this.getDailyTimeEntries
       );
     },
-    buttonVariant(){
-      if(this.disabled) return "light"
+    buttonVariant() {
+      if (this.disabled) return "light";
       if (this.$store.state.token.isUser) {
         if (this?.active) return "warning";
-        if(!this?.active) return "primary-24"
+        if (!this?.active) return "primary-24";
       }
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
         if (this?.active) return "Take a break";
+        if (this?.getDailyTimeEntry.start) return "Back to work";
         else return "Clock In";
       } else if (this.$store.state.token.isAdmin) {
         if (this?.active) return "Online";
@@ -282,7 +329,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:1rem 0;
+    padding: 1rem 0;
 
     .subheading {
       font-weight: 500;
@@ -293,45 +340,40 @@ export default {
     .timer-value {
       font-size: 56px;
       font-weight: 600;
-      margin-bottom:-8px;
-      margin-left:-4px;
-      color:$dark;
+      margin-bottom: -8px;
+      margin-left: -4px;
+      color: $dark;
     }
-    
   }
-.activity-wrapper{
-  padding-top:0.5rem;
-  .activity-item {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-
-    .activity-items {
+  .activity-wrapper {
+    padding-top: 0.5rem;
+    .activity-item {
+      padding-top: 8px;
+      padding-bottom: 8px;
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      border-bottom: 1px solid $light;
-      height: 35px;
-      align-items: center;
-      
-      
-      label {
-        color: var(--bib-text-secondary);
-        font-size: 12px !important;
-        padding-right: 10px;
-        font-weight: 500;
 
-      }
+      .activity-items {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 1px solid $light;
+        height: 35px;
+        align-items: center;
 
-      span {
-        font-weight: 500;
-        font-size: 12px;
+        label {
+          color: var(--bib-text-secondary);
+          font-size: 12px !important;
+          padding-right: 10px;
+          font-weight: 500;
+        }
+
+        span {
+          font-weight: 500;
+          font-size: 12px;
+        }
       }
     }
   }
 }
- 
-}
 </style>
-

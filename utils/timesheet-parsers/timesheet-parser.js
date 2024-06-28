@@ -3,15 +3,13 @@ import MonthTimesheetParser from "./month-timesheet-parser";
 import WeekTimesheetParser from "./week-timesheet-parser";
 import TimesheetHoursPerDayParser from "./timesheet-hours-per-day.parser";
 import TimesheetWeekGroupedByDayParser from "./timesheet-week-grouped-by-day.parser";
-import WeekDayYearlyTimesheetParser from "@/utils/timesheet-parsers/week-day-yearly-timesheet-parser";
 
 const parserMap = {
   day: DayTimesheetParser,
   week: WeekTimesheetParser,
   month: MonthTimesheetParser,
   hours: TimesheetHoursPerDayParser,
-  weekDays: TimesheetWeekGroupedByDayParser,
-  weekDaysYearly: WeekDayYearlyTimesheetParser,
+  weekDays: TimesheetWeekGroupedByDayParser
 };
 
 export class TimesheetParser {

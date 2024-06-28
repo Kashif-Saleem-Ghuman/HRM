@@ -767,12 +767,11 @@ export const TABLE_FIELDS = [
 export const SELECT_OPTIONS = {
   maritalStatusOptions: [
     { label: "Single", value: "single" },
+    { label: "Living common-law", value: "couple" },
     { label: "Married", value: "married" },
     { label: "Separated", value: "separated" },
-    { label: "Widowed", value: "widowed" },
     { label: "Divorced", value: "divorced" },
-    { label: "Cohabiting Couples", value: "couple" },
-
+    { label: "Widowed", value: "widowed" },
   ],
   genderOptions: [
     {
@@ -1436,4 +1435,9 @@ export const DAY_SELECTOR_DEFAULT = {
 
 export const PENDING_TYPE = "pending";
 export const PAST_DUE_TYPE = "past_due";
+
+export const MONTH_SELECTOR_ICONS = {
+  CLOSE: 'close',
+  ARROW_DOWN: 'arrowhead-down'
+}
 

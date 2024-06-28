@@ -16,7 +16,7 @@
         <div
           class="d-flex flex-d-column text-left gap-01 cursor-pointer"
         >
-          <div class="font-md font-w-700">Week {{ getWeekNumber(data.value.end) }}</div>
+          <div class="font-md font-w-700">Week {{ getWeekNumber(data.value.start) }}</div>
           <div class="font-w-400 text-black">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
@@ -61,13 +61,14 @@
                 :className="['width-auto chip-wrapper-without-bg', getStatusClassName(data.value?.status)]"
               ></chips>
             </div>
-            <div @click.native.stop class="ml-2" v-else>
+            <div class="ml-2" v-else>
               <bib-button
                 :icon="getSubmitIcon(data.value?.status)"
                 :variant="getSubmitVariant(data.value?.status)"
                 :scale="$button.pending.scale"
                 :label="getSubmitLabel(data.value?.status)"
                 @click.native.stop="buttonClicked(data.value)"
+                :disabled="isSubmitted"
               ></bib-button>
             </div>
           </div>
@@ -151,6 +152,7 @@ export default {
         TIMESHEET_STATUS.approved,
         TIMESHEET_STATUS.rejected,
       ],
+      isSubmitted: false,
     };
   },
   computed: {
@@ -215,15 +217,26 @@ export default {
     },
     async buttonClicked({status, id}) {
       if (this.timesheetIsSubmitable(status)) {
+        this.isSubmitted = true;
         const response = await this.submitTimesheet(id);
         if (response) {
           this.$emit("weeklytimesheet-submitted");
         }
+        this.isSubmitted = false;
       }
     },
     statusButtonConfig(type) {
       if (!type) return {};
       return this.$button[type];
+    },
+    deactivateAllColumns() {
+      this.tableFields.forEach((field) => {
+        if (field.header_icon) {
+          field.header_icon.isActive = false;
+          field.header_icon.icon = "long-arrow-up";
+        }
+      });
+      this.sortByField = null;
     },
     headerColumnClick(column) {
       this.sortColumn(column);
@@ -318,7 +331,13 @@ export default {
     tableItemClick(event, key, item) {
       this.$emit("week-view", item);
     },
+
   },
+  watch: {
+    timesheetsList(val) {
+      this.deactivateAllColumns();
+    },
+  }
 };
 </script>
 

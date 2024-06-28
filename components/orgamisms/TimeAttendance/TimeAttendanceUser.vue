@@ -165,7 +165,9 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
 import {
-  getTimeFromDate, getTotalWeeksNumber, getWeekStartEndDates,
+  getTimeFromDate,
+  getWeekEnd,
+  getWeekStart,
   isSameDate,
   weekToUTCWeek,
 } from "@/utils/functions/dates";
@@ -547,8 +549,8 @@ export default {
     },
     async redirectWeekView(item) {
       const {start, end} = item;
-      this.$set(this.weekDates, 'from', DateTime.fromISO(start).toISO());
-      this.$set(this.weekDates, 'to', DateTime.fromISO(end).toISO());
+      this.$set(this.weekDates, 'from', getWeekStart(start));
+      this.$set(this.weekDates, 'to', getWeekEnd(end));
 
       this.$router.push({ query: { view: "week" } });
       await this.fillWeeklyTimeEntries();

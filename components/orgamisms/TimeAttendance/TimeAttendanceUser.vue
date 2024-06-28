@@ -363,7 +363,7 @@ export default {
       this.unregisterFillDailyEntryListener();
     },
     async handleTimerStop() {
-      await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
       if (
         isSameDate(
           DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate(),

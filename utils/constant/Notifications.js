@@ -57,6 +57,7 @@ export const TIMESHEET_NOTIFICATIN_MESSAGE = {
     variant: "primary-24",
   },
   rejected: { text: "Timesheet has been rejected", variant: "primary-24" },
+  empty: { text: "Timesheet has no entries", variant: "primary-24" },
 };
 export const NOTIFICATION_MESSAGES = {
   SUCCESS_DOWNLOAD: {

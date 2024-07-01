@@ -131,7 +131,7 @@ export default {
   async created() {
     this.$root.$on("update-nav", () => {
       this.updateNav += 1;
-      this.lightThemeChecked = !this.lightThemeChecked
+      this.lightThemeChecked = localStorage.getItem("isLightTheme")
     });
   },
   methods: {

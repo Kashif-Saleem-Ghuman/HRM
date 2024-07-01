@@ -124,14 +124,14 @@ export default {
   data() {
     return {
       appWrapItems: appWrapItems,
-      lightThemeChecked: localStorage.getItem("isLightTheme"),
+      lightThemeChecked: JSON.parse(localStorage.getItem("isLightTheme")),
       updateNav:0
     };
   },
   async created() {
     this.$root.$on("update-nav", () => {
-      this.updateNav += 1;
-      this.lightThemeChecked = !this.lightThemeChecked
+      this.lightThemeChecked = JSON.parse(localStorage.getItem("isLightTheme")),
+      this.updateNav += 1;    
     });
   },
   methods: {

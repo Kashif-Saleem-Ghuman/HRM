@@ -82,7 +82,7 @@
     <template #cell(total)="data">
       <div>
         <span>{{
-          getTotalHours(data.value?.activityReport.total) ?? "--"
+          updateTotalWorkedHours(data.value?.activityReport) ?? "--"
         }}</span>
       </div>
     </template>
@@ -297,6 +297,26 @@ export default {
       if (minutes == 0 || !minutes) return "00:00";
       const hours = minutes / 60;
       return formatHoursToHHMM(hours);
+    },
+    calculateWorkedMinutes(inTime) {
+        const inDate = new Date();
+        const [inHours, inMinutes] = inTime.split(":").map(Number);
+        inDate.setHours(inHours, inMinutes, 0, 0);
+
+        const currentDate = new Date();
+        const diffMs = currentDate - inDate;
+        const diffMinutes = Math.floor(diffMs / 1000 / 60);
+        return diffMinutes;
+    },
+    updateTotalWorkedHours(activityReport) {
+        if (activityReport.total == 0 || !activityReport.total){
+          if (activityReport.in == 0 || !activityReport.in) return "00:00";
+          const workedMinutes = this.calculateWorkedMinutes(activityReport.in);
+          return this.getTotalHours(workedMinutes);
+        }else{
+          return this.getTotalHours(activityReport.total);
+        }
+        
     },
     viewProfile(id) {
       this.$router.push("/profile/" + id + "/time-attendance-profile-tab");

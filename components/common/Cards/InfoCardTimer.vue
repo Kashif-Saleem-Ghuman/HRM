@@ -92,9 +92,7 @@ export default {
     this.registerDefaultValueChronometer();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
-    if (this.$store.state.token.isUser) {
-      await this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
-    } else {
+    if (!this.$store.state.token.isUser) {
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
         employeeId: this.employeeId,
         date: new Date().toISOString(),

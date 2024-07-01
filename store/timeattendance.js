@@ -158,6 +158,7 @@ export const actions = {
 
   async setDailyTimeEntries(ctx, date = new Date().toISOString()) {
     try {
+      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO();
       const { data } = await axios.get(
         process.env.API_URL + `/timesheets/daily?date=${date}`,
         {
@@ -166,43 +167,17 @@ export const actions = {
           },
         },
       );
+      ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
       if(!ctx.state.isTimerRunning){
         const chronometerDuration = getChronometerDuration(data.timeEntries)
         ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
       }
-      ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
-
       if (DateTime.fromISO(startOfDay).hasSame(DateTime.now(), 'day')) {
         checkIsManualEntry(data.timeEntries) && ctx.commit("SET_CHRONOMETER", { chronometer: 0 });
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
       }
       return data
-    } catch (e) {
-      console.log(e);
-    }
-  },
-
-  async setDailyTimeEntriesToday(ctx, date) {
-    try {
-      if (!date) {
-        date = DateTime.now().toFormat("yyyy-MM-dd")
-      }
-
-      const { data } = await axios.get(
-        process.env.API_URL + `/timesheets/daily?date=${date}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        },
-      );
-
-      if(!ctx.state.isTimerRunning){
-        const chronometerDuration = getChronometerDuration(data.timeEntries)
-        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
-      }
-      ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
     } catch (e) {
       console.log(e);
     }

@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin"
+        :items="appWrapItems.navItemsAdmin.slice(0,5)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -12,6 +12,34 @@
         isLightTheme
         class="mt-05"
       ></bib-app-navigation>
+      <div
+        class="nav-section position-relative"
+        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
+        @click=" menuClick(item);"
+      >
+        <div
+          id=""
+          title="Organization Profile"
+          class="nav-section__item nav-item mb-0 nav-item__label--light"
+          :class="itemClasses(item)"
+        >
+          <div class="nav-item__icon">
+            <div class="nav-item__symbol" :key="updateNav">
+              <bib-logo :square="true" size="18px" :isLightTheme="item.selected ? true : lightThemeChecked"></bib-logo>
+            </div>
+          </div>
+          <div class="nav-item__label nav-item__flex">
+            <span
+              id=""
+              :class="{
+                'text-dark': item.selected,
+                'text-bold': item.count > 0,
+              }"
+              >{{ item.label }}</span
+            >
+          </div>
+        </div>
+      </div>
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
@@ -63,6 +91,9 @@ import { USER_ROLES } from "../../../utils/constant/Constant.js";
 import getJson from "../../../utils/dataJson/app_wrap_data.js";
 import { mapState } from "vuex";
 const appWrapItems = getJson();
+import {
+  handleToggleWrapperTheme,
+} from "@/utils/functions/functions_lib.js";
 export default {
   props: {
     navItems: {
@@ -93,14 +124,31 @@ export default {
   data() {
     return {
       appWrapItems: appWrapItems,
+      lightThemeChecked: JSON.parse(localStorage.getItem("isLightTheme")),
+      updateNav:0
     };
   },
-
+  async created() {
+    this.$root.$on("update-nav", () => {
+      this.lightThemeChecked = JSON.parse(localStorage.getItem("isLightTheme")),
+      this.updateNav += 1;    
+    });
+  },
   methods: {
     changeDashboard() {
       this.$router.push("/dashboard");
     },
-
+    handleToggleWrapperTheme,
+    itemClasses(item) {
+      const itemClass = {
+        "nav-item--selected bg-light": item.selected,
+        "nav-item__label--light": !this.lightThemeChecked && !item.selected,
+        "nav-item__label--light bg-light": !this.lightThemeChecked && item.selected,
+        "nav-item__label--dark": !this.lightThemeChecked && !item.selected,
+        "nav-item__label--dark": this.lightThemeChecked && !item.selected,
+      };
+      return itemClass;
+    },
     myAccountClick() {
       this.changeRole(USER_ROLES.USER);
       this.$router.push("/time-attendance/attendance/");

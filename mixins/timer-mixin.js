@@ -22,6 +22,9 @@ export default {
     active() {
       return this?.getTimerData?.active || false;
     },
+    isBreakActive() {
+      return this.$store.state.timeattendance.isBreakTimerRunning;
+    },
 
     ...mapGetters({
       getTimerData: "timeattendance/getTimerData",
@@ -29,9 +32,9 @@ export default {
   },
   methods: {
     startTimerInterval(isVisibilityChange = false) {
-      if (this.active && !this.isTimerRunning) {
+      if (this.active && !this.isTimerRunning && !this.isBreakActive) {
         this.timerLoading = true;
-        
+
         if (!this.isTimerRunning)
           this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
             status: true,

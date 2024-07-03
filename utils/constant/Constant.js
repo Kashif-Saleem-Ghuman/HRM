@@ -1342,6 +1342,11 @@ export const ACTIVITY_TYPE = {
   BREAK: "break",
 };
 
+export const TIME_ENTRY = {
+  SOURCE_MANUAL: "manual",
+  SOURCE_TIMER: "timer"
+}
+
 export const ACTIVITY_TYPE_LABEL_VALUE = {
   [ACTIVITY_TYPE.VACATION]: "Vacation",
   [ACTIVITY_TYPE.LEAVE]: "Leave",

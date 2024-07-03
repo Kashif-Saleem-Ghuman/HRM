@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export async function makeTimeEntry(activity, date, start, end) {
+export async function makeTimeEntry(activity, date, start, end, source) {
   try {
     const response = await axios.post(
       process.env.API_URL + "/time-entries",
-      { date, start, end, activity },
+      { date, start, end, activity, source },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

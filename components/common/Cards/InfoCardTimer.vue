@@ -4,20 +4,26 @@
       <div>
         <label>Good Morning! Please Clock-In</label>
       </div>
-      {{ getDailyTimeEntries }}
       <div class="info-card-items">
         <div>
           <div class="subheading">{{ currentDate }}</div>
           <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
-      <div class="d-flex justify-center gap-1" @click="handleWrapperClick">
+      <div v-if="!active" class="d-flex justify-center">
+        <bib-button
+          label="Clock In"
+          variant="primary-24"
+          class="button-wrapper-align w-100"
+          @click="handleClockInOutClick()"
+        ></bib-button>
+      </div>
+      <div v-else class="d-flex justify-center gap-1" @click="handleWrapperClick">
         <bib-button
           :label="buttonLable"
           :variant="buttonVariant"
           :icon="icon"
-          :disabled="buttonDisabled ? true : false"
-          @click="handleClockInOutClick()"
+          @click="handleBreakInOutClick()"
           class="button-wrapper-align w-100"
         ></bib-button>
 
@@ -124,7 +130,7 @@ export default {
     this.$root.$on("update-timer", () => {
       this.timerRefresh += 1;
       if (this.$store.state.token.isUser) {
-        this.$store.dispatch("timeattendance/setDailyTimeEntriesToday");
+        this.$store.dispatch("timeattendance/setDailyTimeEntries");
       } else {
         this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
           employeeId: this.employeeId,
@@ -187,30 +193,35 @@ export default {
       const currentTime = now.toISOTime();
       return {
         date: DateTime.fromJSDate(new Date(currentDate)).toFormat("yyyy-MM-dd"),
-        startDate: this.hoursAndMinutesToJSDate(
+
+        ...(!this.isBreakActive) && {
+          startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(currentTime),
           currentDate
-        ).toISOString(),
+        ).toISOString()},
 
-        // ...(this.endTime && {
-        //   endDate: this.hoursAndMinutesToJSDate(
-        //     ...this.parseInputTimeIntoArray(this.endTime),
-        //     this.getEndDate(this.startTime, this.endTime)
-        //   ).toISOString(),
-        // }),
+        ...(this.isBreakActive && {
+          endDate: this.hoursAndMinutesToJSDate(
+            ...this.parseInputTimeIntoArray(currentTime),
+            currentDate
+          ).toISOString(),
+        }),
       };
     },
     async makeBreakEntry() {
       const { startDate, endDate, date } = this.calculateDates();
-      const activityType = 'break'
-      console.log(this.getDailyTimeEntries, "getDailyTimeEntrygetDailyTimeEntrygetDailyTimeEntrygetDailyTimeEntry")
+      const activityType = 'break';
+      const source = 'timer';
       try {
         const editedEntry = await this.makeTimeEntry(
           activityType,
           date,
           startDate,
-          endDate
+          endDate,
+          source,
         );
+
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
 
         if (editedEntry) {
           this.openPopupNotification({
@@ -225,24 +236,18 @@ export default {
         // this.clearEndTime();
       }
     },
+
     async handleClockInOutClick() {
-      console.log(this.getDailyTimeEntries, "this.getDailyTimeEntry.start")
-      if (this.active && !this.getDailyTimeEntries.start) {
-        this.makeBreakEntry();
-        // this.stopClick = true;
-        // await this.stopTimer();
-        // this.$emit("timer-stop");
-      }
-      // if (this.getDailyTimeEntry.start) {
-      //   alert("Break Entry Called");
-      // } else {
+      if (this.active && !this.isBreakActive) {
+        this.stopClick = true;
+        await this.stopTimer();
+        this.$emit("timer-stop");
+      } else {
         await this.startTimer();
-        
-      // }
-    },
-    handleBreakTime() {
-      if (this.active) {
       }
+    },
+    async handleBreakInOutClick() {
+      this.makeBreakEntry();
     },
 
     handleVisibilityChange() {
@@ -263,7 +268,6 @@ export default {
     },
     ...mapGetters({
       getDailyTimeEntries: "timeattendance/getdailyTimeEntriesToday",
-      getDailyTimeEntry:"timeattendance/getDailyTimeEntries"
     }),
     buttonDisabled() {
       return this.stopClick || this.disabled || this.isTimesheetLocked;
@@ -288,9 +292,9 @@ export default {
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
-        if (this?.active) return "Take a break";
-        if (this?.getDailyTimeEntry.start) return "Back to work";
-        else return "Clock In";
+        console.log('isBreakActive', this.isBreakActive, this?.getDailyTimeEntries.start);
+        if (this.active && !this.isBreakActive) return "Take a break";
+        if (this.active && this.isBreakActive) return "Back to work";
       } else if (this.$store.state.token.isAdmin) {
         if (this?.active) return "Online";
         else return "Offline";

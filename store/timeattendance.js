@@ -10,7 +10,7 @@ import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
-import {getChronometerDuration, checkIsManualEntry, isDateToday,} from "@/utils/functions/timer";
+import {getChronometerDuration, checkIsManualEntry, isDateToday, isBreakTimerRunning,} from "@/utils/functions/timer";
 
 export const state = () => ({
   timer: {
@@ -23,6 +23,7 @@ export const state = () => ({
   dailyTimeEntriesToday: [],
   chronometer: 0,
   isTimerRunning: false,
+  isBreakTimerRunning: false,
   employeesAttendance: null,
   timesheetToday: null
 });
@@ -56,7 +57,7 @@ export const mutations = {
   RESET_TIME_ATTENDANCE_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = [];
   },
-  
+
   SET_DAILY_TIME_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = payload;
   },
@@ -77,7 +78,11 @@ export const mutations = {
   SET_IS_TIMER_RUNNING: (state, payload) => {
     const { status } = payload
     state.isTimerRunning = status
-  }
+  },
+
+  SET_IS_BREAK_TIMER_RUNNING: (state, payload) => {
+    state.isBreakTimerRunning = payload;
+  },
 };
 
 export const actions = {
@@ -151,7 +156,7 @@ export const actions = {
     }
     this.loading = false;
   },
-  
+
   resetTimeAttendanceEntries(ctx) {
     ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
   },
@@ -176,6 +181,10 @@ export const actions = {
         checkIsManualEntry(data.timeEntries) && ctx.commit("SET_CHRONOMETER", { chronometer: 0 });
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
+        // Setting up the timer
+        if(isBreakTimerRunning(data.timeEntries)){
+          ctx.commit("SET_IS_BREAK_TIMER_RUNNING", true);
+        }
       }
       return data
     } catch (e) {

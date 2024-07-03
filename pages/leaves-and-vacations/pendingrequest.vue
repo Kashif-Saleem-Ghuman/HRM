@@ -42,7 +42,7 @@
             :checked="checked"
             :checkedAll="checkedAll"
             @reject-item="enableModal($event, 'rejectSingle')"
-            @approve-item="enableModal($event, 'approveSingle')"
+            @approve-item-single="approveSingleLeaveVacation($event)"
             @item-checked="handleItemChecked"
             :disabled="disableButtonMultiselect"
           ></list-pending>
@@ -54,14 +54,8 @@
       @cancel="disableModal"
       @close="disableModal"
       @confirm="actionPerformOnRequest"
-      title="Reject Leave Request"
+      title="Reject Leave"
     ></request-refusal-modal>
-    <request-approve-modal
-      v-if="showApproveModal"
-      @cancel="disableModal"
-      @close="disableModal"
-      @confirm="actionPerformOnRequest"
-    ></request-approve-modal>
     <confirmation-modal
       :title="confirmationPopupData?.title"
       :confirmationMessage="confirmationPopupData?.message"
@@ -94,7 +88,6 @@ export default {
     return {
       showRefusalModal: false,
       refusalReason: null,
-      showApproveModal: false,
       confirmastionMessageModal: false,
       id: null,
       componentKey: 0,
@@ -212,15 +205,37 @@ export default {
       this.showRefusalModal = false;
       this.confirmastionMessageModal = false;
     },
+    async approveMultipleRequests() {
+      this.loading = true; 
+      const requestIds = this.requestListData
+        .filter((item) => item.checked)
+        .map((item) => item.id);
+      if (requestIds.length <= 0) {
+        this.loading = false; 
+        return;
+      }
+      try {
+        await this.multiApproveLeaveRequests({ requestIds });
+        this.checkedAll = false;
+        this.disableModal();
+        await this.getPendingLeaveVacationsAdmin({
+          from: this.fromDate,
+          to: this.toDate,
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false; 
+      }
+    },
     async enableModal(id, event) {
       const checkedCount = this.requestListData.filter((item) => item.checked).length;
       switch (event) {
         case "approveMultiple":
-          this.confirmastionMessageModal = true;
+          this.approveMultipleRequests();
           this.confirmationPopupData = checkedCount > 1
               ? LEAVE_CONFIRMATION_MESSAGE.approved
               : LEAVE_CONFIRMATION_MESSAGE.approvedSingle;
-          this.variantButton = "primary-24";
           break;
         case "rejectMultiple":
           this.confirmastionMessageModal = true;
@@ -229,9 +244,6 @@ export default {
               : LEAVE_CONFIRMATION_MESSAGE.rejectedSingle;;
           this.variantButton = "danger";
           break;
-        case "approveSingle":
-          this.showApproveModal = true;
-          break;
         default:
           this.showRefusalModal = true;
           break;
@@ -239,7 +251,20 @@ export default {
       this.actionToPerformOnButton = event;
       this.id = id;
     },
-    
+    async approveSingleLeaveVacation(id) {
+      this.loading = true;
+      try {
+        await this.approveLeaveRequest({ id });
+        await this.getPendingLeaveVacationsAdmin({
+          from: this.fromDate,
+          to: this.toDate,
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
     async actionPerformOnRequest(request) {
       let type = this.actionToPerformOnButton;
       const requestIds = this.requestListData
@@ -247,14 +272,8 @@ export default {
         .map((item) => item.id);
 
       switch (type) {
-        case "approveMultiple":
-          await this.handleApproveMultiple(requestIds);
-          break;
         case "rejectMultiple":
           await this.handleRejectMultiple(requestIds);
-          break;
-        case "approveSingle":
-          await this.handleApproveSingle(request);
           break;
         case "rejectSingle":
           await this.handleRejectSingle(request);
@@ -272,19 +291,11 @@ export default {
       this.disableModal();
     },
 
-    async handleApproveMultiple(requestIds) {
-      const approveMultiPayload = { requestIds };
-      await this.multiApproveLeaveRequests(approveMultiPayload);
-    },
 
     async handleRejectMultiple(requestIds) {
       await this.multipleRejectRequest({ requestIds });
     },
 
-    async handleApproveSingle(request) {
-      const approvePayload = { id: this.id, request };
-      await this.approveLeaveRequest(approvePayload);
-    },
 
     async handleRejectSingle(request) {
       const rejectPayload = { id: this.id, request };

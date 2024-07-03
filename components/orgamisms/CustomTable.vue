@@ -6,8 +6,8 @@
       :class="{
         table__headless: headless,
         resizableTable: resizableColumns,
-        'table--light': isLight,
-        'table--dark': !isLight,
+        'table--light': isLightThemeCheck,
+        'table--dark': !isLightThemeCheck,
       }"
       cellspacing="0"
     >

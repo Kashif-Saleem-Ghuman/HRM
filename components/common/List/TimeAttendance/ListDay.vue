@@ -257,6 +257,7 @@ export default {
     vertical-align: middle;
     text-align: left;
     font-weight: 600;
+    
     input {
       border: 0px !important;
       text-align: left !important;
@@ -291,6 +292,7 @@ export default {
       padding: 10px;
       border: $gray4 1px solid;
       border-top: none !important;
+      
     }
     :first-child {
       padding-left: 1rem;

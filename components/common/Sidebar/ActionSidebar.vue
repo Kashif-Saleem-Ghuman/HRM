@@ -135,7 +135,7 @@ export default {
 }
 .side-panel {
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   width: $sidebar-width;
   top: 65px;
   bottom: 0;

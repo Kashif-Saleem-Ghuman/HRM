@@ -166,7 +166,7 @@ const data = () => {
         label: "Reports",
         icon: "calendar-event",
         key: "reports",
-        url: "/reports/",
+        url: "/reports/leave-report/",
         selected: false,
       },
       {

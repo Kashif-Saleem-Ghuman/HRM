@@ -22,6 +22,11 @@ export const getWeekEnd = (dateIso) => {
   return from.plus({ days: 6 }).toISO();
 }
 
+export const getTotalWeeksNumber = (now) => {
+  const startOfYear = DateTime.fromObject({ year: now.year, month: 1, day: 1 });
+  return Math.floor(now.diff(startOfYear, 'weeks').weeks);
+}
+
 /**
  * @typedef { Object } DateRange
  * @property { Date } from

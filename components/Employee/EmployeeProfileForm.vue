@@ -526,12 +526,13 @@ export default {
     updateStateAndCity(newCountry) {
       const newStateProvince = this.updateForm.address.state;
       const newCity = this.updateForm.address.city;
+      if (!newCountry && !newStateProvince && !newCity) return;
       if (newCountry === this.originalCountry) {
         this.originalStateProvince = this.form.address.state;
         this.originalCity = this.form.address.city;
       } else {
         this.originalStateProvince = newStateProvince ?? (this.updateForm.address["state"] = "");;
-        this.originalCity = newCity ?? (this.updateForm.address["city"] = "");;
+        this.originalCity = newCity ?? (this.updateForm.address["city"] = "");
       }
     },
   },

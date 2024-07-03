@@ -1,5 +1,6 @@
 import {ACTIVITY_TYPE} from "@/utils/constant/Constant";
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
+import {DateTime} from "luxon";
 export function getChronometerDuration(todayTimeEntries) {
   let chronometer = 0;
   let timeEntry = todayTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
@@ -14,6 +15,9 @@ export function checkIsManualEntry(dailTimeEntries) {
     return true
   }
   return false;
+}
+export function isDateToday(date) {
+  return DateTime.fromISO(date).hasSame(DateTime.now(), 'day');
 }
 export const getInTimeEntry = (dailyTimeEntries) => {
   return dailyTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)

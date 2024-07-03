@@ -7,6 +7,8 @@ export function headerActionCall() {
 }
 export function handleToggleWrapperTheme(value) {
     this.lightThemeChecked = value;
+    localStorage.setItem('isLightTheme', value)
+    this.$nuxt.$emit("update-nav");
     this.$cookies.set("isLightTheme", value, {
       path: "/",
       domain: location.host.includes("business-in-a-box.com")

@@ -180,9 +180,9 @@ import {
 import { Timesheet } from "@/components/common/models/timesheet";
 
 const VIEWS = [
-  { label: "Day", value: "day", variant: "light" },
-  { label: "Week", value: "week", variant: "light" },
-  { label: "Month", value: "month", variant: "light" },
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week" },
+  { label: "Month", value: "month"},
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -317,7 +317,6 @@ export default {
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
         icon: "arrowhead-down",
-        varint: "light",
       };
     },
   },

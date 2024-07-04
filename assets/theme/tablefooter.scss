@@ -1,0 +1,15 @@
+.dark-theme{
+    .table-footer {
+        //   border: 1px solid $light;
+        background-color: $dark;
+        .footer-items {
+          .footer-item-left {
+            border-right: 1px solid $border-primary;
+            border-bottom: 1px solid $border-primary;
+          }
+          .footer-item-right {
+            border-bottom: 1px solid $border-primary;
+          }
+        }
+      }
+}

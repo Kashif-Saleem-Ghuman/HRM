@@ -1,17 +1,29 @@
 <template>
-  <div class="dropdown-menu">
+  <div class="dropdown-chip-menu">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
         <bib-button
           :label="String(label)"
-          :variant="variant ?? $button.lightButton.variant"
+          :variant="themeButtonVariant"
           size="lg"
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items">
-          <ul v-if="show">
+        <div class="menu-items chip-wrapper-com">
+          <div v-if="show" class="chip-wrapper-inner">
+            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
+              <bib-button
+                :label="item.label"
+                :variant="isLightThemeCheck ? 'light' : 'dark'"
+                size="lg"
+                :icon="item.icon ?? ''"
+                class="pr-05 mb-05 w-100"
+                :disabled="disabled"
+              ></bib-button>
+            </div>
+          </div>
+          <!-- <ul v-if="show">
             <li
               class="d-flex align-center cursor-pointer"
               v-for="item in items"
@@ -26,7 +38,7 @@
               ></bib-icon>
               <span>{{ item.label }}</span>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>
@@ -68,15 +80,39 @@ export default {
 </script>
 <style lang="scss">
 .dropdown-menu {
+  .button-items {
+    display: flex;
+    align-items: center;
+
+    label {
+      padding-right: 5px;
+      font-size: 14px;
+    }
+    select {
+      font-size: 14px;
+      width: 100%;
+      border: 1px solid $secondary-sub3;
+      border-radius: 0.2rem;
+      background-color: $secondary-sub3;
+      color: #6d7278;
+      padding: 10px;
+      border-radius: 10px;
+      border-right: 10px solid transparent;
+      option {
+        background-color: $white;
+        color: #6d7278;
+      }
+    }
+  }
   .menu-items {
     background-color: $white;
-    width: 120px;
+    width: 130px;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
     left: -1px;
     top: -1px;
-    z-index: 999 !important;
+    z-index: 9999 !important;
     ul {
       margin: 0;
       padding: 0;
@@ -84,13 +120,8 @@ export default {
       border-radius: 0.5rem;
       box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
       background: var(--bib-white);
-      z-index: 9999999 !important;
       li {
-        padding: 5px 10px;
-        cursor: pointer;
-        span{
-          font-size: 14px;
-        }
+        padding: 0.5rem;
       }
     }
   }

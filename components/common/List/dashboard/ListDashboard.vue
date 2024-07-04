@@ -1,7 +1,6 @@
 <template>
   <bib-table
     :fields="tableFields"
-    class="border-gray4 bg-white"
     :sections="employees"
     :hide-no-column="true"
     :fixHeader="true"
@@ -12,6 +11,11 @@
         : 'empty-list-0'
     "
     @item-clicked="tableItemClick"
+    class="table"
+    :class="{
+      'table--light': isLightThemeCheck,
+      'table--dark': !isLightThemeCheck,
+    }"
   >
     <template #cell(name)="data">
       <div class="d-flex align-center text-left gap-05 position-relative">
@@ -50,7 +54,7 @@
               getEmployeeFullName(data.value) | truncate(truncateText, "...")
             }}
           </div>
-          <div class="description">
+          <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
             {{ data.value.jobTitle }}
           </div>
         </div>
@@ -76,7 +80,7 @@
     </template>
     <template #cell(breaks)="data">
       <div class="cursor-pointer">
-        <span>{{ data.value?.activityReport.break ?? "--" }}</span>
+        <div>{{ data.value?.activityReport.break ?? "--" }}</div>
       </div>
     </template>
     <template #cell(total)="data">
@@ -87,7 +91,7 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots" @click.native.stop>
+      <bib-button pop="horizontal-dots"  :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span

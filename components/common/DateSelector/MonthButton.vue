@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div class="drop-menu">
+    <div class="drop-menu" :class="themeClassWrapper">
       <div class="position-relative">
         <bib-button
           :label="selected"
-          variant="light"
+          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
           @click="toggleDropdown"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items">
-          <ul v-if="isDropdownOpen">
+        <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
+          <ul v-if="isDropdownOpen" class="border-white">
             <li
-              class="d-flex align-center w-100"
+              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
               v-for="(option, index) in options"
               :key="index"
               @click="selectOption(option)"
@@ -82,4 +82,3 @@ export default {
   },
 };
 </script>
-

@@ -1,9 +1,6 @@
 <template>
   <div class="my-profile-wrapper">
     <loader :loading="loading"></loader>
-    <div
-      class="d-flex justify-between align-center nav_wrapper px-025 bottom_border_wrapper"
-    >
       <section-header-left
         :title="
           getEmployeeFullName(form) != 'undefined undefined'
@@ -15,10 +12,9 @@
         :back="true"
         @on-click="backToPage()"
       ></section-header-left>
-    </div>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
-        <div class="row mx-0 bottom_border_wrapper">
+        <div class="row mx-0" :class="borderClassBottom">
           <div class="col-12 px-1">
             <bib-tabs
               v-if="activeTab"
@@ -189,13 +185,7 @@ export default {
   display: inline-block;
   width: 80px;
 }
-.border-wrapper {
-  border: solid 1px $light;
-  border-radius: 5px;
-  padding: 0px 10px 0rem 10px !important;
-  margin-bottom: 16px;
-  margin-right: -5px;
-}
+
 .time-attendance-wrapper {
   .button-items {
     display: flex;

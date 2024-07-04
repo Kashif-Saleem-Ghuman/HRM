@@ -56,7 +56,6 @@
             <dropdown-menu-calendar
               :items="dropMenuYear"
               :label="selectedYear"
-              :variant="$button.lightButton.variant"
               @on-click="changeYearView($event)"
               icon="arrowhead-down"
             ></dropdown-menu-calendar>

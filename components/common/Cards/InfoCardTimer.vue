@@ -1,6 +1,6 @@
 
 <template>
-  <div class="d-flex">
+  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
     <div class="info-card-leave-wrapper w-100">
       <div>
         <label>My Status</label>

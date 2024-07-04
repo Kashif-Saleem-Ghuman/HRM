@@ -2,7 +2,13 @@
   <div>
     <bib-table
       :fields="tableFields"
-      class="bg-white align-wrapper"
+      class="table"
+      :class="{
+      table__headless: headless,
+      resizableTable: resizableColumns,
+      'table--light': isLightThemeCheck,
+      'table--dark': !isLightThemeCheck,
+    }"
       :sections="activityReportsList"
       :hide-no-column="true"
       :showTotal="true"
@@ -11,7 +17,7 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
-        <div class="text-gray1 font-md text-left font-w-500 cursor-pointer">
+        <div class="font-md text-left font-w-500 cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-gray5'">
           <div :class="getClassName(data.value.date)">
             {{ getWeekDay(data.value.weekDayLabel) }}
           </div>
@@ -190,7 +196,7 @@ export default {
         : DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
     getClassName(value) {
-      return this.todayDate === this.dateFormat(value) ? "text-bold" : "";
+      return this.todayDate === this.dateFormat(value) ? "text-bold text-white" : "";
     },
     getWeekDay(day) {
       return day;

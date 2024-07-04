@@ -7,7 +7,6 @@
     <custom-table-day-view
         v-else-if="showTable"
         :fields="tableFields"
-        class="bg-white"
         :allChecked="allChecked"
         :type="type"
         @select-all="selectAllItems"
@@ -22,6 +21,7 @@
               :key="data.items.id"
               @change="handleItemChecked(data.items)"
               :checked="data.items.checked"
+              :variant="isLightThemeCheck ? '' : 'secondary'"
           ></bib-checkbox>
         </div>
       </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-items">
+  <div class="search-items" :class="themeClassCommon">
     <ul v-for="item in searchResults"  :key="item.id">
       <component v-if="item?.type" :is="getSearchItemComponent(item?.type)" :item="item"></component>
     </ul>
@@ -50,7 +50,7 @@ ul{
     list-style: none;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $light;
+    // border-bottom: 1px solid $light;
     padding: 0.5rem 0;
     // margin: 0 -14px;
     cursor: pointer;
@@ -59,7 +59,7 @@ ul{
   }
   :hover{
       background-color: $light;
-      color: $black;
+      // color: $black;
     }
 }
 }

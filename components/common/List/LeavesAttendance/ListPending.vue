@@ -16,6 +16,7 @@
             $emit('item-checked', { id: data.value.id, key: data.value.id })
           "
           :checked="data.value.checked"
+          :variant="isLightThemeCheck ? '' : 'secondary'"
         ></bib-checkbox>
       </div>
     </template>
@@ -53,7 +54,6 @@
         </div>
         <div class="info_wrapper">
           <div
-            class="title-user"
             :title="getEmployeeFullName(data.value.employee)"
           >
             {{
@@ -61,7 +61,7 @@
                 | truncate(truncateText, "...")
             }}
           </div>
-          <div class="description">
+          <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
             {{ data.value.employee.jobTitle }}
           </div>
         </div>
@@ -73,22 +73,22 @@
       </div>
     </template> -->
     <template #cell(type)="data">
-      <div class="justify-between text-dark">
+      <div class="justify-between">
         <span class="capitalize">{{ data.value.type }}</span>
       </div>
     </template>
     <template #cell(start)="data">
-      <div class="justify-between text-dark">
+      <div class="justify-between">
         <span>{{ onLoad(data.value.start) }}</span>
       </div>
     </template>
     <template #cell(end)="data">
-      <div class="justify-between text-dark">
+      <div class="justify-between">
         <span>{{ onLoad(data.value.end) }}</span>
       </div>
     </template>
     <template #cell(duration)="data">
-      <div class="justify-between text-dark">
+      <div class="justify-between">
         <span>{{
           data.value.duration == null
             ? "N/A"

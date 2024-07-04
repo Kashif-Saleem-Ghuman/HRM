@@ -1,11 +1,12 @@
 <template>
-  <bib-modal-wrapper :title="title" @close="$emit('close')">
+  <bib-modal-wrapper :title="title" @close="$emit('close')" :class="isLightThemeCheck ? '' : 'modal__wrapper--dark'">
     <template slot="content">
       <div>
         <bib-input
           v-model="refusalReason"
           type="textarea"
           placeholder="Enter the reason for rejection"
+          :variant="themeInputVariant"
         ></bib-input>
       </div>
     </template>
@@ -13,9 +14,9 @@
       <div class="d-flex">
         <bib-button
           label="Cancel"
-          variant="light"
           pill
           @click="$emit('cancel')"
+          :variant="isLightThemeCheck ? 'light' : 'dark'"
         ></bib-button>
         <bib-button
           label="Reject Request"

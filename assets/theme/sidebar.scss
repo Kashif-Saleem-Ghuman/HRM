@@ -1,0 +1,46 @@
+.light-theme {
+   
+  }
+  .dark-theme {
+    .side-panel {
+        position: fixed;
+        z-index: 1000;
+        width: $sidebar-width;
+        top: 65px;
+        bottom: 0;
+        background-color: $dark;
+        right: 0px;
+        border-left: 1px solid $border-primary;
+        z-index: 9999999;
+        label {
+          font-size: 14px;
+          font-weight: 600;
+          color: $light;
+        }
+        // box-shadow: 5px 2px 15px $gray6;
+      }
+      .border-wrapper-box {
+        border: 1px solid $border-primary;
+        label {
+          color: $white;
+        }
+        span{
+            color:$white
+        }
+        .input-display-wrapper {
+            border: 1px solid $border-primary;
+        }
+    }
+    .info-card-success-wrapper {
+      span {
+        font-size:14px;
+        font-weight: 600;
+        color: #85858F;
+      }
+      .info-card-inner-wrapper {
+        display: flex;
+        background-color: $dark-sub3;
+  }
+}
+}
+  

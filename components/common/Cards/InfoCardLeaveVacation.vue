@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex info-card-leave-container">
+  <div class="d-flex info-card-leave-container" :class="themeClassWrapper">
     <div class="info-card-leave-wrapper w-100">
       <div class="d-flex justify-between item">
         <label>{{ title }}</label>

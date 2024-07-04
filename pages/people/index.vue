@@ -7,9 +7,7 @@
       <div id="people-action-wrapper">
         <loader :loading="loading"></loader>
 
-        <div class="d-flex justify-between align-center bottom_border_wrapper">
           <section-header-left title="People"></section-header-left>
-        </div>
         <no-record v-if="showNoData"></no-record>
 
         <div v-else-if="showTable">

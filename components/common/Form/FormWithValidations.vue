@@ -17,7 +17,7 @@
             >
               <bib-button
                 label="Cancel"
-                variant="gray"
+                :variant="isLightThemeCheck ? 'gray' : 'dark'"
                 size="lg"
                 class="mr-1 w-100 button-wrapper-align"
                 :disabled="buttonDisable"

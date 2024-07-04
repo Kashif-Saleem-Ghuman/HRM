@@ -17,6 +17,7 @@ export function handleToggleWrapperTheme(value) {
       maxAge: 60 * 60 * 24 * 30,
     });
     this.$cookies.set("isLightTheme", value);
+    this.$nuxt.$emit("update-theme");
   }
   export function logout() {
     localStorage.removeItem("accessToken") ;
@@ -34,15 +35,15 @@ export function openTeamPage() {
 export function openBillingPage() {
   window.open(`${process.env.BILLING_URL}`, "_blank")
 }
-export function isThemeCheck(){
-    let isTheme = this.$cookies.get('isLightTheme');
-    if (isTheme == undefined) {
-        this.$cookies.set("isLightTheme", false, {
-          path: "/",
-          domain: location.host.includes("business-in-a-box.com")
-            ? ".business-in-a-box.com"
-            : undefined,
-          maxAge: 60 * 60 * 24 * 30,
-        });
-      }
-}
+// export function isThemeCheck(){
+//     let isTheme = this.$cookies.get('isLightTheme');
+//     if (isTheme == undefined) {
+//         this.$cookies.set("isLightTheme", false, {
+//           path: "/",
+//           domain: location.host.includes("business-in-a-box.com")
+//             ? ".business-in-a-box.com"
+//             : undefined,
+//           maxAge: 60 * 60 * 24 * 30,
+//         });
+//       }
+// }

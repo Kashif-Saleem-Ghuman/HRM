@@ -1,0 +1,60 @@
+.light-theme {
+    
+  }
+  .dark-theme {
+    .custom-table {
+      border-top: 1px solid $border-primary;
+      border-bottom: 1px solid $border-primary;
+      .cell {
+        border-bottom: 1px solid $border-primary;
+        border-right: 1px solid $border-primary;
+      }
+      .thead {
+        background-color: $dark;
+        .cell {
+          border: $border-primary 1px solid;
+        }
+      }
+    }
+    .container{
+      border: 1px solid $border-primary !important;
+    }
+    .editor-container {
+      border: solid 0px $border-primary;
+     
+    }
+    .toolbar-top {
+      border-bottom: solid 1px $border-primary !important;
+      background-color: $dark !important;
+    }
+    .toolbar-items {
+      background-color: $dark !important;
+      border-right: 1px solid $border-primary !important;
+      width: 30px;
+      :hover {
+        background-color: $black !important;
+        color: $white;
+      }
+      &.is-active {
+        color: $white !important;
+        background-color: $black !important;
+      }
+    }
+    .toolbar-icon {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--bib-secondary);
+      &.is-active {
+        color: $white !important;
+        background-color: $black !important;
+      }
+    }
+    .list{
+      background-color: #000 !important;
+    }
+  }
+  

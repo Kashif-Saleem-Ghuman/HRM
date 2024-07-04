@@ -3,7 +3,7 @@
     <div class="position-relative">
       <bib-button
         :label="selected?.toString()"
-        variant="light"
+        :variant="themeButtonVariant"
         @click="toggleDropdown"
         v-click-outside="clickOutside"
         icon-right="close"
@@ -11,7 +11,7 @@
       <div class="menu-items"  >
         <ul v-if="isDropdownOpen">
           <li
-            class="d-flex align-center"
+            class="d-flex align-center" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
             v-for="(option, index) in options"
             :key="index"
             @click="selectOption(option)"

@@ -1,11 +1,8 @@
 <template>
   <div class="">
-    <div class="d-flex justify-between align-center border-bottom-light">
       <section-header-left
         :title="`Search results for: ${search}`"
       ></section-header-left>
-    </div>
-
     <div>
       <search-content></search-content>
       <no-record v-if="!searchResults.length"></no-record>

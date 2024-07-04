@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
     <div class="info-card-leave-wrapper w-100">
       <div>
         <label>{{ title }}</label>
@@ -47,7 +47,7 @@
       >
         <bib-button
           :label="buttonLable"
-          :variant="$button.lightButton.variant"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
           class="button-wrapper-align w-100"
           :icon="icon"
         ></bib-button>

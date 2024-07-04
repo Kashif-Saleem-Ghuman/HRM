@@ -49,7 +49,7 @@
           </template>
         </div>
         <bib-button
-          variant="light"
+          :variant="themeButtonVariant"
           :scale="1"
           :label="weekendsButtonView"
           @click="weekData()"
@@ -75,7 +75,7 @@
         @click="nextWeek()"
       ></bib-button>
     </div>
-    <div>
+    <div :class="themeClassWrapper">
       <FullCalendar
         :options="calendarOptions"
         ref="fullCalendar"

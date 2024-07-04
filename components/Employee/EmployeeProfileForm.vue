@@ -30,14 +30,14 @@
           <div class="d-flex px-1" style="margin-top: 16px" v-if="show">
             <bib-button
               label="Send Message"
-              variant="light"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
               icon="chat"
               class="mr-05"
               @click="sendMessage(form.userId)"
             ></bib-button>
             <bib-button
               label="Make a Call"
-              variant="light"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
               icon="phone"
               @click="makeCall(getUser.userId, getUser.userId)"
             ></bib-button>
@@ -53,7 +53,7 @@
               GENDER
               MARITAL STATUS
           -->
-                <div id="my-profile-wrapper">
+                <div id="my-profile-wrapper" class="my-profile-wrapper">
                   <div class="py-cus row-custom">
                     <div>
                       <div class="row mx-0">
@@ -573,3 +573,17 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.my-profile-wrapper{
+  .vdpComponent {
+    // width: 100%;
+    .vdpComponent__input{
+      min-width: 100%;
+    }
+    label {
+      font-weight: bold !important;
+      font-size: 14px !important;
+    }
+  }
+}
+</style>

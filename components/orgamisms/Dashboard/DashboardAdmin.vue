@@ -2,9 +2,7 @@
   <div id="dashborad-wrapper">
     <loader :loading="loading"></loader>
 
-    <div class="d-flex justify-between align-center border-bottom-light">
       <section-header-left title="Dashboard"></section-header-left>
-    </div>
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div id="tab_info_wrapper">

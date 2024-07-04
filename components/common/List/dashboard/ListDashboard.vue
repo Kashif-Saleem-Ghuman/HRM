@@ -290,7 +290,7 @@ export default {
     tableItemClick(event, key, item) {
       const id = item?.id;
       if (id) {
-        this.viewProfile(id);
+        this.viewAttendance(id);
       }
     },
     getTotalHours(minutes) {
@@ -318,8 +318,11 @@ export default {
         }
         
     },
-    viewProfile(id) {
+    viewAttendance(id) {
       this.$router.push("/profile/" + id + "/time-attendance-profile-tab");
+    },
+    viewProfile(id) {
+      this.$router.push("/profile/" + id);
     },
     mouseover() {
       this.showTooltip = true;

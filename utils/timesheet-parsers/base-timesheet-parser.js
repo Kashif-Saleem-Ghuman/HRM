@@ -14,7 +14,7 @@ export default class BaseTimesheetParser {
 
   groupTimeEntriesByDate = (timeEntries = []) => {
     return groupBy(timeEntries, (timeEntry) =>
-      DateTime.fromISO(timeEntry.start).toFormat("yyyy-MM-dd")
+      timeEntry.date
     );
   };
 

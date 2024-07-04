@@ -91,6 +91,7 @@ import {
   editTimeEntry,
   deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
+import {getBreakTimerDuration} from "@/utils/functions/timer";
 export default {
   mixins: [timerMixin],
 
@@ -111,6 +112,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    todayDate: {
+      type: String | Date | DateTime,
+      default: null
     },
   },
   data() {
@@ -140,8 +145,9 @@ export default {
     });
   },
   async mounted() {
-    this.startTimerInterval();
     this.registerDefaultValueChronometer();
+    await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+    this.startTimerInterval();
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (!this.$store.state.token.isUser) {
@@ -151,6 +157,7 @@ export default {
       });
     }
     document.addEventListener("visibilitychange", this.handleVisibilityChange);
+
   },
   beforeDestroy() {
     document.removeEventListener(
@@ -165,7 +172,6 @@ export default {
     parseInputTimeIntoArray,
     numberToClockDigits,
     hoursAndMinutesToJSDate,
-    editTimeEntry,
     makeTimeEntry,
     handleWrapperClick() {
       if (this.disabled) {
@@ -220,7 +226,6 @@ export default {
           endDate,
           source,
         );
-
         await this.$store.dispatch("timeattendance/setDailyTimeEntries");
 
         if (editedEntry) {
@@ -280,7 +285,9 @@ export default {
     activityDetails() {
       return calculateActivityDetails(
         this.getTimerData.start,
-        this.getDailyTimeEntries
+        this.getDailyTimeEntries,
+        this.todayDate,
+        this.$store,
       );
     },
     buttonVariant() {

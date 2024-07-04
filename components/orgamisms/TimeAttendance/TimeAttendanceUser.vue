@@ -15,6 +15,7 @@
             <info-card-timer
               @clock="openClock"
               @timer-stop="handleTimerStop"
+              :todayDate="todayDate"
               :disabled="hasInEntryToday"
               icon="time-alarm"
             ></info-card-timer>

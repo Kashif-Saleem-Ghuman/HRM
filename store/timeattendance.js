@@ -10,10 +10,24 @@ import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
-import {getChronometerDuration, checkIsManualEntry, isDateToday, isBreakTimerRunning,} from "@/utils/functions/timer";
+import {
+  getChronometerDuration,
+  checkIsManualEntry,
+  isDateToday,
+  isBreakTimerRunning,
+  getBreakTimerDuration,
+} from "@/utils/functions/timer";
+import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 
 export const state = () => ({
   timer: {
+    start: null,
+    end: null,
+    type: null,
+    active: null,
+    isPause: null,
+  },
+  breakTimer: {
     start: null,
     end: null,
     type: null,
@@ -32,6 +46,9 @@ export const getters = {
   getTimerData(state) {
     return state.timer;
   },
+  getBreakTimerData(state) {
+    return state.breakTimer;
+  },
   getDailyTimeEntries(state) {
     return state.dailyTimeEntries;
   },
@@ -47,11 +64,22 @@ export const mutations = {
   },
 
   SET_TIMER_DATA: (state, payload) => {
-    const { start, end, type, active } = payload;
+    const { start, end, type, active, isPause } = payload;
     state.timer.start = start || 0;
     state.timer.end = end || 0;
     state.timer.type = type;
     state.timer.active = active || false;
+    state.timer.isPause = isPause || false;
+  },
+
+  SET_BREAK_TIMER_DATA: (state, payload) => {
+
+    const { start, end, type, active } = payload;
+
+    state.breakTimer.start = start;
+    state.breakTimer.end = end;
+    state.breakTimer.type = type;
+    state.breakTimer.active = active || false;
   },
 
   RESET_TIME_ATTENDANCE_ENTRIES: (state, payload) => {
@@ -86,6 +114,9 @@ export const mutations = {
 };
 
 export const actions = {
+  setTimerPauseValue({state, commit}, payload) {
+    commit("SET_TIMER_DATA", {...state, isPause: payload});
+  },
   async getEmployeesAttendance({ state, commit }, payload) {
     try {
       const { date, searchString } = payload
@@ -182,8 +213,22 @@ export const actions = {
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
         // Setting up the timer
-        if(isBreakTimerRunning(data.timeEntries)){
+
+        const activeBreakTimer = data.timeEntries.find((entry) => entry.activity == 'break' && entry.start && !entry.end && entry.source === 'manual');
+        if(activeBreakTimer){
           ctx.commit("SET_IS_BREAK_TIMER_RUNNING", true);
+          ctx.commit('SET_BREAK_TIMER_DATA', activeBreakTimer);
+
+          // Setting up the chronometer
+          const breakChronometer = getBreakTimerDuration(data.timeEntries);
+          const timerChronometer = getTimeDiffInSeconds(ctx.state.timer.start, new Date());
+          console.log('breakChronometer', breakChronometer, timerChronometer);
+          ctx.commit("SET_CHRONOMETER", {
+            chronometer: breakChronometer > timerChronometer ?
+              timerChronometer :
+              timerChronometer - breakChronometer
+          }
+          );
         }
       }
       return data

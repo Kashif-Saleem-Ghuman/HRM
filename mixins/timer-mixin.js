@@ -2,6 +2,7 @@ import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
+import {isBreakTimerRunning} from "@/utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
 export default {
   data() {
@@ -23,11 +24,12 @@ export default {
       return this?.getTimerData?.active || false;
     },
     isBreakActive() {
-      return this.$store.state.timeattendance.isBreakTimerRunning;
+      return this.getBreakTimerData.active || false;
     },
 
     ...mapGetters({
       getTimerData: "timeattendance/getTimerData",
+      getBreakTimerData: "timeattendance/getBreakTimerData",
     }),
   },
   methods: {
@@ -112,6 +114,11 @@ export default {
     active() {
       if (!this.chronometerInterval) {
         this.startTimerInterval();
+      }
+    },
+    isBreakActive(val) {
+      if(val) {
+        this.clearChronometerInterval();
       }
     },
     isTimerRunning(val) {

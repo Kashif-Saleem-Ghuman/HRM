@@ -299,6 +299,11 @@ export default {
     viewProfile(id) {
        this.$router.push("/profile/" + id);
      },
+     profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
+    },
   },
   computed: {
     activeClass() {

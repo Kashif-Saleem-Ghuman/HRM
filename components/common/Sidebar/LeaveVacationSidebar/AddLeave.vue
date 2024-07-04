@@ -125,6 +125,7 @@
           :value="totalDays"
           :disabled="true"
           class="duration"
+          :variant="themeButtonVariant"
         ></bib-input>
       </div>
     </div>

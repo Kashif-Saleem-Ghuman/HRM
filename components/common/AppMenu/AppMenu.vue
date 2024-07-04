@@ -24,7 +24,7 @@
         >
           <div class="nav-item__icon">
             <div class="nav-item__symbol" :key="updateNav">
-              <bib-logo :square="true" size="18px" :isLightTheme="item.selected ? true : lightThemeChecked"></bib-logo>
+              <bib-logo :square="true" size="18px" :isLightTheme="item.selected ? true : isLightThemeCheck"></bib-logo>
             </div>
           </div>
           <div class="nav-item__label nav-item__flex">

@@ -5,7 +5,7 @@
       <div class="position-relative">
         <bib-button
           :label="String(label)"
-          :variant="variant ?? $button.blackButton.variant"
+          :variant="themeButtonVariant"
           size="lg"
           @click="show = !show"
           v-click-outside="clickOutside"

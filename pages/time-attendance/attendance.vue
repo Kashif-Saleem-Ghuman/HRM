@@ -20,6 +20,7 @@
               size="sm"
               style="min-width: 7vw"
               :maxDate="maxDate"
+              hide-quick-select
               v-bind="{ ...getDatetimeCommonProps() }"
             ></bib-datetime-picker>
           </div>

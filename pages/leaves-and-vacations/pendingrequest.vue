@@ -3,8 +3,8 @@
   <div id="pending-request-wrapper">
     <loader :loading="loading"></loader>
     <div class="" id="pending_request_wrapper">
-      <div class="d-flex jutify-between">
-        <div class="align-center nav_wrapper px-05 py-05 bottom_border_wrapper">
+      <div class="d-flex jutify-between bottom_border_wrapper">
+        <div class="align-center nav_wrapper px-05 py-05 ">
           <dropdown-menu-calendar
             :items="dropMenuYear"
             :label="selectedYear.toString()"

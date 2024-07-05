@@ -196,7 +196,7 @@ export default {
         : DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
     getClassName(value) {
-      return this.todayDate === this.dateFormat(value) ? "text-bold text-white" : "";
+      return this.todayDate === this.dateFormat(value) ? (this.isLightThemeCheck ? "text-bold text-black" : "text-bold text-white") : "";
     },
     getWeekDay(day) {
       return day;

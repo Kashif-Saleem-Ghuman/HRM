@@ -23,12 +23,13 @@ export async function makeTimeEntry(activity, date, start, end, source) {
 }
 
 export async function editTimeEntry(
-  { id, date, start, end, activity },
+  { id, date, start, end, activity, source },
 ) {
+  console.log('editTimeEntry===', id, date, start, end, activity, source);
   try {
     const response = await axios.put(
       `${process.env.API_URL}/time-entries/${id}`,
-      { date, start, end, activity },
+      { date, start, end, activity, source },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

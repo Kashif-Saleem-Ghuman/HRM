@@ -26,6 +26,9 @@ export default {
     isBreakActive() {
       return this.getBreakTimerData.active || false;
     },
+    isTimeEntrySet() {
+      return this.$store.state.timeattendance.isTimeEntrySet;
+    },
 
     ...mapGetters({
       getTimerData: "timeattendance/getTimerData",
@@ -115,6 +118,9 @@ export default {
       if (!this.chronometerInterval) {
         this.startTimerInterval();
       }
+    },
+    isInfoCardTimer(val) {
+      (val && this.active && !this.chronometerInterval) && this.startTimerInterval();
     },
     isBreakActive(val) {
       if(val) {

@@ -16,6 +16,7 @@
               @clock="openClock"
               @timer-stop="handleTimerStop"
               :todayDate="todayDate"
+              :isInfoCardTimer="isInfoCardTimer"
               :disabled="hasInEntryToday"
               icon="time-alarm"
             ></info-card-timer>
@@ -238,6 +239,7 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
+      isInfoCardTimer: false,
     };
   },
   computed: {
@@ -362,6 +364,7 @@ export default {
       this.registerFillDailyEntryListener();
     },
     unregisterRootListeners() {
+      this.isInfoCardTimer = false;
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
     },
@@ -466,6 +469,7 @@ export default {
         }
       });
 
+      this.isInfoCardTimer = true;
       this.parseTimeEntries();
     },
 

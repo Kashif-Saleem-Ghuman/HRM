@@ -117,6 +117,10 @@ export default {
       type: String | Date | DateTime,
       default: null
     },
+    isInfoCardTimer: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -146,8 +150,8 @@ export default {
   },
   async mounted() {
     this.registerDefaultValueChronometer();
-    await this.$store.dispatch("timeattendance/setDailyTimeEntries");
-    this.startTimerInterval();
+
+    // await this.$store.dispatch("timeattendance/setDailyTimeEntries");
     await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (!this.$store.state.token.isUser) {
@@ -164,6 +168,7 @@ export default {
       "visibilitychange",
       this.handleVisibilityChange
     );
+    this.$store.dispatch("timeattendance/resetIsTimeEntrySet", false);
   },
   methods: {
     close() {
@@ -173,6 +178,7 @@ export default {
     numberToClockDigits,
     hoursAndMinutesToJSDate,
     makeTimeEntry,
+    editTimeEntry,
     handleWrapperClick() {
       if (this.disabled) {
         this.debouncedNotification();
@@ -196,30 +202,53 @@ export default {
     calculateDates() {
       const now = DateTime.now();
       const currentDate = now.toISODate();
-      const currentTime = now.toISOTime();
+      const currentTime = now.toISO();
       return {
         date: DateTime.fromJSDate(new Date(currentDate)).toFormat("yyyy-MM-dd"),
-
         ...(!this.isBreakActive) && {
-          startDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(currentTime),
-          currentDate
-        ).toISOString()},
-
+          startDate: currentTime
+        },
         ...(this.isBreakActive && {
-          endDate: this.hoursAndMinutesToJSDate(
-            ...this.parseInputTimeIntoArray(currentTime),
-            currentDate
-          ).toISOString(),
+          endDate: currentTime,
+        }),
+        ...(this.isBreakActive && {
+          id: this.$store.state.timeattendance.breakTimer.id,
         }),
       };
+    },
+    async updateBreakEntry() {
+      const { id, startDate, endDate, date } = this.calculateDates();
+      const activityType = 'break';
+      const source = 'timer';
+
+      try {
+        const makeTimeEntry = await this.editTimeEntry({
+          id,
+          date,
+          start: startDate,
+          end: endDate,
+          activity: activityType,
+          source,
+        });
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+
+        if (makeTimeEntry) {
+          this.openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
     },
     async makeBreakEntry() {
       const { startDate, endDate, date } = this.calculateDates();
       const activityType = 'break';
       const source = 'timer';
       try {
-        const editedEntry = await this.makeTimeEntry(
+        const makeTimeEntry = await this.makeTimeEntry(
           activityType,
           date,
           startDate,
@@ -228,17 +257,14 @@ export default {
         );
         await this.$store.dispatch("timeattendance/setDailyTimeEntries");
 
-        if (editedEntry) {
+        if (makeTimeEntry) {
           this.openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
-          // this.$emit("edit-entry", editedEntry);
         }
       } catch (error) {
         console.log(error)
-        // this.clearStartTime();
-        // this.clearEndTime();
       }
     },
 
@@ -249,10 +275,15 @@ export default {
         this.$emit("timer-stop");
       } else {
         await this.startTimer();
+        this.startTimerInterval();
       }
     },
     async handleBreakInOutClick() {
-      this.makeBreakEntry();
+      if(!this.isBreakActive){
+        this.makeBreakEntry();
+      }else {
+        this.updateBreakEntry()
+      }
     },
 
     handleVisibilityChange() {
@@ -312,6 +343,9 @@ export default {
   watch: {
     disabled() {
       this.stopClick = false;
+    },
+    isInfoCardTimer(val) {
+      val && this.startTimerInterval();
     },
   },
 };

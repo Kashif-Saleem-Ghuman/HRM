@@ -28,6 +28,7 @@ export const state = () => ({
     isPause: null,
   },
   breakTimer: {
+    id: null,
     start: null,
     end: null,
     type: null,
@@ -39,7 +40,8 @@ export const state = () => ({
   isTimerRunning: false,
   isBreakTimerRunning: false,
   employeesAttendance: null,
-  timesheetToday: null
+  timesheetToday: null,
+  isTimeEntrySet: false,
 });
 
 export const getters = {
@@ -71,11 +73,15 @@ export const mutations = {
     state.timer.active = active || false;
     state.timer.isPause = isPause || false;
   },
+  SET_IS_TIME_ENTRY_SET : (state, payload) => {
+    state.isTimeEntrySet = payload;
+  },
 
   SET_BREAK_TIMER_DATA: (state, payload) => {
 
-    const { start, end, type, active } = payload;
+    const { id, start, end, type, active } = payload;
 
+    state.breakTimer.id = id;
     state.breakTimer.start = start;
     state.breakTimer.end = end;
     state.breakTimer.type = type;
@@ -204,6 +210,7 @@ export const actions = {
         },
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
+      ctx.commit("SET_IS_TIME_ENTRY_SET", true);
       if(!ctx.state.isTimerRunning && isDateToday(startOfDay)){
         const chronometerDuration = getChronometerDuration(data.timeEntries)
         ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
@@ -220,21 +227,29 @@ export const actions = {
           ctx.commit('SET_BREAK_TIMER_DATA', activeBreakTimer);
 
           // Setting up the chronometer
-          const breakChronometer = getBreakTimerDuration(data.timeEntries);
-          const timerChronometer = getTimeDiffInSeconds(ctx.state.timer.start, new Date());
-          console.log('breakChronometer', breakChronometer, timerChronometer);
-          ctx.commit("SET_CHRONOMETER", {
-            chronometer: breakChronometer > timerChronometer ?
+          if(ctx.state.timer.start) {
+            const start = ctx.state.timer.start
+            const breakChronometer = getBreakTimerDuration(data.timeEntries);
+            const timerChronometer = getTimeDiffInSeconds(start, new Date());
+            const chronometerVal = breakChronometer > timerChronometer ?
               timerChronometer :
-              timerChronometer - breakChronometer
+              timerChronometer - breakChronometer;
+            console.log('chronometerVal===', chronometerVal)
+            console.log('break&timer', breakChronometer, timerChronometer);
+            ctx.commit("SET_CHRONOMETER", {
+                chronometer: chronometerVal
+              }
+            );
           }
-          );
         }
       }
       return data
     } catch (e) {
       console.log(e);
     }
+  },
+  async resetIsTimeEntrySet(ctx, payload) {
+    ctx.commit("SET_IS_TIME_ENTRY_SET", payload);
   },
 
   async setEmployeeDailyTimeEntry(ctx, { date, employeeId }) {

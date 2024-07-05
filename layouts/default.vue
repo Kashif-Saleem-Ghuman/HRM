@@ -19,7 +19,7 @@
           :avatarLink="userPhoto"
           @logout="$signOut()"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
-          :isLightTheme="isLightTheme"
+          :isLightTheme="isLightThemeCheck"
           noResultText="No result"
           placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"

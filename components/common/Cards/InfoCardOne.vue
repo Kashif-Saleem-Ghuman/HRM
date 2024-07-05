@@ -33,14 +33,6 @@
           <span>{{ item.refused }}</span>
         </div>
       </div>
-      <!-- <div
-        class="button-wrapper"
-        :class="className"
-        @click.stop="$emit('on-click')"
-      >
-        <bib-icon :icon="icon"  class="mr-05"></bib-icon>
-        <span>{{ buttonLable }}</span>
-      </div> -->
       <div
         class="d-flex justify-center"
         @click.stop="$emit('on-click')"

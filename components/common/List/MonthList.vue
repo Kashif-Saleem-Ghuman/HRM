@@ -17,7 +17,7 @@
           <div class="font-md font-w-700">
             Week {{ getWeekNumber(data.value.start) }}
           </div>
-          <div class="font-w-400 text-black">
+          <div class="font-w-400" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>

@@ -133,9 +133,9 @@ import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
 import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
 const VIEWS = [
-  { label: "Day", value: "day", variant: "light" },
-  { label: "Week", value: "week", variant: "light" },
-  { label: "Month", value: "month", variant: "light" },
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week" },
+  { label: "Month", value: "month" },
 ];
 
 export default {

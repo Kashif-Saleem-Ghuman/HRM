@@ -18,7 +18,7 @@
               <div class="py-cus px-05">
                 <div class="company-info">
                   <div class="company-logo">
-                    <img src="/img/bib-logo.png" />
+                    <bib-logo :square="true" size="112px" :isLightTheme="isLightThemeCheck"></bib-logo>
                   </div>
                   <div class="company-items">
                     <label>{{ org.companyName }}</label>

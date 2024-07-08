@@ -97,6 +97,7 @@
               class="list__item"
               v-for="item in peopleActionItems"
               @click.stop="callAction(data, item)"
+              :class="isLightThemeCheck ? 'text-black' : 'text-white'"
               >{{ item }}</span
             >
           </div>

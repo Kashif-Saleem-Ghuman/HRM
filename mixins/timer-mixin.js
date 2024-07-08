@@ -37,13 +37,8 @@ export default {
   },
   methods: {
     startTimerInterval(isVisibilityChange = false) {
-      if (this.active && !this.isTimerRunning && !this.isBreakActive) {
+      if (this.active && !this.isBreakActive) {
         this.timerLoading = true;
-
-        if (!this.isTimerRunning)
-          this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-            status: true,
-          });
         if(isVisibilityChange) {
           this.timerCallbackFunc();
         }
@@ -56,9 +51,7 @@ export default {
       this.time = new Date().toTimeString().split(" ")[0];
       this.date = new Date().toDateString();
       const setCurrentDate = now.toISODate();
-      const chronometer = this.getTimerData.active && !this.getTimerData.start
-        ? 0
-        : getTimeDiffInSeconds(this.getTimerData.start, new Date());
+      let chronometer = this.$store.state.timeattendance.chronometer + 1;
       if(this.getTimerData.start != 0){
         this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
       }
@@ -77,26 +70,21 @@ export default {
       this.timerLoading = false;
     },
     async stopTimer(timer = null) {
-      if (!this.isTimerRunning) {
-        return; // Stop the method if the timer is not running
-      }
       this.clearChronometerInterval();
       this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
         status: false,
       });
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
-
-      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
     async clearChronometerInterval() {
       clearInterval(this.chronometerInterval);
       this.chronometerInterval = null;
-      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
 
     async startTimer() {
       if (this.active) return;
       await this.$store.dispatch("timeattendance/startTimer");
+      await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {
@@ -114,22 +102,16 @@ export default {
     },
   },
   watch: {
-    active() {
+    active(val) {
       if (!this.chronometerInterval) {
         this.startTimerInterval();
       }
     },
-    isInfoCardTimer(val) {
-      (val && this.active && !this.chronometerInterval) && this.startTimerInterval();
-    },
     isBreakActive(val) {
       if(val) {
-        this.clearChronometerInterval();
-      }
-    },
-    isTimerRunning(val) {
-      if (!val && this.chronometerInterval) {
-        this.clearChronometerInterval();
+        this.clearChronometerInterval()
+      }else {
+        this.startTimerInterval();
       }
     },
   },

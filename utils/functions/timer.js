@@ -6,23 +6,30 @@ export function getChronometerDuration(todayTimeEntries) {
   let timeEntry = todayTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
 
   if(timeEntry && timeEntry?.isTimerEntry){
-    chronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end)
+    chronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end ?? new Date())
   }
-  return chronometer;
-}
-
-export function getBreakTimerDuration(todayTimeEntries) {
-  console.log('todayTimeEntries===', todayTimeEntries);
-  let breakEntries = todayTimeEntries?.filter((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.BREAK && timeEntry.source == TIME_ENTRY.SOURCE_MANUAL);
+  let breakEntries = todayTimeEntries?.filter((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.BREAK && timeEntry.source == TIME_ENTRY.SOURCE_TIMER);
 
   let breakTotalChronometer = 0;
   breakEntries?.map(entry => {
-    if(entry.source === TIME_ENTRY.SOURCE_MANUAL){
+    if(entry.source === TIME_ENTRY.SOURCE_TIMER){
       breakTotalChronometer += getTimeDiffInSeconds(entry.start, entry.end ?? new Date());
     }
   })
-  return breakTotalChronometer;
+  return breakTotalChronometer > chronometer ? chronometer : chronometer - breakTotalChronometer;
 }
+
+// export function getBreakTimerDuration(todayTimeEntries) {
+//   let breakEntries = todayTimeEntries?.filter((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.BREAK && timeEntry.source == TIME_ENTRY.SOURCE_TIMER);
+//
+//   let breakTotalChronometer = 0;
+//   breakEntries?.map(entry => {
+//     if(entry.source === TIME_ENTRY.SOURCE_TIMER){
+//       breakTotalChronometer += getTimeDiffInSeconds(entry.start, entry.end ?? new Date());
+//     }
+//   })
+//   return breakTotalChronometer;
+// }
 
 export function isBreakTimerRunning(breakEntries) {
   const breakIndex = breakEntries.findIndex((entry) => entry.activity == 'break' && entry.start && !entry.end && entry.source === 'manual');

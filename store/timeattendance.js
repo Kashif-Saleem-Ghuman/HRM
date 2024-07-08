@@ -66,7 +66,9 @@ export const mutations = {
   },
 
   SET_TIMER_DATA: (state, payload) => {
-    const { start, end, type, active, isPause } = payload;
+    const { id, start, end, type, active, isPause } = payload;
+
+    state.timer.id = id;
     state.timer.start = start || 0;
     state.timer.end = end || 0;
     state.timer.type = type;
@@ -81,10 +83,10 @@ export const mutations = {
 
     const { id, start, end, type, active } = payload;
 
-    state.breakTimer.id = id;
-    state.breakTimer.start = start;
-    state.breakTimer.end = end;
-    state.breakTimer.type = type;
+    state.breakTimer.id = id || null;
+    state.breakTimer.start = start || null;
+    state.breakTimer.end = end || null;
+    state.breakTimer.type = type || null;
     state.breakTimer.active = active || false;
   },
 
@@ -143,7 +145,7 @@ export const actions = {
     }
   },
 
-  async stopTimer({ commit }, { timer }) {
+  async stopTimer({ commit, state }, { timer }) {
     try {
       let end = DateTime.now().toUTC().toISO();
       if (timer && timer.active) {
@@ -154,11 +156,12 @@ export const actions = {
           end = timerStart.plus({ hours: MAX_TIMER_DURATION_HOUR }).toISO()
         }
       }
-      await stopTimer({ end })
+      await stopTimer({ id: state.timer.id, end, activity: 'in', source: 'timer' })
     } catch (error) {
       console.error(error);
     }
     commit("SET_TIMER_DATA", {})
+    commit('SET_BREAK_TIMER_DATA', {});
   },
 
 
@@ -211,36 +214,36 @@ export const actions = {
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
       ctx.commit("SET_IS_TIME_ENTRY_SET", true);
-      if(!ctx.state.isTimerRunning && isDateToday(startOfDay)){
-        const chronometerDuration = getChronometerDuration(data.timeEntries)
-        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
-      }
+      // if(!ctx.state.isTimerRunning && isDateToday(startOfDay)){
+      //   const chronometerDuration = getChronometerDuration(data.timeEntries)
+      //   ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+      // }
+
       if (isDateToday(startOfDay)) {
         checkIsManualEntry(data.timeEntries) && ctx.commit("SET_CHRONOMETER", { chronometer: 0 });
+
+        const chronometerDuration = getChronometerDuration(data.timeEntries);
+        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
         // Setting up the timer
 
-        const activeBreakTimer = data.timeEntries.find((entry) => entry.activity == 'break' && entry.start && !entry.end && entry.source === 'manual');
+        if(data.hasOwnProperty('activeTimeEntry') && data?.activeTimeEntry.active){
+          ctx.commit("SET_IS_TIMER_RUNNING", { status: true });
+          ctx.commit("SET_TIMER_DATA", data.activeTimeEntry);
+        }else {
+          ctx.commit("SET_IS_TIMER_RUNNING", { status: false });
+        }
+
+        const activeBreakTimer = data?.activeBreak;
         if(activeBreakTimer){
           ctx.commit("SET_IS_BREAK_TIMER_RUNNING", true);
           ctx.commit('SET_BREAK_TIMER_DATA', activeBreakTimer);
-
-          // Setting up the chronometer
-          if(ctx.state.timer.start) {
-            const start = ctx.state.timer.start
-            const breakChronometer = getBreakTimerDuration(data.timeEntries);
-            const timerChronometer = getTimeDiffInSeconds(start, new Date());
-            const chronometerVal = breakChronometer > timerChronometer ?
-              timerChronometer :
-              timerChronometer - breakChronometer;
-            console.log('chronometerVal===', chronometerVal)
-            console.log('break&timer', breakChronometer, timerChronometer);
-            ctx.commit("SET_CHRONOMETER", {
-                chronometer: chronometerVal
-              }
-            );
-          }
+        }
+        else {
+          ctx.commit('SET_BREAK_TIMER_DATA', {});
+          ctx.commit("SET_IS_BREAK_TIMER_RUNNING", false);
         }
       }
       return data

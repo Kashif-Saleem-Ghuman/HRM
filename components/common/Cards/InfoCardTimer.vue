@@ -18,7 +18,7 @@
           @click="handleClockInOutClick()"
         ></bib-button>
       </div>
-      <div v-else class="d-flex justify-center gap-1" @click="handleWrapperClick">
+      <div v-else class="d-flex justify-center gap-1">
         <bib-button
           :label="buttonLable"
           :variant="buttonVariant"
@@ -92,6 +92,7 @@ import {
   deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
 import {getBreakTimerDuration} from "@/utils/functions/timer";
+import {FILL_DAILY_ENTRY_EVENT} from "@/utils/constant/Constant";
 export default {
   mixins: [timerMixin],
 
@@ -150,9 +151,8 @@ export default {
   },
   async mounted() {
     this.registerDefaultValueChronometer();
-
     // await this.$store.dispatch("timeattendance/setDailyTimeEntries");
-    await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
+    // await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (!this.$store.state.token.isUser) {
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
@@ -180,9 +180,9 @@ export default {
     makeTimeEntry,
     editTimeEntry,
     handleWrapperClick() {
-      if (this.disabled) {
-        this.debouncedNotification();
-      }
+      // if (this.disabled) {
+      //   this.debouncedNotification();
+      // }
     },
     debouncedNotification() {
       if (!this.debounced) {
@@ -230,8 +230,9 @@ export default {
           activity: activityType,
           source,
         });
-        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
 
+        this.startTimerInterval();
         if (makeTimeEntry) {
           this.openPopupNotification({
             text: "Time entry updated successfully",
@@ -255,7 +256,7 @@ export default {
           endDate,
           source,
         );
-        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
 
         if (makeTimeEntry) {
           this.openPopupNotification({
@@ -269,7 +270,7 @@ export default {
     },
 
     async handleClockInOutClick() {
-      if (this.active && !this.isBreakActive) {
+      if (this.active) {
         this.stopClick = true;
         await this.stopTimer();
         this.$emit("timer-stop");

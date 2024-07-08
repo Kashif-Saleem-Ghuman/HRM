@@ -36,7 +36,7 @@
           v-if="refusalReasonData?.refusalReason != null"
         >
           <div class="d-flex align-center info-card-inner-wrapper" style="border: none !important;">
-            <div style="width: 50px;">
+            <div>
             <div class="shape-circle bg-danger width-2 height-2 d-flex justify-center align-center">
               <bib-icon icon="tick" variant="white" :scale="1"></bib-icon></div>
             </div>

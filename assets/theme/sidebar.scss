@@ -39,7 +39,8 @@
       }
       .info-card-inner-wrapper {
         display: flex;
-        background-color: $dark-sub3;
+        background-color: $dark;
+        border: 1px solid $dark-sub3;
   }
 }
 }

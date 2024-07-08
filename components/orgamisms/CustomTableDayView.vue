@@ -120,7 +120,7 @@
                    </div>
                  </div>
                  <div class="info_wrapper">
-                   <div class="title" style="text-transform: capitalize;">
+                   <div class="title" style="text-transform: capitalize;" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
                      {{ item.firstName }} {{ item.lastName }}
                    </div>
                    <div class="description">

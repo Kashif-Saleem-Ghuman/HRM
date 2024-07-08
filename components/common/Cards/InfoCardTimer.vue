@@ -204,7 +204,7 @@ export default {
       const currentDate = now.toISODate();
       const currentTime = now.toISO();
       return {
-        date: DateTime.fromJSDate(new Date(currentDate)).toFormat("yyyy-MM-dd"),
+        date: currentDate,
         ...(!this.isBreakActive) && {
           startDate: currentTime
         },

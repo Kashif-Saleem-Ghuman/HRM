@@ -169,7 +169,8 @@ $text-font-size: 14px;
   padding: 24px;
   font-size: $text-font-size;
   border-radius: 24px;
-  background-color: $light;
+  background-color: $white;
+  border: 1px solid var(--bib-secondary-sub3);
 
   label {
     font-size: 1rem;

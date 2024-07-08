@@ -30,7 +30,7 @@
         <div
           class="d-flex align-center text-left gap-05 position-relative"
         >
-          <div class="info_wrapper pl-05">
+          <div class="info_wrapper pl-05" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>

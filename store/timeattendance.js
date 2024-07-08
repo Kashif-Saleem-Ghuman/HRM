@@ -213,37 +213,29 @@ export const actions = {
         },
       );
       ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
-      ctx.commit("SET_IS_TIME_ENTRY_SET", true);
-      // if(!ctx.state.isTimerRunning && isDateToday(startOfDay)){
-      //   const chronometerDuration = getChronometerDuration(data.timeEntries)
-      //   ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
-      // }
 
       if (isDateToday(startOfDay)) {
-        checkIsManualEntry(data.timeEntries) && ctx.commit("SET_CHRONOMETER", { chronometer: 0 });
 
-        const chronometerDuration = getChronometerDuration(data.timeEntries);
-        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+        if(checkIsManualEntry(data.timeEntries)){
+          ctx.commit("SET_CHRONOMETER", { chronometer: 0 })
+        }else {
+          const chronometerDuration = getChronometerDuration(data.timeEntries);
+          ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+        }
 
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
-        // Setting up the timer
 
+        // Setting up the timer
         if(data.hasOwnProperty('activeTimeEntry') && data?.activeTimeEntry.active){
-          ctx.commit("SET_IS_TIMER_RUNNING", { status: true });
           ctx.commit("SET_TIMER_DATA", data.activeTimeEntry);
-        }else {
-          ctx.commit("SET_IS_TIMER_RUNNING", { status: false });
         }
 
         const activeBreakTimer = data?.activeBreak;
         if(activeBreakTimer){
-          ctx.commit("SET_IS_BREAK_TIMER_RUNNING", true);
           ctx.commit('SET_BREAK_TIMER_DATA', activeBreakTimer);
-        }
-        else {
+        } else {
           ctx.commit('SET_BREAK_TIMER_DATA', {});
-          ctx.commit("SET_IS_BREAK_TIMER_RUNNING", false);
         }
       }
       return data

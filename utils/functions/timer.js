@@ -3,7 +3,7 @@ import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 import {DateTime} from "luxon";
 export function getChronometerDuration(todayTimeEntries) {
   let chronometer = 0;
-  let timeEntry = todayTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
+  let timeEntry = todayTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN && timeEntry.source === TIME_ENTRY.SOURCE_TIMER);
 
   if(timeEntry && timeEntry?.isTimerEntry){
     chronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end ?? new Date())

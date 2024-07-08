@@ -4,12 +4,8 @@ import { DateTime } from 'luxon';
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 import {isBreakTimerRunning} from "@/utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
+var chronometerInterval = null;
 export default {
-  data() {
-    return {
-      chronometerInterval: null,
-    };
-  },
 
   computed: {
     chronometer() {
@@ -37,12 +33,13 @@ export default {
   },
   methods: {
     startTimerInterval(isVisibilityChange = false) {
-      if (this.active && !this.isBreakActive) {
+      if (this.active && !this.isBreakActive && !chronometerInterval) {
         this.timerLoading = true;
+        console.log('startTimerInterval====', chronometerInterval);
         if(isVisibilityChange) {
           this.timerCallbackFunc();
         }
-        this.chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
+        chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }
     },
 
@@ -52,7 +49,7 @@ export default {
       this.date = new Date().toDateString();
       const setCurrentDate = now.toISODate();
       let chronometer = this.$store.state.timeattendance.chronometer + 1;
-      if(this.getTimerData.start != 0){
+      if(this.active){
         this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
       }
       const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
@@ -77,8 +74,8 @@ export default {
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
     },
     async clearChronometerInterval() {
-      clearInterval(this.chronometerInterval);
-      this.chronometerInterval = null;
+      clearInterval(chronometerInterval);
+      chronometerInterval = null;
     },
 
     async startTimer() {
@@ -103,7 +100,7 @@ export default {
   },
   watch: {
     active(val) {
-      if (!this.chronometerInterval) {
+      if (!chronometerInterval) {
         this.startTimerInterval();
       }
     },

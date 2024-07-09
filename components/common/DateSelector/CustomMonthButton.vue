@@ -69,12 +69,7 @@ export default {
       return this.$store.state.token.isAdmin
     },
   },
-  created() {
-    this.$root.$on("reset-month", () => {
-      console.log("alsflajsdlajslkdjalsjdlkasjdlkjaljdlkj")
-      this.resetMonth();
-    });
-  },
+
   methods: {
     clickOutside() {
       this.isDropdownOpen = false;

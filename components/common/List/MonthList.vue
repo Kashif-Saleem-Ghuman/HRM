@@ -13,11 +13,11 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(date)="data">
-        <div
-          class="d-flex flex-d-column text-left gap-01 cursor-pointer"
-        >
-          <div class="font-md font-w-700">Week {{ getWeekNumber(data.value.start) }}</div>
-          <div class="font-w-400 text-black">
+        <div class="d-flex flex-d-column text-left gap-01 cursor-pointer">
+          <div class="font-md font-w-700">
+            Week {{ getWeekNumber(data.value.start) }}
+          </div>
+          <div class="font-w-400" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
@@ -42,7 +42,10 @@
           <div v-if="isAdmin">
             <div>
               <chips
-                :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+                :title="
+                  TIMESHEET_STATUS[data.value?.status]?.label ??
+                  'unknown-status'
+                "
                 iconShow="iconShow"
                 :icon="getStatusIcon(data.value?.status)"
                 :variant="[getStatusVariant(data.value?.status)]"
@@ -52,13 +55,25 @@
             </div>
           </div>
           <div v-else>
-            <div class="cursor-pointer" v-if="data.value?.status=== 'approved' || data.value?.status === 'pending'">
+            <div
+              class="cursor-pointer"
+              v-if="
+                data.value?.status === 'approved' ||
+                data.value?.status === 'pending'
+              "
+            >
               <chips
-                :title="TIMESHEET_STATUS[data.value?.status]?.label ?? 'unknown-status'"
+                :title="
+                  TIMESHEET_STATUS[data.value?.status]?.label ??
+                  'unknown-status'
+                "
                 iconShow="iconShow"
                 :icon="getStatusIcon(data.value?.status)"
                 :defaultPointer="true"
-                :className="['width-auto chip-wrapper-without-bg', getStatusClassName(data.value?.status)]"
+                :className="[
+                  'width-auto chip-wrapper-without-bg',
+                  getStatusClassName(data.value?.status),
+                ]"
               ></chips>
             </div>
             <div class="ml-2" v-else>
@@ -72,16 +87,17 @@
               ></bib-button>
             </div>
           </div>
-
         </div>
       </template>
     </bib-table>
-    <div v-if="!isFullYearList && timesheetList.length !== 0 && showTable" class="table-footer">
+    <div
+      v-if="!isFullYearList && timesheetList.length !== 0 && showTable"
+      class="table-footer"
+    >
       <div class="footer-items">
         <div class="footer-item-left font-w-600">Month Total</div>
         <div class="footer-item-middle">{{ getMonthTotal() }}</div>
-        <div class="footer-item-right">
-        </div>
+        <div class="footer-item-right"></div>
       </div>
     </div>
     <time-sheet-modal
@@ -103,10 +119,10 @@ import {
   ACTIVITY_TYPE_LABEL_VALUE,
 } from "@/utils/constant/Constant.js";
 import { formatHoursToHHMM } from "@/utils/functions/time";
-import {DateTime} from "luxon";
-import {buttonVariant as TIMESHEET_DELETE_CONFIRMATION_MESSAGE} from "@/utils/constant/DropdownMenu";
-import {getStatusIcon, getStatusVariant} from "@/utils/functions/status";
-import {submitTimesheet} from "@/utils/functions/functions_lib_api";
+import { DateTime } from "luxon";
+import { buttonVariant as TIMESHEET_DELETE_CONFIRMATION_MESSAGE } from "@/utils/constant/DropdownMenu";
+import { getStatusIcon, getStatusVariant } from "@/utils/functions/status";
+import { submitTimesheet } from "@/utils/functions/functions_lib_api";
 const TIMESHEET_STATUS_TO_SUBMIT = [
   TIMESHEET_STATUSES.NOT_SUBMITTED,
   TIMESHEET_STATUSES.PAST_DUE,
@@ -135,7 +151,7 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data() {
     return {
@@ -157,7 +173,7 @@ export default {
   },
   computed: {
     TIMESHEET_STATUS() {
-      return TIMESHEET_STATUS
+      return TIMESHEET_STATUS;
     },
     timesheetList() {
       if (!this.sortByField) return this.timesheetsList;
@@ -170,7 +186,9 @@ export default {
       return !this.loading && this.timesheetsList?.length;
     },
     showNoData() {
-      return !this.loading && (!this.timesheetsList || !this.timesheetsList?.length);
+      return (
+        !this.loading && (!this.timesheetsList || !this.timesheetsList?.length)
+      );
     },
   },
   methods: {
@@ -188,7 +206,9 @@ export default {
       this.sortByField = field;
     },
     getStatusClassName(status) {
-      return status === 'pending' ? 'chip-wrapper-without-bg__bgpending' : 'chip-wrapper-without-bg__bg_success'
+      return status === "pending"
+        ? "chip-wrapper-without-bg__bgpending"
+        : "chip-wrapper-without-bg__bg_success";
     },
     timesheetIsSubmitable(status) {
       return TIMESHEET_STATUS_TO_SUBMIT.includes(status);
@@ -200,22 +220,17 @@ export default {
     getSubmitVariant(status) {
       if (this.timesheetIsSubmitable(status))
         return this.$button[TIMESHEET_STATUSES.NOT_SUBMITTED]?.variant;
-      return status === "approved"
-        ? "success"
-        : this.$button[status]?.variant;
+      return status === "approved" ? "success" : this.$button[status]?.variant;
     },
     getStatusLabel(status) {
-      return (
-        this.$button[status]?.statusLabel ??
-        this.$button[status]?.label
-      );
+      return this.$button[status]?.statusLabel ?? this.$button[status]?.label;
     },
     getSubmitLabel(status) {
       if (status === TIMESHEET_STATUSES.REJECTED) return "Resubmit";
       if (this.timesheetIsSubmitable(status)) return "Submit";
       return this.getStatusLabel(status);
     },
-    async buttonClicked({status, id}) {
+    async buttonClicked({ status, id }) {
       if (this.timesheetIsSubmitable(status)) {
         this.isSubmitted = true;
         const response = await this.submitTimesheet(id);
@@ -269,7 +284,7 @@ export default {
       } else {
         // this.deleteModalContent =
         //   TIMESHEET_DELETE_CONFIRMATION_MESSAGE.rejected;
-        this.enableRefusalModal()
+        this.enableRefusalModal();
       }
     },
     getWeekdayValue(weekData, day) {
@@ -325,25 +340,23 @@ export default {
       let totalHrs = 0;
       this.timesheetList.forEach((item) => {
         totalHrs += item.total;
-      })
+      });
       return formatHoursToHHMM(totalHrs);
     },
     tableItemClick(event, key, item) {
       this.$emit("week-view", item);
     },
-
   },
   watch: {
     timesheetsList(val) {
       this.deactivateAllColumns();
     },
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .table-footer {
-  //   border: 1px solid $light;
   border-top: 0;
   border-right: 0;
   font-size: 14px;
@@ -351,30 +364,33 @@ export default {
     display: flex;
     .footer-item-left {
       width: 78.38%;
-      border-right: 1px solid $light;
-      border-bottom: 1px solid $light;
-      padding: 1rem 0.5rem;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      justify-content: end;
     }
     .footer-item-middle {
       border-bottom: 1px solid $light;
-      padding: 1rem 0 1rem 0.5rem;
-      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: start;
+      padding: 0rem 0.5rem;
+      width: 10%;
     }
     .footer-item-right {
       border-bottom: 1px solid $light;
-      padding: 1rem 0 1rem 0.5rem;
-      font-weight: 600;
+      width: 11.62%;
     }
   }
   .status-text {
     padding: 0.5rem;
+  }
+}
+.dark-theme {
+  .table-footer {
+    .footer-items {
+      .footer-item-middle {
+        border-bottom: 1px solid $dark-sub3;
+      }
+      .footer-item-right {
+        border-bottom: 1px solid $dark-sub3;
+      }
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
     <div class="info-card-leave-wrapper w-100">
       <div>
         <label>{{ title }}</label>
@@ -33,21 +33,13 @@
           <span>{{ item.refused }}</span>
         </div>
       </div>
-      <!-- <div
-        class="button-wrapper"
-        :class="className"
-        @click.stop="$emit('on-click')"
-      >
-        <bib-icon :icon="icon"  class="mr-05"></bib-icon>
-        <span>{{ buttonLable }}</span>
-      </div> -->
       <div
         class="d-flex justify-center"
         @click.stop="$emit('on-click')"
       >
         <bib-button
           :label="buttonLable"
-          :variant="$button.lightButton.variant"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
           class="button-wrapper-align w-100"
           :icon="icon"
         ></bib-button>

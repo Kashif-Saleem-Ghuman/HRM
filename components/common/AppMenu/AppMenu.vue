@@ -9,32 +9,32 @@
             menuClick(item);
           }
         "
-        isLightTheme
+        :isLightTheme="isLightThemeCheck"
         class="mt-05"
       ></bib-app-navigation>
       <div
-        class="nav-section position-relative"
+        class="nav-section position-relative cus-menu"
         v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
         @click=" menuClick(item);"
       >
         <div
           id=""
           title="Organization Profile"
-          class="nav-section__item nav-item mb-0 nav-item__label--light"
+          class="nav-section__item nav-item mb-0"
           :class="itemClasses(item)"
         >
           <div class="nav-item__icon">
-            <div class="nav-item__symbol" :key="updateNav">
-              <bib-logo :square="true" size="18px" :isLightTheme="item.selected ? true : lightThemeChecked"></bib-logo>
+            <div>
+              <bib-logo :square="true" size="18px" :isLightTheme="isLightThemeCheck"></bib-logo>
             </div>
           </div>
           <div class="nav-item__label nav-item__flex">
             <span
               id=""
-              :class="{
-                'text-dark': item.selected,
-                'text-bold': item.count > 0,
-              }"
+              :class="[
+            isLightThemeCheck && item.selected ? 'nav-item__label--light--selected' : '',
+            !isLightThemeCheck && item.selected ? 'nav-item__label--dark--selected' : '',
+          ]"
               >{{ item.label }}</span
             >
           </div>
@@ -43,7 +43,7 @@
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
-        isLightTheme
+        :isLightTheme="isLightThemeCheck"
         class="mt-05 custom-menu"
       ></bib-app-navigation>
       <!-- <bib-button label="My Account" variant="secondary--outline" class="mt-1 ml-1" @click="myAccountClick"></bib-button> -->
@@ -59,6 +59,7 @@
           }
         "
         class="mt-05"
+        :isLightTheme="isLightThemeCheck"
       ></bib-app-navigation>
       <div class="section-head" v-if="sectionHead">
         <span class="text-secondary">Shortcuts</span>
@@ -72,12 +73,14 @@
             }
           "
           class="mt-05"
+          :isLightTheme="isLightThemeCheck"
         ></bib-app-navigation>
         <bib-app-navigation
           :items="appWrapItems.navItemsUserSwitch.slice(-1)"
           @click.stop="organizationAdminClick"
           isLightTheme
           class="mt-05 custom-menu"
+          :isLightTheme="isLightThemeCheck"
           v-if="isOrganizationAdmin"
         ></bib-app-navigation>
       </div>
@@ -125,15 +128,9 @@ export default {
     return {
       appWrapItems: appWrapItems,
       lightThemeChecked: JSON.parse(localStorage.getItem("isLightTheme")),
-      updateNav:0
     };
   },
-  async created() {
-    this.$root.$on("update-nav", () => {
-      this.lightThemeChecked = JSON.parse(localStorage.getItem("isLightTheme")),
-      this.updateNav += 1;    
-    });
-  },
+  
   methods: {
     changeDashboard() {
       this.$router.push("/dashboard");
@@ -141,11 +138,12 @@ export default {
     handleToggleWrapperTheme,
     itemClasses(item) {
       const itemClass = {
-        "nav-item--selected bg-light": item.selected,
-        "nav-item__label--light": !this.lightThemeChecked && !item.selected,
-        "nav-item__label--light bg-light": !this.lightThemeChecked && item.selected,
-        "nav-item__label--dark": !this.lightThemeChecked && !item.selected,
-        "nav-item__label--dark": this.lightThemeChecked && !item.selected,
+        "nav-item--selected--light nav-item--light": this.isLightThemeCheck && item.selected,
+        "nav-item--selected--dark nav-item--dark": !this.isLightThemeCheck && item.selected,
+        "nav-item__label--light": this.isLightThemeCheck && !item.selected,
+        "nav-item__label--light": this.isLightThemeCheck && item.selected,
+        "nav-item--dark": !this.isLightThemeCheck && !item.selected,
+        "nav-item--light": this.isLightThemeCheck && !item.selected,
       };
       return itemClass;
     },
@@ -322,5 +320,233 @@ export default {
       color: $white !important;
     }
   }
+ 
+}
+.cus-menu{
+  .nav-item {
+
+&--dark {
+  color: $gray5;
+
+  &:hover {
+    background: $surface-tertiary;
+
+    color: $text-primary;
+    .nav-item__symbol {
+      display: none;
+    }
+    .nav-item__label {
+      color: $text-primary;
+    }
+    .nav-item__symbol--hover {
+      display: flex;
+      z-index: 3;
+      align-items: center;
+    }
+  }
+}
+&--light {
+  color: $light;
+
+  &:hover {
+    color: $text;
+    background: $text-primary;
+
+    .nav-item__label {
+      color: $text;
+    }
+    .nav-item__symbol {
+      display: none;
+    }
+    .nav-item__symbol--hover {
+      display: flex;
+      z-index: 3;
+      align-items: center;
+    }
+  }
+}
+transition: 0.2s all ease;
+$self: &;
+position: relative;
+border-radius: 4px;
+margin: 0rem 0.5rem;
+&--last {
+  margin-top: 2rem !important;
+}
+&__line {
+  margin-left: -1rem;
+  width: 1rem;
+}
+
+&__label {
+  height: 2.5rem;
+  align-self: stretch;
+  place-items: center;
+  color: $text-secondary;
+  &--dark {
+    &:hover {
+      color: $text-primary;
+      &:deep(svg) {
+        fill: $text-primary;
+      }
+
+      color: $text-primary;
+    }
+    &--selected {
+      color: $text-primary;
+    }
+  }
+  &--light {
+    &:hover {
+      color: $text;
+
+      &:deep(svg) {
+        fill: $text;
+      }
+    }
+    &--selected {
+      color: $text;
+    }
+  }
+  &--sub {
+    font-weight: 500;
+
+    &--dark {
+      color: $secondary;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+&__icon {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  &--sub {
+    display: flex;
+    align-items: center;
+    z-index: 5;
+    margin-left: 1rem;
+    height: 100%;
+    margin-top: 0.15rem;
+    width: 1.5rem;
+    justify-content: center;
+  }
+}
+&__bullet {
+  display: grid;
+  place-items: center;
+  &::before {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    content: "";
+    background-color: $secondary;
+  }
+  &--selected::before {
+    background-color: $white;
+  }
+}
+&__symbol {
+  display: flex;
+  z-index: 3;
+  align-items: center;
+}
+&__symbol--hover {
+  display: none;
+  z-index: 3;
+}
+&__symbol--sub--hover {
+  display: none;
+}
+&--sub--dark {
+  border-radius: 4px;
+  &:hover {
+    color: $text-primary;
+    background: $surface-tertiary;
+
+    .nav-item__label--sub--dark {
+      color: $text-primary;
+    }
+    svg {
+      //fill: $text-primary !important;
+    }
+    &::v-deep {
+      * {
+        color: $text-primary;
+      }
+    }
+    .nav-item__icon--sub {
+      &::v-deep {
+        svg {
+          fill: $text-primary !important;
+        }
+      }
+    }
+  }
+  &.sub-selected {
+    span {
+      color: $text-primary;
+    }
+    svg {
+      fill: $text-primary !important;
+    }
+  }
+}
+&--sub--light {
+  border-radius: 4px;
+  color: $text-secondary;
+
+  &:hover {
+    background: $text-primary;
+
+    .nav-item__label--sub--light {
+      color: $text;
+    }
+    svg {
+    }
+    color: $text;
+    &::v-deep {
+      svg {
+        fill: $text;
+      }
+    }
+  }
+  &.sub-selected {
+    span {
+      color: $text;
+    }
+    svg {
+      fill: $text !important;
+    }
+  }
+}
+
+&--selected {
+  &--dark {
+    color: $text-primary;
+    svg {
+      fill: $text-primary !important;
+    }
+  }
+  &--light {
+    color: $text;
+    svg {
+      fill: $text !important;
+    }
+  }
+}
+&__right-menu {
+  position: absolute;
+  right: 0.7rem;
+}
+}
 }
 </style>

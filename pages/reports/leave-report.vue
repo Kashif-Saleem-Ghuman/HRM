@@ -1,12 +1,12 @@
 <template>
-  <div class="download-wrapper py-1 mt-1 bg-light px-1 mx-1 w-50 shape-rounded">
+  <div class="download-wrapper py-1 mt-1 px-1 mx-1 w-50 shape-rounded" :class="themeClassCommon">
     <div>
       <bib-input
         type="select"
         label="Employee"
         :options="employeesOptions"
         v-model="selectedEmployeeId"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div>
@@ -15,7 +15,7 @@
         label="Month"
         :options="monthOptions"
         v-model="selectedMonth"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div>
@@ -24,7 +24,7 @@
         label="Year"
         :options="yearOptions"
         v-model="selectedYear"
-        variant="white"
+        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div id="fotter">

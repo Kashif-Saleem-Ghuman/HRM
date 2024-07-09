@@ -152,7 +152,7 @@ export default {
   border-radius: 6px;
   padding:  8px 15px 8px 8px;
   align-items: center;
-
+  
   &__shape-circle {
     width: 3rem;
     height: 3rem;

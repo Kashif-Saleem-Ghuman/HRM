@@ -1,7 +1,6 @@
 <template>
   <bib-table
     :fields="tableFields"
-    class="border-gray4 bg-white"
     :sections="employees"
     :hide-no-column="true"
     :fixHeader="true"
@@ -12,6 +11,11 @@
         : 'empty-list-0'
     "
     @item-clicked="tableItemClick"
+    class="table"
+    :class="{
+      'table--light': isLightThemeCheck,
+      'table--dark': !isLightThemeCheck,
+    }"
   >
     <template #cell(name)="data">
       <div class="d-flex align-center text-left gap-05 position-relative">
@@ -22,7 +26,6 @@
           <bib-avatar
             variant="secondary-sub3"
             :text="getEmployeeInitials(data.value)"
-            text-variant="primary"
             size="2.3rem"
             v-show="data.value.photo === null"
           ></bib-avatar>
@@ -50,7 +53,7 @@
               getEmployeeFullName(data.value) | truncate(truncateText, "...")
             }}
           </div>
-          <div class="description">
+          <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
             {{ data.value.jobTitle }}
           </div>
         </div>
@@ -76,7 +79,7 @@
     </template>
     <template #cell(breaks)="data">
       <div class="cursor-pointer">
-        <span>{{ data.value?.activityReport.break ?? "--" }}</span>
+        <div>{{ data.value?.activityReport.break ?? "--" }}</div>
       </div>
     </template>
     <template #cell(total)="data">
@@ -87,13 +90,14 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots" @click.native.stop>
+      <bib-button pop="horizontal-dots"  :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span
               class="list__item"
               v-for="item in peopleActionItems"
               @click.stop="callAction(data, item)"
+              :class="isLightThemeCheck ? 'text-black' : 'text-white'"
               >{{ item }}</span
             >
           </div>
@@ -290,7 +294,7 @@ export default {
     tableItemClick(event, key, item) {
       const id = item?.id;
       if (id) {
-        this.viewProfile(id);
+        this.viewAttendance(id);
       }
     },
     getTotalHours(minutes) {
@@ -318,8 +322,11 @@ export default {
         }
         
     },
-    viewProfile(id) {
+    viewAttendance(id) {
       this.$router.push("/profile/" + id + "/time-attendance-profile-tab");
+    },
+    viewProfile(id) {
+      this.$router.push("/profile/" + id);
     },
     mouseover() {
       this.showTooltip = true;

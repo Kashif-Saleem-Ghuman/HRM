@@ -6,6 +6,7 @@
       :size="size"
       type="text"
       @input="onSearchChange"
+      :variant="isLightThemeCheck ? 'light' : 'dark'"
     ></bib-input>
   </div>
 </template>

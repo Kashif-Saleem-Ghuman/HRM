@@ -1,0 +1,57 @@
+.light-theme {
+}
+.dark-theme {
+  .fc-theme-standard {
+    background-color: $dark !important;
+    color: #fff;
+    // border-top: 10px red solid !important;
+  }
+  // class="fc fc-media-screen fc-direction-ltr fc-theme-standard"
+  .fc-theme-standard .fc-scrollgrid {
+    border: 1px solid $dark-sub3;
+  }
+  .fc .fc-toolbar.fc-header-toolbar {
+    background-color: $dark !important;
+    color: #fff;
+  }
+  .fc .fc-daygrid-day {
+    background-color: $dark !important;
+    color: $white;
+  }
+  
+  .fc-theme-standard td {
+    border: 1px solid $dark-sub3 !important;
+  }
+
+  .fc-theme-standard th {
+    background-color: $dark !important;
+    border-right: none !important;
+  }
+  .fc-scrollgrid-sync-inner {
+    border-right: 1px solid $dark-sub3 !important;
+
+    a {
+      color: #fff !important;
+    }
+  }
+  .fc-theme-standard {
+    background-color: red;
+  }
+  .fc-theme-standard .fc-popover {
+    background-color: #000 !important;
+    border: 1px solid $dark-sub1;
+  }
+  .fc-theme-standard th .fc-scrollgrid-sync-inner {
+    border-right: 1px solid $dark-sub3;
+    border-left: 1px solid $dark-sub3;
+  }
+  .fc-scrollgrid-section-liqud {
+    background-color: $dark-sub3 !important;
+  }
+  .fc-scrollgrid-section-liquid {
+    background-color: $dark-sub3 !important;
+  }
+  .fc-event-main {
+    background-color: $black !important;
+  }
+}

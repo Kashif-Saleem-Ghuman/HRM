@@ -1,0 +1,32 @@
+.dark-theme {
+  .userCard {
+    background-color: $dark-sub2;
+    border: solid 1px $border-primary;
+    .user_card_detail {
+      label {
+        color: $white;
+      }
+      span {
+        color: $gray7;
+      }
+      .card_info {
+        font-size: 14px;
+        .email {
+          text-decoration: underline;
+          color: $gray5;
+        }
+        .phone_color {
+          color:  $white;
+        }
+        .button-wrapper-punch {
+            padding: 3px 0;
+            margin-left: -3px;
+            span {
+                background-color: $dark-sub3;
+            }
+        }
+    }
+
+    }
+  }
+}

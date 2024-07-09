@@ -307,7 +307,6 @@ export default {
   ::v-deep .ProseMirror {
     min-height: 100px;
     max-height: 300px;
-    background-color: white; /* Add any other styles you want */
   }
 }
 .toolbar-top {

@@ -16,7 +16,7 @@
     v-bind="{ value, ...$attrs }"
     :instruction="error"
     @input="onInput"
-    :variant="error ? 'alert' : ''"
+    :variant="isLightThemeCheck ? 'light' : (error ? 'alert' : 'dark')"
     :disable="disable"
   ></bib-input>
 </template>
@@ -112,14 +112,14 @@ export default {
 <style lang="scss">
 .form-date-picker {
   width: 100%;
-  .vdpComponent__input {
-    background-color: $white !important;
-    border: 1px solid $gray4 !important;
-    display: flex;
-    align-items: center;
-  }
-  .vdpComponent__input:hover {
-    border-color: var(--bib-gray6) !important;
-  }
+  // .vdpComponent__input {
+  //   background-color: $white !important;
+  //   border: 1px solid $gray4 !important;
+  //   display: flex;
+  //   align-items: center;
+  // }
+  // .vdpComponent__input:hover {
+  //   border-color: var(--bib-gray6) !important;
+  // }
 }
 </style>

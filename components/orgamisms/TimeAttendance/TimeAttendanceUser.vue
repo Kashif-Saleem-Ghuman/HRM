@@ -2,9 +2,7 @@
   <div id="time-attendance-wrapper">
     <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
-      <div class="d-flex justify-between align-center bottom_border_wrapper">
         <section-header-left title="Time & Attendance"></section-header-left>
-      </div>
       <div class="time-attandance-wrapper">
         <div class="px-1">
           <div
@@ -83,6 +81,7 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
+                  
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
@@ -183,9 +182,9 @@ import {
 import { Timesheet } from "@/components/common/models/timesheet";
 
 const VIEWS = [
-  { label: "Day", value: "day", variant: "light" },
-  { label: "Week", value: "week", variant: "light" },
-  { label: "Month", value: "month", variant: "light" },
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week" },
+  { label: "Month", value: "month"},
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -243,6 +242,9 @@ export default {
     };
   },
   computed: {
+    variant() {
+      this.variantColor = this.isLightThemeCheck ? "light" : "dark";
+    },
     isTimesheetLocked() {
       return this.timesheet?.isLocked()
     },
@@ -318,7 +320,6 @@ export default {
       return {
         ...this.VIEWS.find((v) => v.value === this.view.value),
         icon: "arrowhead-down",
-        varint: "light",
       };
     },
   },

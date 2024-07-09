@@ -11,6 +11,7 @@
             placeholder="Employee"
             disabled
             @change="$emit('input', $event, 'employeeId')"
+            :variant="themeButtonVariant"
           ></bib-input>
         </div>
       </div>
@@ -26,6 +27,7 @@
             placeholder="Employee"
             :disabled="inActive"
             @input="$emit('selectUser', $event, 'employeeId')"
+            :variant="themeButtonVariant"
           ></bib-input>
         </div>
       </div>
@@ -42,6 +44,7 @@
                 placeholder="Select your Leave type"
                 :disabled="inActive"
                 @input="$emit('selectLeaveType', $event, 'type')"
+                :variant="themeButtonVariant"
               ></bib-input>
             </div>
           </div>
@@ -112,6 +115,7 @@
               size="md"
               @change="setValueIsHalfDay"
               :key="updateCheckbox"
+              :variant="isLightThemecCheck ? 'light' : 'secondary'"
             ></bib-checkbox>
           </div>
         </transition>
@@ -121,6 +125,7 @@
           :value="totalDays"
           :disabled="true"
           class="duration"
+          :variant="themeButtonVariant"
         ></bib-input>
       </div>
     </div>
@@ -133,6 +138,7 @@
           :value="note"
           @change="$emit('input', $event, 'note')"
           :disabled="inActive"
+          :variant="themeButtonVariant"
         ></bib-input>
       </div>
     </div>

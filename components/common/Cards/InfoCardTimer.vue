@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex">
-    <div class="info-card-timer w-100" :key="timerRefresh">
+  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
+    <div class="info-card-leave-wrapper w-100">
       <div>
         <label>Good Morning! Please Clock-In</label>
       </div>

@@ -4,16 +4,16 @@
       <div class="position-relative" @mouseleave="handleMouseLeave">
         <bib-button
           :label="selected"
-          variant="light"
-          @click="toggleDropdown"
+          :variant="themeButtonVariant"
           v-click-outside="clickOutside"
           :icon-right="iconName"
+          @click="toggleDropdown"
           @click-right-icon="resetMonth"
         ></bib-button>
         <div class="menu-items">
           <ul v-if="isDropdownOpen">
             <li
-              class="d-flex align-center w-100"
+              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
               v-for="(option, index) in getMonthsOptions"
               :key="index"
               @click="selectOption(option)"

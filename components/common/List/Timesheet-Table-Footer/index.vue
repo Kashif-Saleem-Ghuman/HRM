@@ -32,14 +32,13 @@
     <div class="footer-items bottom-border-remove" v-else>
       <div class="footer-item-left" v-if="status == 'rejected'">
         <div
-          class="refusal-wrapper info-card-success-wrapper margin-minus"
+          class="refusal-wrapper info-card-success-wrapper margin-minus px-05"
           v-if="refusalReasonData?.refusalReason != null"
         >
-          <div class="d-flex align-center info-card-inner-wrapper">
-            <div
-              class="shape-circle bg-danger width-2 height-2 d-flex justify-center align-center"
-            >
-              <bib-icon icon="tick" variant="white" :scale="1"></bib-icon>
+          <div class="d-flex align-center info-card-inner-wrapper" style="border: none !important;">
+            <div>
+            <div class="shape-circle bg-danger width-2 height-2 d-flex justify-center align-center">
+              <bib-icon icon="tick" variant="white" :scale="1"></bib-icon></div>
             </div>
             <div class="content">
               <label> Rejected</label>
@@ -247,6 +246,9 @@ export default {
   .content {
     color: #d9000d;
     padding-left: 10px;
+    .icon{
+      width:100px;
+    }
     // text-align: right;
     label {
       font-weight: bold;

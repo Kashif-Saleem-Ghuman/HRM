@@ -60,14 +60,15 @@
           class="d-flex align-center item"
           style="position: relative"
           @mouseover="showEmployeeList"
+          @mouseout="hideEmployeeList"
           v-click-outside="hideEmployeeList"
         >
           <span
-            class="avatar__text text-gray1 mr-025 cursor-default position-relative cursor-pointer"
+            class="avatar__text  mr-025 cursor-default position-relative cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
             >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
-            <div class="list position-absolute" v-show="employeeList">
+            <div class="list position-absolute" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark' : 'bg-dark'">
               <div
-                class="list__item"
+                class="list__item " :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-black'"
                 v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
                 :key="avatar.id"
                 @mouseout="hideEmployeeList"
@@ -80,7 +81,7 @@
                       class="mr-05"
                       :text="avatar.photo ? null : getEmployeeInitials(avatar)"
                     ></bib-avatar>
-                    <div>
+                    <div :class="isLightThemeCheck ? 'text-gray1' : 'text-light'">
                       {{ getEmployeeFullName(avatar) | truncate(25, "...") }}
                     </div>
                   </div>
@@ -108,6 +109,7 @@ export default {
       type: String,
       default: "bottom",
     },
+
   },
 
   data() {
@@ -150,7 +152,7 @@ export default {
   },
   created() {
     this.fetchData();
-  },
+  }
 };
 </script>
 
@@ -166,9 +168,9 @@ $text-font-size: 14px;
   height: 100%;
   padding: 24px;
   font-size: $text-font-size;
-  background: $white;
   border-radius: 24px;
-  border: 1px solid $secondary-sub3;
+  background-color: $white;
+  border: 1px solid var(--bib-secondary-sub3);
 
   label {
     font-size: 1rem;

@@ -73,6 +73,7 @@ export default {
     padding: 1rem;
     border-radius: 10px;
     margin-top: 8px;
+    max-width: 550px;
     .label {
       font-weight: 600;
       font-size: 14px;

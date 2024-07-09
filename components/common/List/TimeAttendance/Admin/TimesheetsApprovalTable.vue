@@ -7,7 +7,6 @@
     <custom-table-day-view
         v-else-if="showTable"
         :fields="tableFields"
-        class="bg-white"
         :allChecked="allChecked"
         :type="type"
         @select-all="selectAllItems"
@@ -22,6 +21,7 @@
               :key="data.items.id"
               @change="handleItemChecked(data.items)"
               :checked="data.items.checked"
+              :variant="isLightThemeCheck ? '' : 'secondary'"
           ></bib-checkbox>
         </div>
       </template>
@@ -30,7 +30,7 @@
         <div
           class="d-flex align-center text-left gap-05 position-relative"
         >
-          <div class="info_wrapper pl-05">
+          <div class="info_wrapper pl-05" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>

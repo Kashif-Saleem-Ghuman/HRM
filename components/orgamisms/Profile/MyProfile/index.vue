@@ -1,8 +1,5 @@
 <template>
   <div class="my-profile-wrapper">
-    <div
-      class="d-flex justify-between align-center nav_wrapper bottom_border_wrapper"
-    >
       <section-header-left
         :title="
           getEmployeeFullName(form) != 'undefined undefined'
@@ -11,7 +8,6 @@
         "
         :key="topNav"
       ></section-header-left>
-    </div>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
         <div class="px-1 bottom_border_wrapper">

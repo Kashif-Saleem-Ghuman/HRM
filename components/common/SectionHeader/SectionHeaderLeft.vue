@@ -1,17 +1,24 @@
 <template>
-  <nav class="gap-05 page_title">
-    <bib-button
-      variant="secondary--light"
-      icon="arrow-left"
-      pill
-      @click="backRouter"
-      icon_bg="bg-secondary-sub2"
-      class="cursor-pointer"
-      v-show="back"
-    ></bib-button>
-    <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-    <div class="page__header__bread__title" v-if="title" :title="title">{{ title }}</div>
-  </nav>
+  <div
+    class="d-flex justify-between align-center nav_wrapper w-100"
+    :class="borderClassBottom"
+  >
+    <nav class="gap-05 page_title">
+      <bib-button
+        :variant="isLightThemeCheck ? 'secondary--light' : 'dark'"
+        icon="arrow-left"
+        pill
+        @click="backRouter"
+        icon_bg="bg-secondary-sub2"
+        class="cursor-pointer"
+        v-show="back"
+      ></bib-button>
+      <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
+      <div class="page__header__bread__title" v-if="title" :title="title">
+        {{ title }}
+      </div>
+    </nav>
+  </div>
 </template>
 <script>
 export default {
@@ -50,7 +57,7 @@ export default {
 
   methods: {
     backRouter() {
-      this.$emit('on-click')
+      this.$emit("on-click");
     },
   },
 };
@@ -62,15 +69,15 @@ export default {
 
 .page_title {
   align-items: center;
-    display: flex;
-    font-weight: 600;
-    height: 4rem;
-    justify-content: space-between;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    .page__header__bread__title {
+  display: flex;
+  font-weight: 600;
+  height: 4rem;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  .page__header__bread__title {
     font-size: 18px;
     position: relative;
-}
+  }
 }
 </style>

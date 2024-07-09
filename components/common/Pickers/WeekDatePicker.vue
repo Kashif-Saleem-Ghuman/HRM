@@ -11,6 +11,7 @@
           size="sm"
           icon=""
           hide-quick-select
+          :calendarIconVariant="isLightThemeCheck ? 'light' : 'dark'"
           v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
       </div>
@@ -21,6 +22,7 @@
           :disabled="true"
           size="sm"
           hide-quick-select
+          :calendarIconVariant="isLightThemeCheck ? 'light' : 'dark'"
           v-bind="{ ...getDatetimeCommonProps() }"
         ></bib-datetime-picker>
       </div>

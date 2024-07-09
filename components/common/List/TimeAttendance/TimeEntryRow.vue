@@ -319,15 +319,15 @@ export default {
         const isBreakAfterInEntry =
           breakEntryStartTime >= inEntryStartTime &&
           breakEntryEndTime <= inEntryEndTime;
-        if (!isBreakAfterInEntry) {
-          this.openPopupNotification({
-            text: "Your existing break is not within work entry time range",
-            variant: "danger",
-          });
-          this.clearStartTime();
-          this.clearEndTime();
-          return false;
-        }
+        // if (!isBreakAfterInEntry) {
+        //   this.openPopupNotification({
+        //     text: "Your existing break is not within work entry time range",
+        //     variant: "danger",
+        //   });
+        //   this.clearStartTime();
+        //   this.clearEndTime();
+        //   return false;
+        // }
       }
       return true;
     },

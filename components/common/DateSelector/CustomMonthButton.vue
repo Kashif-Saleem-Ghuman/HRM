@@ -35,10 +35,6 @@ import {DateTime} from "luxon";
 export default {
   extends: BaseDateButton,
   props: {
-    isAdminView: {
-      type: Boolean,
-      default: false,
-    },
     year: {
       type: Number,
     }
@@ -68,6 +64,9 @@ export default {
     isAdmin() {
       return this.$store.state.token.isAdmin
     },
+    isFromTimesheetViewCard() {
+      return this.$store.state.timeattendance.viewFrom
+    },
   },
 
   methods: {
@@ -81,7 +80,7 @@ export default {
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
-      if(this.isAdmin) {
+      if(this.isAdmin || this.isFromTimesheetViewCard) {
         this.setDefaultMonth();
       }else {
         const month = new Date().getMonth();

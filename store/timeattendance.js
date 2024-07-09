@@ -107,6 +107,7 @@ export const mutations = {
   },
 
   SET_CHRONOMETER: (state, payload) => {
+    console.log('SET_CHRONOMETER', payload);
     const { chronometer } = payload
     state.chronometer = chronometer
   },
@@ -218,9 +219,10 @@ export const actions = {
 
         if(checkIsManualEntry(data.timeEntries)){
           ctx.commit("SET_CHRONOMETER", { chronometer: 0 })
-        }else {
-          const chronometerDuration = getChronometerDuration(data.timeEntries);
-          ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
+        }
+        else if(!ctx.state.timer.active) {
+            const chronometerDuration = getChronometerDuration(data.timeEntries);
+            ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
         }
 
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);

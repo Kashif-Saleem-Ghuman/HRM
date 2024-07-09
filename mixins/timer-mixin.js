@@ -2,7 +2,7 @@ import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
-import {isBreakTimerRunning} from "@/utils/functions/timer";
+import {getChronometerDuration, isBreakTimerRunning} from "@/utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
 var chronometerInterval = null;
 export default {
@@ -48,7 +48,7 @@ export default {
       this.time = new Date().toTimeString().split(" ")[0];
       this.date = new Date().toDateString();
       const setCurrentDate = now.toISODate();
-      let chronometer = this.$store.state.timeattendance.chronometer + 1;
+      let chronometer = getChronometerDuration(this.getDailyTimeEntries);
       if(this.active){
         this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
       }
@@ -85,6 +85,7 @@ export default {
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {
+        console.log('registerDefaultValueChronometer', EmitValurChronometer);
         this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
       });
     },

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
-    <div class="info-card-timer w-100">
+    <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
         <label>Good Morning! Please Clock-In</label>
       </div>
@@ -45,34 +45,7 @@
           v-if="active"
         ></bib-button>
       </div>
-      <div class="activity-wrapper">
-        <div class="activity-item gap-1">
-          <div class="activity-items">
-            <label>In</label>
-            <span>{{ activityDetails.in }}</span>
-          </div>
-          <div class="activity-items">
-            <label>Out</label>
-            <span>{{ activityDetails.out }}</span>
-          </div>
-        </div>
-        <div class="activity-item gap-1">
-          <div class="activity-items">
-            <label>Break</label>
-            <span>{{ activityDetails.breaks }}</span>
-          </div>
-          <div class="activity-items">
-            <label>Overtime</label>
-            <span>{{ activityDetails.total }}</span>
-          </div>
-        </div>
-        <div class="activity-item gap-1">
-          <div class="activity-items">
-            <label>Total</label>
-            <span>{{ activityDetails.total }}</span>
-          </div>
-        </div>
-      </div>
+      <activity-details :activityDetails="activityDetails" />
     </div>
   </div>
 </template>
@@ -313,6 +286,14 @@ export default {
         else return "Offline";
       }
     },
+    cardBorderClass() {
+      if (this.active && !this.isBreakActive) {
+        return 'info-card-timer__border_success text-green';
+      } else if (this.active && this.isBreakActive) {
+        return 'info-card__border_warning text-orange';
+      }
+      return '';
+    }
   },
 
   watch: {
@@ -328,9 +309,14 @@ export default {
   font-size: 14px;
   background: $white;
   border-radius: 24px;
-  border: 1px solid $secondary-sub3;
+  // border: 1px solid $secondary-sub3;
   overflow-wrap: break-word;
-
+  &__border_success{
+    border: 1px solid $success;
+  }
+  &__border_warning{
+    border: 1px solid $warning;
+  }
   label {
     font-size: 1rem !important;
     font-weight: 600;

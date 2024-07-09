@@ -2,7 +2,7 @@
   <div id="time-attendance-wrapper">
     <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
-        <section-header-left title="Time & Attendance"></section-header-left>
+      <section-header-left title="Time & Attendance"></section-header-left>
       <div class="time-attandance-wrapper">
         <div class="px-1">
           <div
@@ -23,7 +23,7 @@
               buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"
-              @on-click="onViewTimesheetsClick"
+              @on-click="onViewTimesheetsClick('reset-month')"
             ></info-card-one>
             <!-- <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
           </div>
@@ -42,12 +42,16 @@
                 <div v-if="monthListView" class="py-05">
                   <div class="custom_date_picker">
                     <custom-date-selector
-                        :year.sync="year"
-                        :month.sync="month"
-                        :dates.sync="dates" />
+                      :year.sync="year"
+                      :month.sync="month"
+                      :dates.sync="dates"
+                    />
                   </div>
                 </div>
-                <div v-if="monthListView && !isFullYearList" class="py-05 pl-05">
+                <div
+                  v-if="monthListView && !isFullYearList"
+                  class="py-05 pl-05"
+                >
                   <button-with-overlay
                     :button-config="{ label: dateBtnLabel }"
                     v-slot="scope"
@@ -60,11 +64,11 @@
                         :format="format"
                         @onClose="onCloseWeekRange"
                         @close="
-                        () => {
-                          scope.close();
-                          weekSelectionInMonthView();
-                        }
-                      "
+                          () => {
+                            scope.close();
+                            weekSelectionInMonthView();
+                          }
+                        "
                         style="z-index: 999999; height: 46px"
                       ></filter-week-date-picker>
                     </div>
@@ -79,7 +83,6 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
-                  
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
@@ -148,8 +151,11 @@
 <script>
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
-import { debounceAction } from "@/utils/functions/debounce"
+import {
+  getTimesheets,
+  getWeekTimesheets,
+} from "@/utils/functions/api_call/timeattendance/time";
+import { debounceAction } from "@/utils/functions/debounce";
 import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
@@ -182,7 +188,7 @@ import { Timesheet } from "@/components/common/models/timesheet";
 const VIEWS = [
   { label: "Day", value: "day" },
   { label: "Week", value: "week" },
-  { label: "Month", value: "month"},
+  { label: "Month", value: "month" },
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -236,6 +242,7 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
+      resetMonth: null,
     };
   },
   computed: {
@@ -243,7 +250,7 @@ export default {
       this.variantColor = this.isLightThemeCheck ? "light" : "dark";
     },
     isTimesheetLocked() {
-      return this.timesheet?.isLocked()
+      return this.timesheet?.isLocked();
     },
     dayListDate() {
       if (!this.todayDate) return null;
@@ -271,15 +278,17 @@ export default {
         );
       }, 0);
 
-      const totalBreakInMS = timeEntriesBreak.filter(entry => entry.end).reduce((total, entry) => {
-        return (
-          total +
-          this.calculateDuration(
-            getTimeFromDate(entry.start),
-            getTimeFromDate(entry.end)
-          )
-        );
-      }, 0);
+      const totalBreakInMS = timeEntriesBreak
+        .filter((entry) => entry.end)
+        .reduce((total, entry) => {
+          return (
+            total +
+            this.calculateDuration(
+              getTimeFromDate(entry.start),
+              getTimeFromDate(entry.end)
+            )
+          );
+        }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
 
@@ -411,15 +420,15 @@ export default {
       this.weekDates = {
         from: null,
         to: null,
-      }
+      };
     },
     resetTodayDate() {
       this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
     },
     setDefaultOnViewChange(view) {
-      if(view === 'week' && this.view.value !== 'week'){
+      if (view === "week" && this.view.value !== "week") {
         this.resetWeekDates();
-      }else if(view === 'day' && this.view.value !== 'day') {
+      } else if (view === "day" && this.view.value !== "day") {
         this.resetTodayDate();
       }
     },
@@ -427,8 +436,9 @@ export default {
       this.setDefaultOnViewChange(e.value);
       this.$router.push({ query: { view: e.value } });
     },
-    onViewTimesheetsClick() {
-      this.$router.push({ query: { view: "week" } });
+    onViewTimesheetsClick(resetmonth) {
+      this.resetMonth = resetmonth;
+      this.$router.push({ query: { view: "month" } });
     },
 
     change(event, name) {
@@ -457,14 +467,18 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      await this.$store.dispatch(
-        "timeattendance/setDailyTimeEntries",
-        DateTime.fromFormat(this.todayDate, this.format).toFormat("yyyy-MM-dd")
-      ).then((result)=>{
-        if (result?.timesheet?.status) {
-         this.timesheet = new Timesheet(result.timesheet)
-        }
-      });
+      await this.$store
+        .dispatch(
+          "timeattendance/setDailyTimeEntries",
+          DateTime.fromFormat(this.todayDate, this.format).toFormat(
+            "yyyy-MM-dd"
+          )
+        )
+        .then((result) => {
+          if (result?.timesheet?.status) {
+            this.timesheet = new Timesheet(result.timesheet);
+          }
+        });
 
       this.parseTimeEntries();
     },
@@ -493,12 +507,14 @@ export default {
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
+        from: new Date(
+          isWeekRange ? this.weekDates.from : this.timesheetDates.from
+        ),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
       let timesheets = await getTimesheets({ from, to });
       timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser({timesheets: employee});
+        const parser = new TimesheetParser({ timesheets: employee });
         return parser.parse("weekDays");
       });
       this.timesheetsList = timesheets;
@@ -549,9 +565,9 @@ export default {
       await this.fillWeeklyTimeEntries();
     },
     async redirectWeekView(item) {
-      const {start, end} = item;
-      this.$set(this.weekDates, 'from', getWeekStart(start));
-      this.$set(this.weekDates, 'to', getWeekEnd(end));
+      const { start, end } = item;
+      this.$set(this.weekDates, "from", getWeekStart(start));
+      this.$set(this.weekDates, "to", getWeekEnd(end));
 
       this.$router.push({ query: { view: "week" } });
       await this.fillWeeklyTimeEntries();
@@ -573,7 +589,7 @@ export default {
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {
-      this.timesheetDates = {from: from, to: to}
+      this.timesheetDates = { from: from, to: to };
     },
   },
   beforeDestroy() {
@@ -593,15 +609,21 @@ export default {
       }
     },
     dates(newval, old) {
-      if(newval.from && newval.to) {
+      if (newval.from && newval.to) {
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }
     },
     month(val) {
-      if(val === MONTH_SELECTOR_DEFAULT.value){
+      if (this.resetMonth === "reset-month") {
+        this.$root.$emit("reset-month");
         this.isFullYearList = true;
-      }else {
+        this.resetMonth = null;
+        return true;
+      }
+      if (val === MONTH_SELECTOR_DEFAULT.value) {
+        this.isFullYearList = true;
+      } else {
         this.isFullYearList = false;
       }
     },

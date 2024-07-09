@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown-chip-menu">
+  <div class="dropdown-chip-menu" @mouseleave="hideMenu">
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
@@ -73,6 +73,9 @@ export default {
   },
   methods: {
     clickOutside() {
+      this.show = false;
+    },
+    hideMenu() {
       this.show = false;
     },
   },

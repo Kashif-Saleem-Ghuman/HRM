@@ -2,7 +2,7 @@ import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
-import {getChronometerDuration, isBreakTimerRunning} from "@/utils/functions/timer";
+import { getChronometerDuration } from "@/utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
 var chronometerInterval = null;
 export default {
@@ -11,19 +11,11 @@ export default {
     chronometer() {
       return this.$store.state.timeattendance.chronometer;
     },
-
-    isTimerRunning() {
-      return this.$store.state.timeattendance.isTimerRunning;
-    },
-
     active() {
       return this?.getTimerData?.active || false;
     },
     isBreakActive() {
       return this.getBreakTimerData.active || false;
-    },
-    isTimeEntrySet() {
-      return this.$store.state.timeattendance.isTimeEntrySet;
     },
 
     ...mapGetters({
@@ -33,12 +25,11 @@ export default {
   },
   methods: {
     startTimerInterval(isVisibilityChange = false) {
+
       if (this.active && !this.isBreakActive && !chronometerInterval) {
-        this.timerLoading = true;
-        console.log('startTimerInterval====', chronometerInterval);
-        if(isVisibilityChange) {
-          this.timerCallbackFunc();
-        }
+
+        isVisibilityChange && this.timerCallbackFunc();
+
         chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }
     },
@@ -64,14 +55,12 @@ export default {
         await this.stopTimer(timer);
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       }
-      this.timerLoading = false;
     },
     async stopTimer(timer = null) {
+      this.loading = true;
       this.clearChronometerInterval();
-      this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-        status: false,
-      });
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
+      this.loading = false;
     },
     async clearChronometerInterval() {
       clearInterval(chronometerInterval);
@@ -80,12 +69,13 @@ export default {
 
     async startTimer() {
       if (this.active) return;
+      this.loading = true;
       await this.$store.dispatch("timeattendance/startTimer");
       await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+      this.loading = false;
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {
-        console.log('registerDefaultValueChronometer', EmitValurChronometer);
         this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
       });
     },

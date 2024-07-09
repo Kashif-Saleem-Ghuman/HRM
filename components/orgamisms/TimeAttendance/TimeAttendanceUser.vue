@@ -13,9 +13,8 @@
             <info-card-timer
               @clock="openClock"
               @timer-stop="handleTimerStop"
-              :todayDate="todayDate"
-              :isInfoCardTimer="isInfoCardTimer"
               :disabled="hasInEntryToday"
+              :isTimeEntryLoading="isTimeEntryLoading"
               icon="time-alarm"
             ></info-card-timer>
 
@@ -81,7 +80,7 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
-                  
+
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
@@ -238,7 +237,7 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
-      isInfoCardTimer: false,
+      isTimeEntryLoading: false,
     };
   },
   computed: {
@@ -297,7 +296,7 @@ export default {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
       return entries.some((entry) => {
-        return entry.activity === ACTIVITY_TYPE.IN;
+        return entry.activity === ACTIVITY_TYPE.IN && entry.active === false;
       });
     },
     todayListView() {
@@ -365,7 +364,6 @@ export default {
       this.registerFillDailyEntryListener();
     },
     unregisterRootListeners() {
-      this.isInfoCardTimer = false;
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
     },
@@ -461,6 +459,7 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
+      this.isTimeEntryLoading = true;
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toFormat("yyyy-MM-dd")
@@ -468,9 +467,9 @@ export default {
         if (result?.timesheet?.status) {
          this.timesheet = new Timesheet(result.timesheet)
         }
+        this.isTimeEntryLoading = false;
       });
 
-      this.isInfoCardTimer = true;
       this.parseTimeEntries();
     },
 

@@ -10,12 +10,13 @@
           <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
-      <div v-if="!active" class="d-flex justify-center">
+      <div v-if="!active" class="d-flex justify-center" @click="handleWrapperClick">
         <bib-button
           label="Clock In"
           variant="primary-24"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
+          :disabled="isTimerLoading"
         ></bib-button>
       </div>
       <div v-else class="d-flex justify-center gap-1">
@@ -25,6 +26,7 @@
           :icon="icon"
           @click="handleBreakInOutClick()"
           class="button-wrapper-align w-100"
+          :disabled="isTimerLoading"
         ></bib-button>
 
         <bib-button
@@ -39,6 +41,7 @@
           variant="light"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
+          :disabled="isTimerLoading"
           v-if="active"
         ></bib-button>
       </div>
@@ -114,29 +117,26 @@ export default {
       type: Boolean,
       default: false,
     },
-    todayDate: {
-      type: String | Date | DateTime,
-      default: null
-    },
-    isInfoCardTimer: {
+    isTimeEntryLoading: {
       type: Boolean,
       default: false,
-    },
+    }
   },
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
       localData: [],
       activityReport: {},
-      loading: true,
-      timerLoading: false,
+      loading: false,
       stopClick: false,
       currentDate: DateTime.now().toFormat("MMMM dd, yyyy"),
       timerRefresh: 0,
       activityData:null,
+      debounced: false,
     };
   },
   created() {
+    this.loading = true;
     this.$root.$on("update-timer", () => {
       this.timerRefresh += 1;
       if (this.$store.state.token.isUser) {
@@ -149,10 +149,9 @@ export default {
       }
     });
   },
-  async mounted() {
+  async mounted()
+  {
     this.registerDefaultValueChronometer();
-    // await this.$store.dispatch("timeattendance/setDailyTimeEntries");
-    // await this.$store.dispatch("timeattendance/setTimerData", this.employeeId);
 
     if (!this.$store.state.token.isUser) {
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
@@ -162,13 +161,13 @@ export default {
     }
     document.addEventListener("visibilitychange", this.handleVisibilityChange);
 
+    this.loading = false;
   },
   beforeDestroy() {
     document.removeEventListener(
       "visibilitychange",
       this.handleVisibilityChange
     );
-    this.$store.dispatch("timeattendance/resetIsTimeEntrySet", false);
   },
   methods: {
     close() {
@@ -180,9 +179,9 @@ export default {
     makeTimeEntry,
     editTimeEntry,
     handleWrapperClick() {
-      // if (this.disabled) {
-      //   this.debouncedNotification();
-      // }
+      if (this.disabled) {
+        this.debouncedNotification();
+      }
     },
     debouncedNotification() {
       if (!this.debounced) {
@@ -216,13 +215,20 @@ export default {
         }),
       };
     },
-    async updateBreakEntry() {
+    async makeBreakEntry() {
       const { id, startDate, endDate, date } = this.calculateDates();
       const activityType = 'break';
       const source = 'timer';
 
+      this.loading = true;
       try {
-        const makeTimeEntry = await this.editTimeEntry({
+        const makeTimeEntry = !this.isBreakActive ? await this.makeTimeEntry(
+          activityType,
+          date,
+          startDate,
+          endDate,
+          source,
+        ) : await this.editTimeEntry({
           id,
           date,
           start: startDate,
@@ -231,39 +237,13 @@ export default {
           source,
         });
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
-
-        this.startTimerInterval();
         if (makeTimeEntry) {
           this.openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
         }
-      } catch (error) {
-        console.log(error)
-      }
-
-    },
-    async makeBreakEntry() {
-      const { startDate, endDate, date } = this.calculateDates();
-      const activityType = 'break';
-      const source = 'timer';
-      try {
-        const makeTimeEntry = await this.makeTimeEntry(
-          activityType,
-          date,
-          startDate,
-          endDate,
-          source,
-        );
-        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
-
-        if (makeTimeEntry) {
-          this.openPopupNotification({
-            text: "Time entry updated successfully",
-            variant: "primary",
-          });
-        }
+        this.loading = false;
       } catch (error) {
         console.log(error)
       }
@@ -276,22 +256,16 @@ export default {
         this.$emit("timer-stop");
       } else {
         await this.startTimer();
-        this.startTimerInterval();
       }
     },
     async handleBreakInOutClick() {
-      if(!this.isBreakActive){
-        this.makeBreakEntry();
-      }else {
-        this.updateBreakEntry()
-      }
+      if(!this.active)
+        return false;
+      this.makeBreakEntry();
     },
 
     handleVisibilityChange() {
       if (document.hidden) {
-        this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-          status: false,
-        });
         this.clearChronometerInterval();
       } else {
         this.startTimerInterval(true);
@@ -309,17 +283,17 @@ export default {
     buttonDisabled() {
       return this.stopClick || this.disabled || this.isTimesheetLocked;
     },
+    isTimerLoading() {
+      return this.loading || this.isTimeEntryLoading || this.disabled;
+    },
 
     stopWatchTime() {
-      if (this.timerLoading) return "00:00:00";
       return formatTime(this.chronometer);
     },
     activityDetails() {
       return calculateActivityDetails(
         this.getTimerData.start,
-        this.getDailyTimeEntries,
-        this.todayDate,
-        this.$store,
+        this.getDailyTimeEntries
       );
     },
     buttonVariant() {
@@ -344,9 +318,6 @@ export default {
   watch: {
     disabled() {
       this.stopClick = false;
-    },
-    isInfoCardTimer(val) {
-      val && this.startTimerInterval();
     },
   },
 };

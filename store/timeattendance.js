@@ -14,10 +14,7 @@ import {
   getChronometerDuration,
   checkIsManualEntry,
   isDateToday,
-  isBreakTimerRunning,
-  getBreakTimerDuration,
 } from "@/utils/functions/timer";
-import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 
 export const state = () => ({
   timer: {
@@ -37,11 +34,8 @@ export const state = () => ({
   dailyTimeEntries: [],
   dailyTimeEntriesToday: [],
   chronometer: 0,
-  isTimerRunning: false,
-  isBreakTimerRunning: false,
   employeesAttendance: null,
   timesheetToday: null,
-  isTimeEntrySet: false,
 });
 
 export const getters = {
@@ -75,9 +69,6 @@ export const mutations = {
     state.timer.active = active || false;
     state.timer.isPause = isPause || false;
   },
-  SET_IS_TIME_ENTRY_SET : (state, payload) => {
-    state.isTimeEntrySet = payload;
-  },
 
   SET_BREAK_TIMER_DATA: (state, payload) => {
 
@@ -107,18 +98,8 @@ export const mutations = {
   },
 
   SET_CHRONOMETER: (state, payload) => {
-    console.log('SET_CHRONOMETER', payload);
     const { chronometer } = payload
     state.chronometer = chronometer
-  },
-
-  SET_IS_TIMER_RUNNING: (state, payload) => {
-    const { status } = payload
-    state.isTimerRunning = status
-  },
-
-  SET_IS_BREAK_TIMER_RUNNING: (state, payload) => {
-    state.isBreakTimerRunning = payload;
   },
 };
 
@@ -174,7 +155,6 @@ export const actions = {
       console.error(error);
     }
     commit("SET_TIMER_DATA", {})
-    commit("SET_IS_TIMER_RUNNING", { status: false });
   },
 
   async setTimerData(ctx, employeeId = '') {
@@ -217,36 +197,22 @@ export const actions = {
 
       if (isDateToday(startOfDay)) {
 
-        if(checkIsManualEntry(data.timeEntries)){
-          ctx.commit("SET_CHRONOMETER", { chronometer: 0 })
-        }
-        else if(!ctx.state.timer.active) {
-            const chronometerDuration = getChronometerDuration(data.timeEntries);
-            ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
-        }
+        !ctx.state.timer.active && ctx.commit("SET_CHRONOMETER", {
+          chronometer: getChronometerDuration(data.timeEntries)
+        });
 
-        ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
+        // Setting up Today time entries
+        ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries || []);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
 
         // Setting up the timer
-        if(data.hasOwnProperty('activeTimeEntry') && data?.activeTimeEntry.active){
-          ctx.commit("SET_TIMER_DATA", data.activeTimeEntry);
-        }
-
-        const activeBreakTimer = data?.activeBreak;
-        if(activeBreakTimer){
-          ctx.commit('SET_BREAK_TIMER_DATA', activeBreakTimer);
-        } else {
-          ctx.commit('SET_BREAK_TIMER_DATA', {});
-        }
+        ctx.commit("SET_TIMER_DATA", data?.activeTimeEntry || {});
+        ctx.commit('SET_BREAK_TIMER_DATA', data?.activeBreak || {});
       }
       return data
     } catch (e) {
       console.log(e);
     }
-  },
-  async resetIsTimeEntrySet(ctx, payload) {
-    ctx.commit("SET_IS_TIME_ENTRY_SET", payload);
   },
 
   async setEmployeeDailyTimeEntry(ctx, { date, employeeId }) {

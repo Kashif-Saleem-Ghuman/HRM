@@ -464,7 +464,7 @@ export default {
 
           this.debouncedNotification(COMMON_MESSAGE);
           this.dropzone += 1;
-          this.$nuxt.$emit("top-nav-key");
+          this.$nuxt.$emit("top-nav-key", data);
           this.form = data;
           this.avatarUrl = "";
           this.confirmastionMessageModal = false;
@@ -511,7 +511,7 @@ export default {
       }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
         // this.openPopupNotification(1);
-        this.$nuxt.$emit("top-nav-key");
+        this.$nuxt.$emit("top-nav-key", data);
         this.form = data;
         this.originalStateProvince = this.form.address.state;
         this.originalCity = this.form.address.city;

@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
-    <div class="info-card-timer w-100">
+  <div class="d-flex" :class="isLightThemeCheck ? 'light-theme' : 'dark-theme'">
+    <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
         <label>Good Morning! Please Clock-In</label>
       </div>
@@ -10,7 +10,11 @@
           <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
-      <div v-if="!active" class="d-flex justify-center" @click="handleWrapperClick">
+      <div
+        v-if="!active"
+        class="d-flex justify-center"
+        @click="handleWrapperClick"
+      >
         <bib-button
           label="Clock In"
           variant="primary-24"
@@ -41,13 +45,13 @@
           variant="light"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
-          :disabled="isTimerLoading"
+          :disabled="isTimerLoading || isBreakActive"
           v-if="active"
         ></bib-button>
       </div>
       <div class="activity-wrapper">
         <div class="activity-item gap-1">
-          <div class="activity-items">
+          <div :class="['activity-items', inActivityClass]">
             <label>In</label>
             <span>{{ activityDetails.in }}</span>
           </div>
@@ -57,7 +61,7 @@
           </div>
         </div>
         <div class="activity-item gap-1">
-          <div class="activity-items">
+          <div :class="['activity-items', breakActivityClass]">
             <label>Break</label>
             <span>{{ activityDetails.breaks }}</span>
           </div>
@@ -132,7 +136,7 @@ export default {
       stopClick: false,
       currentDate: DateTime.now().toFormat("MMMM dd, yyyy"),
       timerRefresh: 0,
-      activityData:null,
+      activityData: null,
       debounced: false,
       dateNow: DateTime.now().startOf('day'),
     };
@@ -151,15 +155,17 @@ export default {
       }
     });
   },
-  async mounted()
-  {
+  async mounted() {
     this.registerDefaultValueChronometer();
 
     if (!this.$store.state.token.isUser) {
-      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-        employeeId: this.employeeId,
-        date: new Date().toISOString(),
-      });
+      await this.$store.dispatch(
+        "timeattendance/setEmployeeDailyTimeEntryToday",
+        {
+          employeeId: this.employeeId,
+          date: new Date().toISOString(),
+        }
+      );
     }
     document.addEventListener("visibilitychange", this.handleVisibilityChange);
 
@@ -206,9 +212,9 @@ export default {
       const currentTime = now.toISO();
       return {
         date: currentDate,
-        ...(!this.isBreakActive) && {
-          startDate: currentTime
-        },
+        ...(!this.isBreakActive && {
+          startDate: currentTime,
+        }),
         ...(this.isBreakActive && {
           endDate: currentTime,
         }),
@@ -219,36 +225,39 @@ export default {
     },
     async makeBreakEntry() {
       const { id, startDate, endDate, date } = this.calculateDates();
-      const activityType = 'break';
-      const source = 'timer';
+      const activityType = "break";
+      const source = "timer";
 
       this.loading = true;
       try {
-        const makeTimeEntry = !this.isBreakActive ? await this.makeTimeEntry(
-          activityType,
-          date,
-          startDate,
-          endDate,
-          source,
-        ) : await this.editTimeEntry({
-          id,
-          date,
-          start: startDate,
-          end: endDate,
-          activity: activityType,
-          source,
-        });
+        const makeTimeEntry = !this.isBreakActive
+          ? await this.makeTimeEntry(
+              activityType,
+              date,
+              startDate,
+              endDate,
+              source
+            )
+          : await this.editTimeEntry({
+              id,
+              date,
+              start: startDate,
+              end: endDate,
+              activity: activityType,
+              source,
+            });
+
         if (makeTimeEntry) {
           this.openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
         }
-        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
 
         this.loading = false;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
@@ -331,7 +340,11 @@ export default {
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
-        console.log('isBreakActive', this.isBreakActive, this?.getDailyTimeEntries.start);
+        console.log(
+          "isBreakActive",
+          this.isBreakActive,
+          this?.getDailyTimeEntries.start
+        );
         if (this.active && !this.isBreakActive) return "Take a break";
         if (this.active && this.isBreakActive) return "Back to work";
       } else if (this.$store.state.token.isAdmin) {
@@ -342,6 +355,26 @@ export default {
     isSelectedTodayDate () {
       const todayDate = DateTime.fromFormat(this.todayDate, 'dd-MMM-yyyy').startOf('day');
       return this.dateNow.equals(todayDate);
+    },
+    cardBorderClass() {
+      if (this.active && !this.isBreakActive) {
+        return "info-card-timer__border_success";
+      } else if (this.active && this.isBreakActive) {
+        return "info-card-timer__border_warning";
+      }
+      return "info-card-timer__border_light";
+    },
+    inActivityClass() {
+      if (this.active && !this.isBreakActive) {
+        return "activity-items__border_success text-success";
+      }
+      return "activity-items__border_light text-dark";
+    },
+    breakActivityClass() {
+      if (this.active && this.isBreakActive) {
+        return "activity-items__border_warning text-warning";
+      }
+      return "activity-items__border_light text-dark";
     },
   },
 
@@ -358,9 +391,17 @@ export default {
   font-size: 14px;
   background: $white;
   border-radius: 24px;
-  border: 1px solid $secondary-sub3;
+  // border: 1px solid $secondary-sub3;
   overflow-wrap: break-word;
-
+  &__border_light {
+    border: 1px solid $light;
+  }
+  &__border_success {
+    border: 1px solid $success;
+  }
+  &__border_warning {
+    border: 1px solid $warning;
+  }
   label {
     font-size: 1rem !important;
     font-weight: 600;
@@ -402,9 +443,26 @@ export default {
         border-bottom: 1px solid $light;
         height: 35px;
         align-items: center;
-
+        &__border_light {
+          label {
+            color: $dark;
+          }
+          border-bottom: 1px solid $light;
+        }
+        &__border_success {
+          label {
+            color: $success;
+          }
+          border-bottom: 1px solid $success;
+        }
+        &__border_warning {
+          label {
+            color: $warning;
+          }
+          border-bottom: 1px solid $warning;
+        }
         label {
-          color: var(--bib-text-secondary);
+          // color: var(--bib-text-secondary);
           font-size: 12px !important;
           padding-right: 10px;
           font-weight: 500;

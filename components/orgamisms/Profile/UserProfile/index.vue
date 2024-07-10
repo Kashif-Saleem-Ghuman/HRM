@@ -70,9 +70,8 @@ export default {
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     this.fetchData();
     this.setActiveTab();
-    this.$root.$on("top-nav-key", () => {
-      this.fetchData();
-      return;
+    this.$root.$on("top-nav-key", (data) => {
+      this.form = data
     });
     this.$nuxt.$on("routeChanged", (to, from) => {
       this.$store.dispatch("previouspath/setPreviousPath", from.path);

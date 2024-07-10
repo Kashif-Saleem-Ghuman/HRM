@@ -96,6 +96,7 @@ import {
 } from "@/utils/functions/functions_lib_api";
 import {getBreakTimerDuration} from "@/utils/functions/timer";
 import {FILL_DAILY_ENTRY_EVENT} from "@/utils/constant/Constant";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 export default {
   mixins: [timerMixin],
 
@@ -117,10 +118,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    isTimeEntryLoading: {
-      type: Boolean,
-      default: false,
-    }
+    todayDate: {
+      type: String | DateTime | Date,
+      default: null,
+    },
   },
   data() {
     return {
@@ -133,6 +134,7 @@ export default {
       timerRefresh: 0,
       activityData:null,
       debounced: false,
+      dateNow: DateTime.now().startOf('day'),
     };
   },
   created() {
@@ -236,13 +238,14 @@ export default {
           activity: activityType,
           source,
         });
-        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
         if (makeTimeEntry) {
           this.openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
         }
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+
         this.loading = false;
       } catch (error) {
         console.log(error)
@@ -250,18 +253,41 @@ export default {
     },
 
     async handleClockInOutClick() {
-      if (this.active) {
-        this.stopClick = true;
-        await this.stopTimer();
-        this.$emit("timer-stop");
-      } else {
-        await this.startTimer();
+      if(!this.isSelectedTodayDate) {
+        this.openPopupNotification({
+          text: "Please select today date",
+          variant: "danger",
+        });
+        return;
       }
+      try {
+        if (this.active) {
+          this.stopClick = true;
+          await this.stopTimer();
+          this.$emit("timer-stop");
+        } else {
+          await this.startTimer();
+        }
+      }catch(error) {
+        console.error("Error handling timer:", error);
+      }
+
     },
     async handleBreakInOutClick() {
-      if(!this.active)
-        return false;
-      this.makeBreakEntry();
+      if(!this.isSelectedTodayDate) {
+        this.openPopupNotification({
+          text: "Please select today date",
+          variant: "danger",
+        });
+        return;
+      }
+      try {
+        if(!this.active)
+          return false;
+        this.makeBreakEntry();
+      }catch(error) {
+        console.error("Error handling break in/out click:", error);
+      }
     },
 
     handleVisibilityChange() {
@@ -284,7 +310,7 @@ export default {
       return this.stopClick || this.disabled || this.isTimesheetLocked;
     },
     isTimerLoading() {
-      return this.loading || this.isTimeEntryLoading || this.disabled;
+      return this.loading || this.disabled;
     },
 
     stopWatchTime() {
@@ -312,6 +338,10 @@ export default {
         if (this?.active) return "Online";
         else return "Offline";
       }
+    },
+    isSelectedTodayDate () {
+      const todayDate = DateTime.fromFormat(this.todayDate, 'dd-MMM-yyyy').startOf('day');
+      return this.dateNow.equals(todayDate);
     },
   },
 

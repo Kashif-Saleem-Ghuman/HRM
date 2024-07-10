@@ -14,7 +14,7 @@
               @clock="openClock"
               @timer-stop="handleTimerStop"
               :disabled="hasInEntryToday"
-              :isTimeEntryLoading="isTimeEntryLoading"
+              :todayDate="todayDate"
               icon="time-alarm"
             ></info-card-timer>
 
@@ -237,7 +237,6 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
-      isTimeEntryLoading: false,
     };
   },
   computed: {
@@ -459,7 +458,6 @@ export default {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      this.isTimeEntryLoading = true;
       await this.$store.dispatch(
         "timeattendance/setDailyTimeEntries",
         DateTime.fromFormat(this.todayDate, this.format).toFormat("yyyy-MM-dd")
@@ -467,7 +465,6 @@ export default {
         if (result?.timesheet?.status) {
          this.timesheet = new Timesheet(result.timesheet)
         }
-        this.isTimeEntryLoading = false;
       });
 
       this.parseTimeEntries();

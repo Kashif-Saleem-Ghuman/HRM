@@ -182,7 +182,7 @@ export const actions = {
     ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
   },
 
-  async setDailyTimeEntries(ctx, date = new Date().toISOString()) {
+  async setDailyTimeEntries(ctx, date = DateTime.now().toISODate()) {
     try {
       const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO();
       const { data } = await axios.get(

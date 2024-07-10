@@ -117,6 +117,7 @@
               @edit-entry="handleEditEntry"
               @delete-entry="handleDeleteEntry"
               :date="dayListDate"
+              :todayDate="todayDate"
               :total="totalWork"
               :disabled="isTimesheetLocked"
             ></list-day>

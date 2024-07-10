@@ -72,6 +72,8 @@ import {
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
 } from "../../../../utils/constant/Constant";
+import {mapGetters} from "vuex";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 export default {
   props: {
     entry: {
@@ -86,13 +88,21 @@ export default {
       type: String,
       default: "",
     },
+    todayDate: {
+      type: String | DateTime | Date,
+      default: null
+    }
   },
   data() {
     return {
       newData: { ...this.entry, startTime: null, endTime: null },
+      dateNow: DateTime.now().startOf('day'),
     };
   },
   computed: {
+    ...mapGetters({
+      getTimerData: "timeattendance/getTimerData",
+    }),
     isBreak() {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
@@ -123,13 +133,22 @@ export default {
         ? this.$store.state.timeattendance.timer
         : null;
     },
+    isSelectedTodayDate () {
+      const todayDate = DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).startOf('day');
+      return this.dateNow.equals(todayDate);
+    },
     disabled() {
       return (
         this.newData.activity === ACTIVITY_TYPE.IN &&
         !this.hasInEntry &&
         this.timer &&
-        isToday(this.date)
+        isToday(this.date) ||
+        (this.isSelectedTodayDate &&
+          this.isTimerActive)
       );
+    },
+    isTimerActive() {
+      return this.getTimerData?.active || false;
     },
     isActivityIN() {
       return this.newData.activity === ACTIVITY_TYPE.IN;
@@ -191,7 +210,7 @@ export default {
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
-        }, 3000); 
+        }, 3000);
       }
     },
     getTimeFromDate,
@@ -520,7 +539,7 @@ export default {
   .icon {
     margin-right: -10px !important;
   }
-  
+
 }
 .uneditable-cell {
   label {

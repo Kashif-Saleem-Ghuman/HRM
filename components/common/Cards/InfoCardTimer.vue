@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
+  <div class="d-flex" :class="isLightThemeCheck ? 'light-theme' : 'dark-theme'">
     <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
         <label>Good Morning! Please Clock-In</label>
@@ -10,7 +10,11 @@
           <div class="timer-value">{{ stopWatchTime }}</div>
         </div>
       </div>
-      <div v-if="!active" class="d-flex justify-center" @click="handleWrapperClick">
+      <div
+        v-if="!active"
+        class="d-flex justify-center"
+        @click="handleWrapperClick"
+      >
         <bib-button
           label="Clock In"
           variant="primary-24"
@@ -45,7 +49,34 @@
           v-if="active"
         ></bib-button>
       </div>
-      <activity-details :activityDetails="activityDetails" />
+      <div class="activity-wrapper">
+        <div class="activity-item gap-1">
+          <div :class="['activity-items', inActivityClass]">
+            <label>In</label>
+            <span>{{ activityDetails.in }}</span>
+          </div>
+          <div class="activity-items">
+            <label>Out</label>
+            <span>{{ activityDetails.out }}</span>
+          </div>
+        </div>
+        <div class="activity-item gap-1">
+          <div :class="['activity-items', breakActivityClass]">
+            <label>Break</label>
+            <span>{{ activityDetails.breaks }}</span>
+          </div>
+          <div class="activity-items">
+            <label>Overtime</label>
+            <span>{{ activityDetails.total }}</span>
+          </div>
+        </div>
+        <div class="activity-item gap-1">
+          <div class="activity-items">
+            <label>Total</label>
+            <span>{{ activityDetails.total }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,8 +98,8 @@ import {
   editTimeEntry,
   deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
-import {getBreakTimerDuration} from "@/utils/functions/timer";
-import {FILL_DAILY_ENTRY_EVENT} from "@/utils/constant/Constant";
+import { getBreakTimerDuration } from "@/utils/functions/timer";
+import { FILL_DAILY_ENTRY_EVENT } from "@/utils/constant/Constant";
 export default {
   mixins: [timerMixin],
 
@@ -93,7 +124,7 @@ export default {
     isTimeEntryLoading: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data() {
     return {
@@ -104,7 +135,7 @@ export default {
       stopClick: false,
       currentDate: DateTime.now().toFormat("MMMM dd, yyyy"),
       timerRefresh: 0,
-      activityData:null,
+      activityData: null,
       debounced: false,
     };
   },
@@ -122,15 +153,17 @@ export default {
       }
     });
   },
-  async mounted()
-  {
+  async mounted() {
     this.registerDefaultValueChronometer();
 
     if (!this.$store.state.token.isUser) {
-      await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-        employeeId: this.employeeId,
-        date: new Date().toISOString(),
-      });
+      await this.$store.dispatch(
+        "timeattendance/setEmployeeDailyTimeEntryToday",
+        {
+          employeeId: this.employeeId,
+          date: new Date().toISOString(),
+        }
+      );
     }
     document.addEventListener("visibilitychange", this.handleVisibilityChange);
 
@@ -177,9 +210,9 @@ export default {
       const currentTime = now.toISO();
       return {
         date: currentDate,
-        ...(!this.isBreakActive) && {
-          startDate: currentTime
-        },
+        ...(!this.isBreakActive && {
+          startDate: currentTime,
+        }),
         ...(this.isBreakActive && {
           endDate: currentTime,
         }),
@@ -190,25 +223,27 @@ export default {
     },
     async makeBreakEntry() {
       const { id, startDate, endDate, date } = this.calculateDates();
-      const activityType = 'break';
-      const source = 'timer';
+      const activityType = "break";
+      const source = "timer";
 
       this.loading = true;
       try {
-        const makeTimeEntry = !this.isBreakActive ? await this.makeTimeEntry(
-          activityType,
-          date,
-          startDate,
-          endDate,
-          source,
-        ) : await this.editTimeEntry({
-          id,
-          date,
-          start: startDate,
-          end: endDate,
-          activity: activityType,
-          source,
-        });
+        const makeTimeEntry = !this.isBreakActive
+          ? await this.makeTimeEntry(
+              activityType,
+              date,
+              startDate,
+              endDate,
+              source
+            )
+          : await this.editTimeEntry({
+              id,
+              date,
+              start: startDate,
+              end: endDate,
+              activity: activityType,
+              source,
+            });
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
         if (makeTimeEntry) {
           this.openPopupNotification({
@@ -218,7 +253,7 @@ export default {
         }
         this.loading = false;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
@@ -232,8 +267,7 @@ export default {
       }
     },
     async handleBreakInOutClick() {
-      if(!this.active)
-        return false;
+      if (!this.active) return false;
       this.makeBreakEntry();
     },
 
@@ -278,7 +312,11 @@ export default {
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
-        console.log('isBreakActive', this.isBreakActive, this?.getDailyTimeEntries.start);
+        console.log(
+          "isBreakActive",
+          this.isBreakActive,
+          this?.getDailyTimeEntries.start
+        );
         if (this.active && !this.isBreakActive) return "Take a break";
         if (this.active && this.isBreakActive) return "Back to work";
       } else if (this.$store.state.token.isAdmin) {
@@ -288,12 +326,24 @@ export default {
     },
     cardBorderClass() {
       if (this.active && !this.isBreakActive) {
-        return 'info-card-timer__border_success text-green';
+        return "info-card-timer__border_success";
       } else if (this.active && this.isBreakActive) {
-        return 'info-card__border_warning text-orange';
+        return "info-card-timer__border_warning";
       }
-      return '';
-    }
+      return "info-card-timer__border_light";
+    },
+    inActivityClass() {
+      if (this.active && !this.isBreakActive) {
+        return "activity-items__border_success text-success";
+      }
+      return "activity-items__border_light text-dark";
+    },
+    breakActivityClass() {
+      if (this.active && this.isBreakActive) {
+        return "activity-items__border_warning text-warning";
+      }
+      return "activity-items__border_light text-dark";
+    },
   },
 
   watch: {
@@ -311,10 +361,13 @@ export default {
   border-radius: 24px;
   // border: 1px solid $secondary-sub3;
   overflow-wrap: break-word;
-  &__border_success{
+  &__border_light {
+    border: 1px solid $light;
+  }
+  &__border_success {
     border: 1px solid $success;
   }
-  &__border_warning{
+  &__border_warning {
     border: 1px solid $warning;
   }
   label {
@@ -358,9 +411,26 @@ export default {
         border-bottom: 1px solid $light;
         height: 35px;
         align-items: center;
-
+        &__border_light {
+          label {
+            color: $dark;
+          }
+          border-bottom: 1px solid $light;
+        }
+        &__border_success {
+          label {
+            color: $success;
+          }
+          border-bottom: 1px solid $success;
+        }
+        &__border_warning {
+          label {
+            color: $warning;
+          }
+          border-bottom: 1px solid $warning;
+        }
         label {
-          color: var(--bib-text-secondary);
+          // color: var(--bib-text-secondary);
           font-size: 12px !important;
           padding-right: 10px;
           font-weight: 500;

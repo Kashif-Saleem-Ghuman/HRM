@@ -507,7 +507,7 @@ export default {
     },
     submitToApi(form) {
       if (JSON.stringify(this.updateForm) === "{}") {
-        return this.openPopupNotification(6);
+        return this.debouncedNotification(6);
       }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
         // this.openPopupNotification(1);
@@ -518,6 +518,7 @@ export default {
         this.$root.$emit("profile-updated");
         this.avatarUrl = "";
         this.debouncedNotification(COMMON_MESSAGE);
+        this.updateForm = {};
         return;
       });
     },

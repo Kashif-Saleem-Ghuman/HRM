@@ -11,7 +11,7 @@
           name="startTime"
           placeholder="--"
           @input="timeInputBlur"
-          :disabled="disabled"
+          :disabled="disabled || this.isTimerActive"
           class="timepicker_input"
         ></bib-time-picker-wrapper>
     </div>
@@ -21,7 +21,7 @@
         name="endTime"
         placeholder="--"
         @input="timeInputBlur"
-        :disabled="disabled"
+        :disabled="disabled || this.isTimerActive"
         class="timepicker_input"
       ></bib-time-picker-wrapper>
       <!-- <bib-input
@@ -142,13 +142,11 @@ export default {
         this.newData.activity === ACTIVITY_TYPE.IN &&
         !this.hasInEntry &&
         this.timer &&
-        isToday(this.date) ||
-        (this.isSelectedTodayDate &&
-          this.isTimerActive)
+        isToday(this.date)
       );
     },
     isTimerActive() {
-      return this.getTimerData?.active || false;
+      return this.getTimerData?.active && this.isSelectedTodayDate || false;
     },
     isActivityIN() {
       return this.newData.activity === ACTIVITY_TYPE.IN;
@@ -197,7 +195,7 @@ export default {
       this.$store.dispatch("app/addNotification", { notification });
     },
     handleWrapperClick() {
-      if (this.disabled && this.timer){
+      if ((this.disabled && this.timer) || this.isTimerActive){
         this.debouncedNotification();
       }
     },

@@ -126,6 +126,10 @@ export default {
       type: String | DateTime | Date,
       default: null,
     },
+    isDailyEntryLoading: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -319,7 +323,7 @@ export default {
       return this.stopClick || this.disabled || this.isTimesheetLocked;
     },
     isTimerLoading() {
-      return this.loading || this.disabled;
+      return this.loading || this.disabled || this.isDailyEntryLoading;
     },
 
     stopWatchTime() {

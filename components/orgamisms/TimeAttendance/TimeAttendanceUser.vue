@@ -432,7 +432,8 @@ export default {
       this.$router.push({ query: { view: e.value } });
     },
     onViewTimesheetsClick() {
-      this.$router.push({ query: { view: "week" } });
+      this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
+      this.$router.push({ query: { view: "month" } });
     },
 
     change(event, name) {

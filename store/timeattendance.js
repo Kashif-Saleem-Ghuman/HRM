@@ -36,6 +36,7 @@ export const state = () => ({
   chronometer: 0,
   employeesAttendance: null,
   timesheetToday: null,
+  viewFrom: false,
 });
 
 export const getters = {
@@ -101,6 +102,14 @@ export const mutations = {
     const { chronometer } = payload
     state.chronometer = chronometer
   },
+
+  SET_IS_TIMER_RUNNING: (state, payload) => {
+    const { status } = payload
+    state.isTimerRunning = status
+  },
+  SET_VIEW_FROM: (state, payload) => {
+    state.viewFrom = payload
+  }
 };
 
 export const actions = {
@@ -275,5 +284,8 @@ export const actions = {
       }
       console.log(e);
     }
+  },
+  setIsViewFromTimesheetCard(ctx, payload) {
+    ctx.commit("SET_VIEW_FROM", payload);
   }
 }

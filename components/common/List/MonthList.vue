@@ -347,6 +347,9 @@ export default {
       this.$emit("week-view", item);
     },
   },
+  beforeDestroy() {
+    this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", false);
+  },
   watch: {
     timesheetsList(val) {
       this.deactivateAllColumns();

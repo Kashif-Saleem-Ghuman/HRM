@@ -24,12 +24,23 @@ export default {
     }),
   },
   methods: {
-    startTimerInterval(isVisibilityChange = false) {
 
-      if (this.active && !this.isBreakActive && !chronometerInterval) {
-
+    setChronometerDuration() {
+      let chronometer = getChronometerDuration(this.getDailyTimeEntries);
+      if(this.active){
+        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+      }
+      return chronometer;
+    },
+    async startTimerInterval(isVisibilityChange = false) {
+      if(isVisibilityChange) {
+        await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+        if(this.active && this.isBreakActive){
+          this.setChronometerDuration();
+        }
+      }if (this.active && !this.isBreakActive && !chronometerInterval) {
         isVisibilityChange && this.timerCallbackFunc();
-
         chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }
     },
@@ -38,11 +49,7 @@ export default {
       const now = DateTime.local();
       this.time = new Date().toTimeString().split(" ")[0];
       this.date = new Date().toDateString();
-      const setCurrentDate = now.toISODate();
-      let chronometer = getChronometerDuration(this.getDailyTimeEntries);
-      if(this.active){
-        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-      }
+      let chronometer = this.setChronometerDuration();
       const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
       if (chronometer >= MAX_DURATION_TIMER) {
         this.stopClick = true;
@@ -60,6 +67,8 @@ export default {
       this.loading = true;
       this.clearChronometerInterval();
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       this.loading = false;
     },
     async clearChronometerInterval() {
@@ -71,6 +80,7 @@ export default {
       if (this.active) return;
       this.loading = true;
       await this.$store.dispatch("timeattendance/startTimer");
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
       await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       this.loading = false;
     },

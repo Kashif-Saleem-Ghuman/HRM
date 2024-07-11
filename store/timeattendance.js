@@ -12,7 +12,6 @@ import { cloneDeep } from "lodash";
 import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import {
   getChronometerDuration,
-  checkIsManualEntry,
   isDateToday,
 } from "@/utils/functions/timer";
 
@@ -182,18 +181,21 @@ export const actions = {
     ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
   },
 
-  async setDailyTimeEntries(ctx, date = DateTime.now().toISODate()) {
+  async setDailyTimeEntries(ctx, date = null) {
     try {
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO();
+      const reqDate = date ?? DateTime.now().toISODate();
+      const startOfDay = DateTime.fromISO(reqDate).startOf('day').toUTC().toISO();
       const { data } = await axios.get(
-        process.env.API_URL + `/timesheets/daily?date=${date}`,
+        process.env.API_URL + `/timesheets/daily?date=${reqDate}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         },
       );
-      ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
+
+
+      date && ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
       if (isDateToday(startOfDay)) {
 

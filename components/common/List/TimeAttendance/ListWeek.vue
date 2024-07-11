@@ -220,7 +220,7 @@ export default {
     },
 
     async submitButtonClicked() {
-      
+
       if(this.isTimerActive && this.isSelectedDateCurrentWeek) {
         this.openPopupNotification({
           text: "Please clock out to submit the timesheet",
@@ -237,7 +237,6 @@ export default {
   },
   async mounted() {
     await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
-    console.log('startofWeek', this.startOfWeek);
   }
 };
 </script>

@@ -91,6 +91,13 @@ const data = () => {
         url: "/profile/",
         selected: false,
       },
+      {
+        label: "Employee Directory",
+        icon: "user",
+        key: "employeedirectory",
+        url: "/employee-directory/",
+        selected: false,
+      },
       // { label: "My Files", icon: "add", key: "files", url:"/files", selected: false},
     ],
     navItemsUserShortcuts: [

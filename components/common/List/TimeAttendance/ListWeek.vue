@@ -176,6 +176,11 @@ export default {
     isTimerActive() {
       return this.getTimerData?.active
     },
+    isSelectedDateCurrentWeek() {
+      const startWeek = DateTime.fromISO(this.startOfWeek).plus({days: 1});
+      const now = DateTime.now();
+      return startWeek.weekNumber === now.weekNumber && startWeek.year === now.year;
+    },
   },
   methods: {
     formatTime,
@@ -213,8 +218,10 @@ export default {
         ? "chip-wrapper__bgsucess text-bold"
         : "chip-wrapper__bggray disabled";
     },
+
     async submitButtonClicked() {
-      if(this.isTimerActive) {
+      
+      if(this.isTimerActive && this.isSelectedDateCurrentWeek) {
         this.openPopupNotification({
           text: "Please clock out to submit the timesheet",
           variant: "danger"
@@ -230,6 +237,7 @@ export default {
   },
   async mounted() {
     await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
+    console.log('startofWeek', this.startOfWeek);
   }
 };
 </script>

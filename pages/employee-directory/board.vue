@@ -5,32 +5,20 @@
         <loader :loading="loading"></loader>
         <no-record v-if="showNoData"></no-record>
         <div v-else-if="showTable">
-          <list :userList="employees"></list>
+          <card-list :userList="employees"></card-list>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { PEOPLE_TAB } from "../../utils/constant/Constant.js";
 import { mapGetters } from "vuex";
-import fecha, { format } from "fecha";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getEmployees } from "../../utils/functions/api_call/employees";
+import { getEmployees } from "@/utils/functions/api_call/employees";
 
 export default {
   data() {
     return {
-      localData: [],
-      departmentOptions: "",
-      newMessageSidebar: false,
-      peopleTabItem: PEOPLE_TAB,
-      activeTab: "Directory",
-      slideClass: "slide-in",
-      updateForm: {},
-      isFlag: false,
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
-      getCurrentDate: "",
       employees: [],
       loading: true,
     };

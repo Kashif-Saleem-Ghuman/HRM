@@ -11,6 +11,7 @@
               :value="activeTab"
               @change="onTabChange"
               :key="activeTab"
+              :isLightTheme="isLightThemeCheck"
             ></bib-tabs>
           </div>
         </div>

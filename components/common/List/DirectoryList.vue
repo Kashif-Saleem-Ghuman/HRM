@@ -17,7 +17,6 @@
           : 'empty-list-0'
       "
     >
-    
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative">
           <div>
@@ -60,6 +59,7 @@
               {{ data.value.jobTitle }}
             </div>
           </div>
+          <notifications></notifications>
         </div>
       </template>
       <template #cell(email)="data">
@@ -80,9 +80,7 @@
       </template>
       <template #cell(jobTitle)="data">
         <div class="justify-between cursor-pointer">
-          <span>{{
-            data.value.jobTitle
-          }}</span>
+          <span>{{ data.value.jobTitle }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
@@ -232,7 +230,7 @@ export default {
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
+      const inEntry = data.activityReport?.in;
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";
       }

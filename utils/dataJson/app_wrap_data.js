@@ -78,6 +78,14 @@ const data = () => {
         selected: false,
       },
       {
+        label: "My Timesheets",
+        icon: "time",
+        key: "my-timesheets",
+        url: "/time-attendance/attendance/?view=month",
+        action: "viewYearlyTimesheet",
+        selected: false,
+      },
+      {
         label: "Leave & Vacations",
         icon: "airplane-solid",
         key: "leave-vacations",
@@ -93,7 +101,7 @@ const data = () => {
       },
       {
         label: "Employee Directory",
-        icon: "user",
+        icon: "user-group",
         key: "employee-directory",
         url: "/employee-directory/list/",
         selected: false,
@@ -113,6 +121,12 @@ const data = () => {
       //   key: "sendNotification",
       //   selected: false,
       // },
+      {
+        label: "Clock-in/out",
+        icon: "time",
+        key: "time-attendance",
+        url: "/time-attendance/attendance/",
+      },
       {
         label: "Send absence notification",
         icon: "accessibility-cognitive-disability-solid",

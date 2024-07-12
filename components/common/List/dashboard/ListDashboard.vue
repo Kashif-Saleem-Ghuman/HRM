@@ -57,6 +57,7 @@
             {{ data.value.jobTitle }}
           </div>
         </div>
+        <notifications @click="notifyUser(data.value.id)"></notifications>
       </div>
     </template>
     <template #cell(status)="data">
@@ -187,6 +188,9 @@ export default {
     getEmployeeInitials,
     meetLink,
     makeCall,
+    notifyUser(item){
+      console.log(item)
+    },
     async callAction(data, value) {
       if (value === "View Profile") return this.viewProfile(data.value.id);
       if (value === "Send Message") return this.sendMessage(data.value.userId);

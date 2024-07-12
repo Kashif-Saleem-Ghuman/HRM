@@ -243,7 +243,10 @@ export default {
       );
       leaveNavItem.selected = true;
     },
-
+    viewYearlyTimesheet() {
+      this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
+      this.$router.push({ query: { view: "month" } });
+    },
     resetSelected(navItems) {
       navItems.forEach((item) => {
         if (item.hasOwnProperty("selected")) {

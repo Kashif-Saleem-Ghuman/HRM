@@ -59,6 +59,7 @@
               {{ data.value.jobTitle }}
             </div>
           </div>
+          <notifications></notifications>
         </div>
       </template>
       

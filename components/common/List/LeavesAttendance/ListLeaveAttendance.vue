@@ -13,8 +13,6 @@
       @column-header-clicked="headerColumnClick($event.column)"
       class="table"
       :class="{
-        table__headless: headless,
-        resizableTable: resizableColumns,
         'table--light': isLightThemeCheck,
         'table--dark': !isLightThemeCheck,
       }"
@@ -25,9 +23,7 @@
           @click="leaveDetail(data.value)"
         >
           <chips
-            :title="
-              data.value.type == 'leave' ? 'Personal Leave' : data.value.type
-            "
+            :title="$leaveTypeCheck(data.value.type)"
             iconShow="iconShow"
             :icon="getLeaveStatusIconVariant(data.value.type)"
             :variantIcon="getStatusIconVariant(data.value.status)"

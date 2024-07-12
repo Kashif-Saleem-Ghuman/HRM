@@ -65,6 +65,21 @@ const buttonConfig = {
     variant: "light",
     icon: "arrow-down",
   },
+  PTO: {
+    label: "Paid Time-Off",
+    buttonLable: "Request Paid Time-Off",
+    icon:"airplane-solid"
+  },
+  MEDICAL: {
+    label: "Medical/Sick",
+    buttonLable: "Request Medical Leave",
+    icon:"medical-clinic-solid"
+  },
+  UNPAID: {
+    label: "Unpaid Leave",
+    buttonLable: "Request Unpaid Leave",
+    icon:"accessibility-cognitive-disability-solid"
+  },
 };
 
 export default function buttonPlugin({ app }, inject) {

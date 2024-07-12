@@ -142,6 +142,73 @@ export const TABLE_HEAD = {
       },
     },
   ],
+  tHeadDirectory: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee",
+      width: `${100 / 4.3}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "firstName",
+        type: "string",
+      },
+    },
+    {
+      key: "email",
+      label: "Email",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "email",
+        type: "string",
+      },
+    },
+    {
+      key: "status",
+      label: "Status",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "presence",
+        type: "string",
+      },
+    },
+    {
+      key: "jobTitle",
+      label: "Job Title",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "jobTitle",
+        type: "string",
+      },
+    },
+    // {
+    //   key: "department",
+    //   label: "Department",
+    //   header_icon: {
+    //     icon: "long-arrow-up",
+    //     isActive: false,
+    //     sortKey: "department",
+    //     type: "string",
+    //   },
+    // },
+    {
+      key: "hiredate",
+      label: "Hire Date",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "hireDate",
+        type: "date",
+      },
+    },
+  ],
   tHeadAttendanceUser: [
     {
       key: "",
@@ -740,6 +807,18 @@ export const DOWNLOAD_REPORT_TAB = [
     title: "Time Sheet",
     value: "timesheetReport",
     route: "/reports/timesheet-report/",
+  },
+];
+export const EMPLOYEE_DIRECTORY = [
+  {
+    title: "List",
+    value: "list",
+    route: "/employee-directory/list/",
+  },
+  {
+    title: "Board",
+    value: "board",
+    route: "/employee-directory/board/",
   },
 ];
 export const TABLE_FIELDS = [
@@ -1377,13 +1456,13 @@ export const REQUEST_STATUS = {
 
 export const REQUEST_TYPE_OPTIONS = {
   [REQUEST_TYPES.LEAVE]: {
-    label: "Request Leave",
+    label: "Request Unpaid Leave",
     value: "request_leave",
     icon: "exit-to-app-solid",
     type: REQUEST_TYPES.LEAVE,
   },
   [REQUEST_TYPES.VACATION]: {
-    label: "Request Vacation",
+    label: "Request Paid Time-Off",
     value: "request_vacation",
     icon: "airplane",
     type: REQUEST_TYPES.VACATION,

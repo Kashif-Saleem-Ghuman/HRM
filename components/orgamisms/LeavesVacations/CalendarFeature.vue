@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="custom-header px-1 py-05" style="z-index: 9;">
+    <div class="custom-header px-1 py-05" style="z-index: 9">
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="d-flex pr-05">
@@ -34,7 +34,7 @@
               :label="selectedYear.toString()"
               @on-click="changeYearView($event)"
               class="mr-05"
-              style="z-index: 99 !important;"
+              style="z-index: 99 !important"
             ></dropdown-menu-calendar>
           </div>
         </div>
@@ -82,7 +82,6 @@
         id="fullCalendar"
         :key="reloadData"
       >
-      
         <template v-slot:eventContent="arg">
           <div
             class="author-display"
@@ -102,12 +101,7 @@
                     | truncate(16, "...")
                 }}</label
               >
-              <span>{{
-                arg.event.extendedProps.type == "leave"
-                  ? "On Leave"
-                  : arg.event.extendedProps.type
-              }}</span>
-              
+              <span>{{ $leaveTypeCheck(arg.event.extendedProps.type) }}</span>
             </div>
           </div>
         </template>
@@ -122,9 +116,7 @@ import FullCalendar from "../../../modules/@fullcalendar/vue";
 import dayGridPlugin from "../../../modules/@fullcalendar/daygrid";
 import { DropdownMenu } from "../../../utils/constant/DropdownMenu";
 
-import {
-  MONTHS_LABEL_VALUE,
-} from "../../../utils/constant/Calander";
+import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
 import {
   addHandleInput,
   getCurrentYear,
@@ -137,17 +129,15 @@ import {
   getLeaveTypeIconVariant,
   getLeaveTypeClassName,
 } from "@/utils/functions/status-helpers";
-import {
-  addLeaveVacations,
-} from "../../../utils/functions/functions_lib_api";
+import { addLeaveVacations } from "../../../utils/functions/functions_lib_api";
 import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
 
 import fecha from "fecha";
 import { mapGetters } from "vuex";
 import { getEmployeeFullName } from "../../../utils/functions/common_functions";
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
-const START_YEAR = 2021
+const START_YEAR = 2021;
 
 export default {
   components: {
@@ -238,9 +228,11 @@ export default {
       getActiveUser: "employee/GET_ACTIVE_USER",
     }),
     monthLabel() {
-      const month = this.dropMenuMonth.find( m => m.value == this.selectedMonth)
-      return month?.label
-    }
+      const month = this.dropMenuMonth.find(
+        (m) => m.value == this.selectedMonth
+      );
+      return month?.label;
+    },
   },
   async created() {
     this.id = this.getActiveUser.id;
@@ -250,14 +242,14 @@ export default {
   },
   mounted() {
     this.selectedMonth = this.currentMonth;
-    this.dropMenuYear = this.generateYearList()
+    this.dropMenuYear = this.generateYearList();
     this.getCalendarCurrentRange();
     this.$store.dispatch("leavevacation/setActiveFromToDate", {
       from: this.fromDate,
       to: this.toDate,
     });
 
-    this.getApprovedTimesheets()
+    this.getApprovedTimesheets();
   },
   methods: {
     addHandleInput,
@@ -285,17 +277,20 @@ export default {
     },
 
     setCalendarEvents(events) {
-      this.calendarOptions.events = events
+      this.calendarOptions.events = events;
     },
 
     async getApprovedTimesheets() {
-      const requests = await this.$store.dispatch("leavevacation/setLeaveVacations", {
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-        search: this.searchString,
-        status: TIMESHEET_STATUSES.APPROVED
-      });
-      this.setCalendarEvents(requests)
+      const requests = await this.$store.dispatch(
+        "leavevacation/setLeaveVacations",
+        {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+          search: this.searchString,
+          status: TIMESHEET_STATUSES.APPROVED,
+        }
+      );
+      this.setCalendarEvents(requests);
     },
     actionBY($event, key) {
       this.$nuxt.$emit("open-sidebar-admin", $event, key);
@@ -305,7 +300,8 @@ export default {
 
     getCalendarCurrentRange() {
       const fullCalendarApi = this.$refs.fullCalendar.getApi();
-      const { start, end } = fullCalendarApi.currentData.dateProfile.activeRange;
+      const { start, end } =
+        fullCalendarApi.currentData.dateProfile.activeRange;
       this.fromDate = start;
       this.toDate = end;
     },
@@ -320,14 +316,11 @@ export default {
       }
 
       const month = e.value;
-      const date = DateTime.now().set({ year, month }).toISO()
-    
+      const date = DateTime.now().set({ year, month }).toISO();
+
       this.$refs.fullCalendar
         .getApi()
-        .changeView(
-          this.calendarOptions.initialView,
-          date
-        );
+        .changeView(this.calendarOptions.initialView, date);
 
       this.getCalendarCurrentRange();
 
@@ -336,10 +329,10 @@ export default {
         to: this.toDate,
       });
 
-      this.getApprovedTimesheets()
+      this.getApprovedTimesheets();
     },
     changeYearView(e) {
-      let month
+      let month;
       this.selectedYear = e.label;
       if (this.selectedMonth === "") {
         month = this.currentMonth;
@@ -347,14 +340,11 @@ export default {
         month = this.selectedMonth;
       }
 
-      const year = e.value
-      const date = DateTime.now().set({ year, month }).toISO()
+      const year = e.value;
+      const date = DateTime.now().set({ year, month }).toISO();
       this.$refs.fullCalendar
         .getApi()
-        .changeView(
-          this.calendarOptions.initialView,
-          date
-        );
+        .changeView(this.calendarOptions.initialView, date);
 
       this.getCalendarCurrentRange();
 
@@ -402,7 +392,7 @@ export default {
           from: this.fromDate,
           to: this.toDate,
         });
-        
+
         this.getApprovedTimesheets();
       }
       let calendarApi = this.$refs.fullCalendar.getApi();
@@ -420,8 +410,7 @@ export default {
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
       this.$nuxt.$emit("open-sidebar", item.request);
-      this.$nuxt.$emit('close-sidebar-main')
-
+      this.$nuxt.$emit("close-sidebar-main");
     },
 
     eventClass(type) {
@@ -644,7 +633,7 @@ export default {
   }
 
   &__bghoilday {
-    background-color:  $primary !important;
+    background-color: $primary !important;
     color: $white;
   }
   &__bgvacations {

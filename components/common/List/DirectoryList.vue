@@ -16,14 +16,11 @@
           ? `list-${employees[0].id}`
           : 'empty-list-0'
       "
-      @item-clicked="tableItemClick"
     >
+    
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative">
-          <div
-            v-on:mouseover="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
-          >
+          <div>
             <bib-avatar
               variant="secondary-sub3"
               :text="getEmployeeInitials(data.value)"
@@ -39,7 +36,7 @@
               size="2.3rem"
             >
             </bib-avatar>
-            <div :id="'id_' + data.value.id" class="userCard">
+            <!-- <div :id="'id_' + data.value.id" class="userCard">
               <user-info-card
                 :user="data.value"
                 @viewProfile="viewProfile(data.value.id)"
@@ -47,10 +44,14 @@
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.presence === 'in'"
               ></user-info-card>
-            </div>
+            </div> -->
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="title" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div
+              class="title"
+              :title="getEmployeeFullName(data.value)"
+              :class="isLightThemeCheck ? 'text-dark' : 'light'"
+            >
               {{
                 getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
@@ -61,26 +62,42 @@
           </div>
         </div>
       </template>
-      
-      <template
-        v-for="(day, dayIndex) in employeeData"
-        #[`cell(${day.key})`]="data"
-      >
+      <template #cell(email)="data">
         <div class="cursor-pointer">
           <div class="justify-between">
-            <span>{{ getValue(data.value?.[day.key]) }}</span>
+            <span>{{ data.value?.email }}</span>
           </div>
+        </div>
+      </template>
+      <template #cell(status)="data">
+        <div class="cursor-pointer">
+          <chips-list
+            :title="getStatusTitle(data.value)"
+            iconShow="iconShow"
+            :className="[getStatusClass(data.value)]"
+          ></chips-list>
+        </div>
+      </template>
+      <template #cell(jobTitle)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            data.value.jobTitle
+          }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
-            data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
+            !data.value.hireDate ? "---" : onLoad(data.value.hireDate)
           }}</span>
         </div>
       </template>
-      <template #cell_action="data">
-        <bib-button pop="horizontal-dots" :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
+      <!-- <template #cell_action="data">
+        <bib-button
+          pop="horizontal-dots"
+          :iconVariant="isLightThemeCheck ? '' : 'light'"
+          @click.native.stop
+        >
           <template v-slot:menu>
             <div class="list">
               <span
@@ -93,7 +110,7 @@
             </div>
           </template>
         </bib-button>
-      </template>
+      </template> -->
     </bib-table>
   </div>
 </template>
@@ -126,12 +143,12 @@ export default {
   },
   data() {
     return {
-      tableFields: TABLE_HEAD.tHeadPeople,
+      tableFields: TABLE_HEAD.tHeadDirectory,
       attendanceClass: [],
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      employeeData: TABLE_HEAD.tHeadPeople.slice(2, 6),
+      employeeData: TABLE_HEAD.tHeadDirectory.slice(2, 6),
       peopleActionItems: PEOPLE_ACTION_ITEMS,
     };
   },
@@ -188,20 +205,39 @@ export default {
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
+    getStatusTitle(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in;
+      const outEntry = data.activityReport?.out;
+      const leaveRequest =
+        data.requests && data.requests.length > 0
+          ? data.requests[0].type
+          : null;
+      if (leaveRequest) {
+        return (
+          "On Leave" +
+          " - " +
+          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
+        );
+      }
+      if (inEntry && outEntry) {
+        return "Shift End";
+      }
 
-    viewProfile(id) {
-      this.$router.push("/profile/" + id);
+      if (timers.length > 0 || inEntry) {
+        return "Present";
+      }
+
+      return "Absent";
     },
-    callAction(data, value) {
-      if (value === "View Profile") return this.viewProfile(data.value.id);
-      if (value === "Send Message") return this.sendMessage(data.value.userId);
-      if (value === "Meet")
-        return this.makeCall(data.value.userId, this.getUser.userId);
-    },
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
+    getStatusClass(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in
+      if (timers.length || inEntry) {
+        return "chip-list-wrapper__sucess";
+      }
+
+      return "chip-list-wrapper__light";
     },
   },
 };

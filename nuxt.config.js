@@ -41,6 +41,7 @@ export default {
     "~/plugins/set-active-user",
     "~/plugins/employees/employee-role",
     '~/plugins/injectIsThemeCheck.js',
+    '~/plugins/leaveType.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

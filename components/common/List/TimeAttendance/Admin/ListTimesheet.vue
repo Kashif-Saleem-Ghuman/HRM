@@ -237,8 +237,7 @@ export default {
       if (typeof data.totalHours === "number") {
         return this.getFormattedHoursWithVacation(data, vacationName);
       }
-
-      return vacationName;
+      return this.$leaveTypeCheck(vacationName);
 
       return "--";
     },

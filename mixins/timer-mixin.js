@@ -92,11 +92,16 @@ export default {
     unregisterDefaultValueChronometer() {
       this.$root.$off(EmitValurChronometer);
     },
+    unRegisterUpdateTimerListener() {
+      this.$root.$off('update-timer');
+    },
     registerRootListeners() {
       this.registerDefaultValueChronometer();
+      this.registerUpdateTimerListener();
     },
     unregisterRootListeners() {
       this.unregisterDefaultValueChronometer();
+      this.unRegisterUpdateTimerListener();
     },
   },
   watch: {

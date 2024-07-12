@@ -1525,3 +1525,10 @@ export const MONTH_SELECTOR_ICONS = {
   ARROW_DOWN: 'arrowhead-down'
 }
 
+export const WELCOME_MESSAGE = {
+  MORNING: 'Good Morning!',
+  AFTERNOON: 'Good Afternoon!',
+  EVENING: 'Good Evening!',
+  NIGHT: 'Good Night!',
+}
+

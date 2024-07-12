@@ -147,6 +147,7 @@ export default {
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",
+      getTimerData: "timeattendance/getTimerData"
     }),
     activityReportsList() {
       return WEEK_DAY.map(({ label, value }, index) => {
@@ -171,6 +172,14 @@ export default {
     },
     statusValue() {
       return this.status;
+    },
+    isTimerActive() {
+      return this.getTimerData?.active
+    },
+    isSelectedDateCurrentWeek() {
+      const startWeek = DateTime.fromISO(this.startOfWeek).plus({days: 1});
+      const now = DateTime.now();
+      return startWeek.weekNumber === now.weekNumber && startWeek.year === now.year;
     },
   },
   methods: {
@@ -209,7 +218,17 @@ export default {
         ? "chip-wrapper__bgsucess text-bold"
         : "chip-wrapper__bggray disabled";
     },
+
     async submitButtonClicked() {
+
+      if(this.isTimerActive && this.isSelectedDateCurrentWeek) {
+        this.openPopupNotification({
+          text: "Please clock out to submit the timesheet",
+          variant: "danger"
+        })
+        return;
+      }
+
       const response = await this.submitTimesheet(this.id);
       if (response) {
         this.$emit("timesheet-submitted");

@@ -9,7 +9,7 @@ import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
-import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
+import {ACTIVITY_TYPE, MAX_TIMER_DURATION_HOUR, TIME_ENTRY_SOURCE} from "../utils/constant/Constant";
 import {
   getChronometerDuration,
   isDateToday,
@@ -21,7 +21,6 @@ export const state = () => ({
     end: null,
     type: null,
     active: null,
-    isPause: null,
   },
   breakTimer: {
     id: null,
@@ -59,25 +58,11 @@ export const mutations = {
   },
 
   SET_TIMER_DATA: (state, payload) => {
-    const { id, start, end, type, active, isPause } = payload;
-
-    state.timer.id = id;
-    state.timer.start = start || 0;
-    state.timer.end = end || 0;
-    state.timer.type = type;
-    state.timer.active = active || false;
-    state.timer.isPause = isPause || false;
+    state.timer = payload.timer;
   },
 
   SET_BREAK_TIMER_DATA: (state, payload) => {
-
-    const { id, start, end, type, active } = payload;
-
-    state.breakTimer.id = id || null;
-    state.breakTimer.start = start || null;
-    state.breakTimer.end = end || null;
-    state.breakTimer.type = type || null;
-    state.breakTimer.active = active || false;
+    state.breakTimer = payload.breakTimer;
   },
 
   RESET_TIME_ATTENDANCE_ENTRIES: (state, payload) => {
@@ -103,9 +88,6 @@ export const mutations = {
 };
 
 export const actions = {
-  setTimerPauseValue({state, commit}, payload) {
-    commit("SET_TIMER_DATA", {...state, isPause: payload});
-  },
   async getEmployeesAttendance({ state, commit }, payload) {
     try {
       const { date, searchString } = payload
@@ -137,12 +119,12 @@ export const actions = {
           end = timerStart.plus({ hours: MAX_TIMER_DURATION_HOUR }).toISO()
         }
       }
-      await stopTimer({ id: state.timer.id, end, activity: 'in', source: 'timer' })
+      await stopTimer({ id: state.timer.id, end, activity: ACTIVITY_TYPE.IN, source: TIME_ENTRY_SOURCE.SOURCE_TIMER })
     } catch (error) {
       console.error(error);
     }
-    commit("SET_TIMER_DATA", {})
-    commit('SET_BREAK_TIMER_DATA', {});
+    commit("SET_TIMER_DATA", {timer: {}})
+    commit('SET_BREAK_TIMER_DATA', {breakTimer: {}});
   },
 
 
@@ -153,7 +135,7 @@ export const actions = {
     } catch (error) {
       console.error(error);
     }
-    commit("SET_TIMER_DATA", {})
+    commit("SET_TIMER_DATA", { timer: {} })
   },
 
   async setTimerData(ctx, employeeId = '') {
@@ -169,7 +151,7 @@ export const actions = {
           },
         }
       );
-      ctx.commit("SET_TIMER_DATA", leaveVacations.data);
+      ctx.commit("SET_TIMER_DATA", { timer: leaveVacations.data });
       return leaveVacations.data;
     } catch (e) {
       console.log(e);
@@ -208,8 +190,8 @@ export const actions = {
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
 
         // Setting up the timer
-        ctx.commit("SET_TIMER_DATA", data?.activeTimeEntry || {});
-        ctx.commit('SET_BREAK_TIMER_DATA', data?.activeBreak || {});
+        ctx.commit("SET_TIMER_DATA", {timer: data?.activeTimeEntry || {}});
+        ctx.commit('SET_BREAK_TIMER_DATA', {breakTimer: data?.activeBreak || {}});
       }
       return data
     } catch (e) {

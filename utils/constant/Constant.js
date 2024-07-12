@@ -1342,7 +1342,7 @@ export const ACTIVITY_TYPE = {
   BREAK: "break",
 };
 
-export const TIME_ENTRY = {
+export const TIME_ENTRY_SOURCE = {
   SOURCE_MANUAL: "manual",
   SOURCE_TIMER: "timer"
 }

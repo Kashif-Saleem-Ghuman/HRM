@@ -1,26 +1,30 @@
-import {ACTIVITY_TYPE, TIME_ENTRY} from "@/utils/constant/Constant";
+import {
+  ACTIVITY_TYPE,
+  TIME_ENTRY_SOURCE,
+} from "@/utils/constant/Constant";
+import { TimeEntry } from "@/components/common/models/time_entry";
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 import {DateTime} from "luxon";
 
 function calculateBreakTotalChronometer(entries) {
   return entries.reduce((total, entry) => {
-    if (entry.activity === ACTIVITY_TYPE.BREAK && entry.source === TIME_ENTRY.SOURCE_TIMER) {
-      return total + getTimeDiffInSeconds(entry.start, entry.end ?? new Date());
+    if (entry.isActivityBreak() && entry.isSourceTimer()) {
+      return total + getTimeDiffInSeconds(entry.getStart(), entry.getEnd());
     }
     return total;
   }, 0);
 }
 export function getChronometerDuration(todayTimeEntries) {
-  const timeEntry = todayTimeEntries.find((entry) =>
-    entry.activity === ACTIVITY_TYPE.IN && entry.source === TIME_ENTRY.SOURCE_TIMER
-  );
+  const timeEntries = todayTimeEntries?.map(timeEntry => new TimeEntry(timeEntry));
 
-  if (!timeEntry || timeEntry.source == TIME_ENTRY.SOURCE_MANUAL) {
+  const inTimeEntry = timeEntries.find( (entry) => entry.isActivityIn() && entry.isSourceTimer() );
+
+  if (!inTimeEntry || inTimeEntry.isSourceManual()) {
     return 0;
   }
 
-  const timerChronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end ?? new Date());
-  const breakChronometer = calculateBreakTotalChronometer(todayTimeEntries);
+  const timerChronometer = getTimeDiffInSeconds(inTimeEntry.getStart(), inTimeEntry.getEnd());
+  const breakChronometer = calculateBreakTotalChronometer(timeEntries);
 
   return Math.max(0, timerChronometer - breakChronometer);
 }

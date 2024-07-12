@@ -146,20 +146,7 @@ export default {
       dateNow: DateTime.now().startOf('day'),
     };
   },
-  created() {
-    this.loading = true;
-    this.$root.$on("update-timer", () => {
-      this.timerRefresh += 1;
-      if (this.$store.state.token.isUser) {
-        this.$store.dispatch("timeattendance/setDailyTimeEntries");
-      } else {
-        this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-          employeeId: this.employeeId,
-          date: new Date().toISOString(),
-        });
-      }
-    });
-  },
+
   async mounted() {
     this.registerDefaultValueChronometer();
 
@@ -176,11 +163,34 @@ export default {
 
     this.loading = false;
   },
+  registerUpdateTimerListener() {
+    this.$root.$on("update-timer", () => {
+      this.timerRefresh += 1;
+      if (this.$store.state.token.isUser) {
+        this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      } else {
+        this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
+          employeeId: this.employeeId,
+          date: new Date().toISOString(),
+        });
+      }
+    });
+  },
+  unRegisterUpdateTimerListener() {
+    this.$root.$off('update-timer');
+  },
+  registerRootListener() {
+    this.registerUpdateTimerListener();
+  },
+  unRegisterRootListener() {
+    this.unRegisterUpdateTimerListener();
+  },
   beforeDestroy() {
     document.removeEventListener(
       "visibilitychange",
       this.handleVisibilityChange
     );
+    this.unRegisterRootListener();
   },
   methods: {
     close() {

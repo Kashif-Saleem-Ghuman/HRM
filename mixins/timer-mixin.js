@@ -15,7 +15,7 @@ export default {
       return this?.getTimerData?.active || false;
     },
     isBreakActive() {
-      return this.getBreakTimerData.active || false;
+      return this.getBreakTimerData?.active || false;
     },
 
     ...mapGetters({

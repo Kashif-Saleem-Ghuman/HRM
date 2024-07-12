@@ -24,30 +24,34 @@
         ></bib-button>
       </div>
       <div v-else class="d-flex justify-center gap-1">
-        <bib-button
-          :label="buttonLable"
-          :variant="buttonVariant"
-          :icon="icon"
-          @click="handleBreakInOutClick()"
-          class="button-wrapper-align w-100"
-          :disabled="isTimerLoading"
-        ></bib-button>
+        <div class="w-100">
+          <bib-button
+            :label="buttonLable"
+            :variant="buttonVariant"
+            :icon="icon"
+            @click="handleBreakInOutClick()"
+            class="button-wrapper-align w-100"
+            :disabled="isTimerLoading"
+          ></bib-button>
+        </div>
+        <div class="w-100" v-if="!active">
+          <bib-button
+            label="Absent"
+            variant="danger--outline"
+            class="button-wrapper-align w-100"
+            @click="handleClockInOutClick()"
+          ></bib-button>
+        </div>
+        <div class="w-100" v-if="active" @click="handleClockOutWrapperClick">
+          <bib-button
+            label="Clock out"
+            variant="light"
+            class="button-wrapper-align w-100"
+            @click="handleClockInOutClick()"
+            :disabled="isTimerLoading || isBreakActive"
+          ></bib-button>
+        </div>
 
-        <bib-button
-          label="Absent"
-          variant="danger--outline"
-          class="button-wrapper-align w-100"
-          @click="handleClockInOutClick()"
-          v-if="!active"
-        ></bib-button>
-        <bib-button
-          label="Clock out"
-          variant="light"
-          class="button-wrapper-align w-100"
-          @click="handleClockInOutClick()"
-          :disabled="isTimerLoading || isBreakActive"
-          v-if="active"
-        ></bib-button>
       </div>
       <div class="activity-wrapper">
         <div class="activity-item gap-1">
@@ -126,10 +130,6 @@ export default {
       type: String | DateTime | Date,
       default: null,
     },
-    isDailyEntryLoading: {
-      type: Boolean,
-      default: false,
-    }
   },
   data() {
     return {
@@ -142,6 +142,7 @@ export default {
       timerRefresh: 0,
       activityData: null,
       debounced: false,
+      clockoutDebounced: false,
       dateNow: DateTime.now().startOf('day'),
     };
   },
@@ -195,6 +196,11 @@ export default {
         this.debouncedNotification();
       }
     },
+    handleClockOutWrapperClick() {
+      if(this.isBreakActive) {
+        this.clockOutDebouncedNotification();
+      }
+    },
     debouncedNotification() {
       if (!this.debounced) {
         this.openPopupNotification({
@@ -204,6 +210,18 @@ export default {
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
+        }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
+      }
+    },
+    clockOutDebouncedNotification() {
+      if (!this.clockoutDebounced && !this.debounced) {
+        this.openPopupNotification({
+          text: "Please back to work to clock out",
+          variant: "danger",
+        });
+        this.clockoutDebounced = true;
+        setTimeout(() => {
+          this.clockoutDebounced = false;
         }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
       }
     },
@@ -257,22 +275,17 @@ export default {
             variant: "primary",
           });
         }
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
-
-        this.loading = false;
       } catch (error) {
         console.log(error);
+      } finally {
+        this.loading = false;
       }
     },
 
     async handleClockInOutClick() {
-      if(!this.isSelectedTodayDate) {
-        this.openPopupNotification({
-          text: "Please select today date",
-          variant: "danger",
-        });
-        return;
-      }
+
       try {
         if (this.active) {
           this.stopClick = true;
@@ -287,13 +300,6 @@ export default {
 
     },
     async handleBreakInOutClick() {
-      if(!this.isSelectedTodayDate) {
-        this.openPopupNotification({
-          text: "Please select today date",
-          variant: "danger",
-        });
-        return;
-      }
       try {
         if(!this.active)
           return false;
@@ -323,7 +329,7 @@ export default {
       return this.stopClick || this.disabled || this.isTimesheetLocked;
     },
     isTimerLoading() {
-      return this.loading || this.disabled || this.isDailyEntryLoading;
+      return this.loading || this.disabled;
     },
 
     stopWatchTime() {

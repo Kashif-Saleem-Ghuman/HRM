@@ -13,14 +13,14 @@ export default {
       const data = this.employeesAttendance;
       if (data) {
         const employees =
-          data?.filter((employee) => employee.isPresent()) || [];
+          data?.filter((employee) => employee.isOnLeave()) || [];
         this.setData(employees);
         this.setAvatars(employees);
       }
     },
     setData(employees = []) {
-      const title = "Present";
-      const subheading = "Ready to rock n'roll";
+      const title = "On Leave";
+      const subheading = "Taking Time Off";
       const value = employees.length || 0;
       this.data = {
         title,

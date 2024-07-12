@@ -18,4 +18,7 @@ export function Employee(employee) {
         timeEntry.activity === ACTIVITY_TYPE.IN && timeEntry.start
     );
   };
+  this.isOnLeave = () => {
+    return this.requests?.length > 0
+  }
 }

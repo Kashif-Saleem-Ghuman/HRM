@@ -38,6 +38,8 @@
       
           <present-widget avatars-position="bottom"></present-widget>
 
+          <on-leave avatars-position="bottom"></on-leave>
+
           <absent-widget avatars-position="bottom"></absent-widget>
           <!-- <celebrations-widget avatars-position="center"></celebrations-widget> -->
     </div>

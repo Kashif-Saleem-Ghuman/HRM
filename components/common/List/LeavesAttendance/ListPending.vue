@@ -74,7 +74,7 @@
     </template> -->
     <template #cell(type)="data">
       <div class="justify-between">
-        <span class="capitalize">{{ data.value.type }}</span>
+        <span class="capitalize">{{ $leaveTypeCheck(data.value.type) }}</span>
       </div>
     </template>
     <template #cell(start)="data">

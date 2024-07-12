@@ -3,10 +3,10 @@
     <div class="bib-board-card__header p-05 pr-0">
       <slot name="new_contact_section"></slot>
       <div class="bib-board-card__header--menu">
-        <!-- <bib-icon
+        <bib-icon
           icon="bookmark-solid"
           :variant="
-            this.isFavorite
+            isFavoriteReactive
               ? isLightThemeCheck
                 ? 'primary-24'
                 : 'success'
@@ -16,7 +16,7 @@
           "
           class="mr-05 cursor-pointer"
           @click.native.stop="handleFavorite"
-        ></bib-icon> -->
+        ></bib-icon>
         <slot name="card_menu"></slot>
       </div>
     </div>
@@ -57,7 +57,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      isFavoriteReactive: this.isFavorite,
+    };
   },
   computed: {
     classNames() {
@@ -72,13 +74,15 @@ export default {
   },
   methods: {
     handleFavorite() {
-      this.isFavorite
-        ? this.$emit("remove-favorite")
-        : this.$emit("add-favorite");
+      this.isFavoriteReactive = !this.isFavoriteReactive;
+      this.isFavoriteReactive
+        ? this.$emit("add-favorite")
+        : this.$emit("remove-favorite");
     },
   },
 };
 </script>
+
 <style lang="scss">
 .bib-board-card {
   position: relative;
@@ -95,12 +99,29 @@ export default {
       padding: 0.25rem 0.5rem;
     }
   }
-  &--items{
-    label{
-        font-size: 15px;
+  &--items {
+    label {
+      font-size: 15px;
     }
-    a{
-        color: $primary;
+    a {
+      color: $primary;
+    }
+    .button-wrapper-punch {
+      margin-left: -3px;
+      padding-top: 12px;
+      span {
+        border-radius: 16px;
+        padding: 4px 8px;
+        background-color: #eee;
+        &.online {
+          background-color: $gray4;
+          color: $success;
+        }
+        &.offline {
+          background-color: $gray4;
+          color: $dark;
+        }
+      }
     }
   }
   &--light-theme {

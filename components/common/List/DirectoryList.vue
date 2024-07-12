@@ -1,28 +1,26 @@
 <template>
-    <div class="position-relative h-300">
-      <bib-table
-        :fields="tableFields"
-        class="table"
-        :class="{
-          'table--light': isLightThemeCheck,
-          'table--dark': !isLightThemeCheck,
-        }"
-        :sections="employees"
-        :hide-no-column="true"
-        :fixHeader="true"
-        @column-header-clicked="headerColumnClick($event.column)"
-        :key="
-          employees?.length && employees[0]?.id
-            ? `list-${employees[0].id}`
-            : 'empty-list-0'
-        "
-        @item-clicked="tableItemClick"
-      >
+  <div class="position-relative h-300">
+    <bib-table
+      :fields="tableFields"
+      class="table"
+      :class="{
+        'table--light': isLightThemeCheck,
+        'table--dark': !isLightThemeCheck,
+      }"
+      :sections="employees"
+      :hide-no-column="true"
+      :fixHeader="true"
+      @column-header-clicked="headerColumnClick($event.column)"
+      :key="
+        employees?.length && employees[0]?.id
+          ? `list-${employees[0].id}`
+          : 'empty-list-0'
+      "
+    >
+    
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative">
-          <div
-           
-          >
+          <div>
             <bib-avatar
               variant="secondary-sub3"
               :text="getEmployeeInitials(data.value)"
@@ -49,7 +47,11 @@
             </div> -->
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="title" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div
+              class="title"
+              :title="getEmployeeFullName(data.value)"
+              :class="isLightThemeCheck ? 'text-dark' : 'light'"
+            >
               {{
                 getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
@@ -60,159 +62,172 @@
           </div>
         </div>
       </template>
-        <template
-          v-for="(day, dayIndex) in employeeData"
-          #[`cell(${day.key})`]="data"
+      <template #cell(email)="data">
+        <div class="cursor-pointer">
+          <div class="justify-between">
+            <span>{{ data.value?.email }}</span>
+          </div>
+        </div>
+      </template>
+      <template #cell(status)="data">
+        <div class="cursor-pointer">
+          <chips-list
+            :title="getStatusTitle(data.value)"
+            iconShow="iconShow"
+            :className="[getStatusClass(data.value)]"
+          ></chips-list>
+        </div>
+      </template>
+      <template #cell(jobTitle)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            data.value.jobTitle
+          }}</span>
+        </div>
+      </template>
+      <template #cell(hiredate)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            !data.value.hireDate ? "---" : onLoad(data.value.hireDate)
+          }}</span>
+        </div>
+      </template>
+      <!-- <template #cell_action="data">
+        <bib-button
+          pop="horizontal-dots"
+          :iconVariant="isLightThemeCheck ? '' : 'light'"
+          @click.native.stop
         >
-          <div class="cursor-pointer">
-            <div class="justify-between">
-              <span>{{ getValue(data.value?.[day.key]) }}</span>
+          <template v-slot:menu>
+            <div class="list">
+              <span
+                class="list__item"
+                v-for="item in peopleActionItems"
+                @click.stop="callAction(data, item)"
+                :class="isLightThemeCheck ? 'text-black' : 'text-white'"
+                >{{ item }}</span
+              >
             </div>
-          </div>
-        </template>
-        <!-- <template #cell(status)="data">
-      <div class="cursor-pointer">
-        <chips-list
-          :title="getStatusTitle(data.value)"
-          iconShow="iconShow"
-          icon="add"
-          :className="[getStatusClass(data.value)]"
-        ></chips-list>
-      </div>
-    </template> -->
-        <template #cell(hiredate)="data">
-          <div class="justify-between cursor-pointer">
-            <span>{{
-              data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
-            }}</span>
-          </div>
-        </template>
-        <template #cell_action="data">
-          <bib-button pop="horizontal-dots" :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
-            <template v-slot:menu>
-              <div class="list">
-                <span
-                  class="list__item"
-                  v-for="item in peopleActionItems"
-                  @click.stop="callAction(data, item)"
-                  :class="isLightThemeCheck ? 'text-black' : 'text-white'"
-                  >{{ item }}</span
-                >
-              </div>
-            </template>
-          </bib-button>
-        </template>
-      </bib-table>
-    </div>
-  </template>
-  
-  <script>
-  import { mapGetters } from "vuex";
-  import fecha, { format } from "fecha";
-  import {
-    TABLE_HEAD,
-    PEOPLE_ACTION_ITEMS,
-  } from "../../../utils/constant/Constant.js";
-  import {
+          </template>
+        </bib-button>
+      </template> -->
+    </bib-table>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+import fecha, { format } from "fecha";
+import {
+  TABLE_HEAD,
+  PEOPLE_ACTION_ITEMS,
+} from "../../../utils/constant/Constant.js";
+import {
+  sendMessage,
+  handleItemClick_Table,
+  meetLink,
+  makeCall,
+} from "../../../utils/functions/functions_lib";
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "../../../utils/functions/common_functions";
+
+import { sortColumn } from "../../../utils/functions/table-sort";
+export default {
+  props: {
+    userList: {
+      type: Array,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      tableFields: TABLE_HEAD.tHeadDirectory,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+      sortByField: null,
+      employeeData: TABLE_HEAD.tHeadDirectory.slice(2, 6),
+      peopleActionItems: PEOPLE_ACTION_ITEMS,
+    };
+  },
+  created() {
+    this.$store.dispatch("teams/setTeamListOptions");
+  },
+  computed: {
+    employees() {
+      if (!this.sortByField) return this.userList;
+
+      return sortColumn({ items: this.userList, field: this.sortByField });
+    },
+    truncateText() {
+      var screenWidth = window.screen.width;
+      if (screenWidth >= "1920") {
+        return 40;
+      } else {
+        return 25;
+      }
+    },
+    ...mapGetters({
+      getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
+  },
+  methods: {
     sendMessage,
     handleItemClick_Table,
-    meetLink,
-    makeCall,
-  } from "../../../utils/functions/functions_lib";
-  import {
     getEmployeeFullName,
     getEmployeeInitials,
-  } from "../../../utils/functions/common_functions";
-  
-  import { sortColumn } from "../../../utils/functions/table-sort";
-  export default {
-    props: {
-      userList: {
-        type: Array,
-        default: "",
-      },
+    meetLink,
+    makeCall,
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false;
+      }
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
     },
-    data() {
-      return {
-        tableFields: TABLE_HEAD.tHeadDirectory,
-        attendanceClass: [],
-        satisfaction: "",
-        userPhotoClick: false,
-        sortByField: null,
-        employeeData: TABLE_HEAD.tHeadDirectory.slice(2, 6),
-        peopleActionItems: PEOPLE_ACTION_ITEMS,
-      };
+    getValue(value) {
+      return value ?? "--";
     },
-    created() {
-      this.$store.dispatch("teams/setTeamListOptions");
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
-    computed: {
-      employees() {
-        if (!this.sortByField) return this.userList;
-  
-        return sortColumn({ items: this.userList, field: this.sortByField });
-      },
-      truncateText() {
-        var screenWidth = window.screen.width;
-        if (screenWidth >= "1920") {
-          return 40;
-        } else {
-          return 25;
-        }
-      },
-      ...mapGetters({
-        getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-        getUser: "employee/GET_ACTIVE_USER",
-      }),
+    tableItemClick(event, key, item) {
+      const id = item?.id;
+      if (id) {
+        this.viewProfile(id);
+      }
     },
-    methods: {
-      sendMessage,
-      handleItemClick_Table,
-      getEmployeeFullName,
-      getEmployeeInitials,
-      meetLink,
-      makeCall,
-      sortColumn(columnKey) {
-        if (this.sortByField && this.sortByField.key != columnKey) {
-          this.sortByField.header_icon.isActive = false;
-        }
-        const field = this.tableFields.find((field) => field.key === columnKey);
-        field.header_icon.isActive = !field.header_icon.isActive;
-        this.sortByField = field;
-      },
-      getValue(value) {
-        return value ?? "--";
-      },
-      headerColumnClick(column) {
-        this.sortColumn(column);
-      },
-      tableItemClick(event, key, item) {
-        const id = item?.id;
-        if (id) {
-          this.viewProfile(id);
-        }
-      },
-  
-      onLoad(item) {
-        return fecha.format(new Date(item), "DD-MMM-YYYY");
-      },
-      getStatusTitle(data) {
+
+    onLoad(item) {
+      return fecha.format(new Date(item), "DD-MMM-YYYY");
+    },
+    getStatusTitle(data) {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
-      const leaveRequest = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
+      const leaveRequest =
+        data.requests && data.requests.length > 0
+          ? data.requests[0].type
+          : null;
       if (leaveRequest) {
-        return 'On Leave' + " - " + (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1));
+        return (
+          "On Leave" +
+          " - " +
+          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
+        );
       }
-      if ( inEntry && outEntry)
-      {
-        return "Shift End"
+      if (inEntry && outEntry) {
+        return "Shift End";
       }
 
       if (timers.length > 0 || inEntry) {
         return "Present";
       }
-      
+
       return "Absent";
     },
     getStatusClass(data) {
@@ -224,40 +239,25 @@
 
       return "chip-list-wrapper__light";
     },
-      viewProfile(id) {
-        this.$router.push("/profile/" + id);
-      },
-      callAction(data, value) {
-        if (value === "View Profile") return this.viewProfile(data.value.id);
-        if (value === "Send Message") return this.sendMessage(data.value.userId);
-        if (value === "Meet")
-          return this.makeCall(data.value.userId, this.getUser.userId);
-      },
-      profiletab(name, isLeave) {
-        document.querySelector("#" + name).style.display = isLeave
-          ? "none"
-          : "block";
-      },
-    },
-  };
-  </script>
-  
-  <style lang="scss">
-  .info_wrapper {
-    color: $black;
-    font-weight: normal;
-  }
-  
-  .title {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-  }
-  
-  .description {
-    font-size: 14px;
-    font-weight: normal;
-    color: $black;
-  }
-  </style>
-  
+  },
+};
+</script>
+
+<style lang="scss">
+.info_wrapper {
+  color: $black;
+  font-weight: normal;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: normal;
+  color: $black;
+}
+</style>

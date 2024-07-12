@@ -14,17 +14,18 @@
 <script>
 import { mapGetters } from "vuex";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getEmployees } from "@/utils/functions/api_call/employees";
+import fecha, { format } from "fecha";
 
 export default {
   data() {
     return {
       employees: [],
       loading: true,
+      getCurrentDate: fecha.format(new Date(), "YYYY-MM-DD"),
     };
   },
   async created() {
-    this.getCurrentDate = this.date2;
+    // this.getCurrentDate = this.date2;
   },
 
   computed: {
@@ -51,9 +52,8 @@ export default {
 
   methods: {
     async getOrganizationEntries() {
-      this.loading = true;
-      const data = await getEmployees();
-      const employees = data.employees;
+      const date = this.getCurrentDate;
+      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
 
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
@@ -61,23 +61,7 @@ export default {
       });
 
       this.employees = employees;
-      this.loading = false;
-    },
-    sendMeet() {
-      window.open("https://dev-connect.business-in-a-box.com/", "_blank");
-    },
-    sendMessage() {
-      window.open(
-        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
-        "_blank"
-      );
-    },
-    userId(id) {
-      if (id) {
-        this.$router.push("/profile/" + id);
-      } else {
-        this.$router.push("/profile/");
-      }
+      this.loading = false
     },
   },
 };

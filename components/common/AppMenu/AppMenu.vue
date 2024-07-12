@@ -234,6 +234,15 @@ export default {
       );
       leaveNavItem.selected = true;
     },
+    openRequestMedical() {
+      this.$nuxt.$emit("open-sidebar-admin", "medical");
+      this.$nuxt.$emit("add-leave");
+      this.resetAllSelectedNavItems();
+      const leaveNavItem = this.appWrapItems.navItemsUser.find(
+        (navItem) => navItem.key === "leave-vacations"
+      );
+      leaveNavItem.selected = true;
+    },
 
     resetSelected(navItems) {
       navItems.forEach((item) => {
@@ -252,7 +261,7 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave") this.closeSidebar();
+      if (item.key != "requestVacation" && item.key != "requestLeave" && item.key != "requestMedical") this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

@@ -168,16 +168,16 @@ export const TABLE_HEAD = {
         type: "string",
       },
     },
-    // {
-    //   key: "status",
-    //   label: "Status",
-    //   header_icon: {
-    //     icon: "long-arrow-up",
-    //     isActive: false,
-    //     sortKey: "status",
-    //     type: "string",
-    //   },
-    // },
+    {
+      key: "status",
+      label: "Status",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "presence",
+        type: "string",
+      },
+    },
     {
       key: "jobTitle",
       label: "Job Title",
@@ -188,16 +188,16 @@ export const TABLE_HEAD = {
         type: "string",
       },
     },
-    {
-      key: "department",
-      label: "Department",
-      header_icon: {
-        icon: "long-arrow-up",
-        isActive: false,
-        sortKey: "department",
-        type: "string",
-      },
-    },
+    // {
+    //   key: "department",
+    //   label: "Department",
+    //   header_icon: {
+    //     icon: "long-arrow-up",
+    //     isActive: false,
+    //     sortKey: "department",
+    //     type: "string",
+    //   },
+    // },
     {
       key: "hiredate",
       label: "Hire Date",
@@ -1456,13 +1456,13 @@ export const REQUEST_STATUS = {
 
 export const REQUEST_TYPE_OPTIONS = {
   [REQUEST_TYPES.LEAVE]: {
-    label: "Request Leave",
+    label: "Request Unpaid Leave",
     value: "request_leave",
     icon: "exit-to-app-solid",
     type: REQUEST_TYPES.LEAVE,
   },
   [REQUEST_TYPES.VACATION]: {
-    label: "Request Vacation",
+    label: "Request Paid Time-Off",
     value: "request_vacation",
     icon: "airplane",
     type: REQUEST_TYPES.VACATION,

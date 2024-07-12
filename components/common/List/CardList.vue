@@ -27,7 +27,14 @@
             </bib-popup>
           </template>
           <template #user_data>
-            <div class="d-flex pb-1" :class="isLightThemeCheck ? 'border-bottom-gray2' : 'border-bottom-dark-sub1'">
+            <div
+              class="d-flex pb-1"
+              :class="
+                isLightThemeCheck
+                  ? 'border-bottom-gray2'
+                  : 'border-bottom-dark-sub1'
+              "
+            >
               <div style="min-width: 70px">
                 <bib-avatar
                   variant="secondary-sub2"
@@ -59,11 +66,13 @@
                 >
                   {{ item.jobTitle }}
                 </div>
-                <div
-                  class="font-md font-w-500"
-                  :class="isLightThemeCheck ? 'text-dark1' : 'text-gray4'"
-                >
-                  <a :href="'mailto:' + item.email">{{ item.email }}</a>
+                <div class="button-wrapper-punch">
+                  <span
+                    :class="getStatusClass(item)"
+                    @click="$emit('punchedIn')"
+                  >
+                    {{ getStatusTitle(item) }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -71,14 +80,20 @@
           <template #card_footer>
             <div class="d-flex gap-05">
               <div
-                class="bg-gray2 p-05 shape-circle d-flex align-center space-between"
+                class="bg-gray2 p-05 shape-circle d-flex align-center space-between cursor-pointer"
+                @click="sendMessage(item.userId)"
               >
-                <bib-icon icon="chat" variant="primary"></bib-icon>
+                <bib-icon icon="chat" variant="secondary" :scale="1"></bib-icon>
               </div>
               <div
-                class="bg-gray2 p-05 shape-circle d-flex align-center space-between"
+                class="bg-gray2 p-05 shape-circle d-flex align-center space-between cursor-pointer"
+                @click="makeCall(getUser.userId, getUser.userId)"
               >
-                <bib-icon icon="phone" variant="primary"></bib-icon>
+                <bib-icon
+                  icon="phone"
+                  variant="secondary"
+                  :scale="0.8"
+                ></bib-icon>
               </div>
             </div>
           </template>
@@ -87,53 +102,81 @@
     </div>
   </div>
 </template>
+
 <script>
-import { mapGetters } from "vuex";
-import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { getEmployees } from "@/utils/functions/api_call/employees";
 import {
   getEmployeeFullName,
   getEmployeeInitials,
 } from "@/utils/functions/common_functions";
+import {
+  sendMessage,
+  meetLink,
+  makeCall,
+} from "@/utils/functions/functions_lib";
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     userList: {
       type: Array,
-      default: "",
+      default: () => [],
     },
   },
   data() {
     return {
-      employees: [],
       loading: true,
     };
   },
-
   computed: {
     ...mapGetters({
-      getAccessToken: "token/getAccessToken",
-      activeTabSidebar: "token/getActiveTab",
+      getUser: "employee/GET_ACTIVE_USER",
     }),
   },
-  mounted() {
-    // this.getOrganizationEntries();
-  },
-
   methods: {
     getEmployeeFullName,
     getEmployeeInitials,
-    async getOrganizationEntries() {
-      this.loading = true;
-      const data = await getEmployees();
-      const employees = data.employees;
+    sendMessage,
+    meetLink,
+    makeCall,
+    isOnline(user) {
+      return user.presence && user.presence === "in";
+    },
+    getOnlineStatusClass(user) {
+      return this.isOnline(user) ? "online" : "offline";
+    },
+    getStatusTitle(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in;
+      const outEntry = data.activityReport?.out;
+      const leaveRequest =
+        data.requests && data.requests.length > 0
+          ? data.requests[0].type
+          : null;
+      if (leaveRequest) {
+        return (
+          "On Leave" +
+          " - " +
+          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
+        );
+      }
+      if (inEntry && outEntry) {
+        return "Shift End";
+      }
 
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("day");
-      });
+      if (timers.length > 0 || inEntry) {
+        return "Present";
+      }
 
-      this.employees = employees;
-      this.loading = false;
+      return "Absent";
+    },
+    getStatusClass(data) {
+      const timers = data.timers ?? [];
+      const inEntry = data.activityReport?.in;
+      if (timers.length || inEntry) {
+        return "online";
+      }
+
+      return "offline";
     },
   },
 };

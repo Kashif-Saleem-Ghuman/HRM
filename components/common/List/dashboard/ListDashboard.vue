@@ -197,7 +197,7 @@ export default {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
-      const leaveRequest = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
+      const leaveRequest = data.requests && data.requests.length > 0 ? this.$leaveTypeCheck(data.requests[0].type) : null;
       if (leaveRequest) {
         return 'On Leave' + " - " + (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1));
       }

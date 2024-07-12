@@ -61,6 +61,7 @@
           </div>
         </div>
       </template>
+      
       <template
         v-for="(day, dayIndex) in employeeData"
         #[`cell(${day.key})`]="data"

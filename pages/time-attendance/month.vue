@@ -20,7 +20,6 @@
           :loading="loading"
           :is-full-year-list="isFullYearList"
           @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
-          @week-view="redirectWeekView"
         ></month-list>
       </div>
     </div>
@@ -82,14 +81,6 @@ export default {
     },
     async onWeeklyTimesheetSubmitted() {
       await this.fillTimesheetEntries();
-    },
-    async redirectWeekView(item) {
-      const {start, end} = item;
-      this.$set(this.weekDates, 'from', getWeekStart(start));
-      this.$set(this.weekDates, 'to', getWeekEnd(end));
-
-      this.$router.push({ query: { view: "week" } });
-      await this.fillWeeklyTimeEntries();
     },
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;

@@ -137,6 +137,7 @@ export default {
         this.sortByField.header_icon.isActive = false;
       }
       const field = this.tableFields.find((field) => field.key === columnKey);
+      console.log(columnKey, field, "sortByFieldsortByFieldsortByFieldsortByFieldsortByField")
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },

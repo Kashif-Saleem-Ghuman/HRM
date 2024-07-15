@@ -9,7 +9,7 @@ export default ({ app, store }, inject) => {
       } else if (lowerCaseType === "vacation") {
         return "Paid time-off";
       } else {
-        return lowerCaseType;
+        return lowerCaseType.charAt(0).toUpperCase() + lowerCaseType.slice(1);
       }
     };
   

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!monthPickerDisabled">
     <div class="drop-menu">
       <div class="position-relative" @mouseleave="handleMouseLeave">
         <bib-button
@@ -37,7 +37,15 @@ export default {
   props: {
     year: {
       type: Number,
-    }
+    },
+    monthPickerDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    showFullYearList: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -61,9 +69,6 @@ export default {
       }
       return this.options;
     },
-    isAdmin() {
-      return this.$store.state.token.isAdmin
-    },
     isFromTimesheetViewCard() {
       return this.$store.state.timeattendance.viewFrom
     },
@@ -80,7 +85,7 @@ export default {
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
-      if(this.isAdmin || this.isFromTimesheetViewCard) {
+      if(this.showFullYearList || this.isFromTimesheetViewCard || this.monthPickerDisabled) {
         this.setDefaultMonth();
       }else {
         const month = new Date().getMonth();

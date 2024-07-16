@@ -2,7 +2,7 @@
   <div class="d-flex" :class="isLightThemeCheck ? 'light-theme' : 'dark-theme'">
     <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
-        <label>Good Morning! Please Clock-In</label>
+        <label>{{ getWelcomeMessage()}}</label>
       </div>
       <div class="info-card-items">
         <div>
@@ -103,7 +103,7 @@ import {
   deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
 import {getBreakTimerDuration} from "@/utils/functions/timer";
-import {FILL_DAILY_ENTRY_EVENT} from "@/utils/constant/Constant";
+import {FILL_DAILY_ENTRY_EVENT, WELCOME_MESSAGE} from "@/utils/constant/Constant";
 import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 export default {
   mixins: [timerMixin],
@@ -146,22 +146,9 @@ export default {
       dateNow: DateTime.now().startOf('day'),
     };
   },
-  created() {
-    this.loading = true;
-    this.$root.$on("update-timer", () => {
-      this.timerRefresh += 1;
-      if (this.$store.state.token.isUser) {
-        this.$store.dispatch("timeattendance/setDailyTimeEntries");
-      } else {
-        this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-          employeeId: this.employeeId,
-          date: new Date().toISOString(),
-        });
-      }
-    });
-  },
+
   async mounted() {
-    this.registerDefaultValueChronometer();
+    this.registerRootListeners();
 
     if (!this.$store.state.token.isUser) {
       await this.$store.dispatch(
@@ -176,11 +163,13 @@ export default {
 
     this.loading = false;
   },
+
   beforeDestroy() {
     document.removeEventListener(
       "visibilitychange",
       this.handleVisibilityChange
     );
+    this.unregisterRootListeners();
   },
   methods: {
     close() {
@@ -195,6 +184,27 @@ export default {
       if (this.disabled) {
         this.debouncedNotification();
       }
+    },
+    getWelcomeMessage() {
+      const now = DateTime.local();
+      const hour = now.hour;
+      let partOfDay = '';
+
+      switch (true) {
+        case (hour >= 5 && hour < 12):
+          partOfDay = WELCOME_MESSAGE.MORNING
+          break;
+        case (hour >= 12 && hour < 17):
+          partOfDay = WELCOME_MESSAGE.AFTERNOON
+          break;
+        case (hour >= 17 && hour < 21):
+          partOfDay = WELCOME_MESSAGE.EVENING
+          break;
+        default:
+          partOfDay = WELCOME_MESSAGE.NIGHT
+      }
+      const clockMessage = this.disabled ? '' : !this.active ? ' Please Clock-In' : ' Please Clock-Out';
+      return partOfDay + clockMessage;
     },
     handleClockOutWrapperClick() {
       if(this.isBreakActive) {
@@ -316,6 +326,20 @@ export default {
         this.startTimerInterval(true);
       }
     },
+
+    registerUpdateTimerListener() {
+      this.$root.$on("update-timer", () => {
+        this.timerRefresh += 1;
+        if (this.$store.state.token.isUser) {
+          this.$store.dispatch("timeattendance/setDailyTimeEntries");
+        } else {
+          this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
+            employeeId: this.employeeId,
+            date: new Date().toISOString(),
+          });
+        }
+      });
+    },
   },
   computed: {
     isTimesheetLocked() {
@@ -350,11 +374,6 @@ export default {
     },
     buttonLable() {
       if (this.$store.state.token.isUser) {
-        console.log(
-          "isBreakActive",
-          this.isBreakActive,
-          this?.getDailyTimeEntries.start
-        );
         if (this.active && !this.isBreakActive) return "Take a break";
         if (this.active && this.isBreakActive) return "Back to work";
       } else if (this.$store.state.token.isAdmin) {

@@ -879,14 +879,24 @@ export const LEAVEVACATION_TAB = [
 ];
 export const TIME_ATTENDANCE_TAB = [
   {
-    title: "Attendance",
-    value: "Attendance",
+    title: "Today",
+    value: "Today",
     route: "/time-attendance/attendance/",
   },
   {
-    title: "Timesheets",
-    value: "Timesheets",
+    title: "Week",
+    value: "Week",
     route: "/time-attendance/timesheets/",
+  },
+  {
+    title: "Month",
+    value: "Month",
+    route: "/time-attendance/month/",
+  },
+  {
+    title: "Year",
+    value: "Year",
+    route: "/time-attendance/year/",
   },
   {
     title: "Pending",
@@ -1528,7 +1538,7 @@ export const ACTIVITY_TYPE = {
   BREAK: "break",
 };
 
-export const TIME_ENTRY = {
+export const TIME_ENTRY_SOURCE = {
   SOURCE_MANUAL: "manual",
   SOURCE_TIMER: "timer"
 }
@@ -1630,5 +1640,12 @@ export const PAST_DUE_TYPE = "past_due";
 export const MONTH_SELECTOR_ICONS = {
   CLOSE: 'close',
   ARROW_DOWN: 'arrowhead-down'
+}
+
+export const WELCOME_MESSAGE = {
+  MORNING: 'Good Morning!',
+  AFTERNOON: 'Good Afternoon!',
+  EVENING: 'Good Evening!',
+  NIGHT: 'Good Night!',
 }
 

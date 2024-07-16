@@ -15,7 +15,7 @@ export default {
       return this?.getTimerData?.active || false;
     },
     isBreakActive() {
-      return this.getBreakTimerData.active || false;
+      return this.getBreakTimerData?.active || false;
     },
 
     ...mapGetters({
@@ -92,11 +92,16 @@ export default {
     unregisterDefaultValueChronometer() {
       this.$root.$off(EmitValurChronometer);
     },
+    unRegisterUpdateTimerListener() {
+      this.$root.$off('update-timer');
+    },
     registerRootListeners() {
       this.registerDefaultValueChronometer();
+      this.registerUpdateTimerListener();
     },
     unregisterRootListeners() {
       this.unregisterDefaultValueChronometer();
+      this.unRegisterUpdateTimerListener();
     },
   },
   watch: {

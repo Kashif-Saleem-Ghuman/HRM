@@ -42,6 +42,11 @@ export const getLeaveStatusIconVariant = (type) => getTypeMapValue(type, {
   vacation:'airplane-solid',
   other: 'add'
 });
+export const getLeaveStatusClass = (type) => getTypeMapValue(type, {
+  approved: "chip-wrapper-bg__bgsucess",
+  pending: "chip-wrapper-bg__bgabsent",
+  rejected:'chip-wrapper-bg__bgdanger',
+});
 
 export const getFileExtension = (icon) => {
   const lowercaseIcon = icon.toLowerCase(); 

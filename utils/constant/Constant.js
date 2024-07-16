@@ -20,6 +20,7 @@ export const TABLE_HEAD = {
     {
       key: "status",
       label: "Status",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-status-sort",

@@ -88,14 +88,14 @@
           @click="leaveDetail(data.value)"
         >
           <div class="font-md d-flex align-center">
-            <bib-icon
-              :icon="getLeaveStatusIcon(data.value.status)"
-              :variant="getStatusIconVariant(data.value.status)"
-              class="mr-025"
-            ></bib-icon>
-            <aside :class="getTextVariant(data.value.status)">
-              {{ getStatusLabel(data.value.status) }}
-            </aside>
+            <chips
+              :icon="$getLeaveStatusIcon(data.value.status)"
+              :variant="$getStatusIconVariant(data.value.status)"
+              :iconShowRight="true"
+              :title="$getStatusLabel(data.value.status)"
+              :class="$getLeaveStatusClass(data.value.status)"
+              class="chip-wrapper-bg chip-wrapper-bg__shape-round"
+            ></chips>
           </div>
         </div>
       </template>

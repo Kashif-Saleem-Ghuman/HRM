@@ -8,20 +8,26 @@
         centerAlign ? 'd-align' : '',
         variant,
         className,
-
       ]"
       class="chip-wrapper"
-      
       @click="$emit('on-click')"
     >
       <bib-icon
-        v-if="iconShow"
+        v-if="iconShowLeft"
         :icon="icon"
         :variant="variantIcon"
         :scale="1"
-       class="mr-05"
+        class="mr-05"
       ></bib-icon>
       <span>{{ title }}</span>
+      <bib-icon
+        v-if="iconShowRight"
+        :icon="icon"
+        :variant="variantIcon"
+        :scale="1"
+        class="ml-05"
+        style="margin-right: -5px"
+      ></bib-icon>
     </div>
   </div>
 </template>
@@ -34,13 +40,16 @@ export default {
   name: "Chips",
   props: {
     title: {
-      type:[String,Number],
+      type: [String, Number],
     },
     icon: {
       type: String,
     },
-    iconShow: {
-      type: String,
+    iconShowLeft: {
+      type: Boolean,
+    },
+    iconShowRight: {
+      type: Boolean,
     },
     scale: {
       type: Number,
@@ -70,9 +79,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    centerAlign:{
-      type:String
-    }
+    centerAlign: {
+      type: String,
+    },
   },
   data() {
     return {};
@@ -80,14 +89,8 @@ export default {
 };
 </script>
 <style lang="scss">
-.chip-wrapper-bg-same {
-  border-radius: 1rem;
-  padding: 4px 8px;
-  margin-right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $secondary-sub3;
+.chip-wrapper-bg {
+  min-width: 112px !important;
 
   &__shape-circle {
     width: 3rem;
@@ -95,46 +98,48 @@ export default {
     border-radius: 50%;
   }
   &__shape-round {
-    width: 3rem;
-    height: 3rem;
     border-radius: 5px;
   }
 
   &__bgsucess {
-    // background-color: #d5e8d4;
+    background-color: #ddf0dc;
+    border: solid 1px $success;
+    color: $success;
     svg {
       fill: $success !important;
     }
     span {
-      color: $success;
+      color: $success !important;
       font-weight: 500;
       font-size: 14px;
     }
   }
   &__bgabsent {
-    // background-color: rgba(255, 171, 0, 0.16);
+    background-color: #fff2d6;
+    border: solid 1px #ffab00;
+
     svg {
       fill: #ffab00 !important;
     }
     span {
-      color: #ffab00;
+      color: #ffab00 !important;
       font-weight: 500;
       font-size: 14px;
     }
   }
   &__bgvacation {
-    // background-color: rgba(31, 66, 162, 0.16);
+    background-color: rgba(31, 66, 162, 0.16);
     svg {
       fill: $primary !important;
     }
     span {
-      color:  $primary;
+      color: $primary;
       font-weight: 500;
       font-size: 14px;
     }
   }
-  &__bgabsentpink {
-    // background-color: rgba(230, 0, 14, 0.16);
+  &__bgdanger {
+    background-color: rgba(230, 0, 14, 0.16);
     svg {
       fill: #e6000e !important;
     }
@@ -146,13 +151,14 @@ export default {
   }
 }
 .chip-wrapper {
-  display:flex;
+  display: flex;
   text-align: center;
+  justify-content: space-between;
   width: 100%;
   border-radius: 6px;
-  padding:  8px 15px 8px 8px;
+  padding: 8px 15px 8px 8px;
   align-items: center;
-  
+
   &__shape-circle {
     width: 3rem;
     height: 3rem;
@@ -207,10 +213,10 @@ export default {
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
     svg {
-      fill:  $primary !important;
+      fill: $primary !important;
     }
     span {
-      color:  $primary;
+      color: $primary;
       font-weight: 400;
       font-size: 14px;
     }
@@ -285,7 +291,7 @@ export default {
     height: 3rem;
     border-radius: 5px;
   }
-  &__bg_success{
+  &__bg_success {
     color: $success;
     svg {
       fill: $success !important;
@@ -319,11 +325,11 @@ export default {
     font-weight: 400;
   }
 }
-.width-auto{
+.width-auto {
   width: auto !important;
   min-width: 150px !important;
 }
-.padding-0{
+.padding-0 {
   padding: 0 !important;
 }
 </style>

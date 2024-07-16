@@ -42,6 +42,8 @@ export default {
     "~/plugins/employees/employee-role",
     '~/plugins/injectIsThemeCheck.js',
     '~/plugins/leaveType.js',
+    '~/plugins/statusHelpers.js',
+    '~/plugins/leaveDetails.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

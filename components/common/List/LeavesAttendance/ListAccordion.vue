@@ -12,6 +12,7 @@
       }"
       class="table"
       cellspacing="0"
+      :fixHeader="true"
     >
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative">
@@ -59,45 +60,44 @@
         </div>
       </template>
       <template #cell(type)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between cursor-pointer" @click="$leaveDetail(data.value, this)">
           <span>{{ $leaveTypeCheck(data.value.type) }}</span>
         </div>
       </template>
       <template #cell(from)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between cursor-pointer" @click="$leaveDetail(data.value, this)">
           <span>{{ onLoad(data.value.request.start) }}</span>
         </div>
       </template>
       <template #cell(to)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between cursor-pointer" @click="$leaveDetail(data.value, this)">
           <span>{{ onLoad(data.value?.request.end) }}</span>
         </div>
       </template>
       <template #cell(total)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between cursor-pointer" @click="$leaveDetail(data.value, this)">
           <span>{{ formatDuration(data.value.duration) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
         <div
           class="d-flex align-center cursor-pointer"
-         
-          @click="leaveDetail(data.value)"
+          @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
-            <bib-icon
-              :icon="getLeaveStatusIcon(data.value.status)"
-              :variant="getStatusIconVariant(data.value.status)"
-              class="mr-025"
-            ></bib-icon>
-            <aside :class="getTextVariant(data.value.status)">
-              {{ getStatusLabel(data.value.status) }}
-            </aside>
+            <chips
+              :icon="$getLeaveStatusIcon(data.value.status)"
+              :variant="$getStatusIconVariant(data.value.status)"
+              :iconShowRight="true"
+              :title="$getStatusLabel(data.value.status)"
+              :class="$getLeaveStatusClass(data.value.status)"
+              class="chip-wrapper-bg chip-wrapper-bg__shape-round"
+            ></chips>
           </div>
         </div>
       </template>
       <template #cell(received)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between">
           <span>{{ onLoad(data.value.start) }}</span>
         </div>
       </template>
@@ -121,12 +121,6 @@ import {
   makeCall,
 } from "../../../../utils/functions/functions_lib";
 import fecha, { format } from "fecha";
-import {
-  getLeaveStatusIcon,
-  getStatusIconVariant,
-  getStatusLabel,
-  getTextVariant,
-} from "@/utils/functions/status-helpers";
 export default {
   props: {
     listPending: {
@@ -165,26 +159,32 @@ export default {
         {
           isCollapsed: false,
           label: "Due Today",
-          variant: "primary",
+          variant: this.getIconThemeCheck(),
           sections: this.getTodaySections(),
         },
         {
           isCollapsed: false,
           label: "Tomorrow",
-          variant: "primary",
+          variant:  this.getIconThemeCheck(),
           sections: this.getTomorrowSections(),
         },
         {
           isCollapsed: false,
           label: "This Week",
-          variant: "primary",
+          variant:  this.getIconThemeCheck(),
           sections: this.getThisWeekSections(),
         },
         {
-          isCollapsed: false,
+          isCollapsed: !this.isSameWeek,
           label: "Next Week",
-          variant: "primary",
+          variant:  this.getIconThemeCheck(),
           sections: this.getNextWeekSections(),
+        },
+        {
+          isCollapsed: !this.isSameMonth,
+          label: "This Month",
+          variant:  this.getIconThemeCheck(),
+          sections: this.getThisMonthSections(),
         },
       ];
     },
@@ -201,33 +201,24 @@ export default {
     meetLink,
     sendMessage,
     makeCall,
-    getLeaveStatusIcon,
-    getStatusIconVariant,
-    getStatusLabel,
-    getTextVariant,
-    async leaveDetail(item) {
-      const data = item.request;
-      event.stopPropagation();
-      this.$nuxt.$emit("open-sidebar", data);
-      this.$nuxt.$emit("close-sidebar-main");
-    },
+    
     formatDuration(duration) {
       if (duration === null || duration === undefined) {
         return "N/A";
       } else {
         const days = Math.floor(duration);
-        const hours = Math.round(days * 24);
-        return `${days} day${days !== 1 ? "s" : ""} (${hours} hour${
-          hours !== 1 ? "s" : ""
-        })`;
+        return `${days} day${days !== 1 ? "s" : ""}`;
       }
     },
-   sortColumn(columnKey) {
+    sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;
       }
       const field = this.tableFields.find((field) => field.key === columnKey);
-      console.log(field,"sortByFieldsortByFieldsortByFieldsortByFieldsortByField")
+      console.log(
+        field,
+        "sortByFieldsortByFieldsortByFieldsortByFieldsortByField"
+      );
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
@@ -279,17 +270,39 @@ export default {
       const endOfNextWeek = today.plus({ weeks: 1 }).endOf("week");
       return itemDate >= startOfNextWeek && itemDate <= endOfNextWeek;
     },
+    isThisMonth(date) {
+      const itemDate = this.parseDate(date);
+      if (!itemDate) return false;
+      const today = DateTime.local();
+      const startOfMonth = today.startOf("month");
+      const endOfMonth = today.endOf("month");
+      return itemDate >= startOfMonth && itemDate <= endOfMonth;
+    },
+    getIconThemeCheck(){
+      return this.isLightThemeCheck ? 'primary-24' : 'light'
+    },
     getTodaySections() {
       return this.leavePendingList.filter((item) => this.isToday(item.start));
     },
     getTomorrowSections() {
-      return this.leavePendingList.filter((item) => this.isTomorrow(item.start));
+      return this.leavePendingList.filter((item) =>
+        this.isTomorrow(item.start)
+      );
     },
     getThisWeekSections() {
-      return this.leavePendingList.filter((item) => this.isThisWeek(item.start));
+      return this.leavePendingList.filter((item) =>
+        this.isThisWeek(item.start)
+      );
     },
     getNextWeekSections() {
-      return this.leavePendingList.filter((item) => this.isNextWeek(item.start));
+      return this.leavePendingList.filter((item) =>
+        this.isNextWeek(item.start)
+      );
+    },
+    getThisMonthSections() {
+      return this.leavePendingList.filter((item) =>
+        this.isThisMonth(item.start)
+      );
     },
     toggleCollapse(index) {
       this.$set(

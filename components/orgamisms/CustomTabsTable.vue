@@ -2,7 +2,13 @@
   <table
     v-click-outside="unselectAll"
     class="table"
-    :class="{ table__headless: headless, resizableTable: resizableColumns }"
+    :class="{
+      table__headless: headless,
+      resizableTable: resizableColumns,
+      'table--light': isLightThemeCheck,
+      'table--dark': !isLightThemeCheck,
+    }"
+    :fixHeader="true"
     cellspacing="0"
   >
     <template>
@@ -25,10 +31,9 @@
             <template v-if="field.header_icon">
               <div
                 v-if="field.header_icon.icon"
-                
                 @click="
-                    field.header_icon.event && $emit(field.header_icon.event)
-                  "
+                  field.header_icon.event && $emit(field.header_icon.event)
+                "
                 class="ml-05 shape-rounded bg-hover-black width-105 height-105 d-flex justify-center align-center cursor-pointer"
                 :class="{ 'bg-black': field.header_icon.isActive }"
               >
@@ -191,6 +196,7 @@ export default {
   width: 100%;
   height: max-content;
   margin: 0;
+  $self: &;
 
   // tr {
   //   height: 2.5rem;
@@ -203,17 +209,56 @@ export default {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  &--light {
+    background: $light-sub2;
 
+    #{$self}__hrow {
+      th {
+        border-color: $gray11;
+        background: $light-sub2;
+      }
+    }
+    #{$self}__irow {
+       
+      td {
+        border-color: $gray11;
+        background: $white;
+        &:hover {
+          cursor: default; 
+          background: $gray11;
+           
+        }
+      }
+    }
+  }
+  &--dark {
+    background: $dark;
+    #{$self}__hrow {
+      th {
+        border-color: $surface-tertiary;
+        background: $dark;
+      }
+    }
+    #{$self}__irow {
+      td {
+        border-color: $surface-tertiary;
+        background: $black;
+        &:hover {
+          cursor: default; 
+          background: $dark;
+          border-left: $surface-tertiary 1px solid;
+        }
+      }
+    }
+  }
   &__hrow {
     height: 2.5rem;
-    background-color: $light;
     color: $gray5;
     font-size: 13px;
     font-weight: bold;
 
     th {
       border: $gray4 1px solid;
-      border-top: none;
       text-align: left;
 
       &:not(:last-child) {
@@ -254,14 +299,11 @@ export default {
     font-size: $base-size;
     outline: 1px solid transparent;
     transition: background-color 0.3s linear, outline-color 0.3s linear;
-
     &-count {
       width: 60px;
     }
-
     td {
       border: 1px solid $light;
-
       &:not(:last-child) {
         border-right: none;
       }
@@ -276,14 +318,7 @@ export default {
     &:not(:last-child) td {
       border-bottom: none;
     }
-    &:hover {
-      cursor: default;
-      background-color: $light;
-      border-color: $gray4;
-      td {
-        border-left: $gray4 1px solid;
-      }
-    }
+
     &:active {
       cursor: default;
       background-color: $light;

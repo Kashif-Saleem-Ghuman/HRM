@@ -20,7 +20,7 @@ export default {
     },
     setData(data = []) {
       const title = "Absent";
-      const subheading = "";
+      const subheading = "Missing in action";
       const value = data.length || 0;
       this.data = {
         title,

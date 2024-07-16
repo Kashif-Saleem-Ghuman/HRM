@@ -63,29 +63,29 @@
         </div>
       </template>
       <template #cell(type)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between" @click="$leaveDetail(data.value, this)">
           <span>{{ $leaveTypeCheck(data.value.type) }}</span>
         </div>
       </template>
       <template #cell(from)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between" @click="$leaveDetail(data.value, this)">
           <span>{{ onLoad(data.value.request.start) }}</span>
         </div>
       </template>
       <template #cell(to)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between" @click="$leaveDetail(data.value, this)">
           <span>{{ onLoad(data.value?.request.end) }}</span>
         </div>
       </template>
       <template #cell(total)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between" @click="$leaveDetail(data.value, this)">
           <span>{{ formatDuration(data.value.duration) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
         <div
           class="d-flex align-center cursor-pointer"
-          @click="leaveDetail(data.value)"
+          @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
             <chips
@@ -100,7 +100,7 @@
         </div>
       </template>
       <template #cell(received)="data">
-        <div class="justify-between text-dark">
+        <div class="justify-between" @click="$leaveDetail(data.value, this)">
           <span>{{ onLoad(data.value.start) }}</span>
         </div>
       </template>

@@ -13,7 +13,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { getEmployees } from "../../utils/functions/api_call/employees";
 import fecha, { format } from "fecha";
 
 export default {
@@ -52,14 +52,8 @@ export default {
 
   methods: {
     async getOrganizationEntries() {
-      const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
-
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("day");
-      });
-
+      const data = await getEmployees();
+      const employees = data.employees;
       this.employees = employees;
       this.loading = false
     },

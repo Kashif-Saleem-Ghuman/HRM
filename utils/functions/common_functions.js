@@ -22,6 +22,14 @@ export function getCurrentYear() {
   this.fromDate = DateTime.fromISO(firstDay).startOf("day").toUTC().toISO();
   this.toDate = DateTime.fromISO(lastDay).endOf("day").toUTC().toISO();
 }
+export function getCurrentMonth() {
+  const now = DateTime.local();
+  const oneMonthAgo = now.minus({ months: 1 });
+
+  this.fromDate = oneMonthAgo.startOf('day').toUTC().toISO();
+  this.toDate = now.endOf('day').toUTC().toISO();
+  
+}
 export function getCurrentWeek() {
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week

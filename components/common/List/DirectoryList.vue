@@ -83,32 +83,20 @@
           <span>{{ data.value.jobTitle }}</span>
         </div>
       </template>
-      <template #cell(hiredate)="data">
+      <template #cell(department)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
-            !data.value.hireDate ? "---" : onLoad(data.value.hireDate)
+            data.value.department
           }}</span>
         </div>
       </template>
-      <!-- <template #cell_action="data">
-        <bib-button
-          pop="horizontal-dots"
-          :iconVariant="isLightThemeCheck ? '' : 'light'"
-          @click.native.stop
-        >
-          <template v-slot:menu>
-            <div class="list">
-              <span
-                class="list__item"
-                v-for="item in peopleActionItems"
-                @click.stop="callAction(data, item)"
-                :class="isLightThemeCheck ? 'text-black' : 'text-white'"
-                >{{ item }}</span
-              >
-            </div>
-          </template>
-        </bib-button>
-      </template> -->
+      <template #cell(location)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            data.value.address.country
+          }}</span>
+        </div>
+      </template>
     </bib-table>
   </div>
 </template>
@@ -204,34 +192,28 @@ export default {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },
     getStatusTitle(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in;
-      const outEntry = data.activityReport?.out;
-      const leaveRequest =
-        data.requests && data.requests.length > 0
-          ? data.requests[0].type
-          : null;
-      if (leaveRequest) {
-        return (
-          "On Leave" +
-          " - " +
-          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
-        );
-      }
-      if (inEntry && outEntry) {
-        return "Shift End";
-      }
-
-      if (timers.length > 0 || inEntry) {
+      const presence = data.presence;
+      // const leaveRequest =
+      //   data.requests && data.requests.length > 0
+      //     ? data.requests[0].type
+      //     : null;
+      // if (leaveRequest) {
+      //   return (
+      //     "On Leave" +
+      //     " - " +
+      //     (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
+      //   );
+      // }
+      if (presence === 'in') {
         return "Present";
       }
-
-      return "Absent";
+      if (presence === 'out') {
+        return "Offline";
+      }
     },
     getStatusClass(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in;
-      if (timers.length || inEntry) {
+      const presence = data.presence;
+      if (presence === 'in') {
         return "chip-list-wrapper__sucess";
       }
 

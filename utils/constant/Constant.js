@@ -161,6 +161,7 @@ export const TABLE_HEAD = {
     {
       key: "email",
       label: "Email",
+      width: `${100 / 5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -171,6 +172,7 @@ export const TABLE_HEAD = {
     {
       key: "status",
       label: "Status",
+      width: `${100 / 6.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -181,6 +183,7 @@ export const TABLE_HEAD = {
     {
       key: "jobTitle",
       label: "Job Title",
+      width: `${100 / 6.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -188,24 +191,26 @@ export const TABLE_HEAD = {
         type: "string",
       },
     },
-    // {
-    //   key: "department",
-    //   label: "Department",
-    //   header_icon: {
-    //     icon: "long-arrow-up",
-    //     isActive: false,
-    //     sortKey: "department",
-    //     type: "string",
-    //   },
-    // },
     {
-      key: "hiredate",
-      label: "Hire Date",
+      key: "department",
+      label: "Department",
+      width: `${100 / 6.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
-        sortKey: "hireDate",
-        type: "date",
+        sortKey: "department",
+        type: "string",
+      },
+    },
+    {
+      key: "location",
+      label: "Location",
+      width: `${100 / 5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "location",
+        type: "string",
       },
     },
   ],

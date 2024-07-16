@@ -152,7 +152,6 @@ export default {
     };
   },
   async created() {
-
     await this.$store.dispatch("employee/setActiveUser");
   },
   computed: {

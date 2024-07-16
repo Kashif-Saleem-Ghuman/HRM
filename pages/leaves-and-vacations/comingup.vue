@@ -20,10 +20,9 @@
 import { mapGetters } from "vuex";
 
 import {
-  getCurrentYear,
+  getCurrentMonth,
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
-import { LEAVEVACATION_TAB } from "../../utils/constant/Constant";
 export default {
   data() {
     return {
@@ -58,7 +57,8 @@ export default {
     },
   },
   async created() {
-    this.getCurrentYear();
+    this.getCurrentMonth();
+    
   },
   mounted() {
     this.dropMenuYear = this.generateYearList();
@@ -68,7 +68,7 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getCurrentYear,
+    getCurrentMonth,
     generateYearList,
     async getLeaveRequests() {
       const requests = await this.$store.dispatch(

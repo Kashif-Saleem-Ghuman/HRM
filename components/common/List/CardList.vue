@@ -12,8 +12,16 @@
           <template #new_contact_section>
             <bib-button
               label="Birthday"
-              variant="success"
-              class="mb-1"
+              variant="tertiary"
+              v-if="item.isBirthday"
+              pill
+              class="mr-1"
+            ></bib-button>
+            <bib-button
+              label="Aniversary"
+              variant="primary-24"
+              v-if="item.isWorkAnniversary"
+              pill
             ></bib-button>
           </template>
           <template #card_menu>
@@ -57,8 +65,9 @@
                 <label
                   class="font-w-600"
                   :class="isLightThemeCheck ? 'text-dark' : 'text-white'"
+                  :title="getEmployeeFullName(item)"
                 >
-                  {{ getEmployeeFullName(item) }}
+                  {{ getEmployeeFullName(item) | truncate(50, "...") }}
                 </label>
                 <div
                   class="font-sm font-w-500"
@@ -67,10 +76,7 @@
                   {{ item.jobTitle }}
                 </div>
                 <div class="button-wrapper-punch">
-                  <span
-                    :class="getStatusClass(item)"
-                    @click="$emit('punchedIn')"
-                  >
+                  <span :class="getStatusClass(item)">
                     {{ getStatusTitle(item) }}
                   </span>
                 </div>
@@ -145,34 +151,17 @@ export default {
       return this.isOnline(user) ? "online" : "offline";
     },
     getStatusTitle(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in;
-      const outEntry = data.activityReport?.out;
-      const leaveRequest =
-        data.requests && data.requests.length > 0
-          ? data.requests[0].type
-          : null;
-      if (leaveRequest) {
-        return (
-          "On Leave" +
-          " - " +
-          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
-        );
+      const presence = data.presence;
+      if (presence === "in") {
+        return "Online";
       }
-      if (inEntry && outEntry) {
-        return "Shift End";
+      if (presence === "out") {
+        return "Offline";
       }
-
-      if (timers.length > 0 || inEntry) {
-        return "Present";
-      }
-
-      return "Absent";
     },
     getStatusClass(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in;
-      if (timers.length || inEntry) {
+      const presence = data.presence;
+      if (presence === "in") {
         return "online";
       }
 

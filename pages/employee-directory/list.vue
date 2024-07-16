@@ -14,7 +14,7 @@
 <script>
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
-import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
+import { getEmployees } from "../../utils/functions/api_call/employees";
 
 export default {
   data() {
@@ -49,14 +49,8 @@ export default {
 
   methods: {
     async getOrganizationEntries() {
-      const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
-
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("day");
-      });
-
+      const data = await getEmployees();
+      const employees = data.employees;
       this.employees = employees;
       this.loading = false
     },

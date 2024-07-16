@@ -114,41 +114,7 @@ export default {
     close() {
       this.departmentModel = false;
     },
-    async handleChange_Tabs(tab) {
-      this.$store.dispatch("token/setActiveTab", tab.value);
-
-      if (tab.value == "Departments") {
-        await this.$store.dispatch("department/setDepartmentList");
-        this.departmentOptions = this.getDepartment;
-      }
-      if (tab.value == "Teams") {
-        // await this.$store.dispatch("teams/setTeamListOptions");
-        // this.teamOptions = this.getTeamListOptions;
-      }
-    },
-    clickAction(event) {
-      if (event.key == "name") {
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        }
-      }
-      if (event.key == "presence") {
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.email.localeCompare(a.email));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.email.localeCompare(b.email));
-        }
-      }
-      if (event.key == "reset") {
-        this.$store.dispatch("employee/setUserList");
-      }
-    },
+    
     userId(id) {
       if (id) {
         this.$router.push("/profile/" + id);

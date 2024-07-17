@@ -123,7 +123,7 @@
                    <div class="title" style="text-transform: capitalize;" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
                      {{ item.firstName }} {{ item.lastName }}
                    </div>
-                   <div class="description">
+                   <div :class="isLightThemeCheck ? 'text-dark' :'light'">
                      {{ item.jobTitle }}
                    </div>
                  </div>

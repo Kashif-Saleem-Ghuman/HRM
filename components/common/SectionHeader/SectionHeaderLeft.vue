@@ -1,7 +1,7 @@
 <template>
   <div
-    class="d-flex justify-between align-center nav_wrapper w-100"
-    :class="borderClassBottom"
+    class="d-flex justify-between align-center w-100"
+    :class="[borderClassBottom, isLightThemeCheck ? 'bg-light-sub2' : 'bg-dark']"
   >
     <nav class="gap-05 page_title">
       <bib-button

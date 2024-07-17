@@ -11,7 +11,7 @@
         <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
           <ul v-if="isDropdownOpen" class="border-white">
             <li
-              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
+              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub1'"
               v-for="(option, index) in options"
               :key="index"
               @click="selectOption(option)"

@@ -91,7 +91,7 @@ export default {
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     position: absolute;
-    left: 0px;
+    right: 0px;
     top: 0px;
   }
 }

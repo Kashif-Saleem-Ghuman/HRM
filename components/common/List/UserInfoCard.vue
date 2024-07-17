@@ -41,7 +41,6 @@
         ></bib-button>
         <bib-button
           label="Meet"
-          variant="light"
           class="mr-05"
           @click.native.stop="sendMeet"
           :variant="isLightThemeCheck ? 'light' : 'dark'"

@@ -14,8 +14,8 @@
           class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete"
         >
           <div class="custom-remove" :class="customRemove">
-            <span @click.stop="deleteConfirmation(src)" class="delIcon">
-              <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
+            <span @click.stop="deleteConfirmation(src)" class="delIcon" :class="isLightThemeCheck ? 'bg-light' : 'bg-dark'">
+              <bib-icon icon="trash-solid" :variant="isLightThemeCheck ? 'secondary' : 'secondary'" :scale="0.9"></bib-icon>
             </span>
           </div>
           <div class="upload-link">Upload Image</div>
@@ -167,7 +167,6 @@ export default {
     width: 30px;
     bottom: 0;
     padding: 8px;
-    background-color: $light;
     position: relative;
   }
 }

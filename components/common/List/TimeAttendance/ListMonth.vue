@@ -11,7 +11,7 @@
             <div class="title">
               {{ data.value.week }}
             </div>
-            <div class="description">
+            <div :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{ data.value.weekStart }} -> {{ data.value.weekEnd }}
             </div>
           </div>

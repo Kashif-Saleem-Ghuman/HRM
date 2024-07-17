@@ -35,7 +35,7 @@
             <div class="title">
               {{ data.value.firstName }} {{ data.value.lastName }}
             </div>
-            <div class="description">
+            <div :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{ data.value.jobTitle }}
             </div>
           </div>

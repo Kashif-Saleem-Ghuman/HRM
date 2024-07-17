@@ -65,7 +65,7 @@
             <bib-icon
               icon="trash"
               class="mr-05 cursor-pointer"
-              :variant="isLightThemeCheck ? 'danger' : 'light'"
+              :variant="isLightThemeCheck ? 'danger' : 'danger'"
             ></bib-icon>
           </div>
         </div>

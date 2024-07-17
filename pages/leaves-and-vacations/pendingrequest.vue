@@ -10,7 +10,7 @@
             :label="selectedYear.toString()"
             icon="arrowhead-down"
             @on-click="changeYearView($event)"
-            className="button-wrapper__bgblack"
+            className="left:0px !important"
           ></dropdown-menu-calendar>
         </div>
         <div class="d-flex align-center" v-show="showBatchApproveButton">

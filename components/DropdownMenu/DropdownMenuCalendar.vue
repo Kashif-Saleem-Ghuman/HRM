@@ -10,7 +10,7 @@
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items chip-wrapper-com">
+        <div class="menu-items chip-wrapper-com" :style="className">
           <div v-if="show" class="chip-wrapper-inner">
             <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
               <bib-button
@@ -52,6 +52,7 @@ export default {
     label: {
       type: [Number, String],
     },
+    
     variant: String,
     icon: String,
     className: String,
@@ -63,6 +64,7 @@ export default {
     items: Array,
     listIcon: String,
     listIconVariant: String,
+    
   },
 
   data() {

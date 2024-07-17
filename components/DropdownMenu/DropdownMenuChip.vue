@@ -13,7 +13,7 @@
         :disabled="disabled"
         class="pr-05"
       ></bib-button>
-      <div class="menu-items chip-wrapper-com">
+      <div class="menu-items chip-wrapper-com" :style="className">
         <div v-if="show" class="chip-wrapper-inner">
           <div
             v-for="item in items"
@@ -64,6 +64,9 @@ export default {
     items: {
       type: [Object, Array],
     },
+    className:{
+      type:String
+    }
   },
   data() {
     return {

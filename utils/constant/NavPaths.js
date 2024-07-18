@@ -33,7 +33,7 @@ export const navigationPaths = [
       "/reports/leave-summary/",
       "/reports/timesheet-report/",
     ],
-    defaultPath: "/time-attendance/attendance/",
+    defaultPath: "/reports/leave-report/",
   },
   {
     name: "peoplePath",

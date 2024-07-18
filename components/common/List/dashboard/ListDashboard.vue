@@ -79,7 +79,7 @@
     </template>
     <template #cell(breaks)="data">
       <div class="cursor-pointer">
-        <div>{{ data.value?.activityReport.break ?? "--" }}</div>
+        <span>{{ data.value?.activityReport.break ?? "--" }}</span>
       </div>
     </template>
     <template #cell(total)="data">

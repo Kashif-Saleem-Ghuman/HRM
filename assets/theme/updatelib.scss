@@ -2,14 +2,14 @@
   .pop {
     border: 1px solid $border-primary !important;
   }
-//     .vdpComponent__input {
-//       color: $gray5 !important;
-//   }
-//   .vdpComponent__input:hover {
-//     color: $white !important;
-//     background-color: $black;
-//     border: 1px solid $white !important;
-// }
+  //     .vdpComponent__input {
+  //       color: $gray5 !important;
+  //   }
+  //   .vdpComponent__input:hover {
+  //     color: $white !important;
+  //     background-color: $black;
+  //     border: 1px solid $white !important;
+  // }
   // .table {
   //   &__hrow {
   //     background-color: $dark !important;
@@ -45,16 +45,16 @@
   .table .table__hrow__active {
     border-bottom: 1px solid $border-primary !important;
     border-left: 1px solid $border-primary !important;
-    
+
     span {
       color: $white !important;
     }
   }
-//   .timesheet-wrapper-main{
-//     .table__irow{
-//       background-color: $dark !important;
-//     }
-// } 
+  //   .timesheet-wrapper-main{
+  //     .table__irow{
+  //       background-color: $dark !important;
+  //     }
+  // }
   .chip-list-wrapper {
     &__light {
       li {
@@ -66,7 +66,7 @@
     color: $gray7;
     font-weight: normal;
   }
-  
+
   .chip-wrapper__bggray {
     background-color: $dark-sub3;
   }
@@ -83,12 +83,12 @@
       font-size: 14px;
     }
   }
-  .chip-wrapper__bgvacation{
+  .chip-wrapper__bgvacation {
     background-color: $primary;
     svg {
       fill: $white !important;
     }
-    span{
+    span {
       color: $white;
     }
   }
@@ -97,14 +97,38 @@
       appearance: none;
       background-color: $dark !important;
       + .icon {
-        position: absolute;
-        right: 0.6rem;
-        top: 1.5rem;
         z-index: 999 !important;
         pointer-events: none;
       }
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: $dark-sub1 !important;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: $dark-sub3 !important;
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: $dark-sub3;
+        border-radius: 10px;
+      }
     }
-  
+    &--disabled {
+      input,
+      textarea,
+      select {
+        color: $white !important;
+        border-color: $dark-sub3 !important;
+        background-color: $dark !important;
+      }
+      label{
+        color: $white !important;
+      }
+    }
+  }
+  .date-picker--dark{
+    label{color: $white !important;}
   }
 }
-

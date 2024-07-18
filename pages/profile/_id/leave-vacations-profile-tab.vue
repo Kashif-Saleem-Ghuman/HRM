@@ -58,6 +58,7 @@
               :label="selectedYear"
               @on-click="changeYearView($event)"
               icon="arrowhead-down"
+              className="left:0 !important"
             ></dropdown-menu-calendar>
           </div>
         </div>

@@ -115,7 +115,7 @@
               size="md"
               @change="setValueIsHalfDay"
               :key="updateCheckbox"
-              :variant="isLightThemecCheck ? 'light' : 'secondary'"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
             ></bib-checkbox>
           </div>
         </transition>

@@ -84,7 +84,7 @@
     }
   }
   .chip-wrapper__bgvacation{
-    background-color: $dark-sub3;
+    background-color: $primary;
     svg {
       fill: $white !important;
     }
@@ -92,4 +92,19 @@
       color: $white;
     }
   }
+  .input {
+    select {
+      appearance: none;
+      background-color: $dark !important;
+      + .icon {
+        position: absolute;
+        right: 0.6rem;
+        top: 1.5rem;
+        z-index: 999 !important;
+        pointer-events: none;
+      }
+    }
+  
+  }
 }
+

@@ -123,12 +123,41 @@
         border-color: $dark-sub3 !important;
         background-color: $dark !important;
       }
-      label{
+      label {
         color: $white !important;
       }
     }
   }
-  .date-picker--dark{
-    label{color: $white !important;}
+  .date-picker--dark {
+    label {
+      color: $white !important;
+    }
+  }
+  .vdpPeriodControl {
+    button {
+      color: $white;
+    }
+    select {
+      color: $white !important;
+      border-color: $dark-sub3 !important;
+      background-color: $dark !important;
+      option {
+        color: $white !important;
+      }
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: $dark-sub1 !important;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: $dark-sub3 !important;
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: $dark-sub3;
+        border-radius: 10px;
+      }
+    }
   }
 }

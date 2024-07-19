@@ -24,7 +24,7 @@
       ></bib-icon>
     </div>
     <div class="sidebar-body">
-      <div :class="'of-scroll-y ' + classMain" >
+      <div :class="'sidebar-body-scroll-y ' + classMain">
         <div class="sidebarBodyPadd" :class="borderClassBottom">
           <slot name="sidebar-body"></slot>
         </div>
@@ -156,6 +156,9 @@ export default {
   }
   &__header__actions {
     padding: 0.75rem 1.5rem;
+  }
+  .sidebar-body-scroll-y{
+    overflow-y: auto;
   }
 }
 .sidebarBodyPadd {

@@ -68,7 +68,7 @@
             >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
             <div class="list position-absolute" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark' : 'bg-dark'">
               <div
-                class="list__item " :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-black'"
+                class="list__item " :class="isLightThemeCheck ? 'bg-white bg-hover-gray3' : 'bg-dark bg-hover-black'"
                 v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
                 :key="avatar.id"
                 @mouseout="hideEmployeeList"

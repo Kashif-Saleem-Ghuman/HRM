@@ -8,6 +8,7 @@
       @vdropzone-files-added="maxFilesSize($event)"
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
       :key="dropzoneRefresh"
+      style="background-color: transparent !important;"
     >
       <div class="d-flex align-center position-relative" :class="className">
         <div

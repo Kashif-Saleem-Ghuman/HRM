@@ -428,6 +428,7 @@ export default {
       return {
         event_wrapper__bgvacations: type === "vacation",
         event_wrapper__bgonleave: type === "leave",
+        event_wrapper__bgother: type === "other",
         event_wrapper__bgabsent: type === "Absent" || type === "medical",
       };
     },
@@ -662,6 +663,18 @@ export default {
     background-color: #f5d0d3;
     color: #e6000e;
     text-transform: capitalize;
+  }
+ 
+  &__bgother {
+    background-color: $light;
+    border: 1px solid $gray2;
+    svg {
+      fill: $secondary-sub1 !important;
+    }
+    span {
+      color: $secondary-sub1;
+      font-weight: 600;
+    }
   }
   &__bgpending {
     background-color: $white;

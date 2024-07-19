@@ -1,6 +1,17 @@
 .light-theme {
 }
 .dark-theme {
+  .event_wrapper{
+    &__bgother {
+      background-color: $dark-sub1;
+      color: $white;
+      border: 1px solid $dark-sub1;
+      span {
+        color: $white;
+        font-weight: 600;
+      }
+    }
+  }
   .fc-theme-standard {
     background-color: $dark !important;
     color: #fff;

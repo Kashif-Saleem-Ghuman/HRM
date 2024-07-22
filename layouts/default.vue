@@ -48,9 +48,11 @@
         <app-menu :sectionHead="!collapseNavigation1" ></app-menu>
       </template>
       <template #content>
-        <div id="main-content" :class="themeClassWrapper">
+        <div class="main-wrapper" ref="mainWrapper">
+          <div id="main-content" class="content-area" :class="themeClassWrapper" ref="childDiv">
           <Nuxt />
           <add-leave-sidebar></add-leave-sidebar>
+        </div>
         </div>
         <div>
         </div>
@@ -104,7 +106,9 @@ export default {
     this.setDebouncedSearch();
     this.loading = false;
     await this.$isThemeCheck();
-    this.isLightTheme = this.$cookies.get('isLightTheme')
+    this.isLightTheme = this.$cookies.get('isLightTheme');
+    this.adjustHeight();
+    window.addEventListener('resize', this.adjustHeight);
   },
   methods: {
     getEmployeeFullName,
@@ -115,7 +119,10 @@ export default {
     headerHelpClick,
     headerActionCall,
     ...mapActions('theme', ['initializeTheme']),
-
+    adjustHeight() {
+      const windowHeight = window.innerHeight;
+      this.$refs.childDiv.style.height = `${windowHeight - 65}px`;
+    },
     toggleTheme(flag) {
       this.isLightTheme = flag;
       this.$handleToggleWrapperTheme(flag);

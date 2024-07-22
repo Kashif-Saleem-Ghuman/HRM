@@ -54,6 +54,7 @@
             icon="arrowhead-down"
             @on-click="changeYearView($event)"
             class="mr-05"
+            className="left:0 !important"
           ></dropdown-menu-calendar>
         </div>
       </div>

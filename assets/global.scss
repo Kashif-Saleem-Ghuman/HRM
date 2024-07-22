@@ -7,7 +7,7 @@ body {
   height: 100%;
   width: 100%;
 }
-.main-wrapper {
+.app-wrapper__content {
   width: 100%;
   overflow: hidden;
   .content-area{
@@ -225,13 +225,6 @@ body {
 .app-wrapper__navigation--collapsed {
   padding: 0 !important;
 }
-@media (min-width: 600px) and (max-width: 800px) {
-  .app-wrapper__content {
-    overflow: hidden !important;
-    height: 485px !important; /* Adjust the height as needed */
-  }
-}
-
 
 @media (min-width: 1900px) {
   .height {

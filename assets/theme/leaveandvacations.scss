@@ -128,4 +128,30 @@
       }
     }
   }
+  .edit-allowance {
+    display: flex;
+    align-items: center;
+    width: 4.5rem;
+    background-color: $dark;
+    justify-content: left;
+  
+    &__action-icon {
+      cursor: pointer;
+      margin-left: 0.2rem;
+    }
+  
+    &__input {
+      max-width: 3rem;
+    }
+  }
+  
+  .edit-allowance-icon {
+    cursor: pointer;
+    position: absolute;
+    background-color: $dark;
+    border-radius: 6px;
+    top: 0;
+    right: -1px;
+    margin: 1px;
+  }
 }

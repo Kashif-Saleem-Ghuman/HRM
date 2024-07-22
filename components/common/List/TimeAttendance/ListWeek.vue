@@ -4,8 +4,6 @@
       :fields="tableFields"
       class="table"
       :class="{
-      table__headless: headless,
-      resizableTable: resizableColumns,
       'table--light': isLightThemeCheck,
       'table--dark': !isLightThemeCheck,
     }"

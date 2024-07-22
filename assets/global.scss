@@ -4,8 +4,18 @@ html,
 body {
   font-family: $font-family;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
-
+.app-wrapper__content {
+  width: 100%;
+  overflow: hidden;
+  .content-area{
+      overflow-y: auto;
+      padding-bottom: 20px;
+      overflow-x: hidden !important;
+  }
+}
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;
@@ -215,6 +225,18 @@ body {
 .app-wrapper__navigation--collapsed {
   padding: 0 !important;
 }
+
+@media (min-width: 1900px) {
+  .height {
+    height: 78vh !important;
+  }
+}
+@media (min-width: 3000px) {
+  .height {
+    height: 85vh !important;
+  }
+}
+
 .nav-item__symbol {
   margin-right: 1px !important;
 }

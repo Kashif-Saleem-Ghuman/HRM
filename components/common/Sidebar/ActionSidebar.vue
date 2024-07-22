@@ -1,42 +1,45 @@
 <template>
   <div :class="themeClassCommon">
     <div
-    v-click-outside="handleClickOutside"
-    id="side-panel"
-    :class="'side-panel ' + 'side-panel__' + className"
-    @click.stop
-  >
-    <div class="d-flex justify-between align-center sidebar-header p-1 m-05" :class="borderClassBottom">
-      <div class="d-flex justify-between align-center">
+      v-click-outside="handleClickOutside"
+      id="side-panel"
+      :class="'side-panel ' + 'side-panel__' + className"
+      @click.stop
+    >
+      <div
+        class="d-flex justify-between align-center sidebar-header p-1 m-05"
+        :class="borderClassBottom"
+      >
+        <div class="d-flex justify-between align-center">
+          <bib-icon
+            :icon="icon"
+            :scale="0.9"
+            class="mr-05"
+            @click="$emit('close')"
+          ></bib-icon>
+          <label> {{ heading }}</label>
+        </div>
         <bib-icon
-          :icon="icon"
-          :scale="0.9"
-          class="mr-05"
+          icon="close"
+          :scale="1.25"
           @click="$emit('close')"
+          class="cursor-pointer"
         ></bib-icon>
-        <label> {{ heading }}</label>
       </div>
-      <bib-icon
-        icon="close"
-        :scale="1.25"
-        @click="$emit('close')"
-        class="cursor-pointer"
-      ></bib-icon>
-    </div>
-    <div class="sidebar-body">
-      <div :class="'sidebar-body-scroll-y ' + classMain">
-        <div class="sidebarBodyPadd" :class="borderClassBottom">
-          <slot name="sidebar-body"></slot>
+      <div class="sidebar-body">
+        <div :class="'sidebar-body-scroll-y ' + classMain">
+          <div class="sidebarBodyPadd" :class="borderClassBottom">
+            <slot name="sidebar-body"></slot>
+          </div>
+        </div>
+        <div
+          class="sidebar-footer px-1 py-1 d-flex justify-end align-end h-100"
+          v-if="show == 'true'"
+        >
+          <slot name="sidebar-footer"> </slot>
         </div>
       </div>
-      <div
-        class="sidebar-footer px-1 py-1 d-flex justify-end align-end h-100"
-        v-if="show == 'true'"
-      >
-        <slot name="sidebar-footer"> </slot>
-      </div>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -63,10 +66,15 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      const ignoreClickOutsideElement = document.getElementById('ignore-click-outside');
-      if (ignoreClickOutsideElement && ignoreClickOutsideElement.contains(event.target)) {
-          return; 
-        }
+      const ignoreClickOutsideElement = document.getElementById(
+        "ignore-click-outside"
+      );
+      if (
+        ignoreClickOutsideElement &&
+        ignoreClickOutsideElement.contains(event.target)
+      ) {
+        return;
+      }
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
     },
@@ -75,16 +83,36 @@ export default {
 </script>
 <style lang="scss">
 @import "@/assets/variable.scss";
-@media (max-width: 1900px) {
+@media (max-width: 599px) {
   .height {
-    height: 70vh !important;
+    height: 30vh !important;
   }
 }
-@media (min-width: 1900px) {
+
+@media (min-width: 600px) and (max-width: 799px) {
+  .height {
+    height: 40vh !important;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1199px) {
+  .height {
+    height: 60vh !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1899px) {
+  .height {
+    height: 75vh !important;
+  }
+}
+
+@media (min-width: 1900px) and (max-width: 2999px) {
   .height {
     height: 78vh !important;
   }
 }
+
 @media (min-width: 3000px) {
   .height {
     height: 85vh !important;
@@ -157,7 +185,7 @@ export default {
   &__header__actions {
     padding: 0.75rem 1.5rem;
   }
-  .sidebar-body-scroll-y{
+  .sidebar-body-scroll-y {
     overflow-y: auto;
   }
 }

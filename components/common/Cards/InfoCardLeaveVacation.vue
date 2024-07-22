@@ -64,7 +64,7 @@
               v-show="editAllowanceIcon && !editAllowance"
               class="edit-allowance-icon"
               icon="pencil"
-              hover-variant="primary"
+              :variant="isLightThemeCheck ? 'primary' : 'light'"
               @click="handleEditAllowanceClick"
               :scale="1.1"
             ></bib-icon>

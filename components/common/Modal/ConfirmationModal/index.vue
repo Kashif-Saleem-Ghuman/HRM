@@ -18,7 +18,7 @@
             label="Cancel"
             :variant="isLightThemeCheck ? 'light' : 'dark'"
             class="mr-1"
-            @click="$emit('close')"
+            @click.native.stop="$emit('close')"
             pill
           ></bib-button>
           <bib-button

@@ -87,11 +87,17 @@ export default {
   .height {
     height: 30vh !important;
   }
+  .heightEdit {
+    height: 38vh !important;
+  }
 }
 
 @media (min-width: 600px) and (max-width: 799px) {
   .height {
     height: 40vh !important;
+  }
+  .heightEdit {
+    height: 64vh !important;
   }
 }
 
@@ -99,11 +105,17 @@ export default {
   .height {
     height: 60vh !important;
   }
+  .heightEdit {
+    height: 73vh !important;
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1899px) {
   .height {
     height: 75vh !important;
+  }
+  .heightEdit {
+    height: 78vh !important;
   }
 }
 
@@ -111,29 +123,20 @@ export default {
   .height {
     height: 78vh !important;
   }
+  .heightEdit {
+    height: 90vh !important;
+  }
 }
 
 @media (min-width: 3000px) {
   .height {
     height: 85vh !important;
   }
-}
-
-@media (max-width: 1900px) {
-  .heightEdit {
-    height: 82vh !important;
-  }
-}
-@media (min-width: 1900px) {
-  .heightEdit {
-    height: 90vh !important;
-  }
-}
-@media (min-width: 3000px) {
   .heightEdit {
     height: 92vh !important;
   }
 }
+
 @keyframes slidein-right {
   from {
     transform: translateX(100%);

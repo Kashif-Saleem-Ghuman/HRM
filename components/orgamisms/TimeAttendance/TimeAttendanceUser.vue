@@ -35,6 +35,7 @@
             :button-config="changeViewButtonConfig"
             @on-click="onViewChange"
             class="pr-05"
+            className="left:0"
           ></dropdown-menu-chip>
           <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">

@@ -89,15 +89,6 @@ export default {
       this.employees = employees;
       this.loading = false;
     },
-    sendMeet() {
-      window.open("https://dev-connect.business-in-a-box.com/", "_blank");
-    },
-    sendMessage() {
-      window.open(
-        "https://dev-chat.business-in-a-box.com/directs/" + this.form.userId,
-        "_blank"
-      );
-    },
     handleClickOutside() {
       this.slideClass = "slide-out";
       setTimeout(() => {

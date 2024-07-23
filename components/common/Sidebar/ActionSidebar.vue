@@ -115,7 +115,7 @@ export default {
     height: 75vh !important;
   }
   .heightEdit {
-    height: 78vh !important;
+    height: 75vh !important;
   }
 }
 

@@ -121,7 +121,7 @@ export default {
     ...mapActions('theme', ['initializeTheme']),
     adjustHeight() {
       const windowHeight = window.innerHeight;
-      this.$refs.childDiv.style.height = `${windowHeight - 65}px`;
+      this.$refs.childDiv.style.height = `${windowHeight - 58}px`;
     },
     toggleTheme(flag) {
       this.isLightTheme = flag;

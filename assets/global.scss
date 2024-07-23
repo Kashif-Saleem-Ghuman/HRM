@@ -10,6 +10,9 @@ body {
 .app-wrapper__content{
   overflow-y: hidden;
 }
+.header__search__input .search_input {
+  width: 28em !important; 
+}
 .main-wrapper {
   width: 100%;
   overflow: hidden;
@@ -322,13 +325,13 @@ body {
 .app-wrapper-dark-theme{
   .search-items {
     ul {
+      background-color: $dark;
       li {
         border-bottom: 1px solid $border-primary !important;
-        // background-color: red;
         color: $gray7;
       }
       :hover {
-        background-color: $dark;
+        background-color: $dark-sub2;
         color: $white !important;
       }
     }

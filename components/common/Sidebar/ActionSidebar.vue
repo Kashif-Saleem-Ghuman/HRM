@@ -115,7 +115,7 @@ export default {
     height: 75vh !important;
   }
   .heightEdit {
-    height: 75vh !important;
+    height: 76vh !important;
   }
 }
 
@@ -191,6 +191,9 @@ export default {
   .sidebar-body-scroll-y {
     overflow-y: auto;
   }
+}
+.sidebar-body{
+  padding-bottom: 50px !important;
 }
 .sidebarBodyPadd {
   padding: 24px 24px 12px 24px;

@@ -45,17 +45,21 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu :sectionHead="!collapseNavigation1" ></app-menu>
+        <app-menu :sectionHead="!collapseNavigation1"></app-menu>
       </template>
       <template #content>
         <div class="main-wrapper" ref="mainWrapper">
-          <div id="main-content" class="content-area" :class="themeClassWrapper" ref="childDiv">
-          <Nuxt />
-          <add-leave-sidebar></add-leave-sidebar>
+          <div
+            id="main-content"
+            class="content-area"
+            :class="themeClassWrapper"
+            ref="childDiv"
+          >
+            <Nuxt />
+            <add-leave-sidebar></add-leave-sidebar>
+          </div>
         </div>
-        </div>
-        <div>
-        </div>
+        <div></div>
         <loader :loading="loading"></loader>
       </template>
     </bib-app-wrapper>
@@ -91,14 +95,13 @@ export default {
       userRole: "",
       addLeaveKey: 0,
       flag: false,
-      isLightTheme:this.$cookies.get('isLightTheme')
+      isLightTheme: this.$cookies.get("isLightTheme"),
     };
   },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
     }),
-    
   },
   async mounted() {
     this.loading = true;
@@ -106,9 +109,9 @@ export default {
     this.setDebouncedSearch();
     this.loading = false;
     await this.$isThemeCheck();
-    this.isLightTheme = this.$cookies.get('isLightTheme');
+    this.isLightTheme = this.$cookies.get("isLightTheme");
     this.adjustHeight();
-    window.addEventListener('resize', this.adjustHeight);
+    window.addEventListener("resize", this.adjustHeight);
   },
   methods: {
     getEmployeeFullName,
@@ -118,15 +121,15 @@ export default {
     openBillingPage,
     headerHelpClick,
     headerActionCall,
-    ...mapActions('theme', ['initializeTheme']),
+    ...mapActions("theme", ["initializeTheme"]),
     adjustHeight() {
       const windowHeight = window.innerHeight;
-      this.$refs.childDiv.style.height = `${windowHeight - 58}px`;
+      const navHeight = 64;
+      this.$refs.childDiv.style.height = `${windowHeight - navHeight}px`;
     },
     toggleTheme(flag) {
       this.isLightTheme = flag;
       this.$handleToggleWrapperTheme(flag);
-
     },
     routesCheck,
     setDebouncedSearch() {
@@ -148,7 +151,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .ml-minus-5 {

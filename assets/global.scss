@@ -15,11 +15,11 @@ body {
 }
 .main-wrapper {
   width: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
+  height: calc(100vh - 64px) !important;
   .content-area{
       overflow-y: auto;
-      padding-bottom: 20px;
-      overflow-x: hidden !important;
+      padding-bottom: 5px;
   }
 }
 .fc-event:focus::after {

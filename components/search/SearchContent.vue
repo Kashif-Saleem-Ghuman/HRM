@@ -43,16 +43,19 @@ export default {
 .search-items {
   // padding-top: 10px;
   font-size: 14px;
+  
 ul{
   padding: 0;
   margin: 0;
+  background-color: $white;
+
   li{
     list-style: none;
     display: flex;
     align-items: center;
     // border-bottom: 1px solid $light;
     padding: 0.5rem 0;
-    // margin: 0 -14px;
+    margin: 0 0.5rem;
     cursor: pointer;
     border-radius: 6px;
     text-transform: capitalize;

@@ -9,9 +9,17 @@ export const isEmail = (value) => {
 };
 
 export const isPhoneNumber = (value) => {
-  const phonePattern = /^[0-9]{10}$/;
-  const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-  return (phonePattern.test(value) || phoneRegex.test(value)) || "Invalid phone number format. Expected formats (xxx-xxx-xxxx, xxxxxxxxxx)";
+  const phonePattern = [
+    /^\d{3}-\d{3}-\d{4}$/,          
+    /^\d{10}$/,                   
+    /^\+\d{12}$/,                   
+    /^\+\d{2} \d{10}$/,            
+    /^\d{3} \d{3} \d{4}$/,           
+    /^\+\d{2} \d{3}-\d{3}-\d{4}$/,  
+    /^\+\d{2} \d{11}$/               
+  ];
+  const isValid = phonePattern.some(phoneRegex => phoneRegex.test(value));
+  return isValid || "Invalid phone number format. Expected formats (xxx-xxx-xxxx, xxxxxxxxxx, +xxxxxxxxxxxx, +xx xxxxxxxxxx, xxx xxx xxxx, +xx xxx-xxx-xxxx, +xx xxxxxxxxxxx)";
 };
 
 //"K1A 0B1" trrue

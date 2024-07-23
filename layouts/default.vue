@@ -20,8 +20,7 @@
           @logout="$signOut()"
           @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
           :isLightTheme="isLightThemeCheck"
-          noResultText="No results, type a employee name to begin search.
-"
+          noResultText="No results, type a employee name to begin search."
           placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"

@@ -247,6 +247,9 @@ export default {
     this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
       employeeId: this.id,
     });
+    this.$root.$on("update-calendar", () => {
+      this.reloadData += 1;
+    });
   },
   mounted() {
     this.selectedMonth = this.currentMonth;
@@ -539,10 +542,6 @@ export default {
     line-height: 0.9;
   }
 }
-.fc {
-  width: 100%;
-  height: 100%;
-}
 .fc-daygrid-event {
   white-space: unset !important;
   word-wrap: break-word !important;
@@ -559,6 +558,7 @@ export default {
 .fc-theme-standard {
   background-color: #f8f8f9;
   font-size: 14px;
+  width: 100% !important;
   th {
     .fc-scrollgrid-sync-inner {
       padding: 0.5rem !important;

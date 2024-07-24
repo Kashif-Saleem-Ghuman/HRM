@@ -115,7 +115,13 @@
         border-radius: 10px;
       }
     }
-    
+    &--disabled {
+      input,
+      select {
+        background-color: $dark-sub1 !important;
+        border-color: $dark-sub3 !important;
+      }
+    }
   }
   .date-picker--dark {
     label {

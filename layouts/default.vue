@@ -122,9 +122,11 @@ export default {
     headerHelpClick,
     headerActionCall,
     ...mapActions("theme", ["initializeTheme"]),
-    collapseMenu(){
+    collapseMenu() {
       this.collapseNavigation1 = !this.collapseNavigation1;
-      this.$nuxt.$emit("update-calendar");
+      if (this.$route.path === "/leaves-and-vacations/dashboard/") {
+        this.$nuxt.$emit("update-calendar");
+      }
     },
     adjustHeight() {
       const windowHeight = window.innerHeight;

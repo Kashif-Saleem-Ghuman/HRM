@@ -1,10 +1,8 @@
 <template>
-  <div class="list shape-rounded" :class="themeClassCommon">
-  <div class="list__items shape-rounded">
-    <div v-for="item in searchResults"  :key="item.id" :class="isLightThemeCheck ? 'bg-white bg-hover-light' : 'bg-dark  bg-hover-dark-sub1'">
-      <component v-if="item?.type" :is="getSearchItemComponent(item?.type)" :item="item"></component>
+  <div>
+    <div v-for="item in searchResults"  :key="item.id" :class="isLightThemeCheck ? 'bg-white bg-hover-light' : 'bg-dark  bg-hover-dark-sub1'" class="shape-rounded">
+      <component v-if="item?.type" :is="getSearchItemComponent(item?.type)" :item="item" class="shape-rounded"></component>
     </div>
-  </div>
   </div>
 </template>
 

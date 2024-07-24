@@ -18,7 +18,7 @@
           @billing-link="openBillingPage"
           :avatarLink="userPhoto"
           @logout="$signOut()"
-          @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
+          @side-menu-expand="collapseMenu"
           :isLightTheme="isLightThemeCheck"
           noResultText="No results, type a employee name to begin search."
           placeholderSearchbox="Search employee by name"
@@ -122,6 +122,10 @@ export default {
     headerHelpClick,
     headerActionCall,
     ...mapActions("theme", ["initializeTheme"]),
+    collapseMenu(){
+      this.collapseNavigation1 = !this.collapseNavigation1;
+      this.$nuxt.$emit("update-calendar");
+    },
     adjustHeight() {
       const windowHeight = window.innerHeight;
       const navHeight = 64;

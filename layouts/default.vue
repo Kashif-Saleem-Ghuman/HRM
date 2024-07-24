@@ -27,6 +27,7 @@
           @search-enter="$router.push('/search')"
           :hideSearchBox="$store.state.token.isUser"
           class="app-wrapper--collapsed2"
+          :key="updateHeader"
         >
           <template>
             <div class="py-05 ml-minus-5">
@@ -96,12 +97,18 @@ export default {
       addLeaveKey: 0,
       flag: false,
       isLightTheme: this.$cookies.get("isLightTheme"),
+      updateHeader:0,
     };
   },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
     }),
+  },
+  created(){
+    this.$root.$on("update-header-photo", () => {
+      this.updateHeader += 1;
+    });
   },
   async mounted() {
     this.loading = true;

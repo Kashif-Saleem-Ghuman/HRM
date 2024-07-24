@@ -16,7 +16,7 @@ body {
 .main-wrapper {
   width: 100%;
   overflow: hidden !important;
-  height: calc(100vh - 64px) !important;
+  height: 100%;
   .content-area{
       overflow-y: auto;
       padding-bottom: 5px;

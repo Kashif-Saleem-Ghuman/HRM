@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="align-wrapper"> 
     <bib-table
       :fields="tableFields"
       class="table"
@@ -12,6 +12,7 @@
       :showTotal="true"
       :fixHeader="true"
       v-if="id >= 0"
+      
       @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">

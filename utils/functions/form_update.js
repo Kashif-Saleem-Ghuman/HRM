@@ -25,7 +25,7 @@ export async function vfileAdded(file, id, name, event) {
       // this.openPopupNotification(0);
       this.avatarUrl = res;
       this.form.photo = res;
-      
+      this.$root.$emit("update-header-photo");
       this.$root.$emit("photo-updated");
       // this.$nuxt.$emit("dropzone-key");
       // this.avatarUrl[name] = res;

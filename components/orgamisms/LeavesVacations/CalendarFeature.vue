@@ -539,7 +539,10 @@ export default {
     line-height: 0.9;
   }
 }
-
+.fc {
+  width: 100%;
+  height: 100%;
+}
 .fc-daygrid-event {
   white-space: unset !important;
   word-wrap: break-word !important;

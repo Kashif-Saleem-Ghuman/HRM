@@ -277,7 +277,6 @@ export default {
 .chip-wrapper-without-bg {
   border-radius: 1rem;
   // padding: 4px 8px;
-  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

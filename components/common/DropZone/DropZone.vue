@@ -14,7 +14,7 @@
         <div
           class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete"
         >
-          <div class="custom-remove" :class="customRemove">
+          <div class="custom-remove" :class="customRemove" v-show="src">
             <span @click.stop="deleteConfirmation(src)" class="delIcon" :class="isLightThemeCheck ? 'bg-light' : 'bg-dark'">
               <bib-icon icon="trash-solid" :variant="isLightThemeCheck ? 'secondary' : 'secondary'" :scale="0.9"></bib-icon>
             </span>

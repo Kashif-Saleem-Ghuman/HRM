@@ -57,7 +57,7 @@
         </div>
         <div
           v-if="avatars.length > MAX_VISIBLE_AVATARS"
-          class="d-flex align-center item"
+          class="d-flex align-center item "
           style="position: relative"
           @mouseover="showEmployeeList"
           @mouseout="hideEmployeeList"
@@ -66,9 +66,9 @@
           <span
             class="avatar__text  mr-025 cursor-default position-relative cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
             >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
-            <div class="list position-absolute" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark' : 'bg-dark'">
+            <div class="list position-absolute shape-rounded" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark border-light' : 'bg-dark border-dark-sub3'">
               <div
-                class="list__item " :class="isLightThemeCheck ? 'bg-white bg-hover-gray3' : 'bg-dark bg-hover-black'"
+                class="list__item " :class="isLightThemeCheck ? 'bg-white bg-hover-gray3' : 'bg-dark  bg-hover-black'"
                 v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
                 :key="avatar.id"
                 @mouseout="hideEmployeeList"

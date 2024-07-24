@@ -39,7 +39,7 @@
       >
         <bib-button
           :label="buttonLable"
-          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
           class="button-wrapper-align w-100"
           :icon="icon"
         ></bib-button>

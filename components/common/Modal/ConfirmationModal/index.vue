@@ -16,7 +16,7 @@
         <div class="d-flex justify-center">
           <bib-button
             label="Cancel"
-            :variant="isLightThemeCheck ? 'light' : 'dark'"
+            :variant="isLightThemeCheck ? 'light' : 'secondary'"
             class="mr-1"
             @click.native.stop="$emit('close')"
             pill

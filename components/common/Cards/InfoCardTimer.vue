@@ -173,7 +173,7 @@ export default {
       );
     },
     buttonVariant(){
-      if(this.disabled) return "light"
+      if(this.disabled) return this.isLightThemeCheck ? 'light' : 'dark-sub3';
       if (this.$store.state.token.isUser) {
         if (this?.active) return "danger";
         if(!this?.active) return "primary-24"

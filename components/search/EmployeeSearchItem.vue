@@ -1,11 +1,15 @@
 <template>
   <li @click="handleEmployeeClick(item)">
     <bib-avatar :src="item.photo" class="mx-05"></bib-avatar>
-    <div>{{ `${item.firstName} ${item.lastName}` }}</div>
+    <div :title="getEmployeeFullName(item)" style="width: 70%;">{{ getEmployeeFullName(item) | truncate(55, "...") }}</div>
   </li>
 </template> 
 
 <script>
+import {
+  getEmployeeFullName,
+  getEmployeeInitials,
+} from "@/utils/functions/common_functions";
 export default {
   props: {
     item: {
@@ -15,6 +19,8 @@ export default {
   },
 
   methods: {
+    getEmployeeFullName,
+  getEmployeeInitials,
     handleEmployeeClick(item) {
       const { id } = item
       this.$router.push(`/profile/${id}`);

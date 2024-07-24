@@ -115,18 +115,7 @@
         border-radius: 10px;
       }
     }
-    &--disabled {
-      input,
-      textarea,
-      select {
-        color: $white !important;
-        border-color: $dark-sub3 !important;
-        background-color: $dark !important;
-      }
-      label {
-        color: $white !important;
-      }
-    }
+    
   }
   .date-picker--dark {
     label {
@@ -160,4 +149,34 @@
       }
     }
   }
+  .chip-wrapper-without-bg {
+    border-radius: 1rem;
+    // padding: 4px 8px;
+    // margin-right: 10px;
+    
+    background-color: $dark;    
+    &__bg_success{
+      color: $success;
+      svg {
+        fill: $success !important;
+      }
+      span {
+        color: $success !important;
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+    &__bgpending {
+      color: $success;
+      svg {
+        fill: #ffab00 !important;
+      }
+      span {
+        color: #ffab00;
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+  }
+  
 }

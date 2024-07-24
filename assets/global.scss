@@ -322,21 +322,6 @@ body {
     justify-content: center !important;
   }
 }
-.app-wrapper-dark-theme{
-  .search-items {
-    ul {
-      background-color: $dark;
-      li {
-        border-bottom: 1px solid $border-primary !important;
-        color: $gray7;
-      }
-      :hover {
-        background-color: $dark-sub2;
-        color: $white !important;
-      }
-    }
-  }
-}
 
 .modal__mask{
   z-index: 9999 !important;

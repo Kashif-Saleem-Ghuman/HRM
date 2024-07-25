@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="title" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div class="employee-name-label" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{
                 getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}

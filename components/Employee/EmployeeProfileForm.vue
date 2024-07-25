@@ -466,6 +466,7 @@ export default {
           this.dropzone += 1;
           this.$nuxt.$emit("top-nav-key", data);
           this.form = data;
+          this.$root.$emit("update-header-photo");
           this.avatarUrl = "";
           this.confirmastionMessageModal = false;
           return;

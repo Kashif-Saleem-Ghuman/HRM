@@ -62,7 +62,11 @@ export function getEmployeeInitials(employee) {
 export function getEmployeeFullName(employee) {
   if (!employee) return "";
   const { firstName, lastName } = employee;
-  return `${firstName} ${lastName}`;
+  const capitalize = (name) => {
+    if (!name) return "";
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+  return `${capitalize(firstName)} ${capitalize(lastName)}`;
 }
 const START_YEAR = 2023;
 export function generateYearList() {

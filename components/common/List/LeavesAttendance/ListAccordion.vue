@@ -85,14 +85,7 @@
           @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
-            <chips
-              :icon="$getLeaveStatusIcon(data.value.status)"
-              :variant="$getStatusIconVariant(data.value.status)"
-              :iconShowRight="true"
-              :title="$getStatusLabel(data.value.status)"
-              :class="$getLeaveStatusClass(data.value.status)"
-              class="chip-wrapper-bg chip-wrapper-bg__shape-round"
-            ></chips>
+            <leave-status :leaveStatusData="data" @click="leaveDetail(data.value)"></leave-status>
           </div>
         </div>
       </template>

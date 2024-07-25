@@ -61,13 +61,13 @@
       </div>
     </template>
     <template #cell(status)="data">
-      <div class="cursor-pointer">
-        <chips-list
-          :title="getStatusTitle(data.value)"
-          iconShow="iconShow"
-          icon="add"
-          :className="[getStatusClass(data.value)]"
-        ></chips-list>
+      <div class="cursor-pointer button-override">
+        <bib-button
+          :label="getStatusTitle(data.value)"
+          :variant="$getAttendanceStatusVariantName(getStatusTitle(data.value))"
+          :icon-right="$getAttendanceLeaveStatusIconName(getStatusTitle(data.value))"
+          pill
+        ></bib-button>
       </div>
     </template>
     <template v-for="(day, dayIndex) in inOutAction" #[`cell(${day})`]="data">
@@ -130,6 +130,7 @@ import {
   sendMessage,
   handleItemClick_Table,
 } from "../../../../utils/functions/functions_lib";
+
 import { DateTime } from "luxon";
 export default {
   props: {
@@ -262,15 +263,6 @@ export default {
 
     getTimeAbbrByTimezoneName(timeZoneName) {
       return timezoneAbbr.get(timeZoneName);
-    },
-    getStatusClass(data) {
-      const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
-      if (timers.length || inEntry) {
-        return "chip-list-wrapper__sucess";
-      }
-
-      return "chip-list-wrapper__light";
     },
     getInOutClass(data) {
       const inEntry = data;

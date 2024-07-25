@@ -25,8 +25,8 @@
           <chips
             :title="$leaveTypeCheck(data.value.type)"
             iconShow="iconShow"
-            :icon="getLeaveStatusIconVariant(data.value.type)"
-            :variantIcon="getStatusIconVariant(data.value.status)"
+            :icon="$getLeaveStatusIconVariant(data.value.type)"
+            :variantIcon="$getStatusIconVariant(data.value.status)"
           ></chips>
         </div>
       </template>
@@ -61,21 +61,7 @@
         </div>
       </template>
       <template #cell(status)="data">
-        <div
-          class="d-flex align-center cursor-pointer"
-          @click="leaveDetail(data.value)"
-        >
-          <div class="font-md d-flex align-center">
-            <bib-icon
-              :icon="getLeaveStatusIcon(data.value.status)"
-              :variant="getStatusIconVariant(data.value.status)"
-              class="mr-025"
-            ></bib-icon>
-            <aside :class="getTextVariant(data.value.status)">
-              {{ getStatusLabel(data.value.status) }}
-            </aside>
-          </div>
-        </div>
+        <leave-status :leaveStatusData="data" @click="leaveDetail(data.value)"></leave-status>
       </template>
     </bib-table>
     <leave-sidebar></leave-sidebar>
@@ -84,15 +70,7 @@
 
 <script>
 import fecha, { format } from "fecha";
-import {
-  getLeaveStatusIcon,
-  getLeaveStatusIconVariant,
-  getStatusIconVariant,
-  getStatusLabel,
-  getTextVariant,
-  getLeaveTypeIconVariant,
-  getLeaveTypeClassName,
-} from "@/utils/functions/status-helpers";
+
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import { TABLE_HEAD } from "@/utils/constant/Constant";
@@ -120,13 +98,6 @@ export default {
     },
   },
   methods: {
-    getLeaveStatusIcon,
-    getLeaveStatusIconVariant,
-    getStatusIconVariant,
-    getStatusLabel,
-    getTextVariant,
-    getLeaveTypeIconVariant,
-    getLeaveTypeClassName,
     async leaveDetail(item) {
       event.stopPropagation();
       this.$nuxt.$emit("open-sidebar", item);
@@ -137,7 +108,11 @@ export default {
         this.sortByField.header_icon.isActive = false;
       }
       const field = this.tableFields.find((field) => field.key === columnKey);
-      console.log(columnKey, field, "sortByFieldsortByFieldsortByFieldsortByFieldsortByField")
+      console.log(
+        columnKey,
+        field,
+        "sortByFieldsortByFieldsortByFieldsortByFieldsortByField"
+      );
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },

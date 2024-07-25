@@ -111,15 +111,6 @@
 
 <script>
 import fecha, { format } from "fecha";
-import {
-  getLeaveStatusIcon,
-  getLeaveStatusIconVariant,
-  getStatusIconVariant,
-  getStatusLabel,
-  getTextVariant,
-  getLeaveTypeIconVariant,
-  getLeaveTypeClassName,
-} from "@/utils/functions/status-helpers";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import {
   getEmployeeFullName,
@@ -153,13 +144,6 @@ export default {
     },
   },
   methods: {
-    getLeaveStatusIcon,
-    getLeaveStatusIconVariant,
-    getStatusIconVariant,
-    getStatusLabel,
-    getTextVariant,
-    getLeaveTypeIconVariant,
-    getLeaveTypeClassName,
     getEmployeeFullName,
     getEmployeeInitials,
     async leaveDetail(item) {

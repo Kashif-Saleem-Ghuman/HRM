@@ -43,6 +43,7 @@ export default {
     '~/plugins/injectIsThemeCheck.js',
     '~/plugins/leaveType.js',
     '~/plugins/statusHelpers.js',
+    '~/plugins/statusHelpersButtons.js',
     '~/plugins/leaveDetails.js',
   ],
 

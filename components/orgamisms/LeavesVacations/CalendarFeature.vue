@@ -122,13 +122,7 @@ import {
   getCurrentYear,
   generateYearList,
 } from "../../../utils/functions/functions_lib";
-import {
-  getLeaveStatusIcon,
-  getStatusLabel,
-  getTextVariant,
-  getLeaveTypeIconVariant,
-  getLeaveTypeClassName,
-} from "@/utils/functions/status-helpers";
+
 import { addLeaveVacations } from "../../../utils/functions/functions_lib_api";
 import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
 
@@ -259,11 +253,6 @@ export default {
     addLeaveVacations,
     getCurrentYear,
     getEmployeeFullName,
-    getLeaveStatusIcon,
-    getStatusLabel,
-    getTextVariant,
-    getLeaveTypeIconVariant,
-    getLeaveTypeClassName,
     generateYearList,
 
     onSearchChange(value) {

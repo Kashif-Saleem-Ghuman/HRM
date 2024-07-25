@@ -33,16 +33,16 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="getStatusLabel(leaveStatus.status)"
+                :label="$getStatusLabel(leaveStatus.status)"
                 :managerAction="getMessage(leaveStatus.status)"
                 :icon="
-                  getStatusLabel(leaveStatus.status) === 'Rejected'
+                  $getStatusLabel(leaveStatus.status) === 'Rejected'
                     ? 'tick'
-                    : getLeaveStatusIcon(leaveStatus.status)
+                    : $getLeaveStatusIcon(leaveStatus.status)
                 "
-                :variant="getLeaveTypeIconVariant(leaveStatus.status)"
-                :className="getLeaveTypeClassName(leaveStatus.status)"
-                :classNameWrapper="getTextVariant(leaveStatus.status)"
+                :variant="$getLeaveTypeIconVariant(leaveStatus.status)"
+                :className="$getLeaveTypeClassName(leaveStatus.status)"
+                :classNameWrapper="$getTextVariant(leaveStatus.status)"
                 :refusalReason="getReason(leaveStatus)"
               ></info-card-success>
             </div>
@@ -75,16 +75,6 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { DateTime } from "luxon";
-
-import {
-  getLeaveStatusIcon,
-  getLeaveStatusIconVariant,
-  getStatusIconVariant,
-  getStatusLabel,
-  getTextVariant,
-  getLeaveTypeIconVariant,
-  getLeaveTypeClassName,
-} from "@/utils/functions/status-helpers";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 
@@ -176,13 +166,6 @@ export default {
     this.registerRootListeners();
   },
   methods: {
-    getLeaveStatusIcon,
-    getLeaveStatusIconVariant,
-    getStatusIconVariant,
-    getStatusLabel,
-    getTextVariant,
-    getLeaveTypeIconVariant,
-    getLeaveTypeClassName,
     getEmployeeFullName,
     calculateTotalDays,
     openPopupNotification(notification) {

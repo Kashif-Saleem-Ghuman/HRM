@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0,5)"
+        :items="appWrapItems.navItemsAdmin.slice(0, 5)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -15,7 +15,7 @@
       <div
         class="nav-section position-relative cus-menu"
         v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
-        @click=" menuClick(item);"
+        @click="menuClick(item)"
       >
         <div
           id=""
@@ -25,16 +25,24 @@
         >
           <div class="nav-item__icon">
             <div>
-              <bib-logo :square="true" size="18px" :isLightTheme="isLightThemeCheck"></bib-logo>
+              <bib-logo
+                :square="true"
+                size="18px"
+                :isLightTheme="isLightThemeCheck"
+              ></bib-logo>
             </div>
           </div>
           <div class="nav-item__label nav-item__flex">
             <span
               id=""
               :class="[
-            isLightThemeCheck && item.selected ? 'nav-item__label--light--selected' : '',
-            !isLightThemeCheck && item.selected ? 'nav-item__label--dark--selected' : '',
-          ]"
+                isLightThemeCheck && item.selected
+                  ? 'nav-item__label--light--selected'
+                  : '',
+                !isLightThemeCheck && item.selected
+                  ? 'nav-item__label--dark--selected'
+                  : '',
+              ]"
               >{{ item.label }}</span
             >
           </div>
@@ -94,9 +102,9 @@ import { USER_ROLES } from "../../../utils/constant/Constant.js";
 import getJson from "../../../utils/dataJson/app_wrap_data.js";
 import { mapState } from "vuex";
 const appWrapItems = getJson();
-import {
-  handleToggleWrapperTheme,
-} from "@/utils/functions/functions_lib.js";
+import { handleToggleWrapperTheme } from "@/utils/functions/functions_lib.js";
+import { navigationPaths } from "../../../utils/constant/NavPaths";
+
 export default {
   props: {
     navItems: {
@@ -130,7 +138,7 @@ export default {
       lightThemeChecked: JSON.parse(localStorage.getItem("isLightTheme")),
     };
   },
-  
+
   methods: {
     changeDashboard() {
       this.$router.push("/dashboard");
@@ -138,8 +146,10 @@ export default {
     handleToggleWrapperTheme,
     itemClasses(item) {
       const itemClass = {
-        "nav-item--selected--light nav-item--light": this.isLightThemeCheck && item.selected,
-        "nav-item--selected--dark nav-item--dark": !this.isLightThemeCheck && item.selected,
+        "nav-item--selected--light nav-item--light":
+          this.isLightThemeCheck && item.selected,
+        "nav-item--selected--dark nav-item--dark":
+          !this.isLightThemeCheck && item.selected,
         "nav-item__label--light": this.isLightThemeCheck && !item.selected,
         "nav-item__label--light": this.isLightThemeCheck && item.selected,
         "nav-item--dark": !this.isLightThemeCheck && !item.selected,
@@ -194,16 +204,29 @@ export default {
 
     setSelectedNavItem(navItems) {
       let path = this.$router.history.current.fullPath;
-      if (
-        path === "/time-attendance/attendance/?view=day" ||
-        path === "/time-attendance/attendance/?view=week" ||
-        path === "/time-attendance/attendance/?view=month"
-      ) {
-        path = "/time-attendance/attendance/";
+      for (const navPath of navigationPaths) {
+        const regexPath = navPath.paths.map((p) =>
+          p.replace(/\/:id\//, "/\\d+/")
+        );
+        if (
+          regexPath.some((p) =>
+            new RegExp(`^${p}(\\?view=day|\\?view=week|\\?view=month)?$`).test(
+              path
+            )
+          )
+        ) {
+          const id = this.getIdFromPath(path);
+          path = navPath.defaultPath.replace(/\/:id\//, id ? `/${id}/` : "/");
+          break;
+        }
       }
       const item = navItems.find((item) => item.url === path);
       this.resetSelected(navItems);
       if (item) item.selected = true;
+    },
+    getIdFromPath(path) {
+      const match = path.match(/\/(\d+)\//);
+      return match ? match[1] : "";
     },
 
     openClockIn() {
@@ -264,7 +287,8 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave" && item.key != "requestMedical") this.closeSidebar();
+      if (item.key != "requestVacation" && item.key != "requestLeave")
+        this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;
@@ -332,233 +356,231 @@ export default {
       color: $white !important;
     }
   }
- 
 }
-.cus-menu{
+.cus-menu {
   .nav-item {
-
-&--dark {
-  color: $gray5;
-
-  &:hover {
-    background: $surface-tertiary;
-
-    color: $text-primary;
-    .nav-item__symbol {
-      display: none;
-    }
-    .nav-item__label {
-      color: $text-primary;
-    }
-    .nav-item__symbol--hover {
-      display: flex;
-      z-index: 3;
-      align-items: center;
-    }
-  }
-}
-&--light {
-  color: $light;
-
-  &:hover {
-    color: $text;
-    background: $text-primary;
-
-    .nav-item__label {
-      color: $text;
-    }
-    .nav-item__symbol {
-      display: none;
-    }
-    .nav-item__symbol--hover {
-      display: flex;
-      z-index: 3;
-      align-items: center;
-    }
-  }
-}
-transition: 0.2s all ease;
-$self: &;
-position: relative;
-border-radius: 4px;
-margin: 0rem 0.5rem;
-&--last {
-  margin-top: 2rem !important;
-}
-&__line {
-  margin-left: -1rem;
-  width: 1rem;
-}
-
-&__label {
-  height: 2.5rem;
-  align-self: stretch;
-  place-items: center;
-  color: $text-secondary;
-  &--dark {
-    &:hover {
-      color: $text-primary;
-      &:deep(svg) {
-        fill: $text-primary;
-      }
-
-      color: $text-primary;
-    }
-    &--selected {
-      color: $text-primary;
-    }
-  }
-  &--light {
-    &:hover {
-      color: $text;
-
-      &:deep(svg) {
-        fill: $text;
-      }
-    }
-    &--selected {
-      color: $text;
-    }
-  }
-  &--sub {
-    font-weight: 500;
-
     &--dark {
-      color: $secondary;
+      color: $gray5;
+
       &:hover {
-        color: $white;
-      }
-    }
-  }
-  span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
+        background: $surface-tertiary;
 
-&__icon {
-  align-self: stretch;
-  display: grid;
-  place-items: center;
-  &--sub {
-    display: flex;
-    align-items: center;
-    z-index: 5;
-    margin-left: 1rem;
-    height: 100%;
-    margin-top: 0.15rem;
-    width: 1.5rem;
-    justify-content: center;
-  }
-}
-&__bullet {
-  display: grid;
-  place-items: center;
-  &::before {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    content: "";
-    background-color: $secondary;
-  }
-  &--selected::before {
-    background-color: $white;
-  }
-}
-&__symbol {
-  display: flex;
-  z-index: 3;
-  align-items: center;
-}
-&__symbol--hover {
-  display: none;
-  z-index: 3;
-}
-&__symbol--sub--hover {
-  display: none;
-}
-&--sub--dark {
-  border-radius: 4px;
-  &:hover {
-    color: $text-primary;
-    background: $surface-tertiary;
-
-    .nav-item__label--sub--dark {
-      color: $text-primary;
-    }
-    svg {
-      //fill: $text-primary !important;
-    }
-    &::v-deep {
-      * {
         color: $text-primary;
+        .nav-item__symbol {
+          display: none;
+        }
+        .nav-item__label {
+          color: $text-primary;
+        }
+        .nav-item__symbol--hover {
+          display: flex;
+          z-index: 3;
+          align-items: center;
+        }
       }
     }
-    .nav-item__icon--sub {
-      &::v-deep {
+    &--light {
+      color: $light;
+
+      &:hover {
+        color: $text;
+        background: $text-primary;
+
+        .nav-item__label {
+          color: $text;
+        }
+        .nav-item__symbol {
+          display: none;
+        }
+        .nav-item__symbol--hover {
+          display: flex;
+          z-index: 3;
+          align-items: center;
+        }
+      }
+    }
+    transition: 0.2s all ease;
+    $self: &;
+    position: relative;
+    border-radius: 4px;
+    margin: 0rem 0.5rem;
+    &--last {
+      margin-top: 2rem !important;
+    }
+    &__line {
+      margin-left: -1rem;
+      width: 1rem;
+    }
+
+    &__label {
+      height: 2.5rem;
+      align-self: stretch;
+      place-items: center;
+      color: $text-secondary;
+      &--dark {
+        &:hover {
+          color: $text-primary;
+          &:deep(svg) {
+            fill: $text-primary;
+          }
+
+          color: $text-primary;
+        }
+        &--selected {
+          color: $text-primary;
+        }
+      }
+      &--light {
+        &:hover {
+          color: $text;
+
+          &:deep(svg) {
+            fill: $text;
+          }
+        }
+        &--selected {
+          color: $text;
+        }
+      }
+      &--sub {
+        font-weight: 500;
+
+        &--dark {
+          color: $secondary;
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &__icon {
+      align-self: stretch;
+      display: grid;
+      place-items: center;
+      &--sub {
+        display: flex;
+        align-items: center;
+        z-index: 5;
+        margin-left: 1rem;
+        height: 100%;
+        margin-top: 0.15rem;
+        width: 1.5rem;
+        justify-content: center;
+      }
+    }
+    &__bullet {
+      display: grid;
+      place-items: center;
+      &::before {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        content: "";
+        background-color: $secondary;
+      }
+      &--selected::before {
+        background-color: $white;
+      }
+    }
+    &__symbol {
+      display: flex;
+      z-index: 3;
+      align-items: center;
+    }
+    &__symbol--hover {
+      display: none;
+      z-index: 3;
+    }
+    &__symbol--sub--hover {
+      display: none;
+    }
+    &--sub--dark {
+      border-radius: 4px;
+      &:hover {
+        color: $text-primary;
+        background: $surface-tertiary;
+
+        .nav-item__label--sub--dark {
+          color: $text-primary;
+        }
+        svg {
+          //fill: $text-primary !important;
+        }
+        &::v-deep {
+          * {
+            color: $text-primary;
+          }
+        }
+        .nav-item__icon--sub {
+          &::v-deep {
+            svg {
+              fill: $text-primary !important;
+            }
+          }
+        }
+      }
+      &.sub-selected {
+        span {
+          color: $text-primary;
+        }
         svg {
           fill: $text-primary !important;
         }
       }
     }
-  }
-  &.sub-selected {
-    span {
-      color: $text-primary;
-    }
-    svg {
-      fill: $text-primary !important;
-    }
-  }
-}
-&--sub--light {
-  border-radius: 4px;
-  color: $text-secondary;
+    &--sub--light {
+      border-radius: 4px;
+      color: $text-secondary;
 
-  &:hover {
-    background: $text-primary;
+      &:hover {
+        background: $text-primary;
 
-    .nav-item__label--sub--light {
-      color: $text;
-    }
-    svg {
-    }
-    color: $text;
-    &::v-deep {
-      svg {
-        fill: $text;
+        .nav-item__label--sub--light {
+          color: $text;
+        }
+        svg {
+        }
+        color: $text;
+        &::v-deep {
+          svg {
+            fill: $text;
+          }
+        }
+      }
+      &.sub-selected {
+        span {
+          color: $text;
+        }
+        svg {
+          fill: $text !important;
+        }
       }
     }
-  }
-  &.sub-selected {
-    span {
-      color: $text;
-    }
-    svg {
-      fill: $text !important;
-    }
-  }
-}
 
-&--selected {
-  &--dark {
-    color: $text-primary;
-    svg {
-      fill: $text-primary !important;
+    &--selected {
+      &--dark {
+        color: $text-primary;
+        svg {
+          fill: $text-primary !important;
+        }
+      }
+      &--light {
+        color: $text;
+        svg {
+          fill: $text !important;
+        }
+      }
+    }
+    &__right-menu {
+      position: absolute;
+      right: 0.7rem;
     }
   }
-  &--light {
-    color: $text;
-    svg {
-      fill: $text !important;
-    }
-  }
-}
-&__right-menu {
-  position: absolute;
-  right: 0.7rem;
-}
-}
 }
 </style>

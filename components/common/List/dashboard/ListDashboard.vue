@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="info_wrapper cursor-pointer w-100">
-          <div class="title" :title="getEmployeeFullName(data.value)"  :class="isLightThemeCheck ? 'text-dark' :'light'">
+          <div class="employee-name-label" :title="getEmployeeFullName(data.value)"  :class="isLightThemeCheck ? 'text-dark' :'light'">
             {{
               getEmployeeFullName(data.value) | truncate(truncateText, "...")
             }}
@@ -80,7 +80,7 @@
     </template>
     <template #cell(breaks)="data">
       <div class="cursor-pointer">
-        <div>{{ data.value?.activityReport.break ?? "--" }}</div>
+        <span>{{ data.value?.activityReport.break ?? "--" }}</span>
       </div>
     </template>
     <template #cell(total)="data">
@@ -91,14 +91,13 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots"  :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
+      <bib-button pop="horizontal-dots" :iconVariant="isLightThemeCheck ? '' : 'light'"  @click.native.stop>
         <template v-slot:menu>
           <div class="list">
             <span
               class="list__item"
               v-for="item in peopleActionItems"
               @click.stop="callAction(data, item)"
-              :class="isLightThemeCheck ? 'text-black' : 'text-white'"
               >{{ item }}</span
             >
           </div>

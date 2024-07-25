@@ -11,6 +11,7 @@
               :button-config="changeViewButtonConfig"
               @on-click="onViewChange"
               size="lg"
+              className="left:0px !important"
             ></dropdown-menu-chip>
           </div>
 

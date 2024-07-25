@@ -1536,6 +1536,7 @@ export const ACTIVITY_TYPE = {
   SICK: "sick",
   PERSONAL: "personal",
   BREAK: "break",
+  OTHER:"other"
 };
 
 export const TIME_ENTRY_SOURCE = {
@@ -1550,6 +1551,7 @@ export const ACTIVITY_TYPE_LABEL_VALUE = {
   [ACTIVITY_TYPE.OUT]: "Out",
   [ACTIVITY_TYPE.MEDICAL]: "Medical",
   [ACTIVITY_TYPE.PERSONAL]: "Personal",
+  [ACTIVITY_TYPE.OTHER]: "Other Leave",
 };
 
 export const USER_ROLES = {

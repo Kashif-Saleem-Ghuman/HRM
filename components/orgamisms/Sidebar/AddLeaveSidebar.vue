@@ -40,6 +40,7 @@
           <div class="text-right">
             <bib-button
               label="Cancel"
+              :variant="isLightThemeCheck ? 'gray' : 'secondary'"
               size="lg"
               @click="closeSidebar"
             ></bib-button>

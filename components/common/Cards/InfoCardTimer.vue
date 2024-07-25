@@ -365,8 +365,8 @@ export default {
         this.getDailyTimeEntries
       );
     },
-    buttonVariant() {
-      if (this.disabled) return "light";
+    buttonVariant(){
+      if(this.disabled) return this.isLightThemeCheck ? 'light' : 'dark-sub3';
       if (this.$store.state.token.isUser) {
         if (this?.active) return "warning";
         if (!this?.active) return "primary-24";

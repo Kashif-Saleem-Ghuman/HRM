@@ -16,7 +16,7 @@
     v-bind="{ value, ...$attrs }"
     :instruction="error"
     @input="onInput"
-    :variant="isLightThemeCheck ? 'light' : (error ? 'alert' : 'dark')"
+    :variant="isLightThemeCheck ? (error ? 'alert' : 'light')  : (error ? 'alert' : 'dark')"
     :disable="disable"
   ></bib-input>
 </template>

@@ -130,9 +130,16 @@ export default {
 </script>
 <style lang="scss">
 .scroll-wrapper {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 1900px) {
   .scroll-wrapper {
     height: 80vh !important;

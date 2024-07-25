@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="title" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div class="employee-name-label" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{
                 getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
@@ -118,6 +118,8 @@ import {
 } from "../../../utils/functions/common_functions";
 
 import { sortColumn } from "../../../utils/functions/table-sort";
+import {DateTime} from "luxon";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 export default {
   props: {
     userList: {
@@ -187,7 +189,7 @@ export default {
     },
 
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MMM-YYYY");
+      return DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
 
     viewProfile(id) {

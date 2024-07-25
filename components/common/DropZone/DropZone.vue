@@ -8,18 +8,19 @@
       @vdropzone-files-added="maxFilesSize($event)"
       @vdropzone-thumbnail="$emit('vfileAdded', $event)"
       :key="dropzoneRefresh"
+      style="background-color: transparent !important;"
     >
       <div class="d-flex align-center position-relative" :class="className">
         <div
           class="mr-1 mb-1 dz-preview dz-processing dz-image-preview dz-success dz-complete"
         >
-          <div class="custom-remove" :class="customRemove">
-            <span @click.stop="deleteConfirmation(src)" class="delIcon">
-              <bib-icon icon="trash-solid" :scale="0.9"></bib-icon>
+          <div class="custom-remove" :class="customRemove" v-show="src">
+            <span @click.stop="deleteConfirmation(src)" class="delIcon" :class="isLightThemeCheck ? 'bg-light' : 'bg-dark'">
+              <bib-icon icon="trash-solid" :variant="isLightThemeCheck ? 'secondary' : 'secondary'" :scale="0.9"></bib-icon>
             </span>
           </div>
           <div class="upload-link">Upload Image</div>
-          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
+          <bib-avatar size="7.5rem" :src="src" class="avtar-border"></bib-avatar>
         </div>
         <!-- <div :class="className">
           <div class="text-left">
@@ -167,7 +168,6 @@ export default {
     width: 30px;
     bottom: 0;
     padding: 8px;
-    background-color: $light;
     position: relative;
   }
 }
@@ -204,6 +204,7 @@ export default {
   .avtar-border {
     border: 0px solid $light !important;
   }
+  
   // h3 {
   //   font-size: 12px;
   //   color: #8989ff;
@@ -238,22 +239,6 @@ export default {
 .dz-progress {
   //   display: none;
 }
-.dropzone .dz-preview .dz-image img {
-  border-radius: 50%;
-  border: solid 1px $light;
-  // margin-right: 16px;
-}
-.dropzone .dz-preview:hover .dz-image img {
-  -webkit-transform: scale(1, 1) !important;
-  -moz-transform: scale(1, 1) !important;
-  -ms-transform: scale(1, 1) !important;
-  -o-transform: scale(1, 1) !important;
-  transform: scale(1, 1) !important;
-  -webkit-filter: blur(0px) !important;
-  filter: blur(0px) !important;
-  border-radius: 50%;
-}
-
 .dz-success-mark,
 .dz-error-mark {
   display: none;

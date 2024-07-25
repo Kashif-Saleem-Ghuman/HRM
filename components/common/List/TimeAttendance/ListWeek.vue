@@ -1,11 +1,9 @@
 <template>
-  <div>
+  <div class="align-wrapper"> 
     <bib-table
       :fields="tableFields"
       class="table"
       :class="{
-      table__headless: headless,
-      resizableTable: resizableColumns,
       'table--light': isLightThemeCheck,
       'table--dark': !isLightThemeCheck,
     }"
@@ -14,6 +12,7 @@
       :showTotal="true"
       :fixHeader="true"
       v-if="id >= 0"
+      
       @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="d-flex justify-between align-center nav_wrapper w-100"
-    :class="borderClassBottom"
+    class="d-flex justify-between align-center w-100"
+    :class="[borderClassBottom, isLightThemeCheck ? 'bg-light-sub2' : 'bg-dark']"
   >
     <nav class="gap-05 page_title">
       <bib-button
@@ -14,7 +14,7 @@
         v-show="back"
       ></bib-button>
       <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-      <div class="page__header__bread__title" v-if="title" :title="title">
+      <div class="page__header__bread__title"  style="text-transform: capitalize;"  v-if="title" :title="title">
         {{ title }}
       </div>
     </nav>

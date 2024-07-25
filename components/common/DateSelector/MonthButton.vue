@@ -4,15 +4,15 @@
       <div class="position-relative">
         <bib-button
           :label="selected"
-          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
+          :variant="themeButtonVariant"
           @click="toggleDropdown"
           v-click-outside="clickOutside"
         ></bib-button>
         <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
           <ul v-if="isDropdownOpen" class="border-white">
             <li
-              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark-sub1 bg-hover-dark-sub2'"
-              v-for="(option, index) in options"
+            class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
+            v-for="(option, index) in options"
               :key="index"
               @click="selectOption(option)"
             >

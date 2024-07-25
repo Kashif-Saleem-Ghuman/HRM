@@ -26,14 +26,31 @@
       color: $dark;
     }
   }
+  .list{
+    background-color: $white !important;
+    :hover{
+      background-color: $light !important;
+  }
+  }
 }
 .dark-theme {
   background-color: $black;
   color: $white;
+    
   .table{
     span{
       // color: $light;
     }
+  }
+  .list{
+    background-color: $dark !important;
+    &__item{
+      color: $white !important;
+    }
+    :hover{
+      background-color: $dark-sub1 !important;
+    
+  }
   }
   .bottom_border_wrapper {
     border-bottom: 1px solid $dark-sub3;
@@ -71,15 +88,14 @@
       color: $white !important;
       // line-height: 3rem;
       // height: 2.95rem;
-      border-color: $border-primary;
+      border-color: $border-light;
     }
   }
   .border-wrapper {
     border: solid 1px $dark-sub1;
   }
-  .dropzone .dz-preview.dz-image-preview {
-    background-color: $black !important;
-  }
+  
+  
   .drop-menu {
     .menu-items {
       ul {

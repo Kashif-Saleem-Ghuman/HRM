@@ -4,8 +4,24 @@ html,
 body {
   font-family: $font-family;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
-
+.app-wrapper__content{
+  overflow-y: hidden;
+}
+.header__search__input .search_input {
+  width: 28em !important; 
+}
+.main-wrapper {
+  width: 100%;
+  overflow: hidden !important;
+  height: 100%;
+  .content-area{
+      overflow-y: auto;
+      padding-bottom: 5px;
+  }
+}
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;
@@ -215,6 +231,18 @@ body {
 .app-wrapper__navigation--collapsed {
   padding: 0 !important;
 }
+
+@media (min-width: 1900px) {
+  .height {
+    height: 78vh !important;
+  }
+}
+@media (min-width: 3000px) {
+  .height {
+    height: 85vh !important;
+  }
+}
+
 .nav-item__symbol {
   margin-right: 1px !important;
 }
@@ -294,22 +322,12 @@ body {
     justify-content: center !important;
   }
 }
-.app-wrapper-dark-theme{
-  .search-items {
-    ul {
-      li {
-        border-bottom: 1px solid $border-primary !important;
-        // background-color: red;
-        color: $gray7;
-      }
-      :hover {
-        background-color: $dark;
-        color: $white !important;
-      }
-    }
-  }
-}
 
 .modal__mask{
   z-index: 9999 !important;
+}
+.employee-name-label{
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
 }

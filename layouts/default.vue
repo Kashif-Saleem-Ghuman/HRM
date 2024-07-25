@@ -18,15 +18,16 @@
           @billing-link="openBillingPage"
           :avatarLink="userPhoto"
           @logout="$signOut()"
-          @side-menu-expand="collapseNavigation1 = !collapseNavigation1"
+          @side-menu-expand="collapseMenu"
           :isLightTheme="isLightThemeCheck"
-          noResultText="No result"
+          noResultText="No results, type a employee name to begin search."
           placeholderSearchbox="Search employee by name"
           @search-change="handleSearchChange"
           :search-data="$store.state.app.searchResults || []"
           @search-enter="$router.push('/search')"
           :hideSearchBox="$store.state.token.isUser"
           class="app-wrapper--collapsed2"
+          :key="updateHeader"
         >
           <template>
             <div class="py-05 ml-minus-5">
@@ -45,15 +46,21 @@
         </bib-app-switcher>
       </template>
       <template #navigation>
-        <app-menu :sectionHead="!collapseNavigation1" ></app-menu>
+        <app-menu :sectionHead="!collapseNavigation1"></app-menu>
       </template>
       <template #content>
-        <div id="main-content" :class="themeClassWrapper">
-          <Nuxt />
-          <add-leave-sidebar></add-leave-sidebar>
+        <div class="main-wrapper" ref="mainWrapper">
+          <div
+            id="main-content"
+            class="content-area"
+            :class="themeClassWrapper"
+            ref="childDiv"
+          >
+            <Nuxt />
+            <add-leave-sidebar></add-leave-sidebar>
+          </div>
         </div>
-        <div>
-        </div>
+        <div></div>
         <loader :loading="loading"></loader>
       </template>
     </bib-app-wrapper>
@@ -89,14 +96,19 @@ export default {
       userRole: "",
       addLeaveKey: 0,
       flag: false,
-      isLightTheme:this.$cookies.get('isLightTheme')
+      isLightTheme: this.$cookies.get("isLightTheme"),
+      updateHeader:0,
     };
   },
   computed: {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
     }),
-    
+  },
+  created(){
+    this.$root.$on("update-header-photo", () => {
+      this.updateHeader += 1;
+    });
   },
   async mounted() {
     this.loading = true;
@@ -104,7 +116,9 @@ export default {
     this.setDebouncedSearch();
     this.loading = false;
     await this.$isThemeCheck();
-    this.isLightTheme = this.$cookies.get('isLightTheme')
+    this.isLightTheme = this.$cookies.get("isLightTheme");
+    this.adjustHeight();
+    window.addEventListener("resize", this.adjustHeight);
   },
   methods: {
     getEmployeeFullName,
@@ -114,12 +128,21 @@ export default {
     openBillingPage,
     headerHelpClick,
     headerActionCall,
-    ...mapActions('theme', ['initializeTheme']),
-
+    ...mapActions("theme", ["initializeTheme"]),
+    collapseMenu() {
+      this.collapseNavigation1 = !this.collapseNavigation1;
+      if (this.$route.path === "/leaves-and-vacations/dashboard/") {
+        this.$nuxt.$emit("update-calendar");
+      }
+    },
+    adjustHeight() {
+      const windowHeight = window.innerHeight;
+      const navHeight = 64;
+      this.$refs.childDiv.style.height = `${windowHeight - navHeight}px`;
+    },
     toggleTheme(flag) {
       this.isLightTheme = flag;
       this.$handleToggleWrapperTheme(flag);
-
     },
     routesCheck,
     setDebouncedSearch() {
@@ -141,7 +164,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .ml-minus-5 {

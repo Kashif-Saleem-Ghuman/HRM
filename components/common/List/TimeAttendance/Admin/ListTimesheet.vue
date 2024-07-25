@@ -46,10 +46,10 @@
             class="info_wrapper w-100 cursor-pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="title" :title="getEmployeeFullName(data.value)">
+            <div class="employee-name-label" :title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
-            <div class="description">
+            <div :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{ data.value.jobTitle }}
             </div>
           </div>
@@ -239,10 +239,10 @@ export default {
       }
       return this.$leaveTypeCheck(vacationName);
 
-      return "--";
     },
     getVacationName(data) {
       const activity = Object.values(ACTIVITY_TYPE).find(activity => data[activity]);
+      console.log(activity, "getVacationNamegetVacationNamegetVacationName")
       return ACTIVITY_TYPE_LABEL_VALUE[activity]  ?? "";
     },
     getFormattedHoursWithVacation(weekData, vacationName) {

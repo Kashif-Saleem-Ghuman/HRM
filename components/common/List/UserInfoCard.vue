@@ -125,6 +125,7 @@ export default {
       display: flex;
       font-size: 16px !important;
       flex-direction: column;
+      text-transform: capitalize;
       span {
         font-weight: 400;
         font-size: 14px !important;

@@ -20,7 +20,7 @@
             </span>
           </div>
           <div class="upload-link">Upload Image</div>
-          <bib-avatar size="120px" :src="src" class="avtar-border"></bib-avatar>
+          <bib-avatar size="7.5rem" :src="src" class="avtar-border"></bib-avatar>
         </div>
         <!-- <div :class="className">
           <div class="text-left">
@@ -204,6 +204,7 @@ export default {
   .avtar-border {
     border: 0px solid $light !important;
   }
+  
   // h3 {
   //   font-size: 12px;
   //   color: #8989ff;
@@ -238,22 +239,6 @@ export default {
 .dz-progress {
   //   display: none;
 }
-.dropzone .dz-preview .dz-image img {
-  border-radius: 50%;
-  border: solid 1px $light;
-  // margin-right: 16px;
-}
-.dropzone .dz-preview:hover .dz-image img {
-  -webkit-transform: scale(1, 1) !important;
-  -moz-transform: scale(1, 1) !important;
-  -ms-transform: scale(1, 1) !important;
-  -o-transform: scale(1, 1) !important;
-  transform: scale(1, 1) !important;
-  -webkit-filter: blur(0px) !important;
-  filter: blur(0px) !important;
-  border-radius: 50%;
-}
-
 .dz-success-mark,
 .dz-error-mark {
   display: none;

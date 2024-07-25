@@ -118,7 +118,7 @@
                    </div>
                  </div>
                  <div class="info_wrapper">
-                   <div class="title" style="text-transform: capitalize;" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
+                   <div class="employee-name-label" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
                      {{ item.firstName }} {{ item.lastName }}
                    </div>
                    <div :class="isLightThemeCheck ? 'text-dark' :'light'">

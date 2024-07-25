@@ -46,7 +46,7 @@
             class="info_wrapper w-100 cursor-pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="title" :title="getEmployeeFullName(data.value)">
+            <div class="employee-name-label" :title="getEmployeeFullName(data.value)">
               {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
             <div :class="isLightThemeCheck ? 'text-dark' :'light'">

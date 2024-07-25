@@ -14,7 +14,7 @@
         v-show="back"
       ></bib-button>
       <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-      <div class="page__header__bread__title" v-if="title" :title="title">
+      <div class="page__header__bread__title"  style="text-transform: capitalize;"  v-if="title" :title="title">
         {{ title }}
       </div>
     </nav>

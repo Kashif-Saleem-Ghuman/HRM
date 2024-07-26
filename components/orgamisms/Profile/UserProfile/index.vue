@@ -1,17 +1,17 @@
 <template>
   <div class="my-profile-wrapper">
     <loader :loading="loading"></loader>
-      <section-header-left
-        :title="
-          getEmployeeFullName(form) != 'undefined undefined'
-            ? getEmployeeFullName(form)
-            : '---'
-        "
-        :avatar="form.photo"
-        :key="topNav"
-        :back="true"
-        @on-click="backToPage()"
-      ></section-header-left>
+    <section-header-left
+      :title="
+        getEmployeeFullName(form) != 'undefined undefined'
+          ? getEmployeeFullName(form)
+          : '---'
+      "
+      :avatar="form.photo"
+      :key="topNav"
+      :back="true"
+      @on-click="backToPage()"
+    ></section-header-left>
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
         <div class="row mx-0" :class="borderClassBottom">
@@ -65,17 +65,25 @@ export default {
   async created() {
     this.loading = true;
     await this.$store.dispatch("employee/setActiveUser");
-    // await this.$store.dispatch("employee/setUser", this.getUser.id);
     this.id = this.$route.params.id ?? this.getUser.id;
     this.$store.dispatch("token/setActiveTab", "Employee Profile");
     this.fetchData();
     this.setActiveTab();
     this.$root.$on("top-nav-key", (data) => {
-      this.form = data
+      this.form = { ...this.form, ...data };
+    });
+    this.$root.$on("top-nav-photo-update", (photo) => {
+      if (photo) {
+        this.form.photo = photo;
+      }
     });
     this.$nuxt.$on("routeChanged", (to, from) => {
       this.$store.dispatch("previouspath/setPreviousPath", from.path);
     });
+  },
+  beforeDestroy() {
+    this.$root.$off("top-nav-photo-update", this.photoUpdateHandler);
+    this.$nuxt.$off("routeChanged", this.routeChangeHandler);
   },
   methods: {
     getEmployeeFullName,

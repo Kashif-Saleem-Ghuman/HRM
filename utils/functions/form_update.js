@@ -26,9 +26,8 @@ export async function vfileAdded(file, id, name, event) {
       this.avatarUrl = res;
       this.form.photo = res;
       this.$root.$emit("update-header-photo");
+      this.$root.$emit("top-nav-photo-update", res);
       this.$root.$emit("photo-updated");
-      // this.$nuxt.$emit("dropzone-key");
-      // this.avatarUrl[name] = res;
     })
     .catch((err) => {
       console.log("There was an issue in employees API", err);

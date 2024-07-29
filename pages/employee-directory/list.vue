@@ -49,7 +49,7 @@ export default {
 
   methods: {
     async getOrganizationEntries() {
-      const data = await getEmployees();
+      const data = await getEmployees({ currentLeaveType: true });
       const employees = data.employees;
       this.employees = employees;
       this.loading = false

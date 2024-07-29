@@ -2,11 +2,14 @@
 <template>
   <div class="button-override">
     <bib-button
-      :label="$getStatusLabelName(leaveStatusData.value.status)"
-      :variant="$getStatusVariantName(leaveStatusData.value.status)"
-      :icon-right="$getLeaveStatusIconName(leaveStatusData.value.status)"
-      @click="$emit('click')"
+      :label="$getStatusLabelName(resolvedStatus)"
+      :variant="$getStatusVariantName(resolvedStatus)"
+      :icon-right="$getLeaveStatusIconName(resolvedStatus)"
+      @click.native.stop="$emit('click')"
+      :disabled="disabled"
       pill
+      :style="minWidth"
+      :class="[defaultPointer ? 'cursor-default' : 'cursor-pointer']"
     ></bib-button>
   </div>
 </template>
@@ -15,20 +18,39 @@
 export default {
   props: {
     leaveStatusData: {
-      type: Object,
-      default: "",
+      type: [Object, String],
+      required: true
+
+    },
+    minWidth:{
+      type:String,
+      default:'min-width: 115px !important;'
+    },
+    disabled:{
+      type:Boolean
+    },
+    defaultPointer: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {};
   },
+  computed: {
+    resolvedStatus() {
+      if (typeof this.leaveStatusData === 'object' && this.leaveStatusData !== null) {
+        return this.leaveStatusData.value.status ?? this.leaveStatusData;
+      }
+      return this.leaveStatusData;
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 .button-override {
   .button {
-    min-width: 115px !important;
     display: flex;
     justify-content: space-between;
     &--success-light {
@@ -55,6 +77,25 @@ export default {
         fill: $danger !important;
       }
     }
+    &--default-light {
+      background-color: $gray4;
+      color: $dark;
+      border: 1px solid $dark;
+      svg {
+        fill: $dark !important;
+      }
+    }
+    &--primary {
+      background-color: $primary-24;
+      color: $white;
+      border: 1px solid $primary-24;
+      svg {
+        fill: $white !important;
+      }
+    }
+  }
+  .cursor-default{
+    cursor: default !important;
   }
 }
 </style>

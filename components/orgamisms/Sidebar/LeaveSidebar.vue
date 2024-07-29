@@ -75,7 +75,6 @@
 import { mapGetters } from "vuex";
 import fecha, { format } from "fecha";
 import { DateTime } from "luxon";
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
 
 import {
@@ -166,7 +165,6 @@ export default {
     this.registerRootListeners();
   },
   methods: {
-    getEmployeeFullName,
     calculateTotalDays,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
@@ -192,11 +190,11 @@ export default {
       const messageStatus = {
         approved: this.form.statusChangeDate === null
             ? "Request approved"
-            : `Request approved on ${statusChangeDate} by ${getEmployeeFullName(
+            : `Request approved on ${statusChangeDate} by ${this.$getEmployeeFullName(
                 this.form.manager
               )}`,
         pending: "Pending",
-        rejected: `Request Rejected on ${statusChangeDate} by ${getEmployeeFullName(
+        rejected: `Request Rejected on ${statusChangeDate} by ${this.$getEmployeeFullName(
           this.form.manager
         )}`,
       };
@@ -222,7 +220,7 @@ export default {
       this.leaveStatus = item;
       this.form = item;
       this.employeeNameSelect = item.employeeId;
-      this.employeeName = this.getEmployeeFullName(item);
+      this.employeeName = this.$getEmployeeFullName(item);
       this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
       this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
       this.setIsHalfDay(item);

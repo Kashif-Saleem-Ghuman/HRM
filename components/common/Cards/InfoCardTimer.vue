@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex" :class="isLightThemeCheck ? 'light-theme' : 'dark-theme'">
+  <div class="d-flex" :class="themeClassWrapper">
     <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
         <label>{{ getWelcomeMessage()}}</label>

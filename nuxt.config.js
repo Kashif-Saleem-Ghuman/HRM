@@ -44,7 +44,9 @@ export default {
     '~/plugins/leaveType.js',
     '~/plugins/statusHelpers.js',
     '~/plugins/statusHelpersButtons.js',
+    '~/plugins/StatusHelperAttendance.js',
     '~/plugins/leaveDetails.js',
+    '~/plugins/commonFunctions.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

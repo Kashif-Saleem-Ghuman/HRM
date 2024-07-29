@@ -61,7 +61,6 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import { addLeaveVacations } from "@/utils/functions/functions_lib_api";
 
 import {
@@ -173,7 +172,6 @@ export default {
     this.employeesOptions = this.getReportList;
   },
   methods: {
-    getEmployeeFullName,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -192,7 +190,7 @@ export default {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
         this.$store.dispatch("employee/setUser", this.id).then((result) =>{
-          this.employeeName = getEmployeeFullName(result);
+          this.employeeName = $getEmployeeFullName(result);
         });
         this.$store.dispatch("employee/setUser", this.id);
         await this.$store
@@ -204,7 +202,7 @@ export default {
             this.is_data_fetched = true;
           });
       } else {
-        this.employeeName = getEmployeeFullName(this.getActiveUser);
+        this.employeeName = $getEmployeeFullName(this.getActiveUser);
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowanceUser")
           .then((result) => {

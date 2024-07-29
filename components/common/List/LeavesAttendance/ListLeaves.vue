@@ -26,7 +26,7 @@
           >
             <bib-avatar
               variant="secondary-sub3 font-w-600"
-              :text="getEmployeeInitials(data.value.employee)"
+              :text="$getEmployeeInitials(data.value.employee)"
               text-variant="primary"
               size="2.7rem"
               v-show="data.value.employee.photo === null"
@@ -50,10 +50,10 @@
             </div>
           </div>
           <div class="info_wrapper">
-            <div :title="getEmployeeFullName(data.value.employee)">
+            <div :title="$getEmployeeFullName(data.value.employee)">
               {{
-                getEmployeeFullName(data.value.employee)
-                  | truncate(truncateText, "...")
+                $getEmployeeFullName(data.value.employee)
+                  | truncate(45, "...")
               }}
             </div>
             <div :class="isLightThemeCheck ? 'description' : 'text-gray1'">
@@ -88,14 +88,7 @@
           @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
-            <chips
-              :icon="$getLeaveStatusIcon(data.value.status)"
-              :variant="$getStatusIconVariant(data.value.status)"
-              :iconShowRight="true"
-              :title="$getStatusLabel(data.value.status)"
-              :class="$getLeaveStatusClass(data.value.status)"
-              class="chip-wrapper-bg chip-wrapper-bg__shape-round"
-            ></chips>
+            <leave-status :leaveStatusData="data" @click="leaveDetail(data.value)"></leave-status>
           </div>
         </div>
       </template>
@@ -112,10 +105,6 @@
 <script>
 import fecha, { format } from "fecha";
 import { sortColumn } from "../../../../utils/functions/table-sort";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../utils/functions/common_functions";
 import { TABLE_HEAD } from "@/utils/constant/Constant";
 export default {
   props: {
@@ -144,8 +133,6 @@ export default {
     },
   },
   methods: {
-    getEmployeeFullName,
-    getEmployeeInitials,
     async leaveDetail(item) {
       event.stopPropagation();
       this.$nuxt.$emit("open-sidebar", item);

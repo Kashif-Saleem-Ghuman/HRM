@@ -91,7 +91,6 @@ import {
   getCurrentYear,
   generateYearList,
 } from "../../../utils/functions/functions_lib";
-import { getEmployeeFullName } from "../../../utils/functions/common_functions";
 
 export default {
   data() {
@@ -206,7 +205,6 @@ export default {
     getCurrentYear,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
-    getEmployeeFullName,
     generateYearList,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });

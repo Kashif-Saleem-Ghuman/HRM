@@ -46,7 +46,7 @@
               <div style="min-width: 70px">
                 <bib-avatar
                   variant="secondary-sub2"
-                  :text="getEmployeeInitials(item)"
+                  :text="$getEmployeeInitials(item)"
                   text-variant="primary"
                   size="4rem"
                   v-show="item.photo === null"
@@ -65,9 +65,9 @@
                 <label
                   class="font-w-600"
                   :class="isLightThemeCheck ? 'text-dark' : 'text-white'"
-                  :title="getEmployeeFullName(item)"
+                  :title="$getEmployeeFullName(item)"
                 >
-                  {{ getEmployeeFullName(item) | truncate(50, "...") }}
+                  {{ $getEmployeeFullName(item) | truncate(50, "...") }}
                 </label>
                 <div
                   class="font-sm font-w-500"
@@ -76,9 +76,7 @@
                   {{ item.jobTitle }}
                 </div>
                 <div class="button-wrapper-punch">
-                  <span :class="getStatusClass(item)">
-                    {{ getStatusTitle(item) }}
-                  </span>
+                  <attendance-status :attendanceStatusData="item" minWidth="min-width: 85px !important;"></attendance-status>
                 </div>
               </div>
             </div>
@@ -111,10 +109,6 @@
 
 <script>
 import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "@/utils/functions/common_functions";
-import {
   sendMessage,
   meetLink,
   makeCall,
@@ -139,8 +133,6 @@ export default {
     }),
   },
   methods: {
-    getEmployeeFullName,
-    getEmployeeInitials,
     sendMessage,
     meetLink,
     makeCall,

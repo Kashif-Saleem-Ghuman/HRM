@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex" :class="isLightThemeCheck  ? 'light-theme' : 'dark-theme'">
+  <div class="d-flex" :class="themeClassWrapper">
     <div class="info-card-leave-wrapper w-100">
       <div>
         <label>{{ title }}</label>
@@ -23,7 +23,9 @@
           ></progress-circle>
         </div>
       </div>
-      <div class="footer-item d-flex">
+      <div class="position-relative h-70">
+        <div class="position-absolute w-100" style="bottom :26px">
+        <div class="footer-item d-flex">
         <div class="items">
           <label>Pending</label>
           <span>{{ item.pending }}</span>
@@ -39,10 +41,12 @@
       >
         <bib-button
           :label="buttonLable"
-          :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
           class="button-wrapper-align w-100"
           :icon="icon"
         ></bib-button>
+      </div>
+      </div>
       </div>
     </div>
   </div>

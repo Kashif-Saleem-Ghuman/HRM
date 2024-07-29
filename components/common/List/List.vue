@@ -26,7 +26,7 @@
           >
             <bib-avatar
               variant="secondary-sub3"
-              :text="getEmployeeInitials(data.value)"
+              :text="$getEmployeeInitials(data.value)"
               text-variant="primary"
               size="2.3rem"
               v-show="data.value.photo === null"
@@ -50,9 +50,9 @@
             </div>
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="employee-name-label" :title="getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div class="employee-name-label" :title="$getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{
-                getEmployeeFullName(data.value) | truncate(truncateText, "...")
+                $getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
             </div>
             <div :class="isLightThemeCheck ? 'text-dark' : 'light'">
@@ -112,10 +112,6 @@ import {
   meetLink,
   makeCall,
 } from "../../../utils/functions/functions_lib";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../utils/functions/common_functions";
 
 import { sortColumn } from "../../../utils/functions/table-sort";
 import {DateTime} from "luxon";
@@ -163,8 +159,6 @@ export default {
   methods: {
     sendMessage,
     handleItemClick_Table,
-    getEmployeeFullName,
-    getEmployeeInitials,
     meetLink,
     makeCall,
     sortColumn(columnKey) {

@@ -24,7 +24,7 @@
                 class="avatar"
                 :src="avatar.photo"
                 size="1.5rem"
-                :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+                :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
               ></bib-avatar>
             </NuxtLink>
           </div>
@@ -51,7 +51,7 @@
             <bib-avatar
               :src="avatar.photo"
               size="1.5rem"
-              :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+              :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
             ></bib-avatar>
           </NuxtLink>
         </div>
@@ -79,10 +79,10 @@
                       :src="avatar.photo"
                       size="1.5rem"
                       class="mr-05"
-                      :text="avatar.photo ? null : getEmployeeInitials(avatar)"
+                      :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
                     ></bib-avatar>
                     <div :class="isLightThemeCheck ? 'text-gray1' : 'text-light'">
-                      {{ getEmployeeFullName(avatar) | truncate(25, "...") }}
+                      {{ $getEmployeeFullName(avatar) | truncate(25, "...") }}
                     </div>
                   </div>
                 </NuxtLink>
@@ -96,10 +96,6 @@
 </template>
 
 <script>
-import {
-  getEmployeeInitials,
-  getEmployeeFullName,
-} from "../../../utils/functions/common_functions";
 
 const MAX_VISIBLE_AVATARS = 3;
 
@@ -137,8 +133,6 @@ export default {
   },
 
   methods: {
-    getEmployeeInitials,
-    getEmployeeFullName,
     async fetchData() {
       throw new Error(`Widget fetchaData function needs to be implemented!`);
     },

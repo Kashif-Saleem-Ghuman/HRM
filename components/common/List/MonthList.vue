@@ -41,7 +41,8 @@
         <div class="text-dark">
           <div v-if="isAdmin">
             <div>
-              <chips
+              <leave-status :leaveStatusData="data" :defaultPointer="true"></leave-status>
+              <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
                   'unknown-status'
@@ -51,7 +52,7 @@
                 :variant="[getStatusVariant(data.value?.status)]"
                 :defaultPointer="true"
                 :className="['width-auto']"
-              ></chips>
+              ></chips> -->
             </div>
           </div>
           <div v-else>
@@ -62,7 +63,8 @@
                 data.value?.status === 'pending'
               "
             >
-              <chips
+            <leave-status :leaveStatusData="data" :defaultPointer="true"></leave-status>
+              <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
                   'unknown-status'
@@ -74,17 +76,18 @@
                   'width-auto chip-wrapper-without-bg',
                   getStatusClassName(data.value?.status),
                 ]"
-              ></chips>
+              ></chips> -->
             </div>
-            <div class="ml-2" v-else>
-              <bib-button
+            <div  v-else>
+              <leave-status :leaveStatusData="data" :disabled="isSubmitted"  @click="buttonClicked(data.value)"></leave-status>
+              <!-- <bib-button
                 :icon="getSubmitIcon(data.value?.status)"
                 :variant="getSubmitVariant(data.value?.status)"
                 :scale="$button.pending.scale"
                 :label="getSubmitLabel(data.value?.status)"
                 @click.native.stop="buttonClicked(data.value)"
                 :disabled="isSubmitted"
-              ></bib-button>
+              ></bib-button> -->
             </div>
           </div>
         </div>

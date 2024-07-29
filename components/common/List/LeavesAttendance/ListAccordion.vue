@@ -23,7 +23,7 @@
           >
             <bib-avatar
               variant="secondary-sub3 font-w-600"
-              :text="getEmployeeInitials(data.value.employee)"
+              :text="$getEmployeeInitials(data.value.employee)"
               text-variant="primary"
               size="2.7rem"
               v-show="data.value.employee.photo === null"
@@ -47,9 +47,9 @@
             </div>
           </div>
           <div class="info_wrapper">
-            <div :title="getEmployeeFullName(data.value.employee)">
+            <div :title="$getEmployeeFullName(data.value.employee)">
               {{
-                getEmployeeFullName(data.value.employee)
+                $getEmployeeFullName(data.value.employee)
                   | truncate(truncateText, "...")
               }}
             </div>
@@ -103,10 +103,6 @@
 import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import {
   meetLink,
@@ -189,8 +185,6 @@ export default {
     }),
   },
   methods: {
-    getEmployeeFullName,
-    getEmployeeInitials,
     meetLink,
     sendMessage,
     makeCall,

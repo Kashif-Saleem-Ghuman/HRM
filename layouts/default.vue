@@ -81,7 +81,6 @@ import {
 } from "@/utils/functions/functions_lib.js";
 
 import routesCheck from "../middleware/routes.client";
-import { getEmployeeFullName } from "../utils/functions/common_functions";
 export default {
   data() {
     return {
@@ -121,7 +120,6 @@ export default {
     window.addEventListener("resize", this.adjustHeight);
   },
   methods: {
-    getEmployeeFullName,
     handleToggleWrapperTheme,
     myProfile,
     openTeamPage,

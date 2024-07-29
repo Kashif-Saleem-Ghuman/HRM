@@ -19,7 +19,7 @@
           >
             <bib-avatar
               variant="secondary-sub3"
-              :text="getEmployeeInitials(data.value)"
+              :text="$getEmployeeInitials(data.value)"
               text-variant="primary"
               size="2.3rem"
               v-show="data.value.photo === null"
@@ -46,8 +46,8 @@
             class="info_wrapper w-100 cursor-pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="employee-name-label" :title="getEmployeeFullName(data.value)">
-              {{ getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
+            <div class="employee-name-label" :title="$getEmployeeFullName(data.value)">
+              {{ $getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
             </div>
             <div :class="isLightThemeCheck ? 'text-dark' :'light'">
               {{ data.value.jobTitle }}
@@ -124,10 +124,6 @@ import {
   ACTIVITY_TYPE,
   ACTIVITY_TYPE_LABEL_VALUE,
 } from "../../../../../utils/constant/Constant.js";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../../utils/functions/common_functions";
 
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import {
@@ -195,8 +191,6 @@ export default {
     makeCall,
     meetLink,
     handleItemClick_Table,
-    getEmployeeFullName,
-    getEmployeeInitials,
     setTitle(title) {
       if (title == "Approve") {
         return "Approved";

@@ -9,16 +9,19 @@
       <div class="footer-item-left">Status</div>
       <div class="footer-item-right">
         <div v-if="status === 'approved' || status === 'pending'">
-          <chips
+          <leave-status :leaveStatusData="status" :defaultPointer="true"></leave-status>
+          <!-- <chips
             :title="getStatusLabel()"
             iconShow="iconShow"
             :icon="getChipStatusIcon(status)"
             :variant="getChipStatusVariant(status)"
             :defaultPointer="true"
             class=""
-          ></chips>
+          ></chips> -->
         </div>
-        <bib-button
+        <leave-status v-else :leaveStatusData="status" :disabled="isSubmitted"  @click="buttonClicked"></leave-status>
+
+        <!-- <bib-button
           :icon="getStatusIcon()"
           :variant="getStatusVariant()"
           :scale="$button.pending.scale"
@@ -26,7 +29,7 @@
           class="mr-05"
           @click="buttonClicked"
           v-else
-        ></bib-button>
+        ></bib-button> -->
       </div>
     </div>
     <div class="footer-items bottom-border-remove" v-else>
@@ -46,7 +49,7 @@
                 {{
                   `Request Rejected on ${onLoad(
                     refusalReasonData.statusChangeDate
-                  )} by  ${getEmployeeFullName(refusalReasonData.manager)}`
+                  )} by  ${$getEmployeeFullName(refusalReasonData.manager)}`
                 }}
               </div>
               <div>Reason: {{ refusalReasonData.refusalReason }}</div>
@@ -63,23 +66,27 @@
       <div class="footer-item-left" v-else v-html="getSubmitText()"></div>
       <div class="footer-item-right d-flex align-center">
         <div v-if="status === 'approved' || status === 'pending'">
-          <chips
+          <leave-status :leaveStatusData="status" :defaultPointer="true"></leave-status>
+
+          <!-- <chips
             :title="getStatusLabel()"
             iconShow="iconShow"
             :icon="getChipStatusIcon(status)"
             :variant="getChipStatusVariant(status)"
             :defaultPointer="true"
             class=""
-          ></chips>
+          ></chips> -->
         </div>
-        <bib-button
+        <leave-status v-else :leaveStatusData="status" :disabled="isSubmitted"  @click="buttonClicked"></leave-status>
+
+        <!-- <bib-button
           :icon="getSubmitIcon()"
           :variant="getSubmitVariant()"
           :scale="$button.pending.scale"
           :label="getSubmitLabel()"
           @click="buttonClicked"
           v-else
-        ></bib-button>
+        ></bib-button> -->
       </div>
     </div>
   </div>
@@ -92,7 +99,6 @@ import {
   getStatusIcon as getChipStatusIcon,
   getStatusVariant as getChipStatusVariant,
 } from "../../../../utils/functions/status";
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 const TIMESHEET_STATUS_TO_SUBMIT = [
   TIMESHEET_STATUSES.NOT_SUBMITTED,
   TIMESHEET_STATUSES.PAST_DUE,
@@ -119,7 +125,6 @@ export default {
   methods: {
     getChipStatusIcon,
     getChipStatusVariant,
-    getEmployeeFullName,
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
     },

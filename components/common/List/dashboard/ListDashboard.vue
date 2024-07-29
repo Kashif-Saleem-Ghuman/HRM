@@ -25,7 +25,7 @@
         >
           <bib-avatar
             variant="secondary-sub3"
-            :text="getEmployeeInitials(data.value)"
+            :text="$getEmployeeInitials(data.value)"
             size="2.3rem"
             v-show="data.value.photo === null"
           ></bib-avatar>
@@ -48,9 +48,9 @@
           </div>
         </div>
         <div class="info_wrapper cursor-pointer w-100">
-          <div class="employee-name-label" :title="getEmployeeFullName(data.value)"  :class="isLightThemeCheck ? 'text-dark' :'light'">
+          <div class="employee-name-label" :title="$getEmployeeFullName(data.value)"  :class="isLightThemeCheck ? 'text-dark' :'light'">
             {{
-              getEmployeeFullName(data.value) | truncate(truncateText, "...")
+              $getEmployeeFullName(data.value) | truncate(truncateText, "...")
             }}
           </div>
           <div :class="isLightThemeCheck ? 'text-dark' :'light'">
@@ -62,12 +62,7 @@
     </template>
     <template #cell(status)="data">
       <div class="cursor-pointer button-override">
-        <bib-button
-          :label="getStatusTitle(data.value)"
-          :variant="$getAttendanceStatusVariantName(getStatusTitle(data.value))"
-          :icon-right="$getAttendanceLeaveStatusIconName(getStatusTitle(data.value))"
-          pill
-        ></bib-button>
+        <attendance-status :attendanceStatusData="data.value"></attendance-status>
       </div>
     </template>
     <template v-for="(day, dayIndex) in inOutAction" #[`cell(${day})`]="data">
@@ -119,10 +114,6 @@ import {
   makeCall,
 } from "../../../../utils/functions/functions_lib";
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../utils/functions/common_functions";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import timezoneAbbr from "@/utils/constant/timezoneAbbreviations";
 
@@ -184,8 +175,6 @@ export default {
     dateCheck,
     sendMessage,
     handleItemClick_Table,
-    getEmployeeFullName,
-    getEmployeeInitials,
     meetLink,
     makeCall,
     notifyUser(item){

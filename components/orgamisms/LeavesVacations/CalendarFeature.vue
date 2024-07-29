@@ -95,9 +95,9 @@
             </div>
             <div class="pl-05 author-display__employee_info">
               <label
-                :title="getEmployeeFullName(arg.event.extendedProps.employee)"
+                :title="$getEmployeeFullName(arg.event.extendedProps.employee)"
                 >{{
-                  getEmployeeFullName(arg.event.extendedProps.employee)
+                  $getEmployeeFullName(arg.event.extendedProps.employee)
                     | truncate(16, "...")
                 }}</label
               >
@@ -128,7 +128,6 @@ import { TIMESHEET_STATUSES } from "../../../utils/constant/Constant";
 
 import fecha from "fecha";
 import { mapGetters } from "vuex";
-import { getEmployeeFullName } from "../../../utils/functions/common_functions";
 import { DateTime } from "luxon";
 
 const START_YEAR = 2021;
@@ -252,7 +251,6 @@ export default {
     addHandleInput,
     addLeaveVacations,
     getCurrentYear,
-    getEmployeeFullName,
     generateYearList,
 
     onSearchChange(value) {

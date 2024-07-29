@@ -22,7 +22,7 @@
           <div>
             <bib-avatar
               variant="secondary-sub3"
-              :text="getEmployeeInitials(data.value)"
+              :text="$getEmployeeInitials(data.value)"
               text-variant="primary"
               size="2.3rem"
               v-show="data.value.photo === null"
@@ -48,11 +48,11 @@
           <div class="info_wrapper w-100 cursor-pointer">
             <div
               class="title"
-              :title="getEmployeeFullName(data.value)"
+              :title="$getEmployeeFullName(data.value)"
               :class="isLightThemeCheck ? 'text-dark' : 'light'"
             >
               {{
-                getEmployeeFullName(data.value) | truncate(truncateText, "...")
+                $getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
             </div>
             <div :class="isLightThemeCheck ? 'text-dark' : 'light'">
@@ -71,11 +71,7 @@
       </template>
       <template #cell(status)="data">
         <div class="cursor-pointer">
-          <chips-list
-            :title="getStatusTitle(data.value)"
-            iconShow="iconShow"
-            :className="[getStatusClass(data.value)]"
-          ></chips-list>
+          <attendance-status :attendanceStatusData="data.value" minWidth="min-width: 85px !important;"></attendance-status>
         </div>
       </template>
       <template #cell(jobTitle)="data">
@@ -114,11 +110,6 @@ import {
   meetLink,
   makeCall,
 } from "../../../utils/functions/functions_lib";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../utils/functions/common_functions";
-
 import { sortColumn } from "../../../utils/functions/table-sort";
 export default {
   props: {
@@ -163,8 +154,6 @@ export default {
   methods: {
     sendMessage,
     handleItemClick_Table,
-    getEmployeeFullName,
-    getEmployeeInitials,
     meetLink,
     makeCall,
     sortColumn(columnKey) {

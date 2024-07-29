@@ -20,7 +20,7 @@
             ></drop-zone>
             <div class="ml-1">
               <aside style="text-transform: capitalize; font-weight: bold; font-size: 18px">
-                {{ getEmployeeFullName(form) }}
+                {{ $getEmployeeFullName(form) }}
               </aside>
               <aside style="font-weight: 400; font-size: 14px">
                 {{ form.jobTitle }}
@@ -361,20 +361,7 @@ import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import timezones from "../../utils/constant/new_timezones";
-const PHOTO_UPDATE = {
-  text: "The profile image has been updated successfully.",
-  variant: "primary-24",
-};
-const PHOTO_DELETE = {
-  text: "The profile image has been deleted successfully.",
-  variant: "primary-24",
-};
-const COMMON_MESSAGE = {
-  text: "The information is currently being updated. Please check back shortly.",
-  variant: "primary-24",
-};
 export default {
   props: {
     show: {
@@ -439,7 +426,6 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getEmployeeFullName,
     meetLink,
     makeCall,
     async fetchEmployee() {

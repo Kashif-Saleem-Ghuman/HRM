@@ -2,24 +2,55 @@
   <div id="dashborad-wrapper">
     <loader :loading="loading"></loader>
 
-      <section-header-left title="Dashboard"></section-header-left>
+    <section-header-left title="Dashboard"></section-header-left>
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div id="tab_info_wrapper">
-          <div class="container pt-1 pb-1 pl-1 pr-1">
-            <div class="row">
-              <div class="col-4">
-                <attendance-admin-widget :employees="employees"></attendance-admin-widget>
-              </div>
-              <div class="col-4">
-                <!-- <timesheets-admin-widget></timesheets-admin-widget> -->
-                <absent-widget avatars-position="bottom"></absent-widget>
-              </div>
-              <div class="col-4">
-                <celebrations-widget
-                  avatars-position="center"
-                ></celebrations-widget>
-              </div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            "
+            class="d-grid gap-2 px-2 py-2"
+          >
+            <div>
+              <attendance-admin-widget
+                :employees="employees"
+              ></attendance-admin-widget>
+            </div>
+            <div>
+              <attendance-admin-widget
+                :employees="employees"
+              ></attendance-admin-widget>
+            </div>
+            <div>
+              <!-- <timesheets-admin-widget></timesheets-admin-widget> -->
+              <absent-widget avatars-position="bottom"></absent-widget>
+            </div>
+            <div>
+              <celebrations-widget
+                avatars-position="center"
+              ></celebrations-widget>
+            </div>
+            <div>
+              <celebrations-widget
+                avatars-position="center"
+              ></celebrations-widget>
+            </div>
+            <div>
+              <celebrations-widget
+                avatars-position="center"
+              ></celebrations-widget>
+            </div>
+            <div>
+              <celebrations-widget
+                avatars-position="center"
+              ></celebrations-widget>
+            </div>
+            <div>
+              <celebrations-widget
+                avatars-position="center"
+              ></celebrations-widget>
             </div>
           </div>
 
@@ -27,7 +58,7 @@
             <no-record v-if="showNoData"></no-record>
 
             <div v-else-if="showTable">
-              <list-dashboard :userList="employees" ></list-dashboard>
+              <list-dashboard :userList="employees"></list-dashboard>
             </div>
           </div>
         </div>
@@ -77,7 +108,10 @@ export default {
   methods: {
     async getOrganizationEntries() {
       const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch("timeattendance/getEmployeesAttendance", { date });
+      const employees = await this.$store.dispatch(
+        "timeattendance/getEmployeesAttendance",
+        { date }
+      );
 
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
@@ -85,7 +119,7 @@ export default {
       });
 
       this.employees = employees;
-      this.loading = false
+      this.loading = false;
     },
   },
 };

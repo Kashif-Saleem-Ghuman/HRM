@@ -190,7 +190,7 @@ export default {
       this.id = this.$route.params.id ?? this.getActiveUser?.id;
       if (this.$route.params.id) {
         this.$store.dispatch("employee/setUser", this.id).then((result) =>{
-          this.employeeName = $getEmployeeFullName(result);
+          this.employeeName = this.$getEmployeeFullName(result);
         });
         this.$store.dispatch("employee/setUser", this.id);
         await this.$store
@@ -202,7 +202,7 @@ export default {
             this.is_data_fetched = true;
           });
       } else {
-        this.employeeName = $getEmployeeFullName(this.getActiveUser);
+        this.employeeName = this.$getEmployeeFullName(this.getActiveUser);
         await this.$store
           .dispatch("leavesdata/setLeaveVacationsAllowanceUser")
           .then((result) => {

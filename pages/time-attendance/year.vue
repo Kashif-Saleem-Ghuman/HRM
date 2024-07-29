@@ -30,7 +30,6 @@
 
 <script>
 import { DateTime } from "luxon";
-import PresentWidget from "../../components/orgamisms/TimeAttendance/PresentWidget.vue";
 import {
   getDatetimeCommonProps,
   DATETIME_FORMAT,

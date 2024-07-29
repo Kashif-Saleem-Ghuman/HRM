@@ -14,49 +14,28 @@
             class="d-grid gap-2 px-2 py-2"
           >
             <div>
-              <attendance-admin-widget
-                :employees="employees"
-              ></attendance-admin-widget>
+              <present-widget :employees="employees"></present-widget>
             </div>
+
             <div>
-              <attendance-admin-widget
-                :employees="employees"
-              ></attendance-admin-widget>
-            </div>
-            <div>
-              <!-- <timesheets-admin-widget></timesheets-admin-widget> -->
               <absent-widget avatars-position="bottom"></absent-widget>
             </div>
             <div>
-              <celebrations-widget
-                avatars-position="center"
-              ></celebrations-widget>
+              <birthday-widget avatars-position="center"></birthday-widget>
             </div>
             <div>
-              <celebrations-widget
-                avatars-position="center"
-              ></celebrations-widget>
+              <anniversaries-widget avatars-position="center"></anniversaries-widget>
             </div>
             <div>
-              <celebrations-widget
-                avatars-position="center"
-              ></celebrations-widget>
+              <on-leave avatars-position="center"></on-leave>
             </div>
             <div>
-              <celebrations-widget
-                avatars-position="center"
-              ></celebrations-widget>
-            </div>
-            <div>
-              <celebrations-widget
-                avatars-position="center"
-              ></celebrations-widget>
+              <timesheets-admin-widget></timesheets-admin-widget>
             </div>
           </div>
 
           <div class="scroll_wrapper">
             <no-record v-if="showNoData"></no-record>
-
             <div v-else-if="showTable">
               <list-dashboard :userList="employees"></list-dashboard>
             </div>

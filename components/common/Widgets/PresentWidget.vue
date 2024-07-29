@@ -1,5 +1,5 @@
 <script>
-import BaseWidget from "../../common/Cards/BaseWidget.vue";
+import BaseWidget from "./BaseWidget.vue";
 export default {
   extends: BaseWidget,
 

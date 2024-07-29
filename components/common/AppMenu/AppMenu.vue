@@ -159,7 +159,7 @@ export default {
     },
     myAccountClick() {
       this.changeRole(USER_ROLES.USER);
-      this.$router.push("/time-attendance/attendance/");
+      this.$router.push("/home/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
       this.setUserActiveTab();
@@ -221,7 +221,7 @@ export default {
         }
       }
       const item = navItems.find((item) => item.url === path);
-      this.resetSelected(navItems);
+      // this.resetSelected(navItems);
       if (item) item.selected = true;
     },
     getIdFromPath(path) {
@@ -266,10 +266,7 @@ export default {
       );
       leaveNavItem.selected = true;
     },
-    viewYearlyTimesheet() {
-      this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
-      this.$router.push({ query: { view: "month" } });
-    },
+    
     resetSelected(navItems) {
       navItems.forEach((item) => {
         if (item.hasOwnProperty("selected")) {

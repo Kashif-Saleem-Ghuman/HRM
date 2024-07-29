@@ -55,13 +55,11 @@
 
 <script>
 import { DateTime } from "luxon";
-import PresentWidget from "../../components/orgamisms/TimeAttendance/PresentWidget.vue";
 import {
   getDatetimeCommonProps,
   DATETIME_FORMAT,
 } from "../../utils/functions/datetime-input";
 export default {
-  components: { PresentWidget },
   data() {
     return {
       date: DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),

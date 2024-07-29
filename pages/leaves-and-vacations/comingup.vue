@@ -20,7 +20,7 @@
 import { mapGetters } from "vuex";
 
 import {
-  getCurrentMonth,
+  getDateRanges,
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
 export default {
@@ -56,10 +56,7 @@ export default {
       );
     },
   },
-  async created() {
-    this.getCurrentMonth();
-    
-  },
+  
   mounted() {
     this.dropMenuYear = this.generateYearList();
     this.getLeaveRequests();
@@ -68,14 +65,16 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getCurrentMonth,
+    getDateRanges,
     generateYearList,
     async getLeaveRequests() {
+      const { nextWeek } = getDateRanges();
+
       const requests = await this.$store.dispatch(
         "leavevacation/setLeaveVacations",
         {
-          from: this.fromDate,
-          to: this.toDate,
+          from: nextWeek.start,
+          to: nextWeek.end,
         }
       );
       this.requestListData = requests;

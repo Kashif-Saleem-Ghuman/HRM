@@ -19,7 +19,7 @@
             class=""
           ></chips> -->
         </div>
-        <leave-status v-else :leaveStatusData="status" :disabled="isSubmitted"  @click="buttonClicked"></leave-status>
+        <leave-status v-else :leaveStatusData="status"   @click="buttonClicked"></leave-status>
 
         <!-- <bib-button
           :icon="getStatusIcon()"
@@ -77,7 +77,7 @@
             class=""
           ></chips> -->
         </div>
-        <leave-status v-else :leaveStatusData="status" :disabled="isSubmitted"  @click="buttonClicked"></leave-status>
+        <leave-status v-else :leaveStatusData="status"   @click="buttonClicked"></leave-status>
 
         <!-- <bib-button
           :icon="getSubmitIcon()"

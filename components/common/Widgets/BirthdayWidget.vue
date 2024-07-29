@@ -1,6 +1,6 @@
 <script>
 import { uniqBy } from "lodash";
-import { getAdminCelebrationWidget } from "../../../utils/functions/api_call/timeattendance/time";
+import { getAdminCelebrationWidget } from "@/utils/functions/api_call/timeattendance/time";
 import BaseWidget from "./BaseWidget.vue";
 
 export default {
@@ -13,12 +13,11 @@ export default {
       this.setAvatars(data);
     },
     setData(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data;
-      const title = "Birthdays & Work Anniversaries";
+      const { birthdayEmployees } = data;
+      const title = "Birthdays";
       const subheading = "Whooohooo!";
       const value =
-        (birthdayEmployees?.length || 0) +
-        (workAnniversaryEmployees?.length || 0);
+        (birthdayEmployees?.length || 0);
       this.data = {
         title,
         subheading,
@@ -26,25 +25,19 @@ export default {
       };
     },
     setSubData(data) {
-      const { birthdayEmployees, workAnniversaryEmployees } = data;
+      const { birthdayEmployees } = data;
       const birthdayLength = birthdayEmployees?.length || 0;
-      const anniversaryLength = workAnniversaryEmployees?.length || 0;
-
       const birthdayLabel = birthdayLength <= 1 ? "Birthday" : "Birthdays";
-      const anniversaryLabel =
-        anniversaryLength <= 1 ? "Anniversary" : "Anniversaries";
-
       this.subData = [
         { title: birthdayLabel, value: birthdayLength },
-        { title: anniversaryLabel, value: anniversaryLength },
       ];
     },
 
     setAvatars(data) {
       try {
-        const { birthdayEmployees, workAnniversaryEmployees } = data;
+        const { birthdayEmployees } = data;
         this.avatars = uniqBy(
-          [...birthdayEmployees, ...workAnniversaryEmployees],
+          [...birthdayEmployees],
           "id"
         );
       } catch (error) {

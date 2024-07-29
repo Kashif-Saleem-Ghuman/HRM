@@ -26,7 +26,16 @@
               profilePic="profilePic"
               @on-click="onViewTimesheetsClick"
             ></info-card-one>
-            <!-- <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
+            <!--
+             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
+             <info-card-one
+              :item="timesheetWidgetData"
+              title="PTO (Paid Time-off)"
+              buttonLable="Request Time-Off"
+              icon="table"
+              profilePic="profilePic"
+              @on-click="onViewTimesheetsClick"
+            ></info-card-one>
           </div>
         </div>
         <div class="d-flex align-center px-1">

@@ -32,10 +32,12 @@
       </div>
 
       <div v-if="subData" class="sub-data-container">
-        <div v-for="item in subData" class="sub-data" :key="item.title">
+        <bib-button label="Show All" :variant="isLightThemeCheck ? 'light' : 'secondary'" @click="$emit('click')" class="w-100 button-wrapper-align" ></bib-button>
+
+        <!-- <div v-for="item in subData" class="sub-data" :key="item.title">
           <div class="sub-data__title">{{ item.title }}</div>
           <div class="sub-data__value">{{ item.value }}</div>
-        </div>
+        </div> -->
       </div>
 
       <div

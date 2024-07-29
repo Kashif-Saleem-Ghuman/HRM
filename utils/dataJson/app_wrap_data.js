@@ -71,18 +71,17 @@ const data = () => {
       //   selected: false,
       // },
       {
-        label: "Time & Attendance",
+        label: "Home",
         icon: "time-history",
-        key: "time-attendance",
-        url: "/time-attendance/attendance/",
+        key: "home",
+        url: "/home/",
         selected: false,
       },
       {
         label: "My Timesheets",
         icon: "time",
         key: "my-timesheets",
-        url: "/time-attendance/attendance/?view=month",
-        action: "viewYearlyTimesheet",
+        url: "/my-timesheet/?view=month",
         selected: false,
       },
       {

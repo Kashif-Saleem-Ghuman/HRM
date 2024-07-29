@@ -85,7 +85,7 @@
           @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
-            <leave-status :leaveStatusData="data" @click="leaveDetail(data.value)"></leave-status>
+            <leave-status :leaveStatusData="data" @click="$leaveDetail(data.value)"></leave-status>
           </div>
         </div>
       </template>
@@ -202,10 +202,6 @@ export default {
         this.sortByField.header_icon.isActive = false;
       }
       const field = this.tableFields.find((field) => field.key === columnKey);
-      console.log(
-        field,
-        "sortByFieldsortByFieldsortByFieldsortByFieldsortByField"
-      );
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
@@ -266,7 +262,7 @@ export default {
       return itemDate >= startOfMonth && itemDate <= endOfMonth;
     },
     getIconThemeCheck(){
-      return this.isLightThemeCheck ? 'primary-24' : 'light'
+      return this.isLightThemeCheck ? 'dark' : 'light'
     },
     getTodaySections() {
       return this.leavePendingList.filter((item) => this.isToday(item.start));
@@ -282,9 +278,8 @@ export default {
       );
     },
     getNextWeekSections() {
-      return this.leavePendingList.filter((item) =>
-        this.isNextWeek(item.start)
-      );
+      const nextWeekItems = this.leavePendingList.filter((item) => this.isNextWeek(item.start));
+    return nextWeekItems;
     },
     getThisMonthSections() {
       return this.leavePendingList.filter((item) =>

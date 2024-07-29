@@ -210,11 +210,11 @@ export async function getAdminTimesheetWidget({ from, to }) {
 export async function getAdminCelebrationWidget() {
   try {
     const config = createConfig();
-    const timesheetData = await hrmApiAxiosInstance.get(
+    const celebration = await hrmApiAxiosInstance.get(
       "/widgets/admin/celebration/",
       config
     );
-      return timesheetData.data
+      return celebration.data
   } catch (e) {
     console.error(e);
   }

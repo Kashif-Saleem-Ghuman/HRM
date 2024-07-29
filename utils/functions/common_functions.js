@@ -22,13 +22,14 @@ export function getCurrentYear() {
   this.fromDate = DateTime.fromISO(firstDay).startOf("day").toUTC().toISO();
   this.toDate = DateTime.fromISO(lastDay).endOf("day").toUTC().toISO();
 }
-export function getCurrentMonth() {
+export function getDateRanges() {
   const now = DateTime.local();
-  const oneMonthAgo = now.minus({ months: 1 });
+  const thisMonthStart = now.startOf('month').toUTC().toISO(); // July 1
+  const nextMonthWeekEnd = now.plus({ weeks: 1 }).endOf('week').toUTC().toISO(); // August 4
 
-  this.fromDate = oneMonthAgo.startOf('day').toUTC().toISO();
-  this.toDate = now.endOf('day').toUTC().toISO();
-  
+  return {
+    nextWeek: { start: thisMonthStart, end: nextMonthWeekEnd },
+  };
 }
 export function getCurrentWeek() {
   var curr = new Date(); // get current date
@@ -37,6 +38,7 @@ export function getCurrentWeek() {
 
   var firstday = new Date(curr.setDate(first)).toUTCString();
   var lastday = new Date(curr.setDate(last)).toUTCString();
+  return {firstday, lastday}
 }
 export function sendMeet(userId) {
   var genratedId = userId;

@@ -26,14 +26,13 @@
         </div>
       </template>
       <template #cell(in)="data">
-        <div class="cursor-pointer">
-          <chips
-            :defaultPointer="true"
-            :title="getInOut(data.value.in)"
-            :className="getInOutClass(data.value.entryExists)"
-            centerAlign="d-align"
-          ></chips>
-        </div>
+        <timesheet-field
+          :timeEntry="data.value.timeEntryIn"
+          :value="data.value.in"
+          :date="data.value.date"
+          :activity="getActivityIn()"
+          :data="data.value"
+        ></timesheet-field>
       </template>
       <template #cell(break)="data">
         <div class="cursor-pointer">
@@ -47,15 +46,13 @@
         </div>
       </template>
       <template #cell(out)="data">
-        <div class="cursor-pointer">
-          <chips
-            :defaultPointer="true"
-            :title="getInOut(data.value.out)"
-            :className="getInOutClass(data.value.entryExists)"
-            class="cursor-pointer"
-            centerAlign="d-align"
-          ></chips>
-        </div>
+        <timesheet-field
+          :timeEntry="data.value.timeEntryIn"
+          :value="data.value.out"
+          :date="data.value.date"
+          :activity="getActivityOut()"
+          :data="data.value"
+        ></timesheet-field>
       </template>
       <template #cell(total)="data">
         <div
@@ -90,6 +87,7 @@ import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
 import fecha, { format } from "fecha";
 import {
+  ACTIVITY_TYPE,
   TABLE_HEAD,
   WEEK_DAY,
   TIMESHEET_STATUS, FILL_DAILY_ENTRY_EVENT, FILL_WEEKLY_ENTRY_EVENT,
@@ -163,6 +161,8 @@ export default {
           date: DateTime.fromISO(this.startOfWeek)
             .plus({ days: index })
             .toFormat("yyyy-MM-dd"),
+          timeEntryIn: report?.timeEntryIn[0],
+          timeEntryBreak: report?.timeEntryBreak[0],
         };
       });
     },
@@ -185,6 +185,12 @@ export default {
     formatTime,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
+    },
+    getActivityIn() {
+      return ACTIVITY_TYPE.IN;
+    },
+    getActivityOut() {
+      return ACTIVITY_TYPE.OUT;
     },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {

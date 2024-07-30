@@ -4,14 +4,15 @@ import { DateTime } from "luxon"
 import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications"
 
 export async function getTimeAttendance(payload) {
-  const { date, searchString } = payload
+  const { date, actionKey, searchString } = payload
   
   try {
     const url = `/timesheets/admin/daily`
     const config = createConfig();
     config.params = {
       date,
-      searchString
+      searchString,
+      actionKey
     }
     const { data } = await hrmApiAxiosInstance.get(
       url,
@@ -329,14 +330,16 @@ export async function rejectPastDueTimesheet({ id, date, employeeId, refusalReas
   }
 }
 
-export async function rejectTimesheet({ id, refusalReason}) {
+export async function getAdminWidget() {
   try {
-    const url = `/timesheets/admin/reject/${id}`;
     const config = createConfig();
-    const { data } = await hrmApiAxiosInstance.post(url, {refusalReason}, config);
-    return data
-  } catch (error) {
-    // console.error(error);
+    const celebration = await hrmApiAxiosInstance.get(
+      "widgets/admin/count",
+      config
+    );
+      return celebration.data
+  } catch (e) {
+    console.error(e);
   }
 }
 

@@ -1,39 +1,13 @@
 <template>
-  <div id="dashborad-wrapper">
+  <div id="dashboard-wrapper">
     <loader :loading="loading"></loader>
-
     <section-header-left title="Dashboard"></section-header-left>
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div id="tab_info_wrapper">
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            "
-            class="d-grid gap-2 px-2 py-2"
-          >
-            <div>
-              <present-widget :employees="employees"></present-widget>
-            </div>
-
-            <div>
-              <absent-widget avatars-position="bottom"></absent-widget>
-            </div>
-            <div>
-              <birthday-widget avatars-position="center"></birthday-widget>
-            </div>
-            <div>
-              <anniversaries-widget avatars-position="center"></anniversaries-widget>
-            </div>
-            <div>
-              <on-leave avatars-position="center"></on-leave>
-            </div>
-            <div>
-              <timesheets-admin-widget></timesheets-admin-widget>
-            </div>
+          <div>
+            <base-widget-admin @clickedWidget="getOrganizationEntries"></base-widget-admin>
           </div>
-
           <div class="scroll_wrapper">
             <no-record v-if="showNoData"></no-record>
             <div v-else-if="showTable">
@@ -45,11 +19,11 @@
     </div>
   </div>
 </template>
+
 <script>
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import fecha, { format } from "fecha";
+import fecha from "fecha";
 import { mapGetters } from "vuex";
-import { getTimeAttendance } from "../../../utils/functions/functions_lib_api";
 
 export default {
   data() {
@@ -80,21 +54,19 @@ export default {
   },
   async created() {
     this.getCurrentDate = this.date2;
-  },
-  mounted() {
-    this.getOrganizationEntries();
+    await this.getOrganizationEntries();
   },
   methods: {
-    async getOrganizationEntries() {
+    async getOrganizationEntries(actionKey) {
       const date = this.getCurrentDate;
       const employees = await this.$store.dispatch(
         "timeattendance/getEmployeesAttendance",
-        { date }
+        { date, actionKey }
       );
 
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
-        return parser.parse("day");
+        parser.parse("day");
       });
 
       this.employees = employees;

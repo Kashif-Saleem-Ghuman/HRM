@@ -1,12 +1,44 @@
 <template>
   <div id="dashboard-wrapper">
     <loader :loading="loading"></loader>
-    <section-header-left title="Dashboard"></section-header-left>
+    <div
+      class="d-flex align-center"
+      :class="[
+        borderClassBottom,
+        isLightThemeCheck ? 'bg-light-sub2' : 'bg-dark',
+      ]"
+    >
+      <div class="d-flex align-center">
+        <section-header-left
+          :title="
+            'Welcome to your HR dashboard, ' +
+            $getEmployeeFullName(getActiveUser) +
+            '! Here is your '
+          "
+          subDetail="Daily summary"
+          customStyle="customStyle"
+          style="border-bottom: none !important"
+        ></section-header-left>
+        <label class="pr-05 font-md">for</label>
+        <div class="custom_date_picker">
+          <bib-datetime-picker
+            v-model="todayDate"
+            :maxDate="maxDate"
+            size="sm"
+            @input="dateSelection($event)"
+            hide-quick-select
+            v-bind="{ ...getDatetimeCommonProps() }"
+          ></bib-datetime-picker>
+        </div>
+      </div>
+    </div>
     <div class="tab-wrapper">
       <div id="dashboard-inner-wrapper">
         <div id="tab_info_wrapper">
           <div>
-            <base-widget-admin @clickedWidget="getOrganizationEntries"></base-widget-admin>
+            <base-widget-admin
+              @clickedWidget="getOrganizationEntries"
+            ></base-widget-admin>
           </div>
           <div class="scroll_wrapper">
             <no-record v-if="showNoData"></no-record>
@@ -22,8 +54,12 @@
 
 <script>
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import fecha from "fecha";
+import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
+import {
+  getDatetimeCommonProps,
+  DATETIME_FORMAT,
+} from "@/utils/functions/datetime-input";
 
 export default {
   data() {
@@ -34,9 +70,11 @@ export default {
       getCurrentDate: "",
       date: null,
       format: "MMM D, YYYY",
-      date2: fecha.format(new Date(), "YYYY-MM-DD"),
+      date2: DateTime.now().toFormat("yyyy-MM-dd"),
       employees: [],
       loading: true,
+      todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      maxDate: DateTime.now().toISO(),
     };
   },
 
@@ -44,6 +82,7 @@ export default {
     ...mapGetters({
       getAccessToken: "token/getAccessToken",
       activeDate: "date/getActiveDate",
+      getActiveUser: "employee/GET_ACTIVE_USER",
     }),
     showTable() {
       return !this.loading && this.employees?.length;
@@ -57,6 +96,7 @@ export default {
     await this.getOrganizationEntries();
   },
   methods: {
+    getDatetimeCommonProps,
     async getOrganizationEntries(actionKey) {
       const date = this.getCurrentDate;
       const employees = await this.$store.dispatch(
@@ -71,6 +111,17 @@ export default {
 
       this.employees = employees;
       this.loading = false;
+    },
+
+    async dateSelection(event) {
+      const date = DateTime.fromJSDate(new Date(event));
+      this.getCurrentDate = date.toISO();
+
+      if (DateTime.fromISO(this.getCurrentDate).isValid) {
+        await this.getOrganizationEntries();
+      } else {
+        console.error("Invalid date format:", this.getCurrentDate);
+      }
     },
   },
 };

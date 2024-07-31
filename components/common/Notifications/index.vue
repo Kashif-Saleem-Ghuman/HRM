@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div class="d-flex align-center">
+    <bib-icon
+      icon="time-alarm-solid"
+      class="cursor-pointer"
+      variant="gray"
+      :scale="1"
+      @click.native.stop="pushNotification"
+    ></bib-icon>
     <bib-icon
       icon="send-solid"
-      class="mr-1 cursor-pointer"
+      class="ml-05 mr-1 cursor-pointer"
       variant="gray"
-      :scale="0.8"
+      :scale="1"
       @click.native.stop="pushNotification"
     ></bib-icon>
   </div>

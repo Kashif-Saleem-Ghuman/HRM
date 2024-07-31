@@ -93,6 +93,13 @@
     }
   }
   .input {
+    &--null {
+      &:not(.input--disabled) {
+        label {
+          color: $white !important;
+        }
+      }
+    }
     select {
       appearance: none;
       background-color: $dark !important;
@@ -123,7 +130,15 @@
       }
     }
   }
-  
+  .vdpComponent {
+    .input--null {
+      .date-picker--dark {
+        label {
+          color: $white !important;
+        }
+      }
+    }
+  }
   .vdpPeriodControl {
     button {
       color: $white;
@@ -151,13 +166,16 @@
       }
     }
   }
+  .of-scroll-y {
+    scrollbar-color: var(--bib-text-secondary) transparent !important;
+  }
   .chip-wrapper-without-bg {
     border-radius: 1rem;
     // padding: 4px 8px;
     // margin-right: 10px;
-    
-    background-color: $dark;    
-    &__bg_success{
+
+    background-color: $dark;
+    &__bg_success {
       color: $success;
       svg {
         fill: $success !important;
@@ -183,5 +201,4 @@
   .detail-collapse__header__title{
     color: $light !important;
   }
-  
 }

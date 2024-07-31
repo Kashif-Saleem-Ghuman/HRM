@@ -3,8 +3,10 @@
     <bib-time-picker-wrapper
       v-if="edit"
       v-model="time"
+      name="time"
+      placeholder="--"
+      class="timepicker_input"
       @input="handleTimeInput"
-      ref="timePicker"
     ></bib-time-picker-wrapper>
     <chips
       v-else
@@ -31,10 +33,7 @@ import {
   numberToClockDigits,
   hoursAndMinutesToJSDate,
 } from "@/utils/functions/dates";
-import { validateEntry } from "@/utils/timesheets/validators";
 import { ACTIVITY_TYPE, FILL_WEEKLY_ENTRY_EVENT } from "@/utils/constant/Constant";
-import { getTimeFromDate } from "@/utils/functions/dates";
-import { getDateFromTime } from "@/utils/functions/time";
 import { DateTime } from "luxon";
 export default {
   props: {
@@ -78,18 +77,25 @@ export default {
     },
     handleFieldClick() {
       this.time = this.value ?? "00:00";
-      this.edit = true;
+      if(!this.checkIsFutureDate()){
+        this.edit = true;
+      }
     },
     handleClickOutside() {
       this.edit = false;
     },
-    handleTimeInput(time) {
-      console.log('time===', time, this.timeEntry);
+    handleTimeInput() {
       if (this.timeEntry) {
         this.editThisTimeEntry();
       }else {
         this.makeNewTimeEntry();
       }
+    },
+    checkIsFutureDate() {
+      const now = DateTime.local().startOf('day');
+      const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
+
+      return !(now >= dateRow);
     },
     
     async makeNewTimeEntry() {
@@ -103,7 +109,6 @@ export default {
           endDate
         );
 
-        console.log('newEntry===', newEntry);
         if (newEntry) {
           this.openPopupNotification({
             text: "Time entry added successfully",
@@ -157,46 +162,14 @@ export default {
         ).toISOString()}),
       };
     },
-
-    validateTimeEntryIn() {
-      if (!this.isActivityIn() && !this.isActivityOut()) {
-        throw new Error("This validation require activity to be in or out");
-      }
-      const { timeEntryBreak, timeEntryIn } = this.data;
-      const { date, time } = this;
-      const start = this.isActivityIn()
-        ? this.time
-        : getTimeFromDate(timeEntryIn.start);
-      const end = this.isActivityIn()
-        ? getTimeFromDate(timeEntryIn.end)
-        : this.time;
-      console.log({ time, date });
-      const { valid, errors } = validateEntry({
-        start,
-        end,
-        date,
-        timeEntryIn: this.generateUpdatedTimeEntryIn(),
-        timeEntryBreak,
-      });
-      if (valid) {
-        //todo dispatch action, send api request to edit time entry
-      }
-    },
-    generateUpdatedTimeEntryIn() {
-      const { time, date } = this;
-      const { timeEntryIn } = this.data;
-      return {
-        ...timeEntryIn,
-        ...(this.isActivityIn() && {
-          start: DateTime.fromJSDate(getDateFromTime({ time, date })).toISO(),
-        }),
-        ...(this.isActivityOut() && {
-          end: DateTime.fromJSDate(getDateFromTime({ time, date })).toISO(),
-        }),
-      };
-    },
   },
 };
 </script>
-<style>
+<style lang="scss">
+.timepicker_input{
+  input{
+    margin-bottom: 12px !important;
+    margin-top: 12px !important;
+  }
+}
 </style>

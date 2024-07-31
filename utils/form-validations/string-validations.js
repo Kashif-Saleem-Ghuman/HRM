@@ -10,7 +10,7 @@ export const isEmail = (value) => {
 
 export const isPhoneNumber = (value) => {
   const phonePattern = /^[+\d\s\-().]+$/;
-  return phonePattern.test(value) || "Invalid phone number format. Expected formats (xxx-xxx-xxxx, xxxxxxxxxx, +xxxxxxxxxxxx, +xx xxxxxxxxxx, xxx xxx xxxx, +xx xxx-xxx-xxxx, +xx xxxxxxxxxxx)";
+  return phonePattern.test(value) || "Invalid phone number format.";
 };
 
 //"K1A 0B1" trrue

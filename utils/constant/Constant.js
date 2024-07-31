@@ -936,6 +936,13 @@ export const EMPLOYEE_DIRECTORY = [
     title: "Board",
     value: "board",
     route: "/employee-directory/board/",
+  }
+];
+export const SETTINGS_TAB = [
+  {
+    title: "Time & Attendance",
+    value: "timesheetReport",
+    route: "/settings/time-attendance/",
   },
 ];
 export const TABLE_FIELDS = [

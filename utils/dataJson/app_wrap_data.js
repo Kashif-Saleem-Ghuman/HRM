@@ -204,6 +204,13 @@ const data = () => {
         selected: false,
         id: "",
       },
+      {
+        label: "Settings",
+        icon: "settings",
+        key: "settings",
+        url: "/settings/time-attendance/",
+        selected: false,
+      },
       // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],
     navItemsUserSwitch: [

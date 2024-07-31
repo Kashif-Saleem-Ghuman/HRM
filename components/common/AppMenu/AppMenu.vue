@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0, 5)"
+        :items="appWrapItems.navItemsAdmin.slice(0,6)"
         @click="
           ($event, item) => {
             menuClick(item);

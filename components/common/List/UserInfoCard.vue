@@ -35,7 +35,7 @@
       <div class="d-flex pt-1">
         <bib-button
           label="View Profile"
-          :variant="isLightThemeCheck ? 'light' : 'dark'"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
           class="mr-05"
           @click.native.stop="$emit('viewProfile')"
         ></bib-button>
@@ -43,7 +43,7 @@
           label="Meet"
           class="mr-05"
           @click.native.stop="sendMeet"
-          :variant="isLightThemeCheck ? 'light' : 'dark'"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
         ></bib-button>
         <bib-button
           label="Send Message"

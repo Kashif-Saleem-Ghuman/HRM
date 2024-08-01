@@ -50,15 +50,20 @@
         }
       },
       handleClick(clickedWidget) {
-        this.widgets.forEach(widget => {
-          if (widget.key === clickedWidget.key) {
-            widget.showingAll = !widget.showingAll;
-          } else {
-            widget.showingAll = false;
-          }
-        });
-        this.$emit('clickedWidget', clickedWidget.actionKey);
-      },
+    if (clickedWidget.key === 'pending_timesheets_count') {
+      this.$router.push('/time-attendance/attendance/');
+    } else {
+      this.widgets.forEach(widget => {
+        if (widget.key === clickedWidget.key) {
+          widget.showingAll = !widget.showingAll;
+        } else {
+          widget.showingAll = false;
+        }
+      });
+      this.$emit('clickedWidget', clickedWidget.actionKey);
+    }
+  },
+
     },
   
     created() {

@@ -154,4 +154,12 @@
     right: -1px;
     margin: 1px;
   }
+  .button{
+    &--dark-sub3 {
+      &:hover {
+        background-color: $dark-sub1 !important;
+        color: $white;
+      }
+    }
+  }
 }

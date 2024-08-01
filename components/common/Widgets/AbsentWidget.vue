@@ -9,6 +9,7 @@ export default {
     },
   },
   methods: {
+    
     async fetchData() {
       const data = this.employeesAttendance;
       if (data) {
@@ -32,6 +33,7 @@ export default {
     setAvatars(data = []) {
       this.avatars = data;
     },
+    
   },
 
   watch: {

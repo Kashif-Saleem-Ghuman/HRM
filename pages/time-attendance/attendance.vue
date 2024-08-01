@@ -34,19 +34,22 @@
       </div>
     </div>
 
-    <div class="d-grid d-flex gap-1 py-1 px-1" style="grid-template-columns: repeat(3, 1fr)">
-      
-          <present-widget avatars-position="bottom"></present-widget>
-
-          <on-leave avatars-position="bottom"></on-leave>
-
-          <absent-widget avatars-position="bottom"></absent-widget>
-          <!-- <celebrations-widget avatars-position="center"></celebrations-widget> -->
+    <div>
+      <base-widget-admin
+        @clickedWidget="generateOrganizationEntries"
+        :visibleWidgetKeys="[
+          'employees_present_count',
+          'employees_on_leave_count',
+          'employees_absent_count',
+        ]"
+        :totalData="employees"
+        :progressCountShow="true"
+      ></base-widget-admin>
     </div>
 
     <div class="scroll_wrapper">
       <div>
-        <list-dashboard :userList="employees" ></list-dashboard>
+        <list-dashboard :userList="employees"></list-dashboard>
         <loader :loading="loading"></loader>
       </div>
     </div>
@@ -62,7 +65,7 @@ import {
 export default {
   data() {
     return {
-      date: DateTime.now().startOf('day').toFormat(DATETIME_FORMAT),
+      date: DateTime.now().startOf("day").toFormat(DATETIME_FORMAT),
       loading: true,
       employees: [],
       maxDate: DateTime.now().toISO(),
@@ -89,7 +92,10 @@ export default {
       this.generateOrganizationEntries(isoDate);
     },
     isDateToday(date) {
-      return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(DateTime.local(), "day");
+      return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(
+        DateTime.local(),
+        "day"
+      );
     },
 
     formatDate(isoDate) {
@@ -98,23 +104,32 @@ export default {
       );
     },
     onDateChange(value) {
-      if(((value === '' || value == this.todayDate ) && this.date == this.todayDate) || value == this.date) return;
+      if (
+        ((value === "" || value == this.todayDate) &&
+          this.date == this.todayDate) ||
+        value == this.date
+      )
+        return;
       this.date = value === "" ? this.todayDate : value;
       this.generateOrganizationEntries(
         DateTime.fromFormat(this.date, DATETIME_FORMAT).toUTC().toISO()
       );
     },
 
-    async generateOrganizationEntries(isoDate) {
-      const date = DateTime.fromJSDate(new Date(isoDate)).toFormat('yyyy-MM-dd');
+    async generateOrganizationEntries(isoDate, actionKey) {
+      const date = DateTime.fromJSDate(new Date(isoDate)).toFormat(
+        "yyyy-MM-dd"
+      );
       const { searchString } = this;
       this.loading = true;
-      this.employees = await this.$store.dispatch(
-        "timeattendance/getEmployeesAttendance",
-        { date, searchString }
-      ).finally(() => {
-        this.loading = false;
-      });
+      this.employees = await this.$store
+        .dispatch("timeattendance/getEmployeesAttendance", {
+          date,
+          actionKey,
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 

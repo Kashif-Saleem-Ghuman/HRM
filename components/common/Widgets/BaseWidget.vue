@@ -9,35 +9,19 @@
           <div class="widget-info__subheading">{{ subheading }}</div>
           <span>{{ value }}</span>
         </div>
-
-        <div
-          v-if="avatars && avatarsPosition === 'center'"
-          class="widget-avatars-container"
-        >
-          <div
-            v-for="avatar in avatars.slice(0, MAX_VISIBLE_AVATARS)"
-            class="widget-avatars"
-            :key="avatar.id"
-          >
-            <NuxtLink :to="`/profile/${avatar.id}`">
-              <bib-avatar
-                class="avatar"
-                :src="avatar.photo"
-                size="1.5rem"
-                :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
-              ></bib-avatar>
-            </NuxtLink>
-          </div>
-        </div>
+        <!-- <div>
+          <progress-circle
+            :progressCount="
+              getpercentageValue == 'Infinity' ? '0' : getpercentageValue
+            "
+            :progressPercentage="
+              getpercentageValue == 'Infinity' ? '0' : getpercentageValue + '%'
+            "
+            :fill="fill"
+            emptyfill="#f1f1f1"
+          ></progress-circle>
+        </div> -->
       </div>
-
-      <div v-if="subData" class="sub-data-container">
-        <div v-for="item in subData" class="sub-data" :key="item.title">
-          <div class="sub-data__title">{{ item.title }}</div>
-          <div class="sub-data__value">{{ item.value }}</div>
-        </div>
-      </div>
-
       <div
         v-if="avatars && avatarsPosition === 'bottom'"
         class="widget-avatars-container-bottom pt-05"
@@ -57,18 +41,32 @@
         </div>
         <div
           v-if="avatars.length > MAX_VISIBLE_AVATARS"
-          class="d-flex align-center item "
+          class="d-flex align-center item"
           style="position: relative"
           @mouseover="showEmployeeList"
           @mouseout="hideEmployeeList"
           v-click-outside="hideEmployeeList"
         >
           <span
-            class="avatar__text  mr-025 cursor-default position-relative cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
+            class="avatar__text mr-025 cursor-default position-relative cursor-pointer"
+            :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
             >... {{ avatars.length - MAX_VISIBLE_AVATARS }} more
-            <div class="list position-absolute shape-rounded" v-show="employeeList" :class="isLightThemeCheck ? 'bg-dark border-light' : 'bg-dark border-dark-sub3'">
+            <div
+              class="list position-absolute shape-rounded"
+              v-show="employeeList"
+              :class="
+                isLightThemeCheck
+                  ? 'bg-dark border-light'
+                  : 'bg-dark border-dark-sub3'
+              "
+            >
               <div
-                class="list__item " :class="isLightThemeCheck ? 'bg-white bg-hover-gray3' : 'bg-dark bg-hover-dark-sub1'"
+                class="list__item"
+                :class="
+                  isLightThemeCheck
+                    ? 'bg-white bg-hover-gray3'
+                    : 'bg-dark bg-hover-dark-sub1'
+                "
                 v-for="avatar in avatars.slice(MAX_VISIBLE_AVATARS)"
                 :key="avatar.id"
                 @mouseout="hideEmployeeList"
@@ -81,7 +79,9 @@
                       class="mr-05"
                       :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
                     ></bib-avatar>
-                    <div :class="isLightThemeCheck ? 'text-gray1' : 'text-light'">
+                    <div
+                      :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
+                    >
                       {{ $getEmployeeFullName(avatar) | truncate(25, "...") }}
                     </div>
                   </div>
@@ -91,12 +91,18 @@
           </span>
         </div>
       </div>
+      <div>
+        <bib-button
+          label="Show All"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          class="w-100 mt-2 button-wrapper-align"
+        ></bib-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
 const MAX_VISIBLE_AVATARS = 3;
 
 export default {
@@ -105,15 +111,20 @@ export default {
       type: String,
       default: "bottom",
     },
-
+    avatars: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
     return {
       MAX_VISIBLE_AVATARS,
+      fill: { gradient: ["#ffb700", "#47b801"] },
       data: {},
-      subData: null,
       avatars: null,
+      emloyeeLength: null,
+      subData: null,
       loading: false,
       avatarsBottom: null,
       employeeList: false,
@@ -133,9 +144,9 @@ export default {
   },
 
   methods: {
-    async fetchData() {
-      throw new Error(`Widget fetchaData function needs to be implemented!`);
-    },
+    // async fetchData() {
+    //   throw new Error(`Widget fetchaData function needs to be implemented!`);
+    // },
     showEmployeeList() {
       this.employeeList = true;
     },
@@ -144,9 +155,9 @@ export default {
       this.employeeList = false;
     },
   },
-  created() {
-    this.fetchData();
-  }
+  // created() {
+  //   this.fetchData();
+  // },
 };
 </script>
 

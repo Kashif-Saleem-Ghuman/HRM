@@ -31,6 +31,7 @@ export default {
 
     setAvatars(employees = []) {
       this.avatars = employees;
+      
     },
   },
 

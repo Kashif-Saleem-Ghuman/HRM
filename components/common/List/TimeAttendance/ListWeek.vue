@@ -30,12 +30,12 @@
           :timeEntry="data.value.timeEntryIn"
           :value="data.value.in"
           :date="data.value.date"
-          :activity="getActivityIn()"
+          :activity="activityIn"
           :data="data.value"
         ></timesheet-field>
       </template>
       <template #cell(break)="data">
-        <div class="cursor-pointer">
+        <div class="cursor-pointer" @click="redirectDayView(data)">
           <chips
             :defaultPointer="true"
             :title="getInOut(data.value.break)"
@@ -50,7 +50,7 @@
           :timeEntry="data.value.timeEntryIn"
           :value="data.value.out"
           :date="data.value.date"
-          :activity="getActivityOut()"
+          :activity="activityOut"
           :data="data.value"
         ></timesheet-field>
       </template>
@@ -139,6 +139,8 @@ export default {
       TIMESHEET_STATUS,
       WEEK_DAY,
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      activityIn: ACTIVITY_TYPE.IN,
+      activityOut: ACTIVITY_TYPE.OUT,
     };
   },
   computed: {
@@ -186,12 +188,6 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getActivityIn() {
-      return ACTIVITY_TYPE.IN;
-    },
-    getActivityOut() {
-      return ACTIVITY_TYPE.OUT;
-    },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
       return WEEK_DAY[
@@ -203,6 +199,9 @@ export default {
     },
     tableItemClick(event, key, item) {
       this.$emit("day-view", item);
+    },
+    redirectDayView(item) {
+      this.$emit("redirect-dayview", item.value);
     },
     dateFormat(item) {
       return item == null

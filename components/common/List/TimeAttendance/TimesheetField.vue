@@ -1,24 +1,13 @@
 <template>
-  <div v-click-outside="handleClickOutside">
+  <div>
     <bib-time-picker-wrapper
-      v-if="edit"
       v-model="time"
       name="time"
       placeholder="--"
-      class="timepicker_input"
+      class="text-dark font-w-600"
+      :disabled="checkIsFutureDate"
       @input="handleTimeInput"
     ></bib-time-picker-wrapper>
-    <chips
-      v-else
-      @click.native="handleFieldClick"
-      :title="value"
-      class="w-100 m-0 align-center text-center justify-center"
-      :className="[
-        timeEntry
-          ? 'chip-wrapper__bgsucess text-bold'
-          : 'chip-wrapper__bggray disabled',
-      ]"
-    ></chips>
   </div>
 </template>
 
@@ -55,9 +44,16 @@ export default {
   },
   data() {
     return {
-      edit: false,
       time: null,
     };
+  },
+  computed: {
+    checkIsFutureDate() {
+      const now = DateTime.local().startOf('day');
+      const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
+
+      return !(now >= dateRow);
+    },
   },
   methods: {
     parseInputTimeIntoArray,
@@ -75,27 +71,12 @@ export default {
     isActivityOut() {
       return this.activity === ACTIVITY_TYPE.OUT;
     },
-    handleFieldClick() {
-      this.time = this.value ?? "00:00";
-      if(!this.checkIsFutureDate()){
-        this.edit = true;
-      }
-    },
-    handleClickOutside() {
-      this.edit = false;
-    },
     handleTimeInput() {
       if (this.timeEntry) {
         this.editThisTimeEntry();
       }else {
         this.makeNewTimeEntry();
       }
-    },
-    checkIsFutureDate() {
-      const now = DateTime.local().startOf('day');
-      const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
-
-      return !(now >= dateRow);
     },
     
     async makeNewTimeEntry() {
@@ -148,7 +129,7 @@ export default {
 
     calculateDates() {
       return {
-        date: DateTime.fromJSDate(new Date(this.date)).toFormat("yyyy-MM-dd"),
+        date: this.date,
         ...(this.isActivityIn() && {
             startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.time),
@@ -163,13 +144,11 @@ export default {
       };
     },
   },
+  mounted() {
+    this.time = this.value ?? "00:00";
+  },
+  beforeDestroy() {
+    this.time = null;
+  },
 };
 </script>
-<style lang="scss">
-.timepicker_input{
-  input{
-    margin-bottom: 12px !important;
-    margin-top: 12px !important;
-  }
-}
-</style>

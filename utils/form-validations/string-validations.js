@@ -9,9 +9,8 @@ export const isEmail = (value) => {
 };
 
 export const isPhoneNumber = (value) => {
-  const phonePattern = /^[0-9]{10}$/;
-  const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-  return (phonePattern.test(value) || phoneRegex.test(value)) || "Invalid phone number format. Expected formats (xxx-xxx-xxxx, xxxxxxxxxx)";
+  const phonePattern = /^[+\d\s\-().]+$/;
+  return phonePattern.test(value) || "Invalid phone number format.";
 };
 
 //"K1A 0B1" trrue

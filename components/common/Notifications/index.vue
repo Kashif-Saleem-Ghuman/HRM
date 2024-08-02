@@ -5,14 +5,14 @@
       class="cursor-pointer"
       variant="gray"
       :scale="1"
-      @click.native.stop="pushNotification"
+      @click.native.stop="pushNotificationClockin"
     ></bib-icon>
     <bib-icon
       icon="send-solid"
       class="ml-05 mr-1 cursor-pointer"
       variant="gray"
       :scale="1"
-      @click.native.stop="pushNotification"
+      @click.native.stop="pushNotificationTimeseet"
     ></bib-icon>
   </div>
 </template>
@@ -20,8 +20,11 @@
 <script>
 export default {
   methods: {
-    pushNotification() {
-      this.$emit("click");
+    pushNotificationClockin() {
+      this.$emit("clock-in-reminder");
+    },
+    pushNotificationTimeseet() {
+      this.$emit("submit-timesheet-reminder");
     },
   },
 };

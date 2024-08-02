@@ -83,31 +83,6 @@
     font-weight: normal;
   }
 
-  .chip-wrapper__bggray {
-    background-color: $dark-sub3;
-  }
-  .chip-wrapper__bgdefault {
-    background-color: $gray1;
-    border: 1px solid $dark;
-    border-radius: 6px;
-    svg {
-      fill: $secondary-sub2 !important;
-    }
-    span {
-      color: $secondary-sub2;
-      font-weight: 400;
-      font-size: 14px;
-    }
-  }
-  .chip-wrapper__bgvacation {
-    background-color: $primary;
-    svg {
-      fill: $white !important;
-    }
-    span {
-      color: $white;
-    }
-  }
   .input {
     &--null {
       &:not(.input--disabled) {
@@ -233,4 +208,9 @@
   .detail-collapse__header__title{
     color: $light !important;
 }
+  .tiptap{
+    a{
+      color: $primary-sub1 !important;
+    }
+  } 
 }

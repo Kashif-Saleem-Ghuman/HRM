@@ -57,7 +57,7 @@
             {{ data.value.jobTitle }}
           </div>
         </div>
-        <notifications @click="notifyUser(data.value.id)"></notifications>
+        <notifications @clock-in-reminder="$clockInReminder({ requestIds: [data.value.id] })" @submit-timesheet-reminder="$submitTimesheetReminder({ requestIds: [data.value.id] })"></notifications>
       </div>
     </template>
     <template #cell(status)="data">

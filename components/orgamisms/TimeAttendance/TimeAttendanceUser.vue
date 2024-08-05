@@ -149,6 +149,7 @@
               :is-full-year-list="isFullYearList"
               @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
               @week-view="redirectWeekView"
+              class="pb-1"
             ></month-list>
             <no-record v-else />
           </template>

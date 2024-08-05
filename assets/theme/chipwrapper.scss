@@ -1,15 +1,23 @@
-.dark-theme{
-    
+.dark-theme {
   .chip-wrapper__bggray {
     background-color: $dark-sub3;
   }
   .chip-wrapper {
-    &__bgsucess{
-      span{
+    &__bgsucess {
+      span {
         color: $success !important;
       }
     }
-   
+    &__bgabsent {
+      span {
+        color: $secondary-sub3 !important;
+      }
+    }
+    &__bgabsentpink {
+      span {
+        color: $danger !important;
+      }
+    }
   }
   .chip-wrapper__bgdefault {
     background-color: $gray1;
@@ -19,7 +27,7 @@
       fill: $secondary-sub2 !important;
     }
     span {
-      color: $secondary-sub2;
+      color: $secondary-sub3 !important;
       font-weight: 400;
       font-size: 14px;
     }
@@ -30,7 +38,7 @@
       fill: $white !important;
     }
     span {
-      color: $white;
+      color: $secondary-sub3 !important;
     }
   }
   .button-wrapper-punch {

@@ -6,7 +6,11 @@
     "
     class="widgets-container d-grid gap-2 px-2 py-2"
   >
-    <div v-for="widget in filteredWidgets" :key="widget.key" class="widget d-flex">
+    <div
+      v-for="widget in filteredWidgets"
+      :key="widget.key"
+      class="widget d-flex"
+    >
       <div class="widget-container">
         <div>
           <label>{{ widget.title }}</label>
@@ -22,9 +26,77 @@
               :progressPercentage="`${getPercentageValue(widget)}%`"
               :fill="fill"
               emptyfill="#f1f1f1"
+              :key="progressKey"
             ></progress-circle>
           </div>
         </div>
+
+        <div class="widget-avatars-container-bottom pt-1 mb-2">
+          <div
+            v-for="avatar in widget.avatars.slice(0, MAX_VISIBLE_AVATARS)"
+            :key="avatar.id"
+            class="cursor-pointer"
+          >
+            <NuxtLink :to="`/profile/${avatar.id}`">
+              <bib-avatar
+                :src="avatar.photo"
+                size="1.5rem"
+                :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
+              ></bib-avatar>
+            </NuxtLink>
+          </div>
+          <div
+            v-if="widget.avatars.length > MAX_VISIBLE_AVATARS"
+            class="d-flex align-center "
+            style="position: relative"
+            @mouseover="showEmployeeList(widget.key)"
+            @mouseout="hideEmployeeList"
+            v-click-outside="hideEmployeeList"
+          >
+            <span
+              class="avatar__text mr-025 cursor-default position-relative cursor-pointer"
+y
+            >
+              ... {{ widget.avatars.length - MAX_VISIBLE_AVATARS }} more
+              <div
+                class="list position-absolute shape-rounded"
+                v-show="employeeList[widget.key]"
+                :class="isLightThemeCheck ? 'bg-dark border-light' : 'bg-dark border-dark-sub3'"
+              >
+                <div
+                  class="list__item"
+                  :class="
+                    isLightThemeCheck
+                      ? 'bg-white bg-hover-gray3'
+                      : 'bg-dark bg-hover-dark-sub1'
+                  "
+                  v-for="avatar in widget.avatars.slice(MAX_VISIBLE_AVATARS)"
+                  :key="avatar.id"
+                  @mouseout="hideEmployeeList"
+                >
+                  <NuxtLink :to="`/profile/${avatar.id}`">
+                    <div class="d-flex align-center">
+                      <bib-avatar
+                        :src="avatar.photo"
+                        size="1.5rem"
+                        class="mr-05"
+                        :text="
+                          avatar.photo ? null : $getEmployeeInitials(avatar)
+                        "
+                      ></bib-avatar>
+                      <div
+                        :class="isLightThemeCheck ? 'text-gray1' : 'text-light'"
+                      >
+                        {{ $getEmployeeFullName(avatar) | truncate(25, "...") }}
+                      </div>
+                    </div>
+                  </NuxtLink>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+
         <div>
           <bib-button
             :label="
@@ -45,6 +117,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { getAdminWidget } from "@/utils/functions/api_call/timeattendance/time";
 import { WIDGETS } from "@/utils/constant/widgetConstants";
@@ -59,17 +132,18 @@ export default {
     totalData: {
       type: Array,
     },
-    progressCountShow:{
-      type:Boolean
-    }
+    progressCountShow: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       widgets: [],
       getCurrentDate: DateTime.now().toFormat("yyyy-MM-dd"),
-      employees: [],
       fill: { gradient: ["#ffb700", "#47b801"] },
-      progressKey:0,
+      progressKey: 0,
+      employeeList: {},
+      MAX_VISIBLE_AVATARS: 3,
     };
   },
   computed: {
@@ -77,7 +151,12 @@ export default {
       if (!this.visibleWidgetKeys || this.visibleWidgetKeys.length === 0) {
         return this.widgets;
       }
-      return this.widgets.filter(widget => this.visibleWidgetKeys.includes(widget.key));
+      const widgetKeys = this.visibleWidgetKeys;
+
+      // Update avatars based on widget key
+      this.updateAvatars(widgetKeys);
+
+      return this.widgets.filter((widget) => widgetKeys.includes(widget.key));
     },
   },
   methods: {
@@ -88,7 +167,10 @@ export default {
           ...widget,
           value: data[widget.key] || 0,
           showingAll: false,
+          avatars: [], 
         }));
+
+        this.updateAvatars(this.visibleWidgetKeys);
       }
     },
     handleClick(clickedWidget) {
@@ -106,13 +188,32 @@ export default {
       }
     },
     getPercentageValue(widget) {
-      const totalEmployees = this.employees.length;
-      // Handle division by zero and invalid data
-      if (totalEmployees > 0 && widget.value >= 0) {
-        return Math.round((widget.value / totalEmployees) * 100);
-      } else {
-        return 0;
-      }
+      const totalEmployees = this.totalData.length;
+      return totalEmployees > 0 && widget.value >= 0
+        ? Math.round((widget.value / totalEmployees) * 100)
+        : 0;
+    },
+    showEmployeeList(widgetKey) {
+      this.$set(this.employeeList, widgetKey, true);
+    },
+    hideEmployeeList() {
+      this.employeeList = {};
+    },
+    updateAvatars(widgetKeys) {
+      this.widgets.forEach((widget) => {
+        if (widgetKeys.includes(widget.key)) {
+          if (widget.key === "employees_present_count") {
+            widget.avatars =
+              this.totalData.filter((employee) => employee.isPresent()) || [];
+          } else if (widget.key === "employees_absent_count") {
+            widget.avatars =
+              this.totalData.filter((employee) => !employee.isPresent()) || [];
+          } else if (widget.key === "employees_on_leave_count") {
+            widget.avatars =
+              this.totalData.filter((employee) => employee.isOnLeave()) || [];
+          }
+        }
+      });
     },
   },
   created() {
@@ -120,7 +221,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 $text-font-size: 14px;

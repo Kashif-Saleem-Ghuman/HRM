@@ -46,13 +46,27 @@
             class="info_wrapper w-100 cursor-pointer"
             @click="handleItemClick_Table(data.value.id, $event)"
           >
-            <div class="employee-name-label" :title="$getEmployeeFullName(data.value)">
-              {{ $getEmployeeFullName(data.value) | truncate(truncateText, "...") }}
+            <div
+              class="employee-name-label"
+              :title="$getEmployeeFullName(data.value)"
+            >
+              {{
+                $getEmployeeFullName(data.value) | truncate(truncateText, "...")
+              }}
             </div>
-            <div :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div :class="isLightThemeCheck ? 'text-dark' : 'light'">
               {{ data.value.jobTitle }}
             </div>
           </div>
+          <notifications
+            @submit-timesheet-reminder="
+              $submitTimesheetReminder({ requestIds: [data.value.id] })
+            "
+            :timesheetSubmitReminderIcon="
+              shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)
+            "
+            :clockInReminderIcon="false"
+          ></notifications>
         </div>
       </template>
 
@@ -171,13 +185,13 @@ export default {
         field: this.sortByField,
       });
     },
-    truncateText(){
+    truncateText() {
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-      return 40;
-    } else {
-      return 25;
-    }
+        return 40;
+      } else {
+        return 25;
+      }
     },
     ...mapGetters({
       getUser: "employee/GET_ACTIVE_USER",
@@ -191,6 +205,9 @@ export default {
     makeCall,
     meetLink,
     handleItemClick_Table,
+    shouldShowTimesheetSubmitReminderIcon(status) {
+      return status !== "approved" && status !== "pending";
+    },
     setTitle(title) {
       if (title == "Approve") {
         return "Approved";
@@ -232,12 +249,13 @@ export default {
         return this.getFormattedHoursWithVacation(data, vacationName);
       }
       return this.$leaveTypeCheck(vacationName);
-
     },
     getVacationName(data) {
-      const activity = Object.values(ACTIVITY_TYPE).find(activity => data[activity]);
-      console.log(activity, "getVacationNamegetVacationNamegetVacationName")
-      return ACTIVITY_TYPE_LABEL_VALUE[activity]  ?? "";
+      const activity = Object.values(ACTIVITY_TYPE).find(
+        (activity) => data[activity]
+      );
+      console.log(activity, "getVacationNamegetVacationNamegetVacationName");
+      return ACTIVITY_TYPE_LABEL_VALUE[activity] ?? "";
     },
     getFormattedHoursWithVacation(weekData, vacationName) {
       const formattedHours = formatHoursToHHMM(weekData.totalHours);
@@ -325,7 +343,7 @@ export default {
   &__vacation {
     background-color: rgba(31, 66, 162, 0.16);
     span {
-      color:  $primary;
+      color: $primary;
       font-weight: 500;
       font-size: 14px;
     }

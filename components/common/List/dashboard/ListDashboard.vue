@@ -63,9 +63,7 @@
         </div>
         <notifications
           @clock-in-reminder="$clockInReminder({ requestIds: [data.value.id] })"
-          @submit-timesheet-reminder="
-            $submitTimesheetReminder({ requestIds: [data.value.id] })
-          "
+          :timesheetSubmitReminderIcon="false"
           :clockInReminderIcon="shouldShowClockInReminderIcon(data)"
         ></notifications>
       </div>

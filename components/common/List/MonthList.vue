@@ -13,14 +13,28 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(date)="data">
-        <div class="d-flex flex-d-column text-left gap-01 cursor-pointer">
-          <div class="font-md font-w-700">
-            Week {{ getWeekNumber(data.value.start) }}
+        <div class="d-flex align-center justify-between">
+          <div class="d-flex flex-d-column text-left gap-01 cursor-pointer">
+            <div class="font-md font-w-700">
+              Week {{ getWeekNumber(data.value.start) }}
+            </div>
+            <div
+              class="font-w-400"
+              :class="isLightThemeCheck ? 'text-black' : 'text-white'"
+            >
+              {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
+              {{ formatIsoDateToYYYYMMDD(data.value.end) }}
+            </div>
           </div>
-          <div class="font-w-400" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
-            {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
-            {{ formatIsoDateToYYYYMMDD(data.value.end) }}
-          </div>
+          <notifications
+            @submit-timesheet-reminder="
+              $submitTimesheetReminder({ requestIds: [data.value.id] })
+            "
+            :timesheetSubmitReminderIcon="
+              shouldShowTimesheetSubmitReminderIcon(data.value.status)
+            "
+            :clockInReminderIcon="false"
+          ></notifications>
         </div>
       </template>
 
@@ -41,7 +55,10 @@
         <div class="text-dark">
           <div v-if="isAdmin">
             <div>
-              <leave-status :leaveStatusData="data" :defaultPointer="true"></leave-status>
+              <leave-status
+                :leaveStatusData="data"
+                :defaultPointer="true"
+              ></leave-status>
               <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
@@ -63,7 +80,10 @@
                 data.value?.status === 'pending'
               "
             >
-            <leave-status :leaveStatusData="data" :defaultPointer="true"></leave-status>
+              <leave-status
+                :leaveStatusData="data"
+                :defaultPointer="true"
+              ></leave-status>
               <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
@@ -78,8 +98,12 @@
                 ]"
               ></chips> -->
             </div>
-            <div  v-else>
-              <leave-status :leaveStatusData="data" :disabled="isSubmitted"  @click="buttonClicked(data.value)"></leave-status>
+            <div v-else>
+              <leave-status
+                :leaveStatusData="data"
+                :disabled="isSubmitted"
+                @click="buttonClicked(data.value)"
+              ></leave-status>
               <!-- <bib-button
                 :icon="getSubmitIcon(data.value?.status)"
                 :variant="getSubmitVariant(data.value?.status)"
@@ -200,6 +224,9 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     submitTimesheet,
+    shouldShowTimesheetSubmitReminderIcon(status) {
+      return status !== "approved" && status !== "pending";
+    },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;

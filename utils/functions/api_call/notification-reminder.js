@@ -1,6 +1,5 @@
 import { createConfig } from "./config";
 import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
-import { LEAVE_NOTIFICATIN_MESSAGE } from "../functions_lib";
 export async function clockInReminder({ requestIds }) {
   try {
     const url = "/employees/reminders/clock-in";

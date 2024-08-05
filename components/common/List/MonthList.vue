@@ -26,7 +26,8 @@
               {{ formatIsoDateToYYYYMMDD(data.value.end) }}
             </div>
           </div>
-          <notifications
+          <div v-if="isAdmin">
+            <notifications
             @submit-timesheet-reminder="
               $submitTimesheetReminder({ requestIds: [data.value.id] })
             "
@@ -35,6 +36,7 @@
             "
             :clockInReminderIcon="false"
           ></notifications>
+            </div>
         </div>
       </template>
 
@@ -137,6 +139,7 @@
 <script>
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { sortColumn } from "@/utils/functions/table-sort";
+import { mapState } from "vuex";
 import {
   TABLE_HEAD,
   MONTH_VIEW_TIMESHEET_STATUS as TIMESHEET_STATUS,
@@ -199,6 +202,13 @@ export default {
     };
   },
   computed: {
+    ...mapState("token", ["isAdmin", "isUser", "subr"]),
+    isOrganizationAdmin() {
+      return (
+        this.$store.state.token.hrmRole === USER_ROLES.ADMIN ||
+        this.$store.state.token.hrmRole === USER_ROLES.MANAGER
+      );
+    },
     TIMESHEET_STATUS() {
       return TIMESHEET_STATUS;
     },

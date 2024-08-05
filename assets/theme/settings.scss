@@ -1,0 +1,11 @@
+.dark-theme{
+    .setting-wrapper{
+        .detail-collapse__header__title {
+          color: $light !important;
+        }
+        .bib-time-picker--dark-theme .input-wrapper input{
+            background: var(--bib-dark) !important;
+          }
+      }
+      
+}

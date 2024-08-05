@@ -1,6 +1,6 @@
 <template>
   <div class="setting-wrapper py-1 mt-1 px-1 mx-1 w-50 shape-rounded">
-    <div class="border-gray2 mb-1 shape-rounded">
+    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
       <template>
         <bib-detail-collapse
           label="Timesheet Settings"
@@ -9,7 +9,7 @@
         >
           <template v-slot:content>
             <div class="row mx-0 px-1">
-              <div class="col-12 pb-2 helper-text">Helper Text</div>
+              <div class="col-12 pb-2 helper-text" :class="isLightThemeCheck ? 'border-bottom-gray4' : 'border-bottom-dark-sub3'">Helper Text</div>
             </div>
             <div class="row mx-0 px-1">
               <div class="col-3">
@@ -21,7 +21,6 @@
                   @input="handleInput('period', $event)"
                   size="md"
                   type="select"
-                  :variant="themeInputVariant"
                 ></bib-input>
               </div>
             </div>
@@ -34,7 +33,6 @@
                   :options="dayOptions"
                   size="md"
                   type="select"
-                  :variant="themeInputVariant"
                 ></bib-input>
               </div>
               <div class="col-3">
@@ -55,7 +53,6 @@
                   v-model="form.dayEnd"
                   :options="dayOptions"
                   size="md"
-                  :variant="themeInputVariant"
                   type="select"
                 ></bib-input>
               </div>
@@ -79,7 +76,6 @@
                   placeholder=""
                   :min="10"
                   :max="100"
-                  :variant="themeInputVariant"
                 ></bib-input>
               </div>
             </div>
@@ -88,7 +84,7 @@
       </template>
     </div>
 
-    <div class="border-gray2 mb-1 shape-rounded">
+    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
       <template>
         <bib-detail-collapse
           label="Daily Record"
@@ -97,7 +93,7 @@
         >
           <template v-slot:content>
             <div class="row mx-0 px-1">
-              <div class="col-12 pb-2 helper-text">Helper Text</div>
+              <div class="col-12 pb-2 helper-text" :class="isLightThemeCheck ? 'border-bottom-gray4' : 'border-bottom-dark-sub3'">Helper Text</div>
             </div>
             <div class="row mx-0">
               <div class="col-3">
@@ -218,7 +214,6 @@ export default {
 }
 .helper-text {
   margin-bottom: 1rem;
-  border-bottom: 1px solid $gray4 !important;
   color: $gray1;
 }
 

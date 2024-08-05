@@ -59,7 +59,6 @@
               {{ data.value.jobTitle }}
             </div>
           </div>
-          <notifications></notifications>
         </div>
       </template>
       <template #cell(email)="data">

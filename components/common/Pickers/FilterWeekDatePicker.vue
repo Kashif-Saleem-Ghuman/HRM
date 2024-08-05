@@ -86,7 +86,7 @@ export default {
         return this.setDefaultWeek(this.filterDate);
       }
       if (this.isWeekDatesOverlap(value, this.to)) {
-        return this.openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
+        return this.$openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
       }
       const from = getWeekStart(
         DateTime.fromFormat(value, DATETIME_FORMAT).toUTC().toISO()
@@ -106,7 +106,7 @@ export default {
         return this.setDefaultWeek(this.filterDate);
       }
       if (this.isWeekDatesOverlap(this.from, value)) {
-        return this.openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
+        return this.$openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
       }
       const to = getWeekEnd(
         DateTime.fromFormat(value, DATETIME_FORMAT).toUTC().toISO()

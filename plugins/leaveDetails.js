@@ -1,14 +1,12 @@
-import { clockInReminder, submitTimesheetReminder } from '@/utils/functions/api_call/notification-reminder';
-
-export const leaveDetail = function(item) {
+export const leaveDetail = (item, event) => {
   event.stopPropagation();
   const data = item.request;
-  this.$nuxt.$emit("open-sidebar", data);
-  this.$nuxt.$emit("close-sidebar-main");
+  if (typeof window !== 'undefined' && window.$nuxt) {
+    window.$nuxt.$emit("open-sidebar", data);
+    window.$nuxt.$emit("close-sidebar-main");
+  }
 };
 
 export default (context, inject) => {
   inject('leaveDetail', leaveDetail);
-  inject('clockInReminder', clockInReminder);
-  inject('submitTimesheetReminder', submitTimesheetReminder);
 };

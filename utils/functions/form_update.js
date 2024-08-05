@@ -22,7 +22,7 @@ export async function vfileAdded(file, id, name, event) {
     )
     .then((res) => {
       this.$nuxt.$emit("dropzone-key");
-      // this.openPopupNotification(0);
+      // this.$openPopupNotification(0);
       this.avatarUrl = res;
       this.form.photo = res;
       this.$root.$emit("update-header-photo");

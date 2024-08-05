@@ -11,17 +11,17 @@ const addLeaveErrorMessage = [
 ];
 export async function addLeaveVacations() {
   if (this.addForm.start == null) {
-    this.openPopupNotification(addLeaveErrorMessage[0]);
+    this.$openPopupNotification(addLeaveErrorMessage[0]);
     return;
   }
   if (this.addForm.end == null) {
-    this.openPopupNotification(addLeaveErrorMessage[1]);
+    this.$openPopupNotification(addLeaveErrorMessage[1]);
     return;
   }
   const date1 = new Date(this.addForm.start);
   const date2 = new Date(this.addForm.end);
   if (date1 > date2) {
-    this.openPopupNotification(addLeaveErrorMessage[2]);
+    this.$openPopupNotification(addLeaveErrorMessage[2]);
     return;
   }
   this.loading = true;
@@ -65,7 +65,7 @@ export async function addLeaveVacations() {
           this.slideClass = "slide-out";
           setTimeout(() => {
             this.openSidebar = false;
-            this.openPopupNotification(0);
+            this.$openPopupNotification(0);
           }, 700);
         });
     } else {
@@ -81,12 +81,12 @@ export async function addLeaveVacations() {
           this.slideClass = "slide-out";
           setTimeout(() => {
             this.openSidebar = false;
-            this.openPopupNotification(0);
+            this.$openPopupNotification(0);
           }, 700);
         });
     }
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -111,10 +111,10 @@ export async function deleteLevaeVacation(value) {
     this.loading = false;
     this.$nuxt.$emit("close-sidebar");
     this.confirmastionMessageModal = false;
-    this.openPopupNotification(9);
+    this.$openPopupNotification(9);
     return leaveDelete;
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -136,7 +136,7 @@ export async function getUserLeavesDetailUser(payload) {
     return result.data;
   } catch (e) {
     this.loading = false;
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });

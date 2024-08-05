@@ -201,7 +201,7 @@ export default {
     },
     debouncedNotification() {
       if (!this.debounced) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Please clock out to edit the time entry for the day.",
           variant: "danger",
         });
@@ -250,7 +250,7 @@ export default {
         });
 
         if (editedEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
@@ -337,7 +337,7 @@ export default {
           breakEntryStartTime >= inEntryStartTime &&
           breakEntryEndTime <= inEntryEndTime;
         // if (!isBreakAfterInEntry) {
-        //   this.openPopupNotification({
+        //   this.$openPopupNotification({
         //     text: "Your existing break is not within work entry time range",
         //     variant: "danger",
         //   });
@@ -364,7 +364,7 @@ export default {
         const inEntryStartTime = this.getDateFromTime(this.startTime);
         const isBreakAfterStart = breakEntryStartTime > inEntryStartTime;
         if (!isBreakAfterStart) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Your break cannot be before work start time",
             variant: "danger",
           });
@@ -393,7 +393,7 @@ export default {
         const isBreakWithinInEntry =
           breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime;
         if (!isBreakWithinInEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             // text: "Break start time and end time must be within in entry start and end time",
             text: "Break must be within work entry time range",
             variant: "danger",
@@ -413,7 +413,7 @@ export default {
         const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate();
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Break start time cannot be before timer start time",
             variant: "danger",
           });
@@ -440,7 +440,7 @@ export default {
 
       // if (this.isStartDateGreatherThanNow()) {
       //   this.startTime = undefined;
-      //   return this.openPopupNotification({
+      //   return this.$openPopupNotification({
       //     text: "Start time cannot be greater than current time",
       //     variant: "danger",
       //   });
@@ -448,7 +448,7 @@ export default {
 
       // if (this.isEndDateGreatherThanNow()) {
       //   this.endTime = undefined;
-      //   return this.openPopupNotification({
+      //   return this.$openPopupNotification({
       //     text: "End time cannot be greater than current time",
       //     variant: "danger",
       //   });
@@ -481,7 +481,7 @@ export default {
         );
 
         if (newEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entry added successfully",
             variant: "primary",
           });

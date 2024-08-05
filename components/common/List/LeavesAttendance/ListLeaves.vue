@@ -88,7 +88,7 @@
           @click="$leaveDetail(data.value, this)"
         >
           <div class="font-md d-flex align-center">
-            <leave-status :leaveStatusData="data" @click="leaveDetail(data.value)"></leave-status>
+            <leave-status :leaveStatusData="data" @click="$leaveDetail(data.value)"></leave-status>
           </div>
         </div>
       </template>

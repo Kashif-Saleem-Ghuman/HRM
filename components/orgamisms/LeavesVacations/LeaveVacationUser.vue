@@ -144,7 +144,7 @@ export default {
         })
         .then((result) => {
           if (!result) {
-            this.openPopupNotification(this.$error.common_message);
+            this.$openPopupNotification(this.$error.common_message);
           } else {
             this.leaveVacationDataUser = result;
           }
@@ -157,7 +157,7 @@ export default {
           this.allowanceLeavesDetailedData = result;
           this.is_data_fetched = true;
         } else {
-          this.openPopupNotification(this.$error.common_message);
+          this.$openPopupNotification(this.$error.common_message);
         }
       });
     });
@@ -173,7 +173,7 @@ export default {
         this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
       } else {
-        this.openPopupNotification(this.$error.common_message);
+        this.$openPopupNotification(this.$error.common_message);
       }
     });
     this.activeUserData = this.getActiveUser;
@@ -191,7 +191,7 @@ export default {
       })
       .then((result) => {
         if (!result) {
-          this.openPopupNotification(this.$error.common_message);
+          this.$openPopupNotification(this.$error.common_message);
         } else {
           this.leaveVacationDataUser = result;
         }
@@ -230,7 +230,7 @@ export default {
         })
         .then((result) => {
           if (!result) {
-            this.openPopupNotification(this.$error.common_message);
+            this.$openPopupNotification(this.$error.common_message);
           } else {
             this.leaveVacationDataUser = result;
           }

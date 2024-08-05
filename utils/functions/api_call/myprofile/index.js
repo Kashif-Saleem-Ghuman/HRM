@@ -4,7 +4,7 @@ import { hrmApiAxiosInstance } from "../hrm-api-axios-instance";
 export async function addFiles(payload, files) {
   let fd = new FormData();
   if (files.length === 0) {
-    return this.openPopupNotification(7);
+    return this.$openPopupNotification(7);
   }
   for (let i = 0; i < files.length; i++) {
     fd.append("files", files[i]);

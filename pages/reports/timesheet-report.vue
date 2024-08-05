@@ -70,7 +70,7 @@ export default {
         if (!this.selectedEndDate) {
           this.variantStart = null;
           this.variantEnd = "alert";
-          this.openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
+          this.$openPopupNotification(NOTIFICATION_MESSAGES.BOTH_DATES_REQUIRED);
           return;
         }
         return;
@@ -87,13 +87,13 @@ export default {
         );
 
         if (startDate > endDate) {
-          this.openPopupNotification(
+          this.$openPopupNotification(
             NOTIFICATION_MESSAGES.DATE_VALIDATION_ERROR
           );
           return;
         }
         if (startDate.toMillis() === endDate.toMillis()) {
-          this.openPopupNotification(
+          this.$openPopupNotification(
             NOTIFICATION_MESSAGES.SAME_DATE_VALIDATION_ERROR
           );
           return;
@@ -119,14 +119,14 @@ export default {
 
         if (response) {
           this.downloadFile(response.data, "timesheet-report");
-          this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
+          this.$openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedStartDate = null;
           this.selectedEndDate = null;
           this.update += 1;
         }
       } catch (error) {
         console.error("Error downloading file:", error);
-        this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
+        this.$openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
 

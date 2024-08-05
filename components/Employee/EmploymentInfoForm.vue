@@ -231,11 +231,11 @@ export default {
         employee: form,
       })
         .then(() => {
-          this.openPopupNotification(1);
+          this.$openPopupNotification(1);
         })
         .catch((error) => {
           console.error(error);
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Error while updating employee",
             variant: "danger",
           });

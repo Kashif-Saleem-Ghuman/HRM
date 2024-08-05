@@ -134,9 +134,7 @@ export default {
     },
   },
   methods: {
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
+    
 
     deleteTimeEntry,
 
@@ -157,7 +155,7 @@ export default {
       const id = this.idToDelete;
       await this.deleteTimeEntry(id);
       this.confirmastionMessageModal = false;
-      this.openPopupNotification(DELETE_MESSAGE.notification);
+      this.$openPopupNotification(DELETE_MESSAGE.notification);
       this.idToDelete = null;
       this.$emit("delete-entry", id);
       this.$nuxt.$emit("update-timer");

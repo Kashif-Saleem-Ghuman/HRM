@@ -5,6 +5,7 @@
       class="cursor-pointer"
       variant="gray"
       :scale="1"
+      v-show="clockInReminderIcon"
       @click.native.stop="pushNotificationClockin"
     ></bib-icon>
     <bib-icon
@@ -12,6 +13,7 @@
       class="ml-05 mr-1 cursor-pointer"
       variant="gray"
       :scale="1"
+      v-show="timesheetSubmitReminderIcon"
       @click.native.stop="pushNotificationTimeseet"
     ></bib-icon>
   </div>
@@ -19,6 +21,16 @@
 
 <script>
 export default {
+  props:{
+    clockInReminderIcon:{
+      type:Boolean,
+      default:true,
+    },
+    timesheetSubmitReminderIcon:{
+      type:Boolean,
+      default:true,
+    },
+  },
   methods: {
     pushNotificationClockin() {
       this.$emit("clock-in-reminder");

@@ -480,7 +480,7 @@ export default {
     },
     debouncedNotification(value) {
       if (!this.debounced) {
-        this.openPopupNotification(value);
+        this.$openPopupNotification(value);
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
@@ -497,7 +497,7 @@ export default {
         return this.debouncedNotification(6);
       }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
-        // this.openPopupNotification(1);
+        // this.$openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key", data);
         this.form = data;
         this.originalStateProvince = this.form.address.state;

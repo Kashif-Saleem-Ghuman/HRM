@@ -213,7 +213,7 @@ export default {
     },
     debouncedNotification() {
       if (!this.debounced) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Please delete the time entry to clock-in again for the day.",
           variant: "danger",
         });
@@ -225,7 +225,7 @@ export default {
     },
     clockOutDebouncedNotification() {
       if (!this.clockoutDebounced && !this.debounced) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Please back to work to clock out",
           variant: "danger",
         });
@@ -280,7 +280,7 @@ export default {
             });
 
         if (makeTimeEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });

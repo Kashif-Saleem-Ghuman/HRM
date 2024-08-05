@@ -535,7 +535,7 @@ export default {
 
       if (itemDateTime > currentDate && this.weekDataStatus != "approved") {
         this.debounceAction(() => {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entries cannot be added for a future date",
             variant: "danger",
           });
@@ -548,7 +548,7 @@ export default {
         await this.fillDailyTimeEntries();
       } else {
         this.debounceAction(() => {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Your timesheet has been locked.",
             variant: "danger",
           });

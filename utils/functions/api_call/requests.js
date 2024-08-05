@@ -31,10 +31,10 @@ export async function multipleRejectRequest({ requestIds }) {
      config
     );
     this.$nuxt.$emit("pending-key");
-    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.rejected);
     this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });

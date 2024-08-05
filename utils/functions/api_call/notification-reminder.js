@@ -2,7 +2,6 @@ import { createConfig } from "./config";
 import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
 import { LEAVE_NOTIFICATIN_MESSAGE } from "../functions_lib";
 export async function clockInReminder({ requestIds }) {
-  console.log(requestIds, "requestIds");
   try {
     const url = "/employees/reminders/clock-in";
     const requestId = { requestIds };
@@ -12,7 +11,10 @@ export async function clockInReminder({ requestIds }) {
       requestId,
       config
     );
-    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification({
+      text: "A reminder for Clock-in has been successfully sent to the employee.",
+      variant: "primary-24"
+    });
     this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
   } catch (e) {
     console.log(e);
@@ -28,7 +30,10 @@ export async function submitTimesheetReminder({ requestIds }) {
       requestId,
       config
     );
-    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification({
+      text: "A reminder for timesheet submission has been successfully sent to the employee.",
+      variant: "primary-24"
+    });
     this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
   } catch (e) {
     console.log(e);

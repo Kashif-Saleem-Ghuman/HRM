@@ -89,14 +89,14 @@ export default {
 
         if (response) {
           this.downloadFile(response.data, "leave-details-report");
-          this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
+          this.$openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEmployeeId = null;
           this.selectedMonth = null;
           this.selectedYear = null;
         }
       } catch (error) {
         console.error("Error downloading file:", error);
-        this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
+        this.$openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
     openPopupNotification(notification) {

@@ -94,9 +94,7 @@ export default {
     },
   },
   methods: {
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
+    
     approveTimesheets,
     rejectTimesheets,
     onSearchChange(value) {
@@ -191,7 +189,7 @@ export default {
     async handleRejectSingle(request) {
       const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
       await rejectTimesheet(rejectPayload);
-      this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+      this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
     },
   },
 

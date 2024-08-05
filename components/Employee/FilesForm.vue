@@ -182,7 +182,7 @@ export default {
         this.fileList += 1;
         this.files = [];
         this.filesUploaded.reverse();
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "The file has been successfully uploaded.",
           variant: "primary-24",
         });
@@ -198,7 +198,7 @@ export default {
         this.filesUploaded = result;
         this.fileList += 1;
         this.confirmastionMessageModal = false;
-        return this.openPopupNotification(8);
+        return this.$openPopupNotification(8);
       });
     },
   },

@@ -221,7 +221,7 @@ export default {
     async submitButtonClicked() {
 
       if(this.isTimerActive && this.isSelectedDateCurrentWeek) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Please clock out to submit the timesheet",
           variant: "danger"
         })

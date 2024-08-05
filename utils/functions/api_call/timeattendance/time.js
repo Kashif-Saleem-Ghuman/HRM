@@ -81,9 +81,9 @@ export async function approveTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -99,9 +99,9 @@ export async function pastDueBatchApproveTimesheets(request) {
       request,
       config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -117,10 +117,10 @@ export async function rejectTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
 
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -136,10 +136,10 @@ export async function pastDueBatchRejectTimesheets(request) {
       request,
       config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
 
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });

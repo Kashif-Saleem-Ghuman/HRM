@@ -143,6 +143,10 @@ export default {
       type: Array,
       default: "",
     },
+    gettodayDate: {
+      type: String,
+      default: DateTime.now().toISODate(),
+    },
   },
   data() {
     return {
@@ -192,7 +196,13 @@ export default {
     meetLink,
     makeCall,
     shouldShowClockInReminderIcon(data) {
-      return data?.value?.activityReport?.in == null;
+      const currentDate = DateTime.now().toFormat("yyyy-MM-dd");
+      const reportDate = DateTime.fromISO(this.gettodayDate).toFormat(
+        "yyyy-MM-dd"
+      );
+      return (
+        data?.value?.activityReport?.in == null &&  !data?.value?.requests.length  && reportDate === currentDate
+      );
     },
     async callAction(data, value) {
       if (value === "View Profile") return this.viewProfile(data.value.id);

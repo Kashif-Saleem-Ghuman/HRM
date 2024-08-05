@@ -43,7 +43,7 @@
           <div class="scroll_wrapper">
             <no-record v-if="showNoData"></no-record>
             <div v-else-if="showTable">
-              <list-dashboard :userList="employees"></list-dashboard>
+              <list-dashboard :userList="employees" :gettodayDate="getCurrentDate"></list-dashboard>
             </div>
           </div>
         </div>

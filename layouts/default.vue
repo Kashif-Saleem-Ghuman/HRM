@@ -123,7 +123,7 @@ export default {
       setHeightBasedOnEnvironment() {
       const element = document.querySelector('.app-wrapper__content');
       if (navigator.userAgent.includes('Electron')) {
-        element.style.marginBottom = '50px';
+        element.style.paddingBottom = '50px';
       } else {
         element.style.paddingBottom = '0px';
       }

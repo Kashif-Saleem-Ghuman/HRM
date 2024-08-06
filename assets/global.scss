@@ -6,21 +6,16 @@ body {
   // overflow: hidden;
   height: 100%;
   width: 100%;
+  background-color: $black;
 }
 .app-wrapper__content{
   // overflow-y: hidden !important;
+  height: 110vh !important;
 }
 .header__search__input .search_input {
   width: 28em !important; 
 }
-.main-wrapper {
-  width: 100%;
-  // overflow: hidden !important;
-  .content-area{
-      // overflow-y: auto;
-      padding-bottom: 5px;
-  }
-}
+
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;

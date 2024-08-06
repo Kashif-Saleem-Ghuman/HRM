@@ -49,16 +49,9 @@
         <app-menu :sectionHead="!collapseNavigation1"></app-menu>
       </template>
       <template #content>
-        <div class="main-wrapper" ref="mainWrapper">
-          <div
-            id="main-content"
-            class="content-area"
-            :class="themeClassWrapper"
-            ref="childDiv"
-          >
-            <Nuxt />
-            <add-leave-sidebar></add-leave-sidebar>
-          </div>
+        <div id="main-content" :class="themeClassWrapper">
+          <Nuxt />
+          <add-leave-sidebar></add-leave-sidebar>
         </div>
         <div></div>
         <loader :loading="loading"></loader>
@@ -97,7 +90,7 @@ export default {
       addLeaveKey: 0,
       flag: false,
       isLightTheme: this.$cookies.get("isLightTheme"),
-      updateHeader:0,
+      updateHeader: 0,
     };
   },
   computed: {
@@ -105,7 +98,7 @@ export default {
       getAccessToken: "token/getAccessToken",
     }),
   },
-  created(){
+  created() {
     this.$root.$on("update-header-photo", () => {
       this.updateHeader += 1;
     });
@@ -117,8 +110,6 @@ export default {
     this.loading = false;
     await this.$isThemeCheck();
     this.isLightTheme = this.$cookies.get("isLightTheme");
-    this.adjustHeight();
-    window.addEventListener("resize", this.adjustHeight);
   },
   methods: {
     getEmployeeFullName,
@@ -134,11 +125,6 @@ export default {
       if (this.$route.path === "/leaves-and-vacations/dashboard/") {
         this.$nuxt.$emit("update-calendar");
       }
-    },
-    adjustHeight() {
-      const windowHeight = window.innerHeight;
-      const navHeight = 64;
-      this.$refs.childDiv.style.height = `${windowHeight - navHeight}px`;
     },
     toggleTheme(flag) {
       this.isLightTheme = flag;

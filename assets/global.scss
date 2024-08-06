@@ -3,22 +3,21 @@
 html,
 body {
   font-family: $font-family;
-  overflow: hidden;
+  // overflow: hidden;
   height: 100%;
   width: 100%;
 }
 .app-wrapper__content{
-  overflow-y: hidden;
+  // overflow-y: hidden !important;
 }
 .header__search__input .search_input {
   width: 28em !important; 
 }
 .main-wrapper {
   width: 100%;
-  overflow: hidden !important;
-  height: 100%;
+  // overflow: hidden !important;
   .content-area{
-      overflow-y: auto;
+      // overflow-y: auto;
       padding-bottom: 5px;
   }
 }

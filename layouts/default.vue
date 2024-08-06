@@ -110,6 +110,7 @@ export default {
     this.loading = false;
     await this.$isThemeCheck();
     this.isLightTheme = this.$cookies.get("isLightTheme");
+    this.setHeightBasedOnEnvironment();
   },
   methods: {
     getEmployeeFullName,
@@ -119,6 +120,15 @@ export default {
     openBillingPage,
     headerHelpClick,
     headerActionCall,
+      setHeightBasedOnEnvironment() {
+      const element = document.querySelector('.app-wrapper__content');
+      if (navigator.userAgent.includes('Electron')) {
+        element.style.height = '100svh';
+      } else {
+        element.style.height = 'auto';
+      }
+
+    },
     ...mapActions("theme", ["initializeTheme"]),
     collapseMenu() {
       this.collapseNavigation1 = !this.collapseNavigation1;

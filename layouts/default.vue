@@ -123,9 +123,9 @@ export default {
       setHeightBasedOnEnvironment() {
       const element = document.querySelector('.app-wrapper__content');
       if (navigator.userAgent.includes('Electron')) {
-        element.style.height = '100svh';
+        element.style.paddingBottom = '50px';
       } else {
-        element.style.height = 'auto';
+        element.style.paddingBottom = '0px';
       }
 
     },

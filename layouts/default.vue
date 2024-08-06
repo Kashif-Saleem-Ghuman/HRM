@@ -120,14 +120,16 @@ export default {
     openBillingPage,
     headerHelpClick,
     headerActionCall,
-      setHeightBasedOnEnvironment() {
-      const element = document.querySelector('.app-wrapper__content');
-      if (navigator.userAgent.includes('Electron')) {
-        element.style.paddingBottom = '50px';
+    setHeightBasedOnEnvironment() {
+      const element = document.querySelector(".app-wrapper__content");
+      const appSwitcher = document.querySelector(".app-switcher__theme-switch");
+      if (navigator.userAgent.includes("Electron")) {
+        element.style.paddingBottom = "46px";
+        appSwitcher.style.paddingBottom = "46px";
       } else {
-        element.style.paddingBottom = '0px';
+        element.style.paddingBottom = "0px";
+        appSwitcher.style.paddingBottom = "1rem";
       }
-
     },
     ...mapActions("theme", ["initializeTheme"]),
     collapseMenu() {

@@ -125,10 +125,10 @@ export default {
       const appSwitcher = document.querySelector(".app-switcher__theme-switch");
       if (navigator.userAgent.includes("Electron")) {
         element.style.paddingBottom = "46px";
-        appSwitcher.style.paddingBottom = "46px";
+        appSwitcher.style.marginBottom = "46px";
       } else {
         element.style.paddingBottom = "0px";
-        appSwitcher.style.paddingBottom = "1rem";
+        appSwitcher.style.marginBottom = "1rem";
       }
     },
     ...mapActions("theme", ["initializeTheme"]),

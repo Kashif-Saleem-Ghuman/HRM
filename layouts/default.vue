@@ -53,7 +53,6 @@
           <Nuxt />
           <add-leave-sidebar></add-leave-sidebar>
         </div>
-        <div></div>
         <loader :loading="loading"></loader>
       </template>
     </bib-app-wrapper>

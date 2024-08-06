@@ -72,7 +72,7 @@
                             label="Last Name"
                             field-key="lastName"
                             :value="form?.lastName"
-                            placeholder="my place holder"
+                            placeholder=""
                           ></form-input>
                         </div>
                       </div>

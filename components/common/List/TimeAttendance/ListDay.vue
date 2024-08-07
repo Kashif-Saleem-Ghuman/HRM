@@ -31,6 +31,7 @@
         :editable="!disabled"
         :disabled="disabled"
         @update="getSummary"
+        :disableIcons="disableIcons"
       ></employee-summary>
     </div>
     <div>
@@ -83,6 +84,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    disableIcons:{
+      type: Boolean,
+      default: false,
+    }
+    
   },
   data() {
     return {

@@ -363,14 +363,6 @@ import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import timezones from "../../utils/constant/new_timezones";
-const PHOTO_UPDATE = {
-  text: "The profile image has been updated successfully.",
-  variant: "primary-24",
-};
-const PHOTO_DELETE = {
-  text: "The profile image has been deleted successfully.",
-  variant: "primary-24",
-};
 const COMMON_MESSAGE = {
   text: "The information is currently being updated. Please check back shortly.",
   variant: "primary-24",

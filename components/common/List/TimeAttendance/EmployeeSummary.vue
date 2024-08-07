@@ -7,6 +7,7 @@
             v-for="item in toolbarItems"
             :key="item.name"
             class="toolbar-items"
+            :class="disableIcons ? 'disable-icons' : ''"
           >
             <div
               class="toolbar-icon"
@@ -83,6 +84,10 @@ export default {
     },
 
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    disableIcons: {
       type: Boolean,
       default: false,
     },
@@ -296,6 +301,11 @@ export default {
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+.disable-icons {
+  opacity: 0.5; 
+  pointer-events: none; 
+  cursor: not-allowed; 
 }
 
 .editor-container {

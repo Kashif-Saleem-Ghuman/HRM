@@ -91,6 +91,8 @@
             :status="timesheetStatus"
             :date="new Date(todayDate + ' 00:00')"
             :disabled="true"
+            :editable="false"
+            :disableIcons="true"
           ></list-day>
           <list-week
             v-else-if="weekListView && timesheetId"

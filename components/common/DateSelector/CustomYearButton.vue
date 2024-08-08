@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-menu" @mouseleave="handleMouseLeave">
+  <div class="dropdown-chip-menu" @mouseleave="handleMouseLeave">
     <div class="position-relative">
       <bib-button
         :label="selected?.toString()"
@@ -8,8 +8,24 @@
         v-click-outside="clickOutside"
         icon-right="close"
       ></bib-button>
-      <div class="menu-items"  >
-        <ul v-if="isDropdownOpen">
+      <div class="menu-items chip-wrapper-com" style="left: 0;">
+        <div v-if="isDropdownOpen" class="chip-wrapper-inner">
+          <div
+            v-for="(item, index) in options"
+            :key="index"
+            @click="selectOption(item)"
+            class="cursor-pointer"
+          >
+            <bib-button
+              :label="item"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
+              size="lg"
+              class="pr-05 mb-05 w-100"
+              :disabled="disabled"
+            ></bib-button>
+          </div>
+        </div>
+        <!-- <ul v-if="isDropdownOpen" class="chip-wrapper-inner">
           <li
             class="d-flex align-center" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
             v-for="(option, index) in options"
@@ -18,7 +34,7 @@
           >
             <span>{{ option }}</span>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </div>
@@ -67,29 +83,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.drop-menu {
-  .menu-items {
-    background-color: $white;
-    width: auto;
-    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
-    border-radius: 0px !important;
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    z-index: 999;
-    ul {
-      margin: 0;
-      padding: 0;
-      border: var(--bib-gray3) solid 1px;
-      border-radius: 0.5rem;
-      box-shadow: 0 0 0.4rem 0.1rem rgba(var(--bib-gray2), 0.7);
-      background: var(--bib-white);
-      li {
-        padding: 5px 10px;
-        cursor: pointer;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

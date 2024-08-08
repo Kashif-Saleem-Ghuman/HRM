@@ -30,13 +30,13 @@
         </div>
         <div class="d-flex align-center px-1">
           <label class="pr-05">View:</label>
-          <drop-menu-simple
+          <dropdown-menu-chip
             :items="VIEWS"
             :button-config="changeViewButtonConfig"
             @on-click="onViewChange"
             class="pr-05"
             className="left:0"
-          ></drop-menu-simple>
+          ></dropdown-menu-chip>
           <div class="d-flex justify-between align-center">
             <div class="d-flex align-center">
               <div class="custom_date_picker">

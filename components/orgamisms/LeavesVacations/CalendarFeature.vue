@@ -28,6 +28,7 @@
               :label="monthLabel"
               @on-click="changeMonthView($event)"
               class="mr-05"
+              className="left:0"
             ></dropdown-menu-calendar>
             <dropdown-menu-calendar
               :items="dropMenuYear"
@@ -35,6 +36,7 @@
               @on-click="changeYearView($event)"
               class="mr-05"
               style="z-index: 99 !important;"
+              className="left:0"
             ></dropdown-menu-calendar>
           </div>
         </div>

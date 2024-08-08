@@ -339,7 +339,7 @@ export default {
       }
     },
     viewAttendance(id) {
-      this.$router.push("/profile/" + id + "/time-attendance-profile-tab");
+      this.$router.push("/profile/" + id + "/time-attendance-profile-tab?view=day");
     },
     viewProfile(id) {
       this.$router.push("/profile/" + id);

@@ -1,29 +1,36 @@
 <template>
-  <div class="drop-menu" :class="themeClassWrapper">
-    <div class="position-relative" @mouseleave="hideMenu">
+  <div class="drop-menu-simple" :class="themeClassWrapper">
+    <div
+      class="position-relative"
+      @mouseleave="hideMenu"
+      :class="{
+        'bg-light': isLightThemeCheck,
+        'bg-dark': !isLightThemeCheck,
+      }"
+    >
       <bib-button
         :label="buttonConfig.label"
         :variant="
           buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark')
         "
         :size="size || 'lg'"
-        @click="show = !show"
+        @click="toggleMenu"
         :icon-right="buttonConfig.icon ?? ''"
         :disabled="disabled"
         class="pr-05"
       ></bib-button>
-      <div class="menu-items" v-if="show" :style="className">
+      <div class="menu-items" v-show="show" :style="className">
         <ul>
           <li
             class="d-flex align-center"
-            :class="
-              isLightThemeCheck
-                ? 'bg-light bg-hover-gray2'
-                : 'bg-dark bg-hover-dark-sub1'
-            "
             v-for="(item, index) in items"
             :key="index"
-            @click="$emit('on-click', item)"
+            @click="handleItemClick(item)"
+            :class="{
+              'bg-light bg-hover-gray2': isLightThemeCheck,
+              'bg-dark bg-hover-dark-sub1': !isLightThemeCheck,
+              disabled: isDisabled(item),
+            }"
           >
             <span>{{ item.label }}</span>
           </li>
@@ -32,21 +39,15 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   props: {
-    /**
-     * An object containing button config
-     * @typedef {Object} ButtonConfig
-     * @property {string} label - The button label
-     * @property {string} variant - The button color
-     * @property {string} icon - The button icon
-     */
     buttonConfig: {
       type: Object,
       default() {
         return {
-          variant: this.isLightThemeCheck ? "primary" : "success", // Set your default variant value here
+          variant: this.isLightThemeCheck ? "primary" : "success",
         };
       },
     },
@@ -58,7 +59,8 @@ export default {
       type: String,
     },
     items: {
-      type: [Object, Array],
+      type: Array,
+      default: () => [],
     },
     className: {
       type: String,
@@ -66,9 +68,14 @@ export default {
   },
   data() {
     return {
-      viewChange: "Today",
       show: false,
+      currentView: this.getCurrentView(),
     };
+  },
+  watch: {
+    "$route.query.view": function (newView) {
+      this.currentView = newView || "default";
+    },
   },
   methods: {
     toggleMenu() {
@@ -77,26 +84,48 @@ export default {
     hideMenu() {
       this.show = false;
     },
+    handleItemClick(item) {
+      if (!this.isDisabled(item)) {
+        this.$emit("on-click", item);
+      }
+    },
+    isDisabled(item) {
+      return this.currentView === item.value;
+    },
+    getCurrentView() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get("view");
+      return view || "default";
+    },
+  },
+  created() {
+    this.currentView = this.getCurrentView();
   },
 };
 </script>
+
 <style lang="scss">
 .drop-menu-simple {
-  position: relative;
   .menu-items {
+    min-width: 137px;
+    border-radius: 0px !important;
     position: absolute;
-    position: absolute;
-    right: 0px;
+    left: 0px;
     top: 0px;
-  }
-  .chip-simple-wrapper {
-    // background-color: $white !important;
-    width: 137px !important;
-    z-index: 99999999999;
-    // padding: 10px;
-    a {
-      font-size: 12px !important;
+    z-index: 99999;
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
     }
+  }
+
+  .disabled {
+    pointer-events: none;
+    // opacity: 0.10;
   }
 }
 </style>

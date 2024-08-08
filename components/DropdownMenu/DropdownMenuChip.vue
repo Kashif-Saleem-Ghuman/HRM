@@ -3,6 +3,8 @@
     class="dropdown-chip-menu"
     @mouseleave="hideMenu"
   >
+  {{ buttonConfig.label }}
+
     <div class="d-flex align-center">
       <bib-button
         :label="buttonConfig.label"

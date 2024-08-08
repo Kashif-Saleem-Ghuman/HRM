@@ -49,6 +49,7 @@
               @viewProfile="viewProfile(data.value.employee.id)"
               @sendMeet.stop="makeCall(getUser.userId, data.value.employee.userId)"
               @sendMessage="sendMessage(data.value.employee.userId)"
+              :contactButtons="$isActiveUser(data.value.employee.id)"
             ></user-info-card>
           </div>
         </div>

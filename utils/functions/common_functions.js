@@ -95,27 +95,32 @@ export function calculateTotalDays(start, end) {
     this.totalDays = 0;
     return;
   }
+
   if (typeof start === "string" && typeof end === "string") {
     const startDate = new Date(start);
     const endDate = new Date(end);
-
     if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-      let dayDifference = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+      let dayDifference = 0;
+      let currentDate = new Date(startDate);
 
       if (this.isHalfDay && start === end) {
-        dayDifference = 0.5;
-      }
-      if (dayDifference < 0) {
-        this.openPopupNotification({
-          text: "Start date should be before end date",
-          variant: "danger",
-        });
-        this.totalDays = `0`;
-      } else if (dayDifference === 0.5) {
         this.totalDays = `0.5 day`;
+        return;
+      }
+      while (currentDate <= endDate) {
+        const dayOfWeek = currentDate.getDay();
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          dayDifference += 1;
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      if (dayDifference === 0) {
+        this.totalDays = `0 days`;
       } else {
         this.totalDays = `${dayDifference} days`;
       }
     }
   }
 }
+

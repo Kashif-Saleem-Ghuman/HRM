@@ -3,14 +3,12 @@
     class="dropdown-chip-menu"
     @mouseleave="hideMenu"
   >
-  {{ buttonConfig.label }}
-
     <div class="d-flex align-center">
       <bib-button
         :label="buttonConfig.label"
         :variant="buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark')"
         :size="size || 'lg'"
-        @click="show = !show"
+        @click="toggleMenu"
         :icon-right="buttonConfig.icon ?? ''"
         :disabled="disabled"
         class="pr-05"
@@ -21,7 +19,7 @@
             v-for="item in items"
             :key="item.key"
             @click="$emit('on-click', item)"
-            class="cursor-pointer"
+            :class="{ 'disabled-opacity': isDisabled(item), 'cursor-pointer': !isDisabled(item) }"
           >
             <bib-button
               :label="item.label"
@@ -29,7 +27,7 @@
               size="lg"
               :icon="item.icon ?? ''"
               class="pr-05 mb-05 w-100"
-              :disabled="disabled"
+              :disabled="isDisabled(item)"
             ></bib-button>
           </div>
         </div>
@@ -51,10 +49,10 @@ export default {
     buttonConfig: {
       type: Object,
       default() {
-      return {
-        variant: this.isLightThemeCheck ? 'primary' : 'success', // Set your default variant value here
-      };
-    },
+        return {
+          variant: this.isLightThemeCheck ? 'primary' : 'success', // Set your default variant value here
+        };
+      },
     },
     disabled: {
       type: Boolean,
@@ -64,17 +62,24 @@ export default {
       type: String,
     },
     items: {
-      type: [Object, Array],
+      type: Array,
+      default: () => [], // Default to an empty array
     },
-    className:{
-      type:String
-    }
+    className: {
+      type: String,
+      default: '', // Default to an empty string
+    },
   },
   data() {
     return {
-      viewChange: "Today",
       show: false,
+      currentView: this.getCurrentView(),
     };
+  },
+  watch: {
+    "$route.query.view"(newView) {
+      this.currentView = newView || "default";
+    },
   },
   methods: {
     toggleMenu() {
@@ -83,34 +88,44 @@ export default {
     hideMenu() {
       this.show = false;
     },
+    isDisabled(item) {
+      return this.currentView === item.value;
+    },
+    getCurrentView() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get("view");
+      return view || "default";
+    },
+  },
+  created() {
+    this.currentView = this.getCurrentView();
   },
 };
 </script>
+
 <style lang="scss">
 .dropdown-chip-menu {
   position: relative;
   .menu-items {
     position: absolute;
-    // background-color: $white;
-    width: 10px;
+    width: 157px; // Updated width
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
-    position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 100%; // Updated to position below the button
   }
 }
 .chip-wrapper-com {
-  // background-color: $white !important;
-  width: 157px !important;
   z-index: 99999999999;
-  border-radius: 6px !important;
-
-  // padding: 10px;
+  border-radius: 6px;
   .chip-wrapper-inner {
     box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
-    border-radius: 6px !important;
-    padding: 0.5rem 0.5rem 0 0.5rem;
+    border-radius: 6px;
+    padding: 0.5rem;
   }
+}
+.disabled-opacity {
+  opacity: 0.5; // Adjust opacity as needed
+  pointer-events: none; // Prevent interaction with the disabled items
 }
 </style>

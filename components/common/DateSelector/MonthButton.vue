@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="drop-menu" :class="themeClassWrapper">
+    <div class="dropdown-chip-menu" :class="themeClassWrapper">
       <div class="position-relative">
         <bib-button
           :label="selected"
@@ -8,7 +8,25 @@
           @click="toggleDropdown"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
+        <div class="menu-items chip-wrapper-com" style="left: 0;">
+          <div v-if="isDropdownOpen" class="chip-wrapper-inner">
+            <div
+              v-for="(item, index) in options"
+              :key="index"
+              @click="selectOption(item)"
+              class="cursor-pointer"
+            >
+              <bib-button
+                :label="item.label"
+                :variant="isLightThemeCheck ? 'light' : 'dark'"
+                size="lg"
+                class="pr-05 mb-05 w-100"
+                :disabled="disabled"
+              ></bib-button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="menu-items bg-dark border-0" style="border-radius: 10px; ">
           <ul v-if="isDropdownOpen" class="border-white">
             <li
             class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
@@ -19,7 +37,7 @@
               <span>{{ option.label }}</span>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
     <!--     

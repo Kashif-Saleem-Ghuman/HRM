@@ -6,13 +6,13 @@
         <div class="d-flex align-center">
           <div class="d-flex align-center pr-05">
             <label class="pr-05">View:</label>
-            <drop-menu-simple
+            <dropdown-menu-chip
               :items="VIEWS"
               :button-config="changeViewButtonConfig"
               @on-click="onViewChange"
               size="lg"
               className="left:0px !important"
-            ></drop-menu-simple>
+            ></dropdown-menu-chip>
           </div>
 
           <div class="d-flex align-center">

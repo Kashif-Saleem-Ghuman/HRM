@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="drop-menu">
+    <div class="dropdown-chip-menu">
       <div class="position-relative" @mouseleave="handleMouseLeave">
         <bib-button
           :label="selected"
@@ -10,17 +10,23 @@
           @click="toggleDropdown"
           @click-right-icon="resetMonth"
         ></bib-button>
-        <div class="menu-items">
-          <ul v-if="isDropdownOpen">
-            <li
-              class="d-flex align-center w-100" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
-              v-for="(option, index) in getMonthsOptions"
-              :key="index"
-              @click="selectOption(option)"
-            >
-              <span>{{ option.label }}</span>
-            </li>
-          </ul>
+        <div class="menu-items chip-wrapper-com" style="left: 0;">
+        <div v-if="isDropdownOpen" class="chip-wrapper-inner">
+          <div
+            v-for="(item, index) in getMonthsOptions"
+            :key="index"
+            @click="selectOption(item)"
+            class="cursor-pointer"
+          >
+            <bib-button
+              :label="item.label"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
+              size="lg"
+              class="pr-05 mb-05 w-100"
+              :disabled="disabled"
+            ></bib-button>
+          </div>
+        </div>
         </div>
       </div>
     </div>

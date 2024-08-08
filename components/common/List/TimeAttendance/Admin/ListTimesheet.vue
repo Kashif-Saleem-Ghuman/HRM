@@ -39,6 +39,7 @@
                 @sendMeet="makeCall(getUser.userId, data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.active"
+                :contactButtons="$isActiveUser(data.value.id)"
               ></user-info-card>
             </div>
           </div>

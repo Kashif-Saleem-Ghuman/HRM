@@ -44,16 +44,21 @@
               @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
               :active="data.value.active"
+              :contactButtons="$isActiveUser(data.value.id)"
             ></user-info-card>
           </div>
         </div>
         <div class="info_wrapper cursor-pointer w-100">
-          <div class="employee-name-label" :title="getEmployeeFullName(data.value)"  :class="isLightThemeCheck ? 'text-dark' :'light'">
+          <div
+            class="employee-name-label"
+            :title="getEmployeeFullName(data.value)"
+            :class="isLightThemeCheck ? 'text-dark' : 'light'"
+          >
             {{
               getEmployeeFullName(data.value) | truncate(truncateText, "...")
             }}
           </div>
-          <div :class="isLightThemeCheck ? 'text-dark' :'light'">
+          <div :class="isLightThemeCheck ? 'text-dark' : 'light'">
             {{ data.value.jobTitle }}
           </div>
         </div>
@@ -90,14 +95,21 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button pop="horizontal-dots" :iconVariant="isLightThemeCheck ? '' : 'light'"  @click.native.stop>
+      <bib-button
+        pop="horizontal-dots"
+        :iconVariant="isLightThemeCheck ? '' : 'light'"
+        @click.native.stop
+      >
         <template v-slot:menu>
           <div class="list">
             <span
               class="list__item"
-              v-for="item in peopleActionItems"
-              @click.stop="callAction(data, item)"
-              >{{ item }}</span
+              v-for="(key, index) in Object.keys(peopleActionItems)"
+              :key="key"
+              v-if="$isActiveUser(data.value.id) || index < 1"
+              @click.stop="callAction(data, peopleActionItems[key])"
+            >
+              {{ peopleActionItems[key] }}</span
             >
           </div>
         </template>
@@ -135,7 +147,7 @@ export default {
     userList: {
       type: Array,
       default: "",
-    }
+    },
   },
   data() {
     return {
@@ -152,12 +164,12 @@ export default {
       inOutAction: TABLE_HEAD.tHeadDashboard.map((day) =>
         day.key.substring(0, 3)
       ),
-      leaveType: ""
+      leaveType: "",
     };
   },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
-    const totalField = this.tableFields.find((field) => field.key === 'total');
+    const totalField = this.tableFields.find((field) => field.key === "total");
     totalField.header_icon.isActive = true; // Set total hours as active by default
     this.sortByField = totalField; // Set sortByField to totalField by default
   },
@@ -196,19 +208,25 @@ export default {
       const timers = data.timers ?? [];
       const inEntry = data.activityReport?.in;
       const outEntry = data.activityReport?.out;
-      const leaveRequest = data.requests && data.requests.length > 0 ? data.requests[0].type : null;
+      const leaveRequest =
+        data.requests && data.requests.length > 0
+          ? data.requests[0].type
+          : null;
       if (leaveRequest) {
-        return 'On Leave' + " - " + (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1));
+        return (
+          "On Leave" +
+          " - " +
+          (leaveRequest.charAt(0).toUpperCase() + leaveRequest.slice(1))
+        );
       }
-      if ( inEntry && outEntry)
-      {
-        return "Shift End"
+      if (inEntry && outEntry) {
+        return "Shift End";
       }
 
       if (timers.length > 0 || inEntry) {
         return "Present";
       }
-      
+
       return "Absent";
     },
 
@@ -261,7 +279,7 @@ export default {
     },
     getStatusClass(data) {
       const timers = data.timers ?? [];
-      const inEntry = data.activityReport?.in
+      const inEntry = data.activityReport?.in;
       if (timers.length || inEntry) {
         return "chip-list-wrapper__sucess";
       }
@@ -302,24 +320,23 @@ export default {
       return formatHoursToHHMM(hours);
     },
     calculateWorkedMinutes(inTime) {
-        const inDate = new Date();
-        const [inHours, inMinutes] = inTime.split(":").map(Number);
-        inDate.setHours(inHours, inMinutes, 0, 0);
+      const inDate = new Date();
+      const [inHours, inMinutes] = inTime.split(":").map(Number);
+      inDate.setHours(inHours, inMinutes, 0, 0);
 
-        const currentDate = new Date();
-        const diffMs = currentDate - inDate;
-        const diffMinutes = Math.floor(diffMs / 1000 / 60);
-        return diffMinutes;
+      const currentDate = new Date();
+      const diffMs = currentDate - inDate;
+      const diffMinutes = Math.floor(diffMs / 1000 / 60);
+      return diffMinutes;
     },
     updateTotalWorkedHours(activityReport) {
-        if (activityReport.total == 0 || !activityReport.total){
-          if (activityReport.in == 0 || !activityReport.in) return "00:00";
-          const workedMinutes = this.calculateWorkedMinutes(activityReport.in);
-          return this.getTotalHours(workedMinutes);
-        }else{
-          return this.getTotalHours(activityReport.total);
-        }
-        
+      if (activityReport.total == 0 || !activityReport.total) {
+        if (activityReport.in == 0 || !activityReport.in) return "00:00";
+        const workedMinutes = this.calculateWorkedMinutes(activityReport.in);
+        return this.getTotalHours(workedMinutes);
+      } else {
+        return this.getTotalHours(activityReport.total);
+      }
     },
     viewAttendance(id) {
       this.$router.push("/profile/" + id + "/time-attendance-profile-tab");

@@ -48,12 +48,11 @@
   }
   .dropdown-chip-menu {
     .menu-items {
-      background-color: $dark;
-      // box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
-      
+      background-color: $black;
+      box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray1), 0.9);
     }
     .chip-wrapper-inner {
-      // box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
+      box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
     }
   }
   .app-wrapper__navigation {

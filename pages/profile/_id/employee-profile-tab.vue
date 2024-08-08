@@ -1,6 +1,6 @@
 <template>
   <div>
-    <employee-profile-form :show="show"></employee-profile-form>
+    <employee-profile-form :show="isActiveUser()"></employee-profile-form>
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default {
     return {
       activeUserId: null,
       show: false,
+      routeUserId:this.$route.params.id,
     };
   },
   mounted() {
@@ -23,8 +24,7 @@ export default {
       this.activeUserId = this.getUser?.id;
     },
     isActiveUser() {
-      const routeUserId = this.$route.params.id;
-      this.show = this.activeUserId != routeUserId;
+      return this.activeUserId != this.routeUserId;
     },
   },
   watch: {

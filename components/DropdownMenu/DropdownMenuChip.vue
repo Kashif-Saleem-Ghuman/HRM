@@ -24,11 +24,10 @@
             <bib-button
               :label="item.label"
               :variant="item.variant || (isLightThemeCheck ? 'light' : 'dark')"
-              size="md"
+              size="lg"
               :icon="item.icon ?? ''"
-              class="pr-05 w-100"
+              class="pr-05 mb-05 w-100"
               :disabled="disabled"
-              squared
             ></bib-button>
           </div>
         </div>
@@ -92,8 +91,8 @@ export default {
     position: absolute;
     // background-color: $white;
     width: 10px;
-    // box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
-    // border-radius: 10px;
+    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
+    border-radius: 10px;
     position: absolute;
     right: 0px;
     top: 0px;
@@ -101,21 +100,15 @@ export default {
 }
 .chip-wrapper-com {
   // background-color: $white !important;
-  a{
-    font-size: 12px !important;
-  }
-  button{
-        font-size: 12px !important;
-      }
-  width: 137px !important;
+  width: 157px !important;
   z-index: 99999999999;
-  // border-radius: 6px !important;
+  border-radius: 6px !important;
 
   // padding: 10px;
   .chip-wrapper-inner {
-    // box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
-    // border-radius: 6px !important;
-    // padding: 0.5rem 0.5rem 0 0.5rem;
+    box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
+    border-radius: 6px !important;
+    padding: 0.5rem 0.5rem 0 0.5rem;
   }
 }
 </style>

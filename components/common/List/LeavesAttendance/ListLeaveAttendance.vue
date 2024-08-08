@@ -87,7 +87,6 @@
 </template>
 
 <script>
-import fecha, { format } from "fecha";
 import {
   getLeaveStatusIcon,
   getLeaveStatusIconVariant,
@@ -100,6 +99,8 @@ import {
 import { sortColumn } from "../../../../utils/functions/table-sort";
 
 import { TABLE_HEAD } from "@/utils/constant/Constant";
+import { DateTime } from "luxon";
+import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
 export default {
   props: {
     leaveData: {
@@ -148,7 +149,7 @@ export default {
       this.sortColumn(column);
     },
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MMM-YYYY");
+      return DateTime.fromISO(item, { zone: 'utc' }).toFormat(DATETIME_FORMAT);
     },
   },
 };

@@ -18,7 +18,7 @@
           <div
             v-for="item in items"
             :key="item.key"
-            @click="$emit('on-click', item)"
+            @click="handleClick(item)"
             :class="{ 'disabled-opacity': isDisabled(item), 'cursor-pointer': !isDisabled(item) }"
           >
             <bib-button
@@ -94,7 +94,11 @@ export default {
     getCurrentView() {
       const params = new URLSearchParams(window.location.search);
       const view = params.get("view");
-      return view || "default";
+      return view || "day";
+    },
+    handleClick(item) {
+      this.show = false;
+      this.$emit('on-click', item);
     },
   },
   created() {
@@ -125,7 +129,10 @@ export default {
   }
 }
 .disabled-opacity {
-  opacity: 0.5; // Adjust opacity as needed
+  // opacity: 0.5; // Adjust opacity as needed
   pointer-events: none; // Prevent interaction with the disabled items
+  a{
+    background-color: $gray4 !important;
+  }
 }
 </style>

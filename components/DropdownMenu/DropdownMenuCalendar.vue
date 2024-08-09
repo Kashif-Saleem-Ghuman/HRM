@@ -10,9 +10,17 @@
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items chip-wrapper-com" :style="className">
+        <div class="menu-items chip-wrapper-com" style="left: 0">
           <div v-if="show" class="chip-wrapper-inner">
-            <div v-for="item in items" :key="item.key" @click="$emit('on-click', item)" class="cursor-pointer">
+            <div
+              v-for="item in items"
+              :key="item.key"
+              class="cursor-pointer"
+              @click="selectItem(item)"
+              :class="{
+                'disabled-opacity': item.value === selectedItem?.value,
+              }"
+            >
               <bib-button
                 :label="item.label"
                 :variant="isLightThemeCheck ? 'light' : 'dark'"
@@ -23,22 +31,6 @@
               ></bib-button>
             </div>
           </div>
-          <!-- <ul v-if="show">
-            <li
-              class="d-flex align-center cursor-pointer"
-              v-for="item in items"
-              @click="$emit('on-click', item)"
-            >
-              <bib-icon
-                :icon="listIcon"
-                :scale="0.7"
-                :variant="listIconVariant || 'secondary'"
-                v-show="listIcon == null ? false : true"
-                class="mr-05"
-              ></bib-icon>
-              <span>{{ item.label }}</span>
-            </li>
-          </ul> -->
         </div>
       </div>
     </div>
@@ -52,7 +44,7 @@ export default {
     label: {
       type: [Number, String],
     },
-    
+
     variant: String,
     icon: String,
     className: String,
@@ -64,13 +56,13 @@ export default {
     items: Array,
     listIcon: String,
     listIconVariant: String,
-    
   },
 
   data() {
     return {
       viewChange: "Today",
       show: false,
+      selectedItem: this.getCurrentYearOrMonthItem(),
     };
   },
   methods: {
@@ -79,6 +71,24 @@ export default {
     },
     hideMenu() {
       this.show = false;
+    },
+    selectItem(item) {
+      this.selectedItem = item;
+      this.$emit("on-click", item);
+    },
+    getCurrentYearOrMonthItem() {
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().toLocaleString("default", {
+        month: "long",
+      });
+      let item = this.items.find(
+        (item) =>
+          item.label === currentYear || item.label === currentYear.toString()
+      );
+      if (!item) {
+        item = this.items.find((item) => item.label === currentMonth);
+      }
+      return item;
     },
   },
 };

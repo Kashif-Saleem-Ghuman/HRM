@@ -4,7 +4,7 @@
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="d-flex pr-05">
-            <div class="d-flex align-center">
+            <div class="">
               <bib-button
                 :icon="$button.approved.icon"
                 :variant="$button.approved.variant"
@@ -14,21 +14,11 @@
                 @click.native.stop="actionBY('leave', 'employeeDropdownKey')"
               ></bib-button>
             </div>
-            <!-- <dropdown-menu-calendar
-              :items="dropMenu"
-              :label="ViewTitle"
-              :buttonIconShow="true"
-              icon="close"
-              @on-click="monthView($event)"
-              class="mr-05"
-              className="button-wrapper__bgblack"
-            ></dropdown-menu-calendar> -->
             <dropdown-menu-calendar
               :items="dropMenuMonth"
               :label="monthLabel"
               @on-click="changeMonthView($event)"
               class="mr-05"
-              className="left:0"
             ></dropdown-menu-calendar>
             <dropdown-menu-calendar
               :items="dropMenuYear"
@@ -36,7 +26,6 @@
               @on-click="changeYearView($event)"
               class="mr-05"
               style="z-index: 99 !important;"
-              className="left:0"
             ></dropdown-menu-calendar>
           </div>
         </div>

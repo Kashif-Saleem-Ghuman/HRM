@@ -1,8 +1,8 @@
 import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
-import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 import { getChronometerDuration } from "@/utils/functions/timer";
+import { getBreakChronometerDuration } from "../utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
 var chronometerInterval = null;
 export default {
@@ -26,20 +26,25 @@ export default {
   methods: {
 
     setChronometerDuration() {
-      let chronometer = getChronometerDuration(this.getDailyTimeEntries);
-      if(this.active){
-        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+      let chronometer = 0
+
+      if(this.isBreakActive) {
+        chronometer = getBreakChronometerDuration(this.getBreakTimerData);
+      }else {
+        chronometer = getChronometerDuration(this.getDailyTimeEntries);
       }
+     
+      this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+      
       return chronometer;
     },
+    
     async startTimerInterval(isVisibilityChange = false) {
       if(isVisibilityChange) {
         await this.$store.dispatch('timeattendance/setDailyTimeEntries');
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
-        if(this.active && this.isBreakActive){
-          this.setChronometerDuration();
-        }
-      }if (this.active && !this.isBreakActive && !chronometerInterval) {
+       
+      }if (this.active && !chronometerInterval) {
         isVisibilityChange && this.timerCallbackFunc();
         chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }

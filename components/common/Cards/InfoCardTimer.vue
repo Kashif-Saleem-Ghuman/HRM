@@ -287,6 +287,7 @@ export default {
         }
         await this.$store.dispatch("timeattendance/setDailyTimeEntries");
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+        this.startTimerInterval();
       } catch (error) {
         console.log(error);
       } finally {

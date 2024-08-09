@@ -27,7 +27,6 @@
                 size="lg"
                 :icon="item.icon ?? ''"
                 class="pr-05 mb-05 w-100"
-                :disabled="disabled"
               ></bib-button>
             </div>
           </div>
@@ -62,37 +61,42 @@ export default {
     return {
       viewChange: "Today",
       show: false,
-      selectedItem: this.getCurrentYearOrMonthItem(),
+      selectedItem: null, // Initially set to null
     };
   },
+
+  mounted() {
+    this.$nextTick(() => {
+    this.selectedItem = this.getCurrentYearOrMonthItem();
+  });  },
+
   methods: {
-    clickOutside() {
-      this.show = false;
-    },
-    hideMenu() {
-      this.show = false;
-    },
-    selectItem(item) {
-      this.selectedItem = item;
-      this.$emit("on-click", item);
-    },
-    getCurrentYearOrMonthItem() {
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().toLocaleString("default", {
-        month: "long",
-      });
-      let item = this.items.find(
-        (item) =>
-          item.label === currentYear || item.label === currentYear.toString()
-      );
-      if (!item) {
-        item = this.items.find((item) => item.label === currentMonth);
-      }
-      return item;
-    },
+  clickOutside() {
+    this.show = false;
   },
+  hideMenu() {
+    this.show = false;
+  },
+  selectItem(item) {
+    this.selectedItem = item;
+    this.$emit("on-click", item);
+  },
+  getCurrentYearOrMonthItem() {
+    const currentYear = new Date().getFullYear().toString();
+    const currentMonth = new Date().toLocaleString("default", { month: "long" });
+    let yearItem = null;
+    let monthItem = null;
+    if (Array.isArray(this.items)) {
+      yearItem = this.items.find(item => item.label === currentYear);
+      monthItem = this.items.find(item => item.label === currentMonth);
+    }
+    return this.selectedItem = yearItem || monthItem || this.items[0]; // Default to the first item if neither is found
+  }
+}
+
 };
 </script>
+
 <style lang="scss">
 .dropdown-menu {
   .button-items {

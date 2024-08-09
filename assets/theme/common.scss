@@ -54,6 +54,11 @@
     .chip-wrapper-inner {
       box-shadow: 0px 0 0.1rem 0.2rem $dark-sub1;
     }
+    .disabled-opacity{
+      a{
+        background-color: $primary-24 !important;
+      }
+    }
   }
   .app-wrapper__navigation {
     border-right: 1px solid $dark-sub1 !important;

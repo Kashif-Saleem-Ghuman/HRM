@@ -14,6 +14,7 @@
             :key="index"
             @click="selectOption(option)"
             class="cursor-pointer"
+            :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]"
           >
             <bib-button
               :label="item"
@@ -91,6 +92,9 @@ export default {
       this.options = this.getYearList();
       this.selected = new Date().getFullYear();
       this.value = this.selected;
+    },
+    isDisabled(option) {
+      return this.selected === option;
     },
   },
 };

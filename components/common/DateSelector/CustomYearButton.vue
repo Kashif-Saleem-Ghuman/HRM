@@ -15,6 +15,7 @@
             :key="index"
             @click="selectOption(item)"
             class="cursor-pointer"
+            :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]"
           >
             <bib-button
               :label="item"
@@ -78,6 +79,9 @@ export default {
     },
     handleMouseLeave() {
       this.isDropdownOpen = false;
+    },
+    isDisabled(option) {
+      return this.selected === option;
     },
   },
 };

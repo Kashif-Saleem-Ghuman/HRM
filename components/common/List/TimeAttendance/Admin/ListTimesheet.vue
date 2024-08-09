@@ -244,7 +244,6 @@ export default {
     },
     getVacationName(data) {
       const activity = Object.values(ACTIVITY_TYPE).find(activity => data[activity]);
-      console.log(activity, "getVacationNamegetVacationNamegetVacationName")
       return ACTIVITY_TYPE_LABEL_VALUE[activity]  ?? "";
     },
     getFormattedHoursWithVacation(weekData, vacationName) {

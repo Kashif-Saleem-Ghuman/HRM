@@ -4,7 +4,6 @@
       v-click-outside="handleClickOutside"
       id="side-panel"
       :class="'side-panel ' + 'side-panel__' + className"
-      @click.stop
     >
       <div
         class="d-flex justify-between align-center sidebar-header p-1 m-05"
@@ -65,7 +64,7 @@ export default {
     },
   },
   methods: {
-    handleClickOutside() {
+    handleClickOutside(event) {
       const ignoreClickOutsideElement = document.getElementById(
         "ignore-click-outside"
       );
@@ -75,8 +74,10 @@ export default {
       ) {
         return;
       }
-      this.$nuxt.$emit("close-sidebar-main");
-      this.$nuxt.$emit("close-sidebar");
+      const sidePanel = document.getElementById("side-panel");
+      if (sidePanel && !sidePanel.contains(event.target)) {
+        this.$emit("close");
+      }
     },
   },
 };
@@ -192,7 +193,7 @@ export default {
     overflow-y: auto;
   }
 }
-.sidebar-body{
+.sidebar-body {
   padding-bottom: 50px !important;
 }
 .sidebarBodyPadd {

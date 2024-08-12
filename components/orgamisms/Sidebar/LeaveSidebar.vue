@@ -85,6 +85,7 @@ import {
 import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import {calculateTotalDays} from '../../../utils/functions/common_functions'
+import { DATEPICKER_FORMAT } from "../../../utils/functions/datetime-input";
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
@@ -220,9 +221,10 @@ export default {
       this.leaveStatus = item;
       this.form = item;
       this.employeeNameSelect = item.employeeId;
-      this.employeeName = this.$getEmployeeFullName(item);
-      this.startDate = fecha.format(new Date(this.form.start), "YYYY-MM-DD");
-      this.endDate = fecha.format(new Date(this.form.end), "YYYY-MM-DD");
+      this.employeeName = this.getEmployeeFullName(item);
+
+      this.startDate = DateTime.fromISO(this.form.start, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
+      this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       this.setIsHalfDay(item);
       this.calculateTotalDays(this.startDate, this.endDate);
       if (this.$isAdmin()) {

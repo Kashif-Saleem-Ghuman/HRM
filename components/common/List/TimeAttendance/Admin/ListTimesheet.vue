@@ -39,6 +39,7 @@
                 @sendMeet="makeCall(getUser.userId, data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.active"
+                :contactButtons="$isActiveUser(data.value.id)"
               ></user-info-card>
             </div>
           </div>
@@ -254,7 +255,6 @@ export default {
       const activity = Object.values(ACTIVITY_TYPE).find(
         (activity) => data[activity]
       );
-      console.log(activity, "getVacationNamegetVacationNamegetVacationName");
       return ACTIVITY_TYPE_LABEL_VALUE[activity] ?? "";
     },
     getFormattedHoursWithVacation(weekData, vacationName) {

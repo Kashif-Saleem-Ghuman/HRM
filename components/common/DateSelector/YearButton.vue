@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-menu" :class="themeClassWrapper">
+  <div class="dropdown-chip-menu" :class="themeClassWrapper">
     <div class="position-relative">
       <bib-button
         :label="selected?.toString()"
@@ -7,7 +7,36 @@
         @click="toggleDropdown"
         v-click-outside="clickOutside"
       ></bib-button>
-      <div class="menu-items">
+      <div class="menu-items chip-wrapper-com" style="left: 0;">
+        <div v-if="isDropdownOpen" class="chip-wrapper-inner">
+          <div
+            v-for="(item, index) in options"
+            :key="index"
+            @click="selectOption(option)"
+            class="cursor-pointer"
+            :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]"
+          >
+            <bib-button
+              :label="item"
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
+              size="lg"
+              class="pr-05 mb-05 w-100"
+              :disabled="disabled"
+            ></bib-button>
+          </div>
+        </div>
+        <!-- <ul v-if="isDropdownOpen" class="chip-wrapper-inner">
+          <li
+            class="d-flex align-center" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
+            v-for="(option, index) in options"
+            :key="index"
+            @click="selectOption(option)"
+          >
+            <span>{{ option }}</span>
+          </li>
+        </ul> -->
+      </div>
+      <!-- <div class="menu-items">
         <ul v-if="isDropdownOpen">
           <li
             class="d-flex align-center" :class="isLightThemeCheck ? 'bg-light bg-hover-gray2' : 'bg-dark bg-hover-dark-sub1'"
@@ -19,7 +48,7 @@
             <span>{{ option }}</span>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -63,6 +92,9 @@ export default {
       this.options = this.getYearList();
       this.selected = new Date().getFullYear();
       this.value = this.selected;
+    },
+    isDisabled(option) {
+      return this.selected === option;
     },
   },
 };

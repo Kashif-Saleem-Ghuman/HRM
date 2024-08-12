@@ -114,6 +114,8 @@
                        @sendMeet.stop="makeCall(getUser.userId, item.userId)"
                        @sendMessage="sendMessage(item.userId)"
                        :active="item.active"
+                       :contactButtons="$isActiveUser(item.id)"
+                       style="min-width: 320px !important;"
                      ></user-info-card>
                    </div>
                  </div>

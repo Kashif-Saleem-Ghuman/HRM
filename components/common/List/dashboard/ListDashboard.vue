@@ -44,6 +44,7 @@
               @sendMeet.stop="makeCall(getUser.userId, data.value.userId)"
               @sendMessage="sendMessage(data.value.userId)"
               :active="data.value.active"
+              :contactButtons="$isActiveUser(data.value.id)"
             ></user-info-card>
           </div>
         </div>
@@ -105,9 +106,12 @@
           <div class="list">
             <span
               class="list__item"
-              v-for="item in peopleActionItems"
-              @click.stop="callAction(data, item)"
-              >{{ item }}</span
+              v-for="(key, index) in Object.keys(peopleActionItems)"
+              :key="key"
+              v-if="$isActiveUser(data.value.id) || index < 1"
+              @click.stop="callAction(data, peopleActionItems[key])"
+            >
+              {{ peopleActionItems[key] }}</span
             >
           </div>
         </template>
@@ -336,7 +340,7 @@ export default {
       }
     },
     viewAttendance(id) {
-      this.$router.push("/profile/" + id + "/time-attendance-profile-tab");
+      this.$router.push("/profile/" + id + "/time-attendance-profile-tab?view=day");
     },
     viewProfile(id) {
       this.$router.push("/profile/" + id);

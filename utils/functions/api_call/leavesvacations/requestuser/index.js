@@ -28,12 +28,9 @@ export async function addLeaveVacations() {
   var data = this.addForm;
   let isHalfday = this.isHalfday;
   let startDate = new Date(data.start).toISOString();
-  const isoStartDate = DateTime.fromISO(startDate)
-    .startOf("day")
-    .toUTC()
-    .toISO();
+  const isoStartDate = DateTime.fromISO(startDate).toISODate();
   let endDate = new Date(data.end).toISOString();
-  const isoEndDate = DateTime.fromISO(endDate).endOf("day").toUTC().toISO();
+  const isoEndDate = DateTime.fromISO(endDate).toISODate();
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   this.addForm.isHalfDay = isHalfday;

@@ -44,11 +44,13 @@
           class="mr-05"
           @click.native.stop="sendMeet"
           :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          v-show="contactButtons"
         ></bib-button>
         <bib-button
           label="Send Message"
           variant="primary-24"
           v-on:click="$emit('sendMessage')"
+          v-show="contactButtons"
         ></bib-button>
       </div>
     </div>
@@ -75,6 +77,10 @@ export default {
       required: true,
       type: Object,
     },
+    contactButtons: {
+      type:Boolean,
+      default:true,
+    }
   },
 
   computed: {

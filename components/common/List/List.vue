@@ -46,11 +46,16 @@
                 @sendMeet="makeCall(getUser.userId, data.value.userId)"
                 @sendMessage="sendMessage(data.value.userId)"
                 :active="data.value.presence === 'in'"
+                :contactButtons="$isActiveUser(data.value.id)"
               ></user-info-card>
             </div>
           </div>
           <div class="info_wrapper w-100 cursor-pointer">
-            <div class="employee-name-label" :title="$getEmployeeFullName(data.value)" :class="isLightThemeCheck ? 'text-dark' :'light'">
+            <div
+              class="employee-name-label"
+              :title="$getEmployeeFullName(data.value)"
+              :class="isLightThemeCheck ? 'text-dark' : 'light'"
+            >
               {{
                 $getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
@@ -80,15 +85,21 @@
         </div>
       </template>
       <template #cell_action="data">
-        <bib-button pop="horizontal-dots" :iconVariant="isLightThemeCheck ? '' : 'light'" @click.native.stop>
+        <bib-button
+          pop="horizontal-dots"
+          :iconVariant="isLightThemeCheck ? '' : 'light'"
+          @click.native.stop
+        >
           <template v-slot:menu>
             <div class="list">
               <span
                 class="list__item"
-                v-for="item in peopleActionItems"
-                @click.stop="callAction(data, item)"
-                :class="isLightThemeCheck ? 'text-black' : 'text-white'"
-                >{{ item }}</span
+                v-for="(key, index) in Object.keys(peopleActionItems)"
+                :key="key"
+                v-if="$isActiveUser(data.value.id) || index < 1"
+                @click.stop="callAction(data, peopleActionItems[key])"
+              >
+                {{ peopleActionItems[key] }}</span
               >
             </div>
           </template>
@@ -113,8 +124,8 @@ import {
 } from "../../../utils/functions/functions_lib";
 
 import { sortColumn } from "../../../utils/functions/table-sort";
-import {DateTime} from "luxon";
-import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import { DateTime } from "luxon";
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 export default {
   props: {
     userList: {

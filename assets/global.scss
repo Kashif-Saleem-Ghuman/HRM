@@ -3,25 +3,19 @@
 html,
 body {
   font-family: $font-family;
-  overflow: hidden;
+  // overflow: hidden;
   height: 100%;
   width: 100%;
+  background-color: $black;
 }
 .app-wrapper__content{
-  overflow-y: hidden;
+  // overflow-y: hidden !important;
 }
+
 .header__search__input .search_input {
   width: 28em !important; 
 }
-.main-wrapper {
-  width: 100%;
-  overflow: hidden !important;
-  height: 100%;
-  .content-area{
-      overflow-y: auto;
-      padding-bottom: 5px;
-  }
-}
+
 .fc-event:focus::after {
   background: none !important;
   inset: -1px;
@@ -154,7 +148,7 @@ body {
     }
   }
   .tabs button.active {
-    font-weight: 600;
+    // font-weight: 600;
   }
 }
 
@@ -330,4 +324,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   text-transform: capitalize;
+}
+.vdpFloating{
+  z-index: 9999 !important;
 }

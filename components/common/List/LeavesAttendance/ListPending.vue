@@ -49,6 +49,7 @@
               @viewProfile="viewProfile(data.value.employee.id)"
               @sendMeet.stop="makeCall(getUser.userId, data.value.employee.userId)"
               @sendMessage="sendMessage(data.value.employee.userId)"
+              :contactButtons="$isActiveUser(data.value.employee.id)"
             ></user-info-card>
           </div>
         </div>
@@ -127,7 +128,6 @@
 </template>
 
 <script>
-import fecha, { format } from "fecha";
 import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/Constant";
 import { sortColumn } from "../../../../utils/functions/table-sort";
@@ -136,6 +136,8 @@ import {
   sendMessage,
   makeCall,
 } from "../../../../utils/functions/functions_lib";
+import { DateTime } from "luxon";
+import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
 export default {
   props: {
     listPending: {
@@ -202,7 +204,7 @@ export default {
       this.sortColumn(column);
     },
     onLoad(item) {
-      return fecha.format(new Date(item), "DD-MMM-YYYY");
+      return  DateTime.fromISO(item, { zone: 'utc' }).toFormat(DATETIME_FORMAT);
     },
     // handleItemClick_Table($event, keyI, item) {
     //   this.$router.push("/profile/" + item.id);

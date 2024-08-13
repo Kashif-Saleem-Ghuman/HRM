@@ -26,17 +26,16 @@
         </div>
       </template>
       <template #cell(in)="data">
-        <div class="cursor-pointer">
-          <chips
-            :defaultPointer="true"
-            :title="getInOut(data.value.in)"
-            :className="getInOutClass(data.value.entryExists)"
-            centerAlign="d-align"
-          ></chips>
-        </div>
+        <timesheet-field
+          :timeEntry="data.value.timeEntryIn"
+          :value="data.value.in"
+          :date="data.value.date"
+          :activity="activityIn"
+          :data="data.value"
+        ></timesheet-field>
       </template>
       <template #cell(break)="data">
-        <div class="cursor-pointer">
+        <div class="cursor-pointer" @click="redirectDayView(data)">
           <chips
             :defaultPointer="true"
             :title="getInOut(data.value.break)"
@@ -47,15 +46,13 @@
         </div>
       </template>
       <template #cell(out)="data">
-        <div class="cursor-pointer">
-          <chips
-            :defaultPointer="true"
-            :title="getInOut(data.value.out)"
-            :className="getInOutClass(data.value.entryExists)"
-            class="cursor-pointer"
-            centerAlign="d-align"
-          ></chips>
-        </div>
+        <timesheet-field
+          :timeEntry="data.value.timeEntryIn"
+          :value="data.value.out"
+          :date="data.value.date"
+          :activity="activityOut"
+          :data="data.value"
+        ></timesheet-field>
       </template>
       <template #cell(total)="data">
         <div
@@ -90,6 +87,7 @@ import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
 import fecha, { format } from "fecha";
 import {
+  ACTIVITY_TYPE,
   TABLE_HEAD,
   WEEK_DAY,
   TIMESHEET_STATUS, FILL_DAILY_ENTRY_EVENT, FILL_WEEKLY_ENTRY_EVENT,
@@ -141,6 +139,8 @@ export default {
       TIMESHEET_STATUS,
       WEEK_DAY,
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      activityIn: ACTIVITY_TYPE.IN,
+      activityOut: ACTIVITY_TYPE.OUT,
     };
   },
   computed: {
@@ -163,6 +163,8 @@ export default {
           date: DateTime.fromISO(this.startOfWeek)
             .plus({ days: index })
             .toFormat("yyyy-MM-dd"),
+          timeEntryIn: report?.timeEntryIn[0],
+          timeEntryBreak: report?.timeEntryBreak[0],
         };
       });
     },
@@ -197,6 +199,9 @@ export default {
     },
     tableItemClick(event, key, item) {
       this.$emit("day-view", item);
+    },
+    redirectDayView(item) {
+      this.$emit("redirect-dayview", item.value);
     },
     dateFormat(item) {
       return item == null

@@ -2,6 +2,10 @@ import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
+import {
+  startTimer,
+  stopTimer
+} from "@/utils/functions/functions_lib_api";
 const EmitValurChronometer = 'chronometer';
 export default {
   data() {
@@ -28,6 +32,10 @@ export default {
     }),
   },
   methods: {
+    startTimer,
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification })
+    },
     startTimerInterval(isVisibilityChange = false) {
       if (this.active && !this.isTimerRunning) {
         this.timerLoading = true;
@@ -86,9 +94,12 @@ export default {
       // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
     },
 
-    async startTimer() {
+    async handleStartTimer() {
       if (this.active) return;
-      await this.$store.dispatch("timeattendance/startTimer");
+
+      await this.startTimer();
+
+      await this.$store.dispatch("timeattendance/setTimerData");
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {

@@ -362,6 +362,10 @@ import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
 import timezones from "../../utils/constant/new_timezones";
+const COMMON_MESSAGE = {
+  text: "The information is currently being updated. Please check back shortly.",
+  variant: "primary-24",
+};
 export default {
   props: {
     show: {

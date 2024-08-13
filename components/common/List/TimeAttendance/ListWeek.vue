@@ -85,12 +85,11 @@
 <script>
 import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
-import fecha, { format } from "fecha";
 import {
   ACTIVITY_TYPE,
   TABLE_HEAD,
   WEEK_DAY,
-  TIMESHEET_STATUS, FILL_DAILY_ENTRY_EVENT, FILL_WEEKLY_ENTRY_EVENT,
+  TIMESHEET_STATUS, FILL_WEEKLY_ENTRY_EVENT,
 } from "@/utils/constant/Constant.js";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";

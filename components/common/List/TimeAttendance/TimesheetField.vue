@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      time: null,
+      time: '00:00',
     };
   },
   computed: {
@@ -147,8 +147,12 @@ export default {
   mounted() {
     this.time = this.value ?? "00:00";
   },
-  beforeDestroy() {
-    this.time = null;
+
+  watch: {
+    value (val) {
+      this.time = val ?? "00:00";
+    }
   },
+
 };
 </script>

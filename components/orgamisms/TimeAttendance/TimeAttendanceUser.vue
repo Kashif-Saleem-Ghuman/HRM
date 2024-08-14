@@ -141,6 +141,7 @@
               :startOfWeek="weekDates.from"
               @timesheet-submitted="onTimesheetSubmitted"
               @day-view="enterDetail"
+              @redirect-dayview="redirectToDayView"
             ></list-week>
             <month-list
               v-else-if="monthListView"
@@ -543,11 +544,8 @@ export default {
         });
         return true;
       }
-      if (this.weekDataStatus != "approved") {
-        this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
-        this.$router.push({ query: { view: "day" } });
-        await this.fillDailyTimeEntries();
-      } else {
+      
+      if (this.weekDataStatus == "approved") {
         this.debounceAction(() => {
           this.$openPopupNotification({
             text: "Your timesheet has been locked.",
@@ -555,6 +553,27 @@ export default {
           });
         });
       }
+    },
+    async redirectToDayView(item) {
+      const date = item.date;
+      const itemDateTime = DateTime.fromISO(date);
+
+      const currentDate = DateTime.now();
+
+      if (itemDateTime > currentDate && this.weekDataStatus != "approved") {
+        this.debounceAction(() => {
+          this.openPopupNotification({
+            text: "Time entries cannot be added for a future date",
+            variant: "danger",
+          });
+        });
+        return true;
+      }
+
+
+      this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
+      this.$router.push({ query: { view: "day" } });
+      await this.fillDailyTimeEntries();
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();

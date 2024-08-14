@@ -62,6 +62,8 @@ export default class BaseTimesheetParser {
           ? formatHoursToHHMM(totalBreakTime / 60)
           : "00:00",
       total,
+      timeEntryIn: timeEntriesIn,
+      timeEntryBreak: timeEntriesBreak,
     };
 
     return activityReport;

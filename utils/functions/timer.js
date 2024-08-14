@@ -29,6 +29,11 @@ export function getChronometerDuration(todayTimeEntries) {
   return Math.max(0, timerChronometer - breakChronometer);
 }
 
+export function getBreakChronometerDuration(breakEntry) {
+  const timeEntry = new TimeEntry(breakEntry);
+  return getTimeDiffInSeconds(timeEntry.getStart(), timeEntry.getEnd());
+}
+
 export function isDateToday(date) {
   return DateTime.fromISO(date).hasSame(DateTime.now(), 'day');
 }

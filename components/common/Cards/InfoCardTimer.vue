@@ -124,16 +124,14 @@ export default {
         }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
       }
     },
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
+    
     async handleClockInOutClick() {
       if (this.active) {
         this.stopClick = true;
         await this.stopTimer();
-        this.$emit("timer-stop");
+        this.$nuxt.$emit("timer-stop");
       } else {
-        await this.startTimer();
+        await this.handleStartTimer();
       }
     },
 

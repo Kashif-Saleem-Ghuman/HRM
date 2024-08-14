@@ -383,6 +383,7 @@ export default {
       }
     },
     isSelectedTodayDate () {
+      if(!this?.todayDate) return;
       const todayDate = DateTime.fromFormat(this.todayDate, 'dd-MMM-yyyy').startOf('day');
       return this.dateNow.equals(todayDate);
     },
@@ -395,15 +396,13 @@ export default {
       return "info-card-timer__border_light";
     },
     inActivityClass() {
-      if (this.active && !this.isBreakActive) {
-        return "activity-items__border_success text-success";
-      }
+      if (this.active && !this.isBreakActive) return "activity-items__border_success text-success";
+      if(!this.isLightThemeCheck) return "activity-items__border_light text-light"
       return "activity-items__border_light text-dark";
     },
     breakActivityClass() {
-      if (this.active && this.isBreakActive) {
-        return "activity-items__border_warning text-warning";
-      }
+      if (this.active && this.isBreakActive) return "activity-items__border_warning text-warning";
+      if(!this.isLightThemeCheck) return "activity-items__border_light text-light"
       return "activity-items__border_light text-dark";
     },
   },

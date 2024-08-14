@@ -57,6 +57,7 @@ import { orderBy } from "lodash";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
 import { getSummaryByDate } from "../../../../utils/functions/api_call/summaries"
+import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
 const DELETE_MESSAGE = {
   confirmatinData: {
     title: "Delete Time Entry",
@@ -88,6 +89,11 @@ export default {
     disableIcons:{
       type: Boolean,
       default: false,
+    },
+    todayDate: {
+      required: true,
+      type: DateTime | Date | String,
+      default: DateTime.now().toFormat(DATETIME_FORMAT),
     }
     
   },

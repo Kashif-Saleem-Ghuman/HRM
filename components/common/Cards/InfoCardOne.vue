@@ -31,7 +31,7 @@
           <span>{{ item.pending }}</span>
         </div>
         <div class="items">
-          <label>Rejected</label>
+          <label>Refused</label>
           <span>{{ item.refused }}</span>
         </div>
       </div>

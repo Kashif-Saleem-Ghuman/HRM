@@ -20,6 +20,7 @@
 
             <info-card-one
               :item="timesheetWidgetData"
+              :showProgress="true"
               title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
@@ -28,14 +29,18 @@
             ></info-card-one>
             <!--
              <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
-             <info-card-one
-              :item="timesheetWidgetData"
-              title="PTO (Paid Time-off)"
+             <home-request-leave-card
+              :title="$button.PTO.label"
+              :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
+              :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
+              :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
+              :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
               buttonLable="Request Time-Off"
-              icon="table"
-              profilePic="profilePic"
-              @on-click="onViewTimesheetsClick"
-            ></info-card-one>
+              icon="airplane-solid"
+              className="button-wrapper__bgsucess"
+              :variant="$button.approved.variant"
+              @on-click="addLeaves('vacation')"
+          ></home-request-leave-card>
           </div>
         </div>
         <div class="d-flex align-center px-1">
@@ -191,6 +196,10 @@ import {
   DATETIME_FORMAT,
 } from "../../../utils/functions/datetime-input";
 
+import {
+  getUserLeavesDetailUser,
+} from "../../../utils/functions/functions_lib_api";
+
 import { Timesheet } from "@/components/common/models/timesheet";
 
 const VIEWS = [
@@ -250,6 +259,7 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
+      allowanceLeavesDetailedData: "00",
     };
   },
   computed: {
@@ -347,11 +357,20 @@ export default {
   },
   mounted() {
     this.registerRootListeners();
+
+    this.getUserLeavesDetailUser().then((result) => {
+        if (result) {
+          this.allowanceLeavesDetailedData = result;
+        } else {
+          this.$openPopupNotification(this.$error.common_message);
+        }
+      });
   },
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
     debounceAction,
+    getUserLeavesDetailUser,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -403,6 +422,9 @@ export default {
       }
       const duration = endDateTime.diff(startDateTime);
       return duration;
+    },
+    addLeaves(param) {
+      alert('add leave will be add later!');
     },
     async handleNewEntryEvent() {
       await this.fillDailyTimeEntries();

@@ -32,6 +32,7 @@
           :date="data.value.date"
           :activity="activityIn"
           :data="data.value"
+          :status="status"
         ></timesheet-field>
       </template>
       <template #cell(break)="data">
@@ -52,6 +53,7 @@
           :date="data.value.date"
           :activity="activityOut"
           :data="data.value"
+          :status="status"
         ></timesheet-field>
       </template>
       <template #cell(total)="data">

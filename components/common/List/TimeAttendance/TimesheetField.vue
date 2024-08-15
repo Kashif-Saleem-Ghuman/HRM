@@ -41,6 +41,10 @@ export default {
     data: {
       type: Object,
     },
+    status: {
+      type: String,
+      default: "",
+    }
   },
   data() {
     return {
@@ -52,7 +56,7 @@ export default {
       const now = DateTime.local().startOf('day');
       const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
 
-      return !(now >= dateRow);
+      return !(now >= dateRow) || this.status === 'approved';
     },
   },
   methods: {

@@ -21,6 +21,7 @@
             <info-card-one
               :item="timesheetWidgetData"
               :showProgress="true"
+              :loading="isTimesheetWidgetLoaded"
               title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
@@ -39,6 +40,7 @@
               icon="airplane-solid"
               className="button-wrapper__bgsucess"
               :variant="$button.approved.variant"
+              :loading="isRequestWidgetLoaded"
               @on-click="addLeaves('vacation')"
           ></home-request-leave-card>
           </div>
@@ -260,6 +262,8 @@ export default {
       month: null,
       isFullYearList: false,
       allowanceLeavesDetailedData: "00",
+      isRequestWidgetLoaded: false,
+      isTimesheetWidgetLoaded: false,
     };
   },
   computed: {
@@ -346,6 +350,7 @@ export default {
   },
   async created() {
     // this.loading = true;
+    this.isTimesheetWidgetLoaded = true;
     this.setView();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
@@ -357,14 +362,7 @@ export default {
   },
   mounted() {
     this.registerRootListeners();
-
-    this.getUserLeavesDetailUser().then((result) => {
-        if (result) {
-          this.allowanceLeavesDetailedData = result;
-        } else {
-          this.$openPopupNotification(this.$error.common_message);
-        }
-      });
+    this.getLeaveDetails();
   },
   methods: {
     weekToUTCWeek,
@@ -387,16 +385,37 @@ export default {
         this.fillWeeklyTimeEntries();
       });
     },
+    registerFetchedLeaveVacation() {
+      this.$root.$on("fetched-leave-vacation", () => {
+        this.getLeaveDetails();
+      })
+    },
+    unregisterFetchedLeaveVacation() {
+      this.$root.$off("fetched-leave-vacation");
+    },
     unregisterFillWeeklyEntryListener() {
       this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
     },
     registerRootListeners() {
       this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
+      this.registerFetchedLeaveVacation();
     },
     unregisterRootListeners() {
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
+      this.unregisterFetchedLeaveVacation();
+    },
+    getLeaveDetails() {
+      this.isRequestWidgetLoaded = true;
+      this.getUserLeavesDetailUser().then((result) => {
+          if (result) {
+            this.allowanceLeavesDetailedData = result;
+          } else {
+            this.$openPopupNotification(this.$error.common_message);
+          }
+          this.isRequestWidgetLoaded = false;
+      });
     },
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntries");
@@ -423,22 +442,27 @@ export default {
       const duration = endDateTime.diff(startDateTime);
       return duration;
     },
-    addLeaves(param) {
-      alert('add leave will be add later!');
+    addLeaves($event) {
+      this.$nuxt.$emit("open-sidebar-admin", $event);
+      this.$nuxt.$emit("close-sidebar");
+      this.$nuxt.$emit("add-leave");
     },
     async handleNewEntryEvent() {
       await this.fillDailyTimeEntries();
     },
     async handleEditEntry() {
       await this.fillDailyTimeEntries();
+      this.isTimesheetWidgetLoaded = true;
       await this.getTimesheetWidget();
     },
     async handleDeleteEntry(id) {
       this.fillDailyTimeEntries();
     },
     async getTimesheetWidget() {
+      this.isTimesheetWidgetLoaded = true;
       const widget = await getUserTimesheetWidget();
       this.timesheetWidgetData = widget;
+      this.isTimesheetWidgetLoaded = false;
     },
     clickOutside() {
       this.show = false;

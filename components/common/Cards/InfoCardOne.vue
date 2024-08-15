@@ -1,6 +1,7 @@
 <template>
-  <div class="d-flex" :class="themeClassWrapper">
-    <div class="info-card-leave-wrapper w-100">
+  <div class="d-flex position-relative" :class="themeClassWrapper">
+    <loader :loading="loading"></loader>
+    <div v-if="!loading" class="info-card-leave-wrapper w-100">
       <div>
         <label>{{ title }}</label>
       </div>
@@ -14,12 +15,12 @@
         <div>
           <progress-circle
             v-if="showProgress"
-            :progressCount="item?.pastDue"
-            :progressTitle="item?.progreesTitle"
-            :progressPercentage="item.pastDue + '%'"
+            :progressCount="getpercentageValue"
+            :progressPercentage="getpercentageValue + '%'"
             :fill="fill"
             v-show="item.pastDue == null ? '' : item.pastDue + '%'"
             emptyfill="#f1f1f1"
+            :key="356"
           ></progress-circle>
         </div>
       </div>
@@ -81,12 +82,25 @@ export default {
     showProgress: {
       type: Boolean,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
       fill: { gradient: ["#ffb700", "#47b801"] },
+      progressKey: 101,
     };
   },
   methods: {},
+  computed: {
+    getpercentageValue() {
+        let val = this.item?.pastDue ? this.item?.pastDue : '0';
+
+        console.log('getpercentagevalue==', this.item)
+        return val;
+      },
+  },
 };
 </script>

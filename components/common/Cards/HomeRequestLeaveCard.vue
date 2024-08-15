@@ -1,6 +1,7 @@
 <template>
-    <div class="d-flex info-card-leave-container" :class="themeClassWrapper">
-      <div class="info-card-leave-wrapper w-100">
+    <div class="d-flex info-card-leave-container position-relative" :class="themeClassWrapper">
+      <loader :loading="loading"></loader>
+      <div v-if="!loading" class="info-card-leave-wrapper w-100">
         <div class="d-flex justify-between item">
           <label>{{ title }}</label>
         </div>
@@ -72,12 +73,12 @@
               ></bib-icon>
             </div>
           </div>
-          <div v-else class="items">
+          <div v-else class="items mr-05">
             <label>Allowance</label>
             <span class="pl-05">{{ totalAllowance }}</span>
           </div>
   
-          <div class="items">
+          <div class="items mr-05">
             <label>Used</label>
             <span class="pl-05">{{ daysUsed }}</span>
           </div>
@@ -87,7 +88,7 @@
             <span class="pl-05">{{ scheduledDays }} </span>
           </div>
           </div>
-          <div class="d-flex justify-center pt-05">
+          <div class="d-flex justify-center">
           <bib-button
             :icon="icon"
             :variant="isLightThemeCheck ? 'light' : 'secondary'"
@@ -149,6 +150,10 @@
         type: Number,
         default: 0,
       },
+      loading: {
+        type: Boolean,
+        default: false,
+      }
     },
     data() {
       return {

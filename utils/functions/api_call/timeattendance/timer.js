@@ -19,7 +19,11 @@ export async function startTimer() {
     );
     return timer.data;
   } catch (e) {
-    console.error(e);
+    const message = e?.response?.data?.message
+    if (message) {
+      this.openPopupNotification({text:message, variant:'danger'})
+      this.$nuxt.$emit("timer-stop");
+    }
   }
 }
 

@@ -81,7 +81,7 @@ export default {
       chronometerInterval = null;
     },
 
-    async startTimer() {
+    async handleStartTimer() {
       if (this.active) return;
       this.loading = true;
       await this.$store.dispatch("timeattendance/startTimer");

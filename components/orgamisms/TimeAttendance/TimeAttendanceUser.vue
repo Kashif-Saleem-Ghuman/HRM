@@ -368,16 +368,26 @@ export default {
         this.fillWeeklyTimeEntries();
       });
     },
+    registerTimerStop() {
+      this.$root.$on('timer-stop', () => {
+        this.handleTimerStop();
+      })
+    },
     unregisterFillWeeklyEntryListener() {
       this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
     },
     registerRootListeners() {
       this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
+      this.registerTimerStop();
+    },
+    unregisterTimerStop() {
+      this.$root.$off('timer-stop');
     },
     unregisterRootListeners() {
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
+      this.unregisterTimerStop();
     },
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntries");

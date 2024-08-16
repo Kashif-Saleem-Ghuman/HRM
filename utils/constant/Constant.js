@@ -150,7 +150,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "name",
-      label: "Employee",
+      label: "Name",
       width: `${100 / 4.3}%`,
       header_icon: {
         icon: "long-arrow-up",
@@ -200,6 +200,17 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         isActive: false,
         sortKey: "department",
+        type: "string",
+      },
+    },
+    {
+      key: "dateOfBirth",
+      label: "Birthday",
+      width: `${100 / 6.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "dateOfBirth",
         type: "string",
       },
     },

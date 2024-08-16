@@ -85,6 +85,13 @@
           }}</span>
         </div>
       </template>
+      <template #cell(dateOfBirth)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            getBirthDateFormat(data.value.dateOfBirth)
+          }}</span>
+        </div>
+      </template>
       <template #cell(location)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
@@ -110,6 +117,8 @@ import {
   makeCall,
 } from "../../../utils/functions/functions_lib";
 import { sortColumn } from "../../../utils/functions/table-sort";
+import { DateTime } from "luxon";
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 export default {
   props: {
     userList: {
@@ -162,6 +171,10 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    getBirthDateFormat(dateOfBirth) {
+      if(!dateOfBirth) return '';
+      return DateTime.fromISO(dateOfBirth).toFormat(DATETIME_FORMAT);
     },
     getValue(value) {
       return value ?? "--";

@@ -21,7 +21,6 @@
             <info-card-one
               :item="timesheetWidgetData"
               :showProgress="true"
-              :loading="isTimesheetWidgetLoaded"
               title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
@@ -40,7 +39,6 @@
               icon="airplane-solid"
               className="button-wrapper__bgsucess"
               :variant="$button.approved.variant"
-              :loading="isRequestWidgetLoaded"
               @on-click="addLeaves('vacation')"
           ></home-request-leave-card>
           </div>
@@ -261,7 +259,7 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
-      allowanceLeavesDetailedData: "00",
+      allowanceLeavesDetailedData: {},
       isRequestWidgetLoaded: false,
       isTimesheetWidgetLoaded: false,
     };

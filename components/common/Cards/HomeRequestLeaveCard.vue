@@ -1,7 +1,6 @@
 <template>
     <div class="d-flex info-card-leave-container position-relative" :class="themeClassWrapper">
-      <loader :loading="loading"></loader>
-      <div v-if="!loading" class="info-card-leave-wrapper w-100">
+      <div class="info-card-leave-wrapper w-100">
         <div class="d-flex justify-between item">
           <label>{{ title }}</label>
         </div>
@@ -150,10 +149,6 @@
         type: Number,
         default: 0,
       },
-      loading: {
-        type: Boolean,
-        default: false,
-      }
     },
     data() {
       return {
@@ -170,14 +165,14 @@
       getpercentageValue() {
         const totalLeave = this.daysUsed + this.scheduledDays;
         this.progressKey += 1;
+        if(!this.totalAllowance || this.totalAllowance == 0) return "0";
         if (this.totalAllowance !== 0) {
           return Math.round((totalLeave / this.totalAllowance) * 100);
-        } else {
-          return "0";
         }
       },
   
       balanceLeaveValue() {
+        if(!this.totalAllowance && !this.daysUsed) return '';
         if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
           const balance =
             this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;
@@ -190,7 +185,9 @@
       },
     },
     async created() {},
-    mounted() {},
+    mounted() {
+      console.log('mounted_', this.daysUsed, this.totalAllowance, this.scheduledDays)
+    },
     methods: {
       handleEditAllowanceClick() {
         this.editAllowanceValue = this.totalAllowance;

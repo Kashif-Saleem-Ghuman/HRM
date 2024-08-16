@@ -8,7 +8,7 @@
       class="d-grid gap-2 px-2 py-2"
     >
       <div v-for="(item, index) in userList" :key="index">
-        <bib-board-card :isLightTheme="isLightThemeCheck">
+        <board-card :isLightTheme="isLightThemeCheck">
           <template #new_contact_section>
             <bib-button
               label="Birthday"
@@ -24,7 +24,7 @@
               pill
             ></bib-button>
           </template>
-          <template #card_menu>
+          <!-- <template #card_menu>
             <bib-popup pop="horizontal-dots" icon-variant="secondary">
               <template v-slot:menu>
                 <div class="list" @click.stop>
@@ -33,7 +33,7 @@
                 </div>
               </template>
             </bib-popup>
-          </template>
+          </template> -->
           <template #user_data>
             <div
               class="d-flex pb-1"
@@ -43,6 +43,7 @@
                   : 'border-bottom-dark-sub1'
               "
             >
+            
               <div style="min-width: 70px">
                 <bib-avatar
                   variant="secondary-sub2"
@@ -67,7 +68,7 @@
                   :class="isLightThemeCheck ? 'text-dark' : 'text-white'"
                   :title="$getEmployeeFullName(item)"
                 >
-                  {{ $getEmployeeFullName(item) | truncate(50, "...") }}
+                  {{ $getEmployeeFullName(item) | truncate(35, "...") }}
                 </label>
                 <div
                   class="font-sm font-w-500"
@@ -101,7 +102,7 @@
               </div>
             </div>
           </template>
-        </bib-board-card>
+        </board-card>
       </div>
     </div>
   </div>

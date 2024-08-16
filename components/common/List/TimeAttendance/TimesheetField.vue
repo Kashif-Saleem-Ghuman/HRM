@@ -56,7 +56,7 @@ export default {
       const now = DateTime.local().startOf('day');
       const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
 
-      return !(now >= dateRow) || this.status === 'approved';
+      return !(now >= dateRow) || this.status === 'approved' || this.$store.state.token.isAdmin;
     },
   },
   methods: {

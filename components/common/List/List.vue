@@ -77,10 +77,17 @@
           </div>
         </div>
       </template>
+      <template #cell(dateOfBirth)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            onLoad(data.value.dateOfBirth)
+          }}</span>
+        </div>
+      </template>
       <template #cell(hiredate)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
-            data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
+            onLoad(data.value.hireDate)
           }}</span>
         </div>
       </template>
@@ -193,6 +200,7 @@ export default {
     },
 
     onLoad(item) {
+      if(!item) return '---';
       return DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
 

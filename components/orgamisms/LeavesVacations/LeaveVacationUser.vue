@@ -136,31 +136,7 @@ export default {
     },
   },
   async mounted() {
-    this.$root.$on("fetched-leave-vacation", () => {
-      this.$store
-        .dispatch("leavevacation/setLeaveVacationsUser", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-        })
-        .then((result) => {
-          if (!result) {
-            this.$openPopupNotification(this.$error.common_message);
-          } else {
-            this.leaveVacationDataUser = result;
-          }
-        });
-      this.getUserLeavesDetailUser({
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      }).then((result) => {
-        if (result) {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        } else {
-          this.$openPopupNotification(this.$error.common_message);
-        }
-      });
-    });
+    this.registerRootListener();
     this.getCurrentYear();
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
@@ -248,6 +224,42 @@ export default {
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },
+    registerFetchedLeaveVacation() {
+      this.$root.$on("fetched-leave-vacation", () => {
+      this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then((result) => {
+          if (!result) {
+            this.$openPopupNotification(this.$error.common_message);
+          } else {
+            this.leaveVacationDataUser = result;
+          }
+        });
+      this.getUserLeavesDetailUser({
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      }).then((result) => {
+        if (result) {
+          this.allowanceLeavesDetailedData = result;
+          this.is_data_fetched = true;
+        } else {
+          this.$openPopupNotification(this.$error.common_message);
+        }
+      });
+    });
+    },
+    registerRootListener() {
+      this.registerFetchedLeaveVacation()
+    },
+    unregisterRootListener() {
+      this.$root.$off("fetched-leave-vacation");
+    },
+  },
+  beforeDestroy() {
+    this.unregisterRootListener();
   },
 };
 </script>

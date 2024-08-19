@@ -15,12 +15,11 @@
 
     <div class="scroll_wrapper">
       <div>
-        <month-list
-          :timesheetsList="timesheetsList"
+        <custom-timesheet-list
+          :employees="timesheetsList"
           :loading="loading"
-          :is-full-year-list="isFullYearList"
-          @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
-        ></month-list>
+          type="past_due"
+        ></custom-timesheet-list>
       </div>
     </div>
   </div>
@@ -33,9 +32,10 @@ import {
   DATETIME_FORMAT,
 } from "../../utils/functions/datetime-input";
 import {getWeekEnd, getWeekStart, weekToUTCWeek} from "@/utils/functions/dates";
-import {getTimesheets} from "@/utils/functions/api_call/timeattendance/time";
+import {getTimeAttendanceCustomRange, getTimesheets} from "@/utils/functions/api_call/timeattendance/time";
 import {TimesheetParser} from "@/utils/timesheet-parsers/timesheet-parser";
 import {MONTH_SELECTOR_DEFAULT} from "@/utils/constant/Constant";
+import {processEmployeeRequests} from "@/utils/requests/employee-request-processor";
 export default {
   data() {
     return {
@@ -81,18 +81,43 @@ export default {
     async onWeeklyTimesheetSubmitted() {
       await this.fillTimesheetEntries();
     },
+
     async fillTimesheetEntries(isWeekRange = false) {
+      const searchString = '';
+
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
-      let timesheets = await getTimesheets({ from, to });
-      timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser({timesheets: employee});
-        return parser.parse("weekDays");
+      let employees = await getTimeAttendanceCustomRange({ from, to, searchString });
+      employees.forEach((employee) => {
+        employee.timesheets.forEach((timesheet) => {
+          const parser = new TimesheetParser(timesheet);
+          parser.parse("hours");
+        });
       });
-      this.timesheetsList = timesheets;
+
+      this.timesheetsList = employees;
+
+      function getWeekdayIndex(dateString) {
+        const date = new Date(dateString);
+        return date.getDay();
+      }
+
+      this.timesheetsList.forEach(employee => {
+        employee.timesheets.forEach(timesheet => {
+          timesheet.timeEntries.forEach(timeEntry => {
+            const weekdayIndex = getWeekdayIndex(timeEntry.start);
+            timeEntry.weekdayIndex = weekdayIndex;
+
+            if(weekdayIndex === 0){
+              timeEntry.weekdayIndex = 7;
+            }
+          });
+        });
+      });
+
       this.loading = false;
     },
     setTimesheetDates(from, to) {

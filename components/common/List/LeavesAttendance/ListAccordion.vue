@@ -91,7 +91,7 @@
       </template>
       <template #cell(received)="data">
         <div class="justify-between">
-          <span>{{ onLoad(data.value.start) }}</span>
+          <span>{{ getDateTimeFormat(data.value.statusChangeDate) }}</span>
         </div>
       </template>
     </custom-tabs-table>
@@ -110,6 +110,7 @@ import {
   makeCall,
 } from "../../../../utils/functions/functions_lib";
 import fecha, { format } from "fecha";
+import {getDateTimeFormat} from "../../../../utils/functions/time";
 export default {
   props: {
     listPending: {
@@ -185,6 +186,7 @@ export default {
     }),
   },
   methods: {
+    getDateTimeFormat,
     meetLink,
     sendMessage,
     makeCall,
@@ -193,8 +195,10 @@ export default {
       if (duration === null || duration === undefined) {
         return "N/A";
       } else {
-        const days = Math.floor(duration);
-        return `${days} day${days !== 1 ? "s" : ""}`;
+        const hours = Math.round(duration * 24);
+        return `${duration} day${duration !== 1 ? "s" : ""} (${hours} hour${
+          hours !== 1 ? "s" : ""
+        })`;
       }
     },
     sortColumn(columnKey) {

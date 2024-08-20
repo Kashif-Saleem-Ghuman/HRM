@@ -94,7 +94,7 @@
       </template>
       <template #cell(received)="data">
         <div class="justify-between" @click="$leaveDetail(data.value, this)">
-          <span>{{ onLoad(data.value.start) }}</span>
+          <span>{{ getDateTimeFormat(data.value.statusChangeDate) }}</span>
         </div>
       </template>
     </bib-table>
@@ -106,6 +106,9 @@
 import fecha, { format } from "fecha";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import { TABLE_HEAD } from "@/utils/constant/Constant";
+import {DateTime} from "luxon";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import {getDateTimeFormat} from "../../../../utils/functions/time";
 export default {
   props: {
     listPending: {
@@ -133,7 +136,8 @@ export default {
     },
   },
   methods: {
-    async leaveDetail(item) {
+    getDateTimeFormat,
+    async leaveDetail(item, event) {
       event.stopPropagation();
       this.$nuxt.$emit("open-sidebar", item);
       this.$nuxt.$emit("close-sidebar-main");
@@ -153,15 +157,19 @@ export default {
       if (duration === null || duration === undefined) {
         return "N/A";
       } else {
-        const days = Math.floor(duration);
-        const hours = Math.round(days * 24);
-        return `${days} day${days !== 1 ? "s" : ""} (${hours} hour${
+        const hours = Math.round(duration * 24);
+        return `${duration} day${duration !== 1 ? "s" : ""} (${hours} hour${
           hours !== 1 ? "s" : ""
         })`;
       }
     },
     onLoad(item) {
       return fecha.format(new Date(item), "DD-MMM-YYYY");
+    },
+    profiletab(name, isLeave) {
+      document.querySelector("#" + name).style.display = isLeave
+        ? "none"
+        : "block";
     },
   },
 };

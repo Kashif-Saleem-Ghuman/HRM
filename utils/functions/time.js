@@ -1,4 +1,5 @@
 import { DateTime, Duration } from "luxon";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
 export const formatHoursToHHMM = (hours) => {
   if (!hours === null || hours === undefined) {
@@ -22,6 +23,10 @@ export const formatHoursToHHMM = (hours) => {
 
 };
 
+export function getDateTimeFormat(date) {
+  const dateFormat = DateTime.fromISO(date);
+  return dateFormat.toFormat(DATETIME_FORMAT) + ' @ ' + dateFormat.toFormat('HH:mm');
+}
 export function calculateTimeDifferenceInMinutes(startTime, endTime) {
   const startDateTime = DateTime.fromFormat(startTime, "HH:mm");
   const endDateTime = DateTime.fromFormat(endTime, "HH:mm");

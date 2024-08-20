@@ -9,7 +9,7 @@
       :className="['width-auto']"
     ></chips>
   </div>
-  <div v-else>
+  <div v-else class="button-override">
     <bib-button
       :label="$getStatusLabelName(resolvedStatus)"
       :variant="$getStatusVariantName(resolvedStatus)"

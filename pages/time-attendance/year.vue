@@ -20,7 +20,7 @@
         <custom-timesheet-list
           :employees="timesheetsList"
           :loading="loading"
-          type="past_due"
+          type="year"
         ></custom-timesheet-list>
       </div>
     </div>

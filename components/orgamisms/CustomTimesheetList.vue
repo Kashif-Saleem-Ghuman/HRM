@@ -65,6 +65,7 @@
               <leave-status
                 :leaveStatusData="data"
                 :defaultPointer="true"
+                :is-plain-status="true"
               ></leave-status>
               <!-- <chips
                 :title="

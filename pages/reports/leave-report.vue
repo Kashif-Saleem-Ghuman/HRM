@@ -10,22 +10,18 @@
       ></bib-input>
     </div>
     <div>
-      <bib-input
-        type="select"
-        label="Month"
-        :options="monthOptions"
-        v-model="selectedMonth"
-        :variant="themeInputVariant"
-      ></bib-input>
+      <bib-datetime-picker
+        v-model="from"
+        label="From"
+        hide-quick-select
+      ></bib-datetime-picker>
     </div>
     <div>
-      <bib-input
-        type="select"
-        label="Year"
-        :options="yearOptions"
-        v-model="selectedYear"
-        :variant="themeInputVariant"
-      ></bib-input>
+      <bib-datetime-picker
+        v-model="to"
+        label="To"
+        hide-quick-select
+      ></bib-datetime-picker>
     </div>
     <div id="fotter">
       <div class="d-flex pt-1">
@@ -59,6 +55,8 @@ export default {
       selectedEmployeeId: null,
       selectedMonth: null,
       selectedYear: null,
+      from: null,
+      to: null,
     };
   },
   async created() {
@@ -73,23 +71,34 @@ export default {
     downloadFile,
     generateYearList,
     async downloadReport() {
+      const { from, to } = this
       const employeeId = this.selectedEmployeeId;
-      const month = this.selectedMonth;
-      const year = this.selectedYear;
-
+ 
       const endpoint = DETAIL_REPORT_ENDPOINT;
       try {
+        // TODO - This request should be moved to api service
         const response = await axios.get(`${process.env.API_URL}${endpoint}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-          params: { month, year, employeeId },
+          params: { from, to, employeeId },
           responseType: "blob",
         });
 
         if (response) {
-          this.downloadFile(response.data, "leave-details-report");
-          this.$openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
+          let filename
+          try {
+            filename = response.headers['content-disposition'].split(
+              "filename="
+            )[1];
+          } catch (error) {
+            console.log(error);
+          }
+
+          filename = filename ?? "leave-details-report";
+          
+          this.downloadFile(response.data, filename);
+          this.openPopupNotification(NOTIFICATION_MESSAGES.SUCCESS_DOWNLOAD);
           this.selectedEmployeeId = null;
           this.selectedMonth = null;
           this.selectedYear = null;

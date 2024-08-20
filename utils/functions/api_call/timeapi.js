@@ -22,7 +22,6 @@ export async function employeeTime(payload) {
         },
       })
       .then((res) => {
-        console.log(this.updateForm, "http://dev-hrm.business-in-a-box.com/");
         this.$openPopupNotification(1);
         this.time = res;
         this.loading = false;

@@ -184,7 +184,7 @@ export default {
       });
 
       if (Object.keys(errors).length) {
-        console.log("Form is not valid", errors);
+        // console.log("Form is not valid", errors);
         this.setErrors(errors);
         return false;
       }

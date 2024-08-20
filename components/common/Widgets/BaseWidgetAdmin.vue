@@ -120,7 +120,7 @@ y
 
 <script>
 import { getAdminWidget } from "@/utils/functions/api_call/timeattendance/time";
-import { WIDGETS } from "@/utils/constant/widgetConstants";
+import { WIDGETS } from "@/utils/constant/WidgetConstants";
 import { DateTime } from "luxon";
 
 export default {

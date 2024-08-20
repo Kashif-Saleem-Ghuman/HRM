@@ -13,8 +13,6 @@
       @column-header-clicked="headerColumnClick($event.column)"
       class="table"
       :class="{
-        table__headless: headless,
-        resizableTable: resizableColumns,
         'table--light': isLightThemeCheck,
         'table--dark': !isLightThemeCheck,
       }"

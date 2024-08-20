@@ -84,7 +84,6 @@ export const actions = {
   },
   setActiveUserRole({ commit }, { employee }) {
     const viewRole = getEmployeeRole(employee);
-    console.log(employee.hrmRole, employee, "employee.hrmRole");
     commit("SET_ACTIVE_USER_ROLE", employee.hrmRole);
     commit("SET_ACTIVE_HRM_ROLE", employee.hrmRole);
 

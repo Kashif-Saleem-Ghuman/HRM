@@ -14,18 +14,33 @@
               @clock="openClock"
               @timer-stop="handleTimerStop"
               :disabled="hasInEntryToday"
+              :todayDate="todayDate"
               icon="time-alarm"
             ></info-card-timer>
 
             <info-card-one
               :item="timesheetWidgetData"
+              :showProgress="true"
               title="Timesheets"
               buttonLable="View timesheets"
               icon="table"
               profilePic="profilePic"
               @on-click="onViewTimesheetsClick"
             ></info-card-one>
-            <!-- <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
+            <!--
+             <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
+             <home-request-leave-card
+              :title="$button.PTO.label"
+              :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
+              :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
+              :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
+              :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
+              buttonLable="Request Time-Off"
+              icon="airplane-solid"
+              className="button-wrapper__bgsucess"
+              :variant="$button.approved.variant"
+              @on-click="addLeaves('vacation')"
+          ></home-request-leave-card>
           </div>
         </div>
         <div class="d-flex align-center px-1">
@@ -80,7 +95,7 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
-                  
+
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
@@ -117,6 +132,7 @@
               @edit-entry="handleEditEntry"
               @delete-entry="handleDeleteEntry"
               :date="dayListDate"
+              :todayDate="todayDate"
               :total="totalWork"
               :disabled="isTimesheetLocked"
             ></list-day>
@@ -130,6 +146,7 @@
               :startOfWeek="weekDates.from"
               @timesheet-submitted="onTimesheetSubmitted"
               @day-view="enterDetail"
+              @redirect-dayview="redirectToDayView"
             ></list-week>
             <month-list
               v-else-if="monthListView"
@@ -178,6 +195,10 @@ import {
   getDatetimeCommonProps,
   DATETIME_FORMAT,
 } from "../../../utils/functions/datetime-input";
+
+import {
+  getUserLeavesDetailUser,
+} from "../../../utils/functions/functions_lib_api";
 
 import { Timesheet } from "@/components/common/models/timesheet";
 
@@ -238,6 +259,9 @@ export default {
       year: null,
       month: null,
       isFullYearList: false,
+      allowanceLeavesDetailedData: {},
+      isRequestWidgetLoaded: false,
+      isTimesheetWidgetLoaded: false,
     };
   },
   computed: {
@@ -296,7 +320,7 @@ export default {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
       return entries.some((entry) => {
-        return entry.activity === ACTIVITY_TYPE.IN;
+        return entry.activity === ACTIVITY_TYPE.IN && entry.active === false;
       });
     },
     todayListView() {
@@ -324,6 +348,7 @@ export default {
   },
   async created() {
     // this.loading = true;
+    this.isTimesheetWidgetLoaded = true;
     this.setView();
     await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
@@ -335,11 +360,13 @@ export default {
   },
   mounted() {
     this.registerRootListeners();
+    this.getLeaveDetails();
   },
   methods: {
     weekToUTCWeek,
     getDatetimeCommonProps,
     debounceAction,
+    getUserLeavesDetailUser,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
@@ -356,10 +383,13 @@ export default {
         this.fillWeeklyTimeEntries();
       });
     },
-    registerTimerStop() {
-      this.$root.$on('timer-stop', () => {
-        this.handleTimerStop();
+    registerFetchedLeaveVacation() {
+      this.$root.$on("fetched-leave-vacation", () => {
+        this.getLeaveDetails();
       })
+    },
+    unregisterFetchedLeaveVacation() {
+      this.$root.$off("fetched-leave-vacation");
     },
     unregisterFillWeeklyEntryListener() {
       this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
@@ -367,15 +397,23 @@ export default {
     registerRootListeners() {
       this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
-      this.registerTimerStop();
-    },
-    unregisterTimerStop() {
-      this.$root.$off('timer-stop');
+      this.registerFetchedLeaveVacation();
     },
     unregisterRootListeners() {
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
-      this.unregisterTimerStop();
+      this.unregisterFetchedLeaveVacation();
+    },
+    getLeaveDetails() {
+      this.isRequestWidgetLoaded = true;
+      this.getUserLeavesDetailUser().then((result) => {
+          if (result) {
+            this.allowanceLeavesDetailedData = result;
+          } else {
+            this.$openPopupNotification(this.$error.common_message);
+          }
+          this.isRequestWidgetLoaded = false;
+      });
     },
     async handleTimerStop() {
       await this.$store.dispatch("timeattendance/setDailyTimeEntries");
@@ -402,19 +440,27 @@ export default {
       const duration = endDateTime.diff(startDateTime);
       return duration;
     },
+    addLeaves($event) {
+      this.$nuxt.$emit("open-sidebar-admin", $event);
+      this.$nuxt.$emit("close-sidebar");
+      this.$nuxt.$emit("add-leave");
+    },
     async handleNewEntryEvent() {
       await this.fillDailyTimeEntries();
     },
     async handleEditEntry() {
       await this.fillDailyTimeEntries();
+      this.isTimesheetWidgetLoaded = true;
       await this.getTimesheetWidget();
     },
     async handleDeleteEntry(id) {
       this.fillDailyTimeEntries();
     },
     async getTimesheetWidget() {
+      this.isTimesheetWidgetLoaded = true;
       const widget = await getUserTimesheetWidget();
       this.timesheetWidgetData = widget;
+      this.isTimesheetWidgetLoaded = false;
     },
     clickOutside() {
       this.show = false;
@@ -535,6 +581,31 @@ export default {
 
       if (itemDateTime > currentDate && this.weekDataStatus != "approved") {
         this.debounceAction(() => {
+          this.$openPopupNotification({
+            text: "Time entries cannot be added for a future date",
+            variant: "danger",
+          });
+        });
+        return true;
+      }
+      
+      if (this.weekDataStatus == "approved") {
+        this.debounceAction(() => {
+          this.$openPopupNotification({
+            text: "Your timesheet has been locked.",
+            variant: "danger",
+          });
+        });
+      }
+    },
+    async redirectToDayView(item) {
+      const date = item.date;
+      const itemDateTime = DateTime.fromISO(date);
+
+      const currentDate = DateTime.now();
+
+      if (itemDateTime > currentDate && this.weekDataStatus != "approved") {
+        this.debounceAction(() => {
           this.openPopupNotification({
             text: "Time entries cannot be added for a future date",
             variant: "danger",
@@ -542,18 +613,11 @@ export default {
         });
         return true;
       }
-      if (this.weekDataStatus != "approved") {
-        this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
-        this.$router.push({ query: { view: "day" } });
-        await this.fillDailyTimeEntries();
-      } else {
-        this.debounceAction(() => {
-          this.openPopupNotification({
-            text: "Your timesheet has been locked.",
-            variant: "danger",
-          });
-        });
-      }
+
+
+      this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
+      this.$router.push({ query: { view: "day" } });
+      await this.fillDailyTimeEntries();
     },
     async weekSelection() {
       await this.fillWeeklyTimeEntries();

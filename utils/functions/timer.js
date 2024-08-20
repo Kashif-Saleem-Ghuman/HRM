@@ -1,21 +1,39 @@
-import {ACTIVITY_TYPE} from "@/utils/constant/Constant";
+import {
+  ACTIVITY_TYPE,
+  TIME_ENTRY_SOURCE,
+} from "@/utils/constant/Constant";
+import { TimeEntry } from "@/components/common/models/time_entry";
 import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
 import {DateTime} from "luxon";
+
+function calculateBreakTotalChronometer(entries) {
+  return entries.reduce((total, entry) => {
+    if (entry.isActivityBreak() && entry.isSourceTimer()) {
+      return total + getTimeDiffInSeconds(entry.getStart(), entry.getEnd());
+    }
+    return total;
+  }, 0);
+}
 export function getChronometerDuration(todayTimeEntries) {
-  let chronometer = 0;
-  let timeEntry = todayTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
-  if(timeEntry && timeEntry?.isTimerEntry){
-    chronometer = getTimeDiffInSeconds(timeEntry.start, timeEntry.end)
+  const timeEntries = todayTimeEntries?.map(timeEntry => new TimeEntry(timeEntry));
+
+  const inTimeEntry = timeEntries.find( (entry) => entry.isActivityIn() && entry.isSourceTimer() );
+
+  if (!inTimeEntry || inTimeEntry.isSourceManual()) {
+    return 0;
   }
-  return chronometer;
+
+  const timerChronometer = getTimeDiffInSeconds(inTimeEntry.getStart(), inTimeEntry.getEnd());
+  const breakChronometer = calculateBreakTotalChronometer(timeEntries);
+
+  return Math.max(0, timerChronometer - breakChronometer);
 }
-export function checkIsManualEntry(dailTimeEntries) {
-  let timeEntry = dailTimeEntries.find((timeEntry) => timeEntry.activity === ACTIVITY_TYPE.IN)
-  if(timeEntry && !timeEntry?.isTimerEntry){
-    return true
-  }
-  return false;
+
+export function getBreakChronometerDuration(breakEntry) {
+  const timeEntry = new TimeEntry(breakEntry);
+  return getTimeDiffInSeconds(timeEntry.getStart(), timeEntry.getEnd());
 }
+
 export function isDateToday(date) {
   return DateTime.fromISO(date).hasSame(DateTime.now(), 'day');
 }

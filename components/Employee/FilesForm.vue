@@ -47,9 +47,9 @@
             <div class="d-flex align-center" @click="handleFileClick(file)">
               <bib-icon
                 :icon="
-                  !getFileExtension(extensionsName(file))
+                  !$getFileExtension(extensionsName(file))
                     ? 'image'
-                    : getFileExtension(extensionsName(file))
+                    : $getFileExtension(extensionsName(file))
                 "
                 variant="gray5"
               ></bib-icon>
@@ -90,7 +90,6 @@ import {
 } from "@/utils/functions/functions_lib_api";
 import { downloadEmployeeFile } from "@/utils/functions/api_call/employees";
 import { DELETE_MESSAGE } from "@/utils/constant/ConfirmationMessage";
-import { getFileExtension } from "../../utils/functions/status-helpers";
 export default {
   data() {
     return {
@@ -134,7 +133,6 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getFileExtension,
     extensionsName(file) {
       return (this.fileName = file.name.split(".").pop());
     },
@@ -184,7 +182,7 @@ export default {
         this.fileList += 1;
         this.files = [];
         this.filesUploaded.reverse();
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "The file has been successfully uploaded.",
           variant: "primary-24",
         });
@@ -200,7 +198,7 @@ export default {
         this.filesUploaded = result;
         this.fileList += 1;
         this.confirmastionMessageModal = false;
-        return this.openPopupNotification(8);
+        return this.$openPopupNotification(8);
       });
     },
   },

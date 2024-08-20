@@ -14,7 +14,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   // by default, just consider the start time of the current timer
   let inTime = currentTimerStart
     ? new Date(currentTimerStart).toTimeString().split(' ')[0]
-    : null; 
+    : null;
   // there is no out time before there is a timeEntry record
   let outTime = null;
 
@@ -35,7 +35,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       .toTimeString()
       .split(' ')
       [0];
-    
+
     totalSeconds = Math.floor(
       (
         new Date(clockInTimeEntry.end).getTime()
@@ -43,13 +43,13 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       ) / 1000
     );
   }
-  
+
   const breaks = timeEntries.filter((t) => t.activity === 'break');
-  
+
   for (let entry of breaks) {
     if (!entry.end) continue
     breaksSeconds += (new Date(entry.end).getTime() - new Date(entry.start).getTime()) / 1000;
-    
+
   }
 
   totalSeconds -= breaksSeconds;

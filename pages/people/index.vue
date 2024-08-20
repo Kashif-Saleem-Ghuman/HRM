@@ -7,7 +7,7 @@
       <div id="people-action-wrapper">
         <loader :loading="loading"></loader>
 
-          <section-header-left title="People"></section-header-left>
+          <section-header-left :title="'People - ' + totalEmployee "></section-header-left>
         <no-record v-if="showNoData"></no-record>
 
         <div v-else-if="showTable">
@@ -44,6 +44,7 @@ export default {
       getCurrentDate: "",
       employees: [],
       loading: true,
+      totalEmployee: 0,
     };
   },
   async created() {
@@ -81,6 +82,7 @@ export default {
       const data = await getEmployees();
       const employees = data.employees;
 
+      this.totalEmployee = employees.length;
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");
@@ -105,41 +107,7 @@ export default {
     close() {
       this.departmentModel = false;
     },
-    async handleChange_Tabs(tab) {
-      this.$store.dispatch("token/setActiveTab", tab.value);
-
-      if (tab.value == "Departments") {
-        await this.$store.dispatch("department/setDepartmentList");
-        this.departmentOptions = this.getDepartment;
-      }
-      if (tab.value == "Teams") {
-        // await this.$store.dispatch("teams/setTeamListOptions");
-        // this.teamOptions = this.getTeamListOptions;
-      }
-    },
-    clickAction(event) {
-      if (event.key == "name") {
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        }
-      }
-      if (event.key == "presence") {
-        if (this.orderBy == "desc") {
-          this.orderBy = "asc";
-          this.localData.sort((a, b) => b.email.localeCompare(a.email));
-        } else {
-          this.orderBy = "desc";
-          this.localData.sort((a, b) => a.email.localeCompare(b.email));
-        }
-      }
-      if (event.key == "reset") {
-        this.$store.dispatch("employee/setUserList");
-      }
-    },
+    
     userId(id) {
       if (id) {
         this.$router.push("/profile/" + id);

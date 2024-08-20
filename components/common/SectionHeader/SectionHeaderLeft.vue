@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex justify-between align-center w-100"
+    class="d-flex justify-between align-center"
     :class="[borderClassBottom, isLightThemeCheck ? 'bg-light-sub2' : 'bg-dark']"
   >
     <nav class="gap-05 page_title">
@@ -14,8 +14,8 @@
         v-show="back"
       ></bib-button>
       <bib-avatar v-if="avatar" :src="avatar" size="2rem"></bib-avatar>
-      <div class="page__header__bread__title"  style="text-transform: capitalize;"  v-if="title" :title="title">
-        {{ title }}
+      <div class="page__header__bread__title" :class="customStyle"  style="text-transform: capitalize;"  v-if="title" :title="title">
+        {{ title }} <aside>{{ subDetail }}</aside>
       </div>
     </nav>
   </div>
@@ -25,6 +25,14 @@ export default {
   name: "SectionHeader",
   props: {
     title: {
+      type: String,
+      default: "",
+    },
+    subDetail: {
+      type: String,
+      default: "",
+    },
+    customStyle: {
       type: String,
       default: "",
     },
@@ -74,10 +82,19 @@ export default {
   height: 4rem;
   justify-content: space-between;
   padding-left: 1rem;
-  padding-right: 1rem;
+  .customStyle{
+    font-size: 14px !important;
+    color:#747478;
+  }
+  // padding-right: 1rem;
   .page__header__bread__title {
     font-size: 18px;
     position: relative;
+    aside{
+      display: inline-block;
+      padding: 0 0.3rem 0 0.2rem;
+      color:$dark;
+    }
   }
 }
 </style>

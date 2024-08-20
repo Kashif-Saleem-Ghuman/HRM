@@ -22,7 +22,7 @@ export async function employeeTime(payload) {
         },
       })
       .then((res) => {
-        this.openPopupNotification(1);
+        this.$openPopupNotification(1);
         this.time = res;
         this.loading = false;
         this.isFlag = false;

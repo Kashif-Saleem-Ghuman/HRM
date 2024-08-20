@@ -226,12 +226,12 @@ export default {
       const summary = await createSummary({ text, date });
       if (summary) {
         this.$emit("update");
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Summary successfully added",
           variant: "primary",
         });
       } else {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Error while submitting summary",
           variant: "danger",
         });
@@ -247,12 +247,12 @@ export default {
       });
       if (updatedSummary) {
         this.$emit("update");
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Summary successfully updated",
           variant: "primary",
         });
       } else {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Error while submitting summary",
           variant: "danger",
         });

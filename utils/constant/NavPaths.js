@@ -2,11 +2,20 @@ export const navigationPaths = [
   {
     name: "timeAttendanceEmployeePaths",
     paths: [
-      "/time-attendance/attendance/?view=day",
-      "/time-attendance/attendance/?view=week",
-      "/time-attendance/attendance/?view=month",
+      "/home/attendance/?view=day",
+      "/home/attendance/?view=week",
+      "/home/attendance/?view=month",
     ],
-    defaultPath: "/time-attendance/attendance/",
+    defaultPath: "/home/",
+  },
+  {
+    name: "myTimesheets",
+    paths: [
+      "/my-timesheet/?view=day",
+      "/my-timesheet/?view=week",
+      "/my-timesheet/?view=month",
+    ],
+    defaultPath: "/my-timesheet/",
   },
   {
     name: "leaveAndVacationPaths",

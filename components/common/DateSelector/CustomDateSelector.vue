@@ -6,6 +6,8 @@
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
       :year="year"
+      :showFullYearList="showFullYearList"
+      :monthPickerDisabled="monthPickerDisabled"
     />
   </div>
 </template>
@@ -14,6 +16,16 @@
 import { DateTime } from "luxon";
 import {MONTH_SELECTOR_DEFAULT} from "@/utils/constant/Constant";
 export default {
+  props: {
+    monthPickerDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    showFullYearList: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isYearDisabled: false,

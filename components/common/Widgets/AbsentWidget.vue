@@ -1,5 +1,5 @@
 <script>
-import BaseWidget from "../../common/Cards/BaseWidget.vue";
+import BaseWidget from "./BaseWidget.vue";
 export default {
   extends: BaseWidget,
 
@@ -9,19 +9,20 @@ export default {
     },
   },
   methods: {
+    
     async fetchData() {
       const data = this.employeesAttendance;
       if (data) {
         const employees =
-          data?.filter((employee) => employee.isPresent()) || [];
+          data?.filter((employee) => !employee.isPresent()) ?? [];
         this.setData(employees);
         this.setAvatars(employees);
       }
     },
-    setData(employees = []) {
-      const title = "Present";
-      const subheading = "";
-      const value = employees.length || 0;
+    setData(data = []) {
+      const title = "Absent";
+      const subheading = "Missing in action";
+      const value = data.length || 0;
       this.data = {
         title,
         subheading,
@@ -29,9 +30,10 @@ export default {
       };
     },
 
-    setAvatars(employees = []) {
-      this.avatars = employees;
+    setAvatars(data = []) {
+      this.avatars = data;
     },
+    
   },
 
   watch: {

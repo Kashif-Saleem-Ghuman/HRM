@@ -41,6 +41,12 @@ export default {
     "~/plugins/set-active-user",
     "~/plugins/employees/employee-role",
     '~/plugins/injectIsThemeCheck.js',
+    '~/plugins/leaveType.js',
+    '~/plugins/statusHelpers.js',
+    '~/plugins/statusHelpersButtons.js',
+    '~/plugins/StatusHelperAttendance.js',
+    '~/plugins/leaveDetails.js',
+    '~/plugins/commonFunctions.js',
     '~/plugins/contactbuttons.js',
   ],
 

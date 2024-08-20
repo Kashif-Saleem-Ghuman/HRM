@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0, 5)"
+        :items="appWrapItems.navItemsAdmin.slice(0,6)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -159,7 +159,7 @@ export default {
     },
     myAccountClick() {
       this.changeRole(USER_ROLES.USER);
-      this.$router.push("/time-attendance/attendance/");
+      this.$router.push("/home/");
       this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
       this.setUserActiveTab();
@@ -221,7 +221,7 @@ export default {
         }
       }
       const item = navItems.find((item) => item.url === path);
-      this.resetSelected(navItems);
+      // this.resetSelected(navItems);
       if (item) item.selected = true;
     },
     getIdFromPath(path) {
@@ -257,7 +257,16 @@ export default {
       );
       leaveNavItem.selected = true;
     },
-
+    openRequestMedical() {
+      this.$nuxt.$emit("open-sidebar-admin", "medical");
+      this.$nuxt.$emit("add-leave");
+      this.resetAllSelectedNavItems();
+      const leaveNavItem = this.appWrapItems.navItemsUser.find(
+        (navItem) => navItem.key === "leave-vacations"
+      );
+      leaveNavItem.selected = true;
+    },
+    
     resetSelected(navItems) {
       navItems.forEach((item) => {
         if (item.hasOwnProperty("selected")) {

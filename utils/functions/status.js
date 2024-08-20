@@ -1,5 +1,16 @@
 import { TIMESHEET_STATUSES } from "../constant/Constant";
 
+
+export const getStatusLabel = (status) => {
+  const statusLabel = {
+    [TIMESHEET_STATUSES.APPROVED]: "Approved",
+    [TIMESHEET_STATUSES.PENDING]: "Pending",
+    [TIMESHEET_STATUSES.REJECTED]: "Rejected",
+    [TIMESHEET_STATUSES.PAST_DUE]: "Past Due",
+    [TIMESHEET_STATUSES.NOT_SUBMITTED]: "Not Submitted",
+  };
+  return statusLabel[status] || "";
+}
 export const getStatusIcon = (status) => {
   const iconStatusMapper = {
     [TIMESHEET_STATUSES.APPROVED]: "check-all",

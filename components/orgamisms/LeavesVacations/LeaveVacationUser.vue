@@ -13,34 +13,34 @@
           v-if="is_data_fetched"
         >
           <info-card-leave-vacation
-            title="Vacation"
+            :title="$button.PTO.label"
             :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
             :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
             :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
             :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
-            buttonLable="Request Vacation"
+            :buttonLable="$button.PTO.buttonLable"
             icon="airplane-solid"
             className="button-wrapper__bgsucess"
             :variant="$button.approved.variant"
             @on-click="addLeaves('vacation')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
-            title="Medical/Sick"
+            :title="$button.MEDICAL.label"
             :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
             :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
             :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
-            buttonLable="Request Medical Leave"
+            :buttonLable="$button.MEDICAL.buttonLable"
             icon="medical-clinic-solid"
             className="button-wrapper__bgalert"
             :variant="$button.approved.variant"
             @on-click="addLeaves('medical')"
           ></info-card-leave-vacation>
           <info-card-leave-vacation
-            title="Personal Leave"
+            :title="$button.UNPAID.label"
             :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
             :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
             :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
-            buttonLable="Request Personal Leave"
+            :buttonLable="$button.UNPAID.buttonLable"
             icon="accessibility-cognitive-disability-solid"
             className="button-wrapper__bgwarnning"
             :variant="$button.approved.variant"
@@ -91,7 +91,6 @@ import {
   getCurrentYear,
   generateYearList,
 } from "../../../utils/functions/functions_lib";
-import { getEmployeeFullName } from "../../../utils/functions/common_functions";
 
 export default {
   data() {
@@ -137,31 +136,7 @@ export default {
     },
   },
   async mounted() {
-    this.$root.$on("fetched-leave-vacation", () => {
-      this.$store
-        .dispatch("leavevacation/setLeaveVacationsUser", {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-        })
-        .then((result) => {
-          if (!result) {
-            this.openPopupNotification(this.$error.common_message);
-          } else {
-            this.leaveVacationDataUser = result;
-          }
-        });
-      this.getUserLeavesDetailUser({
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      }).then((result) => {
-        if (result) {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        } else {
-          this.openPopupNotification(this.$error.common_message);
-        }
-      });
-    });
+    this.registerRootListener();
     this.getCurrentYear();
     this.dropMenuYear = this.generateYearList();
     await this.$store.dispatch("employee/setUserList");
@@ -174,7 +149,7 @@ export default {
         this.allowanceLeavesDetailedData = result;
         this.is_data_fetched = true;
       } else {
-        this.openPopupNotification(this.$error.common_message);
+        this.$openPopupNotification(this.$error.common_message);
       }
     });
     this.activeUserData = this.getActiveUser;
@@ -192,7 +167,7 @@ export default {
       })
       .then((result) => {
         if (!result) {
-          this.openPopupNotification(this.$error.common_message);
+          this.$openPopupNotification(this.$error.common_message);
         } else {
           this.leaveVacationDataUser = result;
         }
@@ -206,7 +181,6 @@ export default {
     getCurrentYear,
     deleteLevaeVacation,
     getUserLeavesDetailUser,
-    getEmployeeFullName,
     generateYearList,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
@@ -232,7 +206,7 @@ export default {
         })
         .then((result) => {
           if (!result) {
-            this.openPopupNotification(this.$error.common_message);
+            this.$openPopupNotification(this.$error.common_message);
           } else {
             this.leaveVacationDataUser = result;
           }
@@ -250,6 +224,42 @@ export default {
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },
+    registerFetchedLeaveVacation() {
+      this.$root.$on("fetched-leave-vacation", () => {
+      this.$store
+        .dispatch("leavevacation/setLeaveVacationsUser", {
+          from: this.getformToDate.from,
+          to: this.getformToDate.to,
+        })
+        .then((result) => {
+          if (!result) {
+            this.$openPopupNotification(this.$error.common_message);
+          } else {
+            this.leaveVacationDataUser = result;
+          }
+        });
+      this.getUserLeavesDetailUser({
+        from: this.getformToDate.from,
+        to: this.getformToDate.to,
+      }).then((result) => {
+        if (result) {
+          this.allowanceLeavesDetailedData = result;
+          this.is_data_fetched = true;
+        } else {
+          this.$openPopupNotification(this.$error.common_message);
+        }
+      });
+    });
+    },
+    registerRootListener() {
+      this.registerFetchedLeaveVacation()
+    },
+    unregisterRootListener() {
+      this.$root.$off("fetched-leave-vacation");
+    },
+  },
+  beforeDestroy() {
+    this.unregisterRootListener();
   },
 };
 </script>

@@ -52,9 +52,7 @@ export default {
     }
   },
   methods: {
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
+    
 
   },
 };

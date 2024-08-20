@@ -252,7 +252,7 @@ export default {
       await updateOrganization(payload).then(() => {
         this.originalStateProvince = this.org.stateProvince;
         this.originalCity = this.org.city;
-        this.openPopupNotification(4);
+        this.$openPopupNotification(4);
       });
     },
     updateStateAndCity(newCountry) {

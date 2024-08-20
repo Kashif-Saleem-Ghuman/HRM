@@ -175,9 +175,7 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
+    
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
@@ -192,7 +190,7 @@ export default {
             // this.$emit('approve-item', { id, employeeId, date });
             this.approveSingleTimesheet({ id, employeeId, date });
           }
-            this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+            this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           break;
         case "rejected":
           if (this.type === PENDING_TYPE) {
@@ -246,12 +244,12 @@ export default {
             refusalReason,
             employeeId: data.value.employeeId,
           });
-          this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+          this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
           this.showRefusalModal = false;
         }else{
         await rejectTimesheet({ id, refusalReason });
         this.showRefusalModal = false;
-        this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+        this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
         }
       }
 
@@ -317,7 +315,7 @@ export default {
     },
     debouncedNotification() {
       if (!this.debounced) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
         text: "Timesheet has no entries",
         variant: "danger"
       });

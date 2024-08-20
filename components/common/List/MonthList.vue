@@ -13,14 +13,30 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(date)="data">
-        <div class="d-flex flex-d-column text-left gap-01 cursor-pointer">
-          <div class="font-md font-w-700">
-            Week {{ getWeekNumber(data.value.start) }}
+        <div class="d-flex align-center justify-between">
+          <div class="d-flex flex-d-column text-left gap-01 cursor-pointer">
+            <div class="font-md font-w-700">
+              Week {{ getWeekNumber(data.value.start) }}
+            </div>
+            <div
+              class="font-w-400"
+              :class="isLightThemeCheck ? 'text-black' : 'text-white'"
+            >
+              {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
+              {{ formatIsoDateToYYYYMMDD(data.value.end) }}
+            </div>
           </div>
-          <div class="font-w-400" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
-            {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
-            {{ formatIsoDateToYYYYMMDD(data.value.end) }}
-          </div>
+          <div v-if="isAdmin">
+            <notifications
+            @submit-timesheet-reminder="
+              $submitTimesheetReminder({ requestIds: [data.value.id] })
+            "
+            :timesheetSubmitReminderIcon="
+              shouldShowTimesheetSubmitReminderIcon(data.value.status)
+            "
+            :clockInReminderIcon="false"
+          ></notifications>
+            </div>
         </div>
       </template>
 
@@ -41,7 +57,11 @@
         <div class="text-dark">
           <div v-if="isAdmin">
             <div>
-              <chips
+              <leave-status
+                :leaveStatusData="data"
+                :defaultPointer="true"
+              ></leave-status>
+              <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
                   'unknown-status'
@@ -51,7 +71,7 @@
                 :variant="[getStatusVariant(data.value?.status)]"
                 :defaultPointer="true"
                 :className="['width-auto']"
-              ></chips>
+              ></chips> -->
             </div>
           </div>
           <div v-else>
@@ -62,7 +82,11 @@
                 data.value?.status === 'pending'
               "
             >
-              <chips
+              <leave-status
+                :leaveStatusData="data"
+                :defaultPointer="true"
+              ></leave-status>
+              <!-- <chips
                 :title="
                   TIMESHEET_STATUS[data.value?.status]?.label ??
                   'unknown-status'
@@ -74,17 +98,22 @@
                   'width-auto chip-wrapper-without-bg',
                   getStatusClassName(data.value?.status),
                 ]"
-              ></chips>
+              ></chips> -->
             </div>
-            <div class="ml-2" v-else>
-              <bib-button
+            <div v-else>
+              <leave-status
+                :leaveStatusData="data"
+                :disabled="isSubmitted"
+                @click="buttonClicked(data.value)"
+              ></leave-status>
+              <!-- <bib-button
                 :icon="getSubmitIcon(data.value?.status)"
                 :variant="getSubmitVariant(data.value?.status)"
                 :scale="$button.pending.scale"
                 :label="getSubmitLabel(data.value?.status)"
                 @click.native.stop="buttonClicked(data.value)"
                 :disabled="isSubmitted"
-              ></bib-button>
+              ></bib-button> -->
             </div>
           </div>
         </div>
@@ -110,6 +139,7 @@
 <script>
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import { sortColumn } from "@/utils/functions/table-sort";
+import { mapState } from "vuex";
 import {
   TABLE_HEAD,
   MONTH_VIEW_TIMESHEET_STATUS as TIMESHEET_STATUS,
@@ -172,6 +202,13 @@ export default {
     };
   },
   computed: {
+    ...mapState("token", ["isAdmin", "isUser", "subr"]),
+    isOrganizationAdmin() {
+      return (
+        this.$store.state.token.hrmRole === USER_ROLES.ADMIN ||
+        this.$store.state.token.hrmRole === USER_ROLES.MANAGER
+      );
+    },
     TIMESHEET_STATUS() {
       return TIMESHEET_STATUS;
     },
@@ -197,6 +234,9 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     submitTimesheet,
+    shouldShowTimesheetSubmitReminderIcon(status) {
+      return status !== "approved" && status !== "pending";
+    },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {
         this.sortByField.header_icon.isActive = false;

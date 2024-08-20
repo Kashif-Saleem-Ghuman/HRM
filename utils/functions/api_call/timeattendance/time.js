@@ -4,14 +4,15 @@ import { DateTime } from "luxon"
 import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications"
 
 export async function getTimeAttendance(payload) {
-  const { date, searchString } = payload
+  const { date, actionKey, searchString } = payload
   
   try {
     const url = `/timesheets/admin/daily`
     const config = createConfig();
     config.params = {
       date,
-      searchString
+      searchString,
+      actionKey
     }
     const { data } = await hrmApiAxiosInstance.get(
       url,
@@ -80,9 +81,9 @@ export async function approveTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -98,9 +99,9 @@ export async function pastDueBatchApproveTimesheets(request) {
       request,
       config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -116,10 +117,10 @@ export async function rejectTimesheets({ timesheetIds }) {
         ids,
         config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
 
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -135,10 +136,10 @@ export async function pastDueBatchRejectTimesheets(request) {
       request,
       config
     );
-    this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+    this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
 
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -210,11 +211,11 @@ export async function getAdminTimesheetWidget({ from, to }) {
 export async function getAdminCelebrationWidget() {
   try {
     const config = createConfig();
-    const timesheetData = await hrmApiAxiosInstance.get(
+    const celebration = await hrmApiAxiosInstance.get(
       "/widgets/admin/celebration/",
       config
     );
-      return timesheetData.data
+      return celebration.data
   } catch (e) {
     console.error(e);
   }
@@ -329,14 +330,16 @@ export async function rejectPastDueTimesheet({ id, date, employeeId, refusalReas
   }
 }
 
-export async function rejectTimesheet({ id, refusalReason}) {
+export async function getAdminWidget() {
   try {
-    const url = `/timesheets/admin/reject/${id}`;
     const config = createConfig();
-    const { data } = await hrmApiAxiosInstance.post(url, {refusalReason}, config);
-    return data
-  } catch (error) {
-    // console.error(error);
+    const celebration = await hrmApiAxiosInstance.get(
+      "widgets/admin/count",
+      config
+    );
+      return celebration.data
+  } catch (e) {
+    console.error(e);
   }
 }
 

@@ -11,13 +11,13 @@
             :key="refreshCard"
           >
             <info-card-leave-vacation
-              title="Vacation"
+              :title="$button.PTO.label"
               :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
               :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
               :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
               :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
-              buttonLable="Request Vacation"
-              icon="airplane-solid"
+              :buttonLable="$button.PTO.buttonLable"
+              :icon="$button.PTO.icon"
               className="button-wrapper__bgsucess"
               :variant="$button.approved.variant"
               @on-click="addLeaves(REQUEST_TYPES.VACATION)"
@@ -25,12 +25,12 @@
               @update="setAllowance"
             ></info-card-leave-vacation>
             <info-card-leave-vacation
-              title="Medical/Sick"
+              :title="$button.MEDICAL.label"
               :daysUsed="allowanceLeavesDetailedData.medicalDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
-              buttonLable="Request Medical Leave"
-              icon="medical-clinic-solid"
+              :buttonLable="$button.MEDICAL.buttonLable"
+              :icon="$button.MEDICAL.icon"
               className="button-wrapper__bgalert"
               :variant="$button.approved.variant"
               @on-click="addLeaves(REQUEST_TYPES.MEDICAL)"
@@ -39,12 +39,12 @@
             ></info-card-leave-vacation>
 
             <info-card-leave-vacation
-              title="Personal Leave"
+              :title="$button.UNPAID.label"
               :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.leaveDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.leaveDaysScheduled"
-              buttonLable="Request Personal Leave"
-              icon="accessibility-cognitive-disability-solid"
+              :buttonLable="$button.UNPAID.buttonLable"
+              :icon="$button.UNPAID.icon"
               className="button-wrapper__bgwarnning"
               :variant="$button.approved.variant"
               @on-click="addLeaves(REQUEST_TYPES.LEAVE)"

@@ -22,6 +22,15 @@ export function getCurrentYear() {
   this.fromDate = DateTime.fromISO(firstDay).startOf("day").toUTC().toISO();
   this.toDate = DateTime.fromISO(lastDay).endOf("day").toUTC().toISO();
 }
+export function getDateRanges() {
+  const now = DateTime.local();
+  const thisMonthStart = now.startOf('month').toUTC().toISO(); // July 1
+  const nextMonthWeekEnd = now.plus({ weeks: 1 }).endOf('week').toUTC().toISO(); // August 4
+
+  return {
+    nextWeek: { start: thisMonthStart, end: nextMonthWeekEnd },
+  };
+}
 export function getCurrentWeek() {
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
@@ -29,6 +38,7 @@ export function getCurrentWeek() {
 
   var firstday = new Date(curr.setDate(first)).toUTCString();
   var lastday = new Date(curr.setDate(last)).toUTCString();
+  return {firstday, lastday}
 }
 export function sendMeet(userId) {
   var genratedId = userId;
@@ -45,21 +55,7 @@ export function handleItemClick_Table(item, event) {
   this.$router.push("/profile/" + item);
 }
 
-export function getEmployeeInitials(employee) {
-  if (!employee) return "";
-  const { firstName, lastName } = employee;
-  return firstName?.charAt(0) + lastName?.charAt(0);
-}
 
-export function getEmployeeFullName(employee) {
-  if (!employee) return "";
-  const { firstName, lastName } = employee;
-  const capitalize = (name) => {
-    if (!name) return "";
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-  };
-  return `${capitalize(firstName)} ${capitalize(lastName)}`;
-}
 const START_YEAR = 2023;
 export function generateYearList() {
   const currentDate = new Date();

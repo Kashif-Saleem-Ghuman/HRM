@@ -9,8 +9,11 @@ import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { Employee } from "../components/common/models/employee";
 import { Timesheet } from "../components/common/models/timesheet";
 import { cloneDeep } from "lodash";
-import { MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
-import {getChronometerDuration, checkIsManualEntry, isDateToday,} from "@/utils/functions/timer";
+import {ACTIVITY_TYPE, MAX_TIMER_DURATION_HOUR, TIME_ENTRY_SOURCE} from "../utils/constant/Constant";
+import {
+  getChronometerDuration,
+  isDateToday,
+} from "@/utils/functions/timer";
 
 export const state = () => ({
   timer: {
@@ -19,10 +22,16 @@ export const state = () => ({
     type: null,
     active: null,
   },
+  breakTimer: {
+    id: null,
+    start: null,
+    end: null,
+    type: null,
+    active: null,
+  },
   dailyTimeEntries: [],
   dailyTimeEntriesToday: [],
   chronometer: 0,
-  isTimerRunning: false,
   employeesAttendance: null,
   timesheetToday: null,
   viewFrom: false,
@@ -31,6 +40,9 @@ export const state = () => ({
 export const getters = {
   getTimerData(state) {
     return state.timer;
+  },
+  getBreakTimerData(state) {
+    return state.breakTimer;
   },
   getDailyTimeEntries(state) {
     return state.dailyTimeEntries;
@@ -47,17 +59,17 @@ export const mutations = {
   },
 
   SET_TIMER_DATA: (state, payload) => {
-    const { start, end, type, active } = payload;
-    state.timer.start = start || 0;
-    state.timer.end = end || 0;
-    state.timer.type = type;
-    state.timer.active = active || false;
+    state.timer = payload.timer;
+  },
+
+  SET_BREAK_TIMER_DATA: (state, payload) => {
+    state.breakTimer = payload.breakTimer;
   },
 
   RESET_TIME_ATTENDANCE_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = [];
   },
-  
+
   SET_DAILY_TIME_ENTRIES: (state, payload) => {
     state.dailyTimeEntries = payload;
   },
@@ -87,8 +99,8 @@ export const mutations = {
 export const actions = {
   async getEmployeesAttendance({ state, commit }, payload) {
     try {
-      const { date, searchString } = payload
-      const { employees = [] } = await getTimeAttendance({ date, searchString });
+      const { date, actionKey, searchString } = payload
+      const { employees = [] } = await getTimeAttendance({ date, actionKey, searchString });
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");
@@ -105,7 +117,7 @@ export const actions = {
     }
   },
 
-  async stopTimer({ commit }, { timer }) {
+  async stopTimer({ commit, state }, { timer }) {
     try {
       let end = DateTime.now().toUTC().toISO();
       if (timer && timer.active) {
@@ -116,11 +128,12 @@ export const actions = {
           end = timerStart.plus({ hours: MAX_TIMER_DURATION_HOUR }).toISO()
         }
       }
-      await stopTimer({ end })
+      await stopTimer({ id: state.timer.id, end, activity: ACTIVITY_TYPE.IN, source: TIME_ENTRY_SOURCE.SOURCE_TIMER })
     } catch (error) {
       console.error(error);
     }
-    commit("SET_TIMER_DATA", {})
+    commit("SET_TIMER_DATA", {timer: {}})
+    commit('SET_BREAK_TIMER_DATA', {breakTimer: {}});
   },
 
 
@@ -131,8 +144,7 @@ export const actions = {
     } catch (error) {
       console.error(error);
     }
-    commit("SET_TIMER_DATA", {})
-    commit("SET_IS_TIMER_RUNNING", { status: false });
+    commit("SET_TIMER_DATA", { timer: {} })
   },
 
   async setTimerData(ctx, employeeId = '') {
@@ -148,38 +160,47 @@ export const actions = {
           },
         }
       );
-      ctx.commit("SET_TIMER_DATA", leaveVacations.data);
+      ctx.commit("SET_TIMER_DATA", { timer: leaveVacations.data });
       return leaveVacations.data;
     } catch (e) {
       console.log(e);
     }
     this.loading = false;
   },
-  
+
   resetTimeAttendanceEntries(ctx) {
     ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
   },
 
-  async setDailyTimeEntries(ctx, date = new Date().toISOString()) {
+  async setDailyTimeEntries(ctx, date = null) {
     try {
-      const startOfDay = DateTime.fromISO(date).startOf('day').toUTC().toISO();
+      const reqDate = date ?? DateTime.now().toISODate();
+      const startOfDay = DateTime.fromISO(reqDate).startOf('day').toUTC().toISO();
       const { data } = await axios.get(
-        process.env.API_URL + `/timesheets/daily?date=${date}`,
+        process.env.API_URL + `/timesheets/daily?date=${reqDate}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         },
       );
-      ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
-      if(!ctx.state.isTimerRunning && isDateToday(startOfDay)){
-        const chronometerDuration = getChronometerDuration(data.timeEntries)
-        ctx.commit("SET_CHRONOMETER", { chronometer: chronometerDuration });
-      }
+
+
+      date && ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
+
       if (isDateToday(startOfDay)) {
-        checkIsManualEntry(data.timeEntries) && ctx.commit("SET_CHRONOMETER", { chronometer: 0 });
-        ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries);
+
+        !ctx.state.timer.active && ctx.commit("SET_CHRONOMETER", {
+          chronometer: getChronometerDuration(data.timeEntries)
+        });
+
+        // Setting up Today time entries
+        ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries || []);
         ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
+
+        // Setting up the timer
+        ctx.commit("SET_TIMER_DATA", {timer: data?.activeTimeEntry || {}});
+        ctx.commit('SET_BREAK_TIMER_DATA', {breakTimer: data?.activeBreak || {}});
       }
       return data
     } catch (e) {

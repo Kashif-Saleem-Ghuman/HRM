@@ -9,8 +9,8 @@
       ></bib-avatar>
       <div>
         <div class="user_card_detail align-center d-flex">
-          <label :title="getEmployeeFullName(user)">
-            {{ getEmployeeFullName(user) | truncate(truncateText, "...") }}
+          <label :title="$getEmployeeFullName(user)">
+            {{ $getEmployeeFullName(user) | truncate(truncateText, "...") }}
             <span>
               {{ user.jobTitle }}
             </span>
@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 
 export default {
   name: "UserCardInfo",
@@ -102,7 +101,6 @@ export default {
   }
   },
   methods: {
-    getEmployeeFullName,
     sendMail(mail) {
       window.location.href = "mailTo:" + mail;
     },

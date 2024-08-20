@@ -6,8 +6,11 @@
 @import "./updatelib.scss";
 @import "./usercard.scss";
 @import "./tablefooter.scss";
+@import "./clockcard.scss";
+@import "./sectionheader.scss";
 @import "./table.scss";
 @import "./chipwrapper.scss";
+@import "./settings.scss";
 
 .light-theme {
   body {
@@ -72,6 +75,7 @@
         margin-right: 1rem;
         font-size: 14px;
         font-weight: 500;
+        color: $gray1 !important;
       }
     }
     .tabs button:hover {

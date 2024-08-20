@@ -26,7 +26,7 @@
           >
             <bib-avatar
               variant="secondary-sub3"
-              :text="getEmployeeInitials(data.value)"
+              :text="$getEmployeeInitials(data.value)"
               text-variant="primary"
               size="2.3rem"
               v-show="data.value.photo === null"
@@ -53,11 +53,11 @@
           <div class="info_wrapper w-100 cursor-pointer">
             <div
               class="employee-name-label"
-              :title="getEmployeeFullName(data.value)"
+              :title="$getEmployeeFullName(data.value)"
               :class="isLightThemeCheck ? 'text-dark' : 'light'"
             >
               {{
-                getEmployeeFullName(data.value) | truncate(truncateText, "...")
+                $getEmployeeFullName(data.value) | truncate(truncateText, "...")
               }}
             </div>
             <div :class="isLightThemeCheck ? 'text-dark' : 'light'">
@@ -66,6 +66,7 @@
           </div>
         </div>
       </template>
+      
       <template
         v-for="(day, dayIndex) in employeeData"
         #[`cell(${day.key})`]="data"
@@ -76,10 +77,17 @@
           </div>
         </div>
       </template>
+      <template #cell(dateOfBirth)="data">
+        <div class="justify-between cursor-pointer">
+          <span>{{
+            onLoad(data.value.dateOfBirth)
+          }}</span>
+        </div>
+      </template>
       <template #cell(hiredate)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
-            data.value.hireDate == null ? "---" : onLoad(data.value.hireDate)
+            onLoad(data.value.hireDate)
           }}</span>
         </div>
       </template>
@@ -121,10 +129,6 @@ import {
   meetLink,
   makeCall,
 } from "../../../utils/functions/functions_lib";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../utils/functions/common_functions";
 
 import { sortColumn } from "../../../utils/functions/table-sort";
 import { DateTime } from "luxon";
@@ -172,8 +176,6 @@ export default {
   methods: {
     sendMessage,
     handleItemClick_Table,
-    getEmployeeFullName,
-    getEmployeeInitials,
     meetLink,
     makeCall,
     sortColumn(columnKey) {
@@ -198,6 +200,7 @@ export default {
     },
 
     onLoad(item) {
+      if(!item) return '---';
       return DateTime.fromISO(item).toFormat(DATETIME_FORMAT);
     },
 

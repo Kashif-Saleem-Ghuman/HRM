@@ -18,7 +18,12 @@
           <div class="d-flex align-center">
             <div v-if="view.value === 'month'" class="py-05">
               <div class="custom_date_picker">
-                <custom-date-selector :year.sync="year" :month.sync="month" :dates.sync="dates" />
+                <custom-date-selector
+                  :year.sync="year"
+                  :month.sync="month"
+                  :dates.sync="dates"
+                  :show-full-year-list="true"
+                />
               </div>
             </div>
             <bib-datetime-picker

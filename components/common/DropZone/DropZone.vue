@@ -120,7 +120,7 @@ export default {
     },
     deleteConfirmation(src) {
       if (src === "" || src === "null") {
-        this.openPopupNotification(7);
+        this.$openPopupNotification(7);
         return;
       }
       this.confirmastionMessageModal = true;
@@ -128,11 +128,11 @@ export default {
     maxFilesSize(file) {
       var fileSize = file[0].size / (1024 * 1024);
       if (file[0].type != IMAGE_TYPE[fileExt]) {
-        this.openPopupNotification(10);
+        this.$openPopupNotification(10);
         return;
       }
       if (fileSize > 2) {
-        this.openPopupNotification(5);
+        this.$openPopupNotification(5);
         return;
       }
     },

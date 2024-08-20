@@ -20,7 +20,7 @@
             ></drop-zone>
             <div class="ml-1">
               <aside style="text-transform: capitalize; font-weight: bold; font-size: 18px">
-                {{ getEmployeeFullName(form) }}
+                {{ $getEmployeeFullName(form) }}
               </aside>
               <aside style="font-weight: 400; font-size: 14px">
                 {{ form.jobTitle }}
@@ -361,7 +361,6 @@ import employeeAddressFields from "./forms/employee-address-fields";
 import employeeProfileFields from "./forms/employee-profile-fields";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "../../utils/constant/Constant";
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import timezones from "../../utils/constant/new_timezones";
 const COMMON_MESSAGE = {
   text: "The information is currently being updated. Please check back shortly.",
@@ -431,7 +430,6 @@ export default {
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getEmployeeFullName,
     meetLink,
     makeCall,
     async fetchEmployee() {
@@ -486,7 +484,7 @@ export default {
     },
     debouncedNotification(value) {
       if (!this.debounced) {
-        this.openPopupNotification(value);
+        this.$openPopupNotification(value);
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
@@ -503,7 +501,7 @@ export default {
         return this.debouncedNotification(6);
       }
       updateEmployee({ id: this.form.id, employee: form }).then((data) => {
-        // this.openPopupNotification(1);
+        // this.$openPopupNotification(1);
         this.$nuxt.$emit("top-nav-key", data);
         this.form = data;
         this.originalStateProvince = this.form.address.state;

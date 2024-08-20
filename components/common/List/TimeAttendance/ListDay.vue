@@ -13,6 +13,7 @@
         @edit-entry="editSpecificEntry"
         @delete-entry="deleteConfirmation"
         :date="date"
+        :todayDate="todayDate"
         :number="' #'+index"
         :listToday="listToday"
         @new-entry="makeNewTimeEntry"
@@ -23,7 +24,7 @@
         <div class="cell label">{{hoursText}}</div>
         <div class="cell total-hours">{{ total }}</div>
       </div>
-    </div>  
+    </div>
     <div class="px-1 py-1">
       <employee-summary
         :date="getSelectedDate()"
@@ -56,6 +57,7 @@ import { orderBy } from "lodash";
 import { deleteTimeEntry } from "@/utils/functions/functions_lib_api";
 import { DateTime } from "luxon";
 import { getSummaryByDate } from "../../../../utils/functions/api_call/summaries"
+import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
 const DELETE_MESSAGE = {
   confirmatinData: {
     title: "Delete Time Entry",
@@ -87,6 +89,11 @@ export default {
     disableIcons:{
       type: Boolean,
       default: false,
+    },
+    todayDate: {
+      required: true,
+      type: DateTime | Date | String,
+      default: DateTime.now().toFormat(DATETIME_FORMAT),
     }
     
   },
@@ -135,10 +142,8 @@ export default {
     },
   },
   methods: {
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
-    },
     
+
     deleteTimeEntry,
 
     getSelectedDate() {
@@ -158,9 +163,10 @@ export default {
       const id = this.idToDelete;
       await this.deleteTimeEntry(id);
       this.confirmastionMessageModal = false;
-      this.openPopupNotification(DELETE_MESSAGE.notification);
+      this.$openPopupNotification(DELETE_MESSAGE.notification);
       this.idToDelete = null;
       this.$emit("delete-entry", id);
+      this.$nuxt.$emit("update-timer");
       this.$nuxt.$emit("chronometer");
     },
     closeconfirmastionMessageModal() {
@@ -188,7 +194,7 @@ export default {
     this.getSummary()
     const breaks = this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK);
     const lastBreak = breaks[breaks.length-1];
-    if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) 
+    if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3)
     {
       const newBreakEntry = {
         activity: ACTIVITY_TYPE.BREAK,
@@ -211,7 +217,7 @@ export default {
     'entries': {
       handler(breaks) {
         const lastBreak = breaks[breaks.length - 1];
-        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3) 
+        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3)
         {
           const newBreakEntry = {
             activity: ACTIVITY_TYPE.BREAK,
@@ -263,7 +269,7 @@ export default {
     vertical-align: middle;
     text-align: left;
     font-weight: 600;
-    
+
     input {
       border: 0px !important;
       text-align: left !important;
@@ -298,7 +304,7 @@ export default {
       padding: 10px;
       border: $gray4 1px solid;
       border-top: none !important;
-      
+
     }
     :first-child {
       padding-left: 1rem;

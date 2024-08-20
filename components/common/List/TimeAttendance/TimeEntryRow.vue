@@ -11,7 +11,7 @@
           name="startTime"
           placeholder="--"
           @input="timeInputBlur"
-          :disabled="disabled"
+          :disabled="disabled || this.isTimerActive"
           class="timepicker_input"
         ></bib-time-picker-wrapper>
     </div>
@@ -21,7 +21,7 @@
         name="endTime"
         placeholder="--"
         @input="timeInputBlur"
-        :disabled="disabled"
+        :disabled="disabled || this.isTimerActive"
         class="timepicker_input"
       ></bib-time-picker-wrapper>
       <!-- <bib-input
@@ -72,6 +72,8 @@ import {
   ACTIVITY_TYPE,
   TIMESHEET_STATUSES,
 } from "../../../../utils/constant/Constant";
+import {mapGetters} from "vuex";
+import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 export default {
   props: {
     entry: {
@@ -86,13 +88,21 @@ export default {
       type: String,
       default: "",
     },
+    todayDate: {
+      type: String | DateTime | Date,
+      default: null
+    }
   },
   data() {
     return {
       newData: { ...this.entry, startTime: null, endTime: null },
+      dateNow: DateTime.now().startOf('day'),
     };
   },
   computed: {
+    ...mapGetters({
+      getTimerData: "timeattendance/getTimerData",
+    }),
     isBreak() {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
@@ -123,6 +133,10 @@ export default {
         ? this.$store.state.timeattendance.timer
         : null;
     },
+    isSelectedTodayDate () {
+      const todayDate = DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).startOf('day');
+      return this.dateNow.equals(todayDate);
+    },
     disabled() {
       return (
         this.newData.activity === ACTIVITY_TYPE.IN &&
@@ -130,6 +144,9 @@ export default {
         this.timer &&
         isToday(this.date)
       );
+    },
+    isTimerActive() {
+      return this.getTimerData?.active && this.isSelectedTodayDate || false;
     },
     isActivityIN() {
       return this.newData.activity === ACTIVITY_TYPE.IN;
@@ -178,20 +195,20 @@ export default {
       this.$store.dispatch("app/addNotification", { notification });
     },
     handleWrapperClick() {
-      if (this.disabled && this.timer){
+      if ((this.disabled && this.timer) || this.isTimerActive){
         this.debouncedNotification();
       }
     },
     debouncedNotification() {
       if (!this.debounced) {
-        this.openPopupNotification({
+        this.$openPopupNotification({
           text: "Please clock out to edit the time entry for the day.",
           variant: "danger",
         });
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
-        }, 3000); 
+        }, 3000);
       }
     },
     getTimeFromDate,
@@ -233,7 +250,7 @@ export default {
         });
 
         if (editedEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entry updated successfully",
             variant: "primary",
           });
@@ -320,7 +337,7 @@ export default {
           breakEntryStartTime >= inEntryStartTime &&
           breakEntryEndTime <= inEntryEndTime;
         // if (!isBreakAfterInEntry) {
-        //   this.openPopupNotification({
+        //   this.$openPopupNotification({
         //     text: "Your existing break is not within work entry time range",
         //     variant: "danger",
         //   });
@@ -347,7 +364,7 @@ export default {
         const inEntryStartTime = this.getDateFromTime(this.startTime);
         const isBreakAfterStart = breakEntryStartTime > inEntryStartTime;
         if (!isBreakAfterStart) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Your break cannot be before work start time",
             variant: "danger",
           });
@@ -376,7 +393,7 @@ export default {
         const isBreakWithinInEntry =
           breakStartTime > inEntryStartTime && breakEndTime < inEntryEndTime;
         if (!isBreakWithinInEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             // text: "Break start time and end time must be within in entry start and end time",
             text: "Break must be within work entry time range",
             variant: "danger",
@@ -396,7 +413,7 @@ export default {
         const timerStartTime = DateTime.fromISO(this.timer.start).toJSDate();
         const isBreakAfterTimerStart = breakStartTime > timerStartTime;
         if (!isBreakAfterTimerStart) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Break start time cannot be before timer start time",
             variant: "danger",
           });
@@ -423,7 +440,7 @@ export default {
 
       // if (this.isStartDateGreatherThanNow()) {
       //   this.startTime = undefined;
-      //   return this.openPopupNotification({
+      //   return this.$openPopupNotification({
       //     text: "Start time cannot be greater than current time",
       //     variant: "danger",
       //   });
@@ -431,7 +448,7 @@ export default {
 
       // if (this.isEndDateGreatherThanNow()) {
       //   this.endTime = undefined;
-      //   return this.openPopupNotification({
+      //   return this.$openPopupNotification({
       //     text: "End time cannot be greater than current time",
       //     variant: "danger",
       //   });
@@ -464,7 +481,7 @@ export default {
         );
 
         if (newEntry) {
-          this.openPopupNotification({
+          this.$openPopupNotification({
             text: "Time entry added successfully",
             variant: "primary",
           });
@@ -520,7 +537,7 @@ export default {
   .icon {
     margin-right: -10px !important;
   }
-  
+
 }
 .uneditable-cell {
   label {

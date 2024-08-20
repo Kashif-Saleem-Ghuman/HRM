@@ -18,46 +18,6 @@
   .pop {
     border: 1px solid $border-primary !important;
   }
-  //     .vdpComponent__input {
-  //       color: $gray5 !important;
-  //   }
-  //   .vdpComponent__input:hover {
-  //     color: $white !important;
-  //     background-color: $black;
-  //     border: 1px solid $white !important;
-  // }
-  // .table {
-  //   &__hrow {
-  //     background-color: $dark !important;
-  //     color: $gray7 !important;
-  //     th {
-  //       border: $border-primary 1px solid !important;
-  //     }
-  //     &__active {
-  //       border: 10px solid red !important;
-  //     }
-  //   }
-
-  //   &__irow {
-  //     color: $gray7 !important;
-  //     background-color: $dark;
-  //     td {
-  //       border: 1px solid $border-primary !important;
-  //       color: $gray7 !important;
-  //     }
-  //     &:hover {
-  //       cursor: default;
-  //       background-color: $dark-sub2 !important;
-  //       border-color: $border-primary;
-  //       td {
-  //         border-left: $border-primary 1px solid !important;
-  //       }
-  //     }
-  //   }
-  //   .icon {
-  //     fill: $white !important;
-  //   }
-  // }
   .table .table__hrow__active {
     border-bottom: 1px solid $border-primary !important;
     border-left: 1px solid $border-primary !important;
@@ -205,9 +165,9 @@
   .page_title {
     color: var(--bib-secondary);
   }
-  .tiptap{
-    a{
+  .tiptap {
+    a {
       color: $primary-sub1 !important;
     }
-  } 
+  }
 }

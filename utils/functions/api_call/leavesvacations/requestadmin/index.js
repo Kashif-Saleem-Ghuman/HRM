@@ -19,7 +19,7 @@ export async function getPendingLeaveVacationsAdmin(payload) {
     this.loading = false;
     this.$nuxt.$emit("pending-key");
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -38,10 +38,10 @@ export async function multiApproveLeaveRequests({requestIds}) {
      config
     );
     this.$nuxt.$emit("pending-key");
-    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });
@@ -59,10 +59,10 @@ export async function approveLeaveRequest(payload) {
      config
     );
     this.$nuxt.$emit("pending-key");
-    this.openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
+    this.$openPopupNotification(LEAVE_NOTIFICATIN_MESSAGE.approved);
     this.requestListApproveData = approveLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    this.openPopupNotification({
+    this.$openPopupNotification({
       text: e.response.data.message,
       variant: "danger",
     });

@@ -105,7 +105,7 @@ export default {
         }
       } catch (error) {
         console.error("Error downloading file:", error);
-        this.openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
+        this.$openPopupNotification(NOTIFICATION_MESSAGES.ERROR_DOWNLOAD);
       }
     },
     openPopupNotification(notification) {

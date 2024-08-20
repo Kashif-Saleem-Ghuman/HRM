@@ -1,0 +1,37 @@
+.light-theme {
+}
+.dark-theme {
+  .info-card-timer {
+    background: $dark;
+    &__border_light {
+      border: 1px solid $dark-sub3;
+    }
+    label {
+      color: $light;
+    }
+
+    .info-card-items {
+      .subheading {
+        color: $light;
+      }
+
+      .timer-value {
+        color: $light;
+      }
+    }
+    .activity-wrapper {
+      .activity-item {
+        .activity-items {
+          border-bottom: 1px solid $dark-sub3;
+
+          &__border_light {
+            label {
+              color: $light;
+            }
+            border-bottom: 1px solid $dark-sub3;
+          }
+        }
+      }
+    }
+  }
+}

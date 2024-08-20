@@ -6,12 +6,14 @@ import {ACTIVITY_TYPE} from "@/utils/constant/Constant";
 export async function startTimer() {
   const config = createConfig();
   try {
-    const url = "/timers/start";
+    const url = "/time-entries  ";
     const timer = await hrmApiAxiosInstance.post(
       url,
       {
-        date: DateTime.now().startOf("day").toUTC().toISO(),
+        date: DateTime.now().toISODate(),
         start: DateTime.now().toUTC().toISO(),
+        activity: "in",
+        source: "timer",
       },
       config
     );
@@ -25,11 +27,11 @@ export async function startTimer() {
   }
 }
 
-export async function stopTimer({ end }) {
+export async function stopTimer({ id, end, activity, source }) {
   const config = createConfig();
-  const url = "/timers/stop";
+  const url = "/time-entries/" + id;
   try {
-    const timer = await hrmApiAxiosInstance.put(url, { end }, config);
+    const timer = await hrmApiAxiosInstance.put(url, { end, activity, source }, config);
     return timer.data;
   } catch (e) {
     console.error(e);

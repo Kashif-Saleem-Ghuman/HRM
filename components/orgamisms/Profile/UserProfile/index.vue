@@ -3,8 +3,8 @@
     <loader :loading="loading"></loader>
     <section-header-left
       :title="
-        getEmployeeFullName(form) != 'undefined undefined'
-          ? getEmployeeFullName(form)
+        $getEmployeeFullName(form) != 'undefined undefined'
+          ? $getEmployeeFullName(form)
           : '---'
       "
       :avatar="form.photo"
@@ -36,11 +36,6 @@
 import { mapGetters } from "vuex";
 import { USER_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
-
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "../../../../utils/functions/common_functions";
 
 export default {
   data() {
@@ -86,8 +81,6 @@ export default {
     this.$nuxt.$off("routeChanged", this.routeChangeHandler);
   },
   methods: {
-    getEmployeeFullName,
-    getEmployeeInitials,
     backToPage() {
       switch (true) {
         case this.previousPath === "/time-attendance/attendance/":

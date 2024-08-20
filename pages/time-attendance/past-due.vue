@@ -229,7 +229,7 @@ export default {
         };
         await this.rejectPastDueTimesheet(rejectPayload);
       }
-      this.openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+      this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
     },
   },
 };

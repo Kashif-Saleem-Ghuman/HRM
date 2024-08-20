@@ -17,6 +17,6 @@ export async function submitTimesheet(id) {
     );
     return response.data;
   } catch (e) {
-    this.openPopupNotification({text:e.response.data.message, variant:'danger'})
+    this.$openPopupNotification({text:e.response.data.message, variant:'danger'})
   }
 }

@@ -2,8 +2,8 @@
   <div class="my-profile-wrapper">
       <section-header-left
         :title="
-          getEmployeeFullName(form) != 'undefined undefined'
-            ? getEmployeeFullName(form)
+          $getEmployeeFullName(form) != 'undefined undefined'
+            ? $getEmployeeFullName(form)
             : '---'
         "
         :key="topNav"
@@ -50,10 +50,7 @@ import { mapGetters } from "vuex";
 import { EMPLOYEE_PROFILE_TAB } from "../../../../utils/constant/Constant.js";
 
 import { vfileAdded } from "../../../../utils/functions/functions_lib.js";
-import {
-  getEmployeeFullName,
-  getEmployeeInitials,
-} from "@/utils/functions/common_functions";
+
 
 import fecha from "fecha";
 import getJson from "../../../../utils/dataJson/app_wrap_data";
@@ -94,8 +91,6 @@ mounted(){
     this.form = users;
   },
   methods: {
-    getEmployeeFullName,
-    getEmployeeInitials,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },

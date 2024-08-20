@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import { getEmployeeFullName } from "@/utils/functions/common_functions";
 import { DateTime } from 'luxon';
 
 export default {
@@ -52,9 +51,6 @@ export default {
       manager:'',
     };
   },
-  methods:{
-    getEmployeeFullName,
-  }
 };
 </script>
 <style lang="scss">

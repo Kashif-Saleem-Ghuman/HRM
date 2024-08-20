@@ -1,53 +1,52 @@
 import { mapGetters } from "vuex";
 import { FILL_DAILY_ENTRY_EVENT, MAX_TIMER_DURATION_HOUR } from "../utils/constant/Constant";
 import { DateTime } from 'luxon';
-import {getTimeDiffInSeconds} from "@/utils/functions/common_functions";
-import {
-  startTimer,
-  stopTimer
-} from "@/utils/functions/functions_lib_api";
+import { getChronometerDuration } from "@/utils/functions/timer";
+import { getBreakChronometerDuration } from "../utils/functions/timer";
 const EmitValurChronometer = 'chronometer';
+var chronometerInterval = null;
 export default {
-  data() {
-    return {
-      chronometerInterval: null,
-    };
-  },
 
   computed: {
     chronometer() {
       return this.$store.state.timeattendance.chronometer;
     },
-
-    isTimerRunning() {
-      return this.$store.state.timeattendance.isTimerRunning;
-    },
-
     active() {
       return this?.getTimerData?.active || false;
+    },
+    isBreakActive() {
+      return this.getBreakTimerData?.active || false;
     },
 
     ...mapGetters({
       getTimerData: "timeattendance/getTimerData",
+      getBreakTimerData: "timeattendance/getBreakTimerData",
     }),
   },
   methods: {
-    startTimer,
-    openPopupNotification(notification) {
-      this.$store.dispatch("app/addNotification", { notification })
+
+    setChronometerDuration() {
+      let chronometer = 0
+
+      if(this.isBreakActive) {
+        chronometer = getBreakChronometerDuration(this.getBreakTimerData);
+      }else {
+        chronometer = getChronometerDuration(this.getDailyTimeEntries);
+      }
+     
+      this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
+      
+      return chronometer;
     },
-    startTimerInterval(isVisibilityChange = false) {
-      if (this.active && !this.isTimerRunning) {
-        this.timerLoading = true;
-        
-        if (!this.isTimerRunning)
-          this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-            status: true,
-          });
-        if(isVisibilityChange) {
-          this.timerCallbackFunc();
-        }
-        this.chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
+    
+    async startTimerInterval(isVisibilityChange = false) {
+      if(isVisibilityChange) {
+        await this.$store.dispatch('timeattendance/setDailyTimeEntries');
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+       
+      }if (this.active && !chronometerInterval) {
+        isVisibilityChange && this.timerCallbackFunc();
+        chronometerInterval = setInterval(this.timerCallbackFunc, 1000);
       }
     },
 
@@ -55,13 +54,7 @@ export default {
       const now = DateTime.local();
       this.time = new Date().toTimeString().split(" ")[0];
       this.date = new Date().toDateString();
-      const setCurrentDate = now.toISODate();
-      const chronometer = this.getTimerData.active && !this.getTimerData.start
-        ? 0
-        : getTimeDiffInSeconds(this.getTimerData.start, new Date());
-      if(this.getTimerData.start != 0){
-        this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer });
-      }
+      let chronometer = this.setChronometerDuration();
       const MAX_DURATION_TIMER = MAX_TIMER_DURATION_HOUR * 60 * 60;
       if (chronometer >= MAX_DURATION_TIMER) {
         this.stopClick = true;
@@ -74,32 +67,27 @@ export default {
         await this.stopTimer(timer);
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       }
-      this.timerLoading = false;
     },
     async stopTimer(timer = null) {
-      if (!this.isTimerRunning) {
-        return; // Stop the method if the timer is not running
-      }
+      this.loading = true;
       this.clearChronometerInterval();
-      this.$store.commit("timeattendance/SET_IS_TIMER_RUNNING", {
-        status: false,
-      });
       await this.$store.dispatch("timeattendance/stopTimer", { timer });
-
-      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+      this.loading = false;
     },
     async clearChronometerInterval() {
-      clearInterval(this.chronometerInterval);
-      this.chronometerInterval = null;
-      // this.$store.commit("timeattendance/SET_CHRONOMETER", { chronometer: 0 });
+      clearInterval(chronometerInterval);
+      chronometerInterval = null;
     },
 
     async handleStartTimer() {
       if (this.active) return;
-
-      await this.startTimer();
-
-      await this.$store.dispatch("timeattendance/setTimerData");
+      this.loading = true;
+      await this.$store.dispatch("timeattendance/startTimer");
+      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+      this.loading = false;
     },
     registerDefaultValueChronometer() {
       this.$root.$on(EmitValurChronometer, () => {
@@ -109,22 +97,29 @@ export default {
     unregisterDefaultValueChronometer() {
       this.$root.$off(EmitValurChronometer);
     },
+    unRegisterUpdateTimerListener() {
+      this.$root.$off('update-timer');
+    },
     registerRootListeners() {
       this.registerDefaultValueChronometer();
+      this.registerUpdateTimerListener();
     },
     unregisterRootListeners() {
       this.unregisterDefaultValueChronometer();
+      this.unRegisterUpdateTimerListener();
     },
   },
   watch: {
-    active() {
-      if (!this.chronometerInterval) {
+    active(val) {
+      if (!chronometerInterval) {
         this.startTimerInterval();
       }
     },
-    isTimerRunning(val) {
-      if (!val && this.chronometerInterval) {
-        this.clearChronometerInterval();
+    isBreakActive(val) {
+      if(val) {
+        this.clearChronometerInterval()
+      }else {
+        this.startTimerInterval();
       }
     },
   },

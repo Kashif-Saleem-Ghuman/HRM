@@ -20,6 +20,7 @@ export const TABLE_HEAD = {
     {
       key: "status",
       label: "Status",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-status-sort",
@@ -82,7 +83,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "name",
-      label: "Employee",
+      label: "Name",
       width: `${100 / 4.3}%`,
       header_icon: {
         icon: "long-arrow-up",
@@ -103,7 +104,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "phone",
-      label: "Telephone",
+      label: "Phone number",
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -132,6 +133,16 @@ export const TABLE_HEAD = {
       },
     },
     {
+      key: "dateOfBirth",
+      label: "Birthday",
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "dateOfBirth",
+        type: "string",
+      },
+    },
+    {
       key: "hiredate",
       label: "Hire Date",
       header_icon: {
@@ -139,6 +150,89 @@ export const TABLE_HEAD = {
         isActive: false,
         sortKey: "hireDate",
         type: "date",
+      },
+    },
+  ],
+  tHeadDirectory: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+      width: `${100 / 4.3}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "firstName",
+        type: "string",
+      },
+    },
+    {
+      key: "email",
+      label: "Email",
+      width: `${100 / 5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "email",
+        type: "string",
+      },
+    },
+    {
+      key: "status",
+      label: "Status",
+      width: `${100 / 6.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "presence",
+        type: "string",
+      },
+    },
+    {
+      key: "jobTitle",
+      label: "Job Title",
+      width: `${100 / 6.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "jobTitle",
+        type: "string",
+      },
+    },
+    {
+      key: "department",
+      label: "Department",
+      width: `${100 / 6.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "department",
+        type: "string",
+      },
+    },
+    {
+      key: "dateOfBirth",
+      label: "Birthday",
+      width: `${100 / 6.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "dateOfBirth",
+        type: "string",
+      },
+    },
+    {
+      key: "location",
+      label: "Location",
+      width: `${100 / 5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        isActive: false,
+        sortKey: "location",
+        type: "string",
       },
     },
   ],
@@ -554,7 +648,7 @@ export const TABLE_HEAD = {
     {
       key: "type",
       label: "Leave Type",
-      width: `${100 / 8.5}%`,
+      width: `${100 / 7.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-type-sort",
@@ -615,6 +709,97 @@ export const TABLE_HEAD = {
       key: "action",
       label: "Action",
     },
+  ],
+  tHeadComingUp: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Employee Name",
+      width: `${100 / 4.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-name-sort",
+        isActive: false,
+        sortKey: "employee.firstName",
+        type: "string",
+      },
+    },
+    {
+      key: "type",
+      label: "Leave Type",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-type-sort",
+        isActive: false,
+        sortKey: "type",
+        type: "string",
+      },
+    },
+    {
+      key: "from",
+      label: "From",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-start-sort",
+        isActive: false,
+        sortKey: "start",
+        type: "date",
+      },
+    },
+    {
+      key: "to",
+      label: "To",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-end-sort",
+        isActive: false,
+        sortKey: "end",
+        type: "date",
+      },
+    },
+    {
+      key: "total",
+      label: "Total",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "leave-total-sort",
+        isActive: false,
+        sortKey: "duration",
+        type: "number",
+      },
+    },
+    {
+      key: "status",
+      label: "Status",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-status-sort",
+        isActive: false,
+        sortKey: "status",
+        type: "string",
+      },
+    },
+    {
+      key: "received",
+      label: "Received",
+      width: `${100 / 7.5}%`,
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "employee-start-sort",
+        isActive: false,
+        sortKey: "start",
+        type: "date",
+      },
+    },
+    
   ],
   tHeadWeekView: [
     {
@@ -692,6 +877,16 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
 ];
 export const LEAVEVACATION_TAB = [
   {
+    title: "Coming Up",
+    value: "Comingup",
+    route: "/leaves-and-vacations/comingup/",
+  },
+  {
+    title: "List",
+    value: "List",
+    route: "/leaves-and-vacations/leavelist/",
+  },
+  {
     title: "Dashboard",
     value: "Dashboard",
     route: "/leaves-and-vacations/dashboard/",
@@ -705,14 +900,24 @@ export const LEAVEVACATION_TAB = [
 ];
 export const TIME_ATTENDANCE_TAB = [
   {
-    title: "Attendance",
-    value: "Attendance",
+    title: "Today",
+    value: "Today",
     route: "/time-attendance/attendance/",
   },
   {
-    title: "Timesheets",
-    value: "Timesheets",
+    title: "Week",
+    value: "Week",
     route: "/time-attendance/timesheets/",
+  },
+  {
+    title: "Month",
+    value: "Month",
+    route: "/time-attendance/month/",
+  },
+  {
+    title: "Year",
+    value: "Year",
+    route: "/time-attendance/year/",
   },
   {
     title: "Pending",
@@ -740,6 +945,25 @@ export const DOWNLOAD_REPORT_TAB = [
     title: "Time Sheet",
     value: "timesheetReport",
     route: "/reports/timesheet-report/",
+  },
+];
+export const EMPLOYEE_DIRECTORY = [
+  {
+    title: "List",
+    value: "list",
+    route: "/employee-directory/list/",
+  },
+  {
+    title: "Board",
+    value: "board",
+    route: "/employee-directory/board/",
+  }
+];
+export const SETTINGS_TAB = [
+  {
+    title: "Time & Attendance",
+    value: "timesheetReport",
+    route: "/settings/time-attendance/",
   },
 ];
 export const TABLE_FIELDS = [
@@ -1343,6 +1567,11 @@ export const ACTIVITY_TYPE = {
   OTHER:"other"
 };
 
+export const TIME_ENTRY_SOURCE = {
+  SOURCE_MANUAL: "manual",
+  SOURCE_TIMER: "timer"
+}
+
 export const ACTIVITY_TYPE_LABEL_VALUE = {
   [ACTIVITY_TYPE.VACATION]: "Vacation",
   [ACTIVITY_TYPE.LEAVE]: "Leave",
@@ -1374,13 +1603,13 @@ export const REQUEST_STATUS = {
 
 export const REQUEST_TYPE_OPTIONS = {
   [REQUEST_TYPES.LEAVE]: {
-    label: "Request Leave",
+    label: "Request Unpaid Leave",
     value: "request_leave",
     icon: "exit-to-app-solid",
     type: REQUEST_TYPES.LEAVE,
   },
   [REQUEST_TYPES.VACATION]: {
-    label: "Request Vacation",
+    label: "Request Paid Time-Off",
     value: "request_vacation",
     icon: "airplane",
     type: REQUEST_TYPES.VACATION,
@@ -1441,5 +1670,12 @@ export const PAST_DUE_TYPE = "past_due";
 export const MONTH_SELECTOR_ICONS = {
   CLOSE: 'close',
   ARROW_DOWN: 'arrowhead-down'
+}
+
+export const WELCOME_MESSAGE = {
+  MORNING: 'Good Morning!',
+  AFTERNOON: 'Good Afternoon!',
+  EVENING: 'Good Evening!',
+  NIGHT: 'Good Night!',
 }
 

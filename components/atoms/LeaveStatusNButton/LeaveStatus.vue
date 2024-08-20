@@ -1,6 +1,15 @@
-!
 <template>
-  <div class="button-override">
+  <div v-if="isPlainStatus" class="button-override">
+    <chips
+      :title="getStatusLabel(resolvedStatus)"
+      iconShow="iconShow"
+      :icon="getStatusIcon(resolvedStatus)"
+      :variant="[getStatusVariant(resolvedStatus)]"
+      :defaultPointer="true"
+      :className="['width-auto']"
+    ></chips>
+  </div>
+  <div v-else>
     <bib-button
       :label="$getStatusLabelName(resolvedStatus)"
       :variant="$getStatusVariantName(resolvedStatus)"
@@ -15,7 +24,10 @@
 </template>
 
 <script>
+import {getStatusIcon, getStatusVariant, getStatusLabel} from "@/utils/functions/status";
+
 export default {
+  methods: {getStatusVariant, getStatusIcon, getStatusLabel},
   props: {
     leaveStatusData: {
       type: [Object, String],
@@ -30,6 +42,10 @@ export default {
       type:Boolean
     },
     defaultPointer: {
+      type: Boolean,
+      default: false,
+    },
+    isPlainStatus: {
       type: Boolean,
       default: false,
     },

@@ -195,7 +195,7 @@ import {mapGetters} from 'vuex'
    makeCall
  } from "@/utils/functions/functions_lib";
  import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
- import {PAST_DUE_TYPE, PENDING_TYPE, WEEK_DAY} from "../../utils/constant/Constant";
+ import {PAST_DUE_TYPE, PENDING_TYPE, WEEK_DAY} from "@/utils/constant/Constant";
 /**
  * @module Orgamisms/BibTable
  * @author Ihab Benbouziyane
@@ -255,9 +255,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+    }
   },
   data() {
     return {
+      PENDING_TYPE: PENDING_TYPE,
+      PAST_DUE_TYPE: PAST_DUE_TYPE,
       cols: [],
       item: {},
       isCollapsed: this.collapseObj ? this.collapseObj.collapsed : false,

@@ -18,7 +18,7 @@
         <custom-timesheet-list
           :employees="timesheetsList"
           :loading="loading"
-          type="past_due"
+          type="month"
         ></custom-timesheet-list>
       </div>
     </div>

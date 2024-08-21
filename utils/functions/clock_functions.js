@@ -1,5 +1,5 @@
 import {DateTime} from "luxon";
-import {getTimeFromDate} from "@/utils/functions/dates";
+import { getDateDiffInSeconds } from "@/utils/functions/dates";
 
 export function formatTime(timeInSeconds, includeSeconds = true) {
   if (timeInSeconds <= 0) return includeSeconds ? "00:00:00" : "00:00"
@@ -39,12 +39,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
       .split(' ')
       [0];
 
-    totalSeconds = Math.floor(
-      (
-        new Date(clockInTimeEntry.end).getTime()
-        - new Date(clockInTimeEntry.start).getTime()
-      ) / 1000
-    );
+    totalSeconds = getDateDiffInSeconds(clockInTimeEntry.start, clockInTimeEntry.end);
   }
 
   const breaks = timeEntries.filter((t) => t.activity === 'break');
@@ -52,13 +47,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   for (let entry of breaks) {
     if (!entry.end) continue
 
-    const start = getTimeFromDate(entry.start);
-    const end = getTimeFromDate(entry.end);
-
-    const startDateTime =DateTime.fromFormat(start, "HH:mm");
-    const endDateTime = DateTime.fromFormat(end, "HH:mm");
-
-    breaksSeconds += endDateTime.diff(startDateTime, "seconds").seconds;
+    breaksSeconds += getDateDiffInSeconds(entry.start, entry.end);
 
   }
 

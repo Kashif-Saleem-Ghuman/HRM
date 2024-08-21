@@ -54,6 +54,14 @@ export const getTimeFromDate = (date) => {
   return DateTime.fromISO(date).toFormat("HH:mm");
 };
 
+export const getDateDiffInSeconds = (start, end) => {
+  const startFormatted = getTimeFromDate(start);
+  const endFormatted = getTimeFromDate(end);
+
+  const startDateTime =DateTime.fromFormat(startFormatted, "HH:mm");
+  const endDateTime = DateTime.fromFormat(endFormatted, "HH:mm");
+  return endDateTime.diff(startDateTime, "seconds").seconds;
+}
 export const getDateDiffInMinutes = (start, end) => {
   if (!start || !end) return null;
 

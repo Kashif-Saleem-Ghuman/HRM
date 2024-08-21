@@ -223,7 +223,79 @@ export default {
         }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
       }
     },
-    
+
+    clockOutDebouncedNotification() {
+      if (!this.clockoutDebounced && !this.debounced) {
+        this.$openPopupNotification({
+          text: "Please back to work to clock out",
+          variant: "danger",
+        });
+        this.clockoutDebounced = true;
+        setTimeout(() => {
+          this.clockoutDebounced = false;
+        }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
+      }
+    },
+    calculateDates() {
+      const now = DateTime.now();
+      const currentDate = now.toISODate();
+      const currentTime = now.toISO();
+      return {
+        date: currentDate,
+        ...(!this.isBreakActive && {
+          startDate: currentTime,
+        }),
+        ...(this.isBreakActive && {
+          endDate: currentTime,
+        }),
+        ...(this.isBreakActive && {
+          id: this.$store.state.timeattendance.breakTimer.id,
+        }),
+      };
+    },
+    async makeBreakEntry() {
+      const { id, startDate, endDate, date } = this.calculateDates();
+      const activityType = "break";
+      const source = "timer";
+
+      this.loading = true;
+      try {
+        const makeTimeEntry = !this.isBreakActive
+          ? await this.makeTimeEntry(
+            activityType,
+            date,
+            startDate,
+            endDate,
+            source
+          )
+          : await this.editTimeEntry({
+            id,
+            date,
+            start: startDate,
+            end: endDate,
+            activity: activityType,
+            source,
+          });
+
+        if (makeTimeEntry) {
+          this.$openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
+        }
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+        await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
+        await this.startTimerInterval();
+      } catch (error) {
+        this.$openPopupNotification({
+          text: error.response.data.message,
+          variant: 'danger',
+        })
+      } finally {
+        this.loading = false;
+      }
+    },
+
     async handleClockInOutClick() {
       if (this.active) {
         this.stopClick = true;
@@ -231,6 +303,19 @@ export default {
         this.$nuxt.$emit("timer-stop");
       } else {
         await this.handleStartTimer();
+      }
+    },
+
+    async handleBreakInOutClick() {
+      try {
+        if (!this.active)
+          return false;
+        this.makeBreakEntry();
+      } catch (error) {
+        this.$openPopupNotification({
+          text: error.response.data.message,
+          variant: 'danger',
+        })
       }
     },
 

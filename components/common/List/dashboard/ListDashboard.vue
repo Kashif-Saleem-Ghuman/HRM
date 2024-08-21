@@ -25,6 +25,7 @@
         >
           <bib-avatar
             variant="secondary-sub3"
+            :text="$getEmployeeInitials(data.value)"
             size="2.3rem"
             v-show="data.value.photo === null"
           ></bib-avatar>

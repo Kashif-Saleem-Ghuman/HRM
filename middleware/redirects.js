@@ -10,10 +10,12 @@ export default async function ({ route, redirect, store, app }) {
     userRole = store.state.token.isAdmin ? USER_ROLES.ADMIN : USER_ROLES.USER;
     localStorage.setItem("userRole", userRole);
   }
+
   if (path === "/" || path === "/home/") {
-    if (userRole === USER_ROLES.ADMIN || store.state.token.isAdmin) {
+    // Use route.path instead of this.$router.currentRoute.path
+    if (path !== ADMIN_HOME_PATH && (userRole === USER_ROLES.ADMIN || store.state.token.isAdmin)) {
       return redirect(ADMIN_HOME_PATH);
-    } else if (userRole === USER_ROLES.USER) {
+    } else if (path !== USER_HOME_PATH && userRole === USER_ROLES.USER) {
       return redirect(USER_HOME_PATH);
     }
   }

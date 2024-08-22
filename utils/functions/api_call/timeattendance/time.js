@@ -343,3 +343,14 @@ export async function getAdminWidget() {
   }
 }
 
+export async function rejectTimesheet({ id, refusalReason}) {
+  try {
+    const url = `/timesheets/admin/reject/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.post(url, {refusalReason}, config);
+    return data
+  } catch (error) {
+    // console.error(error);
+  }
+}
+

@@ -24,9 +24,8 @@ export function getChronometerDuration(todayTimeEntries) {
   }
 
   const timerChronometer = getTimeDiffInSeconds(inTimeEntry.getStart(), inTimeEntry.getEnd());
-  const breakChronometer = calculateBreakTotalChronometer(timeEntries);
 
-  return Math.max(0, timerChronometer - breakChronometer);
+  return timerChronometer;
 }
 
 export function getBreakChronometerDuration(breakEntry) {

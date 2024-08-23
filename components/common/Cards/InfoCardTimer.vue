@@ -23,8 +23,9 @@
           :disabled="isTimerLoading"
         ></bib-button>
       </div>
+
       <div v-else class="d-flex justify-center gap-1">
-        <div class="w-100">
+        <div class="w-100" v-if="active && !isConfirmationOpen">
           <bib-button
             :label="buttonLable"
             :variant="buttonVariant"
@@ -34,6 +35,17 @@
             :disabled="isTimerLoading"
           ></bib-button>
         </div>
+        <div
+          v-if="active && isConfirmationOpen"
+          class="w-100"
+        >
+          <div class="w-100 bg-warning p-05 text-center shape-rounded" :style="{backgroundColor: '#ffecec'}">
+          <span class="text-danger" :style="{fontWeight: 'bold'}">End your day?
+            <span class="cursor-pointer" @click="handleClockInOutClick()">Yes</span> /
+            <span class="cursor-pointer" @click="handleConfirmationButton()">No</span>
+          </span>
+          </div>
+        </div>
         <div class="w-100" v-if="!active">
           <bib-button
             label="Absent"
@@ -42,12 +54,12 @@
             @click="handleClockInOutClick()"
           ></bib-button>
         </div>
-        <div class="w-100" v-if="active" @click="handleClockOutWrapperClick">
+        <div class="w-100" v-if="active && !isConfirmationOpen" @click="handleClockOutWrapperClick">
           <bib-button
             label="Clock out"
             variant="light"
             class="button-wrapper-align w-100"
-            @click="handleClockInOutClick()"
+            @click="handleConfirmationButton()"
             :disabled="isTimerLoading || isBreakActive"
           ></bib-button>
         </div>
@@ -71,12 +83,12 @@
           </div>
           <div class="activity-items">
             <label>Overtime</label>
-            <span>{{ activityDetails.total }}</span>
+            <span>{{ activityDetails.overtime }}</span>
           </div>
         </div>
         <div class="activity-item gap-1">
           <div class="activity-items">
-            <label>Total</label>
+            <label>Total work hours</label>
             <span>{{ activityDetails.total }}</span>
           </div>
         </div>
@@ -144,6 +156,7 @@ export default {
       debounced: false,
       clockoutDebounced: false,
       dateNow: DateTime.now().startOf('day'),
+      isConfirmationOpen: false,
     };
   },
 
@@ -304,6 +317,8 @@ export default {
       } else {
         await this.handleStartTimer();
       }
+
+      this.isConfirmationOpen = false;
     },
 
     async handleBreakInOutClick() {
@@ -319,6 +334,9 @@ export default {
       }
     },
 
+    handleConfirmationButton() {
+      this.isConfirmationOpen = !this.isConfirmationOpen;
+    },
     handleVisibilityChange() {
       if (document.hidden) {
         this.clearChronometerInterval();
@@ -387,9 +405,12 @@ export default {
       return this.dateNow.equals(todayDate);
     },
     cardBorderClass() {
+      if(this.active && this.isConfirmationOpen) {
+        return "info-card-timer__border_danger";
+      }
       if (this.active && !this.isBreakActive) {
         return "info-card-timer__border_success";
-      } else if (this.active && this.isBreakActive) {
+      } if (this.active && this.isBreakActive) {
         return "info-card-timer__border_warning";
       }
       return "info-card-timer__border_light";
@@ -429,6 +450,9 @@ export default {
   }
   &__border_warning {
     border: 1px solid $warning;
+  }
+  &__border_danger {
+    border: 1px solid $danger;
   }
   label {
     font-size: 1rem !important;

@@ -21,7 +21,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   // there is no out time before there is a timeEntry record
   let outTime = null;
 
-  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in');
+  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in' && t.end);
 
   let breaksSeconds = 0;
   let totalSeconds = 0;
@@ -57,7 +57,8 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
     out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
-    breaks: formatTime(breaksSeconds, false),
-    total: formatTime(totalSeconds, false),
+    breaks: !breaksSeconds ? '--:--' : formatTime(breaksSeconds, false),
+    total: !totalSeconds ? '--:--' :  formatTime(totalSeconds, false),
+    overtime: '--:--',
   };
 }

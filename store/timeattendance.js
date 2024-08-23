@@ -99,8 +99,7 @@ export const mutations = {
 export const actions = {
   async getEmployeesAttendance({ state, commit }, payload) {
     try {
-      const { date, actionKey, searchString } = payload
-      const { employees = [] } = await getTimeAttendance({ date, actionKey, searchString });
+      const { employees = [] } = await getTimeAttendance(payload);
       employees.forEach((employee) => {
         const parser = new TimesheetParser(employee);
         return parser.parse("day");

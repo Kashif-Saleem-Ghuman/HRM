@@ -144,17 +144,19 @@ export default {
       progressKey: 0,
       employeeList: {},
       MAX_VISIBLE_AVATARS: 3,
+      isShowAllClicked : false,
     };
   },
   computed: {
     filteredWidgets() {
+      this.progressKey += 1;
       if (!this.visibleWidgetKeys || this.visibleWidgetKeys.length === 0) {
         return this.widgets;
       }
       const widgetKeys = this.visibleWidgetKeys;
 
       // Update avatars based on widget key
-      this.updateAvatars(widgetKeys);
+      !this.isShowAllClicked && this.updateAvatars(widgetKeys);
 
       return this.widgets.filter((widget) => widgetKeys.includes(widget.key));
     },
@@ -175,17 +177,21 @@ export default {
     },
     handleClick(clickedWidget) {
       if (clickedWidget.key === "pending_timesheets_count") {
-        this.$router.push("/time-attendance/attendance/");
-      } else {
-        this.widgets.forEach((widget) => {
-          if (widget.key === clickedWidget.key) {
-            widget.showingAll = !widget.showingAll;
-          } else {
-            widget.showingAll = false;
-          }
-        });
-        this.$emit("clickedWidget", clickedWidget.actionKey);
+        this.$router.push("/time-attendance/pending/");
+      }else if(clickedWidget.key === "pending_requests_count") {
+        this.$router.push("/leaves-and-vacations/pendingrequest/");
       }
+
+      this.widgets.forEach((widget) => {
+        if (widget.key === clickedWidget.key) {
+          widget.showingAll = !widget.showingAll;
+        } else {
+          widget.showingAll = false;
+        }
+      });
+
+      this.isShowAllClicked = true;
+      this.$emit("clickedWidget", clickedWidget.actionKey, clickedWidget.actionValue);
     },
     getPercentageValue(widget) {
       const totalEmployees = this.totalData.length;

@@ -64,8 +64,8 @@
           ></bib-input>
         </div>
         <div class="w-50">
-          <label class="font-w-600 custom-color">Rollover</label>
           <bib-input
+            label="Rollover"
             v-model="formData.isRollover"
             :options="rolloverOptions"
             @input="updateFormData('isRollover', $event)"

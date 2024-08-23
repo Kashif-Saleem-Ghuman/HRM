@@ -189,6 +189,11 @@ export default {
           default:
             return item;
         }
+      }).filter((item) => {
+        if (item.label === "Accrued" && this.leaveType !== "vacation") {
+          return false;
+        }
+        return true;
       });
     },
     getpercentageValue() {

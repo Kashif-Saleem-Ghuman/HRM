@@ -20,13 +20,4 @@ export const LEAVE_STATS = [
     { value: "not-paid", label: "Not Paid" },
   ];
   
-  // Allowance Options
-  export const ALLOWANCE_OPTIONS = [
-    { value: "null", label: "" },
-    { value: "10", label: "10" },
-    { value: "15", label: "15" },
-    { value: "20", label: "20" },
-    { value: "30", label: "30" },
-    { value: "40", label: "40" },
-  ];
   

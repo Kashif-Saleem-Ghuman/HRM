@@ -80,6 +80,12 @@ const buttonConfig = {
     buttonLable: "Request Unpaid Leave",
     icon:"accessibility-cognitive-disability-solid"
   },
+  SETTINGS: {
+    label: "Settings",
+    buttonLable: "Settings",
+    icon:"add",
+    variant: "primary-24",
+  },
 };
 
 export default function buttonPlugin({ app }, inject) {

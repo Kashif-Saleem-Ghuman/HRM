@@ -1,16 +1,41 @@
 <template>
   <div>
-    <div class="add-leave-wrapper min-z-index">
-      <medical-section
-        :totalAllowance="allowanceLeavesDetailedData.medicalDaysAllowed"
-        :dayUsed="allowanceLeavesDetailedData.medicalDaysUsed"
-        :scheduledDays="allowanceLeavesDetailedData.medicalDaysScheduled"
-      ></medical-section>
+    <div class="add-leave-wrapper">
+      <div class="pb-1" style="margin-top: -20px;">
+        <leaves-settings-section
+          sectionTitle="Leave"
+          :totalAllowance="getLeaveAllowance.leaveDaysAllowed"
+          :dayUsed="getLeaveAllowance.leaveDaysUsed"
+          :scheduledDays="getLeaveAllowance.leaveDaysScheduled"
+          leaveType="leave"
+          :leaveButton="true"
+          :settingButtons="false"
+          :leaveTypeField="true"
+        ></leaves-settings-section>
+      </div>
+      <leaves-settings-section
+        sectionTitle="Vacations"
+        :totalAllowance="getLeaveAllowance.vacationDaysAllowed"
+        :dayUsed="getLeaveAllowance.vacationDaysUsed"
+        :scheduledDays="getLeaveAllowance.vacationDaysScheduled"
+        :accrued="getLeaveAllowance.accrued"
+        leaveType="vacation"
+      ></leaves-settings-section>
+      <div class="py-1">
+        <leaves-settings-section
+          sectionTitle="Medical Leave"
+          :totalAllowance="getLeaveAllowance.medicalDaysAllowed"
+          :dayUsed="getLeaveAllowance.medicalDaysUsed"
+          :scheduledDays="getLeaveAllowance.medicalDaysScheduled"
+          leaveType="medical"
+        ></leaves-settings-section>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   props: {},
   data() {
@@ -19,27 +44,11 @@ export default {
       allowanceLeavesDetailedData: [],
     };
   },
-  async created() {
-    this.id = this.$route.params.id;
-    this.$store.commit("employee/SET_SELECTED_EMPLOYEE_ID", {
-      employeeId: this.id,
-    });
-
-    await this.$store
-      .dispatch("leavesdata/setLeaveVacationsAllowance", {
-        id: Number(this.id),
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      })
-      .then((result) => {
-        this.allowanceLeavesDetailedData = result;
-      });
-  },
+  async created() {},
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",
-      getformToDate: "leavevacation/getformToDate",
-      getLeaveVacationUser: "leavevacation/getLeaveVacationUser",
+      getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
 
     balanceLeaveValue() {
@@ -58,5 +67,3 @@ export default {
   methods: {},
 };
 </script>
-
-</style>

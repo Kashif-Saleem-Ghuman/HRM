@@ -236,6 +236,7 @@ export default {
     closeSidebar() {
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("close-sidebar-main");
+      this.$nuxt.$emit("close-sidebar-settings");
     },
 
     openRequestVacation() {

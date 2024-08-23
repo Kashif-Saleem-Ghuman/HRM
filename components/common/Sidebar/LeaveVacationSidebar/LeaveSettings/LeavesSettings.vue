@@ -18,7 +18,7 @@
         :totalAllowance="getLeaveAllowance.vacationDaysAllowed"
         :dayUsed="getLeaveAllowance.vacationDaysUsed"
         :scheduledDays="getLeaveAllowance.vacationDaysScheduled"
-        :accrued="getLeaveAllowance.accrued"
+        :accrued="getLeaveAllowance.vacationDaysAccrued"
         leaveType="vacation"
       ></leaves-settings-section>
       <div class="py-1">

@@ -97,6 +97,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 import {
   LEAVE_STATS,
   ROLLOVER_OPTIONS,
@@ -189,6 +191,11 @@ export default {
           default:
             return item;
         }
+      }).filter((item) => {
+        if (item.label === "Accrued" && this.leaveType !== "vacation") {
+          return false;
+        }
+        return true;
       });
     },
     getpercentageValue() {
@@ -244,13 +251,18 @@ export default {
     },
     async fetchLeaveSettings() {
       try {
-        const result = await getEmployeeLeaveSettings(this.id);
+        const result = await this._fetchLeaveSettings();
         this.leavesDetailedData = result;
         this.reloadData += 1;
       } catch (error) {
         console.error("Error fetching leave settings:", error);
       }
     },
+
+    _fetchLeaveSettings: debounce(async function () {
+      const result = await getEmployeeLeaveSettings(this.id);
+      return result;
+    }, 300), 
 
     async updateLeaveSettings(payload) {
       if (!payload || Object.keys(payload).length === 0) {
@@ -277,6 +289,10 @@ export default {
         });
       }
     },
+  },
+  mounted() {
+    this.id = this.$route.params.id;
+    this.fetchLeaveSettings();
   },
 };
 </script>

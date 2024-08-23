@@ -9,7 +9,7 @@ export function Employee(employee) {
   };
 
   this.isPresent = () => {
-    return this.hasActiveTimer() || this.hasInEntry();
+    return this.hasActiveTimer() || this.hasInEntry() || this.presence === ACTIVITY_TYPE.IN;
   };
 
   this.hasInEntry = () => {

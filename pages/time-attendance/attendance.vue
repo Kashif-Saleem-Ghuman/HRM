@@ -39,17 +39,18 @@
         @clickedWidget="generateOrganizationEntries"
         :visibleWidgetKeys="[
           'employees_present_count',
-          'employees_on_leave_count',
           'employees_absent_count',
+          'employees_on_leave_count',
         ]"
-        :totalData="employees"
+        :totalData="widgetUser"
         :progressCountShow="true"
       ></base-widget-admin>
     </div>
 
     <div class="scroll_wrapper">
-      <div>
-        <list-dashboard :userList="employees"></list-dashboard>
+      <div class="position-relative">
+        <no-record v-if="showNoData"></no-record>
+        <list-dashboard v-else :userList="employees"></list-dashboard>
         <loader :loading="loading"></loader>
       </div>
     </div>
@@ -71,6 +72,7 @@ export default {
       maxDate: DateTime.now().toISO(),
       searchString: null,
       todayDate: DateTime.now().startOf("day").toFormat(DATETIME_FORMAT),
+      widgetUser: [],
     };
   },
 
@@ -81,6 +83,9 @@ export default {
       }
       return this.formatDate(this.date);
     },
+    showNoData() {
+      return !this.loading && (!this.employees || !this.employees?.length);
+    },
   },
 
   methods: {
@@ -89,7 +94,7 @@ export default {
       this.searchString = event;
       if (this.loading) return;
       const isoDate = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISO();
-      this.generateOrganizationEntries(isoDate);
+      this.generateOrganizationEntries();
     },
     isDateToday(date) {
       return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(
@@ -111,31 +116,27 @@ export default {
       )
         return;
       this.date = value === "" ? this.todayDate : value;
-      this.generateOrganizationEntries(
-        DateTime.fromFormat(this.date, DATETIME_FORMAT).toUTC().toISO()
-      );
+      this.generateOrganizationEntries();
     },
 
-    async generateOrganizationEntries(isoDate, actionKey) {
-      const date = DateTime.fromJSDate(new Date(isoDate)).toFormat(
-        "yyyy-MM-dd"
-      );
+    async generateOrganizationEntries(actionKey = null, actionValue = null) {
+      const date = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISODate();
       const { searchString } = this;
       this.loading = true;
       this.employees = await this.$store
-        .dispatch("timeattendance/getEmployeesAttendance", {
-          date,
-          actionKey,
-        })
+        .dispatch("timeattendance/getEmployeesAttendance", { date, [actionKey]: actionValue, searchString: searchString })
         .finally(() => {
           this.loading = false;
         });
+      console.log('loggg==', actionKey, actionValue);
+      if(actionKey == null){
+        this.widgetUser = this.employees;
+      }
     },
   },
 
   created() {
-    const nowIso = DateTime.now().startOf("day").toUTC().toISO();
-    this.generateOrganizationEntries(nowIso);
+    this.generateOrganizationEntries();
   },
 };
 </script>

@@ -4,16 +4,11 @@ import { DateTime } from "luxon"
 import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "@/utils/constant/Notifications"
 
 export async function getTimeAttendance(payload) {
-  const { date, actionKey, searchString } = payload
-  
+
   try {
     const url = `/timesheets/admin/daily`
     const config = createConfig();
-    config.params = {
-      date,
-      searchString,
-      actionKey
-    }
+    config.params = payload;
     const { data } = await hrmApiAxiosInstance.get(
       url,
       config

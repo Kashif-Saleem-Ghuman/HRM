@@ -97,11 +97,13 @@ export default {
   },
   methods: {
     getDatetimeCommonProps,
-    async getOrganizationEntries(actionKey) {
+    async getOrganizationEntries(actionKey, actionValue) {
+
+
       const date = this.getCurrentDate;
       const employees = await this.$store.dispatch(
         "timeattendance/getEmployeesAttendance",
-        { date, actionKey }
+        { date, [actionKey]: actionValue }
       );
 
       employees.forEach((employee) => {

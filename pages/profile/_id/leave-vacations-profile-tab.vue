@@ -37,7 +37,7 @@
               :type="REQUEST_TYPES.MEDICAL"
               @update="setAllowance"
             ></info-card-leave-vacation>
-
+<!-- 
             <info-card-leave-vacation
               :title="$button.UNPAID.label"
               :daysUsed="allowanceLeavesDetailedData.leaveDaysUsed"
@@ -50,7 +50,17 @@
               @on-click="addLeaves(REQUEST_TYPES.LEAVE)"
               :type="REQUEST_TYPES.LEAVE"
               @update="setAllowance"
-            ></info-card-leave-vacation>
+            ></info-card-leave-vacation> -->
+            <info-card-settings
+              :title="$button.SETTINGS.label"
+              :buttonLable="$button.SETTINGS.buttonLable"
+              :icon="$button.SETTINGS.icon"
+              className="button-wrapper__bgwarnning"
+              :variant="$button.SETTINGS.variant"
+              @on-click="addLeavesSettings()"
+              :type="REQUEST_TYPES.LEAVE"
+              @update="setAllowance"
+            ></info-card-settings>
           </div>
           <div class="pt-05 d-flex justify-start">
             <dropdown-menu-calendar
@@ -218,6 +228,13 @@ export default {
     },
     addLeaves($event) {
       this.$nuxt.$emit("open-sidebar-admin", $event);
+      this.$nuxt.$emit("close-sidebar");
+      this.$nuxt.$emit("close-sidebar-settings");
+      this.$nuxt.$emit("add-leave");
+    },
+    addLeavesSettings() {
+      this.$nuxt.$emit("open-sidebar-settings");
+      this.$nuxt.$emit("close-sidebar-main");
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },

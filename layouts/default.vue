@@ -52,6 +52,7 @@
         <div id="main-content" :class="themeClassWrapper">
           <Nuxt />
           <add-leave-sidebar></add-leave-sidebar>
+          <settings-sidebar></settings-sidebar>
         </div>
         <loader :loading="loading"></loader>
       </template>

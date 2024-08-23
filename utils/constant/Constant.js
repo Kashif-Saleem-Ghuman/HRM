@@ -1679,3 +1679,5 @@ export const WELCOME_MESSAGE = {
   NIGHT: 'Good Night!',
 }
 
+export const FETCH_TIMESHEET_SETTING = 'fetch-timesheet-setting';
+

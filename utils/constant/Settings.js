@@ -2,43 +2,43 @@ export const WEEK_DAY = [
   { value: "null", label: "" },
   {
     label: "Monday",
-    value: "monday",
+    value: "MONDAY",
     weekday: 1,
   },
   {
     label: "Tuesday",
-    value: "tuesday",
+    value: "TUESDAY",
     weekday: 2,
   },
   {
     label: "Wednesday",
-    value: "wednesday",
+    value: "WEDNESDAY",
     weekday: 3,
   },
   {
     label: "Thursday",
-    value: "thursday",
+    value: "THURSDAY",
     weekday: 4,
   },
   {
     label: "Friday",
-    value: "friday",
+    value: "FRIDAY",
     weekday: 5,
   },
   {
     label: "Saturday",
-    value: "saturday",
+    value: "SATURDAY",
     weekday: 6,
   },
   {
     label: "Sunday",
-    value: "sunday",
+    value: "SUNDAY",
     weekday: 7,
   },
 ];
 export const PERIOD_OPTIONS = [
   { value: "null", label: "" },
-  { value: "daily", label: "Daily" },
-  { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
+  { value: "DAILY", label: "Daily" },
+  { value: "WEEKLY", label: "Weekly" },
+  { value: "MONTHLY", label: "Monthly" },
 ];

@@ -1,182 +1,50 @@
 <template>
   <div class="setting-wrapper py-1 mt-1 px-1 mx-1 w-50 shape-rounded">
-    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
-      <template>
-        <bib-detail-collapse
-          label="Timesheet Settings"
-          open
-          :variant="isLightThemeCheck ? 'dark' : 'light'"
-        >
-          <template v-slot:content>
-            <div class="row mx-0 px-1">
-              <div class="col-12 pb-2 helper-text" :class="isLightThemeCheck ? 'border-bottom-gray4' : 'border-bottom-dark-sub3'">Helper Text</div>
-            </div>
-            <div class="row mx-0 px-1">
-              <div class="col-3">
-                <bib-input
-                  label="Timesheets Period"
-                  name="period"
-                  v-model="form.period"
-                  :options="periodOptions"
-                  @input="handleInput('period', $event)"
-                  size="md"
-                  type="select"
-                ></bib-input>
-              </div>
-            </div>
-            <div class="row mx-0 px-1 d-flex align-end">
-              <div class="col-3">
-                <bib-input
-                  label="Timesheet start on"
-                  name="dayOn"
-                  v-model="form.dayOn"
-                  :options="dayOptions"
-                  size="md"
-                  type="select"
-                ></bib-input>
-              </div>
-              <div class="col-3">
-                <bib-time-picker-wrapper
-                  v-model="form.onTime"
-                  name="onTime"
-                  placeholder="--"
-                  @input="handleInput('onTime', $event)"
-                  class="ml-1 custom-margin"
-                ></bib-time-picker-wrapper>
-              </div>
-            </div>
-            <div class="row mx-0 px-1 d-flex align-end">
-              <div class="col-3">
-                <bib-input
-                  label="Timesheet end"
-                  name="dayEnd"
-                  v-model="form.dayEnd"
-                  :options="dayOptions"
-                  size="md"
-                  type="select"
-                ></bib-input>
-              </div>
-              <div class="col-3">
-                <bib-time-picker-wrapper
-                  v-model="form.endTime"
-                  name="endTime"
-                  placeholder="--"
-                  @input="handleInput('endTime', $event)"
-                  class="ml-1 custom-margin"
-                ></bib-time-picker-wrapper>
-              </div>
-            </div>
-            <div class="row mx-0 px-1">
-              <div class="col-3">
-                <bib-input
-                  label="Weekly Work Hours"
-                  type="number"
-                  class="input-field"
-                  v-model="form.hours"
-                  placeholder=""
-                  :min="10"
-                  :max="100"
-                ></bib-input>
-              </div>
-            </div>
-          </template>
-        </bib-detail-collapse>
-      </template>
-    </div>
-
-    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
-      <template>
-        <bib-detail-collapse
-          label="Daily Record"
-          open
-          :variant="isLightThemeCheck ? 'dark' : 'light'"
-        >
-          <template v-slot:content>
-            <div class="row mx-0 px-1">
-              <div class="col-12 pb-2 helper-text" :class="isLightThemeCheck ? 'border-bottom-gray4' : 'border-bottom-dark-sub3'">Helper Text</div>
-            </div>
-            <div class="row mx-0">
-              <div class="col-3">
-                <bib-time-picker-wrapper
-                  label="Clock-in Time"
-                  v-model="form.inTime"
-                  name="inTime"
-                  placeholder="--"
-                  @input="handleInput('inTime', $event)"
-                  class="ml-1"
-                ></bib-time-picker-wrapper>
-              </div>
-            </div>
-            <div class="row mx-0">
-              <div class="col-3">
-                <bib-time-picker-wrapper
-                  label="Clock-out Time"
-                  v-model="form.outTime"
-                  name="outTime"
-                  placeholder="--"
-                  @input="handleInput('outTime', $event)"
-                  class="ml-1"
-                ></bib-time-picker-wrapper>
-              </div>
-            </div>
-          </template>
-        </bib-detail-collapse>
-      </template>
-    </div>
+    <timesheet-setting :timesheetSetting="timesheetSettings" :organizationId="organizationId" />
   </div>
 </template>
 <script>
-import { WEEK_DAY, PERIOD_OPTIONS } from "@/utils/constant/Settings.js";
-import axios from "axios";
+import {mapGetters} from "vuex";
+import {getTimesheetSetting} from "@/utils/functions/api_call/admin-setting";
+import {FETCH_TIMESHEET_SETTING} from "@/utils/constant/Constant";
 
 export default {
   data() {
     return {
-      form: {}, // Blank form object
-      updateForm: {},
-      periodOptions: PERIOD_OPTIONS,
-      dayOptions: WEEK_DAY,
-      period: null,
-    };
+      timesheetSettings: null,
+    }
   },
+  computed: {
+    ...mapGetters({
+      organizationId: "organizations/organizationId",
+    })
+  },
+
   mounted() {
+    this.registerRootListener();
     this.fetchSettingsDetail();
   },
   methods: {
     async fetchSettingsDetail() {
-      try {
-        const response = await axios.get("/api/settings");
-        if (response.data) {
-          this.form = { ...response.data };
-        }
-      } catch (error) {
-        console.error("Failed to fetch settings:", error);
-      }
+      this.timesheetSettings = await getTimesheetSetting(this.organizationId);
     },
-    async handleInput(name, event) {
-      const value = event.target ? event.target.value : event;
-      this.form = {
-        ...this.form,
-        [name]: value,
-      };
-
-      this.updateForm = {
-        ...this.updateForm,
-        [name]: value,
-      };
-
-      // try {
-      //   const response = await axios.post(
-      //     "/api/update-timesheet",
-      //     this.updateForm
-      //   );
-      //   if (response.data) {
-      //     this.form = { ...response.data };
-      //   }
-      // } catch (error) {
-      //   console.error("API call failed:", error);
-      // }
+    registerTimesheetSettingListener() {
+      this.$root.$on(FETCH_TIMESHEET_SETTING, () => {
+        this.fetchSettingsDetail();
+      });
     },
+    unregisterTimesheetSettingListener() {
+      this.$root.$off(FETCH_TIMESHEET_SETTING);
+    },
+    registerRootListener() {
+      this.registerTimesheetSettingListener();
+    },
+    unregisterRootListener() {
+      this.unregisterTimesheetSettingListener()
+    },
+  },
+  beforeDestroy() {
+    this.unregisterRootListener();
   },
 };
 </script>
@@ -191,15 +59,15 @@ export default {
 
 .detail-collapse__header__title {
   position: relative;
-  z-index: 1; 
+  z-index: 1;
   margin-left:-10px;
   color:$black !important;
 }
 
 .icon {
   position: absolute;
-  right: 13px; 
-  z-index: 0; 
+  right: 13px;
+  z-index: 0;
 }
 }
 .detail-collapse__content {

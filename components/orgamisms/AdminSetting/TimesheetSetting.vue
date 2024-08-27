@@ -21,6 +21,7 @@
                   @input="handleInput('timesheetPeriod', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
             </div>
@@ -34,6 +35,7 @@
                   @input="handleInput('timesheetStartday', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
               <div class="col-3">
@@ -56,6 +58,7 @@
                   @input="handleInput('timesheetEndday', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
               <div class="col-3">
@@ -73,10 +76,10 @@
                 <bib-input
                   label="Weekly Work Hours"
                   type="number"
-                  class="input-field"
                   v-model="form.weeklyWorkHours"
                   @change="handleInput('weeklyWorkHours', $event)"
                   :min="10"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                   :max="100"
                 ></bib-input>
               </div>

@@ -46,8 +46,9 @@ export default class BaseTimesheetParser {
 
     let total = 0;
 
-    if (timeEntryIn && timeEntryOut) {
-      total = getDateDiffInMinutes(timeEntryIn, timeEntryOut);
+    if(timeEntryIn) {
+      const nowInHourMin = getTimeFromDate(DateTime.now());
+      total = timeEntryOut ? getDateDiffInMinutes(timeEntryIn, timeEntryOut) : getDateDiffInMinutes(timeEntryIn, nowInHourMin);
 
       if (totalBreakTime) {
         total -= totalBreakTime;

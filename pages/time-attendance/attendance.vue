@@ -37,13 +37,10 @@
     <div>
       <base-widget-admin
         @clickedWidget="generateOrganizationEntries"
-        :visibleWidgetKeys="[
-          'employees_present_count',
-          'employees_absent_count',
-          'employees_on_leave_count',
-        ]"
+        :visibleWidgetKeys="visibleWidgetKeys"
         :totalData="widgetUser"
         :progressCountShow="true"
+        :activeWidgetKey.sync="activeWidgetKey"
       ></base-widget-admin>
     </div>
 
@@ -73,6 +70,13 @@ export default {
       searchString: null,
       todayDate: DateTime.now().startOf("day").toFormat(DATETIME_FORMAT),
       widgetUser: [],
+      activeWidgetKey: null,
+      visibleWidgetKeys: [
+        'employees_present_count',
+        'employees_absent_count',
+        'employees_on_leave_count',
+      ],
+      isWidgetUserUpdated: false,
     };
   },
 
@@ -93,8 +97,7 @@ export default {
     onSearchChange(event) {
       this.searchString = event;
       if (this.loading) return;
-      const isoDate = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISO();
-      this.generateOrganizationEntries();
+      this.activeWidgetKey ? this.generateOrganizationEntries(this.activeWidgetKey, true) : this.generateOrganizationEntries();
     },
     isDateToday(date) {
       return DateTime.fromFormat(date, DATETIME_FORMAT).hasSame(
@@ -128,9 +131,9 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-      console.log('loggg==', actionKey, actionValue);
-      if(actionKey == null){
+      if(!this.isWidgetUserUpdated){
         this.widgetUser = this.employees;
+        this.isWidgetUserUpdated = true;
       }
     },
   },

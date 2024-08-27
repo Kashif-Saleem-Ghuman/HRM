@@ -128,7 +128,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-      console.log('loggg==', actionKey, actionValue);
       if(actionKey == null){
         this.widgetUser = this.employees;
       }

@@ -55,7 +55,6 @@
           >
             <span
               class="avatar__text mr-025 cursor-default position-relative cursor-pointer"
-y
             >
               ... {{ widget.avatars.length - MAX_VISIBLE_AVATARS }} more
               <div
@@ -135,6 +134,9 @@ export default {
     progressCountShow: {
       type: Boolean,
     },
+    activeWidgetKey: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -144,7 +146,6 @@ export default {
       progressKey: 0,
       employeeList: {},
       MAX_VISIBLE_AVATARS: 3,
-      isShowAllClicked : false,
     };
   },
   computed: {
@@ -156,7 +157,7 @@ export default {
       const widgetKeys = this.visibleWidgetKeys;
 
       // Update avatars based on widget key
-      !this.isShowAllClicked && this.updateAvatars(widgetKeys);
+      this.updateAvatars(widgetKeys);
 
       return this.widgets.filter((widget) => widgetKeys.includes(widget.key));
     },
@@ -169,7 +170,7 @@ export default {
           ...widget,
           value: data[widget.key] || 0,
           showingAll: false,
-          avatars: [], 
+          avatars: [],
         }));
 
         this.updateAvatars(this.visibleWidgetKeys);
@@ -182,16 +183,24 @@ export default {
         this.$router.push("/leaves-and-vacations/pendingrequest/");
       }
 
+      let matchedWidget = null;
       this.widgets.forEach((widget) => {
         if (widget.key === clickedWidget.key) {
           widget.showingAll = !widget.showingAll;
+          matchedWidget = widget;
         } else {
           widget.showingAll = false;
         }
       });
 
-      this.isShowAllClicked = true;
-      this.$emit("clickedWidget", clickedWidget.actionKey, clickedWidget.actionValue);
+      const widg = this.widgets.find(widget => widget.showingAll);
+      if(widg) {
+        this.$emit("clickedWidget", widg.actionKey, widg.actionValue);
+        this.$emit("update:activeWidgetKey", widg.actionKey);
+      }else {
+        this.$emit("clickedWidget");
+        this.$emit("update:activeWidgetKey", null);
+      }
     },
     getPercentageValue(widget) {
       const totalEmployees = this.totalData.length;

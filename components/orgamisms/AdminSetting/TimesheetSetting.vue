@@ -171,6 +171,10 @@ export default {
       try {
         const payload = { ...this.form, [name]: value }
         await updateTimesheetSetting(this.organizationId, payload);
+        this.$openPopupNotification({
+          text: "Settings updated successfully!",
+          variant: "success",
+        });
         this.$nuxt.$emit(FETCH_TIMESHEET_SETTING);
       } catch (error) {
         this.$openPopupNotification({

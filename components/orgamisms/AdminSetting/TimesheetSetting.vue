@@ -45,6 +45,7 @@
                   placeholder="--"
                   @input="handleInput('timesheetStart', $event)"
                   class="ml-1 custom-margin"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -68,6 +69,7 @@
                   placeholder="--"
                   @input="handleInput('timesheetEnd', $event)"
                   class="ml-1 custom-margin"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -108,6 +110,7 @@
                   placeholder="--"
                   @input="handleInput('clockInTime', $event)"
                   class="ml-1"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -120,6 +123,7 @@
                   placeholder="--"
                   @input="handleInput('clockOutTime', $event)"
                   class="ml-1"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>

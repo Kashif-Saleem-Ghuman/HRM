@@ -265,16 +265,24 @@ export default {
 
     async getApprovedTimesheets() {
       this.loading = true;
-      const requests = await this.$store.dispatch(
-        "leavevacation/setLeaveVacations",
-        {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-          search: this.searchString,
-          status: TIMESHEET_STATUSES.APPROVED,
-        }
-      );
-      this.setCalendarEvents(requests);
+      try {
+        const requests = await this.$store.dispatch(
+          "leavevacation/setLeaveVacations",
+          {
+            from: this.getformToDate.from,
+            to: this.getformToDate.to,
+            search: this.searchString,
+            status: TIMESHEET_STATUSES.APPROVED,
+          }
+        );
+        this.setCalendarEvents(requests);
+      } catch (errorMessage) {
+        this.$openPopupNotification({
+          text: errorMessage,
+          variant: 'danger',
+        })
+      }
+
       this.loading = false;
     },
     actionBY($event, key) {

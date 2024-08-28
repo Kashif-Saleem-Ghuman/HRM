@@ -67,6 +67,7 @@
       ></bib-button>
     </div>
     <div :class="themeClassWrapper">
+      <loader :loading="loading"></loader>
       <FullCalendar
         :options="calendarOptions"
         ref="fullCalendar"
@@ -131,6 +132,7 @@ export default {
     return {
       show: false,
       reloadData: 1,
+      loading: false,
       form: {},
       vacationType: "vacation",
       addLeaveKey: 0,
@@ -262,16 +264,26 @@ export default {
     },
 
     async getApprovedTimesheets() {
-      const requests = await this.$store.dispatch(
-        "leavevacation/setLeaveVacations",
-        {
-          from: this.getformToDate.from,
-          to: this.getformToDate.to,
-          search: this.searchString,
-          status: TIMESHEET_STATUSES.APPROVED,
-        }
-      );
-      this.setCalendarEvents(requests);
+      this.loading = true;
+      try {
+        const requests = await this.$store.dispatch(
+          "leavevacation/setLeaveVacations",
+          {
+            from: this.getformToDate.from,
+            to: this.getformToDate.to,
+            search: this.searchString,
+            status: TIMESHEET_STATUSES.APPROVED,
+          }
+        );
+        this.setCalendarEvents(requests);
+      } catch (errorMessage) {
+        this.$openPopupNotification({
+          text: errorMessage,
+          variant: 'danger',
+        })
+      }
+
+      this.loading = false;
     },
     actionBY($event, key) {
       this.$nuxt.$emit("open-sidebar-admin", $event, key);

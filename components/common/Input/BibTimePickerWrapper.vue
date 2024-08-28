@@ -7,6 +7,7 @@
       @change="onInput"
       @select-change="onInput"
       :disabled="disabled"
+      :styleObject="styleObject"
       :class="isLightThemeCheck ? 'bib-time-picker--light-theme' : 'bib-time-picker--dark-theme'"
       id="timePickerId"
     ></bib-time-picker>
@@ -35,6 +36,12 @@ export default {
     value: {
       type: String,
     },
+    styleObject: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
 
   data() {

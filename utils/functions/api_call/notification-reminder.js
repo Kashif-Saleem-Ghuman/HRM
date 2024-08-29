@@ -1,13 +1,13 @@
 import { createConfig } from "./config";
 import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
-export async function clockInReminder({ requestIds }) {
+export async function clockInReminder({ employeeIds }) {
   try {
     const url = "/employees/reminders/clock-in";
-    const requestId = { requestIds };
+    const employeeId = { employeeIds };
     const config = createConfig();
     const rejectLeaveVacationsAdmin = await hrmApiAxiosInstance.post(
       url,
-      requestId,
+      employeeId,
       config
     );
     this.$openPopupNotification({

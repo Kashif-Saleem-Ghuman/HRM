@@ -1,5 +1,6 @@
 import {DateTime} from "luxon";
 import { getDateDiffInSeconds } from "@/utils/functions/dates";
+import {MAX_WORK_HOUR} from "@/utils/constant/Constant";
 
 export function formatTime(timeInSeconds, includeSeconds = true) {
   if (timeInSeconds <= 0) return includeSeconds ? "00:00:00" : "00:00"
@@ -20,6 +21,8 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
     : null;
   // there is no out time before there is a timeEntry record
   let outTime = null;
+
+  let overTime = null;
 
   const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in' && t.end);
 
@@ -52,13 +55,15 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   }
 
   totalSeconds -= breaksSeconds;
-
+  if(totalSeconds > MAX_WORK_HOUR * 60 * 60){
+    overTime = totalSeconds - (MAX_WORK_HOUR * 60 * 60);
+  }
 
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
     out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
     breaks: !breaksSeconds ? '--:--' : formatTime(breaksSeconds, false),
     total: !totalSeconds ? '--:--' :  formatTime(totalSeconds, false),
-    overtime: '--:--',
+    overtime: overTime === null ? '--:--' : formatTime(overTime, false),
   };
 }

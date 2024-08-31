@@ -43,7 +43,6 @@
                   : 'border-bottom-dark-sub1'
               "
             >
-            
               <div style="min-width: 70px">
                 <bib-avatar
                   variant="secondary-sub2"
@@ -77,7 +76,10 @@
                   {{ item.jobTitle }}
                 </div>
                 <div class="button-wrapper-punch">
-                  <attendance-status :attendanceStatusData="item" minWidth="min-width: 85px !important;"></attendance-status>
+                  <attendance-status
+                    :attendanceStatusData="item"
+                    minWidth="min-width: 85px !important;"
+                  ></attendance-status>
                 </div>
               </div>
             </div>
@@ -89,6 +91,12 @@
                 @click="sendMessage(item.userId)"
               >
                 <bib-icon icon="chat" variant="secondary" :scale="1"></bib-icon>
+              </div>
+              <div
+                class="bg-gray2 p-05 shape-circle d-flex align-center space-between cursor-pointer"
+                @click="sendEmail(item.email)"
+              >
+                <bib-icon icon="mail" variant="secondary" :scale="1"></bib-icon>
               </div>
               <div
                 class="bg-gray2 p-05 shape-circle d-flex align-center space-between cursor-pointer"
@@ -137,6 +145,11 @@ export default {
     sendMessage,
     meetLink,
     makeCall,
+    sendEmail(email) {
+      const mailtoLink = `mailto:${encodeURIComponent(email)}`;
+      window.location.href = mailtoLink;
+    },
+
     isOnline(user) {
       return user.presence && user.presence === "in";
     },

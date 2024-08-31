@@ -12,6 +12,7 @@
       }
     }
   }
+  
   .fc-theme-standard {
     background-color: $dark !important;
     color: #fff;
@@ -28,8 +29,12 @@
   .fc .fc-daygrid-day {
     background-color: $dark !important;
     color: $white;
+    
   }
-  
+  .fc .fc-day-today {
+    background-color: $black !important;
+    font-weight: bold;
+  }
   .fc-theme-standard td {
     border: 1px solid $dark-sub3 !important;
   }

@@ -38,16 +38,18 @@
             class="cursor-pointer"
           >
             <NuxtLink :to="`/profile/${avatar.id}`">
-              <bib-avatar
+              <div class="avtar-contain">
+                <bib-avatar
                 :src="avatar.photo"
                 size="1.5rem"
                 :text="avatar.photo ? null : $getEmployeeInitials(avatar)"
               ></bib-avatar>
+              </div>
             </NuxtLink>
           </div>
           <div
             v-if="widget.avatars.length > MAX_VISIBLE_AVATARS"
-            class="d-flex align-center "
+            class="d-flex align-center"
             style="position: relative"
             @mouseover="showEmployeeList(widget.key)"
             @mouseout="hideEmployeeList"
@@ -55,13 +57,17 @@
           >
             <span
               class="avatar__text mr-025 cursor-default position-relative cursor-pointer"
-y
+              y
             >
               ... {{ widget.avatars.length - MAX_VISIBLE_AVATARS }} more
               <div
                 class="list position-absolute shape-rounded"
                 v-show="employeeList[widget.key]"
-                :class="isLightThemeCheck ? 'bg-dark border-light' : 'bg-dark border-dark-sub3'"
+                :class="
+                  isLightThemeCheck
+                    ? 'bg-dark border-light'
+                    : 'bg-dark border-dark-sub3'
+                "
               >
                 <div
                   class="list__item"
@@ -144,7 +150,7 @@ export default {
       progressKey: 0,
       employeeList: {},
       MAX_VISIBLE_AVATARS: 3,
-      isShowAllClicked : false,
+      isShowAllClicked: false,
     };
   },
   computed: {
@@ -169,7 +175,7 @@ export default {
           ...widget,
           value: data[widget.key] || 0,
           showingAll: false,
-          avatars: [], 
+          avatars: [],
         }));
 
         this.updateAvatars(this.visibleWidgetKeys);
@@ -178,7 +184,7 @@ export default {
     handleClick(clickedWidget) {
       if (clickedWidget.key === "pending_timesheets_count") {
         this.$router.push("/time-attendance/pending/");
-      }else if(clickedWidget.key === "pending_requests_count") {
+      } else if (clickedWidget.key === "pending_requests_count") {
         this.$router.push("/leaves-and-vacations/pendingrequest/");
       }
 
@@ -191,7 +197,11 @@ export default {
       });
 
       this.isShowAllClicked = true;
-      this.$emit("clickedWidget", clickedWidget.actionKey, clickedWidget.actionValue);
+      this.$emit(
+        "clickedWidget",
+        clickedWidget.actionKey,
+        clickedWidget.actionValue
+      );
     },
     getPercentageValue(widget) {
       const totalEmployees = this.totalData.length;
@@ -244,6 +254,5 @@ $text-font-size: 14px;
     font-size: 1rem;
     font-weight: 600;
   }
-  
 }
 </style>

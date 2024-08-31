@@ -13,6 +13,10 @@
       }
     }
   }
+  .table__irow td {
+  color: $dark !important;
+  border-right: none !important;
+}
 }
 .dark-theme {
   .pop {
@@ -169,5 +173,20 @@
     a {
       color: $primary-sub1 !important;
     }
+  }
+  .avtar-contain {
+    background-color: $dark-sub3 !important;
+    border-radius: 50% !important;
+    span {
+      background-color: transparent !important;
+    }
+    .avatar__text{
+      color: $light !important;
+      background-color: none !important;
+    }
+  }
+  .fc-day-today {
+    background-color: red !important;
+    font-weight: bold;
   }
 }

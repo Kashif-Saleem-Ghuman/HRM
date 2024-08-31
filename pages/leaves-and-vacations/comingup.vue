@@ -4,9 +4,7 @@
     <loader :loading="loading"></loader>
     <div class="" id="pending_request_wrapper">
       <div>
-        <no-record v-if="showNoData"></no-record>
-
-        <div v-else-if="showTable" class="pt-1">
+        <div class="pt-1">
           <list-accordion
             :listPending="requestListData"
           ></list-accordion>

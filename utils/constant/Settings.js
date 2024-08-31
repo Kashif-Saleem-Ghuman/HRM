@@ -1,5 +1,4 @@
 export const WEEK_DAY = [
-  { value: "null", label: "" },
   {
     label: "Monday",
     value: "MONDAY",
@@ -37,7 +36,6 @@ export const WEEK_DAY = [
   },
 ];
 export const PERIOD_OPTIONS = [
-  { value: "null", label: "" },
   { value: "DAILY", label: "Daily" },
   { value: "WEEKLY", label: "Weekly" },
   { value: "MONTHLY", label: "Monthly" },

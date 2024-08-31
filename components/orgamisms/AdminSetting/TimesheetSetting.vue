@@ -21,6 +21,7 @@
                   @input="handleInput('timesheetPeriod', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
             </div>
@@ -34,6 +35,7 @@
                   @input="handleInput('timesheetStartday', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
               <div class="col-3">
@@ -43,6 +45,7 @@
                   placeholder="--"
                   @input="handleInput('timesheetStart', $event)"
                   class="ml-1 custom-margin"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -56,6 +59,7 @@
                   @input="handleInput('timesheetEndday', $event)"
                   size="md"
                   type="select"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                 ></bib-input>
               </div>
               <div class="col-3">
@@ -65,6 +69,7 @@
                   placeholder="--"
                   @input="handleInput('timesheetEnd', $event)"
                   class="ml-1 custom-margin"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -73,10 +78,10 @@
                 <bib-input
                   label="Weekly Work Hours"
                   type="number"
-                  class="input-field"
                   v-model="form.weeklyWorkHours"
                   @change="handleInput('weeklyWorkHours', $event)"
                   :min="10"
+                  :variant="isLightThemeCheck ? 'light' : 'dark'"
                   :max="100"
                 ></bib-input>
               </div>
@@ -105,6 +110,7 @@
                   placeholder="--"
                   @input="handleInput('clockInTime', $event)"
                   class="ml-1"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -117,6 +123,7 @@
                   placeholder="--"
                   @input="handleInput('clockOutTime', $event)"
                   class="ml-1"
+                  :style-object="{backgroundColor: '#f9f9f9'}"
                 ></bib-time-picker-wrapper>
               </div>
             </div>
@@ -168,6 +175,10 @@ export default {
       try {
         const payload = { ...this.form, [name]: value }
         await updateTimesheetSetting(this.organizationId, payload);
+        this.$openPopupNotification({
+          text: "Settings updated successfully!",
+          variant: "success",
+        });
         this.$nuxt.$emit(FETCH_TIMESHEET_SETTING);
       } catch (error) {
         this.$openPopupNotification({

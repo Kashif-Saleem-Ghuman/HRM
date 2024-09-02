@@ -115,7 +115,6 @@ export default {
 </script>
 <style lang="scss">
 .download-wrapper {
- 
 .vdpComponent {
   display: unset !important;
   input {

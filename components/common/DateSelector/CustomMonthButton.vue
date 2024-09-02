@@ -43,7 +43,7 @@ export default {
   extends: BaseDateButton,
   props: {
     year: {
-      type: Number,
+      type: Number | String,
     },
     monthPickerDisabled: {
       type: Boolean,
@@ -67,12 +67,8 @@ export default {
       return MONTH_SELECTOR_ICONS.CLOSE;
     },
     getMonthsOptions() {
-      const now = DateTime.now();
-      const currentYear = now.year;
-      const currentMonth = now.month;
-
-      if(currentYear == this.year) {
-        return this.options.slice(0, this.options.findIndex((option) => option.value == currentMonth) + 1)
+      if(this.isCurrentYear(this.year)) {
+        return this.options.slice(0, this.options.findIndex((option) => option.value == DateTime.now().month) + 1)
       }
       return this.options;
     },
@@ -84,6 +80,12 @@ export default {
   methods: {
     clickOutside() {
       this.isDropdownOpen = false;
+    },
+    isCurrentYear(selectedYear) {
+      const now = DateTime.now();
+      const currentYear = now.year;
+
+      return currentYear == selectedYear;
     },
     selectOption(option) {
       this.disabled = false;
@@ -118,6 +120,14 @@ export default {
     isDisabled(option) {
       return this.selected === option.label;
     },
+  },
+
+  watch: {
+    year(newVal, oldVal) {
+      if(oldVal != null && this.isCurrentYear(newVal)) {
+        this.setDefaultValue();
+      }
+    }
   },
 };
 </script>

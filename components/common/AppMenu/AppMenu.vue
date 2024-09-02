@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin"
+        :items="appWrapItems.navItemsAdmin.slice(0,5)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -12,9 +12,9 @@
         :isLightTheme="isLightThemeCheck"
         class="mt-05"
       ></bib-app-navigation>
-      <!-- <div
+      <div
         class="nav-section position-relative cus-menu"
-        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
+        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(5,6)"
         @click="menuClick(item)"
       >
         <div
@@ -25,12 +25,11 @@
         >
           <div class="nav-item__icon">
             <div>
-              <bib-icon
-                icon="settings"
+              <bib-logo
+                :square="true"
                 size="18px"
                 :isLightTheme="isLightThemeCheck"
-                style="margin-top: 4px;"
-              ></bib-icon>
+              ></bib-logo>
             </div>
           </div>
           <div class="nav-item__label nav-item__flex">
@@ -48,7 +47,16 @@
             >
           </div>
         </div>
-      </div> -->
+      </div>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsAdmin.slice(-1)"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+        :isLightTheme="isLightThemeCheck"
+      ></bib-app-navigation>
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
@@ -362,15 +370,14 @@ export default {
       color: $gray5;
 
       &:hover {
-        background: $surface-tertiary;
-
-        color: $text-primary;
+        background: $border-primary;
+        color: $text-secondary;
         .nav-item__symbol {
           display: none;
         }
         .nav-item__label {
-          color: $text-primary;
-        }
+        color: $text-secondary;
+      }
         .nav-item__symbol--hover {
           display: flex;
           z-index: 3;
@@ -382,12 +389,12 @@ export default {
       color: $light;
 
       &:hover {
-        color: $text;
-        background: $text-primary;
+        color: $text-secondary;
+      background: $gray13;
 
-        .nav-item__label {
-          color: $text;
-        }
+      .nav-item__label {
+        color: $text-secondary;
+      }
         .nav-item__symbol {
           display: none;
         }

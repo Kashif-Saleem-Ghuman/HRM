@@ -206,7 +206,7 @@ const data = () => {
       },
       {
         label: "Settings",
-        icon: "settings",
+        icon: "setting-solid",
         key: "settings",
         url: "/settings/time-attendance/",
         selected: false,

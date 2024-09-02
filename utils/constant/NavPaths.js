@@ -20,16 +20,20 @@ export const navigationPaths = [
   {
     name: "leaveAndVacationPaths",
     paths: [
+      "/leaves-and-vacations/upcoming/",
+      "/leaves-and-vacations/leavelist/",
       "/leaves-and-vacations/dashboard/",
       "/leaves-and-vacations/pendingrequest/",
     ],
-    defaultPath: "/leaves-and-vacations/dashboard/",
+    defaultPath: "/leaves-and-vacations/upcoming/",
   },
   {
     name: "timeAttendancePaths",
     paths: [
       "/time-attendance/attendance/",
       "/time-attendance/timesheets/",
+      "/time-attendance/month/",
+      "/time-attendance/year/",
       "/time-attendance/pending/",
       "/time-attendance/past-due/",
     ],

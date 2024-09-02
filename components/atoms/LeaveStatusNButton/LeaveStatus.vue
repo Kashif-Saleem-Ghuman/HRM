@@ -35,7 +35,6 @@ import {
 } from "@/utils/functions/status";
 
 export default {
-  methods: { getStatusVariant, getStatusIcon, getStatusLabel },
   props: {
     leaveStatusData: {
       type: [Object, String],
@@ -72,6 +71,9 @@ export default {
     },
   },
   methods: {
+    getStatusVariant,
+    getStatusIcon,
+    getStatusLabel,
     setIconVisibility(resolvedStatus) {
       const status = this.$getStatusLabelName(resolvedStatus);
       const normalizedStatus = status?.toLowerCase();

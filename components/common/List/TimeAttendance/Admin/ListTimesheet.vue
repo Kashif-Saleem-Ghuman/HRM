@@ -61,7 +61,7 @@
           </div>
           <notifications
             @submit-timesheet-reminder="
-              $submitTimesheetReminder({ requestIds: [data.value.id] })
+              $submitTimesheetReminder({ timesheetIds: [data.value.timesheets?.[0]?.id] })
             "
             :timesheetSubmitReminderIcon="
               shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)

@@ -9,7 +9,7 @@
             isFavoriteReactive
               ? isLightThemeCheck
                 ? 'primary-24'
-                : 'success'
+                : 'primary'
               : isLightThemeCheck
               ? 'gray1'
               : 'white'

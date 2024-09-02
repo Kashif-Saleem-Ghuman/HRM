@@ -29,6 +29,7 @@
                 :square="true"
                 size="18px"
                 :isLightTheme="isLightThemeCheck"
+                style="margin-top: 3px;"
               ></bib-logo>
             </div>
           </div>

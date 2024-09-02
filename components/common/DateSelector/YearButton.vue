@@ -12,7 +12,7 @@
           <div
             v-for="(item, index) in options"
             :key="index"
-            @click="selectOption(option)"
+            @click="selectOption(item)"
             class="cursor-pointer"
             :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]"
           >
@@ -59,8 +59,6 @@ export default {
   extends: BaseDateButtonVue,
   data() {
     return {
-      selected: null,
-      value: null,
       options: [],
     };
   },

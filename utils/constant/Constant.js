@@ -1649,6 +1649,7 @@ export const FILL_WEEKLY_ENTRY_EVENT = 'fillweekly-entry';
 
 export const MAX_TIMER_DURATION_HOUR = 12
 
+export const MAX_WORK_HOUR = 8;
 export const MONTH_SELECTOR_DEFAULT = {
   label: "Select Month",
   value: 'select_month',

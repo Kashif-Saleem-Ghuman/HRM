@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0,6)"
+        :items="appWrapItems.navItemsAdmin.slice(0,5)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -14,12 +14,12 @@
       ></bib-app-navigation>
       <div
         class="nav-section position-relative cus-menu"
-        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
+        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(5,6)"
         @click="menuClick(item)"
       >
         <div
           id=""
-          title="Organization Profile"
+          title="Settings"
           class="nav-section__item nav-item mb-0"
           :class="itemClasses(item)"
         >
@@ -29,6 +29,7 @@
                 :square="true"
                 size="18px"
                 :isLightTheme="isLightThemeCheck"
+                style="margin-top: 3px;"
               ></bib-logo>
             </div>
           </div>
@@ -48,6 +49,15 @@
           </div>
         </div>
       </div>
+      <bib-app-navigation
+        :items="appWrapItems.navItemsAdmin.slice(-1)"
+        @click="
+          ($event, item) => {
+            menuClick(item);
+          }
+        "
+        :isLightTheme="isLightThemeCheck"
+      ></bib-app-navigation>
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
@@ -221,7 +231,7 @@ export default {
         }
       }
       const item = navItems.find((item) => item.url === path);
-      // this.resetSelected(navItems);
+      this.resetSelected(navItems);
       if (item) item.selected = true;
     },
     getIdFromPath(path) {
@@ -285,7 +295,7 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave")
+      if (item.key != "requestVacation" && item.key != "requestLeave" && item.key != "requestMedical")
         this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
@@ -361,15 +371,14 @@ export default {
       color: $gray5;
 
       &:hover {
-        background: $surface-tertiary;
-
-        color: $text-primary;
+        background: $border-primary;
+        color: $text-secondary;
         .nav-item__symbol {
           display: none;
         }
         .nav-item__label {
-          color: $text-primary;
-        }
+        color: $text-secondary;
+      }
         .nav-item__symbol--hover {
           display: flex;
           z-index: 3;
@@ -381,12 +390,12 @@ export default {
       color: $light;
 
       &:hover {
-        color: $text;
-        background: $text-primary;
+        color: $text-secondary;
+      background: $gray13;
 
-        .nav-item__label {
-          color: $text;
-        }
+      .nav-item__label {
+        color: $text-secondary;
+      }
         .nav-item__symbol {
           display: none;
         }

@@ -7,6 +7,7 @@
           v-model="from"
           placeholder="Choose Start Of Week Date"
           :maxDate="maxDate"
+          :minDate="minDate"
           @input="onDateChange"
           size="sm"
           icon=""
@@ -41,7 +42,8 @@ export default {
     return {
       from: "",
       to: "",
-      maxDate: DateTime.now().toISO()
+      maxDate: DateTime.now().toISO(),
+      minDate: DateTime.local(2024, 1, 1).toISODate()
     };
   },
   props: {

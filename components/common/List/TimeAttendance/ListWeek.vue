@@ -26,7 +26,8 @@
         </div>
       </template>
       <template #cell(in)="data">
-        <timesheet-field
+        <div class="week-list">
+          <timesheet-field
           :timeEntry="data.value.timeEntryIn"
           :value="data.value.in"
           :date="data.value.date"
@@ -34,6 +35,7 @@
           :data="data.value"
           :status="status"
         ></timesheet-field>
+        </div>
       </template>
       <template #cell(break)="data">
         <div class="cursor-pointer" @click="redirectDayView(data)">
@@ -47,6 +49,7 @@
         </div>
       </template>
       <template #cell(out)="data">
+        <div class="week-list">
         <timesheet-field
           :timeEntry="data.value.timeEntryIn"
           :value="data.value.out"
@@ -55,6 +58,7 @@
           :data="data.value"
           :status="status"
         ></timesheet-field>
+      </div>
       </template>
       <template #cell(total)="data">
         <div
@@ -220,7 +224,7 @@ export default {
     },
     getInOutClass(value) {
       return value
-        ? "chip-wrapper__bgsucess text-bold"
+        ? "chip-wrapper__bggray text-bold"
         : "chip-wrapper__bggray disabled";
     },
 

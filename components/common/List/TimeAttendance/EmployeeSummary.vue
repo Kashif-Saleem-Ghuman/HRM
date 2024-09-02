@@ -1,6 +1,7 @@
 <template>
   <client-only>
     <div v-if="editor" class="wrapper" @click="removeFocus">
+      <header class="pb-05 pt-1" >Daily summary</header>
       <div class="container">
         <div class="toolbar-top">
           <div

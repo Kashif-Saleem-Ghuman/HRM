@@ -8,6 +8,7 @@
           placeholder="Choose Start Of Week Date"
           @input="onFromDateChange"
           :maxDate="maxDate"
+          :minDate="minDateLimit"
           size="sm"
           icon=""
           hide-quick-select
@@ -21,6 +22,7 @@
           placeholder="Choose End Of Week Date"
           @input="onToDateChange"
           :maxDate="maxDate"
+          :minDate="minDateLimit"
           size="sm"
           icon=""
           v-bind="{ ...getDatetimeCommonProps() }"
@@ -61,6 +63,7 @@ export default {
       to: "",
       maxDate: DateTime.now().toISO(),
       minDate: DateTime.now().toISO(),
+      minDateLimit: DateTime.local(2024, 1, 1).toISODate()
     };
   },
 

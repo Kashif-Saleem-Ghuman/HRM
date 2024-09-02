@@ -6,7 +6,6 @@
         label="Employee"
         :options="employeesOptions"
         v-model="selectedEmployeeId"
-        :variant="themeInputVariant"
       ></bib-input>
     </div>
     <div>
@@ -123,6 +122,7 @@ export default {
       font-weight: bold !important;
       font-size: 14px !important;
     }
+   
   }
 }
   .input {
@@ -130,6 +130,7 @@ export default {
       font-weight: bold !important;
       font-size: 14px !important;
     }
+    
   }
 }
 </style>

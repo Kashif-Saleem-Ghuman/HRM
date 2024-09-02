@@ -186,7 +186,7 @@ const data = () => {
         label: "Leave & Vacations",
         icon: "airplane-solid",
         key: "leave-vacations",
-        url: "/leaves-and-vacations/comingup/",
+        url: "/leaves-and-vacations/upcoming/",
         selected: false,
       },
       {

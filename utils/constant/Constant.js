@@ -815,7 +815,7 @@ export const TABLE_HEAD = {
     },
     {
       key: "in",
-      label: "IN",
+      label: "In",
       center: false,
       width: `${100 / 4.6}%`,
     },
@@ -877,9 +877,9 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
 ];
 export const LEAVEVACATION_TAB = [
   {
-    title: "Coming Up",
-    value: "Comingup",
-    route: "/leaves-and-vacations/comingup/",
+    title: "Up Coming",
+    value: "upcoming",
+    route: "/leaves-and-vacations/upcoming/",
   },
   {
     title: "List",
@@ -1038,9 +1038,9 @@ export const SELECT_OPTIONS = {
   ],
   leaveType: [
     // { label: "", value: "" },
-    { label: "Personal Leave", value: "leave" },
-    { label: "Vacation Leave", value: "vacation" },
-    { label: "Medical Leave", value: "medical" },
+    { label: "Unpaid Leave", value: "leave" },
+    { label: "Paid Time-Off", value: "vacation" },
+    { label: "Request Medical Leave", value: "medical" },
     { label: "Other Leave", value: "other" },
   ],
 };

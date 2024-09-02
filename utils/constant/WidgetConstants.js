@@ -13,7 +13,7 @@ export const WIDGETS = [
     },
     {
       key: "anniversary_employees_count",
-      title: "Anniversaries",
+      title: "Work anniversaries",
       actionKey: "isWorkAnniversary",
       actionValue: true,
     },
@@ -37,7 +37,7 @@ export const WIDGETS = [
     },
     {
       key: "pending_requests_count",
-      title: "Requests",
+      title: "Pending leave requests",
       actionKey: "currentLeaveType",
       actionValue: 'pending_requests',
     },

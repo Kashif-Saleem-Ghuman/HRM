@@ -91,7 +91,6 @@ export default {
       default: false,
     },
     todayDate: {
-      required: true,
       type: DateTime | Date | String,
       default: DateTime.now().toFormat(DATETIME_FORMAT),
     }

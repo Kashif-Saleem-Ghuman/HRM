@@ -13,6 +13,10 @@
       }
     }
   }
+  .table__irow td {
+    color: $dark !important;
+    border-right: none !important;
+  }
 }
 .dark-theme {
   .pop {
@@ -42,7 +46,15 @@
     color: $gray7;
     font-weight: normal;
   }
-
+  .week-list{
+  .bib-time-picker--dark-theme .input-wrapper input{
+    border: 0px solid var(--bib-gray6) !important;
+    border-radius: 8px !important;
+  }
+  .bib-time-picker--dark-theme .input-wrapper input:hover{
+    border: 1px solid var(--bib-gray6) !important;
+  }
+}
   .input {
     &--null {
       &:not(.input--disabled) {
@@ -50,6 +62,10 @@
           color: $white !important;
         }
       }
+    }
+    select:hover,
+    input:hover {
+      border-color: var(--bib-gray6) !important;
     }
     select {
       appearance: none;
@@ -169,5 +185,20 @@
     a {
       color: $primary-sub1 !important;
     }
+  }
+  .avtar-contain {
+    background-color: $dark-sub3 !important;
+    border-radius: 50% !important;
+    span {
+      background-color: transparent !important;
+    }
+    .avatar__text {
+      color: $light !important;
+      background-color: none !important;
+    }
+  }
+  .fc-day-today {
+    background-color: red !important;
+    font-weight: bold;
   }
 }

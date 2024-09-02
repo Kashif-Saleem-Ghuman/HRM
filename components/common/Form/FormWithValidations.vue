@@ -8,7 +8,6 @@
         :submit="handleSubmit"
         ref="formActionButtonsSlot"
       ></slot>
-
       <div v-if="!hasFormActionButtonsSlot" id="action-button-profile">
         <div class="row mx-0 pl-1 pb-1 pt-05">
           <div class="col-6 row-custom">
@@ -20,7 +19,7 @@
                 :variant="isLightThemeCheck ? 'gray' : 'dark'"
                 size="lg"
                 class="mr-1 w-100 button-wrapper-align"
-                :disabled="buttonDisable"
+                v-if="!buttonDisable"
                 @click="handleCancle"
               ></bib-button>
               <bib-button
@@ -29,7 +28,7 @@
                 size="lg"
                 @click="handleSubmit"
                 class="w-100 button-wrapper-align"
-                :disabled="buttonDisable"
+                v-if="!buttonDisable"
               ></bib-button>
             </div>
           </div>
@@ -103,7 +102,7 @@ export default {
       this.handleInput(event);
     },
     handleCancle(){
-      this.$router.push("/dashboard/");
+      this.$router.push("/home/");
     },
     handleSubmit() {
       // if (!Object.keys(this.updateForm).length) return;

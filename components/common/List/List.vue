@@ -16,10 +16,9 @@
           ? `list-${employees[0].id}`
           : 'empty-list-0'
       "
-      @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
-        <div class="d-flex align-center text-left gap-05 position-relative">
+        <div class="d-flex align-center text-left gap-05 position-relative cursor-pointer">
           <div
             v-on:mouseover="profiletab('id_' + data.value.id)"
             v-on:mouseleave="profiletab('id_' + data.value.id, true)"
@@ -50,7 +49,7 @@
               ></user-info-card>
             </div>
           </div>
-          <div class="info_wrapper w-100 cursor-pointer">
+          <div class="info_wrapper w-100"  @click="tableItemClick(data.value)">
             <div
               class="employee-name-label"
               :title="$getEmployeeFullName(data.value)"
@@ -71,21 +70,21 @@
         v-for="(day, dayIndex) in employeeData"
         #[`cell(${day.key})`]="data"
       >
-        <div class="cursor-pointer">
+        <div>
           <div class="justify-between">
             <span>{{ getValue(data.value?.[day.key]) }}</span>
           </div>
         </div>
       </template>
       <template #cell(dateOfBirth)="data">
-        <div class="justify-between cursor-pointer">
+        <div class="justify-between">
           <span>{{
             onLoad(data.value.dateOfBirth)
           }}</span>
         </div>
       </template>
       <template #cell(hiredate)="data">
-        <div class="justify-between cursor-pointer">
+        <div class="justify-between">
           <span>{{
             onLoad(data.value.hireDate)
           }}</span>
@@ -192,7 +191,7 @@ export default {
     headerColumnClick(column) {
       this.sortColumn(column);
     },
-    tableItemClick(event, key, item) {
+    tableItemClick(item) {
       const id = item?.id;
       if (id) {
         this.viewProfile(id);

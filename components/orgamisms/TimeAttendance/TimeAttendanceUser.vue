@@ -91,6 +91,7 @@
                   v-if="view.value === 'day'"
                   v-model="todayDate"
                   :maxDate="maxDate"
+                  :minDate="minDate"
                   :class="`custom_date_picker ${monthListView ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
@@ -245,6 +246,7 @@ export default {
       timesheetId: -1,
       timer: 1,
       maxDate: DateTime.now().toISO(),
+      minDate: DateTime.local(2024, 1, 1).toISODate(),
       refusalReason: null,
       timesheet: null,
       timesheetsList: [],

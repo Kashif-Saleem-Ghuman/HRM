@@ -144,8 +144,21 @@ $text-font-size: 14px;
   }
 }
 .dark-theme {
-  .widget-container{
+  .widget-container {
     background-color: $dark;
     border: 1px solid $border-primary;
+  }
+  .widget-avatars-container-bottom {
+    .avtar-contain {
+      background-color: $dark-sub3 !important;
+      border-radius: 50% !important;
+      span {
+        background-color: transparent !important;
+      }
+      .avatar__text{
+        color: $light !important;
+        background-color: none !important;
+      }
+    }
   }
 }

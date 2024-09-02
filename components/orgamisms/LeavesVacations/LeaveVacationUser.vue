@@ -3,7 +3,7 @@
     <loader :loading="loading"></loader>
     <div id="people-action-wrapper">
         <section-header-left
-          title="Leaves and Vacations"
+          title="Leave & Vacations"
           headerRight="headerRight"
         ></section-header-left>
       <div class="pl-1 py-1">

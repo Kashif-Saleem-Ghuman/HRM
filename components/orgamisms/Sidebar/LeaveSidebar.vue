@@ -194,7 +194,7 @@ export default {
             : `Request approved on ${statusChangeDate} by ${this.$getEmployeeFullName(
                 this.form.manager
               )}`,
-        pending: "Pending",
+        pending: "",
         rejected: `Request Rejected on ${statusChangeDate} by ${this.$getEmployeeFullName(
           this.form.manager
         )}`,
@@ -221,7 +221,7 @@ export default {
       this.leaveStatus = item;
       this.form = item;
       this.employeeNameSelect = item.employeeId;
-      this.employeeName = this.getEmployeeFullName(item);
+      this.employeeName = this.$getEmployeeFullName(item);
 
       this.startDate = DateTime.fromISO(this.form.start, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);

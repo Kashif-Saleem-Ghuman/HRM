@@ -95,7 +95,7 @@
       <template #cell(location)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
-            data.value.address.country
+            data.value?.timezone
           }}</span>
         </div>
       </template>

@@ -11,9 +11,13 @@
   </div>
   <div v-else class="button-override">
     <bib-button
-      :label="$getStatusLabelName(resolvedStatus)"
+      :label="
+        $getStatusLabelName(resolvedStatus) == 'Rejected'
+          ? 'Resubmit'
+          : $getStatusLabelName(resolvedStatus)
+      "
       :variant="$getStatusVariantName(resolvedStatus)"
-      :icon-right="$getLeaveStatusIconName(resolvedStatus)"
+      :icon-right="setIconVisibility(resolvedStatus)"
       @click.native.stop="$emit('click')"
       :disabled="disabled"
       pill
@@ -24,22 +28,25 @@
 </template>
 
 <script>
-import {getStatusIcon, getStatusVariant, getStatusLabel} from "@/utils/functions/status";
+import {
+  getStatusIcon,
+  getStatusVariant,
+  getStatusLabel,
+} from "@/utils/functions/status";
 
 export default {
-  methods: {getStatusVariant, getStatusIcon, getStatusLabel},
+  methods: { getStatusVariant, getStatusIcon, getStatusLabel },
   props: {
     leaveStatusData: {
       type: [Object, String],
-      required: true
-
+      required: true,
     },
-    minWidth:{
-      type:String,
-      default:'min-width: 115px !important;'
+    minWidth: {
+      type: String,
+      default: "min-width: 115px !important;",
     },
-    disabled:{
-      type:Boolean
+    disabled: {
+      type: Boolean,
     },
     defaultPointer: {
       type: Boolean,
@@ -55,12 +62,29 @@ export default {
   },
   computed: {
     resolvedStatus() {
-      if (typeof this.leaveStatusData === 'object' && this.leaveStatusData !== null) {
+      if (
+        typeof this.leaveStatusData === "object" &&
+        this.leaveStatusData !== null
+      ) {
         return this.leaveStatusData.value.status ?? this.leaveStatusData;
       }
       return this.leaveStatusData;
-    }
-  }
+    },
+  },
+  methods: {
+    setIconVisibility(resolvedStatus) {
+      const status = this.$getStatusLabelName(resolvedStatus);
+      const normalizedStatus = status?.toLowerCase();
+
+      if (normalizedStatus === "approved") {
+        return this.$getLeaveStatusIconName(normalizedStatus);
+      }
+      if (normalizedStatus === "rejected") {
+        return this.$getLeaveStatusIconName(normalizedStatus);
+      }
+      return ""; // Return an empty string if neither approved nor rejected
+    },
+  },
 };
 </script>
 
@@ -110,7 +134,7 @@ export default {
       }
     }
   }
-  .cursor-default{
+  .cursor-default {
     cursor: default !important;
   }
 }

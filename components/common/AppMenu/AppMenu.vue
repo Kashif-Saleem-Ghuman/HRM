@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0,6)"
+        :items="appWrapItems.navItemsAdmin"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -12,24 +12,25 @@
         :isLightTheme="isLightThemeCheck"
         class="mt-05"
       ></bib-app-navigation>
-      <div
+      <!-- <div
         class="nav-section position-relative cus-menu"
         v-for="(item, index) in appWrapItems.navItemsAdmin.slice(-1)"
         @click="menuClick(item)"
       >
         <div
           id=""
-          title="Organization Profile"
+          title="Settings"
           class="nav-section__item nav-item mb-0"
           :class="itemClasses(item)"
         >
           <div class="nav-item__icon">
             <div>
-              <bib-logo
-                :square="true"
+              <bib-icon
+                icon="settings"
                 size="18px"
                 :isLightTheme="isLightThemeCheck"
-              ></bib-logo>
+                style="margin-top: 4px;"
+              ></bib-icon>
             </div>
           </div>
           <div class="nav-item__label nav-item__flex">
@@ -47,7 +48,7 @@
             >
           </div>
         </div>
-      </div>
+      </div> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"
@@ -221,7 +222,7 @@ export default {
         }
       }
       const item = navItems.find((item) => item.url === path);
-      // this.resetSelected(navItems);
+      this.resetSelected(navItems);
       if (item) item.selected = true;
     },
     getIdFromPath(path) {
@@ -285,7 +286,7 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave")
+      if (item.key != "requestVacation" && item.key != "requestLeave" && item.key != "requestMedical")
         this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();

@@ -7,7 +7,7 @@
             type="text"
             label="Employee"
             :value="employeeName"
-            icon-left="user"
+            icon-left="user-profile-circle-solid"
             placeholder="Employee"
             disabled
             @change="$emit('input', $event, 'employeeId')"
@@ -22,7 +22,7 @@
             label="Employee"
             :value="employeeNameSelect"
             :options="employeesOptions"
-            icon-left="user"
+            icon-left="user-profile-circle-solid"
             avatar-right=""
             placeholder="Employee"
             :disabled="inActive"
@@ -133,7 +133,7 @@
       <div>
         <bib-input
           type="textarea"
-          label="Reason"
+          label="Note / Reason"
           placeholder="Enter text"
           :value="note"
           @change="$emit('input', $event, 'note')"

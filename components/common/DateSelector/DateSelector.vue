@@ -6,6 +6,7 @@
       :isDisabled="isMonthDisabled"
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
+      :year="year"
     />
   </div>
 </template>
@@ -36,16 +37,16 @@ export default {
   methods: {
     generateYearDates() {
       return {
-        from: DateTime.utc(this.year).startOf("year").toISO(),
-        to: DateTime.utc(this.year).endOf("year").toISO(),
+        from: DateTime.utc(parseInt(this.year, 10)).startOf("year").toISO(),
+        to: DateTime.utc(parseInt(this.year, 10)).endOf("year").toISO(),
       };
     },
     generateMonthDates() {
       return {
-        from: DateTime.utc(this.year, Number(this.month))
+        from: DateTime.utc(parseInt(this.year, 10), Number(this.month))
           .startOf("month")
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").toISO(),
+        to: DateTime.utc(parseInt(this.year, 10), Number(this.month)).endOf("month").toISO(),
       };
     },
   },

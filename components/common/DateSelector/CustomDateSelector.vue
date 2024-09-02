@@ -48,16 +48,16 @@ export default {
   methods: {
     generateYearDates() {
       return {
-        from: DateTime.utc(this.year).startOf("year").minus({days: 1}).toISO(),
-        to: DateTime.utc(this.year).endOf("year").startOf('week').minus({days: 2}).toISO(),
+        from: DateTime.utc(parseInt(this.year, 10)).startOf("year").minus({days: 1}).toISO(),
+        to: DateTime.utc(parseInt(this.year, 10)).endOf("year").startOf('week').minus({days: 2}).toISO(),
       };
     },
     generateMonthDates() {
       return {
-        from: DateTime.utc(this.year, Number(this.month))
+        from: DateTime.utc(parseInt(this.year, 10), Number(this.month))
           .startOf("month").startOf('week').minus({days: 1})
           .toISO(),
-        to: DateTime.utc(this.year, Number(this.month)).endOf("month").endOf('week').minus({days: 2}).toISO(),
+        to: DateTime.utc(parseInt(this.year, 10), Number(this.month)).endOf("month").endOf('week').minus({days: 2}).toISO(),
       };
     },
   },

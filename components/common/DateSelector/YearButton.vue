@@ -83,7 +83,7 @@ export default {
 
       const yearList = [];
       for (let year = startYear; year <= currentYear; year++) {
-        yearList.push(year);
+        yearList.push(year.toString());
       }
 
       return yearList;

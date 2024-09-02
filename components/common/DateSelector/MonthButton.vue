@@ -11,7 +11,7 @@
         <div class="menu-items chip-wrapper-com" style="left: 0;">
           <div v-if="isDropdownOpen" class="chip-wrapper-inner">
             <div
-              v-for="(item, index) in options"
+              v-for="(item, index) in getMonthsOptions"
               :key="index"
               @click="selectOption(item)"
               class="cursor-pointer"
@@ -70,18 +70,37 @@
 <script>
 import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
 import BaseDateButton from "./BaseDateButton.vue";
+import {DateTime} from "luxon";
 export default {
   extends: BaseDateButton,
-
+  props: {
+    year: {
+      type: Number | String,
+    },
+  },
   data() {
     return {
       options: MONTHS_LABEL_VALUE,
     };
   },
 
+  computed: {
+    getMonthsOptions() {
+      if(this.isCurrentYear(this.year)) {
+        return this.options.slice(0, this.options.findIndex((option) => option.value == DateTime.now().month) + 1)
+      }
+      return this.options;
+    },
+  },
   methods: {
     clickOutside() {
       this.isDropdownOpen = false;
+    },
+    isCurrentYear(selectedYear) {
+      const now = DateTime.now();
+      const currentYear = now.year;
+
+      return currentYear == selectedYear;
     },
     selectOption(option) {
       this.disabled = false;
@@ -101,6 +120,13 @@ export default {
     isDisabled(option) {
       return this.selected === option.label;
     },
+  },
+  watch: {
+    year(newVal, oldVal) {
+      if(oldVal != null && this.isCurrentYear(newVal)) {
+        this.setDefaultValue();
+      }
+    }
   },
 };
 </script>

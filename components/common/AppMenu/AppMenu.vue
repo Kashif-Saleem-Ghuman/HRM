@@ -318,9 +318,11 @@ export default {
     this.updateSelectedNavItems();
   },
   watch: {
-    $route() {
+    $route(to, from) {
+    if (to.path !== from.path || JSON.stringify(to.params) !== JSON.stringify(from.params)) {
       this.updateSelectedNavItems();
-    },
+    }
+  },
   },
 };
 </script>

@@ -20,8 +20,8 @@ export const getStatusVariantName = (status) => getStatusMapValue(status, {
     approved: "Approved",
     pending: "Pending",
     rejected: "Rejected",
-    past_due: "Submit",
-    not_submitted: "Resubmit",
+    past_due: "Resubmit",
+    not_submitted: "Submit",
   });
   function getStatusMapValue(status, statusMap, defaultValue) {
     const normalizedStatus = status.toLowerCase().replace(/\s+/g, '');

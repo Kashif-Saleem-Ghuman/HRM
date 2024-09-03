@@ -184,6 +184,7 @@ import { YEAR_LIST } from "@/utils/constant/Calander";
 import { mapGetters } from "vuex";
 import { getCurrentDateMonth } from "@/utils/functions/functions_lib.js";
 import {
+  getDateDiffInSeconds,
   getTimeFromDate,
   getWeekEnd,
   getWeekStart,
@@ -292,17 +293,21 @@ export default {
         if (!entry.end) return 0;
         return (
           total +
-          this.calculateDuration(
+          getDateDiffInSeconds(
             getTimeFromDate(entry.start),
             getTimeFromDate(entry.end)
           )
         );
       }, 0);
 
+      if(totalWorkInMS < 0) {
+        return "00:00";
+      }
+
       const totalBreakInMS = timeEntriesBreak.filter(entry => entry.end).reduce((total, entry) => {
         return (
           total +
-          this.calculateDuration(
+          getDateDiffInSeconds(
             getTimeFromDate(entry.start),
             getTimeFromDate(entry.end)
           )
@@ -311,7 +316,7 @@ export default {
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
 
-      return formatTime(netTotalWorkInMS / 1000, false);
+      return formatTime(netTotalWorkInMS, false);
     },
 
     ...mapGetters({

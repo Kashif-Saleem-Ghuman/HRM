@@ -11,11 +11,7 @@
   </div>
   <div v-else class="button-override">
     <bib-button
-      :label="
-        $getStatusLabelName(resolvedStatus) == 'Rejected'
-          ? 'Resubmit'
-          : $getStatusLabelName(resolvedStatus)
-      "
+      :label="getButtonLabel(timesheet, resolvedStatus)"
       :variant="$getStatusVariantName(resolvedStatus)"
       :icon-right="setIconVisibility(resolvedStatus)"
       @click.native.stop="$emit('click')"
@@ -55,6 +51,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    timesheet:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {};
@@ -74,6 +74,15 @@ export default {
     getStatusVariant,
     getStatusIcon,
     getStatusLabel,
+    getButtonLabel(timesheet, resolvedStatus) {
+      const statusLabel = this.$getStatusLabelName(resolvedStatus);
+      
+      if (timesheet && statusLabel === 'Rejected') {
+        return 'Resubmit';
+      } else {
+        return statusLabel;
+      }
+    },
     setIconVisibility(resolvedStatus) {
       const status = this.$getStatusLabelName(resolvedStatus);
       const normalizedStatus = status?.toLowerCase();

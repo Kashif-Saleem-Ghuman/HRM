@@ -565,11 +565,14 @@ export default {
       this.timesheetsList = timesheets;
       this.loading = false;
     },
-    async dateSelection(event) {
+    async dateSelection(value) {
       // this.loading = true;
-      if (!event) {
+
+      this.todayDate = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+
+
+      if (!value) {
         await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
-        return;
       }
       await this.fillDailyTimeEntries();
       // this.$nuxt.$emit("chronometer");

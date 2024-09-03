@@ -112,6 +112,7 @@ export default {
       );
     },
     onDateChange(value) {
+      console.log('ondfadsfew', value)
       if (
         ((value === "" || value == this.todayDate) &&
           this.date == this.todayDate) ||

@@ -172,6 +172,9 @@ export default {
       leaveType: "",
     };
   },
+  beforeDestroy() {
+    this.resetTableFields();
+  },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
     const totalField = this.tableFields.find((field) => field.key === "total");
@@ -196,7 +199,6 @@ export default {
     }),
   },
   methods: {
-    dateCheck,
     sendMessage,
     handleItemClick_Table,
     meetLink,
@@ -240,6 +242,14 @@ export default {
       }
 
       return "Absent";
+    },
+
+    resetTableFields() {
+      this.tableFields.forEach(field => {
+        if(field.hasOwnProperty('header_icon')){
+          field.header_icon.isActive = false;
+        }
+      })
     },
 
     getInOutActivityTime(employee, activityType) {

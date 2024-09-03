@@ -69,7 +69,7 @@ import {
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
 import {
-  ACTIVITY_TYPE,
+  ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE,
   TIMESHEET_STATUSES,
 } from "../../../../utils/constant/Constant";
 import {mapGetters} from "vuex";
@@ -208,7 +208,7 @@ export default {
     debouncedNotification() {
       if (!this.debounced) {
         this.$openPopupNotification({
-          text: "Please clock out to edit the time entry for the day.",
+          text: EDIT_TIME_ENTRY_WARNING_MESSAGE,
           variant: "danger",
         });
         this.debounced = true;

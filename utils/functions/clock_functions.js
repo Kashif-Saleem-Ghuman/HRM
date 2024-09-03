@@ -62,8 +62,8 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
   return {
     in: inTime === null ? '--:--' : inTime.trim().slice(0, 5),
     out: outTime === null ? '--:--' : outTime.trim().slice(0, 5),
-    breaks: !breaksSeconds ? '--:--' : formatTime(breaksSeconds, false),
-    total: !totalSeconds ? '--:--' :  formatTime(totalSeconds, false),
-    overtime: overTime === null ? '--:--' : formatTime(overTime, false),
+    breaks: !breaksSeconds ? '00:00' : formatTime(breaksSeconds, false),
+    total: !totalSeconds ? '00:00' :  formatTime(totalSeconds, false),
+    overtime: overTime === null ? '00:00' : formatTime(overTime, false),
   };
 }

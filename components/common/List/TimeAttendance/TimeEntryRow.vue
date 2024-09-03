@@ -58,7 +58,7 @@ import {
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
-  hoursAndMinutesToJSDate,
+  hoursAndMinutesToJSDate, getDateDiffInSeconds,
 } from "@/utils/functions/dates";
 import { DateTime } from "luxon";
 import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData";
@@ -74,6 +74,7 @@ import {
 } from "../../../../utils/constant/Constant";
 import {mapGetters} from "vuex";
 import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import {formatTime} from "@/utils/functions/clock_functions";
 export default {
   props: {
     entry: {
@@ -181,7 +182,12 @@ export default {
     },
     entryTotal() {
       if (!this.startTime || !this.endTime) return "";
-      return calculateTimeDifferenceInHHMM(this.startTime, this.endTime);
+      const netTotalWorkInMS = getDateDiffInSeconds(
+        getTimeFromDate(this.startTime),
+        getTimeFromDate(this.endTime)
+      )
+
+      return formatTime(netTotalWorkInMS, false);
     },
   },
   methods: {

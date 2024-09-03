@@ -19,7 +19,7 @@
       >
         <div
           id=""
-          title="Organization profile"
+          title="Settings"
           class="nav-section__item nav-item mb-0"
           :class="itemClasses(item)"
         >
@@ -318,11 +318,9 @@ export default {
     this.updateSelectedNavItems();
   },
   watch: {
-    $route(to, from) {
-    if (to.path !== from.path || JSON.stringify(to.params) !== JSON.stringify(from.params)) {
+    $route() {
       this.updateSelectedNavItems();
-    }
-  },
+    },
   },
 };
 </script>

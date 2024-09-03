@@ -39,7 +39,7 @@
           v-if="active && isConfirmationOpen"
           class="w-100"
         >
-          <div class="w-100 bg-warning p-05 text-center shape-rounded" :style="{backgroundColor: '#ffecec'}">
+          <div class="w-100 p-05 text-center shape-rounded" :style="isLightThemeCheck ? {backgroundColor: '#ffecec'} : {backgroundColor: '#292730'}">
           <span class="text-danger" :style="{fontWeight: 'bold'}">End your day?
             <span class="cursor-pointer" @click="handleClockInOutClick()">Yes</span> /
             <span class="cursor-pointer" @click="handleConfirmationButton()">No</span>
@@ -57,7 +57,7 @@
         <div class="w-100" v-if="active && !isConfirmationOpen" @click="handleClockOutWrapperClick">
           <bib-button
             label="Clock out"
-            variant="light"
+            :variant="isLightThemeCheck ? 'light' : 'secondary'"
             class="button-wrapper-align w-100"
             @click="handleConfirmationButton()"
             :disabled="isTimerLoading || isBreakActive"

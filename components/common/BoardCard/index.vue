@@ -1,8 +1,8 @@
 <template>
   <div :class="classNames" class="p-05">
-    <div class="bib-board-card__header p-05 pr-0">
+    <div class="bib-board-card__header pr-0">
       <slot name="new_contact_section"></slot>
-      <div class="bib-board-card__header--menu">
+      <!-- <div class="bib-board-card__header--menu">
         <bib-icon
           icon="bookmark-solid"
           :variant="
@@ -18,7 +18,7 @@
           @click.native.stop="handleFavorite"
         ></bib-icon>
         <slot name="card_menu"></slot>
-      </div>
+      </div> -->
     </div>
 
     <div class="bib-board-card--items p-05">

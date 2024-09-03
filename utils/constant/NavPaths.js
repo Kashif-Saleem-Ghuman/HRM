@@ -1,5 +1,12 @@
 export const navigationPaths = [
   {
+    name: "leaveAndVacationEmployeePaths",
+    paths: [
+      "/leaves-and-vacations/dashboard/",
+    ],
+    defaultPath: "/leaves-and-vacations/dashboard/",
+  },
+  {
     name: "timeAttendanceEmployeePaths",
     paths: [
       "/home/attendance/?view=day",

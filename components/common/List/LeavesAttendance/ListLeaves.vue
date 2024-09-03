@@ -104,11 +104,17 @@
 
 <script>
 import fecha, { format } from "fecha";
+import { mapGetters } from "vuex";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import { TABLE_HEAD } from "@/utils/constant/Constant";
-import {DateTime} from "luxon";
-import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 import {getDateTimeFormat} from "../../../../utils/functions/time";
+import {
+  meetLink,
+  makeCall,
+} from "../../../../utils/functions/functions_lib";
+import {
+  sendMessage,
+} from "../../../../utils/functions/functions_lib";
 export default {
   props: {
     listPending: {
@@ -134,9 +140,15 @@ export default {
 
       return sortColumn({ items: this.listPending, field: this.sortByField });
     },
+    ...mapGetters({
+      getUser: "employee/GET_ACTIVE_USER",
+    }),
   },
   methods: {
     getDateTimeFormat,
+    sendMessage,
+    meetLink,
+    makeCall,
     async leaveDetail(item, event) {
       event.stopPropagation();
       this.$nuxt.$emit("open-sidebar", item);
@@ -149,6 +161,9 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    viewProfile(id) {
+      this.$router.push("/profile/" + id);
     },
     headerColumnClick(column) {
       this.sortColumn(column);

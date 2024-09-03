@@ -300,10 +300,10 @@ export default {
         await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
         await this.startTimerInterval();
       } catch (error) {
-        this.$openPopupNotification({
-          text: error.response.data.message,
-          variant: 'danger',
-        })
+        // this.$openPopupNotification({
+        //   text: error.response.data.message,
+        //   variant: 'danger',
+        // })
       } finally {
         this.loading = false;
       }

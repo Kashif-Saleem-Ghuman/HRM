@@ -116,7 +116,10 @@ export default {
     },
 
     async dateSelection(event) {
-      const date = DateTime.fromJSDate(new Date(event));
+      
+      const now = DateTime.now().toFormat(DATETIME_FORMAT);
+      this.todayDate = event === "" ? now : event;
+      const date = DateTime.fromJSDate(new Date(event || now));
       this.getCurrentDate = date.toISO();
 
       if (DateTime.fromISO(this.getCurrentDate).isValid) {

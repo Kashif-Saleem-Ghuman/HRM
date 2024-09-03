@@ -19,7 +19,7 @@
       >
         <div
           id=""
-          title="Settings"
+          title="Organization profile"
           class="nav-section__item nav-item mb-0"
           :class="itemClasses(item)"
         >

@@ -16,7 +16,7 @@
             class="mr-05"
             @click="$emit('close')"
           ></bib-icon>
-          <label> {{ heading }}</label>
+          <label>Leave request</label> 
         </div>
         <bib-icon
           icon="close"

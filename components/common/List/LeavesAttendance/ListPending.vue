@@ -100,7 +100,7 @@
       </div>
     </template>
     <template #cell(reason)="data">
-      <div class="justify-between text-dark">
+      <div class="justify-between">
         <span>{{ data.value.note }}</span>
       </div>
     </template>

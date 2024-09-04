@@ -24,6 +24,7 @@
             v-on:mouseover="profiletab('id_' + data.value.employee.id)"
             v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
           >
+          <div class="avtar-contain">
             <bib-avatar
               variant="secondary-sub3 font-w-600"
               :text="$getEmployeeInitials(data.value.employee)"
@@ -38,6 +39,7 @@
               v-show="data.value.employee.photo != null"
               size="2.7rem"
             ></bib-avatar>
+          </div>
             <div :id="'id_' + data.value.employee.id" class="userCard">
               <user-info-card
                 :user="data.value.employee"

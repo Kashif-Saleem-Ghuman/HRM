@@ -19,7 +19,7 @@
     >
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative">
-          <div>
+          <div class="avtar-contain">
             <bib-avatar
               variant="secondary-sub3"
               :text="$getEmployeeInitials(data.value)"

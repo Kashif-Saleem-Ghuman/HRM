@@ -90,6 +90,7 @@
                    class="cursor-pointer"
                    v-on:mouseover="profiletab('id_' + item.id)"
                    v-on:mouseleave="profiletab('id_' + item.id, true)">
+                   <div class="avtar-contain">
                    <bib-avatar
                      variant="secondary-sub3"
                      :text="
@@ -107,6 +108,7 @@
                      size="2.3rem"
                    >
                    </bib-avatar>
+                   </div>
                    <div :id="'id_' + item.id" class="userCard">
                      <user-info-card
                        :user="item"

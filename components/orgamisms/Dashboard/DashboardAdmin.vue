@@ -24,6 +24,7 @@
           <bib-datetime-picker
             v-model="todayDate"
             :maxDate="maxDate"
+            :minDate="minDate"
             size="sm"
             @input="dateSelection($event)"
             hide-quick-select
@@ -75,6 +76,7 @@ export default {
       loading: true,
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
       maxDate: DateTime.now().toISO(),
+      minDate: DateTime.local(2024, 1, 1).toISODate(),
     };
   },
 

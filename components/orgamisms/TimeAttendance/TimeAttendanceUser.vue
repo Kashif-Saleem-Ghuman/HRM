@@ -92,6 +92,7 @@
                   v-model="todayDate"
                   :maxDate="maxDate"
                   :minDate="minDate"
+                  :key="updateDateTimePicker"
                   :class="`custom_date_picker ${monthListView ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
@@ -267,6 +268,9 @@ export default {
     };
   },
   computed: {
+    minDate() {
+      return this.$minDate();
+    },
     variant() {
       this.variantColor = this.isLightThemeCheck ? "light" : "dark";
     },
@@ -322,10 +326,6 @@ export default {
       getActiveUser: "employee/GET_ACTIVE_USER",
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
     }),
-    minDate() {
-      const hireDate = this.getActiveUser.hireDate;
-      return hireDate ? DateTime.fromISO(hireDate).toISODate() : DateTime.local(2024, 1, 1).toISODate();
-    },
     hasInEntryToday() {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;

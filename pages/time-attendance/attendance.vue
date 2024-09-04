@@ -78,11 +78,13 @@ export default {
         'employees_on_leave_count',
       ],
       isWidgetUserUpdated: false,
-      minDate: DateTime.local(2024, 1, 1).toISODate(),
     };
   },
 
   computed: {
+    minDate() {
+      return this.$minDate();
+    },
     dateBtnLabel() {
       if (this.isDateToday(this.date)) {
         return `Today, ${this.formatDate(this.date)}`;

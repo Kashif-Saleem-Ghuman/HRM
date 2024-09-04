@@ -76,7 +76,6 @@ export default {
       loading: true,
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
       maxDate: DateTime.now().toISO(),
-      minDate: DateTime.local(2024, 1, 1).toISODate(),
     };
   },
 
@@ -86,6 +85,9 @@ export default {
       activeDate: "date/getActiveDate",
       getActiveUser: "employee/GET_ACTIVE_USER",
     }),
+    minDate() {
+      return this.$minDate();
+    },
     showTable() {
       return !this.loading && this.employees?.length;
     },

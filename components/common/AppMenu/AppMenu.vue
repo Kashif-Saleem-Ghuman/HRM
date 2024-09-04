@@ -318,9 +318,13 @@ export default {
     this.updateSelectedNavItems();
   },
   watch: {
-    $route() {
+    // $route() {
+    //   this.updateSelectedNavItems();
+    // },
+    $route(to, from) {
       this.updateSelectedNavItems();
-    },
+      this.$minDate();
+    }
   },
 };
 </script>

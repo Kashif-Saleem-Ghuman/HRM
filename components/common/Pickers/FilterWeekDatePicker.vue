@@ -63,10 +63,14 @@ export default {
       to: "",
       maxDate: DateTime.now().toISO(),
       minDate: DateTime.now().toISO(),
-      minDateLimit: DateTime.local(2024, 1, 1).toISODate()
+      // minDateLimit: this.$minDate(),
     };
   },
-
+computed:{
+  minDateLimit() {
+      return this.$minDate();
+    },
+},
   methods: {
     getDatetimeCommonProps,
     openPopupNotification(notification) {

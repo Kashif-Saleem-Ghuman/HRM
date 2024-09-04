@@ -48,6 +48,7 @@ export default {
     '~/plugins/leaveDetails.js',
     '~/plugins/commonFunctions.js',
     '~/plugins/contactbuttons.js',
+    '~/plugins/hiredate.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

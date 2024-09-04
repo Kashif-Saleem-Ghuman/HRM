@@ -155,20 +155,20 @@ export default {
   text-align: center;
   justify-content: center;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 8px 15px 8px 8px;
   align-items: center;
 
   &__shape-circle {
     width: 3rem;
     height: 3rem;
-    padding: 6px;
+    padding: 4px;
     border-radius: 50%;
   }
   &__shape-round {
     width: 3rem;
     height: 3rem;
-    padding: 6px;
+    padding: 4px;
     border-radius: 1px;
   }
   &__border-radius {
@@ -178,7 +178,7 @@ export default {
   &__bgsucess {
     background-color: #d5e8d4;
     color: $success;
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: $success !important;
     }
@@ -191,7 +191,7 @@ export default {
 
   &__bgabsent {
     background-color: rgba(255, 171, 0, 0.16) !important;
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: #ffab00 !important;
     }
@@ -203,7 +203,7 @@ export default {
   }
   &__bgpastdue {
     background-color: rgba(255, 171, 0, 0.16);
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: #ffab00 !important;
     }
@@ -215,7 +215,7 @@ export default {
   }
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: $primary !important;
     }
@@ -227,7 +227,7 @@ export default {
   }
   &__bgabsentpink {
     background-color: rgba(230, 0, 14, 0.16);
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: #e6000e !important;
     }
@@ -240,7 +240,7 @@ export default {
   &__bgpending {
     background-color: $white;
     border: 1px solid #e1e0e0;
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: $secondary-sub1 !important;
     }
@@ -253,7 +253,7 @@ export default {
   &__bgdefault {
     background-color: $white;
     border: 1px solid #e1e0e0;
-    border-radius: 6px;
+    border-radius: 4px;
     svg {
       fill: $secondary-sub1 !important;
     }
@@ -265,7 +265,7 @@ export default {
   }
   &__bggray {
     background-color: $secondary-sub3;
-    border-radius: 6px;
+    border-radius: 4px;
     border-radius: 0.5rem;
     svg {
       fill: $black !important;

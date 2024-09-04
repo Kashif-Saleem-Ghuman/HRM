@@ -2,6 +2,15 @@
   .chip-wrapper__bggray {
     background-color: $dark-sub3;
   }
+  .chip-wrapper__bgpastdue {
+    background-color: $primary-24-sub2;
+  }
+  .chip-wrapper__bgabsent {
+    background-color: $warning-sub3 !important;
+  }
+  .chip-wrapper__bgabsentpink {
+    background-color: $danger-sub3;
+  }
   .chip-wrapper {
     &__bgsucess {
       span {
@@ -10,7 +19,12 @@
     }
     &__bgabsent {
       span {
-        color: $secondary-sub3 !important;
+        color: $orange !important;
+      }
+    }
+    &__bgpastdue {
+      span {
+        color: $primary !important;
       }
     }
     &__bgabsentpink {
@@ -33,15 +47,6 @@
     }
   }
   .chip-wrapper__bgvacation {
-    background-color: $primary;
-    svg {
-      fill: $white !important;
-    }
-    span {
-      color: $secondary-sub3 !important;
-    }
-  }
-  .chip-wrapper__bgpastdue {
     background-color: $primary;
     svg {
       fill: $white !important;

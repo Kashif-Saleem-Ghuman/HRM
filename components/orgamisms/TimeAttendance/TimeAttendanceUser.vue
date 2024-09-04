@@ -246,8 +246,7 @@ export default {
       weekDataStatus: "",
       timesheetId: -1,
       timer: 1,
-      maxDate: DateTime.now().toISO(),
-      minDate: DateTime.local(2024, 1, 1).toISODate(),
+      maxDate: DateTime.now().toISO(), 
       refusalReason: null,
       timesheet: null,
       timesheetsList: [],
@@ -323,6 +322,10 @@ export default {
       getActiveUser: "employee/GET_ACTIVE_USER",
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
     }),
+    minDate() {
+      const hireDate = this.getActiveUser.hireDate;
+      return hireDate ? DateTime.fromISO(hireDate).toISODate() : DateTime.local(2024, 1, 1).toISODate();
+    },
     hasInEntryToday() {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;

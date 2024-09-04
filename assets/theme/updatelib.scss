@@ -68,6 +68,13 @@
     select {
       border-color: $dark-sub3 !important;
     }
+    .select-wrapper {
+      ul {
+        scrollbar-color: var(--bib-text-secondary) transparent !important;
+        scrollbar-width: thin;
+        scrollbar-gutter: stable;
+      }
+    }
   }
   .input {
     &--null {

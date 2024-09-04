@@ -41,6 +41,15 @@
       color: $secondary-sub3 !important;
     }
   }
+  .chip-wrapper__bgpastdue {
+    background-color: $primary;
+    svg {
+      fill: $white !important;
+    }
+    span {
+      color: $secondary-sub3 !important;
+    }
+  }
   .button-wrapper-punch {
     span {
       border-radius: 16px;

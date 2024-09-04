@@ -20,6 +20,7 @@
               size="sm"
               style="min-width: 7vw"
               :maxDate="maxDate"
+              :minDate="minDate"
               hide-quick-select
               v-bind="{ ...getDatetimeCommonProps() }"
             ></bib-datetime-picker>
@@ -77,6 +78,7 @@ export default {
         'employees_on_leave_count',
       ],
       isWidgetUserUpdated: false,
+      minDate: DateTime.local(2024, 1, 1).toISODate(),
     };
   },
 

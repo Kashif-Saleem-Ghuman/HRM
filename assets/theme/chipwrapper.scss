@@ -2,29 +2,34 @@
   .chip-wrapper__bggray {
     background-color: $dark-sub3;
   }
-  .chip-wrapper__bgsucess {
-    background-color: $success !important
-  }
-  .chip-wrapper__bgabsentpink {
-    background-color: $danger-sub2 !important 
+  .chip-wrapper__bgpastdue {
+    background-color: $primary-24-sub2;
   }
   .chip-wrapper__bgabsent {
-    background-color: $warning !important 
+    background-color: $warning-sub3 !important;
+  }
+  .chip-wrapper__bgabsentpink {
+    background-color: $danger-sub3;
   }
   .chip-wrapper {
     &__bgsucess {
       span {
-        color: $white !important;
+        color: $success !important;
       }
     }
     &__bgabsent {
       span {
-        color: $white !important;
+        color: $orange !important;
+      }
+    }
+    &__bgpastdue {
+      span {
+        color: $primary !important;
       }
     }
     &__bgabsentpink {
       span {
-        color: $white !important;
+        color: $danger !important;
       }
     }
   }
@@ -43,15 +48,6 @@
   }
   .chip-wrapper__bgvacation {
     background-color: $primary;
-    svg {
-      fill: $white !important;
-    }
-    span {
-      color: $secondary-sub3 !important;
-    }
-  }
-  .chip-wrapper__bgpastdue {
-    background-color: $dark-sub3;
     svg {
       fill: $white !important;
     }

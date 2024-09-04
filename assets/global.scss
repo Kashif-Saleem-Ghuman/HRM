@@ -257,6 +257,10 @@ body {
 .d-align {
   display: flex;
   justify-content: center;
+  .text-center{
+    display: flex;
+    justify-content: center;
+  }
 }
 
 // .vdpBottom{

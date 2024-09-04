@@ -7,6 +7,7 @@
       :variant="[getStatusVariant(resolvedStatus)]"
       :defaultPointer="true"
       :className="['width-auto']"
+      class="d-align"
     ></chips>
   </div>
   <div v-else class="button-override">
@@ -18,6 +19,7 @@
       :disabled="disabled"
       pill
       :style="minWidth"
+      class="d-align"
       :class="[defaultPointer ? 'cursor-default' : 'cursor-pointer']"
     ></bib-button>
   </div>

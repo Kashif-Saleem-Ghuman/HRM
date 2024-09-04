@@ -92,6 +92,7 @@
                   v-model="todayDate"
                   :maxDate="maxDate"
                   :minDate="minDate"
+                  :key="updateDateTimePicker"
                   :class="`custom_date_picker ${monthListView ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"
@@ -246,8 +247,7 @@ export default {
       weekDataStatus: "",
       timesheetId: -1,
       timer: 1,
-      maxDate: DateTime.now().toISO(),
-      minDate: DateTime.local(2024, 1, 1).toISODate(),
+      maxDate: DateTime.now().toISO(), 
       refusalReason: null,
       timesheet: null,
       timesheetsList: [],
@@ -268,6 +268,9 @@ export default {
     };
   },
   computed: {
+    minDate() {
+      return this.$minDate();
+    },
     variant() {
       this.variantColor = this.isLightThemeCheck ? "light" : "dark";
     },

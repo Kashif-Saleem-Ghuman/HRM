@@ -43,13 +43,17 @@ export default {
       from: "",
       to: "",
       maxDate: DateTime.now().toISO(),
-      minDate: DateTime.local(2024, 1, 1).toISODate()
     };
   },
   props: {
     dates: {
       type: Object,
     }
+  },
+  computed:{
+    minDate() {
+      return this.$minDate();
+    },
   },
   methods: {
     getDatetimeCommonProps,

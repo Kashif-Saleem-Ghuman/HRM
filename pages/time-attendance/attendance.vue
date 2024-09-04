@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loader :loading="loading"></loader>
     <div
       class="d-flex justify-between align-center py-025 px-1 bottom_border_wrapper"
     >
@@ -49,7 +50,6 @@
       <div class="position-relative">
         <no-record v-if="showNoData"></no-record>
         <list-dashboard v-else :userList="employees"></list-dashboard>
-        <loader :loading="loading"></loader>
       </div>
     </div>
   </div>
@@ -78,11 +78,13 @@ export default {
         'employees_on_leave_count',
       ],
       isWidgetUserUpdated: false,
-      minDate: DateTime.local(2024, 1, 1).toISODate(),
     };
   },
 
   computed: {
+    minDate() {
+      return this.$minDate();
+    },
     dateBtnLabel() {
       if (this.isDateToday(this.date)) {
         return `Today, ${this.formatDate(this.date)}`;

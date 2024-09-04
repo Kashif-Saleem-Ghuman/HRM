@@ -10,12 +10,14 @@
       <div v-for="(item, index) in userList" :key="index">
         <board-card :isLightTheme="isLightThemeCheck">
           <template #new_contact_section>
+           <div class="pb-05 px-05 py-05">
             <bib-button
               label="Birthday"
               variant="tertiary"
               v-if="item.isBirthday"
               pill
-              class="mr-1"
+              style="background-color: #6F00FF; color: #fff;"
+              class="mr-05"
             ></bib-button>
             <bib-button
               label="Aniversary"
@@ -23,6 +25,7 @@
               v-if="item.isWorkAnniversary"
               pill
             ></bib-button>
+           </div>
           </template>
           <!-- <template #card_menu>
             <bib-popup pop="horizontal-dots" icon-variant="secondary">

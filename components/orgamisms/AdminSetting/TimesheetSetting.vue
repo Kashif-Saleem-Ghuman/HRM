@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
+    <div class="mb-1 shape-rounded pb-05 settings-wrapper":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
       <template>
         <bib-detail-collapse
           label="Timesheet Settings"

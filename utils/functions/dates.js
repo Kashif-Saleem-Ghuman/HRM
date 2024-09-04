@@ -124,6 +124,13 @@ export function startOfDayEndOfDayRange({ startDate, endDate }) {
   return { from, to }
 }
 
+export const parseDate = (date, format = "yyyy-MM-dd") => {
+  if (!date) return null;
+  const isoDate = DateTime.fromISO(date, { zone: "utc" });
+  if (isoDate.isValid) return isoDate;
+  return DateTime.fromFormat(date, format);
+}
+
 export function isSameDate(date1, date2) {
   const luxonDate1 = typeof date1 === "string" ? DateTime.fromISO(date1) : DateTime.fromJSDate(date1);
   const luxonDate2 = typeof date2 === "string" ? DateTime.fromISO(date2) : DateTime.fromJSDate(date2);

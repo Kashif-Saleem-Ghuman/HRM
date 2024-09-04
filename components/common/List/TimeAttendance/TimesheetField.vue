@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div @click="handleWrapperClick">
     <bib-time-picker-wrapper
       v-model="time"
       name="time"
       placeholder="--"
       class="text-dark font-w-600"
-      :disabled="checkIsFutureDate"
+      :disabled="disabled"
       @input="handleTimeInput"
     ></bib-time-picker-wrapper>
   </div>
@@ -20,10 +20,11 @@ import {
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
-  hoursAndMinutesToJSDate,
+  hoursAndMinutesToJSDate, isSameDate,
 } from "@/utils/functions/dates";
-import { ACTIVITY_TYPE, FILL_WEEKLY_ENTRY_EVENT } from "@/utils/constant/Constant";
+import {ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, FILL_WEEKLY_ENTRY_EVENT} from "@/utils/constant/Constant";
 import { DateTime } from "luxon";
+import {mapGetters} from "vuex";
 export default {
   props: {
     timeEntry: {
@@ -52,11 +53,21 @@ export default {
     };
   },
   computed: {
-    checkIsFutureDate() {
+    ...mapGetters({
+      getTimerData: "timeattendance/getTimerData",
+    }),
+    isTimerActive() {
+      return this.getTimerData?.active || false;
+    },
+    disabled() {
       const now = DateTime.local().startOf('day');
       const dateRow = DateTime.fromFormat(this.date, 'yyyy-MM-dd').startOf('day');
 
-      return !(now >= dateRow) || this.status === 'approved' || this.$store.state.token.isAdmin;
+      return !(now >= dateRow) || this.status === 'approved' || this.$store.state.token.isAdmin || this.disabledRow;
+    },
+
+    disabledRow() {
+      return this.isTimerActive && isSameDate(new Date(), new Date(this.date));
     },
   },
   methods: {
@@ -82,7 +93,27 @@ export default {
         this.makeNewTimeEntry();
       }
     },
-    
+
+
+    handleWrapperClick() {
+      if (this.disabledRow){
+        this.debouncedNotification();
+      }
+    },
+
+    debouncedNotification() {
+      if (!this.debounced) {
+        this.$openPopupNotification({
+          text: EDIT_TIME_ENTRY_WARNING_MESSAGE,
+          variant: "danger",
+        });
+        this.debounced = true;
+        setTimeout(() => {
+          this.debounced = false;
+        }, 3000);
+      }
+    },
+
     async makeNewTimeEntry() {
         const { startDate, endDate, date } = this.calculateDates();
         

@@ -21,6 +21,9 @@ import {
   getDateRanges,
   generateYearList,
 } from "../../utils/functions/functions_lib.js";
+import {LeaveRequest} from "@/components/common/models/leave_request";
+import {parseDate} from "@/utils/functions/dates";
+import {DateTime} from "luxon";
 export default {
   data() {
     return {
@@ -54,7 +57,7 @@ export default {
       );
     },
   },
-  
+
   mounted() {
     this.dropMenuYear = this.generateYearList();
     this.getLeaveRequests();
@@ -65,18 +68,44 @@ export default {
     },
     getDateRanges,
     generateYearList,
-    async getLeaveRequests() {
-      const { nextWeek } = getDateRanges();
 
-      const requests = await this.$store.dispatch(
-        "leavevacation/setLeaveVacations",
-        {
-          from: nextWeek.start,
-          to: nextWeek.end,
-        }
-      );
-      this.requestListData = requests;
-      this.loading = false;
+    isRequestPresent (startDate) {
+      return parseDate(startDate) >= DateTime.local();
+    },
+
+    isRequestRejected(request) {
+      return request.status === 'rejected';
+    },
+
+    hasRequestPastDays(request) {
+      const today = DateTime.local();
+      return parseDate(request.request.end).endOf('day') < today;
+    },
+
+    filterRequestData(requests) {
+      return requests.filter(request => { return !this.isRequestRejected(request) && !this.hasRequestPastDays(request) });
+    },
+
+    async getLeaveRequests() {
+      try{
+        const { nextWeek } = getDateRanges();
+        const requests = await this.$store.dispatch(
+          "leavevacation/setLeaveVacations",
+          {
+            from: nextWeek.start,
+            to: nextWeek.end,
+          }
+        );
+
+        this.requestListData = this.filterRequestData(requests).map(coll => new LeaveRequest(coll));
+      } catch (errorMessage) {
+        this.$openPopupNotification({
+          text: errorMessage,
+          variant: "danger",
+        });
+      } finally {
+        this.loading = false;
+      }
     },
 
   }

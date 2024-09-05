@@ -576,13 +576,10 @@ export default {
     },
     async dateSelection(value) {
       // this.loading = true;
-
       this.todayDate = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
-
-
-      if (!value) {
-        await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
-      }
+      // if (!value) {
+      //   await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
+      // }
       await this.fillDailyTimeEntries();
       // this.$nuxt.$emit("chronometer");
       // this.loading = false;

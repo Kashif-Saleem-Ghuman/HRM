@@ -46,7 +46,7 @@
                   : 'border-bottom-dark-sub1'
               "
             >
-              <div style="min-width: 70px">
+              <div style="min-width: 70px; min-height: 90px;">
                 <bib-avatar
                   variant="secondary-sub2"
                   :text="$getEmployeeInitials(item)"

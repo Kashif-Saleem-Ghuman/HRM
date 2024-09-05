@@ -20,7 +20,7 @@ export const getStatusVariantName = (status) => getStatusMapValue(status, {
     approved: "Approved",
     pending: "Pending",
     rejected: "Rejected",
-    past_due: "Resubmit",
+    past_due: "Submit",
     not_submitted: "Submit",
   });
   function getStatusMapValue(status, statusMap, defaultValue) {

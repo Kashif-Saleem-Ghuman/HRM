@@ -2,9 +2,9 @@ import {DateTime} from "luxon";
 import {parseDate} from "@/utils/functions/dates";
 
 
-export function LeaveRequest(requests) {
-  for (let key in requests) {
-    this[key] = requests[key];
+export function LeaveRequest(request) {
+  for (let key in request) {
+    this[key] = request[key];
   }
 
   this.todayDate = DateTime.local();
@@ -23,40 +23,30 @@ export function LeaveRequest(requests) {
 
   this.endOfMonth = this.todayDate.endOf('month');
 
-  this.doesDateExist = (selectedDateColl, date) => {
-   for(const selectedDate in selectedDateColl) {
-     const collectionDate = parseDate(selectedDate);
-     if (collectionDate.hasSame(date, 'day')) {
-       return true;
-     }
-   }
-   return false;
-  }
 
-  this.isDateBelongs = (startDate, start, end) => {
+  this.isDateBelongs = (startDate, startOf, endOf) => {
     const parseStartDate = parseDate(startDate)
-    return parseStartDate >= start && parseStartDate <= end;
-
+    return parseStartDate >= startOf && parseStartDate <= endOf;
   }
 
-  this.getTodayCollection = () => {
-    return requests.filter(request => { return this.doesDateExist(request.selectedDays, this.todayDate) });
+  this.isToday = () => {
+    return this.isDateBelongs(this.todayDate.toISO(), parseDate(this.request.start).startOf('day'), parseDate(this.request.end).endOf('day'));
   }
 
-  this.getTomorrowCollection = () => {
-    return requests.filter(request => { return this.doesDateExist(request.selectedDays, this.tomorrowDate) });
+  this.isTomorrow = () => {
+    return this.isDateBelongs(this.tomorrowDate.toISO(), parseDate(this.request.start).startOf('day'), parseDate(this.request.end).endOf('day'));
   }
 
-  this.getThisWeekCollection = () => {
-    return requests.filter(request => { return this.isDateBelongs(request.start, this.startOfWeek, this.endOfWeek) })
+  this.isThisWeek = () => {
+    return this.isDateBelongs(this.request.start, this.startOfWeek, this.endOfWeek)
   }
 
-  this.getNextWeekCollection = () => {
-    return requests.filter(request => { return this.isDateBelongs(request.start, this.nextStartOfWeek, this.nextEndOfWeek) })
+  this.isNextWeek = () => {
+    return this.isDateBelongs(this.request.start, this.nextStartOfWeek, this.nextEndOfWeek)
   }
 
-  this.getThisMonthCollection = () => {
-    return requests.filter(request => { return this.isDateBelongs(request.start, this.startOfMonth, this.endOfMonth) })
+  this.isThisMonth = () => {
+    return this.isDateBelongs(this.request.start, this.startOfMonth, this.endOfMonth)
   }
 
 }

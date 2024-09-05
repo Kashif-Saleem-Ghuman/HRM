@@ -150,31 +150,31 @@ export default {
           isCollapsed: false,
           label: "Due Today",
           variant: this.getIconThemeCheck(),
-          sections: this.getTodaySections(),
+          sections: this.leavePendingList.filter((item) => item.isToday()),
         },
         {
           isCollapsed: false,
           label: "Tomorrow",
           variant:  this.getIconThemeCheck(),
-          sections: this.getTomorrowSections(),
+          sections: this.leavePendingList.filter((item) => item.isTomorrow()),
         },
         {
           isCollapsed: false,
           label: "This Week",
           variant:  this.getIconThemeCheck(),
-          sections: this.getThisWeekSections(),
+          sections: this.leavePendingList.filter((item) => item.isThisWeek()),
         },
         {
-          isCollapsed: !this.isSameWeek,
+          isCollapsed: true,
           label: "Next Week",
           variant:  this.getIconThemeCheck(),
-          sections: this.getNextWeekSections(),
+          sections: this.leavePendingList.filter((item) => item.isNextWeek()),
         },
         {
-          isCollapsed: !this.isSameMonth,
+          isCollapsed: true,
           label: "This Month",
           variant:  this.getIconThemeCheck(),
-          sections: this.getThisMonthSections(),
+          sections: this.leavePendingList.filter((item) => item.isThisMonth()),
         },
       ];
     },
@@ -223,72 +223,8 @@ export default {
         ? "none"
         : "block";
     },
-    parseDate(date) {
-      if (!date) return null;
-      const isoDate = DateTime.fromISO(date, { zone: "utc" });
-      if (isoDate.isValid) return isoDate;
-      return DateTime.fromFormat(date, "yyyy-MM-dd");
-    },
-    isToday(date) {
-      const itemDate = this.parseDate(date);
-      if (!itemDate) return false;
-      const today = DateTime.local();
-      return itemDate.hasSame(today, "day");
-    },
-    isTomorrow(date) {
-      const itemDate = this.parseDate(date);
-      if (!itemDate) return false;
-      const tomorrow = DateTime.local().plus({ days: 1 });
-      return itemDate.hasSame(tomorrow, "day");
-    },
-    isThisWeek(date) {
-      const itemDate = this.parseDate(date);
-      if (!itemDate) return false;
-      const today = DateTime.local();
-      const startOfWeek = today.startOf("week");
-      const endOfWeek = today.endOf("week");
-      return itemDate >= startOfWeek && itemDate <= endOfWeek;
-    },
-    isNextWeek(date) {
-      const itemDate = this.parseDate(date);
-      if (!itemDate) return false;
-      const today = DateTime.local();
-      const startOfNextWeek = today.plus({ weeks: 1 }).startOf("week");
-      const endOfNextWeek = today.plus({ weeks: 1 }).endOf("week");
-      return itemDate >= startOfNextWeek && itemDate <= endOfNextWeek;
-    },
-    isThisMonth(date) {
-      const itemDate = this.parseDate(date);
-      if (!itemDate) return false;
-      const today = DateTime.local();
-      const startOfMonth = today.startOf("month");
-      const endOfMonth = today.endOf("month");
-      return itemDate >= startOfMonth && itemDate <= endOfMonth;
-    },
     getIconThemeCheck(){
       return this.isLightThemeCheck ? 'dark' : 'light'
-    },
-    getTodaySections() {
-      return this.leavePendingList.filter((item) => this.isToday(item.start));
-    },
-    getTomorrowSections() {
-      return this.leavePendingList.filter((item) =>
-        this.isTomorrow(item.start)
-      );
-    },
-    getThisWeekSections() {
-      return this.leavePendingList.filter((item) =>
-        this.isThisWeek(item.start)
-      );
-    },
-    getNextWeekSections() {
-      const nextWeekItems = this.leavePendingList.filter((item) => this.isNextWeek(item.start));
-    return nextWeekItems;
-    },
-    getThisMonthSections() {
-      return this.leavePendingList.filter((item) =>
-        this.isThisMonth(item.start)
-      );
     },
     toggleCollapse(index) {
       this.$set(

@@ -74,7 +74,16 @@ export default {
     },
 
     isRequestRejected(request) {
-      return request.status !== 'rejected';
+      return request.status === 'rejected';
+    },
+
+    hasRequestPastDays(request) {
+      const today = DateTime.local();
+      return parseDate(request.request.end).endOf('day') < today;
+    },
+
+    filterRequestData(requests) {
+      return requests.filter(request => { return !this.isRequestRejected(request) && !this.hasRequestPastDays(request) });
     },
 
     async getLeaveRequests() {
@@ -88,11 +97,7 @@ export default {
           }
         );
 
-        const coll = new LeaveRequest(requests.filter(request => { return this.isRequestRejected(request) }));
-
-        console.log('collec_todaycollection==', coll);
-
-        this.requestListData = requests;
+        this.requestListData = this.filterRequestData(requests).map(coll => new LeaveRequest(coll));
       } catch (errorMessage) {
         this.$openPopupNotification({
           text: errorMessage,

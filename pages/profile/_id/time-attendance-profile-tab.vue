@@ -260,7 +260,8 @@ export default {
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
     },
-    async dateSelection() {
+    async dateSelection(value) {
+      this.todayDate = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
       await this.fillDailyTimeEntries();
     },
     async weekSelection() {

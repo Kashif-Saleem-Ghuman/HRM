@@ -89,6 +89,8 @@ export default {
   border-radius: 0.5rem;
   min-width: 18rem;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   &__header {
     display: flex;
     align-items: center;
@@ -100,6 +102,7 @@ export default {
     }
   }
   &--items {
+    flex-grow: 1;
     label {
       font-size: 15px;
     }
@@ -123,6 +126,9 @@ export default {
         }
       }
     }
+  }
+  &__footer {
+    margin-top: auto; // Push the footer to the bottom
   }
   &--light-theme {
     background: $light-sub2;

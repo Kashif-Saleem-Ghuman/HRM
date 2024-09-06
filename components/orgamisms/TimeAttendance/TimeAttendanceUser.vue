@@ -92,7 +92,6 @@
                   v-model="todayDate"
                   :maxDate="maxDate"
                   :minDate="minDate"
-                  :key="updateDateTimePicker"
                   :class="`custom_date_picker ${monthListView ? 'pl-05' : ''} `"
                   size="sm"
                   @input="dateSelection($event)"

@@ -75,7 +75,7 @@
         <chips
           :key="day.value"
           :title="getWeekdayValue(data.value.weekData, day)"
-          :class="getWeekdayClassNames(data.value.weekData, day)"
+          :class="$getWeekdayClassNames(data.value.weekData, day)"
         ></chips>
       </template>
 
@@ -263,30 +263,6 @@ export default {
         ? `${vacationName} (${formattedHours})`
         : formattedHours;
     },
-    getWeekdayClassNames(weekData, day) {
-      if (!weekData) return "chip-wrapper__bggray";
-      const data = weekData[day.weekday];
-      if (!data) {
-        return "chip-wrapper__bggray";
-      }
-
-      if (data.vacation) {
-        return "chip-wrapper__bgvacation";
-      }
-
-      const totalHours = Number(data.totalHours);
-
-      if (totalHours >= 8) {
-        return "chip-wrapper__bgsucess";
-      } else if (totalHours >= 5 && totalHours < 8) {
-        return "chip-wrapper__bgabsent";
-      } else if (totalHours <= 3) {
-        return "chip-wrapper__bgabsentpink";
-      } else {
-        return "chip-wrapper__bgdefault";
-      }
-    },
-
     close() {
       this.timesheetModal = false;
     },

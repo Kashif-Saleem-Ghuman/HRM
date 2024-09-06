@@ -184,7 +184,10 @@ export default {
     },
     handleClick(clickedWidget) {
       if (clickedWidget.key === "pending_timesheets_count") {
-        this.$router.push("/time-attendance/pending/");
+        this.$router.push({
+          path: `/time-attendance/pending/`,
+          query: { show_all: true }
+        })
       } else if (clickedWidget.key === "pending_requests_count") {
         this.$router.push("/leaves-and-vacations/pendingrequest/");
       }

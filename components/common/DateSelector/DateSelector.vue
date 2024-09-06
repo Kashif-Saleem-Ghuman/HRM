@@ -1,9 +1,9 @@
 <template>
   <div class="date-selector">
     <span>View:</span>
-    <YearButton :isDisabled="isYearDisabled" :value.sync="year" />
+    <YearButton :disable="isYearDisabled" :value.sync="year" />
     <MonthButton
-      :isDisabled="isMonthDisabled"
+      :disable="isMonthDisabled"
       :disabled.sync="isMonthDisabled"
       :value.sync="month"
       :year="year"
@@ -14,12 +14,20 @@
 <script>
 import { DateTime } from "luxon";
 export default {
+
+  props: {
+    isYearDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    isMonthDisabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   data() {
     return {
-      isYearDisabled: false,
-      isMonthDisabled: false,
-      isWeekDisabled: false,
-      isDayDisabled: false,
       year: null,
       month: null,
     };

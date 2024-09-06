@@ -42,7 +42,7 @@
       setActiveTab() {
         const route = this.$route.fullPath
         const activeTab = SETTINGS_TAB.find( tab => tab.route == route)
-        this.$set(this, 'activeTab', activeTab.value)
+        this.$set(this, 'activeTab', activeTab?.value)
       }
     },
     watch:{
@@ -52,4 +52,3 @@
     }
   };
   </script>
-  

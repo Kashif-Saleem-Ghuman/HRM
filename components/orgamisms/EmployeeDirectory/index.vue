@@ -42,7 +42,7 @@
       setActiveTab() {
         const route = this.$route.fullPath
         const activeTab = EMPLOYEE_DIRECTORY.find( tab => tab.route == route)
-        this.$set(this, 'activeTab', activeTab.value)
+        this.$set(this, 'activeTab', activeTab?.value)
       }
     },
     watch:{

@@ -50,10 +50,16 @@ export default {
     onTabChange(tab) {
       this.$router.push(tab.route);
     },
+    filterRoute(route) {
+      if (route.includes("?show_all=true")) {
+        route = route.replace("?show_all=true", "");
+      }
+      return route;
+    },
     setActiveTab() {
-      const route = this.$route.fullPath
+      const route = this.filterRoute(this.$route.fullPath);
       const activeTab = TIME_ATTENDANCE_TAB.find( tab => tab.route == route)
-      this.$set(this, 'activeTab', activeTab.value)
+      this.$set(this, 'activeTab', activeTab?.value)
     }
   },
   watch:{

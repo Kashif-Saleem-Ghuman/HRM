@@ -95,6 +95,7 @@ import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "../../../../../utils/constant/Notifications"
 import { random } from "lodash";
 import fecha from "fecha";
+import {DateTime} from "luxon";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -123,6 +124,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isShowAll: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {
@@ -149,8 +154,11 @@ export default {
       refusalReason: null,
       checked: false,
       allChecked: false,
-      disableButtonMultiselect: false, 
-      
+      disableButtonMultiselect: false,
+      showAllDate: {
+        from: DateTime.now().startOf("year").toISO(),
+        to: DateTime.now().toISO(),
+      }
     };
   },
 
@@ -260,7 +268,7 @@ export default {
       const { searchString } = this;
 
       this.loading = true;
-      const { from, to } = this.dates;
+      const { from, to } = this.isShowAll ? this.showAllDate: this.dates;
       if (!from || !to) return;
 
       const employees = await fetchTimesheetsFunctionMap[this.type]({
@@ -322,7 +330,7 @@ export default {
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
-        }, 3000); 
+        }, 3000);
       }
     },
     checkCount(){

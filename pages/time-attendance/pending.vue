@@ -5,7 +5,7 @@
     >
       <div class="d-flex align-center">
         <div class="custom_date_picker">
-          <date-selector :dates.sync="dates" />
+          <date-selector :is-year-disabled="isShowAll" :is-month-disabled="isShowAll" :dates.sync="dates" />
         </div>
         <div class="ml-05 d-flex align-center" v-show="showMultiRecordActionButton">
           <bib-button
@@ -39,6 +39,7 @@
             :requestData.sync="requestData"
             :searchString="searchString"
             :isStatusUpdated.sync="isStatusUpdated"
+            :is-show-all="isShowAll"
             @reject-item="enableModal($event, 'rejectSingle')"
         ></timesheets-approval-table>
       </div>
@@ -91,6 +92,9 @@ export default {
           this.requestData?.length &&
           this.requestData?.some((employee) => employee?.timesheets?.some((timesheet) => timesheet.checked))
       );
+    },
+    isShowAll() {
+      return this.$route.query.show_all == 'true';
     },
   },
   methods: {

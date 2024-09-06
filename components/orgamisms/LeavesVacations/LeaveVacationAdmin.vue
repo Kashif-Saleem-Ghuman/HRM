@@ -53,7 +53,7 @@ export default {
     setActiveTab() {
       const route = this.$route.fullPath;
       const activeTab = LEAVEVACATION_TAB.find((tab) => tab.route == route);
-      this.activeTab = activeTab.value;
+      this.activeTab = activeTab?.value;
     },
   },
   watch:{

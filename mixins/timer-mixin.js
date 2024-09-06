@@ -111,8 +111,10 @@ export default {
   },
   watch: {
     active(val) {
-      if (!chronometerInterval) {
+      if (!chronometerInterval && val) {
         this.startTimerInterval();
+      }else {
+        this.clearChronometerInterval();
       }
     },
     isBreakActive(val) {

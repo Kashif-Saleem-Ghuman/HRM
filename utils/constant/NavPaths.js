@@ -9,9 +9,9 @@ export const navigationPaths = [
   {
     name: "timeAttendanceEmployeePaths",
     paths: [
-      "/home/attendance/?view=day",
-      "/home/attendance/?view=week",
-      "/home/attendance/?view=month",
+      "/home/?view=day",
+      "/home/?view=week",
+      "/home/?view=month",
     ],
     defaultPath: "/home/",
   },

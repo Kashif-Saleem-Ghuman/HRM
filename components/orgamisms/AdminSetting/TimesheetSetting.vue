@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <div class="mb-1 shape-rounded pb-05 settings-wrapper":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
+  <div class="settings-wrapper">
+    <div class="mb-1 shape-rounded pb-05":class="isLightThemeCheck ? 'border-gray2' : 'border-dark-sub3'">
       <template>
         <bib-detail-collapse
           label="Timesheet Settings"
@@ -101,7 +101,7 @@
             <div class="row mx-0 px-1">
               <div class="col-12 pb-2 helper-text" :class="isLightThemeCheck ? 'border-bottom-gray4' : 'border-bottom-dark-sub3'">Helper Text</div>
             </div>
-            <div class="row mx-0 bottom-settings-wrapper" >
+            <div class="row mx-0" >
               <div class="col-3">
                 <label class="ml-1">Clock-in time</label>
                 <bib-time-picker-wrapper
@@ -114,7 +114,7 @@
                 ></bib-time-picker-wrapper>
               </div>
             </div>
-            <div class="row mx-0 bottom-settings-wrapper">
+            <div class="row mx-0">
               <div class="col-3">
                 <label class="ml-1">Clock-out time</label>
                 <bib-time-picker-wrapper

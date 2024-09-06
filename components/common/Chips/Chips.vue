@@ -153,7 +153,7 @@ export default {
 .chip-wrapper {
   display: flex;
   text-align: center;
-  justify-content: center;
+  justify-content: start;
   width: 100%;
   border-radius: 4px;
   padding: 8px 15px 8px 8px;

@@ -19,12 +19,12 @@
     >
       <template #cell(leavetype)="data">
         <div
-          class="upper-case minus-ml cursor-pointer"
+          class="upper-case cursor-pointer" style="margin-left: -5px;"
           @click="leaveDetail(data.value)"
         >
           <chips
             :title="$leaveTypeCheck(data.value.type)"
-            iconShow="iconShow"
+            :iconShowLeft="true"
             :icon="$getLeaveStatusIconVariant(data.value.type)"
             :variantIcon="$getStatusIconVariant(data.value.status)"
           ></chips>

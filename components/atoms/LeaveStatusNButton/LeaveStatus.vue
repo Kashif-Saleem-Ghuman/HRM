@@ -6,7 +6,6 @@
       :icon="getStatusIcon(resolvedStatus)"
       :variant="[getStatusVariant(resolvedStatus)]"
       :defaultPointer="true"
-      :className="['width-auto']"
       class="d-align"
     ></chips>
   </div>

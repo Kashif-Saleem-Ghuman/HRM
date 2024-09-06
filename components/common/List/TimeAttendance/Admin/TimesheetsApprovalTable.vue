@@ -42,7 +42,7 @@
             <chips
               :key="`${value.day}-${Math.random()}`"
               :title="data.value[value.day] ? formatHoursToHHMM(data.value[value.day]) : '--'"
-              :className="[getDayClassName(data.value[value.day])]"
+              :className="[$getDayClassName(data.value[value.day])]"
               @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
             ></chips>
           </template>
@@ -324,17 +324,6 @@ export default {
           this.debounced = false;
         }, 3000); 
       }
-    },
-    getDayClassName(hours) {
-      if (!hours) return "chip-wrapper__bggray";
-
-      if (hours >= "08") return "chip-wrapper__bgsucess";
-
-      if (hours <= "08" && hours >= "05") return "chip-wrapper__bgabsent";
-
-      if (hours <= "05") return "chip-wrapper__bgabsentpink";
-
-      return "";
     },
     checkCount(){
       const checkedCount = this.employees

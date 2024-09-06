@@ -44,7 +44,7 @@
         <chips
           :key="day.value"
           :title="getWeekdayValue(data.value.weekData, day)"
-          :class="getWeekdayClassNames(data.value.weekData, day)"
+          :class="$getWeekdayClassNames(data.value.weekData, day)"
         ></chips>
       </template>
 
@@ -339,26 +339,6 @@ export default {
         if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
       }
       return "--";
-    },
-    getWeekdayClassNames(weekData, day) {
-      if (!weekData) return "chip-wrapper__bggray";
-      const data = weekData[day.weekday];
-      if (!data) {
-        return "chip-wrapper__bggray";
-      }
-      if (data.vacation) {
-        return "chip-wrapper__bgvacation chip-wrapper__border-radius";
-      }
-      const totalHours = Number(data.totalHours);
-      if (totalHours >= 8) {
-        return "chip-wrapper__bgsucess chip-wrapper__border-radius";
-      } else if (totalHours >= 5 && totalHours < 8) {
-        return "chip-wrapper__bgabsent chip-wrapper__border-radius";
-      } else if (totalHours <= 3) {
-        return "chip-wrapper__bgabsentpink chip-wrapper__border-radius";
-      } else {
-        return "chip-wrapper__bgdefault chip-wrapper__border-radius";
-      }
     },
     close() {
       this.timesheetModal = false;

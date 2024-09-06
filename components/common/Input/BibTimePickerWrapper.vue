@@ -1,5 +1,5 @@
 <template>
-  <div style="display: block; position: relative">
+  <div style="display: block; position: relative" @click.stop="adjustScrollHeight()">
     <bib-time-picker
       v-model="time"
       :name="name"
@@ -8,10 +8,17 @@
       @select-change="onInput"
       :disabled="disabled"
       :styleObject="styleObject"
-      :class="isLightThemeCheck ? 'bib-time-picker--light-theme' : 'bib-time-picker--dark-theme'"
+      :class="
+        isLightThemeCheck
+          ? 'bib-time-picker--light-theme'
+          : 'bib-time-picker--dark-theme'
+      "
       id="timePickerId"
     ></bib-time-picker>
-    <div v-show="disabled" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"></div>
+    <div
+      v-show="disabled"
+      style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"
+    ></div>
   </div>
 </template>
 
@@ -40,8 +47,8 @@ export default {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
 
   data() {
@@ -51,6 +58,12 @@ export default {
   },
 
   methods: {
+    adjustScrollHeight() {
+      const appWrapperContent = document.querySelector(".app-wrapper__content");
+      if (appWrapperContent) {
+        appWrapperContent.style.marginBottom = `4px`;
+      }
+    },
     onInput(time) {
       if (!isTimeFormat(time)) {
         this.time = this.value;

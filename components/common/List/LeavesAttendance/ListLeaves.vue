@@ -174,10 +174,7 @@ export default {
       if (duration === null || duration === undefined) {
         return "N/A";
       } else {
-        const hours = Math.round(duration * 24);
-        return `${duration} day${duration !== 1 ? "s" : ""} (${hours} hour${
-          hours !== 1 ? "s" : ""
-        })`;
+        return `${duration} day${duration !== 1 ? "s" : ""}`;
       }
     },
     onLoad(item) {

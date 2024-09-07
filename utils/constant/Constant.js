@@ -877,7 +877,7 @@ export const TABLE_FIELDS_TIME_ATTENDANCE = [
 ];
 export const LEAVEVACATION_TAB = [
   {
-    title: "Up Coming",
+    title: "Upcoming",
     value: "upcoming",
     route: "/leaves-and-vacations/upcoming/",
   },

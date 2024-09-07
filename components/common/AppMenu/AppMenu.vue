@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <bib-app-navigation
+      <!-- <bib-app-navigation
         :items="appWrapItems.navItemsAdmin.slice(-1)"
         @click="
           ($event, item) => {
@@ -57,7 +57,7 @@
           }
         "
         :isLightTheme="isLightThemeCheck"
-      ></bib-app-navigation>
+      ></bib-app-navigation> -->
       <bib-app-navigation
         :items="appWrapItems.navItemsUserSwitch.slice(0, 1)"
         @click="myAccountClick"

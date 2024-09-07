@@ -204,13 +204,13 @@ const data = () => {
         selected: false,
         id: "",
       },
-      {
-        label: "Settings",
-        icon: "setting-solid",
-        key: "settings",
-        url: "/settings/time-attendance/",
-        selected: false,
-      },
+      // {
+      //   label: "Settings",
+      //   icon: "setting-solid",
+      //   key: "settings",
+      //   url: "/settings/time-attendance/",
+      //   selected: false,
+      // },
       // { label: "My Account", icon: "add", key: "settings", selected: true},
     ],
     navItemsUserSwitch: [

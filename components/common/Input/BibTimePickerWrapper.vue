@@ -1,5 +1,5 @@
 <template>
-  <div style="display: block; position: relative" @click.stop="adjustScrollHeight()">
+  <div style="display: block; position: relative">
     <bib-time-picker
       v-model="time"
       :name="name"
@@ -58,12 +58,6 @@ export default {
   },
 
   methods: {
-    adjustScrollHeight() {
-      const appWrapperContent = document.querySelector(".app-wrapper__content");
-      if (appWrapperContent) {
-        appWrapperContent.style.marginBottom = `4px`;
-      }
-    },
     onInput(time) {
       if (!isTimeFormat(time)) {
         this.time = this.value;

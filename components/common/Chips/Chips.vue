@@ -9,6 +9,7 @@
         variant,
         className,
       ]"
+      :style="maxWidth"
       class="chip-wrapper"
       @click="$emit('on-click')"
     >
@@ -50,6 +51,9 @@ export default {
     },
     iconShowRight: {
       type: Boolean,
+    },
+    maxWidth: {
+      type: String,
     },
     scale: {
       type: Number,

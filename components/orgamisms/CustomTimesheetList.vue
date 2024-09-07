@@ -66,6 +66,8 @@
                 :leaveStatusData="data"
                 :defaultPointer="true"
                 :is-plain-status="true"
+                :centerAlign="true"
+                maxWidth="max-width: 155px !important; display:flex; justify-content: center;"
               ></leave-status>
               <!-- <chips
                 :title="

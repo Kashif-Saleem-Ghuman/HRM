@@ -7,6 +7,8 @@
       :variant="[getStatusVariant(resolvedStatus)]"
       :defaultPointer="true"
       class="d-align"
+      :style="maxWidth"
+      :centerAlign="centerAlign"
     ></chips>
   </div>
   <div v-else class="button-override">
@@ -39,7 +41,10 @@ export default {
     },
     minWidth: {
       type: String,
-      default: "min-width: 115px !important;",
+      default: "min-width: 155px !important;",
+    },
+    maxWidth: {
+      type: String,
     },
     disabled: {
       type: Boolean,
@@ -55,7 +60,10 @@ export default {
     timesheet:{
       type:Boolean,
       default:false
-    }
+    },
+    centerAlign: {
+      type: String,
+    },
   },
   data() {
     return {};

@@ -54,8 +54,16 @@ export const actions = {
           },
         }
       );
-      ctx.commit("SET_LEAVEVACATION_LIST", leaveVacations.data.requests);
-      return leaveVacations.data.requests;
+      const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
+        const endDateA = DateTime.fromISO(a.start);
+        const endDateB = DateTime.fromISO(b.start);
+        console.log(endDateA, "data", endDateB)
+
+        return endDateB - endDateA;
+      });
+      console.log(sortedLeave, "data")
+      ctx.commit("SET_LEAVEVACATION_LIST", sortedLeave);
+      return sortedLeave;
     } catch (e) {
       throw new Error(e.response.data.message);
     }
@@ -77,8 +85,8 @@ export const actions = {
         }
       );
       const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
-        const endDateA = DateTime.fromISO(a.end);
-        const endDateB = DateTime.fromISO(b.end);
+        const endDateA = DateTime.fromISO(a.start);
+        const endDateB = DateTime.fromISO(b.start);
         return endDateB - endDateA;
       });
       ctx.commit("SET_LEAVEVACATION_LIST_USER", sortedLeave);

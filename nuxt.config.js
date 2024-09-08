@@ -24,7 +24,7 @@ export default {
   },
 
   router: {
-    middleware: ['redirects', 'profile']
+    middleware: ["redirects", "profile", "active-employees"],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)

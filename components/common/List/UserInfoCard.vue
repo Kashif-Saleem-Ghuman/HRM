@@ -85,11 +85,7 @@ export default {
 
   computed: {
     isOnline() {
-      if (!this.user) return false;
-      if (this.user.presence && this.user.presence == "in") return true;
-      if (this.user.active) return true;
-      if (this.user?.activityReport?.in && !this.user?.activityReport?.out) return true
-      return false;
+      return this.$store.state.employee.activeEmployees[this.user?.id];
     },
     truncateText(){
       var screenWidth = window.screen.width;

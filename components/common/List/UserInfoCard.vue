@@ -85,6 +85,7 @@ export default {
 
   computed: {
     isOnline() {
+      if (!this?.user?.id) return false;
       return this.$store.state.employee.activeEmployees[this.user?.id];
     },
     truncateText(){

@@ -6,6 +6,7 @@
       :collapseObjs="collapseObj"
       :hide-no-column="true"
       @column-header-clicked="headerColumnClick($event.column)"
+      @change-open-collapse="changeOpenCollapse"
       :class="{
         'table--light': isLightThemeCheck,
         'table--dark': !isLightThemeCheck,
@@ -133,6 +134,23 @@ export default {
     return {
       tableFields: TABLE_HEAD.tHeadComingUp.slice(1),
       sortByField: null,
+      openCollapses: {
+        due_today: {
+          collapse: false,
+        },
+        tomorrow: {
+          collapse: false,
+        },
+        this_week: {
+          collapse: false,
+        },
+        next_week: {
+          collapse: true,
+        },
+        this_month: {
+          collapse: true,
+        }
+      },
     };
   },
   async created() {
@@ -144,34 +162,40 @@ export default {
 
       return sortColumn({ items: this.listPending, field: this.sortByField });
     },
+
     collapseObj() {
       return [
         {
-          isCollapsed: false,
+          value: 'due_today',
+          isCollapsed: this.openCollapses.due_today.collapse,
           label: "Due Today",
           variant: this.getIconThemeCheck(),
           sections: this.leavePendingList.filter((item) => item.isToday()),
         },
         {
-          isCollapsed: false,
+          value: 'tomorrow',
+          isCollapsed: this.openCollapses.tomorrow.collapse,
           label: "Tomorrow",
           variant:  this.getIconThemeCheck(),
           sections: this.leavePendingList.filter((item) => item.isTomorrow()),
         },
         {
-          isCollapsed: false,
+          value: 'this_week',
+          isCollapsed: this.openCollapses.this_week.collapse,
           label: "This Week",
           variant:  this.getIconThemeCheck(),
           sections: this.leavePendingList.filter((item) => item.isThisWeek()),
         },
         {
-          isCollapsed: true,
+          value: 'next_week',
+          isCollapsed: this.openCollapses.next_week.collapse,
           label: "Next Week",
           variant:  this.getIconThemeCheck(),
           sections: this.leavePendingList.filter((item) => item.isNextWeek()),
         },
         {
-          isCollapsed: true,
+          value: 'this_month',
+          isCollapsed: this.openCollapses.this_month.collapse,
           label: "This Month",
           variant:  this.getIconThemeCheck(),
           sections: this.leavePendingList.filter((item) => item.isThisMonth()),
@@ -190,7 +214,13 @@ export default {
     meetLink,
     sendMessage,
     makeCall,
-    
+
+    changeOpenCollapse(type) {
+      console.log('typeeeee==', type)
+      if (this.openCollapses[type]) {
+        this.openCollapses[type].collapse = !this.openCollapses[type].collapse;
+      }
+    },
     formatDuration(duration) {
       if (duration === null || duration === undefined) {
         return "N/A";

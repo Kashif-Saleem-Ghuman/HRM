@@ -157,6 +157,7 @@ export default {
         ...this.localCollapseObjs[index],
         isCollapsed: !this.localCollapseObjs[index].isCollapsed,
       });
+      this.$emit("change-open-collapse", this.localCollapseObjs[index].value);
     },
     clickItem($event, collapseIndex, itemIndex) {
       this.$emit(

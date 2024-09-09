@@ -434,7 +434,7 @@ export default {
 
     isStartValid() {
       if (!this.startTime) return false;
-      if (!this.validateStartIsBeforeBreak()) return false;
+      // if (!this.validateStartIsBeforeBreak()) return false;
       return true;
     },
     isEntryValid() {

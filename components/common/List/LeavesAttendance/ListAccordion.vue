@@ -216,7 +216,6 @@ export default {
     makeCall,
 
     changeOpenCollapse(type) {
-      console.log('typeeeee==', type)
       if (this.openCollapses[type]) {
         this.openCollapses[type].collapse = !this.openCollapses[type].collapse;
       }

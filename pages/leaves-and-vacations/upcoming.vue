@@ -2,10 +2,10 @@
 <template>
   <div class="scroll-wrapper">
     <div class="custom-header px-1 pt-05 pb-025" style="z-index: 9">
-      <div class="ltr-wrapper">
-        <div class="ltr-wrapper-items">
+      <div>
+        <div class="pt-05">
           <div class="d-flex pr-05">
-            <div class="">
+            <div>
               <bib-button
                 :icon="$button.approved.icon"
                 :variant="$button.approved.variant"
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div id="pending-request-wrapper" class="pt-2">
+    <div id="pending-request-wrapper">
       <loader :loading="loading"></loader>
       <div class="" id="pending_request_wrapper">
         <div>

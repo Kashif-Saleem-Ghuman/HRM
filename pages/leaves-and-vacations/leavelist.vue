@@ -2,8 +2,8 @@
 <template>
   <div>
     <div class="custom-header px-1 pt-05 pb-02" style="z-index: 9">
-      <div class="ltr-wrapper">
-        <div class="ltr-wrapper-items">
+      <div>
+        <div class="pt-05">
           <div class="d-flex pr-05">
             <div class="align-center nav_wrapper">
               <dropdown-menu-calendar
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div id="pending-request-wrapper" class="pt-2">
+    <div id="pending-request-wrapper">
       <loader :loading="loading"></loader>
       <div class="" id="pending_request_wrapper">
         <div>

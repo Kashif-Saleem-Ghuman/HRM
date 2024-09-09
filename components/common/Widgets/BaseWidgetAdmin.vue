@@ -85,6 +85,7 @@
                         :src="avatar.photo"
                         size="1.5rem"
                         class="mr-05"
+                        
                         :text="
                           avatar.photo ? null : $getEmployeeInitials(avatar)
                         "

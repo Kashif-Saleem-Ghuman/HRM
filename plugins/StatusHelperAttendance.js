@@ -61,10 +61,6 @@ export const getAttendanceStatus = (data) => {
     }`;
   }
 
-  if (inEntry && outEntry) {
-    return "Shift End";
-  }
-
   if (timers.length > 0 || inEntry) {
     return "Present";
   }

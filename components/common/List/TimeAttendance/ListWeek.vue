@@ -69,7 +69,7 @@
           ]"
           class="cursor-pointer"
         >
-          <span>{{ formatTime(data.value.total * 60, false) }}</span>
+          <span>{{ getDayTotalHour(data.value) }}</span>
         </div>
       </template>
     </bib-table>
@@ -198,6 +198,13 @@ export default {
       return WEEK_DAY[
         DateTime.fromJSDate(new Date(date + " 00:00")).weekday % 7
       ].value;
+    },
+
+    getDayTotalHour(timeEntry) {
+      if(timeEntry.out === "00:00"){
+        return "00:00";
+      }
+      return formatTime(timeEntry.total * 60, false);
     },
     getTodayDate() {
       this.todayDate;

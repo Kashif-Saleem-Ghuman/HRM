@@ -76,7 +76,7 @@
 import { formatIsoDateToYYYYMMDD } from "@/utils/functions/dates";
 import {
   PAST_DUE_TYPE,
-  PENDING_TYPE,
+  PENDING_TYPE, START_YEAR,
   TABLE_HEAD,
   TIMESHEET_STATUS,
   TIMESHEET_STATUSES,
@@ -156,7 +156,7 @@ export default {
       allChecked: false,
       disableButtonMultiselect: false,
       showAllDate: {
-        from: DateTime.now().startOf("year").toISO(),
+        from: DateTime.local(START_YEAR).startOf("year").toISO(),
         to: DateTime.now().toISO(),
       }
     };

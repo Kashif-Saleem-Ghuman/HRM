@@ -92,7 +92,7 @@
       </template>
       <template #cell(received)="data">
         <div class="justify-between">
-          <span>{{ getDateTimeFormat(data.value.statusChangeDate) }}</span>
+          <span>{{ getDateTimeFormat(data.value.created_at) }}</span>
         </div>
       </template>
     </custom-tabs-table>

@@ -80,7 +80,7 @@
                   @mouseout="hideEmployeeList"
                 >
                   <NuxtLink :to="`/profile/${avatar.id}`">
-                    <div class="d-flex align-center">
+                    <div class="d-flex align-center avtar-contain">
                       <bib-avatar
                         :src="avatar.photo"
                         size="1.5rem"

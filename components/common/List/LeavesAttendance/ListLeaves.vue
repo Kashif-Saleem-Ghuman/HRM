@@ -18,7 +18,7 @@
       }"
     >
       <template #cell(name)="data">
-        <div class="d-flex align-center text-left gap-05 position-relative">
+        <div class="d-flex align-center text-left gap-05 position-relative cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
           <div
             class="cursor-pointer"
             v-on:mouseover="profiletab('id_' + data.value.employee.id)"

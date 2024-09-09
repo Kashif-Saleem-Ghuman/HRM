@@ -34,7 +34,8 @@
               :formatDate="formatDate"
               class="custom_date_picker"
               :maxDate="maxDate"
-              style="margin-bottom: -7px;"
+              :minDate="minDate"
+              style="margin-bottom: -7px"
               size="sm"
               hide-quick-select
               @input="dateSelection($event)"
@@ -124,21 +125,27 @@
 import { DateTime } from "luxon";
 import { mapGetters } from "vuex";
 import fecha from "fecha";
-import { getDateDiffInHHMM, getTimeFromDate, weekToUTCWeek } from "@/utils/functions/dates";
-import { formatTime } from "@/utils/functions/clock_functions";
 import {
-  ACTIVITY_DICTIONARY,
-} from "@/utils/constant/TimesheetData.js";
+  getDateDiffInHHMM,
+  getTimeFromDate,
+  weekToUTCWeek,
+} from "@/utils/functions/dates";
+import { formatTime } from "@/utils/functions/clock_functions";
+import { ACTIVITY_DICTIONARY } from "@/utils/constant/TimesheetData.js";
 import {
   ACTIVITY_TYPE,
   MONTH_SELECTOR_DEFAULT,
-  FILL_WEEKLY_ENTRY_EVENT, FILL_DAILY_ENTRY_EVENT,
+  FILL_WEEKLY_ENTRY_EVENT,
+  FILL_DAILY_ENTRY_EVENT,
 } from "@/utils/constant/Constant";
 import { viewType } from "@/utils/constant/DropdownMenu";
-import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
+import {
+  getTimesheets,
+  getWeekTimesheets,
+} from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
-import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -159,7 +166,9 @@ export default {
       buttonIcon: "check-circle-solid",
       show: false,
       format: "DD-MMM-YYYY",
-      todayDate: new URLSearchParams(window.location.search).get('date') ? new URLSearchParams(window.location.search).get('date') : fecha.format(new Date(), "DD-MMM-YYYY"),
+      todayDate: new URLSearchParams(window.location.search).get("date")
+        ? new URLSearchParams(window.location.search).get("date")
+        : fecha.format(new Date(), "DD-MMM-YYYY"),
       ACTIVITY_DICTIONARY,
       reportOptions: "",
       activeRole: this.activeUserRole === "ADMIN" ? true : false,
@@ -241,15 +250,15 @@ export default {
       this.weekDates = {
         from: null,
         to: null,
-      }
+      };
     },
     resetTodayDate() {
       this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
     },
     setDefaultOnViewChange(view) {
-      if(view === 'week' && this.view.value !== 'week'){
+      if (view === "week" && this.view.value !== "week") {
         this.resetWeekDates();
-      }else if(view === 'day' && this.view.value !== 'day') {
+      } else if (view === "day" && this.view.value !== "day") {
         this.resetTodayDate();
       }
     },
@@ -261,7 +270,8 @@ export default {
       this.$router.push({ query: { view: "week" } });
     },
     async dateSelection(value) {
-      this.todayDate = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate =
+        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
       await this.fillDailyTimeEntries();
     },
     async weekSelection() {
@@ -277,7 +287,9 @@ export default {
       // this.loading = true;
       if (!this.todayDate) return;
       await this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntry", {
-        date: DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd"),
+        date: DateTime.fromJSDate(new Date(this.todayDate)).toFormat(
+          "yyyy-MM-dd"
+        ),
         employeeId: this.id,
       });
       this.todayData = [];
@@ -304,7 +316,7 @@ export default {
       });
       weekRange.employeeId = this.id;
       const weekData = new TimesheetParser(
-          await getWeekTimesheets(weekRange)
+        await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
       this.weekDataTotalWork = formatTime(
@@ -318,12 +330,14 @@ export default {
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
+        from: new Date(
+          isWeekRange ? this.weekDates.from : this.timesheetDates.from
+        ),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser({timesheets: employee});
+        const parser = new TimesheetParser({ timesheets: employee });
         return parser.parse("weekDays");
       });
       this.timesheetsList = timesheets;
@@ -335,7 +349,7 @@ export default {
       return `${fromFormat} -> ${toFormat}`;
     },
     calculateTotalWorkMs({ timeEntry }) {
-      if (!timeEntry.end) return 0
+      if (!timeEntry.end) return 0;
 
       return (
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
@@ -348,7 +362,7 @@ export default {
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {
-      this.timesheetDates = {from: from, to: to}
+      this.timesheetDates = { from: from, to: to };
     },
     registerRootListeners() {
       this.registerFillWeeklyEntryListener();
@@ -376,6 +390,9 @@ export default {
     },
   },
   computed: {
+    minDate() {
+      return this.$minDate();
+    },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
         return "";
@@ -449,7 +466,7 @@ export default {
   async created() {
     this.setView();
     this.id = this.$route.params.id;
-    this.$store.dispatch("employee/setSelectedEmployeeTimer")
+    this.$store.dispatch("employee/setSelectedEmployeeTimer");
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();
   },
@@ -461,18 +478,18 @@ export default {
       ).label;
     },
     dates(newval, old) {
-      if(newval.from && newval.to) {
+      if (newval.from && newval.to) {
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }
     },
     month(val) {
-      if(val === MONTH_SELECTOR_DEFAULT.value){
+      if (val === MONTH_SELECTOR_DEFAULT.value) {
         this.isFullYearList = true;
-      }else {
+      } else {
         this.isFullYearList = false;
       }
-    }
+    },
   },
 };
 </script>

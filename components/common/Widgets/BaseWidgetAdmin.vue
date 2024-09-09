@@ -80,11 +80,12 @@
                   @mouseout="hideEmployeeList"
                 >
                   <NuxtLink :to="`/profile/${avatar.id}`">
-                    <div class="d-flex align-center">
+                    <div class="d-flex align-center avtar-contain">
                       <bib-avatar
                         :src="avatar.photo"
                         size="1.5rem"
-                        class="mr-05 avtar-contain"
+                        class="mr-05"
+                        
                         :text="
                           avatar.photo ? null : $getEmployeeInitials(avatar)
                         "
@@ -152,6 +153,7 @@ export default {
       progressKey: 0,
       employeeList: {},
       MAX_VISIBLE_AVATARS: 3,
+      widgetsData: null
     };
   },
   computed: {
@@ -171,6 +173,7 @@ export default {
   methods: {
     async fetchData() {
       const data = await getAdminWidget();
+      this.widgetsData = data;
       if (data) {
         this.widgets = WIDGETS.map((widget) => ({
           ...widget,
@@ -225,13 +228,13 @@ export default {
         if (widgetKeys.includes(widget.key)) {
           if (widget.key === "employees_present_count") {
             widget.avatars =
-              this.totalData.filter((employee) => employee.isPresent()) || [];
+              this.widgetsData?.employeesPresent || [];
           } else if (widget.key === "employees_absent_count") {
             widget.avatars =
-              this.totalData.filter((employee) => !employee.isPresent()) || [];
+              this.widgetsData?.employeesAbsent || [];;
           } else if (widget.key === "employees_on_leave_count") {
             widget.avatars =
-              this.totalData.filter((employee) => employee.isOnLeave()) || [];
+              this.widgetsData?.employeesOnLeave || [];
           }
         }
       });

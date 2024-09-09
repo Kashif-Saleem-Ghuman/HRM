@@ -6,7 +6,7 @@ export default ({ app }, inject) => {
   
       if (hours <= "06" && hours > "04") return "chip-wrapper__bgabsent";
   
-      if (hours <= "01" && hours >= "04") return "chip-wrapper__bgabsentpink";
+      if (hours <= "04" && hours > "01") return "chip-wrapper__bgabsentpink";
   
       return "chip-wrapper__bgdefault";
     };

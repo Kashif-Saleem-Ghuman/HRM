@@ -39,6 +39,7 @@
 
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <template>
+          {{ data.value[value.day]  }}
           <chips
             :key="`${value.day}-${Math.random()}`"
             :title="data.value[value.day] ? formatHoursToHHMM(data.value[value.day]) : '--'"

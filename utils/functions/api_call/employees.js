@@ -60,3 +60,16 @@ export async function getEmployees(params = {}) {
     console.error(e);
   }
 }
+
+export async function getActiveEmployees() {
+  try {
+    const config = createConfig();
+    const url = `/employees/active`;
+    const { data } = await hrmApiAxiosInstance.get(url, {
+      ...config,
+    });
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+}

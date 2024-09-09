@@ -1,4 +1,5 @@
 import { redirectToLogin } from "../utils/functions/api_call/auth";
+import { getActiveEmployees } from "../utils/functions/api_call/employees";
 import { getActiveTimer } from "../utils/functions/api_call/timeattendance/timer";
 
 export const state = () => ({
@@ -8,7 +9,8 @@ export const state = () => ({
   departmentList: [],
   reportList: [],
   selectedEmployeeId: null,
-  selectedEmployee: null
+  selectedEmployee: null,
+  activeEmployees: {},
 });
 
 export const getters = {
@@ -30,6 +32,10 @@ export const getters = {
 };
 
 export const mutations = {
+  SET_ACTIVE_EMPLOYEES: (state, payload) => {
+    state.activeEmployees = payload;
+  },
+
   SET_USER: (state, payload) => {
     state.user = payload;
   },
@@ -55,6 +61,14 @@ export const mutations = {
 };
 
 export const actions = {
+  async setActiveEmployees({ commit }) {
+    try {
+      const activeEmployees = await getActiveEmployees();
+      commit("SET_ACTIVE_EMPLOYEES", activeEmployees);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
   async setSelelectedEmployee({ state, commit}, { employeeId }) {
     if (!employeeId) return  commit("SET_SELECTED_EMPLOYEE", { employee: null })

@@ -1,7 +1,7 @@
 
 <template>
   <div class="scroll-wrapper">
-    <div class="custom-header px-1 pt-05" style="z-index: 9">
+    <div class="custom-header px-1 pt-05 pb-025" style="z-index: 9">
       <div class="ltr-wrapper">
         <div class="ltr-wrapper-items">
           <div class="d-flex pr-05">
@@ -45,7 +45,7 @@ import {
 
 import {
   addLeaveVacations,
-} from "@/utils/functions/functions_lib.js";
+} from "@/utils/functions/functions_lib_api.js";
 
 import {LeaveRequest} from "@/components/common/models/leave_request";
 import {parseDate} from "@/utils/functions/dates";
@@ -73,7 +73,6 @@ export default {
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
       getLeaveVacation: "leavevacation/getLeaveVacation",
-      getformToDate: "leavevacation/getformToDate",
     }),
     showTable() {
       return !this.loading && this.requestListData?.length;
@@ -85,26 +84,31 @@ export default {
       );
     },
     getLeaveVacationList() {
-      console.log('this.filterRequestData(this.getLeaveVacation)', this.filterRequestData(this.getLeaveVacation));
-      
       return this.filterRequestData(this.getLeaveVacation).map(coll => new LeaveRequest(coll));
     },
   },
 
   mounted() {
-    addLeaveVacations,
     this.dropMenuYear = this.generateYearList();
     this.setLeaveRequests();
+    this.setFormToDate();
     this.registerRootListener();
   },
   beforeDestroy() {
     this.unregisterFetchLeaveVacation();
   },
   methods: {
+    addLeaveVacations,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },
-    getDateRanges,
+    async setFormToDate() {
+      const { nextWeek } = getDateRanges();
+      await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+        from: nextWeek.start,
+        to: nextWeek.end,
+      });
+    },
     generateYearList,
     actionBY($event, key) {
       this.$nuxt.$emit("open-sidebar-admin", $event, key);

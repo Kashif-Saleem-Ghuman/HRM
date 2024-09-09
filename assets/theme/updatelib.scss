@@ -1,4 +1,15 @@
 .light-theme {
+  .avtar-contain {
+    background-color: $light !important;
+    border-radius: 50% !important;
+    span {
+      background-color: transparent !important;
+    }
+    .avatar__text {
+      color: $gray6 !important;
+      background-color: none !important;
+    }
+  }
   .input {
     &--alert {
       input,

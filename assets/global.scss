@@ -256,10 +256,10 @@ body {
 }
 .d-align {
   display: flex;
-  justify-content: center;
+  justify-content: center !important;
   .text-center{
     display: flex;
-    justify-content: center;
+    justify-content: center !important;
   }
 }
 

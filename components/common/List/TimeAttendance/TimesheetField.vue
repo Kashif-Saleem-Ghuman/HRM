@@ -20,11 +20,12 @@ import {
 import {
   parseInputTimeIntoArray,
   numberToClockDigits,
-  hoursAndMinutesToJSDate, isSameDate,
+  hoursAndMinutesToJSDate, isSameDate, getTimeFromDate,
 } from "@/utils/functions/dates";
 import {ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, FILL_WEEKLY_ENTRY_EVENT} from "@/utils/constant/Constant";
 import { DateTime } from "luxon";
 import {mapGetters} from "vuex";
+import {isEndTimeOnSameDay} from "@/utils/functions/time";
 export default {
   props: {
     timeEntry: {
@@ -69,6 +70,11 @@ export default {
     disabledRow() {
       return this.isTimerActive && isSameDate(new Date(), new Date(this.date));
     },
+    startTime() {
+      if(this.timeEntry) {
+        return getTimeFromDate(this.timeEntry.start);
+      }
+    },
   },
   methods: {
     parseInputTimeIntoArray,
@@ -87,6 +93,9 @@ export default {
       return this.activity === ACTIVITY_TYPE.OUT;
     },
     handleTimeInput() {
+      if(this.isActivityOut() && !this.startTime){
+        return;
+      }
       if (this.timeEntry) {
         this.editThisTimeEntry();
       }else {
@@ -162,6 +171,13 @@ export default {
       }
     },
 
+    getEndDate(startTime, endTime) {
+      if (!isEndTimeOnSameDay(startTime, endTime)) {
+        return DateTime.fromJSDate(new Date(this.date)).plus({ day: 1 }).toJSDate();
+      }
+      return this.date;
+    },
+
     calculateDates() {
       return {
         date: this.date,
@@ -174,7 +190,7 @@ export default {
         ...(this.isActivityOut() && {
             endDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.time),
-          this.date
+          this.getEndDate(this.startTime, this.time),
         ).toISOString()}),
       };
     },

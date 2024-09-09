@@ -96,7 +96,7 @@
       </template>
       <template #cell(received)="data">
         <div class="justify-between cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
-          <span>{{ getDateTimeFormat(data.value.statusChangeDate) }}</span>
+          <span>{{ getDateTimeFormat(data.value.created_at) }}</span>
         </div>
       </template>
     </bib-table>

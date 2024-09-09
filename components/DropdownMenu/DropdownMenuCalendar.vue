@@ -6,7 +6,7 @@
         <bib-button
           :label="String(label)"
           :variant="themeButtonVariant"
-          size="lg"
+          :size="size"
           @click="show = !show"
           v-click-outside="clickOutside"
         ></bib-button>
@@ -44,6 +44,10 @@ export default {
       type: [Number, String],
     },
 
+    size: {
+      type: String,
+      default: 'lg'
+    },
     variant: String,
     icon: String,
     className: String,

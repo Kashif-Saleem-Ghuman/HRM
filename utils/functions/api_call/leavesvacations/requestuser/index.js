@@ -50,7 +50,7 @@ export async function addLeaveVacations() {
     this.leaveVacationData = addLeaveVacations.data;
     if (this.$store.state.token.isAdmin) {
       await this.$store
-        .dispatch("leavevacation/setLeaveVacationsUser", {
+        .dispatch("leavevacation/setLeaveVacations", {
           from: this.getformToDate.from,
           to: this.getformToDate.to,
           employeeId: this.addForm.employeeId,
@@ -99,8 +99,8 @@ export async function deleteLevaeVacation(value) {
     const leaveDelete = await hrmApiAxiosInstance.delete(url + request, config);
     if (this.$store.state.token.isAdmin) {
       this.$nuxt.$emit("update-key");
-          this.$nuxt.$emit("fetched-leave-vacation-admin");
-          this.$nuxt.$emit("render-leave-actual-data");
+      this.$nuxt.$emit("fetched-leave-vacation-admin");
+      this.$nuxt.$emit("render-leave-actual-data");
     }else{
       this.$nuxt.$emit("fetched-leave-vacation");
     }

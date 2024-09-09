@@ -139,6 +139,10 @@ export const parseDate = (date, format = "yyyy-MM-dd") => {
   return DateTime.fromFormat(date, format);
 }
 
+export const getIsoDate = (date) => {
+  return parseDate(date).toISODate();
+}
+
 export function isSameDate(date1, date2) {
   const luxonDate1 = typeof date1 === "string" ? DateTime.fromISO(date1) : DateTime.fromJSDate(date1);
   const luxonDate2 = typeof date2 === "string" ? DateTime.fromISO(date2) : DateTime.fromJSDate(date2);

@@ -1,5 +1,5 @@
 import {DateTime} from "luxon";
-import {parseDate} from "@/utils/functions/dates";
+import {getIsoDate} from "@/utils/functions/dates";
 
 
 export function LeaveRequest(request) {
@@ -7,7 +7,7 @@ export function LeaveRequest(request) {
     this[key] = request[key];
   }
 
-  this.todayDate = DateTime.local();
+  this.todayDate = DateTime.now();
 
   this.tomorrowDate = DateTime.local().plus({ days: 1 });
 
@@ -24,29 +24,28 @@ export function LeaveRequest(request) {
   this.endOfMonth = this.todayDate.endOf('month');
 
 
-  this.isDateBelongs = (startDate, startOf, endOf) => {
-    const parseStartDate = parseDate(startDate)
-    return parseStartDate >= startOf && parseStartDate <= endOf;
+  this.isDateBelongs = (date, start, end) => {
+    return date >= start && date <= end;
   }
 
   this.isToday = () => {
-    return this.isDateBelongs(this.todayDate.toISO(), parseDate(this.request.start).startOf('day'), parseDate(this.request.end).endOf('day'));
+    return this.isDateBelongs(this.todayDate.toISODate(), getIsoDate(this.request.start), getIsoDate(this.request.end));
   }
 
   this.isTomorrow = () => {
-    return this.isDateBelongs(this.tomorrowDate.toISO(), parseDate(this.request.start).startOf('day'), parseDate(this.request.end).endOf('day'));
+    return this.isDateBelongs(this.tomorrowDate.toISODate(), getIsoDate(this.request.start), getIsoDate(this.request.end));
   }
 
   this.isThisWeek = () => {
-    return this.isDateBelongs(this.request.start, this.startOfWeek, this.endOfWeek)
+    return this.isDateBelongs(getIsoDate(this.request.start), this.startOfWeek.toISODate(), this.endOfWeek.toISODate())
   }
 
   this.isNextWeek = () => {
-    return this.isDateBelongs(this.request.start, this.nextStartOfWeek, this.nextEndOfWeek)
+    return this.isDateBelongs(getIsoDate(this.request.start), this.nextStartOfWeek.toISODate(), this.nextEndOfWeek.toISODate())
   }
 
   this.isThisMonth = () => {
-    return this.isDateBelongs(this.request.start, this.startOfMonth, this.endOfMonth)
+    return this.isDateBelongs(getIsoDate(this.request.start), this.startOfMonth.toISODate(), this.endOfMonth.toISODate())
   }
 
 }

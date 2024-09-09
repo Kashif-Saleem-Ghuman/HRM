@@ -1,5 +1,7 @@
 <script>
 import { getAdminTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time';
+import { weekToUTCWeek } from "../../../utils/functions/dates"
+
 import BaseTimesheetWidget from './BaseTimesheetWidget.vue';
 export default {
   extends: BaseTimesheetWidget,
@@ -9,7 +11,11 @@ export default {
       const { startDate, endDate } = this
       if (!startDate && !endDate) return
 
-      const { from, to } = this.startOfDayEndOfDayRange({ startDate, endDate })
+      const { from, to } = await weekToUTCWeek({
+        from: new Date(startDate),
+        to: new Date(endDate),
+      });
+
       const data = await getAdminTimesheetWidget({ from, to })
       const title = "Past due timesheets"
       const subheading = 'Missing in action'

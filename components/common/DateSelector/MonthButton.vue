@@ -6,9 +6,10 @@
           :label="selected"
           :variant="themeButtonVariant"
           @click="toggleDropdown"
+          :class="[{'disabled-opacity': disable}]"
           v-click-outside="clickOutside"
         ></bib-button>
-        <div class="menu-items chip-wrapper-com" style="left: 0;">
+        <div v-if="!disable" class="menu-items chip-wrapper-com" style="left: 0;">
           <div v-if="isDropdownOpen" class="chip-wrapper-inner">
             <div
               v-for="(item, index) in getMonthsOptions"
@@ -76,6 +77,10 @@ export default {
   props: {
     year: {
       type: Number | String,
+    },
+    disable: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

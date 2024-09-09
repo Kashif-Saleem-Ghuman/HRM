@@ -5,9 +5,10 @@
         :label="selected?.toString()"
         :variant="isLightThemeCheck ? 'light' : 'dark-sub3'"
         @click="toggleDropdown"
+        :class="[{'disabled-opacity': disable}]"
         v-click-outside="clickOutside"
       ></bib-button>
-      <div class="menu-items chip-wrapper-com" style="left: 0;">
+      <div v-if="!disable" class="menu-items chip-wrapper-com" style="left: 0;">
         <div v-if="isDropdownOpen" class="chip-wrapper-inner">
           <div
             v-for="(item, index) in options"
@@ -57,6 +58,12 @@
 import BaseDateButtonVue from "./BaseDateButton.vue";
 export default {
   extends: BaseDateButtonVue,
+  props: {
+    disable: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       options: [],

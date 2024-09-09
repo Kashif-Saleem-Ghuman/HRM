@@ -2,11 +2,11 @@ export default ({ app }, inject) => {
     const getDayClassName = (hours) => {
         if (!hours || hours === '00:00') return "chip-wrapper__bggray";
   
-      if (hours > "06") return "chip-wrapper__bgsucess";
+      if (hours >= "08") return "chip-wrapper__bgsucess";
   
-      if (hours <= "06" && hours > "04") return "chip-wrapper__bgabsent";
+      if (hours < "08" && hours >= "6") return "chip-wrapper__bgabsent";
   
-      if (hours <= "04" && hours > "01") return "chip-wrapper__bgabsentpink";
+      if (hours < "6" && hours >= "01") return "chip-wrapper__bgabsentpink";
   
       return "chip-wrapper__bgdefault";
     };
@@ -20,11 +20,11 @@ export default ({ app }, inject) => {
         if (data.vacation) return "chip-wrapper__bgvacation chip-wrapper__border-radius";
         
         const totalHours = Number(data.totalHours);
-        if (totalHours > 6) {
+        if (totalHours >= 8) {
           return "chip-wrapper__bgsucess chip-wrapper__border-radius";
-        } else if (totalHours > 4 && totalHours <= 6) {
+        } else if (totalHours < 8 && totalHours >= 6) {
           return "chip-wrapper__bgabsent chip-wrapper__border-radius";
-        } else if (totalHours >= 1 && totalHours <= 4) {
+        } else if (totalHours >= 1 && totalHours < 6) {
           return "chip-wrapper__bgabsentpink chip-wrapper__border-radius";
         } else {
           return "chip-wrapper__bgdefault chip-wrapper__border-radius";

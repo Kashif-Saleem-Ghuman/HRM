@@ -156,8 +156,8 @@ export default {
       allChecked: false,
       disableButtonMultiselect: false,
       showAllDate: {
-        from: DateTime.local(START_YEAR).startOf("year").toISO(),
-        to: DateTime.now().toISO(),
+        from: DateTime.local().startOf("year").toISO(),
+        to: DateTime.local().endOf('year').toISO(),
       }
     };
   },

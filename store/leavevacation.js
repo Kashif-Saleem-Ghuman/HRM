@@ -37,7 +37,7 @@ export const mutations = {
 
 export const actions = {
   async setLeaveVacations(ctx, payload) {
-    const { from, to, search, status } = payload;
+    const { from, to, search, status, split } = payload;
     try {
       const leaveVacations = await axios.get(
         `${process.env.API_URL}/requests/admin`,
@@ -50,7 +50,7 @@ export const actions = {
             to,
             search,
             status,
-            split: true,
+            split
           },
         }
       );

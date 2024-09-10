@@ -29,23 +29,23 @@ export function LeaveRequest(request) {
   }
 
   this.isToday = () => {
-    return this.isDateBelongs(this.todayDate.toISODate(), getIsoDate(this.request.start), getIsoDate(this.request.end));
+    return this.isDateBelongs(this.todayDate.toISODate(), getIsoDate(this.start), getIsoDate(this.end));
   }
 
   this.isTomorrow = () => {
-    return this.isDateBelongs(this.tomorrowDate.toISODate(), getIsoDate(this.request.start), getIsoDate(this.request.end));
+    return this.isDateBelongs(this.tomorrowDate.toISODate(), getIsoDate(this.start), getIsoDate(this.end));
   }
 
   this.isThisWeek = () => {
-    return this.isDateBelongs(getIsoDate(this.request.start), this.startOfWeek.toISODate(), this.endOfWeek.toISODate())
+    return this.isDateBelongs(getIsoDate(this.start), this.startOfWeek.toISODate(), this.endOfWeek.toISODate())
   }
 
   this.isNextWeek = () => {
-    return this.isDateBelongs(getIsoDate(this.request.start), this.nextStartOfWeek.toISODate(), this.nextEndOfWeek.toISODate())
+    return this.isDateBelongs(getIsoDate(this.start), this.nextStartOfWeek.toISODate(), this.nextEndOfWeek.toISODate())
   }
 
   this.isThisMonth = () => {
-    return this.isDateBelongs(getIsoDate(this.request.start), this.startOfMonth.toISODate(), this.endOfMonth.toISODate())
+    return this.isDateBelongs(getIsoDate(this.start), this.startOfMonth.toISODate(), this.endOfMonth.toISODate())
   }
 
 }

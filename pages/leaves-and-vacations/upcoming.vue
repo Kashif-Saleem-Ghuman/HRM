@@ -84,7 +84,7 @@ export default {
       );
     },
     getLeaveVacationList() {
-      return this.filterRequestData(this.getLeaveVacation).map(coll => new LeaveRequest(coll));
+      return !this.loading ? this.filterRequestData(this.getLeaveVacation).map(coll => new LeaveRequest(coll)) : [];
     },
   },
 
@@ -125,7 +125,7 @@ export default {
 
     hasRequestPastDays(request) {
       const today = DateTime.local();
-      return parseDate(request.request.end).endOf('day') < today;
+      return parseDate(request.end).endOf('day') < today;
     },
 
     filterRequestData(requests) {

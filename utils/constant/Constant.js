@@ -793,9 +793,9 @@ export const TABLE_HEAD = {
       width: `${100 / 7.5}%`,
       header_icon: {
         icon: "long-arrow-up",
-        event: "employee-start-sort",
+        event: "employee-created_at-sort",
         isActive: false,
-        sortKey: "start",
+        sortKey: "created_at",
         type: "date",
       },
     },

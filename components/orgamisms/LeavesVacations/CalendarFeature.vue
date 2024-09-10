@@ -273,6 +273,7 @@ export default {
             to: this.getformToDate.to,
             search: this.searchString,
             status: TIMESHEET_STATUSES.APPROVED,
+            split: true,
           }
         );
         this.setCalendarEvents(requests);

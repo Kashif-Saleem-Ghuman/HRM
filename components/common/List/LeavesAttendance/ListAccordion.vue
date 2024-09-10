@@ -50,12 +50,12 @@
           <div class="info_wrapper">
             <div :title="$getEmployeeFullName(data.value.employee)">
               {{
-                $getEmployeeFullName(data.value.employee)
+                $getEmployeeFullName(data.value?.employee)
                   | truncate(truncateText, "...")
               }}
             </div>
             <div :class="isLightThemeCheck ? 'description' : 'text-gray1'">
-              {{ data.value.request.employee.jobTitle }}
+              {{ data.value?.employee?.jobTitle }}
             </div>
           </div>
         </div>
@@ -67,12 +67,12 @@
       </template>
       <template #cell(from)="data">
         <div class="justify-between cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
-          <span>{{ onLoad(data.value.request.start) }}</span>
+          <span>{{ onLoad(data.value.start) }}</span>
         </div>
       </template>
       <template #cell(to)="data">
         <div class="justify-between cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
-          <span>{{ onLoad(data.value?.request.end) }}</span>
+          <span>{{ onLoad(data.value?.end) }}</span>
         </div>
       </template>
       <template #cell(total)="data">

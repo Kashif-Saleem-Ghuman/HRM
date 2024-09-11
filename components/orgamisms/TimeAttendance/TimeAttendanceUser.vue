@@ -357,6 +357,12 @@ export default {
   },
   async created() {
     // this.loading = true;
+    let path = this.$route.fullPath;
+    console.log(path, "ksdnlasdjlajsdljasdljlasdjl")
+if (path === '/my-timesheet/') {
+  this.$router.push('?view=month')
+  this.view = 'month';
+}
     this.isTimesheetWidgetLoaded = true;
     this.setView();
     await this.$store.dispatch("employee/setUserList");
@@ -436,6 +442,7 @@ export default {
       }
     },
     setView() {
+     
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
     },

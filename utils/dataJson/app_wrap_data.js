@@ -81,7 +81,7 @@ const data = () => {
         label: "My Timesheets",
         icon: "time",
         key: "my-timesheets",
-        url: "/my-timesheet/?view=month",
+        url: "/my-timesheet/",
         selected: false,
       },
       {

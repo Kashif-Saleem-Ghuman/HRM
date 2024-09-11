@@ -3,7 +3,7 @@
     <!-- Admin Menu  -->
     <div v-if="isAdmin">
       <bib-app-navigation
-        :items="appWrapItems.navItemsAdmin.slice(0,5)"
+        :items="appWrapItems.navItemsAdmin.slice(0, 5)"
         @click="
           ($event, item) => {
             menuClick(item);
@@ -14,7 +14,7 @@
       ></bib-app-navigation>
       <div
         class="nav-section position-relative cus-menu"
-        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(5,6)"
+        v-for="(item, index) in appWrapItems.navItemsAdmin.slice(5, 6)"
         @click="menuClick(item)"
       >
         <div
@@ -29,7 +29,7 @@
                 :square="true"
                 size="18px"
                 :isLightTheme="isLightThemeCheck"
-                style="margin-top: 3px;"
+                style="margin-top: 3px"
               ></bib-logo>
             </div>
           </div>
@@ -214,26 +214,41 @@ export default {
 
     setSelectedNavItem(navItems) {
       let path = this.$router.history.current.fullPath;
+      const basePath = path.split("?")[0];
+      let matchedNavPath = null;
+
       for (const navPath of navigationPaths) {
         const regexPath = navPath.paths.map((p) =>
           p.replace(/\/:id\//, "/\\d+/")
         );
+
         if (
           regexPath.some((p) =>
             new RegExp(`^${p}(\\?view=day|\\?view=week|\\?view=month)?$`).test(
-              path
+              basePath
             )
           )
         ) {
-          const id = this.getIdFromPath(path);
+          const id = this.getIdFromPath(basePath);
           path = navPath.defaultPath.replace(/\/:id\//, id ? `/${id}/` : "/");
+          matchedNavPath = path;
           break;
         }
       }
-      const item = navItems.find((item) => item.url === path);
+      let item = navItems.find((item) => item.url === basePath);
+
+      if (!item && matchedNavPath) {
+        item = navItems.find((item) => item.url === matchedNavPath);
+      }
+
       this.resetSelected(navItems);
-      if (item) item.selected = true;
+      if (item) {
+        item.selected = true;
+      } else {
+        console.log("No nav item was selected.");
+      }
     },
+
     getIdFromPath(path) {
       const match = path.match(/\/(\d+)\//);
       return match ? match[1] : "";
@@ -277,7 +292,7 @@ export default {
       );
       leaveNavItem.selected = true;
     },
-    
+
     resetSelected(navItems) {
       navItems.forEach((item) => {
         if (item.hasOwnProperty("selected")) {
@@ -295,7 +310,11 @@ export default {
     },
 
     menuClick(item) {
-      if (item.key != "requestVacation" && item.key != "requestLeave" && item.key != "requestMedical")
+      if (
+        item.key != "requestVacation" &&
+        item.key != "requestLeave" &&
+        item.key != "requestMedical"
+      )
         this.closeSidebar();
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
@@ -309,8 +328,10 @@ export default {
       if (item.url) this.$router.push(item.url);
     },
     updateSelectedNavItems() {
-      this.setSelectedNavItem(this.appWrapItems.navItemsAdmin);
-      this.setSelectedNavItem(this.appWrapItems.navItemsUser);
+      const items = this.isAdmin
+        ? this.appWrapItems.navItemsAdmin
+        : this.appWrapItems.navItemsUser;
+      this.setSelectedNavItem(items);
     },
   },
 
@@ -377,8 +398,8 @@ export default {
           display: none;
         }
         .nav-item__label {
-        color: $text-secondary;
-      }
+          color: $text-secondary;
+        }
         .nav-item__symbol--hover {
           display: flex;
           z-index: 3;
@@ -391,11 +412,11 @@ export default {
 
       &:hover {
         color: $text-secondary;
-      background: $gray13;
+        background: $gray13;
 
-      .nav-item__label {
-        color: $text-secondary;
-      }
+        .nav-item__label {
+          color: $text-secondary;
+        }
         .nav-item__symbol {
           display: none;
         }

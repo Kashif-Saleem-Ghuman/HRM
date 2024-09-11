@@ -124,13 +124,13 @@ const data = () => {
         label: "Clock-in/out",
         icon: "time",
         key: "time-attendance",
-        url: "/time-attendance/attendance/",
+        url: "/home/",
       },
       {
         label: "Send absence notification",
         icon: "accessibility-cognitive-disability-solid",
         key: "requestLeave",
-        url: "/leaves-and-vacations/dashboard",
+        url: "/leaves-and-vacations/dashboard/",
         action: "openRequestLeave",
       },
       {

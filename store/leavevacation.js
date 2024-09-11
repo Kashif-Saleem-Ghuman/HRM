@@ -57,11 +57,8 @@ export const actions = {
       const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
         const endDateA = DateTime.fromISO(a.start);
         const endDateB = DateTime.fromISO(b.start);
-        console.log(endDateA, "data", endDateB)
-
         return endDateB - endDateA;
       });
-      console.log(sortedLeave, "data")
       ctx.commit("SET_LEAVEVACATION_LIST", sortedLeave);
       return sortedLeave;
     } catch (e) {

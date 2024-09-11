@@ -159,9 +159,13 @@ export default {
   computed: {
     getpercentageValue() {
       const totalLeave = this.daysUsed + this.scheduledDays;
+      if(totalLeave > this.totalAllowance){
+        return '0';
+      }
       this.progressKey += 1;
       if (this.totalAllowance !== 0) {
-        return Math.round((totalLeave / this.totalAllowance) * 100);
+        const percentage = Math.round((totalLeave / this.totalAllowance) * 100);
+        return percentage < 0 ? 0 : percentage;
       } else {
         return "0";
       }

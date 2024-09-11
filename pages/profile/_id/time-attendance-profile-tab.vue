@@ -391,7 +391,10 @@ export default {
   },
   computed: {
     minDate() {
-      return this.$minDate();
+      const hireDate = this.activeUser?.hireDate;
+      return hireDate
+        ? DateTime.fromISO(hireDate).toISODate()
+        : DateTime.local(2024, 1, 1).toISODate();
     },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
@@ -466,6 +469,8 @@ export default {
   async created() {
     this.setView();
     this.id = this.$route.params.id;
+    this.activeUserId = this.id;
+    this.fetchUser(this.activeUserId);
     this.$store.dispatch("employee/setSelectedEmployeeTimer");
     if (this.todayListView) await this.fillDailyTimeEntries();
     else if (this.weekListView) await this.fillWeeklyTimeEntries();

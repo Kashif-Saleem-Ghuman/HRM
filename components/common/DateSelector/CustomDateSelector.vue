@@ -71,10 +71,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .date-selector {
   display: flex;
   align-items: center;
   gap: 8px;
+  .button--dark:active,
+      .button--dark:focus,
+      .button--dark:focus-within {
+        box-shadow: 0 var(--bib-secondary-sub2) !important;
+      }
 }
 </style>

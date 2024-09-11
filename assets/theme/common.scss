@@ -62,6 +62,11 @@
         background-color: $primary-24 !important;
       }
     }
+      .button--dark:active,
+      .button--dark:focus,
+      .button--dark:focus-within {
+        box-shadow: 0 var(--bib-secondary-sub2) !important;
+      }
   }
   .app-wrapper__navigation {
     border-right: 1px solid $dark-sub1 !important;

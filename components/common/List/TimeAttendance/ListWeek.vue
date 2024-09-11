@@ -2,7 +2,7 @@
   <div class="align-wrapper"> 
     <bib-table
       :fields="tableFields"
-      class="table"
+      class="table table-week"
       :class="{
       'table--light': isLightThemeCheck,
       'table--dark': !isLightThemeCheck,
@@ -257,6 +257,17 @@ export default {
 };
 </script>
 <style lang="scss">
+.table-week{
+  td{
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  .chip-wrapper__bggray{
+    height: 40px !important;
+    border-radius: 4px !important;
+  }
+  
+}
 .align-wrapper {
   tr.table__hrow {
     th {

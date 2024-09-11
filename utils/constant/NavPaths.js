@@ -24,6 +24,9 @@ export const navigationPaths = [
     ],
     defaultPath: "/my-timesheet/",
   },
+];
+
+export const navigationPathsAdmin = [
   {
     name: "leaveAndVacationPaths",
     paths: [

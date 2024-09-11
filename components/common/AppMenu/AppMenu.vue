@@ -113,7 +113,7 @@ import getJson from "../../../utils/dataJson/app_wrap_data.js";
 import { mapState } from "vuex";
 const appWrapItems = getJson();
 import { handleToggleWrapperTheme } from "@/utils/functions/functions_lib.js";
-import { navigationPaths } from "../../../utils/constant/NavPaths";
+import { navigationPaths, navigationPathsAdmin } from "../../../utils/constant/NavPaths";
 
 export default {
   props: {
@@ -140,6 +140,7 @@ export default {
         this.$store.state.token.hrmRole === USER_ROLES.MANAGER
       );
     },
+    
   },
 
   data() {
@@ -216,8 +217,8 @@ export default {
       let path = this.$router.history.current.fullPath;
       const basePath = path.split("?")[0];
       let matchedNavPath = null;
-
-      for (const navPath of navigationPaths) {
+     const navigationPathsRoleBased = this.isAdmin ? navigationPathsAdmin : navigationPaths;
+      for (const navPath of navigationPathsRoleBased) {
         const regexPath = navPath.paths.map((p) =>
           p.replace(/\/:id\//, "/\\d+/")
         );

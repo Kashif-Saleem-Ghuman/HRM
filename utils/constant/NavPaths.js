@@ -1,48 +1,28 @@
 export const navigationPaths = [
   {
-    name: "leaveAndVacationPaths",
+    name: "leaveAndVacationEmployeePaths",
     paths: [
-      "/leaves-and-vacations/upcoming/",
-      "/leaves-and-vacations/leavelist/",
       "/leaves-and-vacations/dashboard/",
-      "/leaves-and-vacations/pendingrequest/",
     ],
-    defaultPath: "/leaves-and-vacations/upcoming/",
+    defaultPath: "/leaves-and-vacations/dashboard/",
   },
   {
-    name: "timeAttendancePaths",
+    name: "timeAttendanceEmployeePaths",
     paths: [
-      "/time-attendance/attendance/",
-      "/time-attendance/timesheets/",
-      "/time-attendance/month/",
-      "/time-attendance/year/",
-      "/time-attendance/pending/",
-      "/time-attendance/past-due/",
+      "/home/?view=day",
+      "/home/?view=week",
+      "/home/?view=month",
     ],
-    defaultPath: "/time-attendance/attendance/",
+    defaultPath: "/home/",
   },
   {
-    name: "reportsPaths",
+    name: "myTimesheets",
     paths: [
-      "/reports/leave-report/",
-      "/reports/leave-summary/",
-      "/reports/timesheet-report/",
+      "/my-timesheet/?view=day",
+      "/my-timesheet/?view=week",
+      "/my-timesheet/?view=month",
     ],
-    defaultPath: "/reports/leave-report/",
-  },
-  {
-    name: "peoplePath",
-    paths: [
-      "/profile/:id/employee-profile-tab",
-      "/profile/:id/employment-information-tab",
-      "/profile/:id/time-attendance-profile-tab",
-      "/profile/:id/leave-vacations-profile-tab",
-      "/profile/:id/files-profile-tab",
-      "/profile/:id/time-attendance-profile-tab?view=day",
-      "/profile/:id/time-attendance-profile-tab?view=week",
-      "/profile/:id/time-attendance-profile-tab?view=month",
-    ],
-    defaultPath: "/people/",
+    defaultPath: "/my-timesheet/",
   },
 ];
 

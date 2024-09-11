@@ -16,7 +16,7 @@
       @item-clicked="tableItemClick"
     >
       <template #cell(name)="data">
-        <div class="font-md text-left font-w-500 cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-gray5'">
+        <div class="font-md text-left font-w-500 cursor-pointer" :class="isLightThemeCheck ? 'text-gray1' : 'text-gray5'" @click="redirectDayView(data)">
           <div :class="getClassName(data.value.date)">
             {{ getWeekDay(data.value.weekDayLabel) }}
           </div>

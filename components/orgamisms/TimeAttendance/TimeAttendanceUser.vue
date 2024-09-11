@@ -2,7 +2,7 @@
   <div id="time-attendance-wrapper">
     <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
-        <section-header-left title="Time & Attendance"></section-header-left>
+      <section-header-left title="Time & Attendance"></section-header-left>
       <div class="time-attandance-wrapper">
         <div class="px-1">
           <div
@@ -29,7 +29,7 @@
             ></info-card-one>
             <!--
              <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
-             <home-request-leave-card
+            <home-request-leave-card
               :title="$button.PTO.label"
               :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
@@ -40,7 +40,7 @@
               className="button-wrapper__bgsucess"
               :variant="$button.approved.variant"
               @on-click="addLeaves('vacation')"
-          ></home-request-leave-card>
+            ></home-request-leave-card>
           </div>
         </div>
         <div class="d-flex align-center px-1">
@@ -58,12 +58,16 @@
                 <div v-if="monthListView" class="py-05">
                   <div class="custom_date_picker">
                     <custom-date-selector
-                        :year.sync="year"
-                        :month.sync="month"
-                        :dates.sync="dates" />
+                      :year.sync="year"
+                      :month.sync="month"
+                      :dates.sync="dates"
+                    />
                   </div>
                 </div>
-                <div v-if="monthListView && !isFullYearList" class="py-05 pl-05">
+                <div
+                  v-if="monthListView && !isFullYearList"
+                  class="py-05 pl-05"
+                >
                   <button-with-overlay
                     :button-config="{ label: dateBtnLabel }"
                     v-slot="scope"
@@ -76,11 +80,11 @@
                         :format="format"
                         @onClose="onCloseWeekRange"
                         @close="
-                        () => {
-                          scope.close();
-                          weekSelectionInMonthView();
-                        }
-                      "
+                          () => {
+                            scope.close();
+                            weekSelectionInMonthView();
+                          }
+                        "
                         style="z-index: 999999; height: 46px"
                       ></filter-week-date-picker>
                     </div>
@@ -96,7 +100,6 @@
                   size="sm"
                   @input="dateSelection($event)"
                   hide-quick-select
-
                   v-bind="{ ...getDatetimeCommonProps() }"
                 ></bib-datetime-picker>
               </div>
@@ -168,8 +171,11 @@
 <script>
 import { DateTime } from "luxon";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import {getTimesheets, getWeekTimesheets} from "@/utils/functions/api_call/timeattendance/time";
-import { debounceAction } from "@/utils/functions/debounce"
+import {
+  getTimesheets,
+  getWeekTimesheets,
+} from "@/utils/functions/api_call/timeattendance/time";
+import { debounceAction } from "@/utils/functions/debounce";
 import {
   TIME_ATTENDANCE_TAB,
   ACTIVITY_TYPE,
@@ -198,16 +204,14 @@ import {
   DATETIME_FORMAT,
 } from "../../../utils/functions/datetime-input";
 
-import {
-  getUserLeavesDetailUser,
-} from "../../../utils/functions/functions_lib_api";
+import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_api";
 
 import { Timesheet } from "@/components/common/models/timesheet";
 
 const VIEWS = [
   { label: "Day", value: "day" },
   { label: "Week", value: "week" },
-  { label: "Month", value: "month"},
+  { label: "Month", value: "month" },
 ];
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
@@ -246,7 +250,7 @@ export default {
       weekDataStatus: "",
       timesheetId: -1,
       timer: 1,
-      maxDate: DateTime.now().toISO(), 
+      maxDate: DateTime.now().toISO(),
       refusalReason: null,
       timesheet: null,
       timesheetsList: [],
@@ -274,7 +278,7 @@ export default {
       this.variantColor = this.isLightThemeCheck ? "light" : "dark";
     },
     isTimesheetLocked() {
-      return this.timesheet?.isLocked()
+      return this.timesheet?.isLocked();
     },
     dayListDate() {
       if (!this.todayDate) return null;
@@ -302,19 +306,21 @@ export default {
         );
       }, 0);
 
-      if(totalWorkInMS < 0) {
+      if (totalWorkInMS < 0) {
         return "00:00";
       }
 
-      const totalBreakInMS = timeEntriesBreak.filter(entry => entry.end).reduce((total, entry) => {
-        return (
-          total +
-          getDateDiffInSeconds(
-            getTimeFromDate(entry.start),
-            getTimeFromDate(entry.end)
-          )
-        );
-      }, 0);
+      const totalBreakInMS = timeEntriesBreak
+        .filter((entry) => entry.end)
+        .reduce((total, entry) => {
+          return (
+            total +
+            getDateDiffInSeconds(
+              getTimeFromDate(entry.start),
+              getTimeFromDate(entry.end)
+            )
+          );
+        }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
 
@@ -358,11 +364,9 @@ export default {
   async created() {
     // this.loading = true;
     let path = this.$route.fullPath;
-    console.log(path, "ksdnlasdjlajsdljasdljlasdjl")
-if (path === '/my-timesheet/') {
-  this.$router.push('?view=month')
-  this.view = 'month';
-}
+    if (path === "/my-timesheet/") {
+      this.$router.push("?view=month");
+    }
     this.isTimesheetWidgetLoaded = true;
     this.setView();
     await this.$store.dispatch("employee/setUserList");
@@ -401,7 +405,7 @@ if (path === '/my-timesheet/') {
     registerFetchedLeaveVacation() {
       this.$root.$on("fetched-leave-vacation", () => {
         this.getLeaveDetails();
-      })
+      });
     },
     unregisterFetchedLeaveVacation() {
       this.$root.$off("fetched-leave-vacation");
@@ -422,12 +426,12 @@ if (path === '/my-timesheet/') {
     getLeaveDetails() {
       this.isRequestWidgetLoaded = true;
       this.getUserLeavesDetailUser().then((result) => {
-          if (result) {
-            this.allowanceLeavesDetailedData = result;
-          } else {
-            this.$openPopupNotification(this.$error.common_message);
-          }
-          this.isRequestWidgetLoaded = false;
+        if (result) {
+          this.allowanceLeavesDetailedData = result;
+        } else {
+          this.$openPopupNotification(this.$error.common_message);
+        }
+        this.isRequestWidgetLoaded = false;
       });
     },
     async handleTimerStop() {
@@ -442,7 +446,6 @@ if (path === '/my-timesheet/') {
       }
     },
     setView() {
-     
       const viewValue = this.$route.query.view ?? VIEWS[0].value;
       this.view = { ...this.VIEWS.find((v) => v.value === viewValue) };
     },
@@ -486,15 +489,15 @@ if (path === '/my-timesheet/') {
       this.weekDates = {
         from: null,
         to: null,
-      }
+      };
     },
     resetTodayDate() {
       this.todayDate = DateTime.now().toFormat(DATETIME_FORMAT);
     },
     setDefaultOnViewChange(view) {
-      if(view === 'week' && this.view.value !== 'week'){
+      if (view === "week" && this.view.value !== "week") {
         this.resetWeekDates();
-      }else if(view === 'day' && this.view.value !== 'day') {
+      } else if (view === "day" && this.view.value !== "day") {
         this.resetTodayDate();
       }
     },
@@ -533,14 +536,18 @@ if (path === '/my-timesheet/') {
     },
     async fillDailyTimeEntries() {
       if (!this.todayDate) return;
-      await this.$store.dispatch(
-        "timeattendance/setDailyTimeEntries",
-        DateTime.fromFormat(this.todayDate, this.format).toFormat("yyyy-MM-dd")
-      ).then((result)=>{
-        if (result?.timesheet?.status) {
-         this.timesheet = new Timesheet(result.timesheet)
-        }
-      });
+      await this.$store
+        .dispatch(
+          "timeattendance/setDailyTimeEntries",
+          DateTime.fromFormat(this.todayDate, this.format).toFormat(
+            "yyyy-MM-dd"
+          )
+        )
+        .then((result) => {
+          if (result?.timesheet?.status) {
+            this.timesheet = new Timesheet(result.timesheet);
+          }
+        });
 
       this.parseTimeEntries();
     },
@@ -569,21 +576,25 @@ if (path === '/my-timesheet/') {
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
-        from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
+        from: new Date(
+          isWeekRange ? this.weekDates.from : this.timesheetDates.from
+        ),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
       let timesheets = await getTimesheets({ from, to });
-      timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser({timesheets: employee});
-        return parser.parse("weekDays");
-      }).sort((a, b) => new Date(b.start) - new Date(a.start));
-      ;
+      timesheets = timesheets
+        .map((employee) => {
+          const parser = new TimesheetParser({ timesheets: employee });
+          return parser.parse("weekDays");
+        })
+        .sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
       this.loading = false;
     },
     async dateSelection(value) {
       // this.loading = true;
-      this.todayDate = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate =
+        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
       // if (!value) {
       //   await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
       // }
@@ -606,7 +617,7 @@ if (path === '/my-timesheet/') {
         });
         return true;
       }
-      
+
       if (this.weekDataStatus == "approved") {
         this.debounceAction(() => {
           this.$openPopupNotification({
@@ -632,7 +643,6 @@ if (path === '/my-timesheet/') {
         return true;
       }
 
-
       this.todayDate = itemDateTime.toFormat(DATETIME_FORMAT);
       this.$router.push({ query: { view: "day" } });
       await this.fillDailyTimeEntries();
@@ -644,9 +654,9 @@ if (path === '/my-timesheet/') {
       await this.fillWeeklyTimeEntries();
     },
     async redirectWeekView(item) {
-      const {start, end} = item;
-      this.$set(this.weekDates, 'from', getWeekStart(start));
-      this.$set(this.weekDates, 'to', getWeekEnd(end));
+      const { start, end } = item;
+      this.$set(this.weekDates, "from", getWeekStart(start));
+      this.$set(this.weekDates, "to", getWeekEnd(end));
 
       this.$router.push({ query: { view: "week" } });
       await this.fillWeeklyTimeEntries();
@@ -668,7 +678,7 @@ if (path === '/my-timesheet/') {
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {
-      this.timesheetDates = {from: from, to: to}
+      this.timesheetDates = { from: from, to: to };
     },
   },
   beforeDestroy() {
@@ -688,15 +698,15 @@ if (path === '/my-timesheet/') {
       }
     },
     dates(newval, old) {
-      if(newval.from && newval.to) {
+      if (newval.from && newval.to) {
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }
     },
     month(val) {
-      if(val === MONTH_SELECTOR_DEFAULT.value){
+      if (val === MONTH_SELECTOR_DEFAULT.value) {
         this.isFullYearList = true;
-      }else {
+      } else {
         this.isFullYearList = false;
       }
     },

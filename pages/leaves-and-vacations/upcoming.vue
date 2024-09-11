@@ -10,7 +10,7 @@
                 :icon="$button.approved.icon"
                 :variant="$button.approved.variant"
                 :scale="1"
-                label="Add"
+                label="Add Leave"
                 class="mr-05"
                 @click.native.stop="actionBY('leave', 'employeeDropdownKey')"
               ></bib-button>

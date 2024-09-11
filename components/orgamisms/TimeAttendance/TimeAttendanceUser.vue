@@ -365,6 +365,7 @@ export default {
     // this.loading = true;
     let path = this.$route.fullPath;
     if (path === "/my-timesheet/") {
+      this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
       this.$router.push("?view=month");
     }
     this.isTimesheetWidgetLoaded = true;
@@ -507,7 +508,8 @@ export default {
     },
     onViewTimesheetsClick() {
       this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
-      this.$router.push({ query: { view: "month" } });
+      this.$router.push({ path: "/my-timesheet/", query: { view: "month" } });
+
     },
 
     change(event, name) {

@@ -79,10 +79,10 @@
                   {{ item.jobTitle }}
                 </div>
                 <div class="button-wrapper-punch">
-                  <attendance-status
+                  <online-offline-attendance-status
                     :attendanceStatusData="item"
                     minWidth="min-width: 85px !important;"
-                  ></attendance-status>
+                  ></online-offline-attendance-status>
                 </div>
               </div>
             </div>

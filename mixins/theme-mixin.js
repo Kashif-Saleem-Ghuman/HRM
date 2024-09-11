@@ -1,7 +1,22 @@
 // mixins/themeMixin.js
 import { mapGetters } from "vuex";
-
+import { fetchUser } from "../utils/functions/userHireDate";
 export default {
+  data() {
+    return {
+      activeUser: null,
+      activeUserId: null,
+    };
+  },
+  methods: {
+    async fetchUser(id) {
+      if (this.activeUserId) {
+        this.activeUser = await fetchUser(this.$store, id);
+      } else {
+        this.activeUser = await fetchUser(this.$store);
+      }
+    },
+  },
   computed: {
     ...mapGetters({
       isLightThemeCheck: "theme/isLightTheme", // Mapping Vuex getter to computed

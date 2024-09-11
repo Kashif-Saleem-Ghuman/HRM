@@ -6,7 +6,7 @@ export default ({ app }, inject) => {
   
       if (hours < "08" && hours >= "6") return "chip-wrapper__bgabsent";
   
-      if (hours < "6" && hours >= "01") return "chip-wrapper__bgabsentpink";
+      if (hours < "6" && hours > "0") return "chip-wrapper__bgabsentpink";
   
       return "chip-wrapper__bgdefault";
     };
@@ -24,7 +24,7 @@ export default ({ app }, inject) => {
           return "chip-wrapper__bgsucess chip-wrapper__border-radius";
         } else if (totalHours < 8 && totalHours >= 6) {
           return "chip-wrapper__bgabsent chip-wrapper__border-radius";
-        } else if (totalHours >= 1 && totalHours < 6) {
+        } else if (totalHours > 0 && totalHours < 6) {
           return "chip-wrapper__bgabsentpink chip-wrapper__border-radius";
         } else {
           return "chip-wrapper__bgdefault chip-wrapper__border-radius";

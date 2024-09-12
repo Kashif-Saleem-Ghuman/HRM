@@ -16,8 +16,7 @@
               variant="tertiary"
               v-if="item.isBirthday"
               pill
-              style="background-color: #6F00FF; color: #fff;"
-              class="mr-05"
+              class="mr-05 birthday-button"
             ></bib-button>
             <bib-button
               label="Aniversary"
@@ -184,3 +183,14 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.birthday-button {
+  background-color: #6F00FF;
+  color: #fff;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #5900cc;
+  }
+}
+</style>

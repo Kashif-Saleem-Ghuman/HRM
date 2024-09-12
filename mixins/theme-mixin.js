@@ -1,11 +1,17 @@
 // mixins/themeMixin.js
 import { mapGetters } from "vuex";
 import { fetchUser } from "../utils/functions/userHireDate";
+import { DateTime } from "luxon";
+import {
+  DATETIME_FORMAT,
+} from "@/utils/functions/datetime-input";
+
 export default {
   data() {
     return {
       activeUser: null,
       activeUserId: null,
+      currentDate:DateTime.now().toFormat(DATETIME_FORMAT),
     };
   },
   methods: {

@@ -127,14 +127,14 @@ const data = () => {
         url: "/home/",
       },
       {
-        label: "Send absence notification",
+        label: "Request unpaid leave",
         icon: "accessibility-cognitive-disability-solid",
         key: "requestLeave",
         url: "/leaves-and-vacations/dashboard/",
         action: "openRequestLeave",
       },
       {
-        label: "Sick leave notification",
+        label: "Request sick leave",
         icon: "medical-clinic-solid",
         key: "requestMedical",
         url: "/leaves-and-vacations/dashboard/",

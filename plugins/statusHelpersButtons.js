@@ -4,8 +4,8 @@ export const getStatusVariantName = (status) => getStatusMapValue(status, {
     approved: "success-light",
     pending: "warning-light",
     rejected: "danger-light",
-    past_due: "primary",
-    not_submitted:"primary",
+    past_due: "primary-24",
+    not_submitted:"primary-24",
   });
   
   export const getLeaveStatusIconName = (status) => getStatusMapValue(status, {

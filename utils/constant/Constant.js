@@ -205,7 +205,7 @@ export const TABLE_HEAD = {
     {
       key: "department",
       label: "Department",
-      width: `${100 / 6.5}%`,
+      width: `${100 / 7.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -213,17 +213,17 @@ export const TABLE_HEAD = {
         type: "string",
       },
     },
-    {
-      key: "dateOfBirth",
-      label: "Birthday",
-      width: `${100 / 6.5}%`,
-      header_icon: {
-        icon: "long-arrow-up",
-        isActive: false,
-        sortKey: "dateOfBirth",
-        type: "string",
-      },
-    },
+    // {
+    //   key: "dateOfBirth",
+    //   label: "Birthday",
+    //   width: `${100 / 6.5}%`,
+    //   header_icon: {
+    //     icon: "long-arrow-up",
+    //     isActive: false,
+    //     sortKey: "dateOfBirth",
+    //     type: "string",
+    //   },
+    // },
     {
       key: "location",
       label: "Location",

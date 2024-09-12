@@ -66,6 +66,10 @@ export default {
     centerAlign: {
       type: String,
     },
+    buttonVarintChange:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {};
@@ -108,7 +112,7 @@ export default {
       return ""; // Return an empty string if neither approved nor rejected
     },
     getButtonVariant(resolvedStatus) {
-      if (this.isUser) {
+      if (this.isUser && this.buttonVarintChange) {
         return resolvedStatus === "rejected"
           ? this.$getStatusVariantName("past_due")
           : this.$getStatusVariantName(resolvedStatus);

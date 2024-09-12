@@ -105,6 +105,7 @@
                 :leaveStatusData="data"
                 :disabled="isSubmitted"
                 :timesheet="true"
+                :buttonVarintChange="true"
                 @click="buttonClicked(data.value)"
               ></leave-status>
               <!-- <bib-button

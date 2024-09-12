@@ -14,7 +14,7 @@
   <div v-else class="button-override">
     <bib-button
       :label="getButtonLabel(timesheet, resolvedStatus)"
-      :variant="$getStatusVariantName(resolvedStatus)"
+      :variant="getButtonVariant(resolvedStatus)"
       :icon-right="setIconVisibility(resolvedStatus)"
       @click.native.stop="$emit('click')"
       :disabled="disabled"
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import {
   getStatusIcon,
   getStatusVariant,
@@ -69,6 +71,7 @@ export default {
     return {};
   },
   computed: {
+    ...mapState("token", ["isAdmin", "isUser", "subr"]),
     resolvedStatus() {
       if (
         typeof this.leaveStatusData === "object" &&
@@ -103,6 +106,14 @@ export default {
         return this.$getLeaveStatusIconName(normalizedStatus);
       }
       return ""; // Return an empty string if neither approved nor rejected
+    },
+    getButtonVariant(resolvedStatus) {
+      if (this.isUser) {
+        return resolvedStatus === "rejected"
+          ? this.$getStatusVariantName("past_due")
+          : this.$getStatusVariantName(resolvedStatus);
+      }
+      return this.$getStatusVariantName(resolvedStatus);
     },
   },
 };

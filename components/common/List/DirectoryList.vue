@@ -85,13 +85,13 @@
           }}</span>
         </div>
       </template>
-      <template #cell(dateOfBirth)="data">
+      <!-- <template #cell(dateOfBirth)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
             getBirthDateFormat(data.value.dateOfBirth)
           }}</span>
         </div>
-      </template>
+      </template> -->
       <template #cell(location)="data">
         <div class="justify-between cursor-pointer">
           <span>{{

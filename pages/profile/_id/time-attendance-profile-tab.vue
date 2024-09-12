@@ -206,6 +206,8 @@ export default {
         ? new URLSearchParams(window.location.search).get("date")
         : fecha.format(new Date(), "DD-MMM-YYYY"),
       previousWeekData: null,
+      previousMonthWeekData: null,
+
     };
   },
   methods: {
@@ -219,6 +221,11 @@ export default {
     },
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
+    },
+    isMonthWeekMatchPrevious() {
+      return (this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from)
+        && this.previousMonthWeekData?.to === this.weekDates.to)
     },
     handleNewEntry(timeEntry) {
       this.todayData.push({
@@ -365,6 +372,7 @@ export default {
       this.loading = false;
     },
     async fillTimesheetEntries(isWeekRange = false) {
+      console.log('ffff==', this.timesheetDates);
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(
@@ -372,6 +380,8 @@ export default {
         ),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
+
+      console.log('ffff==after', this.timesheetDates, from, to);
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser({ timesheets: employee });
@@ -392,10 +402,20 @@ export default {
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );
     },
+    setPreviousMonthWeekData(dates) {
+      this.previousMonthWeekData = dates;
+    },
     async onCloseWeekRange() {
+      if(this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from &&
+          this.previousMonthWeekData?.to === this.weekDates.to)) {
+        return;
+      }
+      this.setPreviousMonthWeekData(this.weekDates)
       await this.fillTimesheetEntries();
     },
     async weekSelectionInMonthView() {
+      this.setPreviousMonthWeekData(this.weekDates);
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {
@@ -524,7 +544,9 @@ export default {
       ).label;
     },
     dates(newval, old) {
+
       if (newval.from && newval.to) {
+        console.log('newww=', newval);
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }

@@ -272,6 +272,7 @@ export default {
       previousDate: DateTime.now().toFormat(DATETIME_FORMAT),
       summaryDate: DateTime.now().toFormat(DATETIME_FORMAT),
       previousWeekData: null,
+      previousMonthWeekData: null,
     };
   },
   computed: {
@@ -697,10 +698,27 @@ export default {
       const toFormat = DateTime.fromISO(to).toLocal().toFormat(DATETIME_FORMAT);
       return `${fromFormat} -> ${toFormat}`;
     },
+    isMonthWeekMatchPrevious() {
+      return (this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from)
+        && this.previousMonthWeekData?.to === this.weekDates.to)
+    },
     async onCloseWeekRange() {
+      if(this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from &&
+          this.previousMonthWeekData?.to === this.weekDates.to)) {
+        return;
+      }
+      this.setPreviousMonthWeekData(this.weekDates);
+
       await this.fillTimesheetEntries();
     },
+    setPreviousMonthWeekData(dates) {
+      this.previousMonthWeekData = dates;
+    },
     async weekSelectionInMonthView() {
+
+      this.setPreviousMonthWeekData(this.weekDates);
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {

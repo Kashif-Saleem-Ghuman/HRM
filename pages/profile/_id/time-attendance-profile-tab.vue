@@ -50,6 +50,7 @@
                     :dates.sync="weekDates"
                     class="custom_date_picker"
                     :format="format"
+                    @onChange="closeChangeHandler"
                     @close="
                       () => {
                         scope.close();
@@ -95,7 +96,7 @@
             v-show="todayListView"
             :total="totalWork"
             :status="timesheetStatus"
-            :date="new Date(todayDate + ' 00:00')"
+            :date="new Date(dayListDate + ' 00:00')"
             :disabled="true"
             :editable="false"
             :disableIcons="true"
@@ -198,6 +199,13 @@ export default {
         from: null,
         to: null,
       },
+      previousDate: new URLSearchParams(window.location.search).get("date")
+        ? new URLSearchParams(window.location.search).get("date")
+        : fecha.format(new Date(), "DD-MMM-YYYY"),
+      summaryDate: new URLSearchParams(window.location.search).get("date")
+        ? new URLSearchParams(window.location.search).get("date")
+        : fecha.format(new Date(), "DD-MMM-YYYY"),
+      previousWeekData: null,
     };
   },
   methods: {
@@ -269,13 +277,42 @@ export default {
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
     },
+    setPreviousWeekData(dates) {
+      this.previousWeekData = dates;
+    },
+    setPreviousDate(date) {
+      this.previousDate = date;
+    },
+    setSummaryDate(date) {
+      this.summaryDate = date;
+    },
     async dateSelection(value) {
-      this.todayDate =
-        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      const dateValue = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate = dateValue
+
+      if(dateValue === this.previousDate) {
+        return;
+      }
+
+
+      if(value !== "") {
+        this.setSummaryDate(dateValue);
+        this.setPreviousDate(dateValue);
+      }
+
       await this.fillDailyTimeEntries();
     },
     async weekSelection() {
+      this.setPreviousWeekData(this.weekDates);
       await this.fillWeeklyTimeEntries();
+    },
+    closeChangeHandler() {
+      if(this.previousWeekData === null || this.previousWeekData?.from === this.weekDates.from) {
+        return;
+      }
+      this.setPreviousWeekData(this.weekDates);
+
+      this.fillWeeklyTimeEntries();
     },
     openClock() {
       this.clockModal = true;
@@ -390,6 +427,10 @@ export default {
     },
   },
   computed: {
+    dayListDate() {
+      if (!this.summaryDate) return null;
+      return this.summaryDate;
+    },
     minDate() {
       const hireDate = this.activeUser?.hireDate;
       return hireDate

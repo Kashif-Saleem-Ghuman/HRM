@@ -113,6 +113,7 @@
                       :dates.sync="weekDates"
                       class="custom_date_picker"
                       :format="format"
+                      @onChange="closeChangeHandler"
                       @close="
                         () => {
                           scope.close();
@@ -268,6 +269,9 @@ export default {
       allowanceLeavesDetailedData: {},
       isRequestWidgetLoaded: false,
       isTimesheetWidgetLoaded: false,
+      previousDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      summaryDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      previousWeekData: null,
     };
   },
   computed: {
@@ -281,8 +285,8 @@ export default {
       return this.timesheet?.isLocked();
     },
     dayListDate() {
-      if (!this.todayDate) return null;
-      return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate();
+      if (!this.summaryDate) return null;
+      return DateTime.fromFormat(this.summaryDate, DATETIME_FORMAT).toJSDate();
     },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
@@ -394,6 +398,14 @@ export default {
       this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
         this.fillDailyTimeEntries();
       });
+    },
+    closeChangeHandler() {
+      if(this.previousWeekData === null || this.previousWeekData?.from === this.weekDates.from) {
+        return;
+      }
+      this.setPreviousWeekData(this.weekDates);
+
+      this.fillWeeklyTimeEntries();
     },
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
@@ -593,16 +605,24 @@ export default {
       this.timesheetsList = timesheets;
       this.loading = false;
     },
+    setPreviousDate(date) {
+      this.previousDate = date;
+    },
+    setSummaryDate(date) {
+      this.summaryDate = date;
+    },
     async dateSelection(value) {
       // this.loading = true;
-      this.todayDate =
-        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
-      // if (!value) {
-      //   await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
-      // }
+      const dateValue = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate = dateValue;
+      if(dateValue === this.previousDate) {
+        return;
+      }
+
+      this.setSummaryDate(dateValue);
+      this.setPreviousDate(dateValue);
+
       await this.fillDailyTimeEntries();
-      // this.$nuxt.$emit("chronometer");
-      // this.loading = false;
     },
     async enterDetail(item) {
       const date = item.date;
@@ -649,7 +669,11 @@ export default {
       this.$router.push({ query: { view: "day" } });
       await this.fillDailyTimeEntries();
     },
+    setPreviousWeekData(dates) {
+      this.previousWeekData = dates;
+    },
     async weekSelection() {
+      this.setPreviousWeekData(this.weekDates);
       await this.fillWeeklyTimeEntries();
     },
     async onTimesheetSubmitted() {

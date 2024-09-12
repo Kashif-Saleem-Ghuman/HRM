@@ -24,7 +24,7 @@ export function calculateActivityDetails(currentTimerStart, timeEntries) {
 
   let overTime = null;
 
-  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in' && t.end);
+  const clockInTimeEntry = timeEntries?.find?.((t) => t.activity === 'in');
 
   let breaksSeconds = 0;
   let totalSeconds = 0;

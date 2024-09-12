@@ -70,7 +70,7 @@
       </template>
       <template #cell(status)="data">
         <div class="cursor-pointer">
-          <attendance-status :attendanceStatusData="data.value" minWidth="min-width: 85px !important;"></attendance-status>
+          <online-offline-attendance-status :attendanceStatusData="data.value" minWidth="min-width: 85px !important;"></online-offline-attendance-status>
         </div>
       </template>
       <template #cell(jobTitle)="data">

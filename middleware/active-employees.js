@@ -4,6 +4,7 @@ export default function ({ route, store }) {
     "/people",
     "/time-attendance",
     "/leaves-and-vacations",
+    "/employee-directory"
   ];
   
   if (paths.some((path) => route.path.includes(path))) {

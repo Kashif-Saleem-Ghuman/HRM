@@ -1,3 +1,5 @@
+import { upperFirst } from "lodash";
+
 export const getAttendanceLabelName = (status) => {
   const [baseStatus, dynamicPart] = status.split(" - ");
   const baseLabel = getStatusMapValue(
@@ -75,6 +77,7 @@ export const getAttendanceStatus = (data) => {
   }
   return "Absent";
 };
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -83,9 +86,26 @@ function getStatusMapValue(status, statusMap, defaultValue) {
   return statusMap[normalizedStatus] || defaultValue;
 }
 
-export default (context, inject) => {
+export default ({ store }, inject) => {
+
+  const getOnlineOfflineStatus = (employee) => {
+    const defaultStatus = "Offline";
+    if (!employee) return defaultStatus
+  
+    if (store.state.employee.activeEmployees[employee.id]) {
+      return "Online"
+    }
+  
+    if (employee.currentLeaveType) {
+      return `On Leave - ${upperFirst(employee.currentLeaveType)}`
+    }
+  
+    return defaultStatus
+  };
+
   inject("getAttendanceLabelName", getAttendanceLabelName);
   inject("getAttendanceStatusVariantName", getAttendanceStatusVariantName);
   inject("getAttendanceLeaveStatusIconName", getAttendanceLeaveStatusIconName);
   inject("getAttendanceStatus", getAttendanceStatus);
+  inject("getOnlineOfflineStatus", getOnlineOfflineStatus);
 };

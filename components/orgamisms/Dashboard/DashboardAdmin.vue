@@ -20,7 +20,7 @@
           style="border-bottom: none !important"
         ></section-header-left>
         <label class="pr-05 font-md">for</label>
-        <div class="custom_date_picker" :class="todayDate === currentDate ? 'hide-close' : ''">
+        <div class="custom_date_picker">
           <bib-datetime-picker
             v-model="todayDate"
             :maxDate="maxDate"

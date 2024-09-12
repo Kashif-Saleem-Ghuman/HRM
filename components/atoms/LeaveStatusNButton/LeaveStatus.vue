@@ -129,41 +129,41 @@ export default {
     display: flex;
     justify-content: space-between;
     &--success-light {
-      background-color: #ddf0dc;
+      background-color: #ddf0dc !important;
       color: $success;
-      border: 1px solid $success;
+      border: 1px solid $success !important;
       svg {
         fill: $success !important;
       }
     }
     &--warning-light {
-      background-color: #fff2d6;
+      background-color: #fff2d6 !important;
       color: #ffab00;
-      border: 1px solid #ffab00;
+      border: 1px solid #ffab00 !important;
       svg {
         fill: #ffab00 !important;
       }
     }
     &--danger-light {
-      background-color: #fbd6d8;
+      background-color: #fbd6d8 !important;
       color: $danger;
-      border: 1px solid $danger;
+      border: 1px solid $danger !important;
       svg {
         fill: $danger !important;
       }
     }
     &--default-light {
-      background-color: $gray4;
+      background-color: $gray4 !important;
       color: $dark;
-      border: 1px solid $dark;
+      border: 1px solid $dark !important;
       svg {
         fill: $dark !important;
       }
     }
     &--primary {
-      background-color: $primary-24;
+      background-color: $primary-24 !important;
       color: $white;
-      border: 1px solid $primary-24;
+      border: 1px solid $primary-24 !important;
       svg {
         fill: $white !important;
       }

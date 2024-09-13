@@ -182,16 +182,12 @@ export default {
       return {
         date: this.date,
         ...(this.isActivityIn() && {
-            startDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.time),
-          this.date
-        ).toISOString()}),
+          startDate: DateTime.fromFormat(`${this.date} ${this.time}`, 'yyyy-MM-dd HH:mm').toUTC().toISO()
+        }),
 
         ...(this.isActivityOut() && {
-            endDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.time),
-          this.getEndDate(this.startTime, this.time),
-        ).toISOString()}),
+          endDate: DateTime.fromFormat(`${this.date} ${this.time}`, 'yyyy-MM-dd HH:mm').toUTC().toISO()
+        }),
       };
     },
   },

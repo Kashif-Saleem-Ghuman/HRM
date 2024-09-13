@@ -2,7 +2,7 @@
   <div class="d-flex" :class="themeClassWrapper">
     <div :class="['info-card-timer w-100', cardBorderClass]">
       <div>
-        <label>{{ getWelcomeMessage()}}</label>
+        <label :class="colorVariant">{{ getWelcomeMessage() }}</label>
       </div>
       <div class="info-card-items">
         <div>
@@ -17,7 +17,7 @@
       >
         <bib-button
           label="Clock In"
-          variant="primary-24"
+          variant="success"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
           :disabled="isTimerLoading"
@@ -25,25 +25,34 @@
       </div>
 
       <div v-else class="d-flex justify-center gap-1">
-        <div class="w-100" v-if="active && !isConfirmationOpen">
+        <div
+          class="w-100 btn-warning-override"
+          v-if="active && !isConfirmationOpen"
+        >
           <bib-button
             :label="buttonLable"
-            :variant="buttonVariant"
             :icon="icon"
+            :variant="buttonVariant"
             @click="handleBreakInOutClick()"
             class="button-wrapper-align w-100"
             :disabled="isTimerLoading"
           ></bib-button>
         </div>
-        <div
-          v-if="active && isConfirmationOpen"
-          class="w-100"
-        >
-          <div class="w-100 p-05 text-center shape-rounded" :style="isLightThemeCheck ? {backgroundColor: '#ffecec'} : {backgroundColor: '#292730'}">
-          <span class="text-danger" :style="{fontWeight: 'bold'}">End your day?
-            <span class="cursor-pointer" @click="handleClockInOutClick()">Yes</span> /
-            <span class="cursor-pointer" @click="handleConfirmationButton()">No</span>
-          </span>
+        <div v-if="active && isConfirmationOpen" class="w-100">
+          <div
+            class="w-100 p-05 text-center shape-rounded"
+            style="background-color:#ffecec"
+          >
+            <span class="text-danger" :style="{ fontWeight: 'bold' }"
+              >End your day?
+              <span class="cursor-pointer" @click="handleClockInOutClick()"
+                >Yes</span
+              >
+              /
+              <span class="cursor-pointer" @click="handleConfirmationButton()"
+                >No</span
+              >
+            </span>
           </div>
         </div>
         <div class="w-100" v-if="!active">
@@ -54,7 +63,11 @@
             @click="handleClockInOutClick()"
           ></bib-button>
         </div>
-        <div class="w-100" v-if="active && !isConfirmationOpen" @click="handleClockOutWrapperClick">
+        <div
+          class="w-100"
+          v-if="active && !isConfirmationOpen"
+          @click="handleClockOutWrapperClick"
+        >
           <bib-button
             label="Clock out"
             :variant="isLightThemeCheck ? 'light' : 'secondary'"
@@ -63,7 +76,6 @@
             :disabled="isTimerLoading || isBreakActive"
           ></bib-button>
         </div>
-
       </div>
       <div class="activity-wrapper">
         <div class="activity-item gap-1">
@@ -114,9 +126,11 @@ import {
   editTimeEntry,
   deleteTimeEntry,
 } from "@/utils/functions/functions_lib_api";
-import {getBreakTimerDuration} from "@/utils/functions/timer";
-import {FILL_DAILY_ENTRY_EVENT, WELCOME_MESSAGE} from "@/utils/constant/Constant";
-import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
+import { getBreakTimerDuration } from "@/utils/functions/timer";
+import {
+  FILL_DAILY_ENTRY_EVENT,
+  WELCOME_MESSAGE,
+} from "@/utils/constant/Constant";
 export default {
   mixins: [timerMixin],
 
@@ -155,7 +169,7 @@ export default {
       activityData: null,
       debounced: false,
       clockoutDebounced: false,
-      dateNow: DateTime.now().startOf('day'),
+      dateNow: DateTime.now().startOf("day"),
       isConfirmationOpen: false,
     };
   },
@@ -201,26 +215,38 @@ export default {
     getWelcomeMessage() {
       const now = DateTime.local();
       const hour = now.hour;
-      let partOfDay = '';
+      let partOfDay = "";
 
-      switch (true) {
-        case (hour >= 5 && hour < 12):
-          partOfDay = WELCOME_MESSAGE.MORNING
-          break;
-        case (hour >= 12 && hour < 17):
-          partOfDay = WELCOME_MESSAGE.AFTERNOON
-          break;
-        case (hour >= 17 && hour < 21):
-          partOfDay = WELCOME_MESSAGE.EVENING
-          break;
-        default:
-          partOfDay = WELCOME_MESSAGE.NIGHT
+      if (!this.active) {
+        switch (true) {
+          case hour >= 5 && hour < 12:
+            partOfDay = WELCOME_MESSAGE.MORNING;
+            break;
+          case hour >= 12 && hour < 17:
+            partOfDay = WELCOME_MESSAGE.AFTERNOON;
+            break;
+          case hour >= 17 && hour < 21:
+            partOfDay = WELCOME_MESSAGE.EVENING;
+            break;
+          default:
+            partOfDay = WELCOME_MESSAGE.NIGHT;
+        }
+      } else {
+        if (this.active && !this.isBreakActive && !this.isConfirmationOpen) return "Clocked-In";
+        if (this.active && this.isBreakActive && !this.isConfirmationOpen) return "On Break";
+        if (this.active && !this.isBreakActive && this.isConfirmationOpen) return "Clocking Out";
       }
-      const clockMessage = this.disabled ? '' : !this.active ? ' Please Clock-In' : ' Please Clock-Out';
+
+      const clockMessage = this.disabled
+        ? ""
+        : !this.active
+        ? " Please Clock-In"
+        : " Please Clock-Out";
       return partOfDay + clockMessage;
     },
+
     handleClockOutWrapperClick() {
-      if(this.isBreakActive) {
+      if (this.isBreakActive) {
         this.clockOutDebouncedNotification();
       }
     },
@@ -275,20 +301,20 @@ export default {
       try {
         const makeTimeEntry = !this.isBreakActive
           ? await this.makeTimeEntry(
-            activityType,
-            date,
-            startDate,
-            endDate,
-            source
-          )
+              activityType,
+              date,
+              startDate,
+              endDate,
+              source
+            )
           : await this.editTimeEntry({
-            id,
-            date,
-            start: startDate,
-            end: endDate,
-            activity: activityType,
-            source,
-          });
+              id,
+              date,
+              start: startDate,
+              end: endDate,
+              activity: activityType,
+              source,
+            });
 
         if (makeTimeEntry) {
           this.$openPopupNotification({
@@ -323,14 +349,13 @@ export default {
 
     async handleBreakInOutClick() {
       try {
-        if (!this.active)
-          return false;
+        if (!this.active) return false;
         this.makeBreakEntry();
       } catch (error) {
         this.$openPopupNotification({
           text: error.response.data.message,
-          variant: 'danger',
-        })
+          variant: "danger",
+        });
       }
     },
 
@@ -351,10 +376,13 @@ export default {
         if (this.$store.state.token.isUser) {
           this.$store.dispatch("timeattendance/setDailyTimeEntries");
         } else {
-          this.$store.dispatch("timeattendance/setEmployeeDailyTimeEntryToday", {
-            employeeId: this.employeeId,
-            date: new Date().toISOString(),
-          });
+          this.$store.dispatch(
+            "timeattendance/setEmployeeDailyTimeEntryToday",
+            {
+              employeeId: this.employeeId,
+              date: new Date().toISOString(),
+            }
+          );
         }
       });
     },
@@ -383,10 +411,11 @@ export default {
         this.getDailyTimeEntries
       );
     },
-    buttonVariant(){
-      if(this.disabled) return this.isLightThemeCheck ? 'light' : 'dark-sub3';
+    buttonVariant() {
+      if (this.disabled) return this.isLightThemeCheck ? "light" : "dark-sub3";
       if (this.$store.state.token.isUser) {
-        if (this?.active) return "warning";
+        if (this?.active && !this.isBreakActive) return "warning";
+        if (this?.active && this.isBreakActive) return "success";
         if (!this?.active) return "primary-24";
       }
     },
@@ -399,30 +428,47 @@ export default {
         else return "Offline";
       }
     },
-    isSelectedTodayDate () {
-      if(!this?.todayDate) return;
-      const todayDate = DateTime.fromFormat(this.todayDate, 'dd-MMM-yyyy').startOf('day');
+    colorVariant() {
+      if (this.active && !this.isBreakActive && !this.isConfirmationOpen) return "text-success";
+        if (this.active && this.isBreakActive && !this.isConfirmationOpen) return "text-orange";
+        if (this.active && !this.isBreakActive && this.isConfirmationOpen) return "text-danger";
+    },
+    isSelectedTodayDate() {
+      if (!this?.todayDate) return;
+      const todayDate = DateTime.fromFormat(
+        this.todayDate,
+        "dd-MMM-yyyy"
+      ).startOf("day");
       return this.dateNow.equals(todayDate);
     },
     cardBorderClass() {
-      if(this.active && this.isConfirmationOpen) {
+      if (this.active && this.isConfirmationOpen) {
         return "info-card-timer__border_danger";
       }
       if (this.active && !this.isBreakActive) {
         return "info-card-timer__border_success";
-      } if (this.active && this.isBreakActive) {
+      }
+      if (this.active && this.isBreakActive) {
         return "info-card-timer__border_warning";
       }
       return "info-card-timer__border_light";
     },
     inActivityClass() {
-      if (this.active && !this.isBreakActive) return "activity-items__border_success text-success";
-      if(!this.isLightThemeCheck) return "activity-items__border_light text-light"
+      if (this.active && !this.isBreakActive && !this.isConfirmationOpen)
+        return "activity-items__border_success text-success";
+        if (this.active && !this.isBreakActive && !this.isConfirmationOpen)
+        return "activity-items__border_warning text-success";
+        if (this.active && !this.isBreakActive && this.isConfirmationOpen)
+        return "activity-items";
+      if (!this.isLightThemeCheck)
+        return "activity-items__border_light text-light";
       return "activity-items__border_light text-dark";
     },
     breakActivityClass() {
-      if (this.active && this.isBreakActive) return "activity-items__border_warning text-warning";
-      if(!this.isLightThemeCheck) return "activity-items__border_light text-light"
+      if (this.active && this.isBreakActive)
+        return "activity-items__border_warning text--orange";
+      if (!this.isLightThemeCheck)
+        return "activity-items__border_light text-light";
       return "activity-items__border_light text-dark";
     },
   },
@@ -435,6 +481,7 @@ export default {
 };
 </script>
 <style lang="scss">
+$color-orange: #ffab00;
 .info-card-timer {
   padding: 24px;
   font-size: 14px;
@@ -449,7 +496,7 @@ export default {
     border: 1px solid $success;
   }
   &__border_warning {
-    border: 1px solid $warning;
+    border: 1px solid $color-orange;
   }
   &__border_danger {
     border: 1px solid $danger;
@@ -457,7 +504,7 @@ export default {
   label {
     font-size: 1rem !important;
     font-weight: 600;
-    color: $dark;
+    // color: $dark;
   }
 
   .info-card-items {
@@ -487,7 +534,11 @@ export default {
       padding-bottom: 8px;
       display: flex;
       justify-content: space-between;
-
+      .text--orange {
+        label {
+          color: $color-orange !important;
+        }
+      }
       .activity-items {
         display: flex;
         justify-content: space-between;
@@ -505,13 +556,13 @@ export default {
           label {
             color: $success;
           }
-          border-bottom: 1px solid $success;
+          border-bottom: 1px solid $success !important;
         }
         &__border_warning {
           label {
             color: $warning;
           }
-          border-bottom: 1px solid $warning;
+          border-bottom: 1px solid $color-orange !important;
         }
         label {
           // color: var(--bib-text-secondary);
@@ -528,4 +579,18 @@ export default {
     }
   }
 }
+.text--orange {
+  color: $color-orange !important;
+}
+.btn-warning-override {
+  .button--warning {
+    background: $color-orange !important;
+  }
+  .button--warning:hover {
+    background-color: $warning !important;
+  }
+}
+// .btn-break:hover{
+//   background-color: $warning !important;
+// }
 </style>

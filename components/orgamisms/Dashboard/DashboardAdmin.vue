@@ -76,6 +76,7 @@ export default {
       loading: true,
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
       maxDate: DateTime.now().toISO(),
+      previousDate: DateTime.now().toFormat(DATETIME_FORMAT),
     };
   },
 
@@ -119,6 +120,10 @@ export default {
       this.loading = false;
     },
 
+    setPreviousDate(date) {
+      this.previousDate = date;
+    },
+
     async dateSelection(event) {
       
       const now = DateTime.now().toFormat(DATETIME_FORMAT);
@@ -126,6 +131,11 @@ export default {
       const date = DateTime.fromJSDate(new Date(event || now));
       this.getCurrentDate = date.toISO();
 
+      if(this.todayDate === this.previousDate) {
+        return;
+      }
+
+      this.setPreviousDate(this.todayDate);
       if (DateTime.fromISO(this.getCurrentDate).isValid) {
         await this.getOrganizationEntries();
       } else {

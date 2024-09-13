@@ -29,18 +29,19 @@
             ></info-card-one>
             <!--
              <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
-            <home-request-leave-card
+            <info-card-leave-vacation
               :title="$button.PTO.label"
               :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
               :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
+              :isFromHomePage="true"
               buttonLable="Request Time-Off"
               icon="airplane-solid"
               className="button-wrapper__bgsucess"
-              :variant="$button.approved.variant"
+              :variant="$button.lightButton.variant"
               @on-click="addLeaves('vacation')"
-            ></home-request-leave-card>
+            ></info-card-leave-vacation>
           </div>
         </div>
         <div class="d-flex align-center px-1">
@@ -113,6 +114,7 @@
                       :dates.sync="weekDates"
                       class="custom_date_picker"
                       :format="format"
+                      @onChange="closeChangeHandler"
                       @close="
                         () => {
                           scope.close();
@@ -207,6 +209,7 @@ import {
 import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_api";
 
 import { Timesheet } from "@/components/common/models/timesheet";
+import InfoCardLeaveVacation from "../../common/Cards/InfoCardLeaveVacation.vue";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -216,6 +219,7 @@ const VIEWS = [
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
 export default {
+  components: {InfoCardLeaveVacation},
   data() {
     return {
       VIEWS,
@@ -268,6 +272,10 @@ export default {
       allowanceLeavesDetailedData: {},
       isRequestWidgetLoaded: false,
       isTimesheetWidgetLoaded: false,
+      previousDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      summaryDate: DateTime.now().toFormat(DATETIME_FORMAT),
+      previousWeekData: null,
+      previousMonthWeekData: null,
     };
   },
   computed: {
@@ -281,8 +289,8 @@ export default {
       return this.timesheet?.isLocked();
     },
     dayListDate() {
-      if (!this.todayDate) return null;
-      return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).toJSDate();
+      if (!this.summaryDate) return null;
+      return DateTime.fromFormat(this.summaryDate, DATETIME_FORMAT).toJSDate();
     },
     totalWork() {
       if (!this.getDailyTimeEntries || this.getDailyTimeEntries.length === 0)
@@ -394,6 +402,14 @@ export default {
       this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
         this.fillDailyTimeEntries();
       });
+    },
+    closeChangeHandler() {
+      if(this.previousWeekData === null || this.previousWeekData?.from === this.weekDates.from) {
+        return;
+      }
+      this.setPreviousWeekData(this.weekDates);
+
+      this.fillWeeklyTimeEntries();
     },
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
@@ -592,16 +608,24 @@ export default {
       this.timesheetsList = timesheets;
       this.loading = false;
     },
+    setPreviousDate(date) {
+      this.previousDate = date;
+    },
+    setSummaryDate(date) {
+      this.summaryDate = date;
+    },
     async dateSelection(value) {
       // this.loading = true;
-      this.todayDate =
-        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
-      // if (!value) {
-      //   await this.$store.dispatch("timeattendance/resetTimeAttendanceEntries");
-      // }
+      const dateValue = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate = dateValue;
+      if(dateValue === this.previousDate) {
+        return;
+      }
+
+      this.setSummaryDate(dateValue);
+      this.setPreviousDate(dateValue);
+
       await this.fillDailyTimeEntries();
-      // this.$nuxt.$emit("chronometer");
-      // this.loading = false;
     },
     async enterDetail(item) {
       const date = item.date;
@@ -648,7 +672,11 @@ export default {
       this.$router.push({ query: { view: "day" } });
       await this.fillDailyTimeEntries();
     },
+    setPreviousWeekData(dates) {
+      this.previousWeekData = dates;
+    },
     async weekSelection() {
+      this.setPreviousWeekData(this.weekDates);
       await this.fillWeeklyTimeEntries();
     },
     async onTimesheetSubmitted() {
@@ -672,10 +700,27 @@ export default {
       const toFormat = DateTime.fromISO(to).toLocal().toFormat(DATETIME_FORMAT);
       return `${fromFormat} -> ${toFormat}`;
     },
+    isMonthWeekMatchPrevious() {
+      return (this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from)
+        && this.previousMonthWeekData?.to === this.weekDates.to)
+    },
     async onCloseWeekRange() {
+      if(this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from &&
+          this.previousMonthWeekData?.to === this.weekDates.to)) {
+        return;
+      }
+      this.setPreviousMonthWeekData(this.weekDates);
+
       await this.fillTimesheetEntries();
     },
+    setPreviousMonthWeekData(dates) {
+      this.previousMonthWeekData = dates;
+    },
     async weekSelectionInMonthView() {
+
+      this.setPreviousMonthWeekData(this.weekDates);
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {

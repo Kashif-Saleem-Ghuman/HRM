@@ -50,6 +50,7 @@
                     :dates.sync="weekDates"
                     class="custom_date_picker"
                     :format="format"
+                    @onChange="closeChangeHandler"
                     @close="
                       () => {
                         scope.close();
@@ -95,7 +96,7 @@
             v-show="todayListView"
             :total="totalWork"
             :status="timesheetStatus"
-            :date="new Date(todayDate + ' 00:00')"
+            :date="new Date(dayListDate + ' 00:00')"
             :disabled="true"
             :editable="false"
             :disableIcons="true"
@@ -198,6 +199,15 @@ export default {
         from: null,
         to: null,
       },
+      previousDate: new URLSearchParams(window.location.search).get("date")
+        ? new URLSearchParams(window.location.search).get("date")
+        : fecha.format(new Date(), "DD-MMM-YYYY"),
+      summaryDate: new URLSearchParams(window.location.search).get("date")
+        ? new URLSearchParams(window.location.search).get("date")
+        : fecha.format(new Date(), "DD-MMM-YYYY"),
+      previousWeekData: null,
+      previousMonthWeekData: null,
+
     };
   },
   methods: {
@@ -211,6 +221,11 @@ export default {
     },
     formatDate(dateObj, format) {
       return fecha.format(dateObj, format);
+    },
+    isMonthWeekMatchPrevious() {
+      return (this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from)
+        && this.previousMonthWeekData?.to === this.weekDates.to)
     },
     handleNewEntry(timeEntry) {
       this.todayData.push({
@@ -269,13 +284,42 @@ export default {
     onViewTimesheetsClick() {
       this.$router.push({ query: { view: "week" } });
     },
+    setPreviousWeekData(dates) {
+      this.previousWeekData = dates;
+    },
+    setPreviousDate(date) {
+      this.previousDate = date;
+    },
+    setSummaryDate(date) {
+      this.summaryDate = date;
+    },
     async dateSelection(value) {
-      this.todayDate =
-        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      const dateValue = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      this.todayDate = dateValue
+
+      if(dateValue === this.previousDate) {
+        return;
+      }
+
+
+      if(value !== "") {
+        this.setSummaryDate(dateValue);
+        this.setPreviousDate(dateValue);
+      }
+
       await this.fillDailyTimeEntries();
     },
     async weekSelection() {
+      this.setPreviousWeekData(this.weekDates);
       await this.fillWeeklyTimeEntries();
+    },
+    closeChangeHandler() {
+      if(this.previousWeekData === null || this.previousWeekData?.from === this.weekDates.from) {
+        return;
+      }
+      this.setPreviousWeekData(this.weekDates);
+
+      this.fillWeeklyTimeEntries();
     },
     openClock() {
       this.clockModal = true;
@@ -328,6 +372,7 @@ export default {
       this.loading = false;
     },
     async fillTimesheetEntries(isWeekRange = false) {
+      console.log('ffff==', this.timesheetDates);
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(
@@ -335,6 +380,8 @@ export default {
         ),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
+
+      console.log('ffff==after', this.timesheetDates, from, to);
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser({ timesheets: employee });
@@ -355,10 +402,20 @@ export default {
         new Date(timeEntry.end).getTime() - new Date(timeEntry.start).getTime()
       );
     },
+    setPreviousMonthWeekData(dates) {
+      this.previousMonthWeekData = dates;
+    },
     async onCloseWeekRange() {
+      if(this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from &&
+          this.previousMonthWeekData?.to === this.weekDates.to)) {
+        return;
+      }
+      this.setPreviousMonthWeekData(this.weekDates)
       await this.fillTimesheetEntries();
     },
     async weekSelectionInMonthView() {
+      this.setPreviousMonthWeekData(this.weekDates);
       await this.fillTimesheetEntries(true);
     },
     setTimesheetDates(from, to) {
@@ -390,6 +447,10 @@ export default {
     },
   },
   computed: {
+    dayListDate() {
+      if (!this.summaryDate) return null;
+      return this.summaryDate;
+    },
     minDate() {
       const hireDate = this.activeUser?.hireDate;
       return hireDate
@@ -483,7 +544,9 @@ export default {
       ).label;
     },
     dates(newval, old) {
+
       if (newval.from && newval.to) {
+        console.log('newww=', newval);
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }

@@ -6,6 +6,7 @@
         label="Employee"
         :options="employeesOptions"
         v-model="selectedEmployeeId"
+        :variant="isLightThemeCheck  ? 'light' : 'dark'"
       ></bib-input>
     </div>
     <div>

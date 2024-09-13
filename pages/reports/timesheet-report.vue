@@ -147,9 +147,9 @@ export default {
 <style lang="scss">
 .download-wrapper {
   .vdpComponent {
-    width: 50%;
+    width: 100%;
     .vdpComponent__input{
-      min-width: 100%;
+      min-width: 100% !important;
     }
     label {
       font-weight: bold !important;

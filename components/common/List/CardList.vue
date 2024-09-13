@@ -185,12 +185,12 @@ export default {
 </script>
 <style lang="scss">
 .birthday-button {
-  background-color: #6F00FF;
-  color: #fff;
+  background-color: #6F00FF !important;
+  color: #fff !important;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #5900cc;
+    background-color: #8b33fd !important;
   }
 }
 </style>

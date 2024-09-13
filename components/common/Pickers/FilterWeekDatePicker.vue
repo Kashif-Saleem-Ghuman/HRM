@@ -89,8 +89,9 @@ computed:{
     onFromDateChange(value) {
       //When user clicks X button
       if (!this.from) {
-        this.$emit("onClose");
-        return this.setDefaultWeek(this.filterDate);
+        this.setDefaultWeek(this.filterDate);
+        this.$emit("onClose", 'from');
+        return
       }
       if (this.isWeekDatesOverlap(value, this.to)) {
         return this.$openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
@@ -109,8 +110,9 @@ computed:{
     onToDateChange(value) {
       //When user clicks X button
       if (!this.to) {
+        this.setDefaultWeek(this.filterDate);
         this.$emit("onClose");
-        return this.setDefaultWeek(this.filterDate);
+        return
       }
       if (this.isWeekDatesOverlap(this.from, value)) {
         return this.$openPopupNotification(FILTER_WEEK_DATE_OVERLAP_MESSAGE);
@@ -141,6 +143,13 @@ computed:{
         let to = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
         this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
       }
+      if(dates.from && dates.to) {
+        this.$emit("update:dates", {
+          from: this?.from,
+          to: this?.to,
+        });
+      }
+
     },
 
     setToPreviousDates() {

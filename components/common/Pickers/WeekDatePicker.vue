@@ -58,10 +58,13 @@ export default {
   methods: {
     getDatetimeCommonProps,
     onDateChange(value) {
-      //When user clicks X button
-      this.$emit('onChange');
+
       if (!this.from) {
-       return  this.setCurrentWeek()
+        this.setCurrentWeek()
+
+        //When user clicks X button
+        !value && this.$emit('onChange');
+        return
       }
 
       const { from, to } = getWeekStartEndDates(

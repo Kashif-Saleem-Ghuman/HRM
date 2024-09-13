@@ -9,7 +9,9 @@
         $getAttendanceLeaveStatusIconName($getOnlineOfflineStatus(attendanceStatusData))
       "
       :style="minWidth"
+      style="cursor: default;"
       pill
+      class="button-override"
     ></bib-button>
   </div>
 </template>

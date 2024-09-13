@@ -1,9 +1,9 @@
 <template>
     <div>
-      <!-- <div v-if="isUser">
+      <div v-if="isAdmin">
         <page-not-found></page-not-found>
-      </div> -->
-      <div>
+      </div>
+      <div v-else>
         <employee-directory></employee-directory>
       </div>
     </div>

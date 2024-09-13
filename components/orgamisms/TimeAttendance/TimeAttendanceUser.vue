@@ -604,8 +604,7 @@ export default {
         .map((employee) => {
           const parser = new TimesheetParser({ timesheets: employee });
           return parser.parse("weekDays");
-        })
-        .sort((a, b) => new Date(b.start) - new Date(a.start));
+        }).sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
       this.loading = false;
     },

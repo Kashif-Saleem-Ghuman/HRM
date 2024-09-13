@@ -573,8 +573,8 @@ export default {
       min-width: 100%;
     }
     label {
-      font-weight: bold !important;
-      font-size: 14px !important;
+      // font-weight: bold !important;
+      // font-size: 14px !important;
     }
   }
 }

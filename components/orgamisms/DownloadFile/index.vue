@@ -22,9 +22,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import { DateTime } from "luxon";
-import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { DOWNLOAD_REPORT_TAB } from "@/utils/constant/Constant.js";
 
 export default {

@@ -189,7 +189,7 @@ export default {
     truncateText() {
       var screenWidth = window.screen.width;
       if (screenWidth >= "1920") {
-        return 40;
+        return 52;
       } else {
         return 25;
       }

@@ -7,6 +7,7 @@
           label="Year"
           :options="yearOptions"
           v-model="selectedYear"
+          :variant="isLightThemeCheck  ? 'light' : 'dark'"
         ></bib-input>
       </div>
       <div id="fotter">

@@ -7,7 +7,7 @@ export const TABLE_HEAD = {
     {
       key: "name",
       label: "Employee",
-      width: `${100 / 4.3}%`,
+      width: `${100 / 3}%`,
       style: "text-align:left",
       header_icon: {
         icon: "long-arrow-up",
@@ -56,6 +56,7 @@ export const TABLE_HEAD = {
     {
       key: "breaks",
       label: "Breaks",
+      width: `${100 / 8}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-breaks-sort",
@@ -67,6 +68,7 @@ export const TABLE_HEAD = {
     {
       key: "total",
       label: "Total hours",
+      width: `${100 / 8}%`,
       header_icon: {
         icon: "long-arrow-up",
         event: "employee-total-sort",
@@ -1079,8 +1081,8 @@ export const USER_PROFILE_TAB = [
     route: "time-attendance-profile-tab",
   },
   {
-    title: "Leaves and Vacations",
-    value: "Leaves and Vacations",
+    title: "Leaves & Vacations",
+    value: "Leaves & Vacations",
     route: "leave-vacations-profile-tab",
   },
   {

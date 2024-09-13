@@ -167,6 +167,7 @@ export default {
   },
   computed: {
     getpercentageValue() {
+      this.progressKey += 1;
       const totalLeave = this.daysUsed + this.scheduledDays;
       if(totalLeave > this.totalAllowance){
         return '100';

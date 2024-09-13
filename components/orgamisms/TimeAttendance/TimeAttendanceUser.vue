@@ -29,18 +29,19 @@
             ></info-card-one>
             <!--
              <info-card-help custumBg="help-wrapper__bg-black"></info-card-help> -->
-            <home-request-leave-card
+            <info-card-leave-vacation
               :title="$button.PTO.label"
               :daysUsed="allowanceLeavesDetailedData.vacationDaysUsed"
               :totalAllowance="allowanceLeavesDetailedData.vacationDaysAllowed"
               :scheduledDays="allowanceLeavesDetailedData.vacationDaysScheduled"
               :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
+              :isFromHomePage="true"
               buttonLable="Request Time-Off"
               icon="airplane-solid"
               className="button-wrapper__bgsucess"
-              :variant="$button.approved.variant"
+              :variant="$button.lightButton.variant"
               @on-click="addLeaves('vacation')"
-            ></home-request-leave-card>
+            ></info-card-leave-vacation>
           </div>
         </div>
         <div class="d-flex align-center px-1">
@@ -207,6 +208,7 @@ import {
 import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_api";
 
 import { Timesheet } from "@/components/common/models/timesheet";
+import InfoCardLeaveVacation from "../../common/Cards/InfoCardLeaveVacation.vue";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -216,6 +218,7 @@ const VIEWS = [
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
 export default {
+  components: {InfoCardLeaveVacation},
   data() {
     return {
       VIEWS,

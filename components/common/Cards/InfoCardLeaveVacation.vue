@@ -28,73 +28,81 @@
           <bib-avatar src="https://placekitten.com/300/300"></bib-avatar>
         </div> -->
       </div>
-      <div class="footer-item d-flex gap-05">
-        <div
-          class="items"
-          v-if="$store.state.token.isAdmin"
-          @mouseover="editAllowanceIcon = true"
-          @mouseleave="editAllowanceIcon = false"
-        >
-          <label>Allowance</label>
-          <div class="position-relative">
+
+      <div :class="[isFromHomePage ? 'position-relative h-70' : '']">
+        <div :class="[isFromHomePage ? 'position-absolute w-100 card-footer' : '']">
+          <div class="footer-item d-flex gap-05">
+            <div
+              class="items"
+              v-if="$store.state.token.isAdmin"
+              @mouseover="editAllowanceIcon = true"
+              @mouseleave="editAllowanceIcon = false"
+            >
+              <label>Allowance</label>
+              <div class="position-relative">
             <span class="pl-05" v-show="!editAllowance">
               {{ totalAllowance }}
             </span>
-            <div v-show="editAllowance" class="edit-allowance">
-              <bib-input
-                type="text"
-                v-model="editAllowanceValue"
-                size="sm"
-                class="pt-05 edit-allowance__input"
-              ></bib-input>
-              <bib-icon
-                class="edit-allowance__action-icon"
-                icon="save"
-                hover-variant="primary"
-                @click="saveAllowance"
-              ></bib-icon>
-              <bib-icon
-                class="edit-allowance__action-icon"
-                icon="close"
-                hover-variant="primary"
-                @click="editAllowance = false"
-              ></bib-icon>
+                <div v-show="editAllowance" class="edit-allowance">
+                  <bib-input
+                    type="text"
+                    v-model="editAllowanceValue"
+                    size="sm"
+                    class="pt-05 edit-allowance__input"
+                  ></bib-input>
+                  <bib-icon
+                    class="edit-allowance__action-icon"
+                    icon="save"
+                    hover-variant="primary"
+                    @click="saveAllowance"
+                  ></bib-icon>
+                  <bib-icon
+                    class="edit-allowance__action-icon"
+                    icon="close"
+                    hover-variant="primary"
+                    @click="editAllowance = false"
+                  ></bib-icon>
+                </div>
+                <bib-icon
+                  v-show="editAllowanceIcon && !editAllowance"
+                  class="edit-allowance-icon"
+                  icon="pencil"
+                  :variant="isLightThemeCheck ? 'primary' : 'light'"
+                  @click="handleEditAllowanceClick"
+                  :scale="1.1"
+                ></bib-icon>
+              </div>
             </div>
-            <bib-icon
-              v-show="editAllowanceIcon && !editAllowance"
-              class="edit-allowance-icon"
-              icon="pencil"
-              :variant="isLightThemeCheck ? 'primary' : 'light'"
-              @click="handleEditAllowanceClick"
-              :scale="1.1"
-            ></bib-icon>
+            <div v-else class="items">
+              <label>Allowance</label>
+              <span class="pl-05">{{ totalAllowance }}</span>
+            </div>
+
+            <div class="items">
+              <label>Used</label>
+              <span class="pl-05">{{ daysUsed }}</span>
+            </div>
+
+            <div class="items">
+              <label>Scheduled</label>
+              <span class="pl-05">{{ scheduledDays }} </span>
+            </div>
+          </div>
+          <div class="d-flex justify-center pt-05">
+            <bib-button
+              :icon="icon"
+              :variant="variant"
+              :scale="$button.approved.scale"
+              :label="buttonLable"
+              @click.native.stop="$emit('on-click')"
+              class="button-wrapper-align w-100"
+            ></bib-button>
           </div>
         </div>
-        <div v-else class="items">
-          <label>Allowance</label>
-          <span class="pl-05">{{ totalAllowance }}</span>
-        </div>
 
-        <div class="items">
-          <label>Used</label>
-          <span class="pl-05">{{ daysUsed }}</span>
-        </div>
+      </div>
 
-        <div class="items">
-          <label>Scheduled</label>
-          <span class="pl-05">{{ scheduledDays }} </span>
-        </div>
-      </div>
-      <div class="d-flex justify-center pt-05">
-        <bib-button
-          :icon="icon"
-          :variant="variant"
-          :scale="$button.approved.scale"
-          :label="buttonLable"
-          @click.native.stop="$emit('on-click')"
-          class="button-wrapper-align w-100"
-        ></bib-button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -104,9 +112,6 @@ import { REQUEST_TYPES } from "@/utils/constant/Constant";
 
 export default {
   props: {
-    title: {
-      type: String,
-    },
     hashItem: {
       type: String,
     },
@@ -144,6 +149,10 @@ export default {
       type: Number,
       default: 0,
     },
+    isFromHomePage:{
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -163,6 +172,7 @@ export default {
         return '100';
       }
       this.progressKey += 1;
+      if(!this.totalAllowance || this.totalAllowance == 0) return "0";
       if (this.totalAllowance !== 0) {
         const percentage = Math.round((totalLeave / this.totalAllowance) * 100);
         return percentage < 0 ? 0 : percentage;
@@ -172,6 +182,7 @@ export default {
     },
 
     balanceLeaveValue() {
+      if(!this.totalAllowance && !this.daysUsed) return '';
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
         const balance =
           this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;
@@ -236,5 +247,8 @@ export default {
   top: 0;
   right: -1px;
   margin: 1px;
+}
+.card-footer {
+  bottom: 26px;
 }
 </style>

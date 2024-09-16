@@ -39,7 +39,7 @@
               buttonLable="Request Time-Off"
               icon="airplane-solid"
               className="button-wrapper__bgsucess"
-              :variant="$button.lightButton.variant"
+              :variant="isLightThemeCheck ? $button.lightButton.variant : 'secondary'"
               @on-click="addLeaves('vacation')"
             ></info-card-leave-vacation>
           </div>

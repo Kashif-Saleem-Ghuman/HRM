@@ -15,7 +15,8 @@ export default ({ app }, inject) => {
         // Optional: You may want to remove the menu after the animation is done
         setTimeout(() => {
           userMenu.style.display = 'none';
-        }, 300); // Adjust this duration to match the animation time
+          userMenu.classList.remove(...animationClasses);
+        }, 200); // Adjust this duration to match the animation time
       }
     };
   

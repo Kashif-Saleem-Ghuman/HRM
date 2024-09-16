@@ -227,7 +227,6 @@ export default {
         });
     },
     addLeaves($event) {
-      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("close-sidebar-settings");

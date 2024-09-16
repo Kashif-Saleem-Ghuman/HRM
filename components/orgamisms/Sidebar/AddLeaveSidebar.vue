@@ -246,6 +246,8 @@ export default {
     },
     registerOpenSideBarRootListener() {
       this.$root.$on(OPEN_SIDEBAR_EVENT, (payload, key) => {
+        event.stopPropagation();
+        this.$hideUserMenu();
         this.addLeave(payload, key);
       });
     },

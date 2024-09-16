@@ -219,7 +219,7 @@ const VIEWS = [
 // const FILL_DAILY_ENTRY_EVENT = "filldaily-entry";
 
 export default {
-  components: {InfoCardLeaveVacation},
+  components: { InfoCardLeaveVacation },
   data() {
     return {
       VIEWS,
@@ -404,7 +404,10 @@ export default {
       });
     },
     closeChangeHandler() {
-      if(this.previousWeekData === null || this.previousWeekData?.from === this.weekDates.from) {
+      if (
+        this.previousWeekData === null ||
+        this.previousWeekData?.from === this.weekDates.from
+      ) {
         return;
       }
       this.setPreviousWeekData(this.weekDates);
@@ -525,7 +528,6 @@ export default {
     onViewTimesheetsClick() {
       this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
       this.$router.push({ path: "/my-timesheet/", query: { view: "month" } });
-
     },
 
     change(event, name) {
@@ -586,7 +588,9 @@ export default {
         await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
-      this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
+      const totalTimeInSeconds = Math.round(weekData.total * 3600);
+      this.weekDataTotalWork = formatTime(totalTimeInSeconds, false);
+      // this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
       this.weekDataStatus = weekData.status;
       this.timesheetId = weekData.id;
       (this.refusalReason = weekData), (this.loading = false);
@@ -604,7 +608,8 @@ export default {
         .map((employee) => {
           const parser = new TimesheetParser({ timesheets: employee });
           return parser.parse("weekDays");
-        }).sort((a, b) => new Date(b.start) - new Date(a.start));
+        })
+        .sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
       this.loading = false;
     },
@@ -616,9 +621,10 @@ export default {
     },
     async dateSelection(value) {
       // this.loading = true;
-      const dateValue = value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
+      const dateValue =
+        value === "" ? DateTime.now().toFormat(DATETIME_FORMAT) : value;
       this.todayDate = dateValue;
-      if(dateValue === this.previousDate) {
+      if (dateValue === this.previousDate) {
         return;
       }
 
@@ -701,14 +707,18 @@ export default {
       return `${fromFormat} -> ${toFormat}`;
     },
     isMonthWeekMatchPrevious() {
-      return (this.previousMonthWeekData === null ||
-        (this.previousMonthWeekData?.from === this.weekDates.from)
-        && this.previousMonthWeekData?.to === this.weekDates.to)
+      return (
+        this.previousMonthWeekData === null ||
+        (this.previousMonthWeekData?.from === this.weekDates.from &&
+          this.previousMonthWeekData?.to === this.weekDates.to)
+      );
     },
     async onCloseWeekRange() {
-      if(this.previousMonthWeekData === null ||
+      if (
+        this.previousMonthWeekData === null ||
         (this.previousMonthWeekData?.from === this.weekDates.from &&
-          this.previousMonthWeekData?.to === this.weekDates.to)) {
+          this.previousMonthWeekData?.to === this.weekDates.to)
+      ) {
         return;
       }
       this.setPreviousMonthWeekData(this.weekDates);
@@ -719,7 +729,6 @@ export default {
       this.previousMonthWeekData = dates;
     },
     async weekSelectionInMonthView() {
-
       this.setPreviousMonthWeekData(this.weekDates);
       await this.fillTimesheetEntries(true);
     },

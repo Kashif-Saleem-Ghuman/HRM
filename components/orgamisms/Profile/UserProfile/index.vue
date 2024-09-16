@@ -151,6 +151,11 @@ export default {
     height: 76vh !important;
   }
 }
+@media (min-width: 1900px) {
+  .scroll-wrapper-page {
+    height: 80vh !important;
+  }
+}
 @media (min-width: 2500px) {
   .scroll-wrapper {
     height: 82vh !important;

@@ -311,6 +311,7 @@ export default {
     },
 
     menuClick(item) {
+      this.$hideUserMenu();
       if (
         item.key != "requestVacation" &&
         item.key != "requestLeave" &&

@@ -2,10 +2,10 @@
   <div>
     <loader :loading="loading"></loader>
     <div id="people-action-wrapper">
-        <section-header-left
-          title="Leave & Vacations"
-          headerRight="headerRight"
-        ></section-header-left>
+      <section-header-left
+        title="Leave & Vacations"
+        headerRight="headerRight"
+      ></section-header-left>
       <div class="pl-1 py-1">
         <div
           class="d-grid d-flex gap-1"
@@ -172,8 +172,8 @@ export default {
           this.leaveVacationDataUser = result;
         }
       });
-      if(this.$route.query?.request){
-      this.addLeaves(this.$route.query?.request)
+    if (this.$route.query?.request) {
+      this.addLeaves(this.$route.query?.request);
     }
   },
   methods: {
@@ -220,39 +220,45 @@ export default {
       this.confirmastionMessageModal = true;
     },
     addLeaves($event) {
+      this.$hideUserMenu();
+      setTimeout(() => {
+        userMenu.classList.remove(...animationClasses);
+        userMenu.style.display = "none";
+      }, 3000);
+
       this.$nuxt.$emit("open-sidebar-admin", $event);
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");
     },
     registerFetchedLeaveVacation() {
       this.$root.$on("fetched-leave-vacation", () => {
-      this.$store
-        .dispatch("leavevacation/setLeaveVacationsUser", {
+        this.$store
+          .dispatch("leavevacation/setLeaveVacationsUser", {
+            from: this.getformToDate.from,
+            to: this.getformToDate.to,
+          })
+          .then((result) => {
+            if (!result) {
+              this.$openPopupNotification(this.$error.common_message);
+            } else {
+              this.leaveVacationDataUser = result;
+            }
+          });
+        this.getUserLeavesDetailUser({
           from: this.getformToDate.from,
           to: this.getformToDate.to,
-        })
-        .then((result) => {
-          if (!result) {
-            this.$openPopupNotification(this.$error.common_message);
+        }).then((result) => {
+          if (result) {
+            this.allowanceLeavesDetailedData = result;
+            this.is_data_fetched = true;
           } else {
-            this.leaveVacationDataUser = result;
+            this.$openPopupNotification(this.$error.common_message);
           }
         });
-      this.getUserLeavesDetailUser({
-        from: this.getformToDate.from,
-        to: this.getformToDate.to,
-      }).then((result) => {
-        if (result) {
-          this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
-        } else {
-          this.$openPopupNotification(this.$error.common_message);
-        }
       });
-    });
     },
     registerRootListener() {
-      this.registerFetchedLeaveVacation()
+      this.registerFetchedLeaveVacation();
     },
     unregisterRootListener() {
       this.$root.$off("fetched-leave-vacation");

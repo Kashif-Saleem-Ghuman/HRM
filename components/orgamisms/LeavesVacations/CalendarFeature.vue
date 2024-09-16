@@ -402,6 +402,7 @@ export default {
     },
     async handleEventClick(clickInfo) {
       event.stopPropagation();
+      this.$hideUserMenu();
       const { id } = clickInfo.event;
       const item = this.calendarOptions.events.find((event) => event.id == id);
       this.$nuxt.$emit("open-sidebar", item.request);

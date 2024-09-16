@@ -3,7 +3,7 @@
     <div class="d-flex align-center">
       <label class="pr-05" v-show="sectionLabel">{{ sectionLabel }}</label>
       <div class="position-relative">
-        <div class="" v-show="show" @click.stop="() => {}">
+        <div class="" v-show="show">
           <slot :close="clickOutside"></slot>
         </div>
         <!-- <bib-button

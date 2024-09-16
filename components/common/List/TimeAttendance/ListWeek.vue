@@ -244,10 +244,10 @@ export default {
         })
         return;
       }
-
       const response = await this.submitTimesheet(this.id);
       if (response) {
         this.$emit("timesheet-submitted");
+        this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
       }
     },
   },

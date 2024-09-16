@@ -363,10 +363,12 @@ export default {
         await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
-      this.weekDataTotalWork = formatTime(
-        (weekData.total || 0) * 60 * 60,
-        false
-      );
+      const totalTimeInSeconds = Math.round(weekData.total * 3600);
+      this.weekDataTotalWork = formatTime(totalTimeInSeconds, false);
+      // this.weekDataTotalWork = formatTime(
+      //   (weekData.total || 0) * 60 * 60,
+      //   false
+      // );
       this.weekDataStatus = weekData.status || "";
       this.timesheetId = weekData.id || "";
       this.loading = false;

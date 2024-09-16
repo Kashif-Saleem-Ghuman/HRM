@@ -113,6 +113,7 @@ export default {
     resetMonth() {
       this.iconName === MONTH_SELECTOR_ICONS.ARROW_DOWN && this.toggleDropdown();
       this.setDefaultMonth();
+      this.handleMouseLeave();
     },
     handleMouseLeave() {
       this.isDropdownOpen = false;

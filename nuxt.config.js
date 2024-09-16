@@ -49,7 +49,8 @@ export default {
     '~/plugins/commonFunctions.js',
     '~/plugins/contactbuttons.js',
     '~/plugins/hiredate.js',
-    '~/plugins/timeEntryClass.js'
+    '~/plugins/timeEntryClass.js',
+    '~/plugins/hideMyAccountDropMenu.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

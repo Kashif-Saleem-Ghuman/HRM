@@ -1,6 +1,6 @@
 
 <template>
-  <div class="scroll-wrapper">
+  <div class="scroll-wrapper scroll-wrapper-page">
     <div class="custom-header px-1 pt-05 pb-025" style="z-index: 9">
       <div>
         <div class="pt-05">
@@ -111,6 +111,7 @@ export default {
     },
     generateYearList,
     actionBY($event, key) {
+      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", $event, key);
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");

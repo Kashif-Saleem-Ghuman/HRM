@@ -113,7 +113,10 @@ import getJson from "../../../utils/dataJson/app_wrap_data.js";
 import { mapState } from "vuex";
 const appWrapItems = getJson();
 import { handleToggleWrapperTheme } from "@/utils/functions/functions_lib.js";
-import { navigationPaths, navigationPathsAdmin } from "../../../utils/constant/NavPaths";
+import {
+  navigationPaths,
+  navigationPathsAdmin,
+} from "../../../utils/constant/NavPaths";
 
 export default {
   props: {
@@ -140,7 +143,6 @@ export default {
         this.$store.state.token.hrmRole === USER_ROLES.MANAGER
       );
     },
-    
   },
 
   data() {
@@ -217,7 +219,9 @@ export default {
       let path = this.$router.history.current.fullPath;
       const basePath = path.split("?")[0];
       let matchedNavPath = null;
-     const navigationPathsRoleBased = this.isAdmin ? navigationPathsAdmin : navigationPaths;
+      const navigationPathsRoleBased = this.isAdmin
+        ? navigationPathsAdmin
+        : navigationPaths;
       for (const navPath of navigationPathsRoleBased) {
         const regexPath = navPath.paths.map((p) =>
           p.replace(/\/:id\//, "/\\d+/")
@@ -266,6 +270,7 @@ export default {
     },
 
     openRequestVacation() {
+      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", "vacation");
       this.$nuxt.$emit("add-leave");
       this.resetAllSelectedNavItems();
@@ -276,6 +281,7 @@ export default {
     },
 
     openRequestLeave() {
+      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", "leave");
       this.$nuxt.$emit("add-leave");
       this.resetAllSelectedNavItems();
@@ -285,6 +291,7 @@ export default {
       leaveNavItem.selected = true;
     },
     openRequestMedical() {
+      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", "medical");
       this.$nuxt.$emit("add-leave");
       this.resetAllSelectedNavItems();
@@ -315,8 +322,9 @@ export default {
         item.key != "requestVacation" &&
         item.key != "requestLeave" &&
         item.key != "requestMedical"
-      )
+      ) {
         this.closeSidebar();
+      }
       if (item.hasOwnProperty("selected")) {
         this.resetAllSelectedNavItems();
         item.selected = true;

@@ -143,6 +143,7 @@ export default {
     },
 
     actionBY($event, key) {
+      this.$hideUserMenu();
       this.$nuxt.$emit("open-sidebar-admin", $event, key);
       this.$nuxt.$emit("close-sidebar");
       this.$nuxt.$emit("add-leave");

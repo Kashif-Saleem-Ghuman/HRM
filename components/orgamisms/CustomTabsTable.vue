@@ -88,7 +88,7 @@
             >
               <slot
                 :name="`cell(${field.key})`"
-                v-bind:keyI="itemIndex"
+                v-bind:keyI="`item-${collapseIndex}-${itemIndex}`"
                 v-bind:value="item"
               >
               </slot>

@@ -220,7 +220,6 @@ export default {
       this.confirmastionMessageModal = true;
     },
     addLeaves($event) {
-      this.$hideUserMenu();
       setTimeout(() => {
         userMenu.classList.remove(...animationClasses);
         userMenu.style.display = "none";

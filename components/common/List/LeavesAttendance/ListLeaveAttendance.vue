@@ -101,9 +101,9 @@ export default {
   },
   methods: {
     async leaveDetail(item) {
-      event.stopPropagation();
+      // event.stopPropagation();
       this.$nuxt.$emit("open-sidebar", item);
-      this.$nuxt.$emit("close-sidebar-main");
+      // this.$nuxt.$emit("close-sidebar-main");
     },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {

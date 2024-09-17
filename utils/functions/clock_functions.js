@@ -3,6 +3,7 @@ import { getDateDiffInSeconds } from "@/utils/functions/dates";
 import {MAX_WORK_HOUR} from "@/utils/constant/Constant";
 
 export function formatTime(timeInSeconds, includeSeconds = true) {
+  timeInSeconds = Math.round(timeInSeconds);
   if (timeInSeconds <= 0) return includeSeconds ? "00:00:00" : "00:00"
   const hours = Math.floor(timeInSeconds / 3600);
   const formattedHours = hours < 10 ? `0${hours}` : hours;

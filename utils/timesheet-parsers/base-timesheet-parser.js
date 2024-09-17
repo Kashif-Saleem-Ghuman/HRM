@@ -1,6 +1,6 @@
 import { groupBy, keyBy } from "lodash";
 import { DateTime } from "luxon";
-import { getDateDiffInMinutes, getTimeFromDate } from "../functions/dates";
+import { getDateDiffInMinutes, getDateDiffInSeconds, getTimeFromDate} from "../functions/dates";
 import { sumBy } from "lodash";
 import { formatHoursToHHMM } from "../functions/time";
 export default class BaseTimesheetParser {
@@ -106,8 +106,16 @@ export default class BaseTimesheetParser {
   };
 
   getDayTotalWorkHours(timeEntries = []) {
-    const timeEntriesInSum = timeEntries.find( t => t.activity == 'in')?.total ?? 0;
-    const timeEntriesBreakSum = sumBy(timeEntries.filter( t => t.activity == 'break'), 'total') ?? 0
-    return timeEntriesInSum > timeEntriesBreakSum ? timeEntriesInSum - timeEntriesBreakSum : 0
+    const timeEntryTotal = timeEntries
+      .filter(t => t.activity === 'in' && t.start && t.end)
+      .reduce((total, t) => total + getDateDiffInSeconds(t.start, t.end), 0);
+
+
+    const breakEntryTotal = timeEntries
+      .filter(t => t.activity === 'break' && t.start && t.end)
+      .reduce((total, t) => total + getDateDiffInSeconds(t.start, t.end), 0);
+
+
+    return Math.max(timeEntryTotal - breakEntryTotal, 0);
   }
 }

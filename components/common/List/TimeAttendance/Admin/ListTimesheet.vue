@@ -82,7 +82,7 @@
       <template #cell(total)="data">
         <div>
           {{ data.value.refusalReason }}
-          <span>{{ formatHoursToHHMM(data.value.total) }}</span>
+          <span>{{ formatTime(data.value.total, false) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
@@ -145,6 +145,7 @@ import {
   getStatusIcon,
   getStatusVariant,
 } from "../../../../../utils/functions/status";
+import {formatTime} from "../../../../../utils/functions/clock_functions";
 
 export default {
   props: {
@@ -199,6 +200,7 @@ export default {
     }),
   },
   methods: {
+    formatTime,
     formatHoursToHHMM,
     getStatusIcon,
     getStatusVariant,
@@ -258,7 +260,7 @@ export default {
       return ACTIVITY_TYPE_LABEL_VALUE[activity] ?? "";
     },
     getFormattedHoursWithVacation(weekData, vacationName) {
-      const formattedHours = formatHoursToHHMM(weekData.totalHours);
+      const formattedHours = formatTime(weekData.totalHours, false);
       return vacationName
         ? `${vacationName} (${formattedHours})`
         : formattedHours;

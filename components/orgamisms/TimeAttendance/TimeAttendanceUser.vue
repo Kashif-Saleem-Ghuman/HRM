@@ -587,7 +587,7 @@ export default {
         await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports;
-      this.weekDataTotalWork = formatTime(weekData.total * 60 * 60, false);
+      this.weekDataTotalWork = formatTime(weekData.total, false);
       this.weekDataStatus = weekData.status;
       this.timesheetId = weekData.id;
       (this.refusalReason = weekData), (this.loading = false);

@@ -6,7 +6,6 @@
         :variant="themeButtonVariant"
         @click="toggleDropdown"
         v-click-outside="clickOutside"
-        icon-right="close"
       ></bib-button>
       <div class="menu-items chip-wrapper-com" style="left: 0;">
         <div v-if="isDropdownOpen" class="chip-wrapper-inner">

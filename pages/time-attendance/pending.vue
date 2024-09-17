@@ -5,7 +5,7 @@
     >
       <div class="d-flex align-center">
         <div class="custom_date_picker">
-          <date-selector :is-year-disabled="isShowAll" :is-month-disabled="isShowAll" :dates.sync="dates" />
+          <custom-date-selector :monthPickerDisabled="isShowAll" :dates.sync="dates" />
         </div>
         <div class="ml-05 d-flex align-center" v-show="showMultiRecordActionButton">
           <bib-button
@@ -70,7 +70,9 @@ import {
   rejectTimesheets
 } from "@/utils/functions/api_call/timeattendance/time";
 import {TIMESHEET_NOTIFICATIN_MESSAGE, TIMESHEET_CONFIRMATION_MESSAGE} from "@/utils/constant/Notifications";
+import CustomDateSelector from "../../components/common/DateSelector/CustomDateSelector.vue";
 export default {
+  components: {CustomDateSelector},
   data() {
     return {
       dates: { from: null, to: null },

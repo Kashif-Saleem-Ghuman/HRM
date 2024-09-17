@@ -378,7 +378,6 @@ export default {
     }
     this.isTimesheetWidgetLoaded = true;
     this.setView();
-    await this.$store.dispatch("employee/setUserList");
     await this.$store.dispatch("employee/setActiveUser");
     this.activeUserData = this.getActiveUser;
     if (this.todayListView) await this.fillDailyTimeEntries();

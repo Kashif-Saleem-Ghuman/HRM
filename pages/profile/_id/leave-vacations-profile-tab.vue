@@ -140,6 +140,11 @@ export default {
       employeeId: this.id,
     });
 
+    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
+      from: this.fromDate,
+      to: this.toDate,
+    });
+
     await this.$store
       .dispatch("leavesdata/setLeaveVacationsAllowance", {
         id: Number(this.id),
@@ -151,10 +156,6 @@ export default {
         this.is_data_fetched = true;
       });
 
-    await this.$store.dispatch("leavevacation/setActiveFromToDate", {
-      from: this.fromDate,
-      to: this.toDate,
-    });
     await this.$store
       .dispatch("leavevacation/setLeaveVacationsUser", {
         from: this.getformToDate.from,

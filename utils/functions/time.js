@@ -10,9 +10,10 @@ export const formatHoursToHHMM = (hours) => {
   // added new changes to fix the minus value isSecureContext
   // const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
   // const sign = hours < 0 ? "-" : ""; 
-
   // return `${sign}${duration.toFormat("hh:mm")}`;
-  const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
+  // const duration = Duration.fromObject({ minutes: Math.abs(hours * 60) }); 
+  const minutes = Math.round(hours * 60);
+  const duration = Duration.fromObject({ minutes: Math.abs(minutes) });
   const formattedDuration = duration.toFormat("hh:mm");
   
   if (hours < 0) {

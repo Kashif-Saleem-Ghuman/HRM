@@ -46,6 +46,13 @@ export const weekToUTCWeek = ({ from, to }) => {
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 
+export const weekToUTCWeekNew = ({ from, to }) => {
+  let utcFrom = DateTime.fromJSDate(from).startOf('day');
+  let utcTo = DateTime.fromJSDate(to).endOf('day');
+
+  return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
+};
+
 export const isDateOnSunday = (date) => {
   return DateTime.fromISO(date).weekday == 7;
 };

@@ -268,7 +268,7 @@ export default {
       const { searchString } = this;
 
       this.loading = true;
-      const { from, to } = this.isShowAll ? this.showAllDate: this.dates;
+      const { from, to } = this.dates;
       if (!from || !to) return;
 
       const employees = await fetchTimesheetsFunctionMap[this.type]({
@@ -314,7 +314,7 @@ export default {
 
       const parsedDate = new Date(currentValue.start);
       parsedDate.setDate(parsedDate.getDate());
-      const newDate = fecha.format(parsedDate, "DD-MMM-YYYY"); 
+      const newDate = fecha.format(parsedDate, "DD-MMM-YYYY");
 
       this.$router.push({
         path: `/profile/${userId}/time-attendance-profile-tab`,

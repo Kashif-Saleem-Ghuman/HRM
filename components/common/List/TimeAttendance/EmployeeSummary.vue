@@ -43,7 +43,9 @@
         <bib-button
           v-if="!disabled"
           label="Submit"
-          variant="primary"
+          variant="primary-24"
+          class="d-align"
+          size="lg"
           @click="onSubmit"
         ></bib-button>
       </div>

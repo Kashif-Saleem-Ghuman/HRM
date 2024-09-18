@@ -71,7 +71,7 @@
       <template v-for="(item, itemIndex) in collapseObj.sections">
         <tr
           :key="`item-${collapseIndex}-${itemIndex}`"
-          :style="{ visibility: collapseObj.isCollapsed ? 'collapse' : '' }"
+          :style="{ display: collapseObj.isCollapsed ? 'none' : '' }"
           class="table__irow"
           @contextmenu.stop="rightClickItem($event, collapseIndex, itemIndex)"
           @click="$emit('item-clicked', $event, collapseIndex, itemIndex, item)"

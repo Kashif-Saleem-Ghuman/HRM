@@ -182,7 +182,7 @@ export default {
     },
 
     balanceLeaveValue() {
-      if(!this.totalAllowance && !this.daysUsed) return '';
+      if(!this.totalAllowance && !this.daysUsed) return '0';
       if (!Number.isNaN(this.totalAllowance) && !Number.isNaN(this.daysUsed)) {
         const balance =
           this.totalAllowance - this.daysUsed - this.daysUsedCarryOver;

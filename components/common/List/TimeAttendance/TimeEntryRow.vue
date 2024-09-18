@@ -438,8 +438,10 @@ export default {
       return true;
     },
     isEntryValid() {
-      const startAndTimeValid = this.startAndEndTimeValid();
-      if (!startAndTimeValid) return false;
+      if(!this.isSelectedTodayDate){
+        const startAndTimeValid = this.startAndEndTimeValid();
+        if (!startAndTimeValid) return false;
+      }
 
       const isTotalTimeNegative = this.totalTimeInMinutes < 0;
       if (isTotalTimeNegative) return false;

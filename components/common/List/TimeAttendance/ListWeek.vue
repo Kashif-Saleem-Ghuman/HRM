@@ -34,6 +34,7 @@
           :activity="activityIn"
           :data="data.value"
           :status="status"
+          @onInput="handleClickTimeEntry"
         ></timesheet-field>
         </div>
       </template>
@@ -57,6 +58,7 @@
           :activity="activityOut"
           :data="data.value"
           :status="status"
+          @onInput="handleClickTimeEntry"
         ></timesheet-field>
       </div>
       </template>
@@ -89,6 +91,11 @@
 </template>
 
 <script>
+import {
+  makeTimeEntry,
+  editTimeEntry,
+  deleteTimeEntry,
+} from "@/utils/functions/functions_lib_api";
 import { mapGetters } from "vuex";
 import { DateTime } from "luxon";
 import {
@@ -146,6 +153,7 @@ export default {
       todayDate: DateTime.now().toFormat(DATETIME_FORMAT),
       activityIn: ACTIVITY_TYPE.IN,
       activityOut: ACTIVITY_TYPE.OUT,
+      endTimeRecords: [],
     };
   },
   computed: {
@@ -189,9 +197,96 @@ export default {
     },
   },
   methods: {
+    makeTimeEntry,
+    editTimeEntry,
     formatTime,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
+    },
+
+
+
+    setEndTimeRecords(date, endDate) {
+      this.endTimeRecords.push({
+        date: date,
+        end: endDate,
+      })
+    },
+    adjustEndTime(startTime, endTime) {
+      if (endTime && endTime < startTime) {
+        return endTime.plus({ days: 1 });
+      }
+      return endTime;
+    },
+    handleClickTimeEntry(entryDetail, activity, timeEntry) {
+      const parseDate = (dateStr) => DateTime.fromISO(dateStr).isValid ? DateTime.fromISO(dateStr) : null;
+
+      if (!timeEntry && activity === ACTIVITY_TYPE.OUT) {
+        this.setEndTimeRecords(entryDetail.date, entryDetail.endDate);
+        return;
+      }
+
+      let startTime = parseDate(entryDetail?.startDate ?? timeEntry?.start);
+      let endTime = parseDate(entryDetail?.endDate ?? timeEntry?.end);
+
+      if (timeEntry) {
+        endTime = this.adjustEndTime(startTime, endTime);
+
+        this.editThisTimeEntry({
+          date: entryDetail.date,
+          id: timeEntry.id,
+          start: startTime?.toUTC()?.toISO(),
+          end: endTime?.toUTC()?.toISO(),
+          activity: ACTIVITY_TYPE.IN
+        });
+      } else {
+        const endDateRecord = this.endTimeRecords.find(record => record.date === entryDetail.date)?.end;
+        endTime = this.adjustEndTime(startTime, parseDate(endDateRecord));
+
+        this.makeNewTimeEntry(
+          ACTIVITY_TYPE.IN,
+          entryDetail.date,
+          startTime?.toUTC()?.toISO(),
+          endTime?.toUTC()?.toISO()
+        );
+      }
+    },
+    async makeNewTimeEntry(activity, date, startDate, endDate) {
+      try {
+        const newEntry = await this.makeTimeEntry(
+          activity,
+          date,
+          startDate,
+          endDate
+        );
+
+        if (newEntry) {
+          this.openPopupNotification({
+            text: "Time entry added successfully",
+            variant: "primary",
+          });
+        }
+        await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
+      } catch (error) {
+        console.log('error', error);
+      }
+    },
+    async editThisTimeEntry(payload) {
+
+      try {
+        const editedEntry = await this.editTimeEntry(payload);
+
+        if (editedEntry) {
+          this.openPopupNotification({
+            text: "Time entry updated successfully",
+            variant: "primary",
+          });
+          this.$emit("edit-entry", editedEntry);
+        }
+        await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
+      } catch (error) {
+        console.log('error', error)
+      }
     },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {

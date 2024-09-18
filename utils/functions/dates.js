@@ -46,19 +46,33 @@ export const weekToUTCWeek = ({ from, to }) => {
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 
-export const convertToSystemWeekRange = ({ from, to }) => {
-  let utcFrom = DateTime.fromJSDate(from).startOf('day');
-  let utcTo = DateTime.fromJSDate(to).endOf('day');
 
-  if (utcFrom.weekday !== 7) {
-    utcFrom = utcFrom.minus({ days: utcFrom.weekday });
+export function getSystemWeekRangeInUtc({ from, to }) {
+  const utcFrom = DateTime.fromISO(DateTime.fromJSDate(from).toISODate(), {
+    zone: "utc",
+  });
+
+  if (!isUtcDateOnSunday(utcFrom)) {
+    utcFrom.startOf("week").minus({ days: 1 }); // Adjust to Sunday
   }
 
-  if (utcTo.weekday !== 6) {
-    utcTo = utcTo.plus({ days: 6 - utcTo.weekday });
+  const utcTo = DateTime.fromISO(DateTime.fromJSDate(to).toISODate(), {
+    zone: "utc",
+  });
+
+  if (!isUtcDateOnSaturday(utcTo)) {
+    utcTo.endOf("week").plus({ days: 1 }); // Adjust to Saturday
   }
 
-  return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
+  return { from: utcFrom.toISO(), to: utcTo.toISO() };
+}
+
+export const isUtcDateOnSunday = (date) => {
+  return DateTime.fromJSDate(new Date(date), { zone: "utc" }).weekday == 7;
+};
+
+export const isUtcDateOnSaturday = (date) => {
+  return DateTime.fromJSDate(new Date(date), { zone: "utc" }).weekday == 6;
 };
 
 export const isDateOnSunday = (date) => {

@@ -93,17 +93,9 @@ export default {
       return this.activity === ACTIVITY_TYPE.OUT;
     },
     handleTimeInput() {
-      if(this.isActivityOut() && !this.startTime){
-        return;
-      }
-      if (this.timeEntry) {
-        this.editThisTimeEntry();
-      }else {
-        this.makeNewTimeEntry();
-      }
+      this.$emit('onInput', this.calculateDates(), this.activity, this.timeEntry);
     },
-
-
+    
     handleWrapperClick() {
       if (this.disabledRow){
         this.debouncedNotification();
@@ -121,61 +113,6 @@ export default {
           this.debounced = false;
         }, 3000);
       }
-    },
-
-    async makeNewTimeEntry() {
-        const { startDate, endDate, date } = this.calculateDates();
-        
-        try {
-        const newEntry = await this.makeTimeEntry(
-          ACTIVITY_TYPE.IN,
-          date,
-          startDate,
-          endDate
-        );
-
-        if (newEntry) {
-          this.openPopupNotification({
-            text: "Time entry added successfully",
-            variant: "primary",
-          });
-        }
-        await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
-      } catch (error) {
-        console.log('error', error);
-      }
-    },
-    async editThisTimeEntry() {
-
-      const { startDate, endDate, date } = this.calculateDates();
-
-      try {
-        const editedEntry = await this.editTimeEntry({
-          date,
-          start: startDate,
-          end: endDate,
-          id: this.timeEntry.id,
-          activity: ACTIVITY_TYPE.IN,
-        });
-
-        if (editedEntry) {
-          this.openPopupNotification({
-            text: "Time entry updated successfully",
-            variant: "primary",
-          });
-          this.$emit("edit-entry", editedEntry);
-        }
-        await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
-      } catch (error) {
-        console.log('error', error)
-      }
-    },
-
-    getEndDate(startTime, endTime) {
-      if (!isEndTimeOnSameDay(startTime, endTime)) {
-        return DateTime.fromJSDate(new Date(this.date)).plus({ day: 1 }).toJSDate();
-      }
-      return this.date;
     },
 
     calculateDates() {

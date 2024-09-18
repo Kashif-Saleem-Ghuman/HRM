@@ -198,7 +198,7 @@ export default {
       type: String,
     },
     totalDays: {
-      type: Number,
+      type: Number | String,
       default:0,
     },
     inActive: {

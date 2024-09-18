@@ -129,7 +129,6 @@ export default {
       this.employeesOptions = [{ label: "", value: "" }, ...reportTo];
       this.employeeNameSelectShow = true;
     });
-    this.$store.dispatch("leavesdata/setLeaveVacationsAllowanceUser");
     this.registerRootListeners();
   },
   computed: {

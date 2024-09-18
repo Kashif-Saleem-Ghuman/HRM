@@ -56,7 +56,7 @@
 import { TimesheetParser } from "../../utils/timesheet-parsers/timesheet-parser";
 import { processEmployeeRequests } from "../../utils/requests/employee-request-processor";
 import { getTimeAttendanceCustomRange } from "../../utils/functions/api_call/timeattendance/time";
-import { weekToUTCWeek, weekToUTCWeekNew } from "../../utils/functions/dates"
+import { weekToUTCWeek, convertToSystemWeekRange } from "../../utils/functions/dates"
 import { DateTime } from "luxon";
 import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
 
@@ -83,7 +83,7 @@ export default {
 
   methods: {
     weekToUTCWeek,
-    weekToUTCWeekNew,
+    convertToSystemWeekRange,
     onSearchChange(event) {
       this.searchString = event
       if (this.loading) return;
@@ -97,7 +97,7 @@ export default {
       const { searchString } = this
 
       this.loading = true;
-      const { from, to } = this.weekToUTCWeekNew({
+      const { from, to } = this.convertToSystemWeekRange({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),
       });

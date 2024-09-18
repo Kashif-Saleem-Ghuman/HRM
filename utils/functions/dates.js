@@ -46,9 +46,17 @@ export const weekToUTCWeek = ({ from, to }) => {
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 
-export const weekToUTCWeekNew = ({ from, to }) => {
+export const convertToSystemWeekRange = ({ from, to }) => {
   let utcFrom = DateTime.fromJSDate(from).startOf('day');
   let utcTo = DateTime.fromJSDate(to).endOf('day');
+
+  if (utcFrom.weekday !== 7) {
+    utcFrom = utcFrom.minus({ days: utcFrom.weekday });
+  }
+
+  if (utcTo.weekday !== 6) {
+    utcTo = utcTo.plus({ days: 6 - utcTo.weekday });
+  }
 
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };

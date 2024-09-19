@@ -12,7 +12,7 @@
   <script>
   import { mapGetters } from "vuex";
   import {USER_ROLES} from "@/utils/constant/Constant";
-  import {USER_WEEK_VIEW_PATH} from "@/utils/constant/routes";
+  import {TIMESHEET_VIEW_PATH} from "@/utils/constant/routes";
   
   export default {
     
@@ -29,7 +29,7 @@
   
     created() {
       const path = this.$router.history.current.fullPath;
-      if(path.startsWith(USER_WEEK_VIEW_PATH)){
+      if(path.startsWith(TIMESHEET_VIEW_PATH)){
         this.changeRole(USER_ROLES.USER);
       }
     },

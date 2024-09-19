@@ -2,4 +2,8 @@ export const ADMIN_HOME_PATH = "/dashboard/";
 export const USER_HOME_PATH = "/home/";
 export const USER_WEEK_VIEW_PATH = "/time-attendance/attendance/?view=week&start="
 export const LEAVE_REQUEST_VIEW_PATH = "/leaves-and-vacations/dashboard/?request=";
+export const LEAVE_REQUEST_VIEW_PATH_USER = "/leaves-and-vacations/dashboard/";
 export const NY_PROFILE_VIEW_PATH = "/profile/";
+export const TIMESHEET_VIEW_PATH = "/my-timesheet/";
+export const EMPLOYEE_DIRECTORY_VIEW_PATH = "/employee-directory/list/";
+export const LEAVE_VACATION_VIEW_PATH = "/leaves-and-vacations/dashboard/";

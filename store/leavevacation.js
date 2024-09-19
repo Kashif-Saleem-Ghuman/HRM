@@ -54,13 +54,22 @@ export const actions = {
           },
         }
       );
-      const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
-        const endDateA = DateTime.fromISO(a.start);
-        const endDateB = DateTime.fromISO(b.start);
-        return endDateB - endDateA;
-      });
-      ctx.commit("SET_LEAVEVACATION_LIST", sortedLeave);
-      return sortedLeave;
+      if (leaveVacations && leaveVacations.data && Array.isArray(leaveVacations.data.requests)) {
+        const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
+          const endDateA = DateTime.fromISO(a.start);
+          const endDateB = DateTime.fromISO(b.start);
+          return endDateB - endDateA;
+        });
+      
+        ctx.commit("SET_LEAVEVACATION_LIST", sortedLeave);
+        this.$nuxt.$emit("fetched-leave-vacation-admin");
+        this.$nuxt.$emit("close-sidebar-main");
+        return sortedLeave;
+      } else {
+        console.error("Error: leaveVacations or leaveVacations.data.requests is undefined or not an array.");
+        return [];
+      }
+      
     } catch (e) {
       throw new Error(e.response.data.message);
     }
@@ -81,14 +90,14 @@ export const actions = {
           },
         }
       );
-      const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
-        const endDateA = DateTime.fromISO(a.start);
-        const endDateB = DateTime.fromISO(b.start);
-        return endDateB - endDateA;
-      });
-      ctx.commit("SET_LEAVEVACATION_LIST_USER", sortedLeave);
-      // var data = leave.data.requests
-      return sortedLeave;
+      // const sortedLeave = leaveVacations.data.requests.sort((a, b) => {
+      //   const endDateA = DateTime.fromISO(a.start);
+      //   const endDateB = DateTime.fromISO(b.start);
+      //   return endDateB - endDateA;
+      // });
+      // ctx.commit("SET_LEAVEVACATION_LIST_USER", sortedLeave);
+      // // var data = leave.data.requests
+      return leaveVacations?.data?.requests;
     } catch (e) {
       if (e.response.status === 500) {
         return window.open("/not-found", "_self");

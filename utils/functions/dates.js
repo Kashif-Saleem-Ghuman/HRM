@@ -46,6 +46,35 @@ export const weekToUTCWeek = ({ from, to }) => {
   return { from: utcFrom.toJSDate(), to: utcTo.toJSDate() };
 };
 
+
+export function getSystemWeekRangeInUtc({ from, to }) {
+  const utcFrom = DateTime.fromISO(DateTime.fromJSDate(from).toISODate(), {
+    zone: "utc",
+  });
+
+  if (!isUtcDateOnSunday(utcFrom)) {
+    utcFrom.startOf("week").minus({ days: 1 }); // Adjust to Sunday
+  }
+
+  const utcTo = DateTime.fromISO(DateTime.fromJSDate(to).toISODate(), {
+    zone: "utc",
+  }).endOf("day");
+
+  if (!isUtcDateOnSaturday(utcTo)) {
+    utcTo.endOf("week").plus({ days: 1 }); // Adjust to Saturday
+  }
+
+  return { from: utcFrom.toISO(), to: utcTo.toISO() };
+}
+
+export const isUtcDateOnSunday = (date) => {
+  return DateTime.fromJSDate(new Date(date), { zone: "utc" }).weekday == 7;
+};
+
+export const isUtcDateOnSaturday = (date) => {
+  return DateTime.fromJSDate(new Date(date), { zone: "utc" }).weekday == 6;
+};
+
 export const isDateOnSunday = (date) => {
   return DateTime.fromISO(date).weekday == 7;
 };

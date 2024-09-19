@@ -1,6 +1,6 @@
 <script>
 import { getAdminTimesheetWidget } from '../../../utils/functions/api_call/timeattendance/time';
-import { weekToUTCWeek } from "../../../utils/functions/dates"
+import { weekToUTCWeek, getSystemWeekRangeInUtc } from "../../../utils/functions/dates"
 
 import BaseTimesheetWidget from './BaseTimesheetWidget.vue';
 export default {
@@ -11,7 +11,7 @@ export default {
       const { startDate, endDate } = this
       if (!startDate && !endDate) return
 
-      const { from, to } = await weekToUTCWeek({
+      const { from, to } = await getSystemWeekRangeInUtc({
         from: new Date(startDate),
         to: new Date(endDate),
       });

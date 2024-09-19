@@ -12,7 +12,7 @@
   <script>
 import { mapGetters } from "vuex";
 import { USER_ROLES } from "../utils/constant/Constant";
-import { EMPLOYEE_DIRECTORY_VIEW_PATH } from "@/utils/constant/routes";
+import { EMPLOYEE_DIRECTORY_VIEW_LIST_PATH, EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH } from "@/utils/constant/routes";
   export default {
     data() {
       return {};
@@ -30,7 +30,7 @@ import { EMPLOYEE_DIRECTORY_VIEW_PATH } from "@/utils/constant/routes";
   },
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path.endsWith(EMPLOYEE_DIRECTORY_VIEW_PATH)) {
+    if (path.endsWith(EMPLOYEE_DIRECTORY_VIEW_LIST_PATH && EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH)) {
       this.changeRole(USER_ROLES.USER);
     }
   },

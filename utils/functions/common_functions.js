@@ -24,13 +24,14 @@ export function getCurrentYear() {
 }
 export function getDateRanges() {
   const now = DateTime.local();
-  const thisMonthStart = now.startOf('month').toUTC().toISO(); // July 1
-  const nextMonthWeekEnd = now.plus({ weeks: 1 }).endOf('week').toUTC().toISO(); // August 4
+  const thisMonthStart = now.startOf('month').toUTC().toISO(); // Start of the current month in UTC
+  const nextMonthWeekEnd = now.endOf('month').endOf('day').toUTC().toISO(); // End of the current month in UTC
 
   return {
     nextWeek: { start: thisMonthStart, end: nextMonthWeekEnd },
   };
 }
+
 export function getCurrentWeek() {
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week

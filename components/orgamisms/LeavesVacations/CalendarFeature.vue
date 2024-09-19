@@ -690,4 +690,8 @@ export default {
 .fc-daygrid-dot-event:hover {
   background-color: transparent !important;
 }
+.fc-popover-body {
+  overflow-y: auto;
+  height: 200px !important;
+}
 </style>

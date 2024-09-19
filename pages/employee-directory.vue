@@ -30,7 +30,7 @@ import { EMPLOYEE_DIRECTORY_VIEW_LIST_PATH, EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH }
   },
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path.endsWith(EMPLOYEE_DIRECTORY_VIEW_LIST_PATH && EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH)) {
+    if (path.endsWith(EMPLOYEE_DIRECTORY_VIEW_LIST_PATH || EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH)) {
       this.changeRole(USER_ROLES.USER);
     }
   },

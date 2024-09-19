@@ -1,28 +1,31 @@
 <template>
-    <div>
-      <div v-if="isAdmin">
-        <page-not-found></page-not-found>
-      </div>
-      <div v-else>
-        <employee-directory></employee-directory>
-      </div>
+  <div>
+    <div v-if="isAdmin">
+      <page-not-found></page-not-found>
     </div>
-  </template>
-  
-  <script>
+    <div v-else>
+      <employee-directory></employee-directory>
+    </div>
+  </div>
+</template>
+
+<script>
 import { mapGetters } from "vuex";
 import { USER_ROLES } from "../utils/constant/Constant";
-import { EMPLOYEE_DIRECTORY_VIEW_LIST_PATH, EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH } from "@/utils/constant/routes";
-  export default {
-    data() {
-      return {};
-    },
-    computed: {
+import {
+  EMPLOYEE_DIRECTORY_VIEW_LIST_PATH,
+  EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH,
+} from "@/utils/constant/routes";
+export default {
+  data() {
+    return {};
+  },
+  computed: {
     isAdmin() {
-      return this.$store.state.token.isAdmin
+      return this.$store.state.token.isAdmin;
     },
     isUser() {
-      return this.$store.state.token.isUser
+      return this.$store.state.token.isUser;
     },
     ...mapGetters({
       getUserRole: "token/getUserRole",
@@ -30,7 +33,10 @@ import { EMPLOYEE_DIRECTORY_VIEW_LIST_PATH, EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH }
   },
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path.endsWith(EMPLOYEE_DIRECTORY_VIEW_LIST_PATH || EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH)) {
+    if (
+      path.endsWith(EMPLOYEE_DIRECTORY_VIEW_LIST_PATH) ||
+      path.endsWith(EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH)
+    ) {
       this.changeRole(USER_ROLES.USER);
     }
   },
@@ -40,8 +46,7 @@ import { EMPLOYEE_DIRECTORY_VIEW_LIST_PATH, EMPLOYEE_DIRECTORY_BOARD_VIEW_PATH }
       this.$store.dispatch("token/setViewRole", { role });
     },
   },
-  };
-  </script>
-  
-  <style lang="scss" scoped></style>
-  
+};
+</script>
+
+<style lang="scss" scoped></style>

@@ -58,7 +58,7 @@ export function getSystemWeekRangeInUtc({ from, to }) {
 
   const utcTo = DateTime.fromISO(DateTime.fromJSDate(to).toISODate(), {
     zone: "utc",
-  });
+  }).endOf("day");
 
   if (!isUtcDateOnSaturday(utcTo)) {
     utcTo.endOf("week").plus({ days: 1 }); // Adjust to Saturday

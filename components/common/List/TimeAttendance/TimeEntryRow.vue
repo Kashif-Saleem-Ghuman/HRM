@@ -69,7 +69,7 @@ import {
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
 import {
-  ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, TIMESHEET_LOCKED_MESSAGE,
+  ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, TIME_ENTRY_LOCKED_MESSAGE, TIMESHEET_LOCKED_MESSAGE,
   TIMESHEET_STATUSES,
 } from "../../../../utils/constant/Constant";
 import {mapGetters} from "vuex";
@@ -215,7 +215,7 @@ export default {
     debounceTimesheetLockNotification() {
       if (!this.lockDebounce) {
         this.$openPopupNotification({
-          text: TIMESHEET_LOCKED_MESSAGE,
+          text: TIME_ENTRY_LOCKED_MESSAGE,
           variant: "danger",
         });
         this.lockDebounce = true;

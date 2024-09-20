@@ -11,7 +11,7 @@
           name="startTime"
           placeholder="--"
           @input="timeInputBlur"
-          :disabled="disabled || this.isTimerActive"
+          :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
           class="timepicker_input"
         ></bib-time-picker-wrapper>
     </div>
@@ -21,7 +21,7 @@
         name="endTime"
         placeholder="--"
         @input="timeInputBlur"
-        :disabled="disabled || this.isTimerActive"
+        :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
         class="timepicker_input"
       ></bib-time-picker-wrapper>
       <!-- <bib-input
@@ -69,7 +69,7 @@ import {
   isEndTimeOnSameDay,
 } from "../../../../utils/functions/time";
 import {
-  ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE,
+  ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, TIME_ENTRY_LOCKED_MESSAGE, TIMESHEET_LOCKED_MESSAGE,
   TIMESHEET_STATUSES,
 } from "../../../../utils/constant/Constant";
 import {mapGetters} from "vuex";
@@ -92,7 +92,11 @@ export default {
     todayDate: {
       type: String | DateTime | Date,
       default: null
-    }
+    },
+    isTimesheetLocked: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -201,8 +205,23 @@ export default {
       this.$store.dispatch("app/addNotification", { notification });
     },
     handleWrapperClick() {
-      if ((this.disabled && this.timer) || this.isTimerActive){
+      if(this.isTimesheetLocked) {
+        this.debounceTimesheetLockNotification();
+      }
+      else if ((this.disabled && this.timer) || this.isTimerActive){
         this.debouncedNotification();
+      }
+    },
+    debounceTimesheetLockNotification() {
+      if (!this.lockDebounce) {
+        this.$openPopupNotification({
+          text: TIME_ENTRY_LOCKED_MESSAGE,
+          variant: "danger",
+        });
+        this.lockDebounce = true;
+        setTimeout(() => {
+          this.lockDebounce = false;
+        }, 3000);
       }
     },
     debouncedNotification() {

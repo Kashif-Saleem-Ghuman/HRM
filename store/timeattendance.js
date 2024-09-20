@@ -33,7 +33,8 @@ export const state = () => ({
   dailyTimeEntriesToday: [],
   chronometer: 0,
   employeesAttendance: null,
-  timesheetToday: null,
+  timesheet: {},
+  timesheetToday: {},
   viewFrom: false,
 });
 
@@ -46,6 +47,13 @@ export const getters = {
   },
   getDailyTimeEntries(state) {
     return state.dailyTimeEntries;
+  },
+
+  getTimesheet(state) {
+    return state.timesheet;
+  },
+  getTimesheetToday(state) {
+    return state.timesheetToday;
   },
 
   getdailyTimeEntriesToday(state) {
@@ -78,8 +86,12 @@ export const mutations = {
     state.dailyTimeEntriesToday = payload;
   },
 
+  SET_TIMESHEET: (state, { timesheet }) => {
+    state.timesheet = new Timesheet(timesheet)
+  },
+
   SET_TIMESHEET_TODAY: (state, { timesheet }) => {
-    state.timesheetToday = timesheet ? new Timesheet(timesheet) : null
+    state.timesheetToday = new Timesheet(timesheet);
   },
 
   SET_CHRONOMETER: (state, payload) => {
@@ -187,6 +199,8 @@ export const actions = {
 
       date && ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
+      data && ctx.commit("SET_TIMESHEET", {timesheet: data?.timesheet || {}})
+
       if (isDateToday(startOfDay)) {
 
         !ctx.state.timer.active && ctx.commit("SET_CHRONOMETER", {
@@ -195,7 +209,7 @@ export const actions = {
 
         // Setting up Today time entries
         ctx.commit("SET_DAILY_TIME_ENTRIES_TODAY", data.timeEntries || []);
-        ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet});
+        ctx.commit("SET_TIMESHEET_TODAY",{ timesheet: data.timesheet || {}});
 
         // Setting up the timer
         ctx.commit("SET_TIMER_DATA", {timer: data?.activeTimeEntry || {}});

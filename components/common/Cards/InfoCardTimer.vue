@@ -20,7 +20,7 @@
           variant="success"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
-          :disabled="isTimerLoading"
+          :disabled="isTimerLoading || isTodayTimeEntryLocked"
         ></bib-button>
       </div>
 
@@ -35,7 +35,7 @@
             :variant="buttonVariant"
             @click="handleBreakInOutClick()"
             class="button-wrapper-align w-100"
-            :disabled="isTimerLoading"
+            :disabled="isTimerLoading || isTodayTimeEntryLocked"
           ></bib-button>
         </div>
         <div v-if="active && isConfirmationOpen" class="w-100">
@@ -131,6 +131,7 @@ import {
   FILL_DAILY_ENTRY_EVENT,
   WELCOME_MESSAGE,
 } from "@/utils/constant/Constant";
+import {CURRENT_WEEK_TIMESHEET_LOCKED_MESSAGE, TIMESHEET_LOCKED_MESSAGE} from "../../../utils/constant/Constant";
 export default {
   mixins: [timerMixin],
 
@@ -155,6 +156,10 @@ export default {
     todayDate: {
       type: String | DateTime | Date,
       default: null,
+    },
+    isTodayTimeEntryLocked: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -208,7 +213,11 @@ export default {
     makeTimeEntry,
     editTimeEntry,
     handleWrapperClick() {
-      if (this.disabled) {
+
+      if(this.isTodayTimeEntryLocked) {
+        this.debouncedTimesheetLockNotification();
+      }
+      else if (this.disabled) {
         this.debouncedNotification();
       }
     },
@@ -250,6 +259,20 @@ export default {
         this.clockOutDebouncedNotification();
       }
     },
+
+    debouncedTimesheetLockNotification() {
+      if (!this.timesheetDebounce) {
+        this.$openPopupNotification({
+          text: CURRENT_WEEK_TIMESHEET_LOCKED_MESSAGE,
+          variant: "danger",
+        });
+        this.timesheetDebounce = true;
+        setTimeout(() => {
+          this.timesheetDebounce = false;
+        }, 3000); // Adjust the delay as needed (5000 milliseconds = 5 seconds)
+      }
+    },
+
     debouncedNotification() {
       if (!this.debounced) {
         this.$openPopupNotification({

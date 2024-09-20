@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="custom-table" :class="{ 'disabled-table': disabled }">
+    <div class="custom-table">
       <div class="thead">
         <div class="cell" v-for="item in ACTIVITY_HEADER_DATA">{{ item }}</div>
         <div class="cell trash" v-if="!disabled"></div>
@@ -16,6 +16,7 @@
         :todayDate="todayDate"
         :number="' #'+index"
         :listToday="listToday"
+        :isTimesheetLocked="disabled"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
       <div class="row total">

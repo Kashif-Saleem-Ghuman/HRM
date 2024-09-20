@@ -15,6 +15,7 @@
               @timer-stop="handleTimerStop"
               :disabled="hasInEntryToday"
               :todayDate="todayDate"
+              :isTodayTimeEntryLocked="isTodayTimeEntryLocked"
               icon="time-alarm"
             ></info-card-timer>
 
@@ -140,7 +141,7 @@
               :date="dayListDate"
               :todayDate="todayDate"
               :total="totalWork"
-              :disabled="isTimesheetLocked"
+              :disabled="isTimeEntryLocked"
             ></list-day>
             <list-week
               v-else-if="weekListView && timesheetId"
@@ -210,6 +211,7 @@ import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_
 
 import { Timesheet } from "@/components/common/models/timesheet";
 import InfoCardLeaveVacation from "../../common/Cards/InfoCardLeaveVacation.vue";
+import {TIMESHEET_LOCKED_MESSAGE} from "../../../utils/constant/Constant";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -286,7 +288,10 @@ export default {
       this.variantColor = this.isLightThemeCheck ? "light" : "dark";
     },
     isTimesheetLocked() {
-      return this.timesheet?.isLocked();
+      return JSON.stringify(this.getTimesheet) !== "{}" && this.getTimesheet?.isLocked();
+    },
+    isTodayTimesheetLocked() {
+      return JSON.stringify(this.getTimesheetToday) !== "{}" && this?.getTimesheetToday?.isLocked();
     },
     dayListDate() {
       if (!this.summaryDate) return null;
@@ -338,7 +343,18 @@ export default {
     ...mapGetters({
       getActiveUser: "employee/GET_ACTIVE_USER",
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",
+      getTodayDailyTimeEntries: "timeattendance/getdailyTimeEntriesToday",
+      getTimesheet: "timeattendance/getTimesheet",
+      getTimesheetToday: "timeattendance/getTimesheetToday",
     }),
+
+    isTodayTimeEntryLocked() {
+      return Boolean(this.getTodayDailyTimeEntries?.find((entry) => entry.activity === ACTIVITY_TYPE.IN && entry.status === TIMESHEET_STATUSES.APPROVED)) || this.isTodayTimesheetLocked;
+    },
+    isTimeEntryLocked() {
+      return Boolean(this.getDailyTimeEntries?.find((entry) => entry.activity === ACTIVITY_TYPE.IN && entry.status === TIMESHEET_STATUSES.APPROVED)) || this.isTimesheetLocked;
+    },
+
     hasInEntryToday() {
       const entries = this.$store.state.timeattendance.dailyTimeEntriesToday;
       if (!entries) return false;
@@ -649,7 +665,7 @@ export default {
       if (this.weekDataStatus == "approved") {
         this.debounceAction(() => {
           this.$openPopupNotification({
-            text: "Your timesheet has been locked.",
+            text: TIMESHEET_LOCKED_MESSAGE,
             variant: "danger",
           });
         });

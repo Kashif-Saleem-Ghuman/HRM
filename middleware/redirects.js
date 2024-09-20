@@ -13,9 +13,9 @@ export default async function ({ route, redirect, store, app }) {
 
   if (path === "/") {
     // Use route.path instead of this.$router.currentRoute.path
-    if (path !== ADMIN_HOME_PATH && (userRole === USER_ROLES.ADMIN || userRole === USER_ROLES.USER)) {
+    if (store.state.token.isAdmin) {
       return redirect(ADMIN_HOME_PATH);
-    } else if (path !== USER_HOME_PATH && userRole === USER_ROLES.USER) {
+    } else if (store.state.token.isUser) {
       return redirect(USER_HOME_PATH);
     }
   }

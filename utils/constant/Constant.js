@@ -1684,6 +1684,8 @@ export const WELCOME_MESSAGE = {
 
 export const FETCH_TIMESHEET_SETTING = 'fetch-timesheet-setting';
 
-export const EDIT_TIME_ENTRY_WARNING_MESSAGE = 'Please clock out to edit the time entry for the day.'
+export const EDIT_TIME_ENTRY_WARNING_MESSAGE = 'Please clock out to edit the time entry for the day.';
+
+export const TIMESHEET_LOCKED_MESSAGE = 'Your timesheet has been locked';
 
 export const START_YEAR = 2023;

@@ -210,6 +210,7 @@ import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_
 
 import { Timesheet } from "@/components/common/models/timesheet";
 import InfoCardLeaveVacation from "../../common/Cards/InfoCardLeaveVacation.vue";
+import {TIMESHEET_LOCKED_MESSAGE} from "../../../utils/constant/Constant";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -649,7 +650,7 @@ export default {
       if (this.weekDataStatus == "approved") {
         this.debounceAction(() => {
           this.$openPopupNotification({
-            text: "Your timesheet has been locked.",
+            text: TIMESHEET_LOCKED_MESSAGE,
             variant: "danger",
           });
         });

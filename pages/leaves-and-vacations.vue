@@ -11,7 +11,10 @@
 
 <script>
 import { USER_ROLES } from "@/utils/constant/Constant";
-import { LEAVE_REQUEST_VIEW_PATH, LEAVE_REQUEST_VIEW_PATH_USER } from "@/utils/constant/routes";
+import {
+  LEAVE_REQUEST_VIEW_PATH,
+  LEAVE_REQUEST_VIEW_PATH_USER,
+} from "@/utils/constant/routes";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -30,10 +33,25 @@ export default {
   },
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path.startsWith(LEAVE_REQUEST_VIEW_PATH && LEAVE_REQUEST_VIEW_PATH_USER)) {
-      this.changeRole(USER_ROLES.USER);
+    const userRole = localStorage.getItem("userRole");
+
+    if (userRole === "ADMIN") {
+      if (
+        path.startsWith(LEAVE_REQUEST_VIEW_PATH) ||
+        path.startsWith(LEAVE_REQUEST_VIEW_PATH_USER)
+      ) {
+        this.changeRole(USER_ROLES.ADMIN);
+      }
+    } else {
+      if (
+        path.startsWith(LEAVE_REQUEST_VIEW_PATH) ||
+        path.startsWith(LEAVE_REQUEST_VIEW_PATH_USER)
+      ) {
+        this.changeRole(USER_ROLES.USER);
+      }
     }
   },
+
   methods: {
     changeRole(role) {
       localStorage.setItem("userRole", role);

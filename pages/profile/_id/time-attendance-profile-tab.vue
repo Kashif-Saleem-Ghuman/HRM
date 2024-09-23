@@ -363,16 +363,12 @@ export default {
         await getWeekTimesheets(weekRange)
       ).parse("week");
       this.weekDataActivityReports = weekData.activityReports || [];
-      this.weekDataTotalWork = formatTime(
-        (weekData.total || 0) * 60 * 60,
-        false
-      );
+      this.weekDataTotalWork = formatTime(weekData.total, false);
       this.weekDataStatus = weekData.status || "";
       this.timesheetId = weekData.id || "";
       this.loading = false;
     },
     async fillTimesheetEntries(isWeekRange = false) {
-      console.log('ffff==', this.timesheetDates);
       this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(
@@ -381,7 +377,6 @@ export default {
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
 
-      console.log('ffff==after', this.timesheetDates, from, to);
       let timesheets = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser({ timesheets: employee });

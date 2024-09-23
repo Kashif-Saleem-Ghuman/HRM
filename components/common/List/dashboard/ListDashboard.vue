@@ -344,7 +344,7 @@ export default {
     },
     updateTotalWorkedHours(activityReport) {
       if (activityReport.total == 0 || !activityReport.total) {
-        if (activityReport.in == 0 || !activityReport.in) return "00:00";
+        if (activityReport.in == 0 || !activityReport.in || (activityReport.total == 0 && activityReport.out)) return "00:00";
         const workedMinutes = this.calculateWorkedMinutes(activityReport.in);
         return this.getTotalHours(workedMinutes);
       } else {

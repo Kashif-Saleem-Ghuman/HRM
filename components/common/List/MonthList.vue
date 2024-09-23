@@ -50,7 +50,7 @@
 
       <template #cell(total)="data">
         <div class="cursor-pointer">
-          <span>{{ formatHoursToHHMM(data.value.total) }}</span>
+          <span>{{ formatTime(data.value.total, false) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
@@ -155,6 +155,7 @@ import { DateTime } from "luxon";
 import { buttonVariant as TIMESHEET_DELETE_CONFIRMATION_MESSAGE } from "@/utils/constant/DropdownMenu";
 import { getStatusIcon, getStatusVariant } from "@/utils/functions/status";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
+import {formatTime} from "../../../utils/functions/clock_functions";
 const TIMESHEET_STATUS_TO_SUBMIT = [
   TIMESHEET_STATUSES.NOT_SUBMITTED,
   TIMESHEET_STATUSES.PAST_DUE,
@@ -231,6 +232,7 @@ export default {
     },
   },
   methods: {
+    formatTime,
     getStatusVariant,
     getStatusIcon,
     formatIsoDateToYYYYMMDD,
@@ -334,7 +336,7 @@ export default {
       const data = weekData[day.weekday];
       if (!data) return "--";
       if (typeof data.totalHours === "number") {
-        return formatHoursToHHMM(data.totalHours);
+        return formatTime(data.totalHours, false);
       }
       for (const [, activity] of Object.entries(ACTIVITY_TYPE)) {
         if (data[activity]) return ACTIVITY_TYPE_LABEL_VALUE[activity];
@@ -363,7 +365,7 @@ export default {
       this.timesheetList.forEach((item) => {
         totalHrs += item.total;
       });
-      return formatHoursToHHMM(totalHrs);
+      return formatTime(totalHrs, false);
     },
     tableItemClick(event, key, item) {
       this.$emit("week-view", item);

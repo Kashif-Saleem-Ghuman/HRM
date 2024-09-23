@@ -41,7 +41,7 @@
           <template>
             <chips
               :key="`${value.day}-${Math.random()}`"
-              :title="data.value[value.day] ? formatHoursToHHMM(data.value[value.day]) : '--'"
+              :title="data.value[value.day] ? formatTime(data.value[value.day], false) : '--'"
               :className="[$getDayClassName(data.value[value.day])]"
               @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
             ></chips>
@@ -52,7 +52,7 @@
       <template #cell(total)="data">
         <chips
           :title="
-            data.value.total ? formatHoursToHHMM(data.value.total) : '00:00'
+            data.value.total ? formatTime(data.value.total, false) : '00:00'
           "
           :className="['padding-0']"
         ></chips>
@@ -96,6 +96,7 @@ import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "../../../../../utils/constant/Notif
 import { random } from "lodash";
 import fecha from "fecha";
 import {DateTime} from "luxon";
+import {formatTime} from "../../../../../utils/functions/clock_functions";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -180,6 +181,7 @@ export default {
     this.getAndParseTimesheets();
   },
   methods: {
+    formatTime,
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,

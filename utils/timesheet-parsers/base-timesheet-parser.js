@@ -72,10 +72,12 @@ export default class BaseTimesheetParser {
 
   getTotalBreakTime = (timeEntries) => {
     return timeEntries?.reduce((total, entry) => {
-      total += getDateDiffInMinutes(
-        getTimeFromDate(entry.start),
-        getTimeFromDate(entry.end)
-      );
+      if (entry.end && entry.start) {
+        total += getDateDiffInMinutes(
+          getTimeFromDate(entry.start),
+          getTimeFromDate(entry.end)
+        );
+      }
       return total;
     }, 0);
   };

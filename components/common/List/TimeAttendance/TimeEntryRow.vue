@@ -240,16 +240,16 @@ export default {
 
     getEndDate(startTime, endTime) {
       if (!isEndTimeOnSameDay(startTime, endTime)) {
-        return DateTime.fromJSDate(this.date).plus({ day: 1 }).toJSDate();
+        return DateTime.fromFormat(this.todayDate, DATETIME_FORMAT).plus({ day: 1 }).toFormat(DATETIME_FORMAT);
       }
-      return this.date;
+      return this.todayDate;
     },
     calculateDates() {
       return {
-        date: DateTime.fromJSDate(new Date(this.date)).toFormat("yyyy-MM-dd"),
+        date: DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd"),
         startDate: this.hoursAndMinutesToJSDate(
           ...this.parseInputTimeIntoArray(this.startTime),
-          this.date
+          this.todayDate
         ).toISOString(),
 
         ...(this.endTime && {
@@ -262,6 +262,8 @@ export default {
     },
     async editThisEntry() {
       if (!this.isEntryValid()) return;
+
+      console.log('calculateDates====', this.endTime, this.startTime, this.todayDate)
 
       const { startDate, endDate, date } = this.calculateDates();
 
@@ -482,7 +484,7 @@ export default {
       // }
 
       // if (!this.validateBreakIsWithinWorkingHours()) return false;
-      if (!this.validateInEntryWithExistingBreak()) return false;
+      // if (!this.validateInEntryWithExistingBreak()) return false;
 
       return true;
     },

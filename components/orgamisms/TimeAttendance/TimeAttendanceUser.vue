@@ -164,7 +164,7 @@
               @week-view="redirectWeekView"
               class="pb-1"
             ></month-list>
-            <no-record v-else />
+            <no-record v-else-if="showNoData"></no-record>
           </template>
         </div>
       </div>
@@ -281,6 +281,15 @@ export default {
     };
   },
   computed: {
+    showTable() {
+      return !this.loading && this.timesheetsList?.length;
+    },
+    showNoData() {
+      return (
+        !this.loading &&
+        (!this.timesheetsList || !this.timesheetsList?.length)
+      );
+    },
     minDate() {
       return this.$minDate();
     },
@@ -594,7 +603,7 @@ export default {
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {
-      // this.loading = true;
+      this.loading = true;
       const weekRange = this.weekToUTCWeek({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),

@@ -1,10 +1,7 @@
 <template>
   <div>
     <loader :loading="loading"></loader>
-    <no-record v-if="showNoData"></no-record>
-
     <bib-table
-      v-else-if="showTable"
       :fields="tableFields"
       :sections="timesheetList"
       :hide-no-column="true"
@@ -181,10 +178,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    // isAdmin: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   data() {
     return {

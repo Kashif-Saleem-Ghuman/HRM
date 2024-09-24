@@ -188,3 +188,7 @@ export function isSameDate(date1, date2) {
 export function isToday(date) {
   return isSameDate(date, new Date())
 }
+
+export function isUtcStartOfDay(date) {
+  return DateTime.fromJSDate(new Date(date), { zone: "utc" }).toFormat("HH:mm:ss") === "00:00:00";
+}

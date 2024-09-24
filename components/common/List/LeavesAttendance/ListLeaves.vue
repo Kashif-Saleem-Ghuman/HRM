@@ -71,12 +71,12 @@
       </template>
       <template #cell(from)="data">
         <div class="justify-between cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
-          <span>{{ onLoad(data.value.start) }}</span>
+          <span>{{ formatDate(data.value.start) }}</span>
         </div>
       </template>
       <template #cell(to)="data">
         <div class="justify-between cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
-          <span>{{ onLoad(data.value.end) }}</span>
+          <span>{{ formatDate(data.value.end) }}</span>
         </div>
       </template>
       <template #cell(total)="data">
@@ -117,6 +117,7 @@ import {
 import {
   sendMessage,
 } from "../../../../utils/functions/functions_lib";
+import { formatLeaveDate } from "../../../../utils/functions/leave-request-helper";
 export default {
   props: {
     listPending: {
@@ -177,8 +178,8 @@ export default {
         return `${duration} day${duration !== 1 ? "s" : ""}`;
       }
     },
-    onLoad(item) {
-      return fecha.format(new Date(item), "DD-MMM-YYYY");
+    formatDate(isoDate) {
+      return formatLeaveDate(isoDate)
     },
     profiletab(name, isLeave) {
       document.querySelector("#" + name).style.display = isLeave

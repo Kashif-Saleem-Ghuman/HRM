@@ -35,7 +35,7 @@
           class="justify-left cursor-pointer"
           @click="leaveDetail(data.value)"
         >
-          <span>{{ onLoad(data.value.start) }}</span>
+          <span>{{ formatDate(data.value.start) }}</span>
         </div>
       </template>
       <template #cell(end)="data">
@@ -43,7 +43,7 @@
           class="justify-left cursor-pointer"
           @click="leaveDetail(data.value)"
         >
-          <span>{{ onLoad(data.value.end) }}</span>
+          <span>{{ formatDate(data.value.end) }}</span>
         </div>
       </template>
       <template #cell(duration)="data">
@@ -69,13 +69,10 @@
 </template>
 
 <script>
-import fecha, { format } from "fecha";
-
 import { sortColumn } from "../../../../utils/functions/table-sort";
-
 import { TABLE_HEAD } from "@/utils/constant/Constant";
-import { DateTime } from "luxon";
-import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
+import { formatLeaveDate } from "../../../../utils/functions/leave-request-helper";
+
 export default {
   props: {
     leaveData: {
@@ -121,8 +118,8 @@ export default {
     headerColumnClick(column) {
       this.sortColumn(column);
     },
-    onLoad(item) {
-      return DateTime.fromISO(item, { zone: 'utc' }).toFormat(DATETIME_FORMAT);
+    formatDate(isoDate) {
+      return formatLeaveDate(isoDate);
     },
   },
 };

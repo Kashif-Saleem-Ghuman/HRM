@@ -86,7 +86,7 @@ import { deleteLevaeVacation } from "../../../utils/functions/functions_lib_api"
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import {calculateTotalDays} from '../../../utils/functions/common_functions'
 import { DATEPICKER_FORMAT } from "../../../utils/functions/datetime-input";
-import { formatLeaveDate } from "../../../utils/functions/leave-request-helper";
+import { formatLeaveDate, formatLeaveDurationDaysString } from "../../../utils/functions/leave-request-helper";
 
 const OPEN_SIDEBAR_EVENT = "open-sidebar";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar";
@@ -227,8 +227,9 @@ export default {
 
       // this.startDate = DateTime.fromISO(this.form.start, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       // this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
+      //TODO This function is calculating calculateTotalDays but its not needed since we already have item.duration
       this.setIsHalfDay(item);
-      this.totalDays = this.form.duration;
+      this.totalDays = formatLeaveDurationDaysString(item.duration)
       // this.calculateTotalDays(this.startDate, this.endDate);
       if (this.$isAdmin()) {
         await this.$store

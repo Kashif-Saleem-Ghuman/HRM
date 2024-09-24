@@ -25,17 +25,19 @@ export async function addLeaveVacations() {
     return;
   }
   this.loading = true;
-  var data = this.addForm;
   let isHalfday = this.isHalfday;
-  let startDate = new Date(data.start).toISOString();
-  const isoStartDate = DateTime.fromISO(startDate).toISODate();
-  let endDate = new Date(data.end).toISOString();
-  const isoEndDate = DateTime.fromISO(endDate).toISODate();
+  const dateTimeUtcStart = DateTime.fromFormat(this.addForm.start, "yyyy-MMM-dd", { zone: 'utc'})
+  const dateTimeUtcEnd = DateTime.fromFormat(this.addForm.end, "yyyy-MMM-dd", { zone: 'utc'})
+  const isoStartDate = dateTimeUtcStart.toISODate();
+  const isoEndDate = dateTimeUtcEnd.toISODate();
+  const isoStringStart = dateTimeUtcStart.toISO();
+  const isoStringEnd = dateTimeUtcEnd.toISO();
+
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   this.addForm.isHalfDay = isHalfday;
-  this.addForm.selectedDays = generateRequestSelectedDays(startDate, endDate, isHalfday);
-  
+  this.addForm.selectedDays = generateRequestSelectedDays(isoStringStart, isoStringEnd, isHalfday);
+
   try {
     const url = `/requests`;
     const request = this.addForm;

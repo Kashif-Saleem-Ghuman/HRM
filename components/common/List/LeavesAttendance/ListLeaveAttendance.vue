@@ -43,7 +43,7 @@
           class="justify-left cursor-pointer"
           @click="leaveDetail(data.value)"
         >
-          <span>{{ formatDate(data.value.end) }} !!</span>
+          <span>{{ formatDate(data.value.end) }}</span>
         </div>
       </template>
       <template #cell(duration)="data">

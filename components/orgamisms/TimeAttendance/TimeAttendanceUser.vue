@@ -159,6 +159,7 @@
               v-else-if="monthListView && showTable"
               :timesheetsList="timesheetsList"
               :is-full-year-list="isFullYearList"
+              :loading="loading"
               @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
               @week-view="redirectWeekView"
               class="pb-1"

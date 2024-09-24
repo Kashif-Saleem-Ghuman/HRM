@@ -144,6 +144,7 @@
               :disabled="isTimeEntryLocked"
             ></list-day>
             <list-week
+              :key="monthListForceRenderKey"
               v-else-if="weekListView && timesheetId"
               :activityReports="weekDataActivityReports"
               :totalWork="weekDataTotalWork"
@@ -278,6 +279,7 @@ export default {
       summaryDate: DateTime.now().toFormat(DATETIME_FORMAT),
       previousWeekData: null,
       previousMonthWeekData: null,
+      monthListForceRenderKey: 0,
     };
   },
   computed: {
@@ -441,6 +443,14 @@ export default {
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
     },
+    registerMonthListForceRerenderHandle() {
+      this.$root.$on('month-force-rerender', () => {
+        this.monthListForceRenderKey += 1;
+      })
+    },
+    unregisterMonthListForceRerenderHandle() {
+      this.$root.$off('month-force-rerender');
+    },
     registerFillWeeklyEntryListener() {
       this.$root.$on(FILL_WEEKLY_ENTRY_EVENT, () => {
         this.fillWeeklyTimeEntries();
@@ -458,11 +468,13 @@ export default {
       this.$root.$off(FILL_WEEKLY_ENTRY_EVENT);
     },
     registerRootListeners() {
+      this.registerMonthListForceRerenderHandle();
       this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
       this.registerFetchedLeaveVacation();
     },
     unregisterRootListeners() {
+      this.unregisterMonthListForceRerenderHandle();
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
       this.unregisterFetchedLeaveVacation();

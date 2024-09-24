@@ -79,11 +79,13 @@ export default {
     },
 
     setCurrentWeek(date = null) {
+      console.log('date===', date);
       const now = date ? DateTime.fromFormat(date, 'yyyy-MM-dd').toUTC().toISO() : DateTime.now().startOf('day').toISO();
       const { from, to } = getWeekStartEndDates(now);
       this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
       this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
 
+      console.log('from_to', this.from, this.to);
       this.$emit("update:dates", {
         from, to
       });
@@ -116,6 +118,7 @@ export default {
   },
 
   created() {
+    console.log('this.dates==', Boolean(this.isPropsDatesSet(this.dates)));
     const path = this.$router.history.current.fullPath;
     if(path.startsWith(USER_WEEK_VIEW_PATH)){
       const date = path.split("=")[2]

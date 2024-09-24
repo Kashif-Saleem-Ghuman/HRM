@@ -42,7 +42,7 @@ export async function editTimeEntry(
     if (message) {
       this.$openPopupNotification({text:message, variant:'danger'})
     }
-    throw e;
+    throw new Error(message);
   }
 }
 

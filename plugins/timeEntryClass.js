@@ -1,5 +1,5 @@
 function convertSecondsToHour(seconds){
-  return seconds / 60;
+  return seconds / 3600;
 }
 export default ({ app }, inject) => {
     const getDayClassName = (hours) => {

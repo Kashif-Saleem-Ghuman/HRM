@@ -516,8 +516,10 @@ export default {
       };
     },
   },
-  mounted() {
+  async mounted() {
     this.registerRootListeners();
+    if (this.todayListView) await this.fillDailyTimeEntries();
+    else if (this.weekListView) await this.fillWeeklyTimeEntries();
   },
   beforeDestroy() {
     this.unregisterRootListeners();
@@ -528,8 +530,6 @@ export default {
     this.activeUserId = this.id;
     this.fetchUser(this.activeUserId);
     this.$store.dispatch("employee/setSelectedEmployeeTimer");
-    if (this.todayListView) await this.fillDailyTimeEntries();
-    else if (this.weekListView) await this.fillWeeklyTimeEntries();
   },
   watch: {
     "$route.query.view"(newVal) {

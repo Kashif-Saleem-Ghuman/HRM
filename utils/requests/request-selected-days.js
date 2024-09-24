@@ -3,8 +3,8 @@ import { DateTime } from "luxon";
 export function generateRequestSelectedDays(startDate, endDate, isHalfday) {
   let selectedDays = {};
 
-  const start = DateTime.fromISO(startDate);
-  const end = DateTime.fromISO(endDate);
+  const start = DateTime.fromISO(startDate, { zone: "utc" });
+  const end = DateTime.fromISO(endDate, { zone: "utc" });
 
   for (
     let currentDay = start;

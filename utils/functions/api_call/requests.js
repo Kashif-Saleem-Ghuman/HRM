@@ -57,20 +57,20 @@ export async function rejectLeaveRequest(payload) {
 
 export async function editRequest(payload) {
   const { id } = payload;
-  var data = payload;
-  let startDate = new Date(data.start).toISOString();
-  const isoStartDate = DateTime.fromISO(startDate)
-    .startOf("day")
-    .toUTC()
-    .toISO();
-  let endDate = new Date(data.end).toISOString();
-  const isoEndDate = DateTime.fromISO(endDate).endOf("day").toUTC().toISO();
+  const data = payload;
+  const dateTimeUtcStart = DateTime.fromFormat(data.start, "yyyy-MMM-dd", { zone: 'utc'})
+  const dateTimeUtcEnd = DateTime.fromFormat(data.end, "yyyy-MMM-dd", { zone: 'utc'})
+  const isoStartDate = dateTimeUtcStart.toISODate();
+  const isoEndDate = dateTimeUtcEnd.toISODate();
+  const isoStringStart = dateTimeUtcStart.toISO();
+  const isoStringEnd = dateTimeUtcEnd.toISO();
+
   this.addForm.start = isoStartDate;
   this.addForm.end = isoEndDate;
   let isHalfday = this.isHalfday;
   this.addForm.selectedDays = generateRequestSelectedDays(
-    startDate,
-    endDate,
+    isoStringStart,
+    isoStringEnd,
     isHalfday
   );
   const request = this.addForm;

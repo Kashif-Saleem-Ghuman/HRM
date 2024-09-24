@@ -156,10 +156,10 @@
               @redirect-dayview="redirectToDayView"
             ></list-week>
             <month-list
-              v-else-if="monthListView"
+              v-else-if="monthListView && showTable"
               :timesheetsList="timesheetsList"
-              :loading="loading"
               :is-full-year-list="isFullYearList"
+              :loading="loading"
               @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
               @week-view="redirectWeekView"
               class="pb-1"
@@ -234,7 +234,7 @@ export default {
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       todayData: [],
       activeTab: "Attendance",
-      loading: false,
+      loading: true,
       form: {},
       // Time & attandance
       timesheetWidgetData: {},
@@ -278,6 +278,7 @@ export default {
       summaryDate: DateTime.now().toFormat(DATETIME_FORMAT),
       previousWeekData: null,
       previousMonthWeekData: null,
+      notFound:true,
     };
   },
   computed: {
@@ -286,7 +287,7 @@ export default {
     },
     showNoData() {
       return (
-        !this.loading &&
+        !this.loading && !this.notFound &&
         (!this.timesheetsList || !this.timesheetsList?.length)
       );
     },
@@ -600,7 +601,7 @@ export default {
       this.todayData = [];
       this.totalWorkInMS = 0;
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
-      this.loading = false;
+      // this.loading = false;
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
@@ -633,7 +634,7 @@ export default {
         })
         .sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
-      this.loading = false;
+      this.timesheetsList.length ? this.notFound : this.notFound = false;
     },
     setPreviousDate(date) {
       this.previousDate = date;

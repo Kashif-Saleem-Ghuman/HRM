@@ -12,7 +12,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { USER_ROLES } from "../utils/constant/Constant";
-import { USER_HOME_PATH } from "@/utils/constant/routes";
+import { USER_HOME_PATH, USER_HOMEVIEW_DAY_PATH, USER_HOMEVIEW_WEEK_PATH, USER_HOMEVIEW_MONTH_PATH } from "@/utils/constant/routes";
 export default {
   data() {
     return {};
@@ -30,7 +30,12 @@ export default {
   },
   created() {
     const path = this.$router.history.current.fullPath;
-    if (path.endsWith(USER_HOME_PATH)) {
+    if (
+      path.includes(USER_HOME_PATH) ||
+    path.includes(USER_HOMEVIEW_DAY_PATH.split('?')[0]) ||
+    path.includes(USER_HOMEVIEW_WEEK_PATH.split('?')[0]) ||
+    path.includes(USER_HOMEVIEW_MONTH_PATH.split('?')[0])
+    ) {
       this.changeRole(USER_ROLES.USER);
     }
   },

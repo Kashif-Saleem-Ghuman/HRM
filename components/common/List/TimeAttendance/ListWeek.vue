@@ -34,6 +34,7 @@
           :activity="activityIn"
           :data="data.value"
           :status="status"
+          :entryExists="data.value.entryExists"
           @onInput="handleClickTimeEntry"
         ></timesheet-field>
         </div>
@@ -58,6 +59,7 @@
           :activity="activityOut"
           :data="data.value"
           :status="status"
+          :entryExists="data.value.entryExists"
           @onInput="handleClickTimeEntry"
         ></timesheet-field>
       </div>
@@ -178,6 +180,7 @@ export default {
             .toFormat("yyyy-MM-dd"),
           timeEntryIn: report?.timeEntryIn[0],
           timeEntryBreak: report?.timeEntryBreak[0],
+          isTimeEntryCompleted: report?.isTimeEntryCompleted,
         };
       });
     },
@@ -252,6 +255,7 @@ export default {
       }
     },
     async makeNewTimeEntry(activity, date, startDate, endDate) {
+      this.$nuxt.$emit('loading', true);
       try {
         const newEntry = await this.makeTimeEntry(
           activity,
@@ -269,10 +273,12 @@ export default {
         await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
       } catch (error) {
         console.log('error', error);
+        await this.$nuxt.$emit('month-force-rerender');
       }
+      this.$nuxt.$emit('loading', false);
     },
     async editThisTimeEntry(payload) {
-
+      this.$nuxt.$emit('loading', true);
       try {
         const editedEntry = await this.editTimeEntry(payload);
 
@@ -285,8 +291,9 @@ export default {
         }
         await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
       } catch (error) {
-        console.log('error', error)
+        await this.$nuxt.$emit('month-force-rerender');
       }
+      this.$nuxt.$emit('loading', false);
     },
     // TODO could be in in utils to reuse in other components
     getWeekdayString(date) {
@@ -296,7 +303,7 @@ export default {
     },
 
     getDayTotalHour(timeEntry) {
-      if(timeEntry.out === "00:00"){
+      if(timeEntry.out === "00:00" && !(timeEntry.isTimeEntryCompleted)){
         return "00:00";
       }
       return formatTime(timeEntry.total * 60, false);

@@ -145,7 +145,7 @@ import {
   getWeekTimesheets,
 } from "@/utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
-import { startOfDayEndOfDayRange } from "../../../utils/functions/dates";
+import {getDateDiffInSeconds, startOfDayEndOfDayRange} from "../../../utils/functions/dates";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 
 const VIEWS = [
@@ -467,27 +467,31 @@ export default {
         if (!entry.end) return 0;
         return (
           total +
-          this.calculateDuration(
+          getDateDiffInSeconds(
             getTimeFromDate(entry.start),
             getTimeFromDate(entry.end)
           )
         );
       }, 0);
 
-      const totalBreakInMS = timeEntriesBreak.reduce((total, entry) => {
-        if (!entry.end) return 0;
-        return (
-          total +
-          this.calculateDuration(
-            getTimeFromDate(entry.start),
-            getTimeFromDate(entry.end)
-          )
-        );
-      }, 0);
+      if (totalWorkInMS < 0) {
+        return "00:00";
+      }
+      const totalBreakInMS = timeEntriesBreak
+        .filter((entry) => entry.end)
+        .reduce((total, entry) => {
+          return (
+            total +
+            getDateDiffInSeconds(
+              getTimeFromDate(entry.start),
+              getTimeFromDate(entry.end)
+            )
+          );
+        }, 0);
 
       const netTotalWorkInMS = totalWorkInMS - totalBreakInMS;
 
-      return formatTime(netTotalWorkInMS / 1000, false);
+      return formatTime(netTotalWorkInMS, false);
     },
     ...mapGetters({
       getDailyTimeEntries: "timeattendance/getDailyTimeEntries",

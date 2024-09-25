@@ -123,7 +123,7 @@ export default {
       this.disabled = true;
     },
     isDisabled(option) {
-      return this.selected === option.label;
+      return this.selected == option.label;
     },
   },
   watch: {

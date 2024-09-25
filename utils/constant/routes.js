@@ -1,5 +1,8 @@
 export const ADMIN_HOME_PATH = "/dashboard/";
 export const USER_HOME_PATH = "/home/";
+export const USER_HOMEVIEW_DAY_PATH = "/home/?day";
+export const USER_HOMEVIEW_WEEK_PATH = "/home/?week";
+export const USER_HOMEVIEW_MONTH_PATH = "/home/?month";
 export const USER_WEEK_VIEW_PATH = "/time-attendance/attendance/?view=week&start="
 export const LEAVE_REQUEST_VIEW_PATH = "/leaves-and-vacations/dashboard/?request=";
 export const LEAVE_REQUEST_VIEW_PATH_USER = "/leaves-and-vacations/dashboard/";

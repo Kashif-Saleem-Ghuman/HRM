@@ -157,10 +157,10 @@
               @redirect-dayview="redirectToDayView"
             ></list-week>
             <month-list
-              v-else-if="monthListView"
+              v-else-if="monthListView && showTable"
               :timesheetsList="timesheetsList"
-              :loading="loading"
               :is-full-year-list="isFullYearList"
+              :loading="loading"
               @weeklytimesheet-submitted="onWeeklyTimesheetSubmitted"
               @week-view="redirectWeekView"
               class="pb-1"
@@ -280,6 +280,7 @@ export default {
       previousWeekData: null,
       previousMonthWeekData: null,
       monthListForceRenderKey: 0,
+      notFound:true,
     };
   },
   computed: {
@@ -288,7 +289,7 @@ export default {
     },
     showNoData() {
       return (
-        !this.loading &&
+        !this.loading && !this.notFound &&
         (!this.timesheetsList || !this.timesheetsList?.length)
       );
     },
@@ -655,6 +656,7 @@ export default {
         })
         .sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
+      this.timesheetsList.length ? this.notFound : this.notFound = false;
       this.loading = false;
     },
     setPreviousDate(date) {

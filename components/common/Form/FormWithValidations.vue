@@ -101,7 +101,7 @@ export default {
       const { fieldKey, value } = event;
       this.handleInput(event);
     },
-    handleCancle(){
+    handleCancle() {
       this.$router.push("/home/");
     },
     handleSubmit() {
@@ -168,7 +168,9 @@ export default {
             return;
           }
 
-          if (get(this.fields, `${key}.validations`)) {
+          if (value.trim() === "") {
+            errors[key] = "This field is required.";
+          } else if (get(this.fields, `${key}.validations`)) {
             const validate = validateFormField(
               value,
               this.fields[key].validations,

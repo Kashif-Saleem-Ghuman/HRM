@@ -234,7 +234,7 @@ export default {
       timeAttendanceTab: TIME_ATTENDANCE_TAB,
       todayData: [],
       activeTab: "Attendance",
-      loading: true,
+      loading: false,
       form: {},
       // Time & attandance
       timesheetWidgetData: {},
@@ -601,7 +601,7 @@ export default {
       this.todayData = [];
       this.totalWorkInMS = 0;
       this.timesheetStatus = this.getDailyTimeEntries?.[0]?.status || "";
-      // this.loading = false;
+      this.loading = false;
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;

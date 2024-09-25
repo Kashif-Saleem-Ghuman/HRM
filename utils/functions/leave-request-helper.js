@@ -9,3 +9,7 @@ export function formatLeaveDate(isoDate, format = DATETIME_FORMAT) {
 
   return DateTime.fromISO(isoDate, { zone: "utc" }).toFormat(format);
 }
+
+export function formatLeaveDurationDaysString(duration) {
+  return `${duration} day${duration > 1 ? "s" : ""}`;
+}

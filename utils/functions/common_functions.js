@@ -1,5 +1,8 @@
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
+import { generateRequestSelectedDays } from "../requests/request-selected-days";
+import { sum } from "lodash";
+import { formatLeaveDurationDaysString } from "./leave-request-helper";
 export function dateCheck(dateTime) {
   return dayjs(dateTime).format("HH:mm") || "N/A";
 }
@@ -98,26 +101,13 @@ export function calculateTotalDays(start, end) {
     const startDate = new Date(start);
     const endDate = new Date(end);
     if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-      let dayDifference = 0;
-      let currentDate = new Date(startDate);
+      const startUtc =  DateTime.fromFormat(start, "yyyy-MMM-dd", { zone: "utc" }).toISO();
+      const endUtc = DateTime.fromFormat(end, "yyyy-MMM-dd", { zone: "utc" }).toISO();
 
-      if (this.isHalfDay && start === end) {
-        this.totalDays = `0.5 day`;
-        return;
-      }
-      while (currentDate <= endDate) {
-        const dayOfWeek = currentDate.getDay();
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-          dayDifference += 1;
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
+      const selectedDays = generateRequestSelectedDays(startUtc, endUtc, this.isHalfDay);
+      const totalDays = sum(Object.values(selectedDays));
 
-      if (dayDifference === 0) {
-        this.totalDays = `0 days`;
-      } else {
-        this.totalDays = `${dayDifference} days`;
-      }
+      this.totalDays =  formatLeaveDurationDaysString(totalDays)
     }
   }
 }

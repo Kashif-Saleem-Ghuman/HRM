@@ -119,7 +119,7 @@ export default {
       this.isDropdownOpen = false;
     },
     isDisabled(option) {
-      return this.selected === option.label;
+      return this.selected == option.label;
     },
   },
 

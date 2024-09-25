@@ -635,6 +635,7 @@ export default {
         .sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
       this.timesheetsList.length ? this.notFound : this.notFound = false;
+      this.loading = false;
     },
     setPreviousDate(date) {
       this.previousDate = date;

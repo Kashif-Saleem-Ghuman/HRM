@@ -443,6 +443,14 @@ export default {
     unregisterFillDailyEntryListener() {
       this.$root.$off(FILL_DAILY_ENTRY_EVENT);
     },
+    registerLoading() {
+      this.$root.$on('loading', (payload = false) => {
+        this.loading = payload;
+      })
+    },
+    unregisterLoading() {
+      this.$root.$off('loading');
+    },
     registerMonthListForceRerenderHandle() {
       this.$root.$on('month-force-rerender', () => {
         this.monthListForceRenderKey += 1;
@@ -472,12 +480,14 @@ export default {
       this.registerFillWeeklyEntryListener();
       this.registerFillDailyEntryListener();
       this.registerFetchedLeaveVacation();
+      this.registerLoading();
     },
     unregisterRootListeners() {
       this.unregisterMonthListForceRerenderHandle();
       this.unregisterFillWeeklyEntryListener();
       this.unregisterFillDailyEntryListener();
       this.unregisterFetchedLeaveVacation();
+      this.unregisterLoading();
     },
     getLeaveDetails() {
       this.isRequestWidgetLoaded = true;

@@ -65,6 +65,7 @@ export default class BaseTimesheetParser {
       total,
       timeEntryIn: timeEntriesIn,
       timeEntryBreak: timeEntriesBreak,
+      isTimeEntryCompleted: Boolean(timeEntryIn && timeEntryOut)
     };
 
     return activityReport;

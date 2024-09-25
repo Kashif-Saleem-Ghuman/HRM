@@ -5,6 +5,7 @@
       name="time"
       placeholder="--"
       class="text-dark font-w-600"
+      :class="entryExists ? 'week_timepicker': ''"
       :disabled="disabled"
       @input="handleTimeInput"
     ></bib-time-picker-wrapper>
@@ -46,7 +47,11 @@ export default {
     status: {
       type: String,
       default: "",
-    }
+    },
+    entryExists: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -140,3 +145,12 @@ export default {
 
 };
 </script>
+
+<style lang="scss">
+
+.week_timepicker {
+  input {
+    font-weight: bold !important;
+  }
+}
+</style>/

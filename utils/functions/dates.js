@@ -90,7 +90,7 @@ export const getDateDiffInSeconds = (start, end) => {
   const startDateTime =DateTime.fromFormat(startFormatted, "HH:mm");
   let endDateTime = DateTime.fromFormat(endFormatted, "HH:mm");
 
-  if(endDateTime <= startDateTime) {
+  if(endDateTime < startDateTime) {
     endDateTime = endDateTime.plus({days: 1});
   }
   return endDateTime.diff(startDateTime, "seconds").seconds;

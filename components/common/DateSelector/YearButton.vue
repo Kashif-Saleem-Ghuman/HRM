@@ -99,7 +99,7 @@ export default {
       this.value = this.selected;
     },
     isDisabled(option) {
-      return this.selected === option;
+      return this.selected == option;
     },
   },
 };

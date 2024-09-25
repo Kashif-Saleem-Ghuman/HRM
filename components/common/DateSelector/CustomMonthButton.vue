@@ -24,7 +24,6 @@
               :variant="isLightThemeCheck ? 'light' : 'dark'"
               size="lg"
               class="pr-05 mb-05 w-100"
-              :disabled="disabled"
             ></bib-button>
           </div>
         </div>
@@ -119,7 +118,7 @@ export default {
       this.isDropdownOpen = false;
     },
     isDisabled(option) {
-      return this.selected === option.label;
+      return this.selected == option.label;
     },
   },
 

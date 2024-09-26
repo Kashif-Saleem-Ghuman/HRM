@@ -13,11 +13,11 @@ export const getWeekStartEndDates = (dateIso) => {
   return { from: from.toISO(), to: to.toISO() };
 };
 export const getWeekStart = (dateIso) => {
-  const date = DateTime.fromISO(dateIso);
+  const date = DateTime.fromISO(dateIso, { zone: 'utc'});
   return date.minus({ days: date.weekday % 7 }).toISO();
 }
 export const getWeekEnd = (dateIso) => {
-  const date = DateTime.fromISO(dateIso);
+  const date = DateTime.fromISO(dateIso, { zone: 'utc' });
   const from = date.minus({ days: date.weekday % 7 });
   return from.plus({ days: 6 }).toISO();
 }

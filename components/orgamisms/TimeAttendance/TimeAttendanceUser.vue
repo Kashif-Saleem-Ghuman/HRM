@@ -155,6 +155,7 @@
               @timesheet-submitted="onTimesheetSubmitted"
               @day-view="enterDetail"
               @redirect-dayview="redirectToDayView"
+              :isWeekViewFromMonth="isWeekViewFromMonth"
             ></list-week>
             <month-list
               v-else-if="monthListView && showTable"
@@ -281,6 +282,7 @@ export default {
       previousMonthWeekData: null,
       monthListForceRenderKey: 0,
       notFound:true,
+      isWeekViewFromMonth: false,
     };
   },
   computed: {
@@ -375,12 +377,14 @@ export default {
       });
     },
     todayListView() {
+      this.isWeekViewFromMonth = false;
       return this.view.value === "day";
     },
     weekListView() {
       return this.view.value === "week";
     },
     monthListView() {
+      this.isWeekViewFromMonth = false;
       return this.view.value === "month";
     },
     dateBtnLabel() {
@@ -413,7 +417,11 @@ export default {
     this.getTimesheetWidget();
     // this.loading = false;
   },
-  mounted() {
+  async mounted() {
+
+    if (this.todayListView) await this.fillDailyTimeEntries();
+    else if (this.weekListView) await this.fillWeeklyTimeEntries();
+
     this.registerRootListeners();
     this.getLeaveDetails();
   },
@@ -735,6 +743,7 @@ export default {
       await this.fillWeeklyTimeEntries();
     },
     async redirectWeekView(item) {
+      this.isWeekViewFromMonth = true;
       const { start, end } = item;
       this.$set(this.weekDates, "from", getWeekStart(start));
       this.$set(this.weekDates, "to", getWeekEnd(end));

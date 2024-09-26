@@ -187,8 +187,8 @@ export default {
     entryTotal() {
       if (!this.startTime || !this.endTime) return "";
       const netTotalWorkInMS = getDateDiffInSeconds(
-        getTimeFromDate(this.startTime),
-        getTimeFromDate(this.endTime)
+        this.newData.start,
+        this.newData.end
       )
 
       return formatTime(netTotalWorkInMS, false);

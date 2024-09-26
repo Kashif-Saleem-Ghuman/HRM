@@ -84,28 +84,38 @@ export const getTimeFromDate = (date) => {
 };
 
 export const getDateDiffInSeconds = (start, end) => {
-  const startFormatted = getTimeFromDate(start);
-  let endFormatted = getTimeFromDate(end);
 
-  const startDateTime =DateTime.fromFormat(startFormatted, "HH:mm");
-  let endDateTime = DateTime.fromFormat(endFormatted, "HH:mm");
+  if (!start || !end) return null;
 
-  if(endDateTime < startDateTime) {
-    endDateTime = endDateTime.plus({days: 1});
+  let startParseDate = parseDate(start);
+  let endParseDate = parseDate(end);
+
+  if(endParseDate < startParseDate) {
+    endParseDate = endParseDate.plus({days: 1});
   }
-  return endDateTime.diff(startDateTime, "seconds").seconds;
+
+  const modStart = startParseDate.startOf('minute');
+  const modEnd = endParseDate.startOf('minute');
+
+  const diff = modEnd.diff(modStart, "seconds");
+  const { seconds } = diff.toObject();
+
+  return Math.sign(seconds) !== -1 ? seconds : 0;
 }
 export const getDateDiffInMinutes = (start, end, total = 0) => {
   if (!start || !end) return null;
 
-  const startDate = DateTime.fromFormat(start, "HH:mm");
-  let endDate = DateTime.fromFormat(end, "HH:mm");
+  let startParseDate = parseDate(start);
+  let endParseDate = parseDate(end);
 
-  if(endDate <= startDate) {
-    endDate = endDate.plus({days: 1});
+  if(endParseDate < startParseDate) {
+    endParseDate = endParseDate.plus({days: 1});
   }
 
-  const diff = endDate.diff(startDate, "minutes");
+  const modStart = startParseDate.startOf('minute');
+  const modEnd = endParseDate.startOf('minute');
+
+  const diff = modEnd.diff(modStart, "minutes");
   const { minutes } = diff.toObject();
   return Math.sign(minutes) !== -1 ? minutes : 0;
 };

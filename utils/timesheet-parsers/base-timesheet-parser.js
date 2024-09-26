@@ -47,8 +47,8 @@ export default class BaseTimesheetParser {
     let total = 0;
 
     if(timeEntryIn) {
-      const nowInHourMin = getTimeFromDate(DateTime.now());
-      total = timeEntryOut ? getDateDiffInMinutes(timeEntryIn, timeEntryOut) : getDateDiffInMinutes(timeEntryIn, nowInHourMin);
+      const nowInHourMin = DateTime.now().toUTC().toISO();
+      total = timeEntryOut ? getDateDiffInSeconds(timeEntriesIn?.[0]?.start, timeEntriesIn?.[0]?.end) : getDateDiffInSeconds(timeEntriesIn?.[0]?.start, nowInHourMin);
 
       if (totalBreakTime) {
         total -= totalBreakTime;
@@ -62,7 +62,7 @@ export default class BaseTimesheetParser {
         totalBreakTime && totalBreakTime > 0
           ? formatHoursToHHMM(totalBreakTime / 60)
           : "00:00",
-      total,
+      total: total / 60,
       timeEntryIn: timeEntriesIn,
       timeEntryBreak: timeEntriesBreak,
       isTimeEntryCompleted: Boolean(timeEntryIn && timeEntryOut)
@@ -74,9 +74,9 @@ export default class BaseTimesheetParser {
   getTotalBreakTime = (timeEntries) => {
     return timeEntries?.reduce((total, entry) => {
       if (entry.end && entry.start) {
-        total += getDateDiffInMinutes(
-          getTimeFromDate(entry.start),
-          getTimeFromDate(entry.end)
+        total += getDateDiffInSeconds(
+          entry.start,
+          entry.end
         );
       }
       return total;

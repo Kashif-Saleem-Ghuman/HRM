@@ -60,7 +60,7 @@ export default class BaseTimesheetParser {
       out: timeEntryOut,
       break:
         totalBreakTime && totalBreakTime > 0
-          ? formatHoursToHHMM(totalBreakTime / 60)
+          ? formatHoursToHHMM(totalBreakTime / (60 * 60))
           : "00:00",
       total,
       timeEntryIn: timeEntriesIn,

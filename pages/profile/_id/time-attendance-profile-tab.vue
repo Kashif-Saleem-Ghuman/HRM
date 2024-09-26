@@ -468,8 +468,8 @@ export default {
         return (
           total +
           getDateDiffInSeconds(
-            getTimeFromDate(entry.start),
-            getTimeFromDate(entry.end)
+            entry.start,
+            entry.end
           )
         );
       }, 0);
@@ -483,8 +483,8 @@ export default {
           return (
             total +
             getDateDiffInSeconds(
-              getTimeFromDate(entry.start),
-              getTimeFromDate(entry.end)
+              entry.start,
+              entry.end
             )
           );
         }, 0);

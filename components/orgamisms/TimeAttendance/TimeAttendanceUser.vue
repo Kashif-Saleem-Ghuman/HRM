@@ -740,8 +740,9 @@ export default {
     },
     async redirectWeekView(item) {
       const { start, end } = item;
-      this.$set(this.weekDates, "from", DateTime.fromISO(start).toFormat(DATETIME_FORMAT));
-      this.$set(this.weekDates, "to", DateTime.fromISO(end).toFormat(DATETIME_FORMAT));
+
+      this.$set(this.weekDates, "from", DateTime.fromISO(start).toUTC().toFormat(DATETIME_FORMAT));
+      this.$set(this.weekDates, "to", DateTime.fromISO(end).toUTC().toFormat(DATETIME_FORMAT));
       this.$router.push({ query: { view: "week" } });
       await this.fillWeeklyTimeEntries();
     },

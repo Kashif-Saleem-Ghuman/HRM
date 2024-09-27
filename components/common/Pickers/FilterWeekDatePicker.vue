@@ -130,11 +130,12 @@ computed:{
     },
 
     setDefaultWeek(dates) {
-      this.from = DateTime.fromISO(dates.from).toFormat(DATETIME_FORMAT);
-      this.minDate = DateTime.fromISO(dates.from).toISO();
+      console.log('monthjhkjsdjklsdf', dates)
+      this.from = DateTime.fromISO(dates.from).toUTC().toFormat(DATETIME_FORMAT);
+      this.minDate = DateTime.fromISO(dates.from).toUTC().toISO();
 
-      const now = DateTime.now();
-      const toDate = DateTime.fromISO(dates.to);
+      const now = DateTime.now().toUTC();
+      const toDate = DateTime.fromISO(dates.to).toUTC();
       if (toDate <= now) {
         this.maxDate = getWeekEnd(DateTime.fromISO(now).toUTC().toISO());
         this.to = DateTime.fromISO(dates.to).toFormat(DATETIME_FORMAT);

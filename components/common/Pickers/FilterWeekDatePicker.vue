@@ -130,7 +130,6 @@ computed:{
     },
 
     setDefaultWeek(dates) {
-      console.log('monthjhkjsdjklsdf', dates)
       this.from = DateTime.fromISO(dates.from).toUTC().toFormat(DATETIME_FORMAT);
       this.minDate = DateTime.fromISO(dates.from).toUTC().toISO();
 

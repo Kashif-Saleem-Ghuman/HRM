@@ -90,10 +90,9 @@ export default {
     },
 
     setWeekFromDates(dates) {
-      const { from, to } = getWeekStartEndDates(dates.from);
-
-      this.from = DateTime.fromISO(from).toFormat(DATETIME_FORMAT)
-      this.to = DateTime.fromISO(to).toFormat(DATETIME_FORMAT);
+      const { from, to } = dates;
+      this.from = DateTime.fromISO(from, {zone: 'utc'}).toFormat(DATETIME_FORMAT)
+      this.to = DateTime.fromISO(to, {zone: 'utc'}).toFormat(DATETIME_FORMAT);
 
       this.$emit("update:dates", {
         from, to

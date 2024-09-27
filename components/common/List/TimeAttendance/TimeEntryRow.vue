@@ -255,7 +255,7 @@ export default {
         ...(this.endTime && {
           endDate: this.hoursAndMinutesToJSDate(
             ...this.parseInputTimeIntoArray(this.endTime),
-            this.getEndDate(this.startTime, this.endTime)
+            this.todayDate
           ).toISOString(),
         }),
       };

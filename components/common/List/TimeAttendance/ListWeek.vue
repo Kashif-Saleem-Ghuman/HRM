@@ -109,6 +109,7 @@ import {
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
+import {getDateDiffInSeconds, getTimeFromDate, parseDate} from "../../../../utils/functions/dates";
 
 export default {
   props: {
@@ -215,24 +216,41 @@ export default {
         end: endDate,
       })
     },
-    adjustEndTime(startTime, endTime) {
-      if (endTime && endTime < startTime) {
-        return endTime.plus({ days: 1 });
+
+    adjustEndTime(start, end) {
+      const startDate = parseDate(start);
+      const endDate = parseDate(end);
+
+
+      const startTime = getTimeFromDate(start);
+      const endTime = getTimeFromDate(end);
+
+      const duration = getDateDiffInSeconds(start, end);
+
+      if (endDate && endDate < startDate) {
+        return endDate.plus({ days: 1 });
+      }else if(endDate > startDate && (startTime  === endTime || duration / 3600 >= 24)) {
+        return endDate.minus({ days: 1 });
       }
-      return endTime;
+      return endDate;
     },
+
+    adjustStartTime(start, end) {
+      return parseDate(start);
+    },
+
     handleClickTimeEntry(entryDetail, activity, timeEntry) {
-      const parseDate = (dateStr) => DateTime.fromISO(dateStr).isValid ? DateTime.fromISO(dateStr) : null;
 
       if (!timeEntry && activity === ACTIVITY_TYPE.OUT) {
         this.setEndTimeRecords(entryDetail.date, entryDetail.endDate);
         return;
       }
 
-      let startTime = parseDate(entryDetail?.startDate ?? timeEntry?.start);
-      let endTime = parseDate(entryDetail?.endDate ?? timeEntry?.end);
+      let startTime = entryDetail?.startDate ?? timeEntry?.start;
+      let endTime = entryDetail?.endDate ?? timeEntry?.end;
 
       if (timeEntry) {
+        startTime = this.adjustStartTime(startTime, endTime);
         endTime = this.adjustEndTime(startTime, endTime);
 
         this.editThisTimeEntry({
@@ -244,7 +262,8 @@ export default {
         });
       } else {
         const endDateRecord = this.endTimeRecords.find(record => record.date === entryDetail.date)?.end;
-        endTime = this.adjustEndTime(startTime, parseDate(endDateRecord));
+        startTime = this.adjustStartTime(startTime, endTime);
+        endTime = this.adjustEndTime(startTime, endDateRecord);
 
         this.makeNewTimeEntry(
           ACTIVITY_TYPE.IN,

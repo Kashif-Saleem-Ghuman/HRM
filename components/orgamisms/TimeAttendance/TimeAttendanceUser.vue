@@ -631,10 +631,10 @@ export default {
     },
     async fillWeeklyTimeEntries() {
       this.loading = true;
-      const weekRange = {
+      const weekRange = this.weekToUTCWeek({
         from: new Date(this.weekDates.from),
         to: new Date(this.weekDates.to),
-      };
+      });
       const weekData = new TimesheetParser(
         await getWeekTimesheets(weekRange)
       ).parse("week");

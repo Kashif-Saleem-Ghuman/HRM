@@ -138,10 +138,6 @@ export default {
       type: String,
       default: DateTime.now().startOf("week").toISODate(),
     },
-    isWeekViewFromMonth: {
-      type: Boolean,
-      default: false,
-    }
   },
   data() {
     return {
@@ -358,9 +354,7 @@ export default {
     },
   },
   async mounted() {
-    if(!this.isWeekViewFromMonth) {
-      await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
-    }
+    await this.$nuxt.$emit(FILL_WEEKLY_ENTRY_EVENT);
   }
 };
 </script>

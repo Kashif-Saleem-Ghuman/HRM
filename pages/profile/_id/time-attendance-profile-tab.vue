@@ -537,6 +537,8 @@ export default {
   },
   watch: {
     "$route.query.view"(newVal) {
+      if (newVal === "day")
+        this.setPreviousDate(this.todayDate);
       this.view.value = newVal || "day";
       this.view.label = this.VIEWS.find(
         (v) => v.value === this.view.value

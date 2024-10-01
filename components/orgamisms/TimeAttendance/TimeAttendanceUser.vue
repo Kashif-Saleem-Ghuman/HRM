@@ -573,8 +573,15 @@ export default {
       }
     },
     async onViewChange(e) {
-      this.setDefaultOnViewChange(e.value);
-      this.$router.push({ query: { view: e.value } });
+      const selectedView = e.value;
+      this.setDefaultOnViewChange(selectedView);
+
+      const routeOptions =
+        selectedView === "day"
+          ? { path: "/home/", query: { view: "day" } }
+          : { query: { view: selectedView } };
+
+      await this.$router.push(routeOptions);
     },
     onViewTimesheetsClick() {
       this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);

@@ -245,19 +245,28 @@ export default {
       return this.todayDate;
     },
     calculateDates() {
-      return {
-        date: DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd"),
-        startDate: this.hoursAndMinutesToJSDate(
-          ...this.parseInputTimeIntoArray(this.startTime),
-          this.todayDate
-        ).toISOString(),
+      const date = DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd");
 
-        ...(this.endTime && {
-          endDate: this.hoursAndMinutesToJSDate(
-            ...this.parseInputTimeIntoArray(this.endTime),
-            this.todayDate
-          ).toISOString(),
-        }),
+      const startDate = DateTime.fromFormat(`${date} ${this.startTime}`, "yyyy-MM-dd HH:mm").toISO();
+
+      if (!this.endTime) {
+        return {
+          date,
+          startDate,
+          endDate: null,
+        };
+      }
+
+      let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toISO();
+
+      if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
+        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toISO();
+      }
+
+      return {
+        date,
+        startDate,
+        endDate
       };
     },
     async editThisEntry() {

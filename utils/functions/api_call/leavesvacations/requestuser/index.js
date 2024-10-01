@@ -33,14 +33,16 @@ export async function addLeaveVacations() {
   const isoStringStart = dateTimeUtcStart.toISO();
   const isoStringEnd = dateTimeUtcEnd.toISO();
 
-  this.addForm.start = isoStartDate;
-  this.addForm.end = isoEndDate;
-  this.addForm.isHalfDay = isHalfday;
-  this.addForm.selectedDays = generateRequestSelectedDays(isoStringStart, isoStringEnd, isHalfday);
+  let formPayload = {...this.addForm};
+
+  formPayload.start = isoStartDate;
+  formPayload.end = isoEndDate;
+  formPayload.isHalfDay = isHalfday;
+  formPayload.selectedDays = generateRequestSelectedDays(isoStringStart, isoStringEnd, isHalfday);
 
   try {
     const url = `/requests`;
-    const request = this.addForm;
+    const request = formPayload;
     const config = createConfig();
     const addLeaveVacations = await hrmApiAxiosInstance.post(
       url,

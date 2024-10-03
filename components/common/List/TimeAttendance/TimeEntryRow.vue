@@ -247,7 +247,7 @@ export default {
     calculateDates() {
       const date = DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd");
 
-      const startDate = DateTime.fromFormat(`${date} ${this.startTime}`, "yyyy-MM-dd HH:mm").toISO();
+      const startDate = DateTime.fromFormat(`${date} ${this.startTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
 
       if (!this.endTime) {
         return {
@@ -257,7 +257,7 @@ export default {
         };
       }
 
-      let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toISO();
+      let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
 
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
         endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toISO();

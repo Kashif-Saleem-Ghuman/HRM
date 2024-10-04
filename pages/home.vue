@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="isAdmin">
-      <page-not-found></page-not-found>
-    </div>
-    <div v-else>
+    <div>
       <time-attendance-user></time-attendance-user>
     </div>
   </div>

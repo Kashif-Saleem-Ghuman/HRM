@@ -227,13 +227,13 @@ export const TABLE_HEAD = {
     //   },
     // },
     {
-      key: "location",
+      key: "timezone",
       label: "Location",
       width: `${100 / 5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
-        sortKey: "location",
+        sortKey: "timezone",
         type: "string",
       },
     },

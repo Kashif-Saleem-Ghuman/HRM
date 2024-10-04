@@ -1,4 +1,4 @@
-import { clockInReminder, submitTimesheetReminder } from '@/utils/functions/api_call/notification-reminder';
+import { clockInReminder, submitTimesheetReminder, submitPastDueTimesheetReminder } from '@/utils/functions/api_call/notification-reminder';
 
 export default ({ store }, inject) => {
   const getEmployeeInitials = (employee) => {
@@ -25,5 +25,6 @@ export default ({ store }, inject) => {
   inject('getEmployeeFullName', getEmployeeFullName);
   inject('clockInReminder', clockInReminder);
   inject('submitTimesheetReminder', submitTimesheetReminder);
+  inject('submitPastDueTimesheetReminder', submitPastDueTimesheetReminder);
   inject('openPopupNotification', openPopupNotification);
 };

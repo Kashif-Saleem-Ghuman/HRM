@@ -68,6 +68,7 @@
           @clock-in-reminder="$clockInReminder({ employeeIds: [data.value.id] })"
           :timesheetSubmitReminderIcon="false"
           :clockInReminderIcon="shouldShowClockInReminderIcon(data)"
+          iconName="time-alarm-solid"
         ></notifications>
       </div>
     </template>

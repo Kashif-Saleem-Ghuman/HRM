@@ -34,6 +34,13 @@
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
+          <div class="ml-auto">
+            <notifications
+              @submit-due-timesheet-reminder="$submitPastDueTimesheetReminder(data.value.id, { date: data.value.end, employeeId: data.value.employeeId })"
+              :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value.status)"
+              iconName="send-solid"
+            ></notifications>
+          </div>
         </div>
       </template>
 
@@ -188,6 +195,9 @@ export default {
     
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
+    },
+    shouldShowDueReminderIcon(status) {
+      return status === 'past_due';
     },
     actionConfirmation(event, data) {
       const { id, employeeId, end: date } = data.value;

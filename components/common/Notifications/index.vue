@@ -1,20 +1,11 @@
 <template>
   <div class="d-flex align-center">
     <bib-icon
-      icon="time-alarm-solid"
-      class="cursor-pointer"
+      :icon="iconName"
+      :class="['cursor-pointer', customClass]"
       variant="gray"
       :scale="1"
-      v-show="clockInReminderIcon"
-      @click.native.stop="pushNotificationClockin"
-    ></bib-icon>
-    <bib-icon
-      icon="send-solid"
-      class="ml-05 mr-1 cursor-pointer"
-      variant="gray"
-      :scale="1"
-      v-show="timesheetSubmitReminderIcon"
-      @click.native.stop="pushNotificationTimeseet"
+      @click.native.stop="pushNotification"
     ></bib-icon>
   </div>
 </template>
@@ -23,20 +14,35 @@
 export default {
   props:{
     clockInReminderIcon:{
-      type:Boolean,
-      default:true,
+      type: Boolean,
+      default: false,
     },
     timesheetSubmitReminderIcon:{
+      type: Boolean,
+      default: false,
+    },
+    pastDueTimesheetReminderIcon:{
       type:Boolean,
-      default:true,
+      default: false,
+    },
+    iconName: {
+      type: String,
+    },
+    customClass: {
+      type: String,
     },
   },
   methods: {
-    pushNotificationClockin() {
-      this.$emit("clock-in-reminder");
-    },
-    pushNotificationTimeseet() {
-      this.$emit("submit-timesheet-reminder");
+    pushNotification() {
+      if(this.clockInReminderIcon){
+        this.$emit("clock-in-reminder");
+      }
+      else if(this.timesheetSubmitReminderIcon){
+        this.$emit("submit-timesheet-reminder");
+      }
+      else if(this.pastDueTimesheetReminderIcon) {
+        this.$emit('submit-due-timesheet-reminder');
+      }
     },
   },
 };

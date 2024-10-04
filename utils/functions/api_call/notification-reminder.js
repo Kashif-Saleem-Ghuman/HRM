@@ -37,3 +37,25 @@ export async function clockInReminder({ employeeIds }) {
     console.log(e);
   }
 }
+
+export async function submitPastDueTimesheetReminder(timesheetId, payload) {
+  console.log('$submitPastDueTimesheetReminder==', timesheetId, payload);
+  try {
+    const url = `/employees/reminder/submit-timesheets/past-due/${timesheetId}`;
+    const config = createConfig();
+    const pastDueTimesheet = await hrmApiAxiosInstance.post(
+      url,
+      payload,
+      config
+    );
+    this.$openPopupNotification({
+      text: "A reminder for past due timesheet submission has been successfully sent to the employee.",
+      variant: "primary-24"
+    });
+  } catch (e) {
+    this.$openPopupNotification({
+      text: e.response?.data?.message,
+      variant: "danger"
+    });
+  }
+}

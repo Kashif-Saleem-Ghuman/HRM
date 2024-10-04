@@ -32,6 +32,8 @@
               shouldShowTimesheetSubmitReminderIcon(data.value.status)
             "
             :clockInReminderIcon="false"
+            iconName="send-solid"
+            customClass="ml-05 mr-1"
           ></notifications>
             </div>
         </div>

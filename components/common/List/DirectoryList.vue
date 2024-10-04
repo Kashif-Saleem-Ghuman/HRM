@@ -92,7 +92,7 @@
           }}</span>
         </div>
       </template> -->
-      <template #cell(location)="data">
+      <template #cell(timezone)="data">
         <div class="justify-between cursor-pointer">
           <span>{{
             data.value?.timezone

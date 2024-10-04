@@ -1,8 +1,6 @@
 <template>
-  <div>
     <div>
       <time-attendance-user></time-attendance-user>
-    </div>
   </div>
 </template>
 

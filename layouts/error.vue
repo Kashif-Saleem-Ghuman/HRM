@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     errorPage() {
-      if (this.error.statusCode == 404 && this.error.statusCode == 403) {
+      if (this.error.statusCode == 404 || this.error.statusCode == 403) {
         return notFound;
       }
     },

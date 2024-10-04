@@ -237,4 +237,13 @@
     background-color: red !important;
     font-weight: bold;
   }
+  #error-404-wrapper {
+    a{
+      color: $light;
+      &:hover {
+        text-decoration: underline;
+        color: $gray6;
+      }
+    }
+  }
 }

@@ -156,6 +156,9 @@ export default {
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
   },
+  beforeDestroy() {
+    this.resetTableFieldsHeaderIcon()
+  },
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.listPending;
@@ -258,6 +261,13 @@ export default {
         "isCollapsed",
         !this.collapseObj[index].isCollapsed
       );
+    },
+    resetTableFieldsHeaderIcon() {
+      this.tableFields.forEach(field => {
+        if(field.hasOwnProperty('header_icon')) {
+          field.header_icon.isActive = false;
+        }
+      });
     },
   },
 };

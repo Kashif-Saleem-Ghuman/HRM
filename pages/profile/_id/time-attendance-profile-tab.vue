@@ -147,6 +147,7 @@ import {
 import { TimesheetParser } from "@/utils/timesheet-parsers/timesheet-parser";
 import {getDateDiffInSeconds, startOfDayEndOfDayRange} from "../../../utils/functions/dates";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
+import {TOTAL_PER_DAY_WORKING_HOURS} from "../../../utils/constant/Constant";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -463,7 +464,7 @@ export default {
         (entry) => entry.activity === ACTIVITY_TYPE.BREAK
       );
 
-      const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+      let totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
         if (!entry.end) return 0;
         return (
           total +
@@ -473,6 +474,9 @@ export default {
           )
         );
       }, 0);
+
+      if(totalWorkInMS >= TOTAL_PER_DAY_WORKING_HOURS)
+        totalWorkInMS = 0;
 
       if (totalWorkInMS < 0) {
         return "00:00";

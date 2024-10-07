@@ -64,7 +64,7 @@ export function isEndTimeOnSameDay(startTime, endTime) {
   const startDateTime = DateTime.fromFormat(startTime, "HH:mm").toJSDate()
   const endDateTime = DateTime.fromFormat(endTime, "HH:mm").toJSDate()
 
-  return endDateTime > startDateTime
+  return endDateTime >= startDateTime
 }
 
 export function isTimeFormat(time) {

@@ -212,7 +212,7 @@ import { getUserLeavesDetailUser } from "../../../utils/functions/functions_lib_
 
 import { Timesheet } from "@/components/common/models/timesheet";
 import InfoCardLeaveVacation from "../../common/Cards/InfoCardLeaveVacation.vue";
-import {TIMESHEET_LOCKED_MESSAGE} from "../../../utils/constant/Constant";
+import {TIMESHEET_LOCKED_MESSAGE, TOTAL_PER_DAY_WORKING_HOURS} from "../../../utils/constant/Constant";
 
 const VIEWS = [
   { label: "Day", value: "day" },
@@ -320,7 +320,7 @@ export default {
         (entry) => entry.activity === ACTIVITY_TYPE.BREAK
       );
 
-      const totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
+      let totalWorkInMS = timeEntriesIn.reduce((total, entry) => {
         if (!entry.end) return 0;
         return (
           total +
@@ -335,6 +335,8 @@ export default {
         return "00:00";
       }
 
+      if(totalWorkInMS >= TOTAL_PER_DAY_WORKING_HOURS)
+        totalWorkInMS = 0;
       const totalBreakInMS = timeEntriesBreak
         .filter((entry) => entry.end)
         .reduce((total, entry) => {

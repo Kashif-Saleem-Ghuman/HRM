@@ -70,7 +70,7 @@ import {
 } from "../../../../utils/functions/time";
 import {
   ACTIVITY_TYPE, EDIT_TIME_ENTRY_WARNING_MESSAGE, TIME_ENTRY_LOCKED_MESSAGE, TIMESHEET_LOCKED_MESSAGE,
-  TIMESHEET_STATUSES,
+  TIMESHEET_STATUSES, TOTAL_PER_DAY_WORKING_HOURS,
 } from "../../../../utils/constant/Constant";
 import {mapGetters} from "vuex";
 import {DATETIME_FORMAT} from "@/utils/functions/datetime-input";
@@ -186,10 +186,13 @@ export default {
     },
     entryTotal() {
       if (!this.startTime || !this.endTime) return "";
-      const netTotalWorkInMS = getDateDiffInSeconds(
+      let netTotalWorkInMS = getDateDiffInSeconds(
         this.newData.start,
         this.newData.end
       )
+      if(netTotalWorkInMS >= TOTAL_PER_DAY_WORKING_HOURS)
+        netTotalWorkInMS = 0;
+
 
       return formatTime(netTotalWorkInMS, false);
     },
@@ -271,8 +274,6 @@ export default {
     },
     async editThisEntry() {
       if (!this.isEntryValid()) return;
-
-      console.log('calculateDates====', this.endTime, this.startTime, this.todayDate)
 
       const { startDate, endDate, date } = this.calculateDates();
 

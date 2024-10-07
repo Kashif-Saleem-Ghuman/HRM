@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { getDateDiffInMinutes, getDateDiffInSeconds, getTimeFromDate} from "../functions/dates";
 import { sumBy } from "lodash";
 import { formatHoursToHHMM } from "../functions/time";
+import {TOTAL_PER_DAY_WORKING_HOURS} from "../constant/Constant";
 export default class BaseTimesheetParser {
   constructor(timesheets = []) {
     this.timesheets = timesheets;
@@ -49,6 +50,9 @@ export default class BaseTimesheetParser {
     if(timeEntryIn) {
       const nowInHourMin = DateTime.now().toUTC().toISO();
       total = timeEntryOut ? getDateDiffInSeconds(timeEntriesIn?.[0]?.start, timeEntriesIn?.[0]?.end) : getDateDiffInSeconds(timeEntriesIn?.[0]?.start, nowInHourMin);
+
+      if(total >= 24 * 60 * 60)
+        total = 0;
 
       if (totalBreakTime) {
         total -= totalBreakTime;
@@ -109,10 +113,12 @@ export default class BaseTimesheetParser {
   };
 
   getDayTotalWorkHours(timeEntries = []) {
-    const timeEntryTotal = timeEntries
+    let timeEntryTotal = timeEntries
       .filter(t => t.activity === 'in' && t.start && t.end)
       .reduce((total, t) => total + getDateDiffInSeconds(t.start, t.end), 0);
 
+    if(timeEntryTotal >= TOTAL_PER_DAY_WORKING_HOURS)
+      timeEntryTotal = 0;
 
     const breakEntryTotal = timeEntries
       .filter(t => t.activity === 'break' && t.start && t.end)

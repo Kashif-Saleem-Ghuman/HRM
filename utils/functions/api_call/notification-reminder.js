@@ -37,3 +37,20 @@ export async function clockInReminder({ employeeIds }) {
     console.log(e);
   }
 }
+
+export async function submitPastDueTimesheetReminder(timesheetId, payload) {
+  console.log('$submitPastDueTimesheetReminder==', timesheetId, payload);
+  try {
+    const url = `/employees/reminder/submit-timesheets/past-due/${timesheetId}`;
+    const config = createConfig();
+    const pastDueTimesheet = await hrmApiAxiosInstance.post(
+      url,
+      payload,
+      config
+    );
+    return pastDueTimesheet;
+
+  } catch (e) {
+    throw new Error(e.response?.data?.message);
+  }
+}

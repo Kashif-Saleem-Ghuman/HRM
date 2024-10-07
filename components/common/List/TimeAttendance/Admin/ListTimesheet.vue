@@ -62,13 +62,16 @@
             </div>
           </div>
           <notifications
+            v-if="shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)"
             @submit-timesheet-reminder="
-              $submitTimesheetReminder({ timesheetIds: [data.value.timesheets?.[0]?.id] })
+              submitTimesheetReminder(data.value.timesheets?.[0]?.id, data.value.id)
             "
             :timesheetSubmitReminderIcon="
               shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)
             "
-            :clockInReminderIcon="false"
+            :isLoading="mapLoading[data.value.id]"
+            iconName="send-solid"
+            customClass="ml-05 mr-1"
           ></notifications>
         </div>
       </template>
@@ -178,6 +181,7 @@ export default {
         value: day.value.substring(0, 3),
       })),
       sortByField: null,
+      mapLoading: {}
     };
   },
   computed: {
@@ -242,6 +246,17 @@ export default {
       return TIMESHEET_STATUS.not_submitted.value;
     },
 
+    async submitTimesheetReminder(timesheetId, employeeId) {
+      this.$set(this.mapLoading, employeeId, true);
+      try {
+        await this.$submitTimesheetReminder({ timesheetIds: timesheetId });
+      } catch (errorMessage) {
+        console.log(errorMessage);
+      } finally {
+        this.$set(this.mapLoading, employeeId, false);
+      }
+
+    },
     getWeekdayValue(weekData, day) {
       if (!weekData) return "--";
 

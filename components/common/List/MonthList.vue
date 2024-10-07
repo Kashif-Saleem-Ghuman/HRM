@@ -25,15 +25,16 @@
           </div>
           <div v-if="isAdmin">
             <notifications
-            @submit-timesheet-reminder="
-              $submitTimesheetReminder({ requestIds: [data.value.id] })
-            "
-            :timesheetSubmitReminderIcon="
-              shouldShowTimesheetSubmitReminderIcon(data.value.status)
-            "
-            :clockInReminderIcon="false"
-            iconName="send-solid"
-            customClass="ml-05 mr-1"
+              v-if="shouldShowTimesheetSubmitReminderIcon(data.value.status)"
+              @submit-timesheet-reminder="
+                submitTimesheetReminder(data.value.id)
+              "
+              :timesheetSubmitReminderIcon="
+                shouldShowTimesheetSubmitReminderIcon(data.value.status)
+              "
+              :isLoading="mapLoading[data.value.id]"
+              iconName="send-solid"
+              customClass="ml-05 mr-1"
           ></notifications>
             </div>
         </div>
@@ -201,6 +202,7 @@ export default {
         TIMESHEET_STATUS.rejected,
       ],
       isSubmitted: false,
+      mapLoading: {},
     };
   },
   computed: {
@@ -247,6 +249,17 @@ export default {
       const field = this.tableFields.find((field) => field.key === columnKey);
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
+    },
+    async submitTimesheetReminder(requestIds) {
+      this.$set(this.mapLoading, employeeId, true);
+      try {
+        await this.$submitTimesheetReminder({ requestIds: requestIds });
+      } catch (errorMessage) {
+        console.log(errorMessage);
+      } finally {
+        this.$set(this.mapLoading, requestIds, false);
+      }
+
     },
     getStatusClassName(status) {
       return status === "pending"

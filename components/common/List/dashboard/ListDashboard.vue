@@ -65,10 +65,11 @@
           </div>
         </div>
         <notifications
-          @clock-in-reminder="$clockInReminder({ employeeIds: [data.value.id] })"
-          :timesheetSubmitReminderIcon="false"
+          v-if="shouldShowClockInReminderIcon(data)"
+          @clock-in-reminder="clockInReminder(data.value.id)"
           :clockInReminderIcon="shouldShowClockInReminderIcon(data)"
           iconName="time-alarm-solid"
+          :isLoading="mapLoading[data.value.id]"
         ></notifications>
       </div>
     </template>
@@ -171,6 +172,7 @@ export default {
         day.key.substring(0, 3)
       ),
       leaveType: "",
+      mapLoading: {},
     };
   },
   beforeDestroy() {
@@ -212,6 +214,16 @@ export default {
       return (
         data?.value?.activityReport?.in == null &&  !data?.value?.requests.length  && reportDate === currentDate
       );
+    },
+    async clockInReminder(employeeId) {
+      this.$set(this.mapLoading, employeeId, true);
+      try {
+        await this.$clockInReminder({ employeeIds: employeeId });
+      } catch (errorMessage) {
+        console.log(errorMessage);
+      } finally {
+        this.$set(this.mapLoading, employeeId, false);
+      }
     },
     async callAction(data, value) {
       if (value === "View Profile") return this.viewProfile(data.value.id);

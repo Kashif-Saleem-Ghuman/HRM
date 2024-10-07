@@ -34,13 +34,15 @@
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
-          <div class="ml-auto">
+          <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
-              @submit-due-timesheet-reminder="$submitPastDueTimesheetReminder(data.value.id, { date: data.value.end, employeeId: data.value.employeeId })"
+              @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
               :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value.status)"
               iconName="send-solid"
+              :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
             ></notifications>
           </div>
+
         </div>
       </template>
 
@@ -104,6 +106,7 @@ import { random } from "lodash";
 import fecha from "fecha";
 import {DateTime} from "luxon";
 import {formatTime} from "../../../../../utils/functions/clock_functions";
+import {submitPastDueTimesheetReminder} from "../../../../../utils/functions/api_call/notification-reminder";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -166,7 +169,8 @@ export default {
       showAllDate: {
         from: DateTime.local().startOf("year").toISO(),
         to: DateTime.local().endOf('year').toISO(),
-      }
+      },
+      mapLoading: {},
     };
   },
 
@@ -198,6 +202,24 @@ export default {
     },
     shouldShowDueReminderIcon(status) {
       return status === 'past_due';
+    },
+    async submitPastDueTimesheetReminder(timesheetId, date, employeeId) {
+      try {
+        this.$set(this.mapLoading, timesheetId + date + employeeId, true);
+        await submitPastDueTimesheetReminder(timesheetId, {employeeId, date});
+        this.$openPopupNotification({
+          text: "A reminder for past due timesheet submission has been successfully sent to the employee.",
+          variant: "primary-24"
+        });
+      }catch (errorMessage) {
+        this.$openPopupNotification({
+          text: errorMessage,
+          variant: "danger"
+        });
+      } finally {
+        this.$set(this.mapLoading, timesheetId + date + employeeId, false);
+      }
+
     },
     actionConfirmation(event, data) {
       const { id, employeeId, end: date } = data.value;

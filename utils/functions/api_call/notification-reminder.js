@@ -48,14 +48,9 @@ export async function submitPastDueTimesheetReminder(timesheetId, payload) {
       payload,
       config
     );
-    this.$openPopupNotification({
-      text: "A reminder for past due timesheet submission has been successfully sent to the employee.",
-      variant: "primary-24"
-    });
+    return pastDueTimesheet;
+
   } catch (e) {
-    this.$openPopupNotification({
-      text: e.response?.data?.message,
-      variant: "danger"
-    });
+    throw new Error(e.response?.data?.message);
   }
 }

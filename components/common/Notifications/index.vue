@@ -1,6 +1,8 @@
 <template>
   <div class="d-flex align-center">
+    <bib-spinner v-if="isLoading" :scale="2" variant="gray"></bib-spinner>
     <bib-icon
+      v-else
       :icon="iconName"
       :class="['cursor-pointer', customClass]"
       variant="gray"
@@ -30,6 +32,10 @@ export default {
     },
     customClass: {
       type: String,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     },
   },
   methods: {

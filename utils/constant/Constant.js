@@ -1693,3 +1693,5 @@ export const TIME_ENTRY_LOCKED_MESSAGE = 'Your time entry has been locked';
 export const CURRENT_WEEK_TIMESHEET_LOCKED_MESSAGE = 'Your timesheet for the current week has been locked';
 
 export const START_YEAR = 2023;
+
+export const TOTAL_PER_DAY_WORKING_HOURS = 24 * 60 * 60;

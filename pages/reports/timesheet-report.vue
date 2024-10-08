@@ -79,11 +79,13 @@ export default {
       try {
         const startDate = DateTime.fromFormat(
           this.selectedStartDate,
-          "yyyy-MMM-dd"
+          "yyyy-MMM-dd",
+          { zone: "utc" }
         );
         const endDate = DateTime.fromFormat(
           this.selectedEndDate,
-          "yyyy-MMM-dd"
+          "yyyy-MMM-dd",
+          { zone: "utc" }
         );
 
         if (startDate > endDate) {

@@ -36,8 +36,9 @@
           </div>
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
+              v-if="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
               @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
-              :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value.status)"
+              :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
               iconName="send-solid"
               :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
             ></notifications>
@@ -200,8 +201,14 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
-    shouldShowDueReminderIcon(status) {
-      return status === 'past_due';
+    shouldShowDueReminderIcon(reminderSentDate) {
+      if(!reminderSentDate) return true;
+
+      const now = DateTime.now();
+      const date = DateTime.fromISO(reminderSentDate);
+
+      const differenceInHours = now.diff(date, 'hours').hours;
+      return differenceInHours > 24;
     },
     async submitPastDueTimesheetReminder(timesheetId, date, employeeId) {
       try {
@@ -218,6 +225,7 @@ export default {
         });
       } finally {
         this.$set(this.mapLoading, timesheetId + date + employeeId, false);
+        this.getAndParseTimesheets();
       }
 
     },

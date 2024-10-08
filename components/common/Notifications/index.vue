@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-center">
-    <bib-spinner v-if="isLoading" :scale="2" variant="gray"></bib-spinner>
+    <bib-spinner v-if="isLoading" :scale="2" :variant="!isLightThemeCheck ? 'light' : 'dark'" :class="customClass"></bib-spinner>
     <bib-icon
       v-else
       :icon="iconName"

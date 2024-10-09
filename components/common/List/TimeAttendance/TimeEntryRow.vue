@@ -265,7 +265,7 @@ export default {
       let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
 
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toISO();
+        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toUTC().toISO();
       }
 
       return {

@@ -133,7 +133,7 @@
         <div>
           <template>
             <list-day
-              :listToday="getDailyTimeEntries"
+              :listToday="getFilteredTimeEntries"
               v-if="todayListView"
               @new-entry="handleNewEntryEvent"
               @edit-entry="handleEditEntry"
@@ -362,6 +362,10 @@ export default {
       getTimesheetToday: "timeattendance/getTimesheetToday",
     }),
 
+    getFilteredTimeEntries() {
+      return this.filterTimeEntries(this.getDailyTimeEntries);
+    },
+
     isTodayTimeEntryLocked() {
       return Boolean(this.getTodayDailyTimeEntries?.find((entry) => entry.activity === ACTIVITY_TYPE.IN && entry.status === TIMESHEET_STATUSES.APPROVED)) || this.isTodayTimesheetLocked;
     },
@@ -434,6 +438,21 @@ export default {
     registerFillDailyEntryListener() {
       this.$root.$on(FILL_DAILY_ENTRY_EVENT, () => {
         this.fillDailyTimeEntries();
+      });
+    },
+
+    filterTimeEntries(entries) {
+      let foundFirstIn = false;
+
+      return entries.filter(entry => {
+        if (entry.activity === 'in') {
+          if (!foundFirstIn) {
+            foundFirstIn = true;
+            return true;
+          }
+          return false;
+        }
+        return true;
       });
     },
     closeChangeHandler() {

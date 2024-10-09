@@ -20,8 +20,8 @@
       <template #cell(name)="data">
         <div class="d-flex align-center text-left gap-05 position-relative cursor-pointer">
           <div
-            v-on:mouseover="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            v-on:mouseover="$profiletab('id_' + data.value.id)"
+            v-on:mouseleave="$profiletab('id_' + data.value.id, true)"
           >
           <div class="avtar-contain">
             <bib-avatar
@@ -134,6 +134,7 @@ import {
 import { sortColumn } from "../../../utils/functions/table-sort";
 import { DateTime } from "luxon";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
+
 export default {
   props: {
     userList: {
@@ -213,11 +214,6 @@ export default {
       if (value === "Send Message") return this.sendMessage(data.value.userId);
       if (value === "Meet")
         return this.makeCall(data.value.userId, this.getUser.userId);
-    },
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
     },
   },
 };

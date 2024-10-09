@@ -14,8 +14,8 @@
         >
           <div
             class="cursor-pointer"
-            v-on:mouseover="profiletab('id_' + data.value.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+            v-on:mouseover="$profiletab('id_' + data.value.id)"
+            v-on:mouseleave="$profiletab('id_' + data.value.id, true)"
           >
           <div class="avtar-contain">
             <bib-avatar
@@ -293,12 +293,6 @@ export default {
     },
     mouseleave() {
       this.showTooltip = false;
-    },
-
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
     },
   },
 };

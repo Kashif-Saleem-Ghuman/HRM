@@ -21,8 +21,8 @@
         <div class="d-flex align-center text-left gap-05 position-relative cursor-pointer" @click.stop.prevent="$leaveDetail(data.value, this)">
           <div
             class="cursor-pointer"
-            v-on:mouseover="profiletab('id_' + data.value.employee.id)"
-            v-on:mouseleave="profiletab('id_' + data.value.employee.id, true)"
+            v-on:mouseover="$profiletab('id_' + data.keyI + data.value.employee.id)"
+            v-on:mouseleave="$profiletab('id_' + data.keyI + data.value.employee.id, true)"
           >
           <div class="avtar-contain">
             <bib-avatar
@@ -40,7 +40,7 @@
               size="2.7rem"
             ></bib-avatar>
           </div>
-            <div :id="'id_' + data.value.employee.id" class="userCard">
+            <div :id="'id_' + data.keyI + data.value.employee.id" class="userCard">
               <user-info-card
                 :user="data.value.employee"
                 @viewProfile="viewProfile(data.value.employee.id)"

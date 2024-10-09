@@ -88,8 +88,8 @@
                >
                  <div
                    class="cursor-pointer"
-                   v-on:mouseover="profiletab('id_' + item.id)"
-                   v-on:mouseleave="profiletab('id_' + item.id, true)">
+                   v-on:mouseover="$profiletab('id_' + item.id)"
+                   v-on:mouseleave="$profiletab('id_' + item.id, true)">
                    <div class="avtar-contain">
                    <bib-avatar
                      variant="secondary-sub3"
@@ -306,11 +306,6 @@ export default {
     viewProfile(id) {
        this.$router.push("/profile/" + id);
      },
-     profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
   },
   computed: {
     activeClass() {

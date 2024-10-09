@@ -20,24 +20,24 @@
     <template #cell(name)="data">
       <div class="d-flex align-center text-left gap-05 position-relative">
         <div
-          v-on:mouseover="profiletab('id_' + data.value.id)"
-          v-on:mouseleave="profiletab('id_' + data.value.id, true)"
+          v-on:mouseover="$profiletab('id_' + data.value.id)"
+          v-on:mouseleave="$profiletab('id_' + data.value.id, true)"
         >
-          <div  class="avtar-contain">
+          <div class="avtar-contain">
             <bib-avatar
-            variant="secondary-sub3"
-            :text="$getEmployeeInitials(data.value)"
-            size="2.3rem"
-            v-show="data.value.photo === null"
-          ></bib-avatar>
-          <bib-avatar
-            class="mt-auto mb-auto"
-            shape="circle"
-            :src="data.value.photo"
-            v-show="data.value.photo != null"
-            size="2.3rem"
-          >
-          </bib-avatar>
+              variant="secondary-sub3"
+              :text="$getEmployeeInitials(data.value)"
+              size="2.3rem"
+              v-show="data.value.photo === null"
+            ></bib-avatar>
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
+              :src="data.value.photo"
+              v-show="data.value.photo != null"
+              size="2.3rem"
+            >
+            </bib-avatar>
           </div>
           <div :id="'id_' + data.value.id" class="userCard">
             <user-info-card
@@ -138,6 +138,7 @@ import {
 import { formatHoursToHHMM } from "../../../../utils/functions/time";
 import { sortColumn } from "../../../../utils/functions/table-sort";
 import timezoneAbbr from "@/utils/constant/timezoneAbbreviations";
+// In your Vue component or another file
 
 import {
   sendMessage,
@@ -212,7 +213,9 @@ export default {
         "yyyy-MM-dd"
       );
       return (
-        data?.value?.activityReport?.in == null &&  !data?.value?.requests.length  && reportDate === currentDate
+        data?.value?.activityReport?.in == null &&
+        !data?.value?.requests.length &&
+        reportDate === currentDate
       );
     },
     async clockInReminder(employeeId) {
@@ -258,11 +261,11 @@ export default {
     },
 
     resetTableFields() {
-      this.tableFields.forEach(field => {
-        if(field.hasOwnProperty('header_icon')){
+      this.tableFields.forEach((field) => {
+        if (field.hasOwnProperty("header_icon")) {
           field.header_icon.isActive = false;
         }
-      })
+      });
     },
 
     getInOutActivityTime(employee, activityType) {
@@ -357,7 +360,12 @@ export default {
     },
     updateTotalWorkedHours(activityReport) {
       if (activityReport.total == 0 || !activityReport.total) {
-        if (activityReport.in == 0 || !activityReport.in || (activityReport.total == 0 && activityReport.out)) return "00:00";
+        if (
+          activityReport.in == 0 ||
+          !activityReport.in ||
+          (activityReport.total == 0 && activityReport.out)
+        )
+          return "00:00";
         const workedMinutes = this.calculateWorkedMinutes(activityReport.in);
         return this.getTotalHours(workedMinutes);
       } else {
@@ -365,7 +373,9 @@ export default {
       }
     },
     viewAttendance(id) {
-      this.$router.push("/profile/" + id + "/time-attendance-profile-tab?view=day");
+      this.$router.push(
+        "/profile/" + id + "/time-attendance-profile-tab?view=day"
+      );
     },
     viewProfile(id) {
       this.$router.push("/profile/" + id);
@@ -375,12 +385,6 @@ export default {
     },
     mouseleave() {
       this.showTooltip = false;
-    },
-
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
     },
   },
 };

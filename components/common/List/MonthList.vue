@@ -367,11 +367,6 @@ export default {
     mouseleave() {
       this.showTooltip = false;
     },
-    profiletab(name, isLeave) {
-      document.querySelector("#" + name).style.display = isLeave
-        ? "none"
-        : "block";
-    },
     getMonthTotal() {
       let totalHrs = 0;
       this.timesheetList.forEach((item) => {

@@ -19,8 +19,8 @@
         <div class="d-flex align-center text-left gap-05 position-relative">
           <div
             class="cursor-pointer"
-            v-on:mouseover="profiletab('id_' + data.keyI + data.value.employee.id)"
-            v-on:mouseleave="profiletab('id_' + data.keyI + data.value.employee.id, true)"
+            v-on:mouseover="$profiletab('id_' + data.keyI + data.value.employee.id)"
+            v-on:mouseleave="$profiletab('id_' + data.keyI + data.value.employee.id, true)"
           >
             <bib-avatar
               variant="secondary-sub3 font-w-600"

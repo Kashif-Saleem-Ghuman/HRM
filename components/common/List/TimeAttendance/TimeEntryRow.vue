@@ -47,6 +47,7 @@
     >
       <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
+    <loader :loading="loading"></loader>
   </div>
 </template>
 <script>
@@ -102,6 +103,7 @@ export default {
     return {
       newData: { ...this.entry, startTime: null, endTime: null },
       dateNow: DateTime.now().startOf('day'),
+      loading: false,
     };
   },
   computed: {
@@ -263,7 +265,7 @@ export default {
       let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
 
       if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toISO();
+        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toUTC().toISO();
       }
 
       return {
@@ -542,12 +544,14 @@ export default {
       this.$emit("delete-entry", this.newData.id);
     },
 
-    timeInputBlur() {
+    async timeInputBlur() {
+      this.loading = true;
       if (this.newData.id) {
-        this.editThisEntry();
+        await this.editThisEntry();
       } else {
-        this.makeNewTimeEntry();
+        await this.makeNewTimeEntry();
       }
+      this.loading = false;
     },
 
     startAndEndTimeValid() {

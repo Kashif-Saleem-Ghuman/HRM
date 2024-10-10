@@ -109,7 +109,7 @@ import {
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
 import { formatTime } from "@/utils/functions/clock_functions";
 import { submitTimesheet } from "@/utils/functions/functions_lib_api";
-import {getDateDiffInSeconds, getTimeFromDate, parseDate} from "../../../../utils/functions/dates";
+import {getDateDiffInSeconds, getTimeFromDate, isToday, parseDate} from "../../../../utils/functions/dates";
 
 export default {
   props: {
@@ -157,6 +157,7 @@ export default {
       activityIn: ACTIVITY_TYPE.IN,
       activityOut: ACTIVITY_TYPE.OUT,
       endTimeRecords: [],
+      startTimeRecords: [],
     };
   },
   computed: {
@@ -217,6 +218,13 @@ export default {
       })
     },
 
+    setStartTimeRecords(date, startDate) {
+      this.startTimeRecords.push({
+        date: date,
+        start: startDate,
+      })
+    },
+
     adjustEndTime(start, end) {
       const startDate = parseDate(start);
       const endDate = parseDate(end);
@@ -239,15 +247,28 @@ export default {
       return parseDate(start);
     },
 
-    handleClickTimeEntry(entryDetail, activity, timeEntry) {
+    endDateRecord(date) {
+      return this.endTimeRecords.find(record => record.date === date);
+    },
+    startDateRecord(date) {
+      return this.startTimeRecords.find(record => record.date === date);
+    },
 
-      if (!timeEntry && activity === ACTIVITY_TYPE.OUT) {
+    handleClickTimeEntry(entryDetail, activity, timeEntry) {
+      let startTime = entryDetail?.startDate ?? timeEntry?.start;
+      let endTime = entryDetail?.endDate ?? timeEntry?.end;
+
+
+      if(!timeEntry && activity === ACTIVITY_TYPE.IN && !isToday(entryDetail.date) && this.endDateRecord(entryDetail.date) === undefined){
+        this.setStartTimeRecords(entryDetail.date, entryDetail.startDate);
+        return;
+      }
+
+      if (!timeEntry && activity === ACTIVITY_TYPE.OUT && this.startDateRecord(entryDetail.date) === undefined) {
         this.setEndTimeRecords(entryDetail.date, entryDetail.endDate);
         return;
       }
 
-      let startTime = entryDetail?.startDate ?? timeEntry?.start;
-      let endTime = entryDetail?.endDate ?? timeEntry?.end;
 
       if (timeEntry) {
         startTime = this.adjustStartTime(startTime, endTime);
@@ -261,9 +282,18 @@ export default {
           activity: ACTIVITY_TYPE.IN
         });
       } else {
-        const endDateRecord = this.endTimeRecords.find(record => record.date === entryDetail.date)?.end;
-        startTime = this.adjustStartTime(startTime, endTime);
-        endTime = this.adjustEndTime(startTime, endDateRecord);
+        let endDateRecord = null;
+        let startDateRecord = null;
+
+        if(activity === ACTIVITY_TYPE.OUT){
+          startDateRecord = this.startDateRecord(entryDetail.date)?.start;
+        }
+        if(activity === ACTIVITY_TYPE.IN) {
+          endDateRecord = this.endDateRecord(entryDetail.date)?.end;
+        }
+
+        startTime = this.adjustStartTime(startDateRecord || startTime, endTime);
+        endTime = this.adjustEndTime(startTime, endDateRecord || endTime);
 
         this.makeNewTimeEntry(
           ACTIVITY_TYPE.IN,

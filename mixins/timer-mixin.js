@@ -84,8 +84,15 @@ export default {
     async handleStartTimer() {
       if (this.active) return;
       this.loading = true;
-      await this.$store.dispatch("timeattendance/startTimer");
-      await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      try {
+        await this.$store.dispatch("timeattendance/startTimer");
+        await this.$store.dispatch("timeattendance/setDailyTimeEntries");
+      } catch (errorMessage) {
+        this.$openPopupNotification(
+          {text:errorMessage, variant:'danger'}
+        )
+        this.$nuxt.$emit("timer-stop");
+      }
       await this.$nuxt.$emit(FILL_DAILY_ENTRY_EVENT);
       this.loading = false;
     },

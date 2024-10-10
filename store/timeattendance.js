@@ -151,33 +151,12 @@ export const actions = {
   async startTimer({ commit, dispatch }) {
     try {
       await startTimer()
-      dispatch("setTimerData")
-    } catch (error) {
-      console.error(error);
+    } catch (errorMessage) {
+      throw errorMessage;
     }
     commit("SET_TIMER_DATA", { timer: {} })
   },
 
-  async setTimerData(ctx, employeeId = '') {
-    this.loading = true;
-    const defaultUrl = `${process.env.API_URL}/timers`;
-    const url = employeeId ? defaultUrl + `?employeeId=${employeeId}` : defaultUrl;
-    try {
-      const leaveVacations = await axios.get(
-        url,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-      ctx.commit("SET_TIMER_DATA", { timer: leaveVacations.data });
-      return leaveVacations.data;
-    } catch (e) {
-      console.log(e);
-    }
-    this.loading = false;
-  },
 
   resetTimeAttendanceEntries(ctx) {
     ctx.commit("RESET_TIME_ATTENDANCE_ENTRIES");
@@ -217,7 +196,7 @@ export const actions = {
       }
       return data
     } catch (e) {
-      console.log(e);
+      throw e.response?.data?.message;
     }
   },
 

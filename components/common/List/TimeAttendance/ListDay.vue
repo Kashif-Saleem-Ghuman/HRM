@@ -194,7 +194,7 @@ export default {
     this.getSummary()
     const breaks = this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK);
     const lastBreak = breaks[breaks.length-1];
-    if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3)
+    if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 50)
     {
       const newBreakEntry = {
         activity: ACTIVITY_TYPE.BREAK,
@@ -217,7 +217,7 @@ export default {
     'entries': {
       handler(breaks) {
         const lastBreak = breaks[breaks.length - 1];
-        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 3)
+        if (lastBreak.start && lastBreak.end && this.entries.filter(item=> item.activity === ACTIVITY_TYPE.BREAK).length < 50)
         {
           const newBreakEntry = {
             activity: ACTIVITY_TYPE.BREAK,

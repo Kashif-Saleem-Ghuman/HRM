@@ -80,9 +80,7 @@
       </template>
       <template #cell(department)="data">
         <div class="justify-between cursor-pointer">
-          <span>{{
-            data.value.department
-          }}</span>
+          <span>{{ getDepartmentsString(data?.value?.departments) }}</span>
         </div>
       </template>
       <!-- <template #cell(dateOfBirth)="data">
@@ -119,6 +117,7 @@ import {
 import { sortColumn } from "../../../utils/functions/table-sort";
 import { DateTime } from "luxon";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
+import { getDepartmentsString } from "../../../utils/functions/employees-helper.js";
 export default {
   props: {
     userList: {
@@ -160,6 +159,7 @@ export default {
     }),
   },
   methods: {
+    getDepartmentsString,
     sendMessage,
     handleItemClick_Table,
     meetLink,

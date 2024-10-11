@@ -53,7 +53,10 @@ export async function getEmployees(params = {}) {
     const url = `/employees`;
     const { data } = await hrmApiAxiosInstance.get(url, {
       ...config,
-      params: { ...params },
+      params: { 
+        include: "departments,teams",
+        ...params
+      },
     });
     return data;
   } catch (e) {

@@ -112,9 +112,9 @@
                               type="text"
                               label="Department"
                               field-key="department"
-                              :value="form.department"
+                              :value="getDepartmentsString(form.departments)"
                               placeholder=""
-                              :disabled="isDisabled"
+                              :disabled="true"
                             ></form-input>
                           </div>
                         </div>
@@ -178,6 +178,7 @@ import { updateEmployee } from "@/utils/functions/api_call/employees";
 import { mapGetters } from "vuex";
 import { getEmployee } from "@/utils/functions/api_call/employees.js";
 import { USER_ROLES } from "@/utils/constant/Constant.js";
+import { getDepartmentsString } from "../../utils/functions/employees-helper";
 
 export default {
   props: {
@@ -222,6 +223,7 @@ export default {
     };
   },
   methods: {
+    getDepartmentsString,
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
     },

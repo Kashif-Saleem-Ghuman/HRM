@@ -211,18 +211,23 @@ export default {
 
 
 
+    updateTimeRecords(recordType, date, timeValue) {
+      const findIndex = this[recordType].findIndex((dateRecord) => dateRecord.date === date);
+      if (findIndex !== -1) {
+        this[recordType][findIndex] = { date: date, time: timeValue };
+      } else {
+        this[recordType].push({
+          date: date,
+          time: timeValue,
+        });
+      }
+    },
     setEndTimeRecords(date, endDate) {
-      this.endTimeRecords.push({
-        date: date,
-        end: endDate,
-      })
+      this.updateTimeRecords('endTimeRecords', date, endDate);
     },
 
     setStartTimeRecords(date, startDate) {
-      this.startTimeRecords.push({
-        date: date,
-        start: startDate,
-      })
+      this.updateTimeRecords('startTimeRecords', date, startDate);
     },
 
     adjustEndTime(start, end) {
@@ -286,10 +291,10 @@ export default {
         let startDateRecord = null;
 
         if(activity === ACTIVITY_TYPE.OUT){
-          startDateRecord = this.startDateRecord(entryDetail.date)?.start;
+          startDateRecord = this.startDateRecord(entryDetail.date)?.time;
         }
         if(activity === ACTIVITY_TYPE.IN) {
-          endDateRecord = this.endDateRecord(entryDetail.date)?.end;
+          endDateRecord = this.endDateRecord(entryDetail.date)?.time;
         }
 
         startTime = this.adjustStartTime(startDateRecord || startTime, endTime);

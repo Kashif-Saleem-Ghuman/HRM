@@ -69,12 +69,12 @@
       </template>
       
       <template
-        v-for="(day, dayIndex) in employeeData"
+        v-for="(day,) in employeeData"
         #[`cell(${day.key})`]="data"
       >
         <div>
           <div class="justify-between">
-            <span>{{ getValue(data.value?.[day.key]) }}</span>
+            <span>{{ getEmployeeDataValue(data.value, day.key) }}</span>
           </div>
         </div>
       </template>
@@ -134,6 +134,7 @@ import {
 import { sortColumn } from "../../../utils/functions/table-sort";
 import { DateTime } from "luxon";
 import { DATETIME_FORMAT } from "@/utils/functions/datetime-input";
+import { getDepartmentsString } from "../../../utils/functions/employees-helper.js";
 
 export default {
   props: {
@@ -188,8 +189,11 @@ export default {
       field.header_icon.isActive = !field.header_icon.isActive;
       this.sortByField = field;
     },
-    getValue(value) {
-      return value ?? "--";
+    getEmployeeDataValue(data, key) {
+      if (key === 'department') {
+        return getDepartmentsString(data?.departments)
+      }
+      return data[key];
     },
     headerColumnClick(column) {
       this.sortColumn(column);

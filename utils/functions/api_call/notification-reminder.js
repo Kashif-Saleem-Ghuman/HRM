@@ -21,11 +21,11 @@ export async function clockInReminder({ employeeIds }) {
 }export async function submitTimesheetReminder({ timesheetIds }) {
   try {
     const url = "/employees/reminders/submit-timesheet";
-    const timesheetId = { timesheetIds };
+    const payload = { timesheetIds: [timesheetIds] };
     const config = createConfig();
     const rejectLeaveVacationsAdmin = await hrmApiAxiosInstance.post(
       url,
-      timesheetId,
+      payload,
       config
     );
     this.$openPopupNotification({

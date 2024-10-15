@@ -90,9 +90,6 @@ export const actions = {
       // var data = leave.data.requests
       return sortedLeave;
     } catch (e) {
-      if (e.response.status === 500) {
-        return window.open("/not-found", "_self");
-      }
       console.log(e);
     }
   },

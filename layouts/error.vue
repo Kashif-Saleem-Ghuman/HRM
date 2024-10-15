@@ -6,6 +6,7 @@
 
 <script>
 import notFound from "../components/common/PageNotFound";
+import ServerError from "../pages/server-error/index.vue";
 export default {
   name: "error",
   layout: "default", // optional
@@ -19,6 +20,8 @@ export default {
     errorPage() {
       if (this.error.statusCode == 404 || this.error.statusCode == 403) {
         return notFound;
+      }else if(this.error.statusCode === 500) {
+        return ServerError;
       }
     },
   },

@@ -51,7 +51,8 @@ export default {
     '~/plugins/hiredate.js',
     '~/plugins/timeEntryClass.js',
     '~/plugins/hideMyAccountDropMenu.js',
-    '~/plugins/dropdownUtils.js'
+    '~/plugins/dropdownUtils.js',
+    '~/plugins/axios.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

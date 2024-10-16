@@ -126,13 +126,10 @@
         getUserRole: "token/getUserRole",
       }),
       showTable() {
-        return !this.loading && this.leaveVacationDataUser && this.leaveVacationDataUser?.length;
+        return !this.loading && this.is_data_fetched && this.leaveVacationDataUser?.length > 0;
       },
       showNoData() {
-        return (
-          !this.loading &&
-          (!this.leaveVacationDataUser || !this.leaveVacationDataUser?.length)
-        );
+        return !this.loading && this.is_data_fetched && (!this.leaveVacationDataUser || this.leaveVacationDataUser.length === 0);
       },
     },
     async mounted() {
@@ -148,7 +145,6 @@
       }).then((result) => {
         if (result) {
           this.allowanceLeavesDetailedData = result;
-          this.is_data_fetched = true;
         } else {
           this.$openPopupNotification(this.$error.common_message);
         }
@@ -171,6 +167,7 @@
             this.$openPopupNotification(this.$error.common_message);
           } else {
             this.leaveVacationDataUser = result;
+            this.is_data_fetched = true;
           }
         });
       if (this.$route.query?.request) {

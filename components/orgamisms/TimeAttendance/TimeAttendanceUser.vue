@@ -647,7 +647,8 @@ export default {
             this.timesheet = new Timesheet(result.timesheet);
           }
         }).catch(error => {
-          console.error('error', error);
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+          console.error('errorjsudisdksjksdsjdj', error);
         });
 
       this.parseTimeEntries();

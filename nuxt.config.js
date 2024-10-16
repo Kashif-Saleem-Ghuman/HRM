@@ -52,7 +52,8 @@ export default {
     '~/plugins/timeEntryClass.js',
     '~/plugins/hideMyAccountDropMenu.js',
     '~/plugins/dropdownUtils.js',
-    '~/plugins/axios.js'
+    '~/plugins/axios.js',
+    '~/plugins/apiError.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

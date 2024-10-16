@@ -166,7 +166,7 @@ export const actions = {
     try {
       const reqDate = date ?? DateTime.now().toISODate();
       const startOfDay = DateTime.fromISO(reqDate).startOf('day').toUTC().toISO();
-      const { data } = await this.$axios.get(
+      const { data } = await axios.get(
         process.env.API_URL + `/timesheets/daily?date=${reqDate}`,
         {
           headers: {
@@ -196,7 +196,7 @@ export const actions = {
       }
       return data
     } catch (e) {
-      // throw e.response?.data?.message;
+      throw e;
     }
   },
 

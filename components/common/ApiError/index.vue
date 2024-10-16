@@ -1,14 +1,24 @@
 <template>
   <div id="error-404-wrapper" class="shape-rounded" :class="themeClassCommon">
-    <h2 id="error-404-heading1">An unexpected server error occurred</h2>
-    <p>Please try again later or contact support if the issue persists.</p>
+    <h2 id="error-404-heading1">{{ title }}</h2>
+    <p>{{ details }}</p>
     <NuxtLink :to="getUserRole === 'ADMIN' ? '/dashboard/' : '/home/'" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Redirect to Home</NuxtLink>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
-
+  name: "ApiError",
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    details: {
+      type: String,
+      default: "",
+    },
+  },
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",

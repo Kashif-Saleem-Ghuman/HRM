@@ -196,7 +196,7 @@ export const actions = {
       }
       return data
     } catch (e) {
-      throw e.response?.data?.message;
+      // throw e.response?.data?.message;
     }
   },
 

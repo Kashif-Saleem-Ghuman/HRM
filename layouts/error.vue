@@ -6,7 +6,8 @@
 
 <script>
 import notFound from "../components/common/PageNotFound";
-import ServerError from "../pages/server-error/index.vue";
+import ServerError from "../components/common/PageNotFound/ServerError.vue";
+import NetworkError from "../components/common/PageNotFound/NetworkError.vue";
 export default {
   name: "error",
   layout: "default", // optional
@@ -18,10 +19,13 @@ export default {
   },
   computed: {
     errorPage() {
+      console.log('errorPage', this.error);
       if (this.error.statusCode == 404 || this.error.statusCode == 403) {
         return notFound;
-      }else if(this.error.statusCode === 500) {
+      }else if(this.error.statusCode === 500 || this.error.statusCode === 400) {
         return ServerError;
+      } else if(this.error.statusCode === 503) {
+        return NetworkError;
       }
     },
   },

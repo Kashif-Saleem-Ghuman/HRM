@@ -646,6 +646,8 @@ export default {
           if (result?.timesheet?.status) {
             this.timesheet = new Timesheet(result.timesheet);
           }
+        }).catch(error => {
+          console.error('error', error);
         });
 
       this.parseTimeEntries();

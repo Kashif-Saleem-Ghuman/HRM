@@ -91,6 +91,7 @@ export const actions = {
       return sortedLeave;
     } catch (e) {
       console.log(e);
+      throw e;
     }
   },
   setActiveFromToDate(context, payload) {

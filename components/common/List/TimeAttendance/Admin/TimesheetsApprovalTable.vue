@@ -36,7 +36,7 @@
           </div>
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
-              v-if="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
+              v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
               @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
               :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
               iconName="send-solid"

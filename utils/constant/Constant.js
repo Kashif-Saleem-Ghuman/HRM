@@ -97,6 +97,7 @@ export const TABLE_HEAD = {
     {
       key: "email",
       label: "Email",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -107,6 +108,7 @@ export const TABLE_HEAD = {
     {
       key: "phone",
       label: "Phone number",
+      width: `${100 / 7}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -117,6 +119,7 @@ export const TABLE_HEAD = {
     {
       key: "jobTitle",
       label: "Job Title",
+      width: `${100 / 7.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -127,6 +130,7 @@ export const TABLE_HEAD = {
     {
       key: "department",
       label: "Department",
+      width: `${100 / 6.5}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -137,6 +141,7 @@ export const TABLE_HEAD = {
     {
       key: "dateOfBirth",
       label: "Birthday",
+      width: `${100 / 9}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,
@@ -147,6 +152,7 @@ export const TABLE_HEAD = {
     {
       key: "hiredate",
       label: "Hire Date",
+      width: `${100 / 4}%`,
       header_icon: {
         icon: "long-arrow-up",
         isActive: false,

@@ -177,7 +177,7 @@ export default {
     };
   },
   beforeDestroy() {
-    this.resetTableFields();
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
   },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
@@ -259,15 +259,6 @@ export default {
 
       return "Absent";
     },
-
-    resetTableFields() {
-      this.tableFields.forEach((field) => {
-        if (field.hasOwnProperty("header_icon")) {
-          field.header_icon.isActive = false;
-        }
-      });
-    },
-
     getInOutActivityTime(employee, activityType) {
       return (
         this.getInOutValue(employee?.activityReport?.[activityType]) +

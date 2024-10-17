@@ -141,11 +141,15 @@ export default {
     },
     async fetchFiles() {
       this.loading = true;
-      this.getFiles(this.id).then((result) => {
+      try {
+        this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.filesUploaded.reverse();
-        this.loading = false;
       });
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
+      this.loading = false;
     },
     handleFileClick(file) {
       this.downloadFile(file);

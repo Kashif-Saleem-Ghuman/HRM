@@ -171,6 +171,10 @@ export default {
         } else {
           this.leaveVacationDataUser = result;
         }
+      })
+      .catch((error) => {
+        console.log('leavevacationUser_error', error);
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       });
     if (this.$route.query?.request) {
       this.addLeaves(this.$route.query?.request);
@@ -210,6 +214,9 @@ export default {
           } else {
             this.leaveVacationDataUser = result;
           }
+        })
+        .catch((error) => {
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
         });
     },
     closeconfirmastionMessageModal() {
@@ -242,6 +249,8 @@ export default {
             } else {
               this.leaveVacationDataUser = result;
             }
+          }).catch((error) => {
+            this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
           });
         this.getUserLeavesDetailUser({
           from: this.getformToDate.from,

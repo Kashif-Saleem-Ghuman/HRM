@@ -8,6 +8,7 @@
 import { mapGetters } from "vuex";
   export default {
     name: "PageNotFound",
+    props: {},
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",

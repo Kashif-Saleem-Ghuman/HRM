@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import notFound from "../components/common/PageNotFound";
 import ApiError from "../components/common/ApiError/index.vue";
+import PageNotFound from "../components/common/PageNotFound/index.vue";
 export default {
   name: "error",
   layout: "default", // optional
@@ -24,7 +24,10 @@ export default {
     errorPage() {
       if (this.error.statusCode == 404 || this.error.statusCode == 403)
       {
-        return notFound;
+        return {
+          component: PageNotFound,
+          props: {}
+        };
       }
       else if(this.error.statusCode === 500 ||
         this.error.statusCode === 400 ||

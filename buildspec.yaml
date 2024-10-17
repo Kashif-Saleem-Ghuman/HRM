@@ -17,9 +17,11 @@ phases:
       - echo $PROJECT_NAME
       - echo $BRANCH_NAME
       - |
-        if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "main" ]; then
+        if echo "$BRANCH_NAME" | grep -q -e "master" -e "main"; then
           echo "On dev branch, performing backup..."
-          aws s3 cp /codebuild/output s3://biztree-git-backup-bucket/$PROJECT_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H-%M-%S)/ --recursive
+          zip_file="/codebuild/output/$PROJECT_NAME-$(date +%Y-%m-%d_%H-%M-%S).zip"
+          zip -r $zip_file /codebuild/output
+          aws s3 cp $zip_file s3://biztree-git-backup-bucket/$PROJECT_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H-%M-%S)/
           echo "s3 backup complete"
         else
           echo "Not on dev branch, skipping backup."

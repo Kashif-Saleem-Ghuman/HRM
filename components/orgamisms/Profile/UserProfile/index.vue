@@ -103,7 +103,6 @@ export default {
         this.form = employee;
         }
       } catch (error) {
-        console.log('employeeee___error', error);
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
       this.loading = false;

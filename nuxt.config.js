@@ -52,7 +52,6 @@ export default {
     '~/plugins/timeEntryClass.js',
     '~/plugins/hideMyAccountDropMenu.js',
     '~/plugins/dropdownUtils.js',
-    '~/plugins/axios.js',
     '~/plugins/apiError.js'
   ],
 

@@ -157,7 +157,7 @@ export default {
     await this.$store.dispatch("employee/setActiveUser");
   },
   beforeDestroy() {
-    this.resetTableFieldsHeaderIcon()
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
   },
   computed: {
     leavePendingList() {
@@ -261,14 +261,6 @@ export default {
         "isCollapsed",
         !this.collapseObj[index].isCollapsed
       );
-    },
-    resetTableFieldsHeaderIcon() {
-      this.tableFields.forEach(field => {
-        if(field.hasOwnProperty('header_icon')) {
-          field.header_icon.isActive = false;
-          field.header_icon.icon = field.header_icon.isActive === false ? "long-arrow-up" : "long-arrow-down";
-        }
-      });
     },
   },
 };

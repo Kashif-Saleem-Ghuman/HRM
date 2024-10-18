@@ -17,6 +17,7 @@
         :number="' #'+index"
         :listToday="listToday"
         :isTimesheetLocked="disabled"
+        :timeEntries="entries"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
       <div class="row total">

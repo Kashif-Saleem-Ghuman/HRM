@@ -96,6 +96,9 @@ export default {
       return sortColumn({ items: this.leaveData, field: this.sortByField });
     },
   },
+  beforeDestroy() {
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
   methods: {
     async leaveDetail(item) {
       // event.stopPropagation();

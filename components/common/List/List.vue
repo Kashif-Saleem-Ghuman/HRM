@@ -176,6 +176,9 @@ export default {
       getUser: "employee/GET_ACTIVE_USER",
     }),
   },
+  beforeDestroy() {
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
   methods: {
     sendMessage,
     handleItemClick_Table,

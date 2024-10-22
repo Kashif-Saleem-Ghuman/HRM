@@ -171,6 +171,9 @@ export default {
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
   },
+  beforeDestroy() {
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.listPending;

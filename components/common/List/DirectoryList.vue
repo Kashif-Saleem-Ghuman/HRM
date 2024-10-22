@@ -139,6 +139,9 @@ export default {
   created() {
     this.$store.dispatch("teams/setTeamListOptions");
   },
+  beforeDestroy() {
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
   computed: {
     employees() {
       if (!this.sortByField) return this.userList;

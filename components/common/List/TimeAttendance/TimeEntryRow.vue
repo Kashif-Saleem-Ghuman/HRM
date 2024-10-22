@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    timeEntries: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -249,29 +253,65 @@ export default {
       }
       return this.todayDate;
     },
+
+    adjustStartDate(startDate, isInEntryEndNextDay) {
+      if(isInEntryEndNextDay) return startDate.plus({ day: 1 }).toUTC().toISO();
+      return startDate.toUTC().toISO();
+    },
+
+    adjustEndDate(endDate, isInEntryEndNextDay) {
+      if(isInEntryEndNextDay) return endDate.plus({ day: 1 }).toUTC().toISO();
+      return endDate.toUTC().toISO();
+    },
+
+    isClockEntryEndNextDay(inEntry, date) {
+      if(!inEntry) return false;
+      const inEntryEndDateTime = DateTime.fromISO(inEntry?.end);
+      const inEntryEndDate = inEntryEndDateTime.setZone('system');
+      const currentDate = DateTime.fromFormat(date, "yyyy-MM-dd");
+      return inEntryEndDate.startOf('day') > currentDate.startOf('day');
+    },
+
+    isBreakStartLessThanClockStart(inEntry, startDate) {
+      if(!inEntry || this.entry.activity !== ACTIVITY_TYPE.BREAK) return false;
+      const inEntryStartDate = DateTime.fromISO(inEntry?.start);
+      return startDate < inEntryStartDate;
+    },
+
     calculateDates() {
       const date = DateTime.fromJSDate(new Date(this.todayDate)).toFormat("yyyy-MM-dd");
 
-      const startDate = DateTime.fromFormat(`${date} ${this.startTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
+      let startDate = DateTime.fromFormat(`${date} ${this.startTime}`, "yyyy-MM-dd HH:mm");
+
+      const inEntry = this.timeEntries.find(entry => entry.activity === ACTIVITY_TYPE.IN);
+      
+      let isInEntryEndNextDay = false;
+      
+      if(inEntry && this.entry.activity === ACTIVITY_TYPE.BREAK){
+        isInEntryEndNextDay = this.isClockEntryEndNextDay(inEntry, date) && this.isBreakStartLessThanClockStart(inEntry, startDate);
+      }
+
+
+      
 
       if (!this.endTime) {
         return {
           date,
-          startDate,
+          startDate: this.adjustStartDate(startDate, isInEntryEndNextDay),
           endDate: null,
         };
       }
 
-      let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm").toUTC().toISO();
+      let endDate = DateTime.fromFormat(`${date} ${this.endTime}`, "yyyy-MM-dd HH:mm")
 
-      if (!isEndTimeOnSameDay(this.startTime, this.endTime)) {
-        endDate = DateTime.fromISO(endDate).plus({ day: 1 }).toUTC().toISO();
+      if (!isEndTimeOnSameDay(this.startTime, this.endTime) && !this.isBreakStartLessThanClockStart(inEntry, startDate)) {
+        endDate = DateTime.fromISO(endDate).plus({ day: 1 });
       }
 
       return {
         date,
-        startDate,
-        endDate
+        startDate: this.adjustStartDate(startDate, isInEntryEndNextDay),
+        endDate: this.adjustEndDate(endDate, isInEntryEndNextDay),
       };
     },
     async editThisEntry() {

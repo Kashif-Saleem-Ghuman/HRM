@@ -158,7 +158,7 @@ export default {
       })),
       tableFields: TABLE_HEAD.tHeadTimesheet,
       employees: [],
-      loading: true,
+      loading: false,
       deleteModalContent: "",
       confirmastionMessageModal: false,
       variantButton: "",
@@ -188,9 +188,11 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.addTypeToTimesheetStatusOptions();
-    this.getAndParseTimesheets();
+    this.loading = true;
+    this.employees = await this.getAndParseTimesheets();
+    this.loading = false;
   },
   methods: {
     formatTime,
@@ -224,8 +226,9 @@ export default {
           variant: "danger"
         });
       } finally {
+        
+        this.employees = await this.getAndParseTimesheets();
         this.$set(this.mapLoading, timesheetId + date + employeeId, false);
-        this.getAndParseTimesheets();
       }
 
     },
@@ -260,7 +263,9 @@ export default {
       } else {
         await approvePastDueTimesheet({ id, date, employeeId });
       }
-      this.getAndParseTimesheets();
+      this.loading = true;
+      this.employees = await this.getAndParseTimesheets();
+      this.loading = false;
     },
 
     cancelRejectRequest() {
@@ -303,17 +308,19 @@ export default {
         }
       }
 
-      this.getAndParseTimesheets();
+      this.loading = true;
+      this.employees = await this.getAndParseTimesheets();
+      this.loading = false;
     },
 
     async getAndParseTimesheets() {
-      const { searchString } = this;
 
-      this.loading = true;
-      const { from, to } = this.dates;
-      if (!from || !to) return;
+      try {
+        const { searchString } = this;
+        const { from, to } = this.dates;
+        if (!from || !to) return;
 
-      const employees = await fetchTimesheetsFunctionMap[this.type]({
+      let employees = await fetchTimesheetsFunctionMap[this.type]({
         from,
         to,
         searchString,
@@ -326,14 +333,14 @@ export default {
         });
       });
 
-      this.employees = employees;
+      employees = employees;
 
       function getWeekdayIndex(dateString) {
           const date = new Date(dateString);
           return date.getDay();
       }
 
-      this.employees.forEach(employee => {
+      employees.forEach(employee => {
           employee.timesheets.forEach(timesheet => {
               timesheet.timeEntries.forEach(timeEntry => {
                   const weekdayIndex = getWeekdayIndex(timeEntry.start);
@@ -344,10 +351,15 @@ export default {
                   }
               });
           });
-      });
-      this.loading = false;
-      this.$emit("update:requestData", this.employees);
-      this.$emit('update:isStatusUpdated', false);
+        });
+        this.$emit("update:requestData", this.employees);
+        this.$emit('update:isStatusUpdated', false);
+
+        return employees;
+      } catch (error) {
+        console.error("Error fetching timesheets:", error);
+      }
+      
     },
 
     redirectToProfile(userId, value, index) {
@@ -471,19 +483,25 @@ export default {
   watch: {
     dates: {
       deep: true,
-      handler: function (newVal, oldVal) {
+      handler: async function (newVal, oldVal) {
         //To make sure the dates really changed, avoid making useless api calls
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-          this.getAndParseTimesheets();
+          this.loading = true;
+          this.employees = await this.getAndParseTimesheets();
+          this.loading = false;
         }
       },
     },
 
-    searchString(value) {
-      this.getAndParseTimesheets();
+    async searchString(value) {
+      this.loading = true;
+      this.employees = await this.getAndParseTimesheets();
+      this.loading = false;
     },
-    isStatusUpdated(value) {
-      this.getAndParseTimesheets();
+    async isStatusUpdated(value) {
+      this.loading = true;
+      this.employees = await this.getAndParseTimesheets();
+      this.loading = false;
       this.allChecked = false;
       this.$emit("update:requestData", this.employees);
     },

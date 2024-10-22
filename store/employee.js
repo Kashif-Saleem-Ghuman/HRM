@@ -182,6 +182,7 @@ export const actions = {
       if (e.response.status === 401) {
         redirectToLogin()
       };
+      throw e;
     }
   },
 };

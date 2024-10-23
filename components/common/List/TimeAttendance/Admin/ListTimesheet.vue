@@ -76,11 +76,14 @@
         </div>
       </template>
 
-      <template v-for="day in weekDays" #[`cell(${day.value})`]="data">
+      <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <chips
-          :key="day.value"
-          :title="getWeekdayValue(data.value.weekData, day)"
-          :class="$getWeekdayClassNames(data.value.weekData, day)"
+          :key="`${value.day}-${Math.random()}`"
+          :title="getTimesheetDayValue(data.value, value)"
+          :leaveTypeHighlighterText="getLeaveTypeValue(data.value, value)"
+          :className="[$getDayClassName(data.value[value.day], data.value, value)]"
+          :leaveHighlighter="getLeaveTypeValue(data.value, value) ? true : false"
+              :notifyClass="[$getHightlighterClass(data.value[value.day], data.value.weekData, value)]"
         ></chips>
       </template>
 
@@ -177,8 +180,8 @@ export default {
       filteredData: [],
       TIMESHEET_STATUS,
       weekDays: WEEK_DAY.map((day) => ({
-        ...day,
-        value: day.value.substring(0, 3),
+        day: day.value.substring(0, 3),
+        index: day.weekday
       })),
       sortByField: null,
       mapLoading: {}
@@ -228,6 +231,42 @@ export default {
         return "Rejected";
       }
       return title;
+    },
+
+    getLeaveTypeValue(data, day){
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data?.weekData;
+      const dayValue = data.weekData[weekIndex]?.totalHours;
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() +  leave?.type.slice(1);;
+        if (isValidTime) {
+          return `${leaveType}`;
+        }
+      }
+    },
+    getTimesheetDayValue(data, day) {
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data.weekData;
+      const dayValue = data.weekData[weekIndex]?.totalHours;
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
+
+        if (isValidTime) {
+          return `${formattedTime}`;
+        }
+
+        return leaveType;
+      }
+
+      if (!dayValue) return '--';
+
+      return isValidTime ? formattedTime : '--';
     },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {

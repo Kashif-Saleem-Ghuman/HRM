@@ -9,7 +9,6 @@
         variant,
         className,
       ]"
-      :title="chipTitle"
       :style="maxWidth"
       class="chip-wrapper"
       @click="$emit('on-click')"
@@ -96,7 +95,7 @@ export default {
       default: null,
     },
     notifyClass:{
-      type: String,
+      type: String | Array,
       default: null,
     },
     leaveTypeHighlighterText:{

@@ -117,6 +117,16 @@ export default {
       } 
     
 
+      timesheets.forEach((employee) => {
+        const { leavesByDate } = employee;
+        const timesheet = employee?.timesheets[0];
+
+        const timesheetDate = DateTime.fromISO(timesheet?.start, { zone: "utc" }).toISODate();
+
+        const timesheetLeaves = leavesByDate?.[timesheetDate]
+        employee.weekData.leaves = timesheetLeaves
+      });
+    
       this.timesheetsList = timesheets;
       this.loading = false;
     },

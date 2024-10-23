@@ -51,9 +51,12 @@
           <template>
             <chips
               :key="`${value.day}-${Math.random()}`"
-              :title="data.value[value.day] ? formatTime(data.value[value.day], false) : '--'"
-              :className="[$getDayClassName(data.value[value.day])]"
+              :title="getTimesheetDayValue(data.value, value)"
+              :leaveTypeHighlighterText="getLeaveTypeValue(data.value, value)"
+              :className="[$getDayClassName(data.value[value.day], data.value, value)]"
               @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
+              :leaveHighlighter="getLeaveTypeValue(data.value, value) ? true : false"
+              :notifyClass="[$getHightlighterClass(data.value[value.day], data.value, value)]"
             ></chips>
           </template>
       </template>
@@ -203,6 +206,43 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
+    getLeaveTypeValue(data, day){
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() +  leave?.type.slice(1);;
+        if (isValidTime) {
+          return `${leaveType}`;
+        }
+      }
+    },
+    getTimesheetDayValue(data, day) {
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
+
+        if (isValidTime) {
+          return `${formattedTime}`;
+        }
+
+        return leaveType;
+      }
+
+      if (!dayValue) return '--';
+
+      return isValidTime ? formattedTime : '--';
+    }
+    ,
+
     shouldShowDueReminderIcon(reminderSentDate) {
       if(!reminderSentDate) return true;
 
@@ -327,9 +367,13 @@ export default {
       });
 
       employees.forEach((employee) => {
+        const { leavesByDate } = employee
         employee.timesheets.forEach((timesheet) => {
           const parser = new TimesheetParser(timesheet);
           parser.parse("hours");
+          const timesheetDate = DateTime.fromISO(timesheet.start, { zone: "utc" }).toISODate();
+          const timesheetLeaves = leavesByDate?.[timesheetDate]
+          timesheet.leaves = timesheetLeaves
         });
       });
 

@@ -42,7 +42,7 @@
           <chips
             :key="`${value.day}-${Math.random()}`"
             :title="getTimesheetDayValue(data.value, value)"
-            :className="[$getDayClassName(data.value[value.day])]"
+            :className="[$getDayClassName(data.value[value.day], data.value, value)]"
             @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
           ></chips>
         </template>
@@ -229,12 +229,13 @@ export default {
     
     getTimesheetDayValue(data, day) {
       const { day: weekDay, index: weekIndex } = day;
+      console.log(data, "data")
       const { leaves } = data
 
       if (Object.keys(leaves ?? {}).length) {
         const leave = leaves[weekIndex]
         if (leave) {
-          return leave.type
+          return leave.type.charAt(0).toUpperCase() + leave.type.slice(1);
         }
       }
 

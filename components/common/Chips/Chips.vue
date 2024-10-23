@@ -9,6 +9,7 @@
         variant,
         className,
       ]"
+      :title="chipTitle"
       :style="maxWidth"
       class="chip-wrapper"
       @click="$emit('on-click')"
@@ -29,7 +30,11 @@
         class="ml-05"
         style="margin-right: -5px"
       ></bib-icon>
+      
     </div>
+    <div class="position-relative" v-if=leaveHighlighter>
+        <div class="position-absolute notify-highlighter" :class="notifyClass"><span>{{ leaveTypeHighlighterText }}</span></div>
+      </div>
   </div>
 </template>
 <!-- :class="[
@@ -84,8 +89,20 @@ export default {
       default: false,
     },
     centerAlign: {
-      type: String,
+      type: String | Boolean,
     },
+    leaveHighlighter:{
+      type: Boolean,
+      default: null,
+    },
+    notifyClass:{
+      type: String,
+      default: null,
+    },
+    leaveTypeHighlighterText:{
+      type: String,
+      default: null,
+    }
   },
   data() {
     return {};
@@ -343,4 +360,38 @@ export default {
 .padding-0 {
   padding: 0 !important;
 }
+.notify-highlighter {
+  right: 0px;
+  top: -8px;  
+  border-radius: 4px;
+  text-align: center;
+
+  &__bgsucess {
+    background-color: $success;
+    span {
+      color: $white !important;
+    }
+  }
+
+  &__bgabsent {
+    background-color: $orange !important;
+    span {
+      color: $white !important;
+    }
+  }
+  &__bgabsentpink {
+    background-color: $danger !important;
+    span {
+      color: $white !important;
+    }
+  }
+  span {
+    display: block;
+    font-size: 10px !important; /* Adjust size of the text inside */
+    z-index: 1; /* Ensure the text is above any background or shadows */
+    padding: 2px 5px;
+  
+}
+}
+
 </style>

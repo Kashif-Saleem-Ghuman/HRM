@@ -1,35 +1,60 @@
 <template>
-  <div>
+  <div 
+    class="file-upload-container"
+    @dragover.prevent="handleDragOver"
+    @dragleave.prevent="handleDragLeave"
+    @drop.prevent="handleDrop"
+    @dragenter.prevent="handleDragEnter"
+    >
     <loader :loading="loading"></loader>
 
     <div class="px-1 py-1">
-      <div class="py-cus file-ulpoad-custom" :key="fileList">
-        <bib-input
+      <div v-if="!showNoFiles" class="py-cus file-ulpoad-custom" :key="fileList">
+        <!-- <bib-input
           type="file"
           ref="filesUploaded"
-          @files-dropped="handleChange__FileInput"
           variant="primary-24"
           iconLeft="upload"
           placeholder="Drop file here or click to upload"
-        ></bib-input>
-        <!-- <bib-button
+        ></bib-input> -->
+        <bib-button
         label="Upload"
         size="lg"
         variant="primary"
         @click="fileUpload"
         class="mt-025"
-      ></bib-button> -->
+      ></bib-button>
       </div>
-      <no-record v-if="showNoData"></no-record>
+      <div v-if="isDragging" class="drag-overlay">
+        <div class="drag-message">Drop files here to upload</div>
+      </div>
+
+      <div v-if="showNoData" class="no-files-container">
+        <div class="no-files-content">
+          <h3 class="no-files-title">Drop file here or click to upload</h3>
+          <bib-button
+            label="Upload"
+            size="lg"
+            variant="primary"
+            @click="modalOpenHandler"
+            class="mt-025"
+          >
+            <template #prepend>
+              <bib-icon icon="upload" size="sm" />
+            </template>
+          </bib-button>
+        </div>
+      </div>
+
 
       <div
+        v-else
         class="d-grid gap-2 py-1"
         :style="
           filesUploaded.length <= 1
             ? 'grid-template-columns: repeat(3, minmax(300px, 1fr)); overflow:hidden'
             : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
         "
-        v-else-if="showTable"
       >
         <div
           v-for="file in filesUploaded"
@@ -77,6 +102,7 @@
         @close="closeconfirmastionMessageModal"
         @on-click="deleteFile($event)"
       ></confirmation-modal>
+      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler"></file-upload-modal>
     </div>
   </div>
 </template>
@@ -102,6 +128,9 @@ export default {
       deletedfileId: null,
       fileName: "",
       loading: true,
+      isDragging: false,
+      dragCounter: 0,
+      isModalOpened: false,
     };
   },
   computed: {
@@ -118,6 +147,9 @@ export default {
         !this.loading && (!this.filesUploaded || !this.filesUploaded?.length)
       );
     },
+    showNoFiles() {
+      return !this.loading && (!this.filesUploaded || this.filesUploaded.length === 0);
+    },
   },
   async created() {
     this.id = this.$route.params.id ?? this.getUser?.id;
@@ -129,6 +161,9 @@ export default {
     deleteFiles,
     decodedFileName(file) {
       return decodeURIComponent(escape(file.name));
+    },
+    modalOpenHandler() {
+      this.isModalOpened = !this.isModalOpened;
     },
     openPopupNotification(notification) {
       this.$store.dispatch("app/addNotification", { notification });
@@ -169,10 +204,40 @@ export default {
         console.error("Error downloading file", error);
       }
     },
+    handleDragOver(event) {
+      console.log("drag over");
+      if (!this.isDragging) {
+        this.isDragging = true;
+      }
+      event.dataTransfer.dropEffect = 'copy';
+    },
+
+    handleDragLeave(event) {
+      console.log("drag leave", event);
+      this.dragCounter--;
+      if (this.dragCounter === 0) {
+        this.isDragging = false;
+      }
+    },
+    async handleDragEnter(event) {
+      this.dragCounter++;
+      console.log("drag enter", event);
+    },
+
+    async handleDrop(event) {
+      console.log("drag drop");
+      event.preventDefault();
+      this.isDragging = false;
+      this.dragCounter = 0;
+      const files = Array.from(event.dataTransfer.files);
+      await this.handleChange__FileInput(files);
+    },
     async handleChange__FileInput(files) {
       this.files = files;
       const ofScrollYElement = document.querySelector('.input--file .of-scroll-y');
-      files.length === 1 ? ofScrollYElement.style.overflow = 'hidden' : ofScrollYElement.style.overflow = '';
+      if (ofScrollYElement) {
+        ofScrollYElement.style.overflow = files.length === 1 ? 'hidden' : '';
+      }
       await this.fileUpload();
     },
     async fileUpload() {
@@ -206,6 +271,53 @@ export default {
 </script>
 
 <style lang="scss">
+.file-upload-container {
+  position: relative;
+  min-height: 100vh; // Ensure the container covers the full height of the page
+}
+.drag-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.drag-message {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.no-files-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 15rem;
+}
+
+.no-files-content {
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 2rem 22rem;
+}
+
+.no-files-title {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+
 .file-ulpoad-custom {
   width: 50%;
   display: flex;

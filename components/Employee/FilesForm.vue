@@ -26,8 +26,8 @@
         class="d-grid gap-2 py-1"
         :style="
           filesUploaded.length <= 1
-            ? 'grid-template-columns: repeat(3, minmax(300px, 1fr)); overflow:hidden'
-            : 'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
+            ? 'grid-template-columns: repeat(4, minmax(240px, 1fr)); overflow:hidden'
+            : 'grid-template-columns: repeat(4, minmax(240px, 1fr))'
         "
         v-else-if="showTable"
       >
@@ -57,7 +57,7 @@
                 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
                 :title="file.name"
               >
-                {{ decodedFileName(file) | truncate(45, "...") }}
+                {{ decodedFileName(file) | truncate(55, "...") }}
               </h5>
             </div>
           </div>

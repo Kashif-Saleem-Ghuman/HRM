@@ -1,12 +1,12 @@
 <template>
-  <div style="display: block; position: relative">
+  <div style="display: block; position: relative;" :tabindex="isLoaderActive ? -1 : 0"  @keydown="handleKeydown" class="time-picker-wrapper">
     <bib-time-picker
       v-model="time"
       :name="name"
       :placeholder="placeholder"
       @change="onInput"
       @select-change="onInput"
-      :disabled="disabled"
+      :disabled="disabled || isLoaderActive"
       :styleObject="styleObject"
       :class="
         isLightThemeCheck
@@ -49,6 +49,10 @@ export default {
         return {};
       },
     },
+    isLoaderActive: { 
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -69,6 +73,11 @@ export default {
     setTime(time) {
       this.time = time;
     },
+    handleKeydown(event) {
+      if (this.isLoaderActive) {
+        event.preventDefault(); 
+      }
+    },
   },
 
   mounted() {
@@ -82,5 +91,23 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.time-picker-wrapper {
+  &:focus {
+    outline: none;
+    border: none !important;
+  }
 
-<style></style>
+  &:focus-visible {
+    outline: none;
+    border: none !important;
+  }
+}
+.bib-time-picker--light-theme:focus,
+.bib-time-picker--dark-theme:focus {
+  outline: none;
+  border: none !important;
+  box-shadow: none; 
+}
+</style>
+

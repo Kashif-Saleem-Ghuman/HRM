@@ -13,6 +13,7 @@
           @input="timeInputBlur"
           :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
           class="timepicker_input"
+          :isLoaderActive="loading"
         ></bib-time-picker-wrapper>
     </div>
     <div class="cell" @click="handleWrapperClick">
@@ -23,6 +24,7 @@
         @input="timeInputBlur"
         :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
         class="timepicker_input"
+        :isLoaderActive="loading"
       ></bib-time-picker-wrapper>
       <!-- <bib-input
         type="time"

@@ -34,6 +34,13 @@ export default {
             this.files = files;
         },
         async uploadFiles() {
+            if(this.files.length === 0) {
+                this.$openPopupNotification({
+                    text: 'No files selected',
+                    variant: 'danger'
+                });
+                return;
+            };
             this.$emit('modalOpenHandler');
             this.$emit('fileUpload', this.files);
             this.files = [];

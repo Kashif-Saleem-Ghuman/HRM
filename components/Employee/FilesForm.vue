@@ -229,11 +229,10 @@ export default {
       event.preventDefault();
       this.isDragging = false;
       this.dragCounter = 0;
-      this.isModalOpened = false;
-      this.confirmastionMessageModal = false;
-      this
       const files = Array.from(event.dataTransfer.files);
       await this.handleChange__FileInput(files);
+      this.isModalOpened = false;
+      this.confirmastionMessageModal = false;
     },
     async handleChange__FileInput(files) {
       this.files = files;

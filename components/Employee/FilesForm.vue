@@ -27,7 +27,7 @@
       ></bib-button>
       </div>
       <div v-if="isDragging" class="drag-overlay">
-        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']">Drop files here to upload</label>
+        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']" v-if="!isModalOpened">Drop files here to upload</label>
       </div>
 
       <div v-else-if="showNoData && !isDragging" class="no-files-container">

@@ -214,7 +214,6 @@ export default {
     },
 
     handleDragLeave(event) {
-      console.log("drag leave", event);
       this.dragCounter--;
       if (this.dragCounter === 0) {
         this.isDragging = false;

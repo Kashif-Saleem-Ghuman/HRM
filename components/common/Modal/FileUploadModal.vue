@@ -26,6 +26,7 @@ export default {
     data() {
         return {
             files: [],
+            debounced: false,
         }
     },
 
@@ -33,12 +34,21 @@ export default {
         handleChange__FileInput(files) {
             this.files = files;
         },
+        debouncedNotification(message, variant, delay = 3000) {
+            if (!this.debounced) {
+                this.$openPopupNotification({
+                    text: message,
+                    variant: variant,
+                });
+                this.debounced = true;
+                setTimeout(() => {
+                this.debounced = false;
+                }, delay);
+            }
+        },
         async uploadFiles() {
             if(this.files.length === 0) {
-                this.$openPopupNotification({
-                    text: 'No files selected',
-                    variant: 'danger'
-                });
+                this.debouncedNotification('No files selected', 'danger');
                 return;
             };
             this.$emit('modalOpenHandler');

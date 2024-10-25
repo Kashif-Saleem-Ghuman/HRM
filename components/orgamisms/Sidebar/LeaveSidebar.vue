@@ -16,7 +16,7 @@
           :leaveType="leaveTypeActiveValue"
           :usedDays="useDaysDataValue"
           :employeeNameSelect="employeeNameSlectedValue"
-          :employeesOptions="employeesOptions"
+          :employeesOptions="formattedEmployeesOptions"
           :employeeNameSelectShow="employeeNameSelectShow"
           :key="addLeaveKey"
           :startDate="startDate"
@@ -137,6 +137,18 @@ export default {
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    formattedEmployeesOptions() {
+    if (Array.isArray(this.employeesOptions)) {
+      return this.employeesOptions.map((employee) => {
+        const truncatedLabel = this.$options.filters.truncate(employee.label, 130, "...");
+        return {
+          ...employee,
+          label: truncatedLabel,
+          title: employee.label,
+        };
+      });
+    }
+  },
     useDaysDataValue() {
       const keyValue = this.apiUsedValue[this.leaveTypeActiveValue];
       return this.getLeaveAllowance[keyValue];

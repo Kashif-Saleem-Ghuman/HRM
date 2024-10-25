@@ -22,7 +22,7 @@
             @selectUser="selectUserHandle"
             :employeeNameInput="employeeNameInput"
             :employeeNameSelectShow="employeeNameSelectShow"
-            :employeesOptions="employeesOptions"
+            :employeesOptions="formattedEmployeesOptions"
             :leaveTypeSelect="leaveTypeSelect"
             :allowanceDays="getAllownaceDataValue"
             :usedDays="useDaysDataValue"
@@ -138,6 +138,19 @@ export default {
       getReportList: "employee/GET_REPORTS_LIST",
       getLeaveAllowance: "leavesdata/getLeaveAllowance",
     }),
+    formattedEmployeesOptions() {
+    if (Array.isArray(this.employeesOptions)) {
+      return this.employeesOptions.map((employee) => {
+        const truncatedLabel = this.$options.filters.truncate(employee.label, 130, "...");
+        return {
+          ...employee,
+          label: truncatedLabel,
+          title: employee.label,
+        };
+      });
+    }
+    return [];
+  },
     useDaysDataValue() {
       this.sidebarHeading =
         this.leaveRequestTypes[this.leaveTypeActiveValue].label;

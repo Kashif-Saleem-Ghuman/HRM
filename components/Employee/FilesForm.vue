@@ -27,12 +27,12 @@
       ></bib-button>
       </div>
       <div v-if="isDragging" class="drag-overlay">
-        <div :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']">Drop files here to upload</div>
+        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']">Drop files here to upload</label>
       </div>
 
       <div v-else-if="showNoData && !isDragging" class="no-files-container">
         <div class="no-files-content">
-          <h3 :class="[no-files-title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click to upload</h3>
+          <label :class="[no-files-title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click to upload</label>
           <bib-button
             label="Upload"
             size="lg"
@@ -299,6 +299,14 @@ export default {
   padding: 20px;
   border-radius: 8px;
   font-size: 24px;
+  margin-left: 18%;
+  margin-top: 1%;
+  label{
+    font-size: 2rem;
+    font-weight: 400;
+    padding-bottom: 5px;
+    display: block;
+  }
 }
 
 .no-files-container {
@@ -307,6 +315,12 @@ export default {
   align-items: center;
   height: 100%;
   padding: 15rem;
+  label{
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding-bottom: 5px;
+    display: block;
+  }
 }
 
 .no-files-content {

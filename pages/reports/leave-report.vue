@@ -4,7 +4,7 @@
       <bib-input
         type="select"
         label="Employee"
-        :options="employeesOptions"
+        :options="formattedEmployeesOptions"
         v-model="selectedEmployeeId"
         :variant="isLightThemeCheck  ? 'light' : 'dark'"
       ></bib-input>
@@ -58,6 +58,21 @@ export default {
       from: null,
       to: null,
     };
+  },
+  computed:{
+    formattedEmployeesOptions() {
+    if (Array.isArray(this.employeesOptions)) {
+      return this.employeesOptions.map((employee) => {
+        const truncatedLabel = this.$options.filters.truncate(employee.label, 100, "...");
+        return {
+          ...employee,
+          label: truncatedLabel,
+          title: employee.label,
+        };
+      });
+    }
+    return [];
+  },
   },
   async created() {
     this.$store.dispatch("employee/setReportsToList").then((reportTo) => {

@@ -63,7 +63,7 @@ export default {
     formattedEmployeesOptions() {
     if (Array.isArray(this.employeesOptions)) {
       return this.employeesOptions.map((employee) => {
-        const truncatedLabel = this.$options.filters.truncate(employee.label, 200, "...");
+        const truncatedLabel = this.$options.filters.truncate(employee.label, 100, "...");
         return {
           ...employee,
           label: truncatedLabel,

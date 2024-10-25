@@ -18,24 +18,26 @@
           placeholder="Drop file here or click to upload"
         ></bib-input> -->
         <bib-button
-        label="Upload"
-        size="lg"
-        variant="primary"
-        @click="fileUpload"
-        class="mt-025"
+          label="Upload"
+          size="lg"
+          variant="primary"
+          icon="upload"
+          @click="modalOpenHandler"
+          class="mt-025"
       ></bib-button>
       </div>
       <div v-if="isDragging" class="drag-overlay">
-        <div class="drag-message">Drop files here to upload</div>
+        <div :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']">Drop files here to upload</div>
       </div>
 
-      <div v-if="showNoData" class="no-files-container">
+      <div v-else-if="showNoData && !isDragging" class="no-files-container">
         <div class="no-files-content">
-          <h3 class="no-files-title">Drop file here or click to upload</h3>
+          <h3 :class="[no-files-title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click to upload</h3>
           <bib-button
             label="Upload"
             size="lg"
             variant="primary"
+            icon="upload"
             @click="modalOpenHandler"
             class="mt-025"
           >
@@ -102,7 +104,7 @@
         @close="closeconfirmastionMessageModal"
         @on-click="deleteFile($event)"
       ></confirmation-modal>
-      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler"></file-upload-modal>
+      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler" @fileUpload="fileUpload"></file-upload-modal>
     </div>
   </div>
 </template>
@@ -127,7 +129,7 @@ export default {
       deleteModalContent: DELETE_MESSAGE[0],
       deletedfileId: null,
       fileName: "",
-      loading: true,
+      loading: false,
       isDragging: false,
       dragCounter: 0,
       isModalOpened: false,
@@ -205,7 +207,6 @@ export default {
       }
     },
     handleDragOver(event) {
-      console.log("drag over");
       if (!this.isDragging) {
         this.isDragging = true;
       }
@@ -225,10 +226,12 @@ export default {
     },
 
     async handleDrop(event) {
-      console.log("drag drop");
       event.preventDefault();
       this.isDragging = false;
       this.dragCounter = 0;
+      this.isModalOpened = false;
+      this.confirmastionMessageModal = false;
+      this
       const files = Array.from(event.dataTransfer.files);
       await this.handleChange__FileInput(files);
     },
@@ -240,8 +243,9 @@ export default {
       }
       await this.fileUpload();
     },
-    async fileUpload() {
-      await this.addFiles(this.id, this.files);
+    async fileUpload(files = null) {
+      this.loading = true;
+      await this.addFiles(this.id, files || this.files);
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.fileList += 1;
@@ -252,19 +256,22 @@ export default {
           variant: "primary-24",
         });
       });
+      this.loading = false;
     },
     deleteConfirmation(id) {
       this.deletedfileId = id;
       this.confirmastionMessageModal = true;
     },
     async deleteFile() {
+      this.loading = true;
+      this.confirmastionMessageModal = false;
       await this.deleteFiles({ employeeId: this.id, id: this.deletedfileId });
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.fileList += 1;
-        this.confirmastionMessageModal = false;
         return this.$openPopupNotification(8);
       });
+      this.loading = false;
     },
   },
 };
@@ -289,11 +296,9 @@ export default {
 }
 
 .drag-message {
-  background-color: white;
   padding: 20px;
   border-radius: 8px;
   font-size: 24px;
-  font-weight: bold;
 }
 
 .no-files-container {
@@ -306,7 +311,7 @@ export default {
 
 .no-files-content {
   text-align: center;
-  border: 2px solid #ccc;
+  border: 1px solid $light;
   border-radius: 8px;
   padding: 2rem 22rem;
 }
@@ -314,7 +319,6 @@ export default {
 .no-files-title {
   margin-bottom: 1rem;
   font-size: 1.2rem;
-  color: #333;
 }
 
 

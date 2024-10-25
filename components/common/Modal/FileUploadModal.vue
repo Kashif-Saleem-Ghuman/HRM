@@ -14,8 +14,8 @@
         </template>
         <template slot="footer">
             <div class="d-flex">
-            <bib-button @click="$emit('modalOpenHandler')" label="Cancel" variant="light" pill></bib-button>
-            <bib-button label="Upload" variant="success" class="ml-auto" pill></bib-button>
+            <bib-button @click="$emit('modalOpenHandler')" label="Cancel" :variant="isLightThemeCheck ? 'light' : 'secondary'" pill></bib-button>
+            <bib-button @click="uploadFiles" label="Upload" variant="primary-24" class="ml-auto" pill></bib-button>
             </div>
         </template>
     </bib-modal-wrapper>
@@ -25,6 +25,18 @@
 export default {
     data() {
         return {
+            files: [],
+        }
+    },
+
+    methods: {
+        handleChange__FileInput(files) {
+            this.files = files;
+        },
+        async uploadFiles() {
+            this.$emit('modalOpenHandler');
+            this.$emit('fileUpload', this.files);
+            this.files = [];
         }
     }
 }

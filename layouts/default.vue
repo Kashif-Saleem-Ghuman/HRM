@@ -104,6 +104,11 @@ export default {
     await this.$isThemeCheck();
     this.isLightTheme = this.$cookies.get("isLightTheme");
     this.setHeightBasedOnEnvironment();
+
+    this.$router.beforeEach((to, from, next) => {
+      this.handleRouteChange(to, from);
+      next();
+    });
   },
   methods: {
     handleToggleWrapperTheme,
@@ -129,6 +134,9 @@ export default {
       if (this.$route.path === "/leaves-and-vacations/dashboard/") {
         this.$nuxt.$emit("update-calendar");
       }
+    },
+    handleRouteChange(to, from) {
+      this.$store.dispatch("app/resetSearchResults");
     },
     toggleTheme(flag) {
       this.isLightTheme = flag;

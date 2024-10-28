@@ -42,7 +42,10 @@
           <chips
             :key="`${value.day}-${Math.random()}`"
             :title="getTimesheetDayValue(data.value, value)"
+            :leaveTypeHighlighterText="getLeaveTypeValue(data.value, value)"
             :className="[$getDayClassName(data.value[value.day], data.value, value)]"
+            :leaveHighlighter="getLeaveTypeValue(data.value, value) ? true : false"
+              :notifyClass="[$getHightlighterClass(data.value[value.day], data.value, value)]"
             @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
           ></chips>
         </template>
@@ -227,21 +230,41 @@ export default {
     formatHoursToHHMM,
     random,
     
-    getTimesheetDayValue(data, day) {
+    getLeaveTypeValue(data, day){
       const { day: weekDay, index: weekIndex } = day;
-      console.log(data, "data")
-      const { leaves } = data
-
-      if (Object.keys(leaves ?? {}).length) {
-        const leave = leaves[weekIndex]
-        if (leave) {
-          return leave.type.charAt(0).toUpperCase() + leave.type.slice(1);
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() +  leave?.type.slice(1);;
+        if (isValidTime) {
+          return `${leaveType}`;
         }
       }
+    },
+    
+    getTimesheetDayValue(data, day) {
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
 
-      if (!data?.[weekDay]) return '--'
+        if (isValidTime) {
+          return `${formattedTime}`;
+        }
 
-      return this.formatTime(data[weekDay], false)
+        return leaveType;
+      }
+
+      if (!dayValue) return '--';
+
+      return isValidTime ? formattedTime : '--';
     },
 
     closeconfirmastionMessageModal() {

@@ -84,7 +84,7 @@
                 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
                 :title="file.name"
               >
-                {{ decodedFileName(file) | truncate(55, "...") }}
+                {{ decodedFileName(file) | truncate(50, "...") }}
               </h5>
             </div>
           </div>

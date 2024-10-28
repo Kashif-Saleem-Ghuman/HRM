@@ -5,6 +5,10 @@ const mutations = {
     state.searchResults = results;
     state.search = search;
   },
+  RESET_SEARCH_RESULTS(state) {
+    state.searchResults = null;
+    state.search = null;
+  },
   ADD_NOTIFICATION(state, { notification }) {
     if (typeof notification === 'number') {
       state.notifications.push(popupNotificationMsgs[notification]);

@@ -62,7 +62,7 @@ export const actions = {
       ctx.commit("SET_LEAVEVACATION_LIST", sortedLeave);
       return sortedLeave;
     } catch (e) {
-      throw new Error(e.response.data.message);
+      throw e;
     }
   },
   async setLeaveVacationsUser(ctx, payload) {

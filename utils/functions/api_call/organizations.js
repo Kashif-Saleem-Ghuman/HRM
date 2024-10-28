@@ -28,6 +28,6 @@ export async function getOrganization(payload) {
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 }

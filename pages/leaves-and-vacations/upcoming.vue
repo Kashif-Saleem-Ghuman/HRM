@@ -144,10 +144,7 @@ export default {
           }
         );
       } catch (errorMessage) {
-        this.$openPopupNotification({
-          text: errorMessage,
-          variant: "danger",
-        });
+        this.$apiError(errorMessage?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       } finally {
         this.loading = false;
       }

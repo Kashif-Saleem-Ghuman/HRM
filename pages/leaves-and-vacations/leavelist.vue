@@ -135,7 +135,7 @@ export default {
           }
         );
       } catch (errorMessage) {
-        console.log(errorMessage);
+        this.$apiError(errorMessage?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       } finally
       {
         this.loading = false;

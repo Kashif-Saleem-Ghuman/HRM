@@ -120,11 +120,8 @@ export const actions = {
       const parsedEmployees = employees.map((employee) => ( new Employee(employee) ));
       commit("SET_EMPLOYEE_ATTENDANCE", parsedEmployees);
       return cloneDeep(parsedEmployees)
-    } catch (e) {
-      if (e.response.status === 500) {
-        return window.open('/not-found',"_self")
-      }
-      console.error(error);
+    } catch (error) {
+      throw error;
     }
   },
 

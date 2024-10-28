@@ -113,7 +113,7 @@ export default {
           processEmployeeRequests(employee, from, to)
         })
       } catch (error) {
-        console.error(error);
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       } 
     
 

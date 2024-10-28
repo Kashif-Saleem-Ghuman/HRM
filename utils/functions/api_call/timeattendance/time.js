@@ -15,6 +15,7 @@ export async function getTimeAttendance(payload) {
     );
     return data
   } catch (e) {
+    throw e;
     // console.error(e);
   }
 }
@@ -61,8 +62,7 @@ export async function getPendingTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    throw e;
   }
 }
 
@@ -161,8 +161,7 @@ export async function getPastDueTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    throw e;
   }
 }
 
@@ -263,7 +262,9 @@ export async function getTimeAttendanceCustomRange({ from, to, searchString }) {
       config
     );
     return data || [];
-  } catch {}
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function getTimesheets({ from, to, employeeId }) {

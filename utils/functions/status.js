@@ -1,7 +1,9 @@
 import { TIMESHEET_STATUSES } from "../constant/Constant";
 
 
-export const getStatusLabel = (status) => {
+export const getStatusLabel = (status, isDone=false) => {
+  if (isDone) return "Done";
+  
   const statusLabel = {
     [TIMESHEET_STATUSES.APPROVED]: "Approved",
     [TIMESHEET_STATUSES.PENDING]: "Pending",

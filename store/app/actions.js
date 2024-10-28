@@ -8,6 +8,10 @@ const actions = {
     commit("SET_SEARCH_RESULTS", { results, search: searchString });
   },
 
+  resetSearchResults({ commit }) {
+    commit("RESET_SEARCH_RESULTS");
+  },
+
   addNotification({ state, commit }, { notification }) {
     if ( typeof notification === 'string' ) {
       notification = createNotificationObject({ text: notification })

@@ -64,6 +64,15 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
       xls: 'excel',
       xlsx: 'excel',
       ppt: 'powerpoint',
+      mp4: 'mp4',
+      mov: 'mov',
+      mp3: 'mp3',
+      ogg: 'ogg',
+      wav: 'wav',
+      webm: 'webm',
+      avi: 'avi',
+      odt: 'ODT',
+      pptx: 'pptx',
     });
   }
   

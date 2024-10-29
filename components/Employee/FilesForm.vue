@@ -84,7 +84,7 @@
                 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
                 :title="file.name"
               >
-                {{ decodedFileName(file) | truncate(50, "...") }}
+                {{ manageTitlePerResolution(file) }}
               </h5>
             </div>
           </div>
@@ -164,6 +164,21 @@ export default {
     decodedFileName(file) {
       return decodeURIComponent(escape(file.name));
     },
+    manageTitlePerResolution(file) {
+    const screenWidth = window.screen.width;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    console.log(screenWidth, devicePixelRatio);    // Adjust the truncation limit based on screen width and device pixel ratio
+    let truncateLimit;
+
+    if (screenWidth <= 480) {           
+      truncateLimit = Math.floor(15 / devicePixelRatio);
+    } else if (screenWidth <= 768) {    
+      truncateLimit = Math.floor(30 / devicePixelRatio);
+    } else {                            
+      truncateLimit = Math.floor(55 / devicePixelRatio-5);
+    }
+    return this.decodedFileName(file).slice(0, truncateLimit) + (file.name.length > truncateLimit ? "..." : "");
+  },
     modalOpenHandler() {
       this.isModalOpened = !this.isModalOpened;
     },

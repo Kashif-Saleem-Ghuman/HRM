@@ -101,7 +101,7 @@
       </div>
     </template>
     <template #cell_action="data">
-      <bib-button
+      <dromenu
         pop="horizontal-dots"
         :iconVariant="isLightThemeCheck ? '' : 'light'"
         @click.native.stop
@@ -119,7 +119,7 @@
             >
           </div>
         </template>
-      </bib-button>
+      </dromenu>
     </template>
   </bib-table>
 </template>

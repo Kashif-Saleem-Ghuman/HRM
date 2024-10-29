@@ -1,12 +1,12 @@
 <template>
     <bib-modal-wrapper title="Select files" @close="$emit('modalOpenHandler')">
         <template slot="content">
-            <div>
+            <div class="input--file file-custom-wrapper">
             <bib-input
                 type="file"
                 ref="files"
                 @files-dropped="handleChange__FileInput"
-                variant="accepted"
+                variant="primary-24"
                 iconLeft="upload"
                 placeholder="Drop file here or click to upload"
             ></bib-input>
@@ -58,3 +58,14 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.file-custom-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    .of-scroll-y {
+        overflow: hidden !important;
+        padding-bottom: 5px !important;
+    }
+}
+</style>

@@ -162,7 +162,8 @@ export default {
     getFiles,
     deleteFiles,
     decodedFileName(file) {
-      return decodeURIComponent(escape(file.name));
+      const decodedName = decodeURIComponent(escape(file.name));
+      return decodedName.length > 40 ? decodedName.slice(0, 40) + '...' : decodedName;
     },
     manageTitlePerResolution(file) {
     const screenWidth = window.screen.width;

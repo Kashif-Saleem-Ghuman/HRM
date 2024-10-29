@@ -11,15 +11,18 @@ export default ({ app }, inject) => {
       if (Object.keys(leaves ?? {}).length > 0) {
         const leave = leaves[weekIndex];  
         // Leave type conditions
-        if (leave?.type === "vacation") {
-          return "chip-wrapper__bgsucess"; 
+        if(leave?.type) {
+          return "chip-wrapper__default"
         }
-        if (leave?.type === "leave") {
-          return "chip-wrapper__bgabsent";
-        }
-        if (leave?.type === "medical") {
-          return "chip-wrapper__bgabsentpink";
-        }
+        // if (leave?.type === "vacation") {
+        //   return "chip-wrapper__bgsucess"; 
+        // }
+        // if (leave?.type === "leave") {
+        //   return "chip-wrapper__bgabsent";
+        // }
+        // if (leave?.type === "medical") {
+        //   return "chip-wrapper__bgabsentpink";
+        // }
       }
     }
 
@@ -61,17 +64,18 @@ export default ({ app }, inject) => {
       const { leaves } = data;
   
       if (Object.keys(leaves ?? {}).length > 0) {
-        const leave = leaves[weekIndex];  
+        const leave = leaves[weekIndex]; 
+        return "notify-highlighter__bgdefault"; 
         // Leave type conditions
-        if (leave?.type === "vacation") {
-          return "notify-highlighter__bgsucess"; 
-        }
-        if (leave?.type === "leave") {
-          return "notify-highlighter__bgabsent";
-        }
-        if (leave?.type === "medical") {
-          return "notify-highlighter__bgabsentpink";
-        }
+        // if (leave?.type === "vacation") {
+        //   return "notify-highlighter__bgsucess"; 
+        // }
+        // if (leave?.type === "leave") {
+        //   return "notify-highlighter__bgabsent";
+        // }
+        // if (leave?.type === "medical") {
+        //   return "notify-highlighter__bgabsentpink";
+        // }
       }
     }
   };

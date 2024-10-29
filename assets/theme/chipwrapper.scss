@@ -55,6 +55,15 @@
       color: $secondary-sub3 !important;
     }
   }
+  .chip-wrapper__default {
+    background-color: $dark;
+    border-radius: 4px;
+    span {
+      color: $gray4 !important;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
   .button-wrapper-punch {
     span {
       border-radius: 16px;
@@ -64,6 +73,14 @@
       &.online {
         background-color: #d6f6d5;
         color: $success !important;
+      }
+    }
+  }
+  .notify-highlighter {
+    &__bgdefault {
+      background-color: $dark-sub4;
+      span {
+        color: $white !important;
       }
     }
   }

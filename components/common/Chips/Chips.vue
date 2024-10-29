@@ -32,7 +32,7 @@
       
     </div>
     <div class="position-relative" v-if=leaveHighlighter>
-        <div class="position-absolute notify-highlighter" :class="notifyClass"><span>{{ leaveTypeHighlighterText }}</span></div>
+        <div class="position-absolute notify-highlighter" :class="notifyClass"><span v-tooltip="leaveTypeHighlighterTolltip">{{ leaveTypeHighlighterText }}</span></div>
       </div>
   </div>
 </template>
@@ -99,6 +99,10 @@ export default {
       default: null,
     },
     leaveTypeHighlighterText:{
+      type: String,
+      default: null,
+    },
+    leaveTypeHighlighterTolltip:{
       type: String,
       default: null,
     }
@@ -196,63 +200,63 @@ export default {
   }
 
   &__bgsucess {
-    background-color: #d5e8d4;
-    color: $success;
+    background-color: $success !important;
+    color: $black !important;
     border-radius: 4px;
     svg {
-      fill: $success !important;
+      fill: $white !important;
     }
     span {
-      color: $success !important;
+      color: $black !important;
       font-weight: 400;
       font-size: 14px;
     }
   }
 
   &__bgabsent {
-    background-color: rgba(255, 171, 0, 0.16) !important;
+    background-color: #EBE700 !important;
     border-radius: 4px;
     svg {
       fill: #ffab00 !important;
     }
     span {
-      color: #ffab00;
+      color: #000;
       font-weight: 400;
       font-size: 14px;
     }
   }
   &__bgpastdue {
-    background-color: rgba(255, 171, 0, 0.16);
+    background-color: #FFAB00;
     border-radius: 4px;
     svg {
-      fill: #ffab00 !important;
+      fill: $black !important;
     }
     span {
-      color: #ffab00;
+      color: $black;
       font-weight: 400;
       font-size: 14px;
     }
   }
   &__bgvacation {
-    background-color: rgba(31, 66, 162, 0.16);
+    background-color: #EBE700;
     border-radius: 4px;
     svg {
       fill: $primary !important;
     }
     span {
-      color: $primary;
+      color: $black;
       font-weight: 400;
       font-size: 14px;
     }
   }
   &__bgabsentpink {
-    background-color: rgba(230, 0, 14, 0.16);
+    background-color: #FFAB00;
     border-radius: 4px;
     svg {
-      fill: #e6000e !important;
+      fill: $black !important;
     }
     span {
-      color: #e6000e !important;
+      color: $black !important;
       font-weight: 400;
       font-size: 14px;
     }
@@ -297,6 +301,15 @@ export default {
     }
     span:first-letter {
       text-transform: uppercase;
+    }
+  }
+  &__default {
+    background-color: $light;
+    border-radius: 4px;
+    span {
+      color: $gray6 !important;
+      font-weight: 400;
+      font-size: 14px;
     }
   }
 }
@@ -363,7 +376,15 @@ export default {
   right: 0px;
   top: -8px;  
   border-radius: 4px;
+  padding: 0 1px;
   text-align: center;
+  border: 1px solid $dark-sub3;
+  &__bgdefault {
+    background-color: $gray4;
+    span {
+      color: $black !important;
+    }
+  }
 
   &__bgsucess {
     background-color: $success;

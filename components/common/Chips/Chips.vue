@@ -177,11 +177,14 @@ export default {
 .chip-wrapper {
   display: flex;
   text-align: center;
-  justify-content: start;
+  justify-content: center;
   width: 100%;
   border-radius: 4px;
   padding: 8px 15px 8px 8px;
   align-items: center;
+  span{
+    font-weight: 600;
+  }
 
   &__shape-circle {
     width: 3rem;
@@ -208,7 +211,7 @@ export default {
     }
     span {
       color: $black !important;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -221,7 +224,7 @@ export default {
     }
     span {
       color: #000;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -233,7 +236,7 @@ export default {
     }
     span {
       color: $black;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -245,7 +248,7 @@ export default {
     }
     span {
       color: $black;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -257,7 +260,7 @@ export default {
     }
     span {
       color: $black !important;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -270,7 +273,7 @@ export default {
     }
     span {
       color: $secondary-sub1;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -283,7 +286,7 @@ export default {
     }
     span {
       color: $secondary-sub1;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -296,7 +299,7 @@ export default {
     }
     span {
       color: #999;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
     span:first-letter {
@@ -308,7 +311,7 @@ export default {
     border-radius: 4px;
     span {
       color: $gray6 !important;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }

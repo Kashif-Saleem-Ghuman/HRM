@@ -1,4 +1,5 @@
 <template>
+ <div class="align-wrapper">
   <table
     v-click-outside="unselectAll"
     class="table"
@@ -187,6 +188,7 @@
        </tr> -->
      </template>
   </table>
+ </div>
 </template>
 
 <script>
@@ -325,5 +327,33 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
+.align-wrapper {
+  tr.table__hrow {
+    th {
+      &:nth-child(1),
+      &:nth-child(2){
+      span {
+          width: 100%;
+          display: flex;
+          justify-content: start !important;
+        }
+      }
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6),
+      &:nth-child(7),
+      &:nth-child(8),
+      &:nth-child(9),
+      &:nth-child(10) {
+        span {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
 </style>

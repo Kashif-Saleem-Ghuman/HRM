@@ -1,11 +1,6 @@
 <template>
-  <div 
-    class="file-upload-container"
-    @dragover.prevent="handleDragOver"
-    @dragleave.prevent="handleDragLeave"
-    @drop.prevent="handleDrop"
-    @dragenter.prevent="handleDragEnter"
-    >
+  <div class="file-upload-container" @dragover.prevent="handleDragOver" @dragleave.prevent="handleDragLeave"
+    @drop.prevent="handleDrop" @dragenter.prevent="handleDragEnter">
     <loader :loading="loading"></loader>
 
     <div class="px-1 py-1">
@@ -17,30 +12,20 @@
           iconLeft="upload"
           placeholder="Drop file here or click to upload"
         ></bib-input> -->
-        <bib-button
-          label="Upload"
-          size="lg"
-          variant="primary"
-          icon="upload"
-          @click="modalOpenHandler"
-          class="mt-025"
-      ></bib-button>
+        <bib-button label="Upload" size="lg" variant="primary" icon="upload" @click="modalOpenHandler"
+          class="mt-025"></bib-button>
       </div>
       <div v-if="isDragging" class="drag-overlay">
-        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']" v-if="!isModalOpened">Drop files here to upload</label>
+        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']"
+          v-if="!isModalOpened">Drop files here to upload</label>
       </div>
 
       <div v-else-if="showNoData && !isDragging" class="no-files-container">
         <div class="no-files-content">
-          <label :class="[no-files-title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click to upload</label>
-          <bib-button
-            label="Upload"
-            size="lg"
-            variant="primary"
-            icon="upload"
-            @click="modalOpenHandler"
-            class="mt-025"
-          >
+          <label :class="[no - files - title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click
+            to
+            upload</label>
+          <bib-button label="Upload" size="lg" variant="primary" icon="upload" @click="modalOpenHandler" class="mt-025">
             <template #prepend>
               <bib-icon icon="upload" size="sm" />
             </template>
@@ -49,63 +34,40 @@
       </div>
 
 
-      <div
-        v-else
-        class="d-grid gap-2 py-1"
-        :style="
-          filesUploaded.length <= 1
-            ? 'grid-template-columns: repeat(4, minmax(240px, 1fr)); overflow:hidden'
-            : 'grid-template-columns: repeat(4, minmax(240px, 1fr))'
-        "
-      >
-        <div
-          v-for="file in filesUploaded"
+      <div v-else class="d-grid gap-2 py-1" :style="filesUploaded.length <= 1
+        ? 'grid-template-columns: repeat(4, minmax(240px, 1fr)); overflow:hidden'
+        : 'grid-template-columns: repeat(4, minmax(240px, 1fr))'
+        ">
+        <div v-for="file in filesUploaded"
           class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center"
-          :class="themeClassCommon"
-          :key="file.id"
-        >
-          <div
-            style="
+          :class="themeClassCommon" :key="file.id">
+          <div style="
               display: flex;
               align-items: center;
               justify-content: space-between;
-            "
-          >
+            ">
             <div class="d-flex align-center" @click="handleFileClick(file)">
-              <bib-icon
-                :icon="
-                  !$getFileExtension(extensionsName(file))
-                    ? 'image'
-                    : $getFileExtension(extensionsName(file))
-                "
-                variant="gray5"
-              ></bib-icon>
-              <h5
-                class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
-                :title="file.name"
-              >
-              {{ manageTitlePerResolution(file) }}
+              <bib-icon :icon="!$getFileExtension(extensionsName(file))
+                ? 'image'
+                : $getFileExtension(extensionsName(file))
+                " variant="gray5"></bib-icon>
+              <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap" :title="file.name">
+                {{ manageTitlePerResolution(file) }}
 
               </h5>
             </div>
           </div>
           <div @click="deleteConfirmation(file.id)">
-            <bib-icon
-              icon="trash"
-              class="mr-05 cursor-pointer"
-              :variant="isLightThemeCheck ? 'danger' : 'danger'"
-            ></bib-icon>
+            <bib-icon icon="trash" class="mr-05 cursor-pointer"
+              :variant="isLightThemeCheck ? 'danger' : 'danger'"></bib-icon>
           </div>
         </div>
       </div>
-      <confirmation-modal
-        :title="deleteModalContent.title"
-        :confirmationMessage="deleteModalContent.message"
-        :confirmastionMessageModal="confirmastionMessageModal"
-        @close="closeconfirmastionMessageModal"
-        @on-click="deleteFile($event)"
-      ></confirmation-modal>
-      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler" @fileUpload="fileUpload"></file-upload-modal>
+      <confirmation-modal :title="deleteModalContent.title" :confirmationMessage="deleteModalContent.message"
+        :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
+        @on-click="deleteFile($event)"></confirmation-modal>
+      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler"
+        @fileUpload="fileUpload"></file-upload-modal>
     </div>
   </div>
 </template>
@@ -164,21 +126,30 @@ export default {
     deleteFiles,
     decodedFileName(file) {
       const decodedName = decodeURIComponent(escape(file.name));
-      return decodedName.length > 40 ? decodedName.slice(0, 40) + '...' : decodedName;
+      return decodedName;
     },
     manageTitlePerResolution(file) {
-    const screenWidth = window.screen.width;
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    console.log(screenWidth, devicePixelRatio);    // Adjust the truncation limit based on screen width and device pixel ratio
-    let truncateLimit;
-    if (screenWidth <= 480) {           
-      truncateLimit = Math.floor(15 / devicePixelRatio);
-    } else if (screenWidth <= 768) {    
-      truncateLimit = Math.floor(30 / devicePixelRatio);
-    } else {                            
-      truncateLimit = Math.floor(55 / devicePixelRatio-5);
-    }
-    return this.decodedFileName(file).slice(0, truncateLimit) + (file.name.length > truncateLimit ? "..." : "");
+      const screenWidth = window.screen.width;
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const scale = Math.round(devicePixelRatio * 100);
+      let truncateLimit;
+      if (scale > 120 && scale <= 140) {
+        truncateLimit = Math.floor(38);
+      } else if (scale > 140 && scale <= 170) {
+        truncateLimit = Math.floor(22);
+      } else {
+        if (screenWidth <= 480) {
+          truncateLimit = Math.floor(10);
+        } else if (screenWidth <= 768) {
+          truncateLimit = Math.floor(15);
+        } else {
+          truncateLimit = 55;
+        }
+      }
+      const decodedName = this.decodedFileName(file);
+      const truncatedName = this.$options.filters.truncate(decodedName, truncateLimit, "...");
+
+      return truncatedName;
     },
     modalOpenHandler() {
       this.isModalOpened = !this.isModalOpened;
@@ -296,6 +267,7 @@ export default {
   position: relative;
   min-height: 100vh; // Ensure the container covers the full height of the page
 }
+
 .drag-overlay {
   position: fixed;
   top: 0;
@@ -315,7 +287,8 @@ export default {
   font-size: 24px;
   margin-left: 18%;
   margin-top: 1%;
-  label{
+
+  label {
     font-size: 2rem;
     font-weight: 400;
     padding-bottom: 5px;
@@ -329,7 +302,8 @@ export default {
   align-items: center;
   height: 100%;
   padding: 15rem;
-  label{
+
+  label {
     font-size: 0.9rem;
     font-weight: 400;
     padding-bottom: 5px;
@@ -353,14 +327,17 @@ export default {
 .file-ulpoad-custom {
   width: 50%;
   display: flex;
+
   .input--file {
     div {
+
       // background-color: $white;
       div:nth-child(1) {
         align-items: center;
         display: flex;
       }
     }
+
     .of-scroll-y {
       max-height: 300px !important;
     }

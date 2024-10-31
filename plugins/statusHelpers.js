@@ -73,6 +73,12 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
       avi: 'avi',
       odt: 'odt',
       pptx: 'pptx',
+      svg: 'svg',
+      ods: 'ods',
+      odp: 'odp',
+      rtf: 'rtf',
+      gif: 'gif',
+      
     });
   }
   

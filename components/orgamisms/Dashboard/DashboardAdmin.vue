@@ -128,8 +128,9 @@ export default {
       
       const now = DateTime.now().toFormat(DATETIME_FORMAT);
       this.todayDate = event === "" ? now : event;
+
       const date = DateTime.fromJSDate(new Date(event || now));
-      this.getCurrentDate = date.toISO();
+      this.getCurrentDate = date.toISODate();
 
       if(this.todayDate === this.previousDate) {
         return;

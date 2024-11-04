@@ -18,11 +18,14 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
     rejected: "text-danger",
   });
   
-  export const getStatusLabel = (status) => getStatusMapValue(status, {
-    approved: "Approved",
-    pending: "Pending",
-    rejected: "Rejected",
-  });
+  export const getStatusLabel = (status, isDone = false) => {
+      if(isDone) return "Done";
+      return getStatusMapValue(status, {
+      approved: "Approved",
+      pending: "Pending",
+      rejected: "Rejected",
+    })
+  };
   
   export const getLeaveTypeIconVariant = (status) => getStatusMapValue(status, {
     approved: "success",

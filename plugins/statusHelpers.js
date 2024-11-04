@@ -18,9 +18,9 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
     rejected: "text-danger",
   });
   
-  export const getStatusLabel = (status, isDone=false) => {
-    if (isDone) return "Done";
-    return getStatusMapValue(status, {
+  export const getStatusLabel = (status, isDone = false) => {
+      if(isDone) return "Done";
+      return getStatusMapValue(status, {
       approved: "Approved",
       pending: "Pending",
       rejected: "Rejected",
@@ -76,6 +76,12 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
       avi: 'avi',
       odt: 'odt',
       pptx: 'pptx',
+      svg: 'svg',
+      ods: 'ods',
+      odp: 'odp',
+      rtf: 'rtf',
+      gif: 'gif',
+      
     });
   }
   

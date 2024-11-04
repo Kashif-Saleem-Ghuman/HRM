@@ -33,8 +33,8 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="$getStatusLabel(leave.status, leave.isDone)"
-                :managerAction="getMessage(leave.status)"
+                :label="$getStatusLabel(leaveStatus.status, isDone)"
+                :managerAction="getMessage(leaveStatus.status)"
                 :icon="
                   $getStatusLabel(leave.status) === 'Rejected'
                     ? 'tick'
@@ -122,6 +122,7 @@ export default {
       isHalfDay: null,
       leaveTypeActiveValue: "",
       totalDays:0,
+      isDone: false,
     };
   },
   created() {
@@ -237,6 +238,7 @@ export default {
       this.startDate = formatLeaveDate(this.form.start, DATEPICKER_FORMAT);
       this.endDate = formatLeaveDate(this.form.end, DATEPICKER_FORMAT);
 
+      this.isDone = item.isDone || false;
       // this.startDate = DateTime.fromISO(this.form.start, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       // this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       //TODO This function is calculating calculateTotalDays but its not needed since we already have item.duration

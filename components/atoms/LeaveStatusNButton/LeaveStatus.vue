@@ -1,7 +1,7 @@
 <template>
   <div v-if="isPlainStatus" class="button-override">
     <chips
-      :title="getStatusLabel(resolvedStatus)"
+      :title="getStatusLabel(resolvedStatus, isDone)"
       iconShow="iconShow"
       :icon="getStatusIcon(resolvedStatus)"
       :variant="[getStatusVariant(resolvedStatus)]"
@@ -85,13 +85,16 @@ export default {
       }
       return this.leaveStatusData;
     },
+    isDone() {
+      return this.leaveStatusData?.value?.isDone ?? false
+    }
   },
   methods: {
     getStatusVariant,
     getStatusIcon,
     getStatusLabel,
     getButtonLabel(timesheet, resolvedStatus) {
-      const statusLabel = this.$getStatusLabelName(resolvedStatus);
+      const statusLabel = this.$getStatusLabelName(resolvedStatus, this.isDone);
       
       if (timesheet && statusLabel === 'Rejected') {
         return 'Resubmit';

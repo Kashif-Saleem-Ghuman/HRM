@@ -33,17 +33,17 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="$getStatusLabel(leaveStatus.status)"
+                :label="$getStatusLabel(leaveStatus.status, isDone)"
                 :managerAction="getMessage(leaveStatus.status)"
                 :icon="
-                  $getStatusLabel(leaveStatus.status) === 'Rejected'
+                  $getStatusLabel(leave.status) === 'Rejected'
                     ? 'tick'
-                    : $getLeaveStatusIcon(leaveStatus.status)
+                    : $getLeaveStatusIcon(leave.status)
                 "
-                :variant="$getLeaveTypeIconVariant(leaveStatus.status)"
-                :className="$getLeaveTypeClassName(leaveStatus.status)"
-                :classNameWrapper="$getTextVariant(leaveStatus.status)"
-                :refusalReason="getReason(leaveStatus)"
+                :variant="$getLeaveTypeIconVariant(leave.status)"
+                :className="$getLeaveTypeClassName(leave.status)"
+                :classNameWrapper="$getTextVariant(leave.status)"
+                :refusalReason="getReason(leave)"
               ></info-card-success>
             </div>
             <div class="d-flex justify-end text-dark py-1" v-if="showDelButton">
@@ -54,7 +54,7 @@
                 :label="$button.delete.label"
                 class="mr-05"
                 pill
-                @click="deleteConfirmation(leaveStatus.id)"
+                @click="deleteConfirmation(leave.id)"
               ></bib-button>
             </div>
           </div>
@@ -66,7 +66,7 @@
       :confirmationMessage="deleteModalContent.message"
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
-      @on-click="deleteLevaeVacation(leaveStatus.id)"
+      @on-click="deleteLevaeVacation(leave.id)"
     ></confirmation-modal>
   </div>
 </template>
@@ -111,7 +111,7 @@ export default {
       employeesOptions: [],
       apiUsedValue: apiKeyUsedValue,
       apiAllowanceValue: apiKeyAllowanceValue,
-      leaveStatus: "",
+      leave: "",
       addLeaveKey: 0,
       employeeNameSelectShow: false,
       showAllowance: true,
@@ -122,6 +122,7 @@ export default {
       isHalfDay: null,
       leaveTypeActiveValue: "",
       totalDays:0,
+      isDone: false,
     };
   },
   created() {
@@ -162,13 +163,13 @@ export default {
       return this.employeeNameSelect;
     },
     showDelButton() {
-      const leaveDate = DateTime.fromISO(this.leaveStatus.start).toFormat(
+      const leaveDate = DateTime.fromISO(this.leave.start).toFormat(
         "yyyy-MM-dd"
       );
       if (this.currentDate > leaveDate) {
         return;
       } else {
-        if (this.leaveStatus.status != "rejected") {
+        if (this.leave.status != "rejected") {
           return (this.deleteButtonShowHide = true);
         }
       }
@@ -190,11 +191,11 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
-    getReason(leaveStatus){
-      if(leaveStatus.status === 'approved'){
-        return leaveStatus.approvalComment
+    getReason(leave){
+      if(leave.status === 'approved'){
+        return leave.approvalComment
       }
-      return leaveStatus.refusalReason
+      return leave.refusalReason
     },
     getMessage(MESSAGE) {
       const statusChangeDate = DateTime.fromISO(
@@ -230,13 +231,14 @@ export default {
       this.addLeaveKey += 1;
       this.leaveTypeActiveValue = item.type;
       this.openSidebar = true;
-      this.leaveStatus = item;
+      this.leave = item;
       this.form = item;
       this.employeeNameSelect = item.employeeId;
       this.employeeName = this.$getEmployeeFullName(item);
       this.startDate = formatLeaveDate(this.form.start, DATEPICKER_FORMAT);
       this.endDate = formatLeaveDate(this.form.end, DATEPICKER_FORMAT);
 
+      this.isDone = item.isDone || false;
       // this.startDate = DateTime.fromISO(this.form.start, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       // this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       //TODO This function is calculating calculateTotalDays but its not needed since we already have item.duration

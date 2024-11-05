@@ -18,11 +18,14 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
     rejected: "text-danger",
   });
   
-  export const getStatusLabel = (status) => getStatusMapValue(status, {
-    approved: "Approved",
-    pending: "Pending",
-    rejected: "Rejected",
-  });
+  export const getStatusLabel = (status, isDone = false) => {
+      if(isDone) return "Done";
+      return getStatusMapValue(status, {
+      approved: "Approved",
+      pending: "Pending",
+      rejected: "Rejected",
+    })
+  };
   
   export const getLeaveTypeIconVariant = (status) => getStatusMapValue(status, {
     approved: "success",
@@ -64,6 +67,21 @@ export const getLeaveStatusIcon = (status) => getStatusMapValue(status, {
       xls: 'excel',
       xlsx: 'excel',
       ppt: 'powerpoint',
+      mp4: 'mp4',
+      mov: 'mov',
+      mp3: 'mp3',
+      ogg: 'ogg',
+      wav: 'wav',
+      webm: 'webm',
+      avi: 'avi',
+      odt: 'odt',
+      pptx: 'pptx',
+      svg: 'svg',
+      ods: 'ods',
+      odp: 'odp',
+      rtf: 'rtf',
+      gif: 'gif',
+      
     });
   }
   

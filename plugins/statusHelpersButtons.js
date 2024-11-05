@@ -16,13 +16,17 @@ export const getStatusVariantName = (status) => getStatusMapValue(status, {
     not_submitted:"arrowhead-right"
   });
   
-  export const getStatusLabelName = (status) => getStatusMapValue(status, {
-    approved: "Approved",
-    pending: "Pending",
-    rejected: "Rejected",
-    past_due: "Submit",
-    not_submitted: "Submit",
-  });
+  export const getStatusLabelName = (status, isDone=false) => {
+    if (isDone) return "Done";
+    
+    return getStatusMapValue(status, {
+      approved: "Approved",
+      pending: "Pending",
+      rejected: "Rejected",
+      past_due: "Submit",
+      not_submitted: "Submit",
+    });
+  }
   function getStatusMapValue(status, statusMap, defaultValue) {
     const normalizedStatus = status.toLowerCase().replace(/\s+/g, '');
     return statusMap[normalizedStatus] || defaultValue;

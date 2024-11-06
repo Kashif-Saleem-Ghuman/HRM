@@ -25,7 +25,7 @@
           :note="form.note"
           inActive="disabled"
           :isHalfDay="isHalfDay"
-          :totalDays="totalDays"
+          :totalDays="localTotalDays"
           :shouldShowHalfDayCheckbox="isHalfDay"
           :edit="false"
         ></add-leave>
@@ -121,7 +121,7 @@ export default {
       deleteModalContent: DELETE_MESSAGE[1],
       isHalfDay: null,
       leaveTypeActiveValue: "",
-      totalDays:0,
+      localTotalDays:0,
       isDone: false,
     };
   },
@@ -243,7 +243,7 @@ export default {
       // this.endDate = DateTime.fromISO(this.form.end, { zone: 'utc' }).toFormat(DATEPICKER_FORMAT);
       //TODO This function is calculating calculateTotalDays but its not needed since we already have item.duration
       this.setIsHalfDay(item);
-      this.totalDays = formatLeaveDurationDaysString(item.duration)
+      this.localTotalDays = formatLeaveDurationDaysString(item.duration)
       // this.calculateTotalDays(this.startDate, this.endDate);
       if (this.$isAdmin()) {
         await this.$store

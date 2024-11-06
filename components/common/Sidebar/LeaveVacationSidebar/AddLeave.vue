@@ -105,12 +105,12 @@
           </div>
         </div>
         <transition name="fade">
-          <div class="checkbox" v-show="shouldShowHalfDayCheckbox">
+          <div class="checkbox" v-show="localHalfDayCheckbox">
             <bib-checkbox
               label="Half day"
               fieldKey="isHalfDay"
-              :value="isHalfDay"
-              :checked="isHalfDay"
+              :value="localIsHalfDay"
+              :checked="localIsHalfDay"
               :disabled="inActive"
               size="md"
               @change="setValueIsHalfDay"
@@ -122,7 +122,7 @@
         <bib-input
           type="text"
           label="Duration"
-          :value="totalDays"
+          :value="localTotalDays"
           :disabled="true"
           class="duration"
           :variant="themeButtonVariant"
@@ -243,7 +243,9 @@ export default {
       start: null,
       end: null,
       updateCheckbox: 0,
-      // shouldShowHalfDayCheckbox: false,
+      localTotalDays: this.totalDays,
+      localHalfDayCheckbox: this.shouldShowHalfDayCheckbox,
+      localIsHalfDay: this.isHalfDay,
     };
   },
   created() {
@@ -285,7 +287,7 @@ export default {
       //   this.updateCheckbox += 1;
       // }
 
-      this.shouldShowHalfDayCheckbox = datesMatch;
+      this.localHalfDayCheckbox = datesMatch;
       this[fieldKey] = value;
       this.$emit("change", value, fieldKey);
       this.calculateTotalDays(this.start, this.end);
@@ -294,7 +296,7 @@ export default {
     setValueIsHalfDay(value, fieldKey) {
       this[fieldKey] = value;
       this.$emit("change", fieldKey, "isHalfDay");
-      this.isHalfDay = !this.isHalfDay
+      this.localIsHalfDay = !this.localIsHalfDay
       this.calculateTotalDays(this.start, this.end)
     },
     displayEmployeeField() {
@@ -303,6 +305,17 @@ export default {
 
     disableEmployeeField() {
       return this.$route.path.includes("leave-vacations-profile-tab");
+    },
+  },
+  watch: {
+    totalDays(newVal) {
+      this.localTotalDays = newVal;
+    },
+    shouldShowHalfDayCheckbox(newVal) {
+      this.localHalfDayCheckbox = newVal;
+    },
+    isHalfDay(newVal) {
+      this.localIsHalfDay = newVal;
     },
   },
 };

@@ -219,10 +219,7 @@
         this.confirmastionMessageModal = true;
       },
       addLeaves($event) {
-        setTimeout(() => {
-          userMenu.classList.remove(...animationClasses);
-          userMenu.style.display = "none";
-        }, 3000);
+        this.$hideUserMenu();
 
         this.$nuxt.$emit("open-sidebar-admin", $event);
         this.$nuxt.$emit("close-sidebar");
@@ -267,7 +264,7 @@
     },
   };
   </script>
-  <!-- 
+  <!--
   <style scoped>
   .dropdown-menu {
     z-index: 999;

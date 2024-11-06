@@ -33,8 +33,8 @@
           <div class="col-12">
             <div>
               <info-card-success
-                :label="$getStatusLabel(leaveStatus.status, isDone)"
-                :managerAction="getMessage(leaveStatus.status)"
+                :label="$getStatusLabel(leave?.status, isDone)"
+                :managerAction="getMessage(leave?.status)"
                 :icon="
                   $getStatusLabel(leave.status) === 'Rejected'
                     ? 'tick'

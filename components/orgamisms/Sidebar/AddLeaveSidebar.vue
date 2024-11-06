@@ -29,6 +29,7 @@
             :daysUsedCarryOver="allowanceLeavesDetailedData.vacationCarryOver"
             :employeeNameSelect="employeeNameSlectedValue"
             :key="addLeaveKey"
+            :is-half-day="isHalfday"
             :activeUserAllowanceData="getAllownaceDataValue"
             :edit="true"
             style="z-index: 999"

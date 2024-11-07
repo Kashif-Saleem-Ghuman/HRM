@@ -338,3 +338,14 @@ body {
   }
 }
 }
+.dropdown-chip-menu {
+  position: relative !important;
+  .menu-items {
+    position: absolute !important;
+    width: 157px !important; 
+    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
+    border-radius: 10px;
+    right: 0;
+    top: 100%; // Updated to position below the button
+  }
+}

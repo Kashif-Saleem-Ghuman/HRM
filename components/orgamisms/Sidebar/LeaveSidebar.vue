@@ -67,6 +67,7 @@
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
       @on-click="deleteLevaeVacation(leave.id)"
+      :loader="loading"
     ></confirmation-modal>
   </div>
 </template>

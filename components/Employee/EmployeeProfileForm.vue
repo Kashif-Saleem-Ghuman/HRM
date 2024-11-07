@@ -17,6 +17,7 @@
               @vfileAdded="vfileAdded"
               @vfileRemove="removeImage('photo')"
               :confirmastionMessageModal="confirmastionMessageModal"
+              :loader="loading"
             ></drop-zone>
             <div class="ml-1">
               <aside style="text-transform: capitalize; font-weight: bold; font-size: 18px">
@@ -444,10 +445,12 @@ export default {
         this.loading = false;
       }
     },
-    removeImage(photo) {
+    async removeImage(photo) {
       this.updateForm[photo] = "";
+
+      this.loading = true;
       const id = this.$route.params.id ?? this.getUser?.id;
-      updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
+      await updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
           // this.debouncedNotification(PHOTO_DELETE);
           this.$root.$emit("profile-updated");
@@ -461,7 +464,14 @@ export default {
           this.confirmastionMessageModal = false;
           return;
         }
-      );
+      ).catch(err => {
+        this.$openPopupNotification({
+          text: err?.response?.data?.message,
+          variant: "danger",
+        })
+      }).finally(() => {
+        this.loading = false;
+      });
     },
     photoUpdateListner() {
       this.$root.$on("photo-updated", async () => {

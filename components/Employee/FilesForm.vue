@@ -62,12 +62,22 @@
               :variant="isLightThemeCheck ? 'danger' : 'danger'"></bib-icon>
           </div>
         </div>
+        <confirmation-modal
+          :title="deleteModalContent.title"
+          :confirmationMessage="deleteModalContent.message"
+          :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
+          @on-click="deleteFile($event)"
+          :has-parent-loader="true"
+          :loader="loading"
+        >
+        </confirmation-modal>
+        <file-upload-modal
+          v-if="isModalOpened"
+          @modalOpenHandler="modalOpenHandler"
+          @fileUpload="fileUpload"
+        >
+        </file-upload-modal>
       </div>
-      <confirmation-modal :title="deleteModalContent.title" :confirmationMessage="deleteModalContent.message"
-        :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
-        @on-click="deleteFile($event)"></confirmation-modal>
-      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler"
-        @fileUpload="fileUpload"></file-upload-modal>
     </div>
   </div>
 </template>
@@ -249,8 +259,9 @@ export default {
     },
     async deleteFile() {
       this.loading = true;
-      this.confirmastionMessageModal = false;
+
       await this.deleteFiles({ employeeId: this.id, id: this.deletedfileId });
+      this.confirmastionMessageModal = false;
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.fileList += 1;

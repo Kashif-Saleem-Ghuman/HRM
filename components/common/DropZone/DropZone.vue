@@ -36,6 +36,8 @@
       :confirmastionMessageModal="confirmastionMessageModal"
       @close="closeconfirmastionMessageModal"
       @on-click="$emit('vfileRemove')"
+      :has-parent-loader="true"
+      :loader="loader"
     ></confirmation-modal>
   </div>
 </template>
@@ -68,6 +70,10 @@ export default {
     confirmastionMessageModal: {
       type: Boolean,
     },
+    loader: {
+      type: Boolean,
+      default: false,
+    }
   },
   name: "app",
   components: {
@@ -204,7 +210,7 @@ export default {
   .avtar-border {
     border: 0px solid $light !important;
   }
-  
+
   // h3 {
   //   font-size: 12px;
   //   color: #8989ff;

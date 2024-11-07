@@ -84,7 +84,7 @@ export default {
       default: false,
     },
     centerAlign: {
-      type: String,
+      type: String | Boolean,
     },
   },
   data() {

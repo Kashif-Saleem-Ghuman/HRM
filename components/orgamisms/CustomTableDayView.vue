@@ -259,6 +259,10 @@ export default {
     },
     type: {
       type: String,
+    },
+    allChecked:{
+      type: Boolean,
+      default: false,
     }
   },
   data() {

@@ -109,10 +109,10 @@ export default {
 
 <style lang="scss">
 .dropdown-chip-menu {
-  position: relative;
+  position: relative !important;
   .menu-items {
-    position: absolute;
-    width: 157px; // Updated width
+    position: absolute !important;
+    width: 157px !important; 
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     right: 0;

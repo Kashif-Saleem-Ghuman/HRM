@@ -16,7 +16,7 @@
             $emit('item-checked', { id: data.value.id, key: data.value.id })
           "
           :checked="data.value.checked"
-          :variant="isLightThemeCheck ? '' : 'secondary'"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
         ></bib-checkbox>
       </div>
     </template>

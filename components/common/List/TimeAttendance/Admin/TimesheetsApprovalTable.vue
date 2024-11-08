@@ -21,7 +21,7 @@
               :key="data.items.id"
               @change="handleItemChecked(data.items)"
               :checked="data.items.checked"
-              :variant="isLightThemeCheck ? '' : 'secondary'"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
           ></bib-checkbox>
         </div>
       </template>

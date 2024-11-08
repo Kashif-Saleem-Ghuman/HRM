@@ -124,6 +124,7 @@ export default {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
     showDeleteIcon() {
+      if(!this.editable) return false;
       if (!this.newData.id) return false;
       if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       return true;

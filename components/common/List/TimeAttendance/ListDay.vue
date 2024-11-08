@@ -44,6 +44,7 @@
         :confirmastionMessageModal="confirmastionMessageModal"
         @close="closeconfirmastionMessageModal"
         @on-click="deleteSpecificEntry"
+        :loader="isDeleting"
       ></confirmation-modal>
     </div>
   </div>
@@ -122,6 +123,7 @@ export default {
       idToDelete: null,
       hoursText:'Day Total Hours',
       summary: null,
+      isDeleting: false,
     };
   },
   created(){
@@ -161,8 +163,10 @@ export default {
       this.$emit("edit-entry", entry);
     },
     async deleteSpecificEntry() {
+      this.isDeleting = true;
       const id = this.idToDelete;
       await this.deleteTimeEntry(id);
+      this.isDeleting = false;
       this.confirmastionMessageModal = false;
       this.$openPopupNotification(DELETE_MESSAGE.notification);
       this.idToDelete = null;

@@ -25,12 +25,14 @@
             label="Confirm"
             :variant="variant || 'danger'"
             class="mr-1"
+            :disabled="loader"
             @click="$emit('on-click')"
             pill
           ></bib-button>
         </div>
       </template>
     </bib-modal-wrapper>
+    <loader v-if="!hasParentLoader" :loading="loader"></loader>
   </div>
 </template>
 <script>
@@ -49,6 +51,14 @@ export default {
     variant: {
       type: String,
     },
+    loader: {
+      type: Boolean,
+      default: false,
+    },
+    hasParentLoader: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

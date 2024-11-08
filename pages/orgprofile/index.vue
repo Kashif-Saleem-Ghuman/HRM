@@ -234,13 +234,17 @@ export default {
 
     async fetchOrganization() {
       this.loading = true;
-      const organizationId = this.organizationId;
-      if (!organizationId) return;
+      try {
+        const organizationId = this.organizationId;
+        if (!organizationId) return;
 
-      const organization = await getOrganization({ id: organizationId });
-      this.org = organization;
-      this.originalStateProvince = this.org.stateProvince;
-      this.originalCity = this.org.city;
+        const organization = await getOrganization({ id: organizationId });
+        this.org = organization;
+        this.originalStateProvince = this.org.stateProvince;
+        this.originalCity = this.org.city;
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
       this.loading = false;
     },
 

@@ -357,7 +357,7 @@ export default {
 
         return employees;
       } catch (error) {
-        console.error("Error fetching timesheets:", error);
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
       
     },

@@ -15,6 +15,7 @@ export async function getTimeAttendance(payload) {
     );
     return data
   } catch (e) {
+    throw e;
     // console.error(e);
   }
 }
@@ -61,8 +62,7 @@ export async function getPendingTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    throw e;
   }
 }
 
@@ -161,8 +161,7 @@ export async function getPastDueTimesheets(payload) {
     );
     return data
   } catch (e) {
-    console.log(`Error while fetching ${url}` );
-    console.error(e);
+    throw e;
   }
 }
 
@@ -263,7 +262,9 @@ export async function getTimeAttendanceCustomRange({ from, to, searchString }) {
       config
     );
     return data || [];
-  } catch {}
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function getTimesheets({ from, to, employeeId }) {
@@ -275,8 +276,7 @@ export async function getTimesheets({ from, to, employeeId }) {
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data?.timesheets || [];
   } catch (error) {
-    // console.error(`Error while fetching timesheets from ${url}`);
-    console.error(error);
+    throw error;
   }
 }
 
@@ -289,7 +289,7 @@ export async function getWeekTimesheets({ from, to, employeeId }) {
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data?.timesheets || [];
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 

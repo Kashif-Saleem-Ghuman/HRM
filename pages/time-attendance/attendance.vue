@@ -130,15 +130,17 @@ export default {
       const date = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISODate();
       const { searchString } = this;
       this.loading = true;
-      this.employees = await this.$store
-        .dispatch("timeattendance/getEmployeesAttendance", { date, [actionKey]: actionValue, searchString: searchString })
-        .finally(() => {
-          this.loading = false;
-        });
-      if(!this.isWidgetUserUpdated){
-        this.widgetUser = this.employees;
-        this.isWidgetUserUpdated = true;
+      try {
+        this.employees = await this.$store
+          .dispatch("timeattendance/getEmployeesAttendance", { date, [actionKey]: actionValue, searchString: searchString })
+        if(!this.isWidgetUserUpdated){
+          this.widgetUser = this.employees;
+          this.isWidgetUserUpdated = true;
+        }
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
+      this.loading = false;
     },
   },
 

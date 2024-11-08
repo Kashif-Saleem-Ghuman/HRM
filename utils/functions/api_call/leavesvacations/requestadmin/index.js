@@ -19,11 +19,8 @@ export async function getPendingLeaveVacationsAdmin(payload) {
     this.loading = false;
     this.$nuxt.$emit("pending-key");
   } catch (e) {
-    this.$openPopupNotification({
-      text: e.response.data.message,
-      variant: "danger",
-    });
     this.loading = false;
+    this.$apiError(e?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
   }
 }
 

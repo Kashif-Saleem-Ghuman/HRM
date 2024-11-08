@@ -346,6 +346,9 @@ export default {
 
   mounted() {
     this.updateSelectedNavItems();
+    if (!this.isAdmin && !this.isUser) {
+      this.$apiError(500);
+    }
   },
   watch: {
     $route() {

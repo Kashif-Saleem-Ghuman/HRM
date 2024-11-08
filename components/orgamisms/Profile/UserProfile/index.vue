@@ -94,13 +94,19 @@ export default {
 
     async fetchData() {
       this.loading = true;
-      const id = this.$route.params.id ?? this.getUser?.id;
+
+      try {
+        const id = this.$route.params.id ?? this.getUser?.id;
       if (id) {
         this.id = id;
         const employee = await getEmployee({ id });
         this.form = employee;
-        this.loading = false;
+        }
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
+      this.loading = false;
+      
     },
     onTabChange(tab) {
       this.$router.push(tab.route);

@@ -25,10 +25,7 @@ export async function getFiles(payload) {
     const files = await hrmApiAxiosInstance.get(url, config);
     return files.data;
   } catch (e) {
-    if (e.response.status === 500) {
-      return window.open("/not-found", "_self");
-    }
-    console.log(e);
+    throw e;
   }
 }
 export async function deleteFiles(payload) {

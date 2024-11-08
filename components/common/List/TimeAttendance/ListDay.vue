@@ -18,6 +18,7 @@
         :listToday="listToday"
         :isTimesheetLocked="disabled"
         :timeEntries="entries"
+        :editable="editable"
         @new-entry="makeNewTimeEntry"
       ></time-entry-row>
       <div class="row total">
@@ -96,8 +97,12 @@ export default {
     todayDate: {
       type: DateTime | Date | String,
       default: DateTime.now().toFormat(DATETIME_FORMAT),
-    }
-    
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+
   },
   data() {
     return {

@@ -104,6 +104,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -120,6 +124,7 @@ export default {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
     showDeleteIcon() {
+      if(!this.editable) return false;
       if (!this.newData.id) return false;
       if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       return true;
@@ -216,6 +221,8 @@ export default {
       this.$store.dispatch("app/addNotification", { notification });
     },
     handleWrapperClick() {
+
+      if(!this.editable) return;
       if(this.isTimesheetLocked) {
         this.debounceTimesheetLockNotification();
       }

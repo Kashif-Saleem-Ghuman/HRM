@@ -20,7 +20,7 @@
           variant="success"
           class="button-wrapper-align w-100"
           @click="handleClockInOutClick()"
-          :disabled="isTimerLoading || isTodayTimeEntryLocked"
+          :disabled="isTimerLoading || isTodayTimeEntryLocked || canStartTimer"
         ></bib-button>
       </div>
 
@@ -161,6 +161,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    canStartTimer: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -219,6 +223,8 @@ export default {
       }
       else if (this.disabled) {
         this.debouncedNotification();
+      }else if(this.canStartTimer) {
+        this.debouncedCanStartTimer();
       }
     },
     getWelcomeMessage() {
@@ -257,6 +263,19 @@ export default {
     handleClockOutWrapperClick() {
       if (this.isBreakActive) {
         this.clockOutDebouncedNotification();
+      }
+    },
+
+    debouncedCanStartTimer() {
+      if (!this.startTimertDebounce) {
+        this.$openPopupNotification({
+          text: "You can't start timer for pending or rejected timesheet",
+          variant: "danger",
+        });
+        this.startTimertDebounce = true;
+        setTimeout(() => {
+          this.startTimertDebounce = false;
+        }, 3000);
       }
     },
 

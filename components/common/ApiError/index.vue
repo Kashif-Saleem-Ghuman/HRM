@@ -2,7 +2,7 @@
   <div id="error-404-wrapper" class="shape-rounded" :class="themeClassCommon">
     <h2 id="error-404-heading1">{{ title }}</h2>
     <p>{{ details }}</p>
-    <NuxtLink :to="getUserRole === 'ADMIN' ? '/dashboard/' : '/home/'" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Redirect to Home</NuxtLink>
+    <a href="." :class="isLightThemeCheck ? 'text-dark': 'text-light'">Refresh</a>
   </div>
 </template>
 <script>

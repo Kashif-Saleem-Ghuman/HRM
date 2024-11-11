@@ -138,7 +138,7 @@ export async function getUserLeavesDetailUser(payload) {
   } catch (e) {
     this.loading = false;
     this.$openPopupNotification({
-      text: e.response.data.message,
+      text: e?.response?.data?.message,
       variant: "danger",
     });
   }

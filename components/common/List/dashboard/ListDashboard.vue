@@ -66,8 +66,7 @@
         </div>
         <notifications
           v-if="shouldShowClockInReminderIcon(data)"
-          @clock-in-reminder="clockInReminder(data.value.id)"
-          :clockInReminderIcon="shouldShowClockInReminderIcon(data)"
+          @submit-notification="clockInReminder(data.value.id)"
           iconName="time-alarm-solid"
           :isLoading="mapLoading[data.value.id]"
         ></notifications>

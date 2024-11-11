@@ -16,6 +16,7 @@
               :disabled="hasInEntryToday"
               :todayDate="todayDate"
               :isTodayTimeEntryLocked="isTodayTimeEntryLocked"
+              :canStartTimer="canStartTimer"
               icon="time-alarm"
             ></info-card-timer>
 
@@ -365,7 +366,9 @@ export default {
     getFilteredTimeEntries() {
       return this.filterTimeEntries(this.getDailyTimeEntries);
     },
-
+    canStartTimer() {
+      return JSON.stringify(this.getTimesheetToday) !== "{}" && this.getTimesheetToday?.canStartTimer();
+    },
     isTodayTimeEntryLocked() {
       return Boolean(this.getTodayDailyTimeEntries?.find((entry) => entry.activity === ACTIVITY_TYPE.IN && entry.status === TIMESHEET_STATUSES.APPROVED)) || this.isTodayTimesheetLocked;
     },

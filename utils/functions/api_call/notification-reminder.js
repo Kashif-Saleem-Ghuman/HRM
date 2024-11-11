@@ -34,7 +34,7 @@ export async function clockInReminder({ employeeIds }) {
     });
     this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    console.log(e);
+    throw new Error(e.response?.data?.message);
   }
 }
 

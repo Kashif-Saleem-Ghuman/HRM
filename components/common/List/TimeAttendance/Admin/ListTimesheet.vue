@@ -62,13 +62,8 @@
             </div>
           </div>
           <notifications
-            v-if="shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)"
-            @submit-timesheet-reminder="
-              submitTimesheetReminder(data.value.timesheets?.[0]?.id, data.value.id)
-            "
-            :timesheetSubmitReminderIcon="
-              shouldShowTimesheetSubmitReminderIcon(data.value.timesheets?.[0]?.status)
-            "
+            v-if="shouldShowTimesheetReminderIcon(data.value.timesheets?.[0]?.status, data.value.timesheets?.[0]?.lastReminderSentAt)"
+            @submit-notification="submitTimesheetReminder(data.value.timesheets?.[0]?.id, data.value.id)"
             :isLoading="mapLoading[data.value.id]"
             iconName="send-solid"
             customClass="ml-05 mr-1"
@@ -151,6 +146,7 @@ import {
   getStatusVariant,
 } from "../../../../../utils/functions/status";
 import {formatTime} from "../../../../../utils/functions/clock_functions";
+import {shouldShowReminderIcon} from "@/utils/timesheets";
 
 export default {
   props: {
@@ -209,6 +205,7 @@ export default {
     this.$resetTableFieldsHeaderIcon(this.tableFields);
   },
   methods: {
+    shouldShowReminderIcon,
     formatTime,
     formatHoursToHHMM,
     getStatusIcon,
@@ -253,8 +250,12 @@ export default {
       this.$set(this.mapLoading, employeeId, true);
       try {
         await this.$submitTimesheetReminder({ timesheetIds: timesheetId });
+        this.$nuxt.$emit('get-time-attendance');
       } catch (errorMessage) {
-        console.log(errorMessage);
+        this.$openPopupNotification({
+          text: errorMessage,
+          variant: "danger",
+        });
       } finally {
         this.$set(this.mapLoading, employeeId, false);
       }
@@ -278,6 +279,10 @@ export default {
         (activity) => data[activity]
       );
       return ACTIVITY_TYPE_LABEL_VALUE[activity] ?? "";
+    },
+    shouldShowTimesheetReminderIcon(status, reminderAt) {
+      if(status === 'pending' || status === 'approved') return false;
+      return shouldShowReminderIcon(reminderAt);
     },
     getFormattedHoursWithVacation(weekData, vacationName) {
       const formattedHours = formatTime(weekData.totalHours, false);

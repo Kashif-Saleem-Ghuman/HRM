@@ -36,9 +36,8 @@
           </div>
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
-              v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
-              @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
-              :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
+              v-if="shouldShowReminderIcon(data.value?.lastReminderSentAt)"
+              @submit-notification="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
               iconName="send-solid"
               :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
             ></notifications>
@@ -108,6 +107,7 @@ import fecha from "fecha";
 import {DateTime} from "luxon";
 import {formatTime} from "../../../../../utils/functions/clock_functions";
 import {submitPastDueTimesheetReminder} from "../../../../../utils/functions/api_call/notification-reminder";
+import {shouldShowReminderIcon} from "@/utils/timesheets";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -195,6 +195,7 @@ export default {
     this.loading = false;
   },
   methods: {
+    shouldShowReminderIcon,
     formatTime,
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
@@ -202,15 +203,6 @@ export default {
     
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
-    },
-    shouldShowDueReminderIcon(reminderSentDate) {
-      if(!reminderSentDate) return true;
-
-      const now = DateTime.now();
-      const date = DateTime.fromISO(reminderSentDate);
-
-      const differenceInHours = now.diff(date, 'hours').hours;
-      return differenceInHours > 24;
     },
     async submitPastDueTimesheetReminder(timesheetId, date, employeeId) {
       try {

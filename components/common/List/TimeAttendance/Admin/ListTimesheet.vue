@@ -74,11 +74,12 @@
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <chips
           :key="`${value.day}-${Math.random()}`"
-          :title="getTimesheetDayValue(data.value, value)"
-          :leaveTypeHighlighterText="getLeaveTypeValue(data.value, value)"
-          :className="[$getDayClassName(data.value[value.day], data.value, value)]"
-          :leaveHighlighter="getLeaveTypeValue(data.value, value) ? true : false"
-              :notifyClass="[$getHightlighterClass(data.value[value.day], data.value.weekData, value)]"
+          :title="$getTimesheetDayValue(data.value, value, true)"
+          :leaveTypeHighlighterText="$getLeaveTypeValue(data.value, value, true)"
+          :className="[$getDayClassName(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveHighlighter="$getLeaveTypeValue(data.value, value, true) ? true : false"
+          :notifyClass="[$getHightlighterClass(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveTypeHighlighterTolltip="$getLeaveTooltipTitle(data.value, value, true)"
         ></chips>
       </template>
 

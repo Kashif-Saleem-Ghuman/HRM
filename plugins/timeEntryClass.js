@@ -2,14 +2,14 @@ function convertSecondsToHour(seconds) {
   return seconds / 3600;
 }
 export default ({ app }, inject) => {
-  const getDayClassName = (hours, data, day) => {
+  const getDayClassName = (hours, data, day, useAlternateData = false) => {
     const totalHours = convertSecondsToHour(Number(hours));
     if (data && day) {
       const { day: weekDay, index: weekIndex } = day;
-      const { leaves } = data;
-  
+      const { leaves } = !useAlternateData ? data : data.weekData;
+
       if (Object.keys(leaves ?? {}).length > 0) {
-        const leave = leaves[weekIndex];  
+        const leave = leaves[weekIndex];
         // Leave type conditions
         if(leave?.type) {
           return "chip-wrapper__default"
@@ -57,12 +57,12 @@ export default ({ app }, inject) => {
       return "chip-wrapper__bgdefault chip-wrapper__border-radius";
     }
   };
-  const getHightlighterClass = (hours, data, day) => {
+  const getHightlighterClass = (hours, data, day, useAlternateData = false) => {
     const totalHours = convertSecondsToHour(Number(hours));
     if (data && day) {
       const { day: weekDay, index: weekIndex } = day;
-      const { leaves } = data;
-  
+      const { leaves } = !useAlternateData ? data : data.weekData;
+
       if (Object.keys(leaves ?? {}).length > 0) {
         const leave = leaves[weekIndex]; 
         return "notify-highlighter__bgdefault"; 

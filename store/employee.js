@@ -175,7 +175,6 @@ export const actions = {
       );
       if (user) {
         ctx.commit("SET_ACTIVE_USER", user);
-        await ctx.dispatch("token/setActiveUserRole", { employee: user }, { root: true });
       }
       return user;
     } catch (e) {

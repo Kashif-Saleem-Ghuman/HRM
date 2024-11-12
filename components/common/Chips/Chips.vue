@@ -89,6 +89,7 @@ export default {
     },
     centerAlign: {
       type: String | Boolean,
+      default: true,
     },
     leaveHighlighter:{
       type: Boolean,
@@ -176,8 +177,8 @@ export default {
 }
 .chip-wrapper {
   display: flex;
-  text-align: center;
-  justify-content: center;
+  // text-align: center;
+  // justify-content: center;
   width: 100%;
   border-radius: 4px;
   padding: 8px 15px 8px 8px;
@@ -236,6 +237,30 @@ export default {
     }
     span {
       color: #805500;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+  &__bgrejected {
+    background-color: #E6000E;
+    border-radius: 4px;
+    svg {
+      fill: #450004 !important;
+    }
+    span {
+      color: #450004;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+  &__bgnotsubmitted {
+    background-color: $primary;
+    border-radius: 4px;
+    svg {
+      fill: #b9c3df !important;
+    }
+    span {
+      color: #c7d3f6;
       font-weight: 600;
       font-size: 14px;
     }

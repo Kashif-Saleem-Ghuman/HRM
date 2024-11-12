@@ -1,38 +1,44 @@
-
 .button-override {
   .button {
     display: flex;
     justify-content: space-between;
     &--success-light {
-      background-color: #ddf0dc !important;
-      color: $success;
-      border: 1px solid $success !important;
+      background-color: $success !important;
+      color: #0d300b;
       svg {
-        fill: $success !important;
+        fill: #0d300b !important;
       }
     }
     &--warning-light {
-      background-color: #fff2d6 !important;
-      color: #ffab00;
-      border: 1px solid #ffab00 !important;
+      background-color: #ebe700 !important;
+      color: #757300;
+      // border: 1px solid #ffab00 !important;
       svg {
-        fill: #ffab00 !important;
+        fill: #757300 !important;
+      }
+    }
+    &--pastdue-light {
+      background-color: #ffab00 !important;
+      color: #805500;
+      // border: 1px solid #ffab00 !important;
+      svg {
+        fill: #805500 !important;
       }
     }
     &--danger-light {
-      background-color: #fbd6d8 !important;
-      color: $danger;
-      border: 1px solid $danger !important;
+      background-color: #e6000e !important;
+      color: #450004;
+      // border: 1px solid $danger !important;
       svg {
-        fill: $danger !important;
+        fill: #450004 !important;
       }
     }
     &--default-light {
-      background-color: $gray4 !important;
-      color: $dark;
-      border: 1px solid $dark !important;
+      background-color: #F0F0F0 !important;
+      color: #9B9B9D;
+      // border: 1px solid $dark !important;
       svg {
-        fill: $dark !important;
+        fill: #9B9B9D !important;
       }
     }
     &--primary {
@@ -46,5 +52,37 @@
   }
   .cursor-default {
     cursor: default !important;
+  }
+}
+.button-lib-buttons {
+  .button {
+    display: flex;
+    justify-content: space-between;
+    &--success {
+      background-color: $success !important;
+    }
+    &--warning {
+      background-color: #FFAB00 !important;
+    }
+    &--pastdue {
+      background-color: #ffab00 !important;
+    }
+    &--danger {
+      background-color: #E6000E !important;
+    }
+  }
+}
+.dark-theme {
+  .button-override {
+    .button {
+      &--default-light {
+        background-color: #292730 !important;
+        color: #8D8D8F;
+        // border: 1px solid $dark !important;
+        svg {
+          fill: #8D8D8F !important;
+        }
+      }
+    }
   }
 }

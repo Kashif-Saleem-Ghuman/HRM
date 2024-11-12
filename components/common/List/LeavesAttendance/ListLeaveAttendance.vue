@@ -27,6 +27,7 @@
             :iconShowLeft="true"
             :icon="$getLeaveStatusIconVariant(data.value.type)"
             :variantIcon="$getStatusIconVariant(data.value.status)"
+            :centerAlign="false"
           ></chips>
         </div>
       </template>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dropdown-chip-menu"
+    class="dropdown-chip-menu button-lib-buttons"
     @mouseleave="hideMenu"
   >
     <div class="d-flex align-center">

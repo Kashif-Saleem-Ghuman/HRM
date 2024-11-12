@@ -179,14 +179,14 @@
   }
   
   .dark-row {
-    span {
-      color: var(--bib-secondary) !important;
-    }
+    // span {
+    //   color: var(--bib-secondary) !important;
+    // }
   
   
-    &:hover {
-      & span {
-        color: var(--bib-text-primary) !important;
-      }
-    }
+    // &:hover {
+    //   & span {
+    //     color: var(--bib-text-primary) !important;
+    //   }
+    // }
   }

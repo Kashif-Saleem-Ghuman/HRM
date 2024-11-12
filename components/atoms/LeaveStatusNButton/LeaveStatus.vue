@@ -18,7 +18,6 @@
       :icon-right="setIconVisibility(resolvedStatus)"
       @click.native.stop="$emit('click')"
       :disabled="disabled"
-      pill
       :style="minWidth"
       class="d-align"
       :class="[defaultPointer ? 'cursor-default' : 'cursor-pointer']"

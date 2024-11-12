@@ -1,11 +1,11 @@
 <template>
-  <div class="remove-pad">
+  <div>
     <bib-table
       :fields="tableFields"
       :sections="timesheetList"
       :hide-no-column="true"
       :fixHeader="true"
-      class="table bg-white"
+      class="table"
       @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(name)="data">
@@ -84,13 +84,13 @@
       </template>
 
       <template #cell(total)="data">
-        <div>
+        <div class="d-align font-w-600">
           {{ data.value.refusalReason }}
           <span>{{ formatTime(data.value.total, false) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
-        <div class="text-dark">
+        <div>
           <chips
             v-if="!data.value.timesheets?.length"
             :title="TIMESHEET_STATUS[getEmptyTimesheetStatus()].label"

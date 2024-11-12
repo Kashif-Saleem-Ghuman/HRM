@@ -2,37 +2,6 @@
   .chip-wrapper__bggray {
     background-color: $dark-sub3;
   }
-  // .chip-wrapper__bgpastdue {
-  //   background-color: $primary-24-sub2;
-  // }
-  // .chip-wrapper__bgabsent {
-  //   background-color: $warning-sub3 !important;
-  // }
-  // .chip-wrapper__bgabsentpink {
-  //   background-color: $danger-sub3 !important;
-  // }
-  // .chip-wrapper {
-  //   &__bgsucess {
-  //     span {
-  //       color: $success !important;
-  //     }
-  //   }
-  //   &__bgabsent {
-  //     span {
-  //       color: $orange !important;
-  //     }
-  //   }
-  //   &__bgpastdue {
-  //     span {
-  //       color: $primary !important;
-  //     }
-  //   }
-  //   &__bgabsentpink {
-  //     span {
-  //       color: $danger !important;
-  //     }
-  //   }
-  // }
   .chip-wrapper__bgdefault {
     background-color: $dark-sub3;
     border: 1px solid $dark;
@@ -41,25 +10,16 @@
       fill: $secondary-sub2 !important;
     }
     span {
-      color: $secondary-sub3 !important;
+      // color: $secondary-sub3 !important;
       font-weight: 400;
       font-size: 14px;
-    }
-  }
-  .chip-wrapper__bgvacation {
-    background-color: $primary;
-    svg {
-      fill: $white !important;
-    }
-    span {
-      color: $secondary-sub3 !important;
     }
   }
   .chip-wrapper__default {
     background-color: $dark;
     border-radius: 4px;
     span {
-      color: $gray4 !important;
+      // color: $gray4 !important;
       font-weight: 400;
       font-size: 14px;
     }

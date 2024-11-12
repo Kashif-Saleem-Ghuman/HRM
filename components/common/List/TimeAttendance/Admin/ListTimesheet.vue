@@ -1,11 +1,11 @@
 <template>
-  <div class="remove-pad">
+  <div>
     <bib-table
       :fields="tableFields"
       :sections="timesheetList"
       :hide-no-column="true"
       :fixHeader="true"
-      class="table bg-white"
+      class="table"
       @column-header-clicked="headerColumnClick($event.column)"
     >
       <template #cell(name)="data">
@@ -71,22 +71,26 @@
         </div>
       </template>
 
-      <template v-for="day in weekDays" #[`cell(${day.value})`]="data">
+      <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <chips
-          :key="day.value"
-          :title="getWeekdayValue(data.value.weekData, day)"
-          :class="$getWeekdayClassNames(data.value.weekData, day)"
+          :key="`${value.day}-${Math.random()}`"
+          :title="$getTimesheetDayValue(data.value, value, true)"
+          :leaveTypeHighlighterText="$getLeaveTypeValue(data.value, value, true)"
+          :className="[$getDayClassName(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveHighlighter="$getLeaveTypeValue(data.value, value, true) ? true : false"
+          :notifyClass="[$getHightlighterClass(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveTypeHighlighterTolltip="$getLeaveTooltipTitle(data.value, value, true)"
         ></chips>
       </template>
 
       <template #cell(total)="data">
-        <div>
+        <div class="d-align font-w-600">
           {{ data.value.refusalReason }}
           <span>{{ formatTime(data.value.total, false) }}</span>
         </div>
       </template>
       <template #cell(status)="data">
-        <div class="text-dark">
+        <div>
           <chips
             v-if="!data.value.timesheets?.length"
             :title="TIMESHEET_STATUS[getEmptyTimesheetStatus()].label"
@@ -173,8 +177,8 @@ export default {
       filteredData: [],
       TIMESHEET_STATUS,
       weekDays: WEEK_DAY.map((day) => ({
-        ...day,
-        value: day.value.substring(0, 3),
+        day: day.value.substring(0, 3),
+        index: day.weekday
       })),
       sortByField: null,
       mapLoading: {}
@@ -225,6 +229,42 @@ export default {
         return "Rejected";
       }
       return title;
+    },
+
+    getLeaveTypeValue(data, day){
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data?.weekData;
+      const dayValue = data.weekData[weekIndex]?.totalHours;
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() +  leave?.type.slice(1);;
+        if (isValidTime) {
+          return `${leaveType}`;
+        }
+      }
+    },
+    getTimesheetDayValue(data, day) {
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data.weekData;
+      const dayValue = data.weekData[weekIndex]?.totalHours;
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
+
+        if (isValidTime) {
+          return `${formattedTime}`;
+        }
+
+        return leaveType;
+      }
+
+      if (!dayValue) return '--';
+
+      return isValidTime ? formattedTime : '--';
     },
     sortColumn(columnKey) {
       if (this.sortByField && this.sortByField.key != columnKey) {

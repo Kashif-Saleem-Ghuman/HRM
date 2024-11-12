@@ -122,11 +122,19 @@ export default {
           return parser.parse("weekDays");
         });
 
-        timesheets.forEach( employee => {
-          processEmployeeRequests(employee, from, to)
-        })
+        timesheets.forEach((employee) => {
+          const { leavesByDate, timesheets } = employee;
+
+          if(timesheets.length <= 0) return;
+
+          const timesheetDate = DateTime.fromISO(timesheets[0]?.start, { zone: "utc" }).toISODate();
+          const timesheetLeaves = leavesByDate?.[timesheetDate];
+          employee.weekData.leaves = timesheetLeaves;
+        });
+
         this.timesheetsList = timesheets;
       } catch (error) {
+        console.error('error:', error);
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
 

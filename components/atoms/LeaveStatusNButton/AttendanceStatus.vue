@@ -9,7 +9,6 @@
         $getAttendanceLeaveStatusIconName($getAttendanceStatus(attendanceStatusData))
       "
       :style="minWidth"
-      pill
     ></bib-button>
   </div>
 </template>

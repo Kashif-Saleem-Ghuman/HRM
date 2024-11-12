@@ -29,7 +29,11 @@
         class="ml-05"
         style="margin-right: -5px"
       ></bib-icon>
+      
     </div>
+    <div class="position-relative" v-if=leaveHighlighter>
+        <div class="position-absolute notify-highlighter" :class="notifyClass"><span v-tooltip="leaveTypeHighlighterTolltip">{{ leaveTypeHighlighterText }}</span></div>
+      </div>
   </div>
 </template>
 <!-- :class="[
@@ -85,7 +89,24 @@ export default {
     },
     centerAlign: {
       type: String | Boolean,
+      default: true,
     },
+    leaveHighlighter:{
+      type: Boolean,
+      default: null,
+    },
+    notifyClass:{
+      type: String | Array,
+      default: null,
+    },
+    leaveTypeHighlighterText:{
+      type: String,
+      default: null,
+    },
+    leaveTypeHighlighterTolltip:{
+      type: String,
+      default: null,
+    }
   },
   data() {
     return {};
@@ -156,12 +177,15 @@ export default {
 }
 .chip-wrapper {
   display: flex;
-  text-align: center;
-  justify-content: start;
+  // text-align: center;
+  // justify-content: center;
   width: 100%;
   border-radius: 4px;
   padding: 8px 15px 8px 8px;
   align-items: center;
+  span{
+    font-weight: 600;
+  }
 
   &__shape-circle {
     width: 3rem;
@@ -180,64 +204,88 @@ export default {
   }
 
   &__bgsucess {
-    background-color: #d5e8d4;
-    color: $success;
+    background-color: $success !important;
+    color: $black !important;
     border-radius: 4px;
     svg {
-      fill: $success !important;
+      fill: #0D300B !important;
     }
     span {
-      color: $success !important;
-      font-weight: 400;
+      color: #0D300B !important;
+      font-weight: 600;
       font-size: 14px;
     }
   }
 
   &__bgabsent {
-    background-color: rgba(255, 171, 0, 0.16) !important;
+    background-color: #EBE700 !important;
     border-radius: 4px;
     svg {
-      fill: #ffab00 !important;
+      fill: #757300 !important;
     }
     span {
-      color: #ffab00;
-      font-weight: 400;
+      color: #757300;
+      font-weight: 600;
       font-size: 14px;
     }
   }
   &__bgpastdue {
-    background-color: rgba(255, 171, 0, 0.16);
+    background-color: #FFAB00;
     border-radius: 4px;
     svg {
-      fill: #ffab00 !important;
+      fill: $black !important;
     }
     span {
-      color: #ffab00;
-      font-weight: 400;
+      color: #805500;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+  &__bgrejected {
+    background-color: #E6000E;
+    border-radius: 4px;
+    svg {
+      fill: #450004 !important;
+    }
+    span {
+      color: #450004;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+  &__bgnotsubmitted {
+    background-color: $primary;
+    border-radius: 4px;
+    svg {
+      fill: #b9c3df !important;
+    }
+    span {
+      color: #c7d3f6;
+      font-weight: 600;
       font-size: 14px;
     }
   }
   &__bgvacation {
-    background-color: rgba(31, 66, 162, 0.16);
+    background-color: #EBE700;
     border-radius: 4px;
     svg {
       fill: $primary !important;
     }
     span {
-      color: $primary;
-      font-weight: 400;
+      color: $black;
+      font-weight: 600;
       font-size: 14px;
     }
   }
   &__bgabsentpink {
-    background-color: rgba(230, 0, 14, 0.16);
+    background-color: #FFAB00;
     border-radius: 4px;
     svg {
-      fill: #e6000e !important;
+      fill: #805500 !important;
     }
     span {
-      color: #e6000e !important;
-      font-weight: 400;
+      color: #805500 !important;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -250,7 +298,7 @@ export default {
     }
     span {
       color: $secondary-sub1;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -263,7 +311,7 @@ export default {
     }
     span {
       color: $secondary-sub1;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
   }
@@ -276,11 +324,20 @@ export default {
     }
     span {
       color: #999;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
     }
     span:first-letter {
       text-transform: uppercase;
+    }
+  }
+  &__default {
+    background-color: $light;
+    border-radius: 4px;
+    span {
+      color: $gray6 !important;
+      font-weight: 600;
+      font-size: 14px;
     }
   }
 }
@@ -343,4 +400,46 @@ export default {
 .padding-0 {
   padding: 0 !important;
 }
+.notify-highlighter {
+  right: 0px;
+  top: -8px;  
+  border-radius: 4px;
+  padding: 0 1px;
+  text-align: center;
+  border: 1px solid $dark-sub3;
+  &__bgdefault {
+    background-color: $gray4;
+    span {
+      color: $black !important;
+    }
+  }
+
+  &__bgsucess {
+    background-color: $success;
+    span {
+      color: $white !important;
+    }
+  }
+
+  &__bgabsent {
+    background-color: $orange !important;
+    span {
+      color: $white !important;
+    }
+  }
+  &__bgabsentpink {
+    background-color: $danger !important;
+    span {
+      color: $white !important;
+    }
+  }
+  span {
+    display: block;
+    font-size: 10px !important; /* Adjust size of the text inside */
+    z-index: 1; /* Ensure the text is above any background or shadows */
+    padding: 2px 5px;
+  
+}
+}
+
 </style>

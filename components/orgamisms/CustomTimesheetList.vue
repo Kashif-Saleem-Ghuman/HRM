@@ -39,12 +39,14 @@
 
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <template>
-          <chips
-            :key="`${value.day}-${Math.random()}`"
-            :title="data.value[value.day] ? formatTime(data.value[value.day], false) : '--'"
-            :className="[$getDayClassName(data.value[value.day])]"
+          <chips :key="`${value.day}-${Math.random()}`" 
+            :title="$getTimesheetDayValue(data.value, value)"
+            :leaveTypeHighlighterText="$getLeaveTypeValue(data.value, value)"
+            :leaveTypeHighlighterTolltip="$getLeaveTooltipTitle(data.value, value)"
+            :className="[$getDayClassName(data.value[value.day], data.value, value)]"
             @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
-          ></chips>
+            :leaveHighlighter="$getLeaveTypeValue(data.value, value) ? true : false"
+            :notifyClass="[$getHightlighterClass(data.value[value.day], data.value, value)]"></chips>
         </template>
       </template>
 
@@ -226,6 +228,43 @@ export default {
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
+    
+    getLeaveTypeValue(data, day){
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() +  leave?.type.slice(1);;
+        if (isValidTime) {
+          return `${leaveType}`;
+        }
+      }
+    },
+    
+    getTimesheetDayValue(data, day) {
+      const { day: weekDay, index: weekIndex } = day;
+      const { leaves } = data;
+      const dayValue = data[weekDay];
+      const formattedTime = this.formatTime(dayValue, false);
+      const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
+      if (leaves && leaves[weekIndex]) {
+        const leave = leaves[weekIndex];
+        const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
+
+        if (isValidTime) {
+          return `${formattedTime}`;
+        }
+
+        return leaveType;
+      }
+
+      if (!dayValue) return '--';
+
+      return isValidTime ? formattedTime : '--';
+    },
 
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
@@ -304,50 +343,6 @@ export default {
         }
       }
 
-    },
-
-    async getAndParseTimesheets() {
-      const { searchString } = this;
-
-      this.loading = true;
-      const { from, to } = this.dates;
-      if (!from || !to) return;
-
-      const employees = await fetchTimesheetsFunctionMap[this.type]({
-        from,
-        to,
-        searchString,
-      });
-
-      employees.forEach((employee) => {
-        employee.timesheets.forEach((timesheet) => {
-          const parser = new TimesheetParser(timesheet);
-          parser.parse("hours");
-        });
-      });
-
-      this.employees = employees;
-
-      function getWeekdayIndex(dateString) {
-        const date = new Date(dateString);
-        return date.getDay();
-      }
-
-      this.employees.forEach(employee => {
-        employee.timesheets.forEach(timesheet => {
-          timesheet.timeEntries.forEach(timeEntry => {
-            const weekdayIndex = getWeekdayIndex(timeEntry.start);
-            timeEntry.weekdayIndex = weekdayIndex;
-
-            if(weekdayIndex === 0){
-              timeEntry.weekdayIndex = 7;
-            }
-          });
-        });
-      });
-      this.loading = false;
-      this.$emit("update:requestData", this.employees);
-      this.$emit('update:isStatusUpdated', false);
     },
 
     redirectToProfile(userId, value, index) {

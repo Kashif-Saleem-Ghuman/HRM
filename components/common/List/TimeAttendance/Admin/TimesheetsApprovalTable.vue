@@ -4,16 +4,8 @@
 
     <no-record v-if="showNoData"></no-record>
 
-    <custom-table-day-view
-        v-else-if="showTable"
-        :fields="tableFields"
-        :allChecked="allChecked"
-        :type="type"
-        @select-all="selectAllItems"
-        :sections="employees"
-        :hide-no-column="true"
-        :fixHeader="true"
-    >
+    <custom-table-day-view v-else-if="showTable" :fields="tableFields" :allChecked="allChecked" :type="type"
+      @select-all="selectAllItems" :sections="employees" :hide-no-column="true" :fixHeader="true">
       <template v-if="type === PENDING_TYPE || type === PAST_DUE_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
           <bib-checkbox
@@ -21,23 +13,22 @@
               :key="data.items.id"
               @change="handleItemChecked(data.items)"
               :checked="data.items.checked"
-              :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              :variant="isLightThemeCheck ? '' : 'secondary'"
           ></bib-checkbox>
         </div>
       </template>
       <!-- Timsheet date range -->
       <template #cell(name)="data">
-        <div
-          class="d-flex align-center text-left gap-05 position-relative"
-        >
+        <div class="d-flex align-center text-left gap-05 position-relative">
           <div class="info_wrapper pl-05" :class="isLightThemeCheck ? 'text-black' : 'text-white'">
             {{ formatIsoDateToYYYYMMDD(data.value.start) }} ->
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
-              v-if="shouldShowReminderIcon(data.value?.lastReminderSentAt)"
-              @submit-notification="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
+              v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
+              @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
+              :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
               iconName="send-solid"
               :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
             ></notifications>
@@ -47,34 +38,28 @@
       </template>
 
       <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
-          <template>
-            <chips
-              :key="`${value.day}-${Math.random()}`"
-              :title="data.value[value.day] ? formatTime(data.value[value.day], false) : '--'"
-              :className="[$getDayClassName(data.value[value.day])]"
-              @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
-            ></chips>
-          </template>
+        <template>
+          <chips :key="`${value.day}-${Math.random()}`" 
+            :title="$getTimesheetDayValue(data.value, value)"
+            :leaveTypeHighlighterText="$getLeaveTypeValue(data.value, value)"
+            :leaveTypeHighlighterTolltip="$getLeaveTooltipTitle(data.value, value)"
+            :className="[$getDayClassName(data.value[value.day], data.value, value)]"
+            @on-click="redirectToProfile(data.value.employeeId, data.value, value.index)"
+            :leaveHighlighter="$getLeaveTypeValue(data.value, value) ? true : false"
+            :notifyClass="[$getHightlighterClass(data.value[value.day], data.value, value)]"></chips>
+        </template>
       </template>
 
 
       <template #cell(total)="data">
-        <chips
-          :title="
-            data.value.total ? formatTime(data.value.total, false) : '00:00'
-          "
-          :className="['padding-0']"
-        ></chips>
+        <chips :title="data.value.total ? formatTime(data.value.total, false) : '00:00'
+          " :className="['padding-0']"></chips>
       </template>
 
       <template #cell(status)="data">
         <div class="text-dark">
-          <dropdown-menu-chip
-            :items="timesheetStatusOptions.slice(1)"
-            :button-config="statusButtonConfig"
-            @on-click="actionConfirmation($event, data)"
-            :disabled="disableButtonMultiselect"
-          ></dropdown-menu-chip>
+          <dropdown-menu-chip :items="timesheetStatusOptions.slice(1)" :button-config="statusButtonConfig"
+            @on-click="actionConfirmation($event, data)" :disabled="disableButtonMultiselect"></dropdown-menu-chip>
         </div>
       </template>
     </custom-table-day-view>
@@ -101,13 +86,12 @@ import {
 } from "../../../../../utils/functions/api_call/timeattendance/time";
 import { TimesheetParser } from "../../../../../utils/timesheet-parsers/timesheet-parser";
 import { formatHoursToHHMM } from "../../../../../utils/functions/time";
-import{ TIMESHEET_NOTIFICATIN_MESSAGE} from "../../../../../utils/constant/Notifications"
+import { TIMESHEET_NOTIFICATIN_MESSAGE } from "../../../../../utils/constant/Notifications"
 import { random } from "lodash";
 import fecha from "fecha";
 import {DateTime} from "luxon";
 import {formatTime} from "../../../../../utils/functions/clock_functions";
 import {submitPastDueTimesheetReminder} from "../../../../../utils/functions/api_call/notification-reminder";
-import {shouldShowReminderIcon} from "@/utils/timesheets";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -153,8 +137,8 @@ export default {
         TIMESHEET_STATUS.rejected,
       ],
       weekDays: WEEK_DAY.map(day => ({
-          day: day.value.substring(0, 3),
-          index: day.weekday
+        day: day.value.substring(0, 3),
+        index: day.weekday
       })),
       tableFields: TABLE_HEAD.tHeadTimesheet,
       employees: [],
@@ -195,30 +179,38 @@ export default {
     this.loading = false;
   },
   methods: {
-    shouldShowReminderIcon,
     formatTime,
     formatIsoDateToYYYYMMDD,
     formatHoursToHHMM,
     random,
-    
+
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
+    },
+    shouldShowDueReminderIcon(reminderSentDate) {
+      if(!reminderSentDate) return true;
+
+      const now = DateTime.now();
+      const date = DateTime.fromISO(reminderSentDate);
+
+      const differenceInHours = now.diff(date, 'hours').hours;
+      return differenceInHours > 24;
     },
     async submitPastDueTimesheetReminder(timesheetId, date, employeeId) {
       try {
         this.$set(this.mapLoading, timesheetId + date + employeeId, true);
-        await submitPastDueTimesheetReminder(timesheetId, {employeeId, date});
+        await submitPastDueTimesheetReminder(timesheetId, { employeeId, date });
         this.$openPopupNotification({
           text: "A reminder for past due timesheet submission has been successfully sent to the employee.",
           variant: "primary-24"
         });
-      }catch (errorMessage) {
+      } catch (errorMessage) {
         this.$openPopupNotification({
           text: errorMessage,
           variant: "danger"
         });
       } finally {
-        
+
         this.employees = await this.getAndParseTimesheets();
         this.$set(this.mapLoading, timesheetId + date + employeeId, false);
       }
@@ -230,16 +222,16 @@ export default {
         case "approved":
           if (this.type === PENDING_TYPE) {
             // this.$emit('approve-item', {id});
-            this.approveSingleTimesheet({id});
+            this.approveSingleTimesheet({ id });
           } else {
             // this.$emit('approve-item', { id, employeeId, date });
             this.approveSingleTimesheet({ id, employeeId, date });
           }
-            this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
+          this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
           break;
         case "rejected":
           if (this.type === PENDING_TYPE) {
-            this.$emit('reject-item', {id});
+            this.$emit('reject-item', { id });
           } else {
             this.$emit('reject-item', { id, employeeId, date });
           }
@@ -293,10 +285,10 @@ export default {
           });
           this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
           this.showRefusalModal = false;
-        }else{
-        await rejectTimesheet({ id, refusalReason });
-        this.showRefusalModal = false;
-        this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+        } else {
+          await rejectTimesheet({ id, refusalReason });
+          this.showRefusalModal = false;
+          this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
         }
       }
 
@@ -312,36 +304,40 @@ export default {
         const { from, to } = this.dates;
         if (!from || !to) return;
 
-      let employees = await fetchTimesheetsFunctionMap[this.type]({
-        from,
-        to,
-        searchString,
-      });
-
-      employees.forEach((employee) => {
-        employee.timesheets.forEach((timesheet) => {
-          const parser = new TimesheetParser(timesheet);
-          parser.parse("hours");
+        let employees = await fetchTimesheetsFunctionMap[this.type]({
+          from,
+          to,
+          searchString,
         });
-      });
 
-      employees = employees;
+        employees.forEach((employee) => {
+          const { leavesByDate } = employee
+          employee.timesheets.forEach((timesheet) => {
+            const parser = new TimesheetParser(timesheet);
+            parser.parse("hours");
+            const timesheetDate = DateTime.fromISO(timesheet.start, { zone: "utc" }).toISODate();
+            const timesheetLeaves = leavesByDate?.[timesheetDate]
+            timesheet.leaves = timesheetLeaves
+          });
+        });
 
-      function getWeekdayIndex(dateString) {
+        employees = employees;
+
+        function getWeekdayIndex(dateString) {
           const date = new Date(dateString);
           return date.getDay();
-      }
+        }
 
-      employees.forEach(employee => {
+        employees.forEach(employee => {
           employee.timesheets.forEach(timesheet => {
-              timesheet.timeEntries.forEach(timeEntry => {
-                  const weekdayIndex = getWeekdayIndex(timeEntry.start);
-                  timeEntry.weekdayIndex = weekdayIndex;
+            timesheet.timeEntries.forEach(timeEntry => {
+              const weekdayIndex = getWeekdayIndex(timeEntry.start);
+              timeEntry.weekdayIndex = weekdayIndex;
 
-                  if(weekdayIndex === 0){
-                    timeEntry.weekdayIndex = 7;
-                  }
-              });
+              if (weekdayIndex === 0) {
+                timeEntry.weekdayIndex = 7;
+              }
+            });
           });
         });
         this.$emit("update:requestData", this.employees);
@@ -351,12 +347,12 @@ export default {
       } catch (error) {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
-      
+
     },
 
     redirectToProfile(userId, value, index) {
       let currentValue = value.timeEntries.find(entry => entry.weekdayIndex === index)
-      if(!currentValue) return this.debouncedNotification();
+      if (!currentValue) return this.debouncedNotification();
 
       const parsedDate = new Date(currentValue.start);
       parsedDate.setDate(parsedDate.getDate());
@@ -370,16 +366,16 @@ export default {
     debouncedNotification() {
       if (!this.debounced) {
         this.$openPopupNotification({
-        text: "Timesheet has no entries",
-        variant: "danger"
-      });
+          text: "Timesheet has no entries",
+          variant: "danger"
+        });
         this.debounced = true;
         setTimeout(() => {
           this.debounced = false;
         }, 3000);
       }
     },
-    checkCount(){
+    checkCount() {
       const checkedCount = this.employees
         .flatMap((employee) => employee.timesheets)
         .filter((timesheet) => timesheet.checked).length;
@@ -397,7 +393,7 @@ export default {
       this.$emit("update:requestData", this.employees);
     },
     handleItemChecked(timesheetEntries) {
-      const {employeeId, id, end} = timesheetEntries;
+      const { employeeId, id, end } = timesheetEntries;
       let timesheetIndex = -1;
       let employeeIndex = -1;
 
@@ -422,7 +418,7 @@ export default {
       this.$set(timesheet, "checked", !timesheet.checked);
 
       this.allChecked = this.employees.every((employee) =>
-          employee.timesheets.every((timesheet) => timesheet.checked)
+        employee.timesheets.every((timesheet) => timesheet.checked)
       );
       this.checkCount(timesheetEntries);
       this.$emit("update:requestData", this.employees);
@@ -498,12 +494,12 @@ export default {
       this.$emit("update:requestData", this.employees);
     },
     employees: {
-    deep: true, // Watch for nested changes
-    handler() {
-      // Call the checkCount function
-      this.checkCount();
+      deep: true, // Watch for nested changes
+      handler() {
+        // Call the checkCount function
+        this.checkCount();
+      }
     }
-  }
   },
 };
 </script>
@@ -520,6 +516,7 @@ export default {
     font-size: 14px;
   }
 }
+
 // .info_wrapper {
 //   color: $dark;
 //   font-weight: 400;
@@ -537,4 +534,3 @@ export default {
   color: $black;
 }
 </style>
-

@@ -28,9 +28,9 @@ export const getStatusVariant = (status) => {
   const variantStatusMapper = {
     [TIMESHEET_STATUSES.APPROVED]: "chip-wrapper__bgsucess",
     [TIMESHEET_STATUSES.PENDING]: "chip-wrapper__bgabsent",
-    [TIMESHEET_STATUSES.REJECTED]: "chip-wrapper__bgabsentpink",
+    [TIMESHEET_STATUSES.REJECTED]: "chip-wrapper__bgrejected",
     [TIMESHEET_STATUSES.PAST_DUE]: "chip-wrapper__bgpastdue",
-    [TIMESHEET_STATUSES.NOT_SUBMITTED]: "chip-wrapper__bgvacation",
+    [TIMESHEET_STATUSES.NOT_SUBMITTED]: "chip-wrapper__bgnotsubmitted",
   };
   return variantStatusMapper[status] || "";
 };

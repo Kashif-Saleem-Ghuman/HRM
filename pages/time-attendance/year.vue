@@ -92,9 +92,13 @@ export default {
       try {
         let employees = await getTimeAttendanceCustomRange({ from, to });
         employees.forEach((employee) => {
+        const { leavesByDate } = employee
         employee.timesheets.forEach((timesheet) => {
           const parser = new TimesheetParser(timesheet);
           parser.parse("hours");
+          const timesheetDate = DateTime.fromISO(timesheet.start, { zone: "utc" }).toISODate();
+          const timesheetLeaves = leavesByDate?.[timesheetDate]
+          timesheet.leaves = timesheetLeaves
         });
       });
 

@@ -28,7 +28,7 @@ export default ({ app, store }, inject) => {
         if (leave) {
           const leaveType = leave.type;
           const leaveMessage = leaveType === 'vacation' ? 'on vacation' : `on ${leaveType} leave`;
-          return `The user is ${leaveMessage} and is also working at ${app.$formatDisplayTime(formattedTime)}`;
+          return `The user is ${leaveMessage} and has worked for ${app.$formatDisplayTime(formattedTime)}.`;
         }
       }
       return '';

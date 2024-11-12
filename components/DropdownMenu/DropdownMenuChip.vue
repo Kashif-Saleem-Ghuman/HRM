@@ -106,33 +106,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.dropdown-chip-menu {
-  position: relative;
-  .menu-items {
-    position: absolute;
-    width: 157px; // Updated width
-    box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
-    border-radius: 10px;
-    right: 0;
-    top: 100%; // Updated to position below the button
-  }
-}
-.chip-wrapper-com {
-  z-index: 99999999999;
-  border-radius: 6px;
-  .chip-wrapper-inner {
-    box-shadow: 0px 0 0.1rem 0.2rem #f1f1f1;
-    border-radius: 6px;
-    padding: 0.5rem;
-  }
-}
-.disabled-opacity {
-  // opacity: 0.5; // Adjust opacity as needed
-  pointer-events: none; // Prevent interaction with the disabled items
-  a{
-    background-color: $gray4 !important;
-  }
-}
-</style>

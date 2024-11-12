@@ -3,11 +3,11 @@ import { hrmApiAxiosInstance } from "./hrm-api-axios-instance";
 export async function clockInReminder({ employeeIds }) {
   try {
     const url = "/employees/reminders/clock-in";
-    const employeeId = { employeeIds };
+    const payload = { employeeIds: [employeeIds] };
     const config = createConfig();
     const rejectLeaveVacationsAdmin = await hrmApiAxiosInstance.post(
       url,
-      employeeId,
+      payload,
       config
     );
     this.$openPopupNotification({
@@ -34,7 +34,7 @@ export async function clockInReminder({ employeeIds }) {
     });
     this.requestListApproveData = rejectLeaveVacationsAdmin.data.requests;
   } catch (e) {
-    console.log(e);
+    throw new Error(e.response?.data?.message);
   }
 }
 

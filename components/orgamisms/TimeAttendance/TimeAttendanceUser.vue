@@ -16,6 +16,7 @@
               :disabled="hasInEntryToday"
               :todayDate="todayDate"
               :isTodayTimeEntryLocked="isTodayTimeEntryLocked"
+              :canStartTimer="canStartTimer"
               icon="time-alarm"
             ></info-card-timer>
 
@@ -365,7 +366,9 @@ export default {
     getFilteredTimeEntries() {
       return this.filterTimeEntries(this.getDailyTimeEntries);
     },
-
+    canStartTimer() {
+      return JSON.stringify(this.getTimesheetToday) !== "{}" && this.getTimesheetToday?.canStartTimer();
+    },
     isTodayTimeEntryLocked() {
       return Boolean(this.getTodayDailyTimeEntries?.find((entry) => entry.activity === ACTIVITY_TYPE.IN && entry.status === TIMESHEET_STATUSES.APPROVED)) || this.isTodayTimesheetLocked;
     },
@@ -646,6 +649,8 @@ export default {
           if (result?.timesheet?.status) {
             this.timesheet = new Timesheet(result.timesheet);
           }
+        }).catch(error => {
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
         });
 
       this.parseTimeEntries();
@@ -658,38 +663,54 @@ export default {
       this.loading = false;
     },
     async fillWeeklyTimeEntries() {
+
       this.loading = true;
-      const weekRange = this.weekToUTCWeek({
-        from: new Date(this.weekDates.from),
-        to: new Date(this.weekDates.to),
-      });
-      const weekData = new TimesheetParser(
-        await getWeekTimesheets(weekRange)
-      ).parse("week");
-      this.weekDataActivityReports = weekData.activityReports;
-      this.weekDataTotalWork = formatTime(weekData.total, false);
-      this.weekDataStatus = weekData.status;
-      this.timesheetId = weekData.id;
-      (this.refusalReason = weekData), (this.loading = false);
+      try {
+        const weekRange = this.weekToUTCWeek({
+          from: new Date(this.weekDates.from),
+          to: new Date(this.weekDates.to),
+        });
+        const weekData = new TimesheetParser(
+          await getWeekTimesheets(weekRange)
+        ).parse("week");
+        this.weekDataActivityReports = weekData.activityReports;
+        this.weekDataTotalWork = formatTime(weekData.total, false);
+        this.weekDataStatus = weekData.status;
+        this.timesheetId = weekData.id;
+        (this.refusalReason = weekData)
+
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      } finally {
+        this.loading = false
+      }
     },
     async fillTimesheetEntries(isWeekRange = false) {
       this.loading = true;
-      const { from, to } = this.weekToUTCWeek({
-        from: new Date(
-          isWeekRange ? this.weekDates.from : this.timesheetDates.from
-        ),
-        to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
-      });
-      let timesheets = await getTimesheets({ from, to });
-      timesheets = timesheets
-        .map((employee) => {
-          const parser = new TimesheetParser({ timesheets: employee });
-          return parser.parse("weekDays");
-        })
-        .sort((a, b) => new Date(b.start) - new Date(a.start));
-      this.timesheetsList = timesheets;
-      this.timesheetsList.length ? this.notFound : this.notFound = false;
-      this.loading = false;
+
+      try {
+        const { from, to } = this.weekToUTCWeek({
+          from: new Date(
+            isWeekRange ? this.weekDates.from : this.timesheetDates.from
+          ),
+          to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
+        });
+        let timesheets = await getTimesheets({ from, to });
+        timesheets = timesheets
+          .map((employee) => {
+            const parser = new TimesheetParser({ timesheets: employee });
+            return parser.parse("weekDays");
+          })
+          .sort((a, b) => new Date(b.start) - new Date(a.start));
+        this.timesheetsList = timesheets;
+        this.timesheetsList.length ? this.notFound : this.notFound = false;
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      } finally {
+        this.loading = false;
+      }
+
+
     },
     setPreviousDate(date) {
       this.previousDate = date;

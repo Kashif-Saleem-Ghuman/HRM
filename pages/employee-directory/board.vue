@@ -52,9 +52,13 @@ export default {
 
   methods: {
     async getOrganizationEntries() {
-      const data = await getEmployees({ currentLeaveType: true });
-      const employees = data.employees;
-      this.employees = employees;
+      try {
+        const data = await getEmployees({ currentLeaveType: true });
+        const employees = data.employees;
+        this.employees = employees;
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
       this.loading = false
     },
   },

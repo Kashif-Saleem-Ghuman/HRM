@@ -21,7 +21,7 @@
                  @change="$emit('select-all', $event)"
                  :checked="allChecked"
                  style="margin: 0; padding: 0px"
-                 :variant="isLightThemeCheck ? '' : 'secondary'"
+                 :variant="isLightThemeCheck ? 'light' : 'secondary'"
              ></bib-checkbox>
            </div>
          </th>
@@ -262,10 +262,10 @@ export default {
     type: {
       type: String,
     },
-    allChecked: {
+    allChecked:{
       type: Boolean,
       default: false,
-    },
+    }
   },
   data() {
     return {

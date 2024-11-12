@@ -53,7 +53,8 @@ export default {
     '~/plugins/hideMyAccountDropMenu.js',
     '~/plugins/dropdownUtils.js',
     '~/plugins/table-sort-helpers.js',
-    '~/plugins/timesheetValueDisplay.js'
+    '~/plugins/timesheetValueDisplay.js', 
+    '~/plugins/apiError.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

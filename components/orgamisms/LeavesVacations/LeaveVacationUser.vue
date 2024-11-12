@@ -169,6 +169,10 @@
             this.leaveVacationDataUser = result;
             this.is_data_fetched = true;
           }
+      })
+      .catch((error) => {
+        console.log('leavevacationUser_error', error);
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
         });
       if (this.$route.query?.request) {
         this.addLeaves(this.$route.query?.request);
@@ -209,6 +213,9 @@
             } else {
               this.leaveVacationDataUser = result;
             }
+        })
+        .catch((error) => {
+          this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
           });
       },
       closeconfirmastionMessageModal() {
@@ -219,10 +226,7 @@
         this.confirmastionMessageModal = true;
       },
       addLeaves($event) {
-        setTimeout(() => {
-          userMenu.classList.remove(...animationClasses);
-          userMenu.style.display = "none";
-        }, 3000);
+        this.$hideUserMenu();
 
         this.$nuxt.$emit("open-sidebar-admin", $event);
         this.$nuxt.$emit("close-sidebar");
@@ -241,6 +245,8 @@
               } else {
                 this.leaveVacationDataUser = result;
               }
+          }).catch((error) => {
+            this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
             });
           this.getUserLeavesDetailUser({
             from: this.getformToDate.from,
@@ -267,7 +273,7 @@
     },
   };
   </script>
-  <!-- 
+  <!--
   <style scoped>
   .dropdown-menu {
     z-index: 999;

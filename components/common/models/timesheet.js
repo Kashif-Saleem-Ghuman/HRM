@@ -8,4 +8,9 @@ export function Timesheet(timesheet) {
   this.isLocked = () => {
     return this.status === TIMESHEET_STATUSES.APPROVED
   }
+
+  this.canStartTimer = () => {
+    return this.status === TIMESHEET_STATUSES.PENDING || this.status === TIMESHEET_STATUSES.REJECTED;
+  };
+
 }

@@ -1,14 +1,24 @@
 <template>
   <div id="error-404-wrapper" class="shape-rounded" :class="themeClassCommon">
-    <h2 id="error-404-heading1">This Page doesn't exist</h2>
-    <NuxtLink :to="getUserRole === 'ADMIN' ? '/dashboard/' : '/home/'" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Redirect to Home</NuxtLink>
+    <h2 id="error-404-heading1">{{ title }}</h2>
+    <p>{{ details }}</p>
+    <a href="." :class="isLightThemeCheck ? 'text-dark': 'text-light'">Refresh</a>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-  export default {
-    name: "PageNotFound",
-    props: {},
+export default {
+  name: "ApiError",
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    details: {
+      type: String,
+      default: "",
+    },
+  },
   computed: {
     ...mapGetters({
       getUserRole: "token/getUserRole",

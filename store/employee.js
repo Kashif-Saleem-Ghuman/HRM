@@ -175,13 +175,14 @@ export const actions = {
       );
       if (user) {
         ctx.commit("SET_ACTIVE_USER", user);
-        return user;
+        await ctx.dispatch("token/setActiveUserRole", { employee: user }, { root: true });
       }
+      return user;
     } catch (e) {
-      console.error(e);
-      if (e.response.status === 401) {
+      if (e?.response?.status === 401) {
         redirectToLogin()
-      };
+      }
+      throw e;
     }
   },
 };

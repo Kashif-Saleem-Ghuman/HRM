@@ -90,7 +90,9 @@ export default {
         from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
-      let employees = await getTimeAttendanceCustomRange({ from, to, searchString });
+
+      try {
+        let employees = await getTimeAttendanceCustomRange({ from, to, searchString });
       employees.forEach((employee) => {
         const { leavesByDate } = employee
         
@@ -123,6 +125,9 @@ export default {
           });
         });
       });
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
 
       this.loading = false;
     },

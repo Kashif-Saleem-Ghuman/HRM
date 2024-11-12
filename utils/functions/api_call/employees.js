@@ -27,10 +27,7 @@ export async function getEmployee(payload) {
     const { data } = await hrmApiAxiosInstance.get(url, config);
     return data;
   } catch (err) {
-    if (err.response.status === 500) {
-      return window.open("/not-found", "_self");
-    }
-    console.log(err);
+    throw err;
   }
 }
 
@@ -60,7 +57,7 @@ export async function getEmployees(params = {}) {
     });
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 }
 

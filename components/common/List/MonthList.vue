@@ -26,11 +26,8 @@
           <div v-if="isAdmin">
             <notifications
               v-if="shouldShowTimesheetSubmitReminderIcon(data.value.status)"
-              @submit-timesheet-reminder="
+              @submit-notification="
                 submitTimesheetReminder(data.value.id)
-              "
-              :timesheetSubmitReminderIcon="
-                shouldShowTimesheetSubmitReminderIcon(data.value.status)
               "
               :isLoading="mapLoading[data.value.id]"
               iconName="send-solid"

@@ -59,6 +59,7 @@
       @close="disableModal"
       title="Reject Timesheet"
       @confirm="actionPerformOnRequest"
+      :loader="loader"
     ></request-refusal-modal>
     <confirmation-modal
       :title="confirmationPopupData?.title"
@@ -99,6 +100,7 @@ export default {
       variantButton: "",
       id: null,
       timesheetReq: null,
+      loader: false,
     };
   },
   computed: {
@@ -192,6 +194,7 @@ export default {
           date: timesheet.end,
         }));
 
+      this.loader = true;
       switch (type) {
         case "rejectMultiple":
           await this.handleRejectMultiple(timesheets);
@@ -205,6 +208,7 @@ export default {
       }
       this.isStatusUpdated = true;
       this.checkedAll = false;
+      this.loader = false;
       this.disableModal();
     },
 

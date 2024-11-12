@@ -15,18 +15,6 @@
 <script>
 export default {
   props:{
-    clockInReminderIcon:{
-      type: Boolean,
-      default: false,
-    },
-    timesheetSubmitReminderIcon:{
-      type: Boolean,
-      default: false,
-    },
-    pastDueTimesheetReminderIcon:{
-      type:Boolean,
-      default: false,
-    },
     iconName: {
       type: String,
     },
@@ -40,15 +28,7 @@ export default {
   },
   methods: {
     pushNotification() {
-      if(this.clockInReminderIcon){
-        this.$emit("clock-in-reminder");
-      }
-      else if(this.timesheetSubmitReminderIcon){
-        this.$emit("submit-timesheet-reminder");
-      }
-      else if(this.pastDueTimesheetReminderIcon) {
-        this.$emit('submit-due-timesheet-reminder');
-      }
+      this.$emit('submit-notification');
     },
   },
 };

@@ -207,10 +207,10 @@ export default {
     color: $black !important;
     border-radius: 4px;
     svg {
-      fill: $white !important;
+      fill: #0D300B !important;
     }
     span {
-      color: $black !important;
+      color: #0D300B !important;
       font-weight: 600;
       font-size: 14px;
     }
@@ -220,10 +220,10 @@ export default {
     background-color: #EBE700 !important;
     border-radius: 4px;
     svg {
-      fill: #ffab00 !important;
+      fill: #757300 !important;
     }
     span {
-      color: #000;
+      color: #757300;
       font-weight: 600;
       font-size: 14px;
     }
@@ -235,7 +235,7 @@ export default {
       fill: $black !important;
     }
     span {
-      color: $black;
+      color: #805500;
       font-weight: 600;
       font-size: 14px;
     }
@@ -256,10 +256,10 @@ export default {
     background-color: #FFAB00;
     border-radius: 4px;
     svg {
-      fill: $black !important;
+      fill: #805500 !important;
     }
     span {
-      color: $black !important;
+      color: #805500 !important;
       font-weight: 600;
       font-size: 14px;
     }

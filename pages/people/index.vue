@@ -79,8 +79,9 @@ export default {
     handleInputObject,
     async getOrganizationEntries() {
       this.loading = true;
-      const data = await getEmployees();
-      const employees = data.employees;
+      try {
+        const data = await getEmployees();
+        const employees = data.employees;
 
       this.totalEmployee = employees.length;
       employees.forEach((employee) => {
@@ -88,7 +89,10 @@ export default {
         return parser.parse("day");
       });
 
-      this.employees = employees;
+        this.employees = employees;
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
       this.loading = false;
     },
     handleClickOutside() {

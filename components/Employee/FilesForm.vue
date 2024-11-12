@@ -62,12 +62,22 @@
               :variant="isLightThemeCheck ? 'danger' : 'danger'"></bib-icon>
           </div>
         </div>
+        <confirmation-modal
+          :title="deleteModalContent.title"
+          :confirmationMessage="deleteModalContent.message"
+          :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
+          @on-click="deleteFile($event)"
+          :has-parent-loader="true"
+          :loader="loading"
+        >
+        </confirmation-modal>
+        <file-upload-modal
+          v-if="isModalOpened"
+          @modalOpenHandler="modalOpenHandler"
+          @fileUpload="fileUpload"
+        >
+        </file-upload-modal>
       </div>
-      <confirmation-modal :title="deleteModalContent.title" :confirmationMessage="deleteModalContent.message"
-        :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
-        @on-click="deleteFile($event)"></confirmation-modal>
-      <file-upload-modal v-if="isModalOpened" @modalOpenHandler="modalOpenHandler"
-        @fileUpload="fileUpload"></file-upload-modal>
     </div>
   </div>
 </template>
@@ -165,11 +175,15 @@ export default {
     },
     async fetchFiles() {
       this.loading = true;
-      this.getFiles(this.id).then((result) => {
+      try {
+        this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.filesUploaded.reverse();
-        this.loading = false;
       });
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
+      this.loading = false;
     },
     handleFileClick(file) {
       this.downloadFile(file);
@@ -249,8 +263,9 @@ export default {
     },
     async deleteFile() {
       this.loading = true;
-      this.confirmastionMessageModal = false;
+
       await this.deleteFiles({ employeeId: this.id, id: this.deletedfileId });
+      this.confirmastionMessageModal = false;
       await this.getFiles(this.id).then((result) => {
         this.filesUploaded = result;
         this.fileList += 1;

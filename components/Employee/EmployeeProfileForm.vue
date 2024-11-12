@@ -17,6 +17,7 @@
               @vfileAdded="vfileAdded"
               @vfileRemove="removeImage('photo')"
               :confirmastionMessageModal="confirmastionMessageModal"
+              :loader="loading"
             ></drop-zone>
             <div class="ml-1">
               <aside style="text-transform: capitalize; font-weight: bold; font-size: 18px">
@@ -434,20 +435,28 @@ export default {
     makeCall,
     async fetchEmployee() {
       this.loading = true;
-      const id = this.$route.params.id ?? this.getUser?.id;
+      try {
+        const id = this.$route.params.id ?? this.getUser?.id;
       if (id) {
         this.id = id;
         const employee = await getEmployee({ id });
         this.form = employee;
         this.originalStateProvince = this.form.address.state;
         this.originalCity = this.form.address.city;
-        this.loading = false;
+        }
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
+
+      this.loading = false;
+      
     },
-    removeImage(photo) {
+    async removeImage(photo) {
       this.updateForm[photo] = "";
+
+      this.loading = true;
       const id = this.$route.params.id ?? this.getUser?.id;
-      updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
+      await updateEmployee({ id: this.form.id, employee: this.updateForm }).then(
         (data) => {
           // this.debouncedNotification(PHOTO_DELETE);
           this.$root.$emit("profile-updated");
@@ -461,7 +470,14 @@ export default {
           this.confirmastionMessageModal = false;
           return;
         }
-      );
+      ).catch(err => {
+        this.$openPopupNotification({
+          text: err?.response?.data?.message,
+          variant: "danger",
+        })
+      }).finally(() => {
+        this.loading = false;
+      });
     },
     photoUpdateListner() {
       this.$root.$on("photo-updated", async () => {

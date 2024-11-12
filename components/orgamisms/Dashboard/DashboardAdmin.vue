@@ -104,19 +104,23 @@ export default {
     getDatetimeCommonProps,
     async getOrganizationEntries(actionKey, actionValue) {
 
+      try {
+        const date = this.getCurrentDate;
+        const employees = await this.$store.dispatch(
+          "timeattendance/getEmployeesAttendance",
+          { date, [actionKey]: actionValue }
+        );
 
-      const date = this.getCurrentDate;
-      const employees = await this.$store.dispatch(
-        "timeattendance/getEmployeesAttendance",
-        { date, [actionKey]: actionValue }
-      );
+        employees.forEach((employee) => {
+          const parser = new TimesheetParser(employee);
+          parser.parse("day");
+        });
 
-      employees.forEach((employee) => {
-        const parser = new TimesheetParser(employee);
-        parser.parse("day");
-      });
-
-      this.employees = employees;
+        this.employees = employees;
+        
+      } catch (error) {
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
       this.loading = false;
     },
 

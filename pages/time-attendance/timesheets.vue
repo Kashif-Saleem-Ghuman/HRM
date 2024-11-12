@@ -78,9 +78,14 @@ export default {
       if (!weekDates || !weekDates?.from || !weekDates?.to) return ""
       const { from, to } = weekDates
       return this.formatDates({ from, to })
-    }    
+    }
   },
-
+  mounted() {
+    this.registerRootListener();
+  },
+  beforeDestroy() {
+    this.unregisterRootListener();
+  },
   methods: {
     weekToUTCWeek,
     getSystemWeekRangeInUtc,
@@ -90,6 +95,14 @@ export default {
       this.generateWeekDaysEntries()
     },
 
+    unregisterRootListener() {
+      this.$root.$off('get-time-attendance');
+    },
+    registerRootListener() {
+      this.$root.$on('get-time-attendance', () => {
+        this.generateWeekDaysEntries();
+      })
+    },
     dateBtnClick() {
       this.showDatePicker = !this.showDatePicker
     },
@@ -97,37 +110,26 @@ export default {
       const { searchString } = this
 
       this.loading = true;
-      const { from, to } = this.getSystemWeekRangeInUtc({
-        from: new Date(this.weekDates.from),
-        to: new Date(this.weekDates.to),
-      });
-      let timesheets = await getTimeAttendanceCustomRange({ from, to, searchString });
-      timesheets = timesheets.map((employee) => {
-        const parser = new TimesheetParser(employee);
-        return parser.parse("weekDays");
-      });
-
 
       try {
+        const { from, to } = this.getSystemWeekRangeInUtc({
+          from: new Date(this.weekDates.from),
+          to: new Date(this.weekDates.to),
+        });
+        let timesheets = await getTimeAttendanceCustomRange({ from, to, searchString });
+        timesheets = timesheets.map((employee) => {
+          const parser = new TimesheetParser(employee);
+          return parser.parse("weekDays");
+        });
+
         timesheets.forEach( employee => {
           processEmployeeRequests(employee, from, to)
         })
+        this.timesheetsList = timesheets;
       } catch (error) {
-        console.error(error);
-      } 
-    
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+      }
 
-      timesheets.forEach((employee) => {
-        const { leavesByDate } = employee;
-        const timesheet = employee?.timesheets[0];
-
-        const timesheetDate = DateTime.fromISO(timesheet?.start, { zone: "utc" }).toISODate();
-
-        const timesheetLeaves = leavesByDate?.[timesheetDate]
-        employee.weekData.leaves = timesheetLeaves
-      });
-    
-      this.timesheetsList = timesheets;
       this.loading = false;
     },
 

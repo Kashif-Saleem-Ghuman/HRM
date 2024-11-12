@@ -8,8 +8,13 @@
       @select-all="selectAllItems" :sections="employees" :hide-no-column="true" :fixHeader="true">
       <template v-if="type === PENDING_TYPE || type === PAST_DUE_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
-          <bib-checkbox size="md" :key="data.items.id" @change="handleItemChecked(data.items)"
-            :checked="data.items.checked" :variant="isLightThemeCheck ? '' : 'secondary'"></bib-checkbox>
+          <bib-checkbox
+              size="md"
+              :key="data.items.id"
+              @change="handleItemChecked(data.items)"
+              :checked="data.items.checked"
+              :variant="isLightThemeCheck ? '' : 'secondary'"
+          ></bib-checkbox>
         </div>
       </template>
       <!-- Timsheet date range -->
@@ -20,11 +25,13 @@
             {{ formatIsoDateToYYYYMMDD(data.value.end) }}
           </div>
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
-            <notifications v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
+            <notifications
+              v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
               @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
               :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
-              iconName="send-solid" :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]">
-            </notifications>
+              iconName="send-solid"
+              :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
+            ></notifications>
           </div>
 
         </div>
@@ -82,9 +89,9 @@ import { formatHoursToHHMM } from "../../../../../utils/functions/time";
 import { TIMESHEET_NOTIFICATIN_MESSAGE } from "../../../../../utils/constant/Notifications"
 import { random } from "lodash";
 import fecha from "fecha";
-import { DateTime } from "luxon";
-import { formatTime } from "../../../../../utils/functions/clock_functions";
-import { submitPastDueTimesheetReminder } from "../../../../../utils/functions/api_call/notification-reminder";
+import {DateTime} from "luxon";
+import {formatTime} from "../../../../../utils/functions/clock_functions";
+import {submitPastDueTimesheetReminder} from "../../../../../utils/functions/api_call/notification-reminder";
 
 
 const fetchTimesheetsFunctionMap = {
@@ -180,64 +187,8 @@ export default {
     closeconfirmastionMessageModal() {
       this.confirmastionMessageModal = false;
     },
-    // getLeaveTypeValue(data, day) {
-    //   const { day: weekDay, index: weekIndex } = day;
-    //   const { leaves } = data;
-    //   const dayValue = data[weekDay];
-    //   const formattedTime = this.formatTime(dayValue, false);
-    //   const isValidTime = formattedTime && formattedTime !== "NaN:NaN";
-    //   if (leaves && leaves[weekIndex]) {
-    //     const leave = leaves[weekIndex];
-    //     const leaveType = leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);;
-    //     if (isValidTime) {
-    //       return `${formattedTime}`;
-    //     }
-    //   }
-    // },
-    // getLeaveTooltipTitle(data, day) {
-    //   const { day: weekDay, index: weekIndex } = day;
-    //   const { leaves } = data;
-    //   const dayValue = data[weekDay];
-    //   const formattedTime = this.formatTime(dayValue, false);
-
-    //   if (Object.keys(leaves ?? {}).length) {
-    //     const leave = leaves[weekIndex];
-    //     if (leave) {
-    //       const leaveType = leave.type;
-    //       const leaveMessage = leaveType === 'Vacation' ? 'on vacation' : `on ${leaveType} leave`;
-    //       return `The user is ${leaveMessage} and is also working at ${this.formatDisplayTime(formattedTime)}`;
-    //     }
-    //   }
-    // },
-    // formatDisplayTime(timeString) {
-    //   const [hours, minutes] = timeString.split(':').map(Number);
-    //   const totalMinutes = hours * 60 + minutes;
-
-    //   if (totalMinutes < 30) {
-    //     return `${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''}`;
-    //   } else {
-    //     const formattedHours = Math.floor(totalMinutes / 60);
-    //     const formattedMinutes = totalMinutes % 60;
-    //     return formattedMinutes > 0
-    //       ? `${formattedHours} hour${formattedHours !== 1 ? 's' : ''} and ${formattedMinutes} minute${formattedMinutes !== 1 ? 's' : ''}`
-    //       : `${formattedHours} hour${formattedHours !== 1 ? 's' : ''}`;
-    //   }
-    // },
-    // getTimesheetDayValue(data, day) {
-    //   const { day: weekDay, index: weekIndex } = day;
-    //   const { leaves } = data
-    //   if (Object.keys(leaves ?? {}).length) {
-    //     const leave = leaves[weekIndex]
-    //     if (leave) {
-    //       return leave?.type.charAt(0).toUpperCase() + leave?.type.slice(1);
-    //     }
-    //   }
-    //   if (!data?.[weekDay]) return '--'
-    //   return this.formatTime(data[weekDay], false)
-    // },
-
     shouldShowDueReminderIcon(reminderSentDate) {
-      if (!reminderSentDate) return true;
+      if(!reminderSentDate) return true;
 
       const now = DateTime.now();
       const date = DateTime.fromISO(reminderSentDate);
@@ -394,7 +345,7 @@ export default {
 
         return employees;
       } catch (error) {
-        console.error("Error fetching timesheets:", error);
+        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
 
     },

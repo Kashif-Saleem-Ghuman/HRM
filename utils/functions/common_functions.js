@@ -93,7 +93,7 @@ export function getTimeDiffInSeconds(start, end) {
 }
 export function calculateTotalDays(start, end) {
   if (start === null || end === null) {
-    this.totalDays = 0;
+    this.localTotalDays = 0;
     return;
   }
 
@@ -104,10 +104,10 @@ export function calculateTotalDays(start, end) {
       const startUtc =  DateTime.fromFormat(start, "yyyy-MMM-dd", { zone: "utc" }).toISO();
       const endUtc = DateTime.fromFormat(end, "yyyy-MMM-dd", { zone: "utc" }).toISO();
 
-      const selectedDays = generateRequestSelectedDays(startUtc, endUtc, this.isHalfDay);
+      const selectedDays = generateRequestSelectedDays(startUtc, endUtc, this.localIsHalfDay);
       const totalDays = sum(Object.values(selectedDays));
 
-      this.totalDays =  formatLeaveDurationDaysString(totalDays)
+      this.localTotalDays =  formatLeaveDurationDaysString(totalDays)
     }
   }
 }

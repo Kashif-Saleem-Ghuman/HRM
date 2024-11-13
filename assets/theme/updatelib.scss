@@ -246,4 +246,14 @@
       }
     }
   }
+  [data-title]:after {
+    content: attr(data-title);
+    background-color: #1d1d20;
+    opacity: 0;
+    border: 1px solid #2E2F31;
+  }
+  
+  [data-title]:before {
+    border-color: #2E2F31 transparent transparent transparent;
+  }
 }

@@ -1,39 +1,24 @@
 <template>
   <div class="d-flex">
-    <div
-      :class="[
-        shapeCircle ? 'chip-wrapper' + shapeCircle : '',
-        shapeRound ? 'chip-wrapper' + shapeRound : '',
-        defaultPointer ? '' : 'cursor-pointer',
-        centerAlign ? 'd-align' : '',
-        variant,
-        className,
-      ]"
-      :style="maxWidth"
-      class="chip-wrapper"
-      @click="$emit('on-click')"
-    >
-      <bib-icon
-        v-if="iconShowLeft"
-        :icon="icon"
-        :variant="variantIcon"
-        :scale="1"
-        class="mr-05"
-      ></bib-icon>
+    <div :class="[
+      shapeCircle ? 'chip-wrapper' + shapeCircle : '',
+      shapeRound ? 'chip-wrapper' + shapeRound : '',
+      defaultPointer ? '' : 'cursor-pointer',
+      centerAlign ? 'd-align' : '',
+      variant,
+      className,
+    ]" :style="maxWidth" class="chip-wrapper" @click="$emit('on-click')">
+      <bib-icon v-if="iconShowLeft" :icon="icon" :variant="variantIcon" :scale="1" class="mr-05"></bib-icon>
       <span>{{ title }}</span>
-      <bib-icon
-        v-if="iconShowRight"
-        :icon="icon"
-        :variant="variantIcon"
-        :scale="1"
-        class="ml-05"
-        style="margin-right: -5px"
-      ></bib-icon>
-      
+      <bib-icon v-if="iconShowRight" :icon="icon" :variant="variantIcon" :scale="1" class="ml-05"
+        style="margin-right: -5px"></bib-icon>
+
     </div>
     <div class="position-relative" v-if=leaveHighlighter>
-        <div class="position-absolute notify-highlighter" :class="notifyClass"><span v-tooltip="leaveTypeHighlighterTolltip">{{ leaveTypeHighlighterText }}</span></div>
+      <div class="position-absolute notify-highlighter" :class="notifyClass">
+        <span :data-title="leaveTypeHighlighterTolltip">{{ leaveTypeHighlighterText }}</span>
       </div>
+    </div>
   </div>
 </template>
 <!-- :class="[
@@ -91,19 +76,19 @@ export default {
       type: String | Boolean,
       default: true,
     },
-    leaveHighlighter:{
+    leaveHighlighter: {
       type: Boolean,
       default: null,
     },
-    notifyClass:{
+    notifyClass: {
       type: String | Array,
       default: null,
     },
-    leaveTypeHighlighterText:{
+    leaveTypeHighlighterText: {
       type: String,
       default: null,
     },
-    leaveTypeHighlighterTolltip:{
+    leaveTypeHighlighterTolltip: {
       type: String,
       default: null,
     }
@@ -111,9 +96,74 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+  window.addEventListener('scroll', this.toggleDataTitleVisibility);
+},
+
+methods: {
+  toggleDataTitleVisibility() {
+    const elements = document.querySelectorAll('[data-title]');
+    elements.forEach((element) => {
+      if (window.scrollY > 0) {
+        element.classList.add('hidden');
+      } else {
+        element.classList.remove('hidden');
+      }
+    });
+  }
+},
+
+beforeDestroy() {
+  window.removeEventListener('scroll', this.toggleDataTitleVisibility);
+}
 };
 </script>
 <style lang="scss">
+[data-title]:hover:after {
+  opacity: 1;
+  transition: all 0.1s ease 0.3s;
+  visibility: visible;
+}
+
+[data-title]:after {
+  content: attr(data-title);
+  background-color: #e8e8e8;
+  position: absolute;
+  padding: 5px 8px;
+  top: -3.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  border: 1px solid #d4d4d4;
+  z-index: 99999;
+  border-radius: 4px;
+  visibility: hidden;
+}
+
+[data-title]:before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #d4d4d4 transparent transparent transparent;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99998;
+}
+
+[data-title]:hover:before,
+[data-title]:hover:after {
+  opacity: 1;
+  transition: all 0.1s ease 0.3s;
+  visibility: visible;
+}
+[data-title].hidden:after {
+  opacity: 0;
+}
 .chip-wrapper-bg {
   min-width: 112px !important;
 
@@ -122,6 +172,7 @@ export default {
     height: 3rem;
     border-radius: 50%;
   }
+
   &__shape-round {
     border-radius: 5px;
   }
@@ -130,15 +181,18 @@ export default {
     background-color: #ddf0dc;
     border: solid 1px $success;
     color: $success;
+
     svg {
       fill: $success !important;
     }
+
     span {
       color: $success !important;
       font-weight: 500;
       font-size: 14px;
     }
   }
+
   &__bgabsent {
     background-color: #fff2d6;
     border: solid 1px #ffab00;
@@ -146,28 +200,35 @@ export default {
     svg {
       fill: #ffab00 !important;
     }
+
     span {
       color: #ffab00 !important;
       font-weight: 500;
       font-size: 14px;
     }
   }
+
   &__bgvacation {
     background-color: rgba(31, 66, 162, 0.16);
+
     svg {
       fill: $primary !important;
     }
+
     span {
       color: $primary;
       font-weight: 500;
       font-size: 14px;
     }
   }
+
   &__bgdanger {
     background-color: rgba(230, 0, 14, 0.16);
+
     svg {
       fill: #e6000e !important;
     }
+
     span {
       color: #e6000e;
       font-weight: 500;
@@ -175,6 +236,7 @@ export default {
     }
   }
 }
+
 .chip-wrapper {
   display: flex;
   // text-align: center;
@@ -183,7 +245,8 @@ export default {
   border-radius: 4px;
   padding: 8px 15px 8px 8px;
   align-items: center;
-  span{
+
+  span {
     font-weight: 600;
   }
 
@@ -193,12 +256,14 @@ export default {
     padding: 4px;
     border-radius: 50%;
   }
+
   &__shape-round {
     width: 3rem;
     height: 3rem;
     padding: 4px;
     border-radius: 1px;
   }
+
   &__border-radius {
     border-radius: 0.5rem;
   }
@@ -207,9 +272,11 @@ export default {
     background-color: $success !important;
     color: $black !important;
     border-radius: 4px;
+
     svg {
       fill: #0D300B !important;
     }
+
     span {
       color: #0D300B !important;
       font-weight: 600;
@@ -220,120 +287,149 @@ export default {
   &__bgabsent {
     background-color: #EBE700 !important;
     border-radius: 4px;
+
     svg {
       fill: #757300 !important;
     }
+
     span {
       color: #757300;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgpastdue {
     background-color: #FFAB00;
     border-radius: 4px;
+
     svg {
       fill: $black !important;
     }
+
     span {
       color: #805500;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgrejected {
     background-color: #E6000E;
     border-radius: 4px;
+
     svg {
       fill: #450004 !important;
     }
+
     span {
       color: #450004;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgnotsubmitted {
     background-color: $primary;
     border-radius: 4px;
+
     svg {
       fill: #b9c3df !important;
     }
+
     span {
       color: #c7d3f6;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgvacation {
     background-color: #EBE700;
     border-radius: 4px;
+
     svg {
       fill: $primary !important;
     }
+
     span {
       color: $black;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgabsentpink {
     background-color: #FFAB00;
     border-radius: 4px;
+
     svg {
       fill: #805500 !important;
     }
+
     span {
       color: #805500 !important;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgpending {
     background-color: $white;
     border: 1px solid #e1e0e0;
     border-radius: 4px;
+
     svg {
       fill: $secondary-sub1 !important;
     }
+
     span {
       color: $secondary-sub1;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bgdefault {
     background-color: $white;
     border: 1px solid #e1e0e0;
     border-radius: 4px;
+
     svg {
       fill: $secondary-sub1 !important;
     }
+
     span {
       color: $secondary-sub1;
       font-weight: 600;
       font-size: 14px;
     }
   }
+
   &__bggray {
     background-color: $secondary-sub3;
     border-radius: 4px;
     border-radius: 0.5rem;
+
     svg {
       fill: $black !important;
     }
+
     span {
       color: #999;
       font-weight: 600;
       font-size: 14px;
     }
+
     span:first-letter {
       text-transform: uppercase;
     }
   }
+
   &__default {
     background-color: $light;
     border-radius: 4px;
+
     span {
       color: $gray6 !important;
       font-weight: 600;
@@ -341,6 +437,7 @@ export default {
     }
   }
 }
+
 .chip-wrapper-without-bg {
   border-radius: 1rem;
   // padding: 4px 8px;
@@ -349,32 +446,40 @@ export default {
   align-items: center;
   background-color: $white;
   font-size: 14px;
+
   &__shape-circle {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
   }
+
   &__shape-round {
     width: 3rem;
     height: 3rem;
     border-radius: 5px;
   }
+
   &__bg_success {
     color: $success;
+
     svg {
       fill: $success !important;
     }
+
     span {
       color: $success !important;
       font-weight: 400;
       font-size: 14px;
     }
   }
+
   &__bgpending {
     color: $success;
+
     svg {
       fill: #ffab00 !important;
     }
+
     span {
       color: #ffab00;
       font-weight: 400;
@@ -382,33 +487,40 @@ export default {
     }
   }
 }
+
 .text-bold {
   span {
     font-weight: 800;
   }
 }
+
 .disabled {
   span {
     color: gray !important;
     font-weight: 400;
   }
 }
+
 .width-auto {
   width: auto !important;
   min-width: 150px !important;
 }
+
 .padding-0 {
   padding: 0 !important;
 }
+
 .notify-highlighter {
   right: 0px;
-  top: -8px;  
+  top: -8px;
   border-radius: 4px;
   padding: 0 1px;
   text-align: center;
   border: 1px solid $dark-sub3;
+
   &__bgdefault {
     background-color: $gray4;
+
     span {
       color: $black !important;
     }
@@ -416,6 +528,7 @@ export default {
 
   &__bgsucess {
     background-color: $success;
+
     span {
       color: $white !important;
     }
@@ -423,23 +536,28 @@ export default {
 
   &__bgabsent {
     background-color: $orange !important;
+
     span {
       color: $white !important;
     }
   }
+
   &__bgabsentpink {
     background-color: $danger !important;
+
     span {
       color: $white !important;
     }
   }
+
   span {
     display: block;
-    font-size: 10px !important; /* Adjust size of the text inside */
-    z-index: 1; /* Ensure the text is above any background or shadows */
+    font-size: 10px !important;
+    /* Adjust size of the text inside */
+    z-index: 1;
+    /* Ensure the text is above any background or shadows */
     padding: 2px 5px;
-  
-}
-}
 
+  }
+}
 </style>

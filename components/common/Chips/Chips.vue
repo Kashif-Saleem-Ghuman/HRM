@@ -127,7 +127,7 @@ beforeDestroy() {
 
 [data-title]:after {
   content: attr(data-title);
-  background-color: #e8e8e8;
+  background-color: #e3e3ea;
   position: absolute;
   padding: 5px 8px;
   top: -3.5em;
@@ -135,7 +135,7 @@ beforeDestroy() {
   transform: translateX(-50%);
   white-space: nowrap;
   opacity: 0;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #dcdcdf;
   z-index: 99999;
   border-radius: 4px;
   visibility: hidden;
@@ -149,7 +149,7 @@ beforeDestroy() {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #d4d4d4 transparent transparent transparent;
+  border-color: #dcdcdf transparent transparent transparent;
   opacity: 0;
   visibility: hidden;
   z-index: 99998;
@@ -161,9 +161,11 @@ beforeDestroy() {
   transition: all 0.1s ease 0.3s;
   visibility: visible;
 }
+
 [data-title].hidden:after {
   opacity: 0;
 }
+
 .chip-wrapper-bg {
   min-width: 112px !important;
 
@@ -490,8 +492,7 @@ beforeDestroy() {
 
 .text-bold {
   span {
-    font-weight: 800;
-  }
+    font-weight: 800; }
 }
 
 .disabled {

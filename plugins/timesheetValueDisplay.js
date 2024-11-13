@@ -32,7 +32,7 @@ export default ({ app, store }, inject) => {
           : leaveType === "medical"
           ? "on medical leave"
           : `on ${leaveType}`;
-          return `The user is ${leaveMessage} and had worked for ${app.$formatDisplayTime(formattedTime)}.`;
+          return `The employee is ${leaveMessage} and had worked for ${app.$formatDisplayTime(formattedTime)}.`;
         }
       }
       return '';

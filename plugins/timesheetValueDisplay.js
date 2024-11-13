@@ -27,8 +27,12 @@ export default ({ app, store }, inject) => {
         const leave = leaves[weekIndex];
         if (leave) {
           const leaveType = leave.type;
-          const leaveMessage = leaveType === 'vacation' ? 'on vacation' : `on ${leaveType} leave`;
-          return `The user is ${leaveMessage} and has worked for ${app.$formatDisplayTime(formattedTime)}.`;
+          const leaveMessage = leaveType === "vacation"
+          ? "on vacation"
+          : leaveType === "medical"
+          ? "on medical leave"
+          : `on ${leaveType}`;
+          return `The user is ${leaveMessage} and had worked for ${app.$formatDisplayTime(formattedTime)}.`;
         }
       }
       return '';

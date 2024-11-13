@@ -11,7 +11,7 @@ const buttonConfig = {
     label: "Pending",
     value: "pending",
     key: "pending",
-    variant: "warning",
+    variant: "pending",
     icon: "eye-open",
   },
   vacation: {

@@ -63,6 +63,10 @@
     }
     &--warning {
       background-color: #FFAB00 !important;
+      color: #805500 !important;
+      svg {
+        fill: #805500 !important;
+      }
     }
     &--pastdue {
       background-color: #ffab00 !important;

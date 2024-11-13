@@ -3,7 +3,7 @@
     class="dropdown-chip-menu button-lib-buttons"
     @mouseleave="hideMenu"
   >
-    <div class="d-flex align-center">
+    <div class="d-flex align-center button-lib-buttons">
       <bib-button
         :label="buttonConfig.label"
         :variant="buttonConfig.variant || (isLightThemeCheck ? 'light' : 'dark')"

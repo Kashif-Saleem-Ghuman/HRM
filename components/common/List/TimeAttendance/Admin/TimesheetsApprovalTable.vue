@@ -242,14 +242,26 @@ export default {
     },
 
     async approveSingleTimesheet({ id, employeeId, date }) {
-      if (id !== "-1") {
-        await approveTimesheet({ id });
-      } else {
-        await approvePastDueTimesheet({ id, date, employeeId });
+
+      try {
+        if (id !== "-1") {
+          await approveTimesheet({ id });
+        } else {
+          await approvePastDueTimesheet({ id, date, employeeId });
+        }
       }
-      this.loading = true;
-      this.employees = await this.getAndParseTimesheets();
-      this.loading = false;
+      catch (err) {
+        this.$openPopupNotification({
+          text: err?.response?.data?.message,
+          variant: "danger"
+        })
+      }
+      finally {
+        this.loading = true;
+        this.employees = await this.getAndParseTimesheets();
+        this.loading = false;
+      }
+
     },
 
     cancelRejectRequest() {

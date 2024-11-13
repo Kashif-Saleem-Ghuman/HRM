@@ -97,7 +97,7 @@ export async function pastDueBatchApproveTimesheets(request) {
     this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.approved);
   } catch (e) {
     this.$openPopupNotification({
-      text: e.response.data.message,
+      text: e?.response?.data?.message,
       variant: "danger",
     });
   }
@@ -301,6 +301,7 @@ export async function approveTimesheet({ id }) {
     return data
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -322,6 +323,7 @@ export async function rejectPastDueTimesheet({ id, date, employeeId, refusalReas
     return data
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -345,7 +347,8 @@ export async function rejectTimesheet({ id, refusalReason}) {
     const { data } = await hrmApiAxiosInstance.post(url, {refusalReason}, config);
     return data
   } catch (error) {
-    // console.error(error);
+    console.error(error);
+    throw error;
   }
 }
 

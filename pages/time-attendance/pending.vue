@@ -197,9 +197,18 @@ export default {
 
 
     async handleRejectSingle(request) {
-      const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
-      await rejectTimesheet(rejectPayload);
-      this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+      try {
+        const rejectPayload = { id: this.id, refusalReason: request.refusalReason };
+        await rejectTimesheet(rejectPayload);
+        this.$openPopupNotification(TIMESHEET_NOTIFICATIN_MESSAGE.rejected);
+      }
+      catch (err) {
+        this.$openPopupNotification({
+          text: err?.response?.data?.message,
+          variant: "danger"
+        });
+      }
+
     },
   },
 

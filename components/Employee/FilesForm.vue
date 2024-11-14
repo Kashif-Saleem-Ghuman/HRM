@@ -1,13 +1,13 @@
 <template>
-  <div
+  <div>
+    <loader :loading="loading"></loader>
+    <div
     class="file-upload-container"
     @dragover.prevent="handleDragOver"
     @dragleave.prevent="handleDragLeave"
     @drop.prevent="handleDrop"
     @dragenter.prevent="handleDragEnter"
   >
-    <loader :loading="loading"></loader>
-
     <div class="px-1 py-1">
       <div
         v-if="!showNoFiles"
@@ -127,6 +127,7 @@
       @fileUpload="fileUpload"
     >
     </file-upload-modal>
+  </div>
   </div>
 </template>
 

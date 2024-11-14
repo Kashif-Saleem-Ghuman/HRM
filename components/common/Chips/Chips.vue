@@ -1,22 +1,44 @@
 <template>
   <div class="d-flex">
-    <div :class="[
-      shapeCircle ? 'chip-wrapper' + shapeCircle : '',
-      shapeRound ? 'chip-wrapper' + shapeRound : '',
-      defaultPointer ? '' : 'cursor-pointer',
-      centerAlign ? 'd-align' : '',
-      variant,
-      className,
-    ]" :style="maxWidth" class="chip-wrapper" @click="$emit('on-click')">
-      <bib-icon v-if="iconShowLeft" :icon="icon" :variant="variantIcon" :scale="1" class="mr-05"></bib-icon>
+    <div
+      :class="[
+        shapeCircle ? 'chip-wrapper' + shapeCircle : '',
+        shapeRound ? 'chip-wrapper' + shapeRound : '',
+        defaultPointer ? '' : 'cursor-pointer',
+        centerAlign ? 'd-align' : '',
+        variant,
+        className,
+      ]"
+      :style="maxWidth"
+      class="chip-wrapper"
+      @click="$emit('on-click')"
+    >
+      <bib-icon
+        v-if="iconShowLeft"
+        :icon="icon"
+        :variant="variantIcon"
+        :scale="1"
+        class="mr-05"
+      ></bib-icon>
       <span>{{ title }}</span>
-      <bib-icon v-if="iconShowRight" :icon="icon" :variant="variantIcon" :scale="1" class="ml-05"
-        style="margin-right: -5px"></bib-icon>
-
+      <bib-icon
+        v-if="iconShowRight"
+        :icon="icon"
+        :variant="variantIcon"
+        :scale="1"
+        class="ml-05"
+        style="margin-right: -5px"
+      ></bib-icon>
     </div>
-    <div class="position-relative" v-if=leaveHighlighter>
+    <div class="position-relative" v-if="leaveHighlighter">
       <div class="position-absolute notify-highlighter" :class="notifyClass">
-        <span :data-title="leaveTypeHighlighterTolltip">{{ leaveTypeHighlighterText }}</span>
+        <span
+          :data-title="leaveTypeHighlighterTolltip"
+          @mouseover="showTooltip"
+          @mouseleave="hideTooltip = true"
+          :class="{ hidden: hideTooltip }"
+          >{{ leaveTypeHighlighterText }}</span
+        >
       </div>
     </div>
   </div>
@@ -91,31 +113,27 @@ export default {
     leaveTypeHighlighterTolltip: {
       type: String,
       default: null,
-    }
+    },
   },
   data() {
-    return {};
+    return {
+      hideTooltip: false,
+    };
   },
   mounted() {
-  window.addEventListener('scroll', this.toggleDataTitleVisibility);
-},
-
-methods: {
-  toggleDataTitleVisibility() {
-    const elements = document.querySelectorAll('[data-title]');
-    elements.forEach((element) => {
-      if (window.scrollY > 0) {
-        element.classList.add('hidden');
-      } else {
-        element.classList.remove('hidden');
-      }
-    });
-  }
-},
-
-beforeDestroy() {
-  window.removeEventListener('scroll', this.toggleDataTitleVisibility);
-}
+    window.addEventListener("wheel", this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("wheel", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      this.hideTooltip = true;
+    },
+    showTooltip() {
+      this.hideTooltip = false;
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -276,18 +294,18 @@ beforeDestroy() {
     border-radius: 4px;
 
     svg {
-      fill: #0D300B !important;
+      fill: #0d300b !important;
     }
 
     span {
-      color: #0D300B !important;
+      color: #0d300b !important;
       font-weight: 600;
       font-size: 14px;
     }
   }
 
   &__bgabsent {
-    background-color: #EBE700 !important;
+    background-color: #ebe700 !important;
     border-radius: 4px;
 
     svg {
@@ -302,7 +320,7 @@ beforeDestroy() {
   }
 
   &__bgpastdue {
-    background-color: #FFAB00;
+    background-color: #ffab00;
     border-radius: 4px;
 
     svg {
@@ -317,7 +335,7 @@ beforeDestroy() {
   }
 
   &__bgrejected {
-    background-color: #E6000E;
+    background-color: #e6000e;
     border-radius: 4px;
 
     svg {
@@ -347,7 +365,7 @@ beforeDestroy() {
   }
 
   &__bgvacation {
-    background-color: #EBE700;
+    background-color: #ebe700;
     border-radius: 4px;
 
     svg {
@@ -362,7 +380,7 @@ beforeDestroy() {
   }
 
   &__bgabsentpink {
-    background-color: #FFAB00;
+    background-color: #ffab00;
     border-radius: 4px;
 
     svg {
@@ -492,7 +510,8 @@ beforeDestroy() {
 
 .text-bold {
   span {
-    font-weight: 800; }
+    font-weight: 800;
+  }
 }
 
 .disabled {
@@ -558,7 +577,6 @@ beforeDestroy() {
     z-index: 1;
     /* Ensure the text is above any background or shadows */
     padding: 2px 5px;
-
   }
 }
 </style>

@@ -1,10 +1,19 @@
 <template>
-  <div class="file-upload-container" @dragover.prevent="handleDragOver" @dragleave.prevent="handleDragLeave"
-    @drop.prevent="handleDrop" @dragenter.prevent="handleDragEnter">
+  <div
+    class="file-upload-container"
+    @dragover.prevent="handleDragOver"
+    @dragleave.prevent="handleDragLeave"
+    @drop.prevent="handleDrop"
+    @dragenter.prevent="handleDragEnter"
+  >
     <loader :loading="loading"></loader>
 
     <div class="px-1 py-1">
-      <div v-if="!showNoFiles" class="py-cus file-ulpoad-custom" :key="fileList">
+      <div
+        v-if="!showNoFiles"
+        class="py-cus file-ulpoad-custom"
+        :key="fileList"
+      >
         <!-- <bib-input
           type="file"
           ref="filesUploaded"
@@ -12,73 +21,112 @@
           iconLeft="upload"
           placeholder="Drop file here or click to upload"
         ></bib-input> -->
-        <bib-button label="Upload" size="lg" variant="primary" icon="upload" @click="modalOpenHandler"
-          class="mt-025"></bib-button>
+        <bib-button
+          label="Upload"
+          size="lg"
+          variant="primary"
+          icon="upload"
+          @click="modalOpenHandler"
+          class="mt-025"
+        ></bib-button>
       </div>
       <div v-if="isDragging" class="drag-overlay">
-        <label :class="['drag-message', isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light']"
-          v-if="!isModalOpened">Drop files here to upload</label>
+        <label
+          :class="[
+            'drag-message',
+            isLightThemeCheck ? 'bg-light text-dark' : 'bg-dark text-light',
+          ]"
+          v-if="!isModalOpened"
+          >Drop files here to upload</label
+        >
       </div>
 
       <div v-else-if="showNoData && !isDragging" class="no-files-container">
         <div class="no-files-content">
-          <label :class="[no - files - title, isLightThemeCheck ? 'text-dark' : 'text-light']">Drop file here or click
-            to
-            upload</label>
-          <bib-button label="Upload" size="lg" variant="primary" icon="upload" @click="modalOpenHandler" class="mt-025">
-            <template #prepend>
-              <bib-icon icon="upload" size="sm" />
-            </template>
+          <label
+            :class="[
+              'no-files-title',
+              isLightThemeCheck ? 'text-dark' : 'text-light',
+            ]"
+          >
+            Drop file here or click to upload</label
+          >
+          <bib-button
+            label="Upload"
+            size="lg"
+            variant="primary"
+            icon="upload"
+            @click="modalOpenHandler"
+            class="mt-025"
+          >
           </bib-button>
         </div>
       </div>
 
-
-      <div v-else class="d-grid gap-2 py-1" :style="filesUploaded.length <= 1
-        ? 'grid-template-columns: repeat(4, minmax(240px, 1fr)); overflow:hidden'
-        : 'grid-template-columns: repeat(4, minmax(240px, 1fr))'
-        ">
-        <div v-for="file in filesUploaded"
+      <div
+        v-else
+        class="d-grid gap-2 py-1"
+        :style="
+          filesUploaded.length <= 1
+            ? 'grid-template-columns: repeat(4, minmax(240px, 1fr)); overflow:hidden'
+            : 'grid-template-columns: repeat(4, minmax(240px, 1fr))'
+        "
+      >
+        <div
+          v-for="file in filesUploaded"
           class="cursor-pointer shape-rounded mt-05 height-205 pl-05 d-flex justify-between align-center"
-          :class="themeClassCommon" :key="file.id">
-          <div style="
+          :class="themeClassCommon"
+          :key="file.id"
+        >
+          <div
+            style="
               display: flex;
               align-items: center;
               justify-content: space-between;
-            ">
+            "
+          >
             <div class="d-flex align-center" @click="handleFileClick(file)">
-              <bib-icon :icon="!$getFileExtension(extensionsName(file))
-                ? 'image'
-                : $getFileExtension(extensionsName(file))
-                "></bib-icon>
-              <h5 class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap" :title="file.name">
+              <bib-icon
+                :icon="
+                  !$getFileExtension(extensionsName(file))
+                    ? 'image'
+                    : $getFileExtension(extensionsName(file))
+                "
+              ></bib-icon>
+              <h5
+                class="pl-025 font-w-400 of-hidden text-of-elipsis text-wrap"
+                :title="file.name"
+              >
                 {{ manageTitlePerResolution(file) }}
-
               </h5>
             </div>
           </div>
           <div @click="deleteConfirmation(file.id)">
-            <bib-icon icon="trash" class="mr-05 cursor-pointer"
-              :variant="isLightThemeCheck ? 'danger' : 'danger'"></bib-icon>
+            <bib-icon
+              icon="trash"
+              class="mr-05 cursor-pointer"
+              :variant="isLightThemeCheck ? 'danger' : 'danger'"
+            ></bib-icon>
           </div>
         </div>
         <confirmation-modal
           :title="deleteModalContent.title"
           :confirmationMessage="deleteModalContent.message"
-          :confirmastionMessageModal="confirmastionMessageModal" @close="closeconfirmastionMessageModal"
+          :confirmastionMessageModal="confirmastionMessageModal"
+          @close="closeconfirmastionMessageModal"
           @on-click="deleteFile($event)"
           :has-parent-loader="true"
           :loader="loading"
         >
         </confirmation-modal>
-        <file-upload-modal
-          v-if="isModalOpened"
-          @modalOpenHandler="modalOpenHandler"
-          @fileUpload="fileUpload"
-        >
-        </file-upload-modal>
       </div>
     </div>
+    <file-upload-modal
+      v-if="isModalOpened"
+      @modalOpenHandler="modalOpenHandler"
+      @fileUpload="fileUpload"
+    >
+    </file-upload-modal>
   </div>
 </template>
 
@@ -123,7 +171,10 @@ export default {
       );
     },
     showNoFiles() {
-      return !this.loading && (!this.filesUploaded || this.filesUploaded.length === 0);
+      return (
+        !this.loading &&
+        (!this.filesUploaded || this.filesUploaded.length === 0)
+      );
     },
   },
   async created() {
@@ -157,7 +208,11 @@ export default {
         }
       }
       const decodedName = this.decodedFileName(file);
-      const truncatedName = this.$options.filters.truncate(decodedName, truncateLimit, "...");
+      const truncatedName = this.$options.filters.truncate(
+        decodedName,
+        truncateLimit,
+        "..."
+      );
 
       return truncatedName;
     },
@@ -177,11 +232,11 @@ export default {
       this.loading = true;
       try {
         this.getFiles(this.id).then((result) => {
-        this.filesUploaded = result;
-        this.filesUploaded.reverse();
-      });
+          this.filesUploaded = result;
+          this.filesUploaded.reverse();
+        });
       } catch (error) {
-        this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
+        this.$apiError(error?.code === "ERR_NETWORK" ? "ERR_NETWORK" : 500);
       }
       this.loading = false;
     },
@@ -211,7 +266,7 @@ export default {
       if (!this.isDragging) {
         this.isDragging = true;
       }
-      event.dataTransfer.dropEffect = 'copy';
+      event.dataTransfer.dropEffect = "copy";
     },
 
     handleDragLeave(event) {
@@ -236,9 +291,11 @@ export default {
     },
     async handleChange__FileInput(files) {
       this.files = files;
-      const ofScrollYElement = document.querySelector('.input--file .of-scroll-y');
+      const ofScrollYElement = document.querySelector(
+        ".input--file .of-scroll-y"
+      );
       if (ofScrollYElement) {
-        ofScrollYElement.style.overflow = files.length === 1 ? 'hidden' : '';
+        ofScrollYElement.style.overflow = files.length === 1 ? "hidden" : "";
       }
       await this.fileUpload();
     },
@@ -337,14 +394,12 @@ export default {
   font-size: 1.2rem;
 }
 
-
 .file-ulpoad-custom {
   width: 50%;
   display: flex;
 
   .input--file {
     div {
-
       // background-color: $white;
       div:nth-child(1) {
         align-items: center;

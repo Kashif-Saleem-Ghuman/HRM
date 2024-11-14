@@ -280,7 +280,6 @@ export default {
 <style lang="scss">
 .file-upload-container {
   position: relative;
-  min-height: 100vh; // Ensure the container covers the full height of the page
 }
 
 .drag-overlay {

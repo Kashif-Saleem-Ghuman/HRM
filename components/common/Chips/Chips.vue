@@ -36,7 +36,7 @@
           :data-title="leaveTypeHighlighterTolltip"
           @mouseover="showTooltip"
           @mouseleave="hideTooltip = true"
-          :class="{ hidden: hideTooltip }"
+          :class="{ hidden: hideTooltip, 'show-tooltip': hideTooltip }"
           >{{ leaveTypeHighlighterText }}</span
         >
       </div>
@@ -183,7 +183,12 @@ export default {
 [data-title].hidden:after {
   opacity: 0;
 }
-
+.show-tooltip[data-title]:hover::before,
+.show-tooltip[data-title]:hover::after {
+  opacity: 0;
+  transition: none;
+  visibility: hidden;
+}
 .chip-wrapper-bg {
   min-width: 112px !important;
 
@@ -531,8 +536,8 @@ export default {
 }
 
 .notify-highlighter {
-  right: 0px;
-  top: -8px;
+  right: -3px;
+  top: -9px;
   border-radius: 4px;
   padding: 0 1px;
   text-align: center;

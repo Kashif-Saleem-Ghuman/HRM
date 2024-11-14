@@ -2,9 +2,8 @@
   <div id="dashboard-wrapper">
     <loader :loading="loading"></loader>
     <div
-      class="d-flex align-center"
+      class="d-flex align-center nav_wrapper_border"
       :class="[
-        borderClassBottom,
         isLightThemeCheck ? 'bg-light-sub2' : 'bg-dark',
       ]"
     >

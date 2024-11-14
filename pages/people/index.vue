@@ -6,8 +6,9 @@
     <div v-else>
       <div id="people-action-wrapper">
         <loader :loading="loading"></loader>
-
+        <div class="nav_wrapper_border_top">
           <section-header-left :title="'People - ' + totalEmployee "></section-header-left>
+          </div>
         <no-record v-if="showNoData"></no-record>
 
         <div v-else-if="showTable">

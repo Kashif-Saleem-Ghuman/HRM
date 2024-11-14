@@ -2,10 +2,12 @@
     <div>
       <loader :loading="loading"></loader>
       <div id="people-action-wrapper">
+        <div class="nav_wrapper_border">
         <section-header-left
           title="Leave & Vacations"
           headerRight="headerRight"
         ></section-header-left>
+      </div>
         <div class="pl-1 py-1">
           <div
             class="d-grid d-flex gap-1"

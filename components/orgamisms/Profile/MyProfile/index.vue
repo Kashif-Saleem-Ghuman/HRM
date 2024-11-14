@@ -1,6 +1,7 @@
 <template>
   <div class="my-profile-wrapper">
-      <section-header-left
+    <div class="nav_wrapper_border">
+    <section-header-left
         :title="
           $getEmployeeFullName(form) != 'undefined undefined'
             ? $getEmployeeFullName(form)
@@ -8,6 +9,7 @@
         "
         :key="topNav"
       ></section-header-left>
+    </div>  
     <div class="section-wrapper custom-input">
       <div class="tab-wrapper">
         <div class="px-1 bottom_border_wrapper">

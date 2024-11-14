@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- Dropdown for Selecting Report Type -->
+    <div class="nav_wrapper_border">
         <section-header-left title="Reports"></section-header-left>
+        </div>
     <div class="tab-wrapper">
       <div class="row mx-0 bottom_border_wrapper">
         <div class="col-12 px-1">

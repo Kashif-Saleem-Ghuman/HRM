@@ -20,6 +20,16 @@
   }
   background-color: $white;
   color: $dark;
+  .nav_wrapper_border_bottom {
+    border-bottom: 1px solid var(--bib-gray11);
+  }
+  .nav_wrapper_border_top {
+    border-top: 1px solid var(--bib-gray11);
+  }
+  .nav_wrapper_border {
+    border-bottom: 1px solid var(--bib-gray11);
+    border-top: 1px solid var(--bib-gray11);
+  }
   .bottom_border_wrapper {
     border-bottom: 1px solid $secondary-sub3;
   }
@@ -70,9 +80,6 @@
         box-shadow: 0 var(--bib-secondary-sub2) !important;
       }
   }
-  .app-wrapper__navigation {
-    border-right: 1px solid $dark-sub1 !important;
-  }
   .tab-wrapper {
     .tabs {
       height: 3rem !important;
@@ -113,5 +120,15 @@
     .company-logo {
       background-color: $dark;
     }
+  }
+  .nav_wrapper_border_bottom {
+    border-bottom: 1px solid var(--bib-border-primary);
+  }
+  .nav_wrapper_border_top {
+    border-top: 1px solid var(--bib-border-primary);
+  }
+  .nav_wrapper_border {
+    border-bottom: 1px solid var(--bib-border-primary);
+    border-top: 1px solid var(--bib-border-primary);
   }
 }

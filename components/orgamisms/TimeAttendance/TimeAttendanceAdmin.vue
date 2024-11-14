@@ -1,9 +1,10 @@
 <template>
   <div id="people-action-wrapper">
-    
+    <div class="nav_wrapper_border">
       <section-header-left
         title="Time & Attendance"
       ></section-header-left>
+    </div>
     <div class="tab-wrapper">
       <div class="row mx-0 bottom_border_wrapper">
         <div class="col-12 px-1">

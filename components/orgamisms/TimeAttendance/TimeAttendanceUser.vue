@@ -2,7 +2,9 @@
   <div id="time-attendance-wrapper">
     <loader :loading="loading"></loader>
     <div class="scroll_wrapper">
+      <div class="nav_wrapper_border">
       <section-header-left title="Time & Attendance"></section-header-left>
+    </div>
       <div class="time-attandance-wrapper">
         <div class="px-1">
           <div

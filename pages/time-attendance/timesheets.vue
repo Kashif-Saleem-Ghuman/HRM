@@ -69,6 +69,10 @@ export default {
       timesheetsList: [],
       showDatePicker: false,
       searchString: null,
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
     };
   },
 
@@ -116,7 +120,11 @@ export default {
           from: new Date(this.weekDates.from),
           to: new Date(this.weekDates.to),
         });
-        let timesheets = await getTimeAttendanceCustomRange({ from, to, searchString });
+        let timesheets= await getTimeAttendanceCustomRange(
+          { from,
+            to,
+            searchString,
+          });
         timesheets = timesheets.map((employee) => {
           const parser = new TimesheetParser(employee);
           return parser.parse("weekDays");

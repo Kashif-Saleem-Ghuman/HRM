@@ -18,8 +18,11 @@
         <custom-timesheet-list
           :employees="timesheetsList"
           :loading="loading"
+          @handle-pagination-load="handlePaginationLoad"
+          :pagination-loading="paginationLoading"
           type="month"
         ></custom-timesheet-list>
+        <intersect @handle-pagination-load="handlePaginationLoad" :has-no-more-data="hasNoMoreData" :pagination-loading="paginationLoading"></intersect>
       </div>
     </div>
   </div>
@@ -57,7 +60,14 @@ export default {
       timesheetDates: {
         from: null,
         to: null,
-      }
+      },
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
+      remotePaginationData: null,
+      paginationLoading: false,
+      hasNoMoreData: false,
     };
   },
 
@@ -82,18 +92,43 @@ export default {
       await this.fillTimesheetEntries();
     },
 
-    async fillTimesheetEntries(isWeekRange = false) {
+    async handlePaginationLoad() {
+
+      if(this.hasNoMoreData || this.paginationLoading) return;
+
+      this.pagination.page += 1;
+      this.paginationLoading = true;
+      await this.fillTimesheetEntries(false, true);
+
+      if(this.remotePaginationData.next_page === null) {
+        this.hasNoMoreData = true;
+      }
+
+      this.paginationLoading = false;
+    },
+
+    async fillTimesheetEntries(isWeekRange = false, isPaginationLoad = false) {
       const searchString = '';
 
-      this.loading = true;
+      if(!isPaginationLoad) this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
 
       try {
-        let employees = await getTimeAttendanceCustomRange({ from, to, searchString });
-      employees.forEach((employee) => {
+
+        const { data: employees, pagination } = await getTimeAttendanceCustomRange({
+          from,
+          to,
+          searchString,
+          withPastDue: true,
+          pagination: this.pagination,
+        });
+
+        this.remotePaginationData = pagination;
+
+        employees.forEach((employee) => {
         const { leavesByDate } = employee
         
         employee.timesheets.forEach((timesheet) => {
@@ -106,7 +141,9 @@ export default {
         });
       });
 
-      this.timesheetsList = employees;
+      this.timesheetsList = isPaginationLoad
+        ? [...this.timesheetsList, ...employees]
+        : employees
 
       function getWeekdayIndex(dateString) {
         const date = new Date(dateString);
@@ -129,7 +166,7 @@ export default {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
 
-      this.loading = false;
+      if(!isPaginationLoad) this.loading = false;
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}

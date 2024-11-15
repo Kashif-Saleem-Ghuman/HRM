@@ -8,13 +8,20 @@ Vue.directive('intersect', {
       threshold: binding.value.threshold || 0,
     };
 
-    el.__observer__ = new IntersectionObserver((entries) => {
+    const callback = (entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
-        binding.value.onIntersect();
+        console.log('Element is intersecting');
+        if (typeof binding.value.onIntersect === 'function') {
+          binding.value.onIntersect(); // Trigger the callback
+        } else {
+          console.warn('onIntersect is not a function');
+        }
       }
-    }, options);
+    };
 
+    // Add observer to element
+    el.__observer__ = new IntersectionObserver(callback, options);
     el.__observer__.observe(el);
   },
   unbind(el) {

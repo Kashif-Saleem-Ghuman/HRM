@@ -55,9 +55,9 @@ export default {
     generateMonthDates() {
       return {
         from: DateTime.utc(parseInt(this.year, 10), Number(this.month))
-          .startOf("month").startOf('week').minus({days: 1})
+          .startOf("month")
           .toISO(),
-        to: DateTime.utc(parseInt(this.year, 10), Number(this.month)).endOf("month").endOf('week').minus({days: 2}).toISO(),
+        to: DateTime.utc(parseInt(this.year, 10), Number(this.month)).endOf("month").toISO(),
       };
     },
   },

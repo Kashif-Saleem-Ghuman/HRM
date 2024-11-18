@@ -120,7 +120,7 @@ export default {
           from: new Date(this.weekDates.from),
           to: new Date(this.weekDates.to),
         });
-        let timesheets= await getTimeAttendanceCustomRange(
+        let { data: timesheets } = await getTimeAttendanceCustomRange(
           { from,
             to,
             searchString,

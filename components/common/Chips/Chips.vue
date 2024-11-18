@@ -36,7 +36,12 @@
           :data-title="leaveTypeHighlighterTolltip"
           @mouseover="showTooltip"
           @mouseleave="hideTooltip = true"
-          :class="{ hidden: hideTooltip, 'show-tooltip': hideTooltip }"
+          :class="{
+            hidden: hideTooltip,
+            'show-tooltip': hideTooltip,
+            bottom: tooltipPositionBottom,
+            top: !tooltipPositionBottom,
+          }"
           >{{ leaveTypeHighlighterText }}</span
         >
       </div>
@@ -118,6 +123,7 @@ export default {
   data() {
     return {
       hideTooltip: false,
+      tooltipPositionBottom: false,
     };
   },
   mounted() {
@@ -129,6 +135,13 @@ export default {
   methods: {
     handleScroll() {
       this.hideTooltip = true;
+      const topbar = document.querySelector(".app-wrapper__topbar");
+      const tooltipElement = this.$el.querySelector("[data-title]");
+      if (topbar && tooltipElement) {
+        const topbarRect = topbar.getBoundingClientRect();
+        const tooltipRect = tooltipElement.getBoundingClientRect();
+        this.tooltipPositionBottom = tooltipRect.top <= topbarRect.bottom + 80;
+      }
     },
     showTooltip() {
       this.hideTooltip = false;
@@ -148,7 +161,6 @@ export default {
   background-color: #e3e3ea;
   position: absolute;
   padding: 5px 8px;
-  top: -3.5em;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -159,15 +171,33 @@ export default {
   visibility: hidden;
 }
 
+[data-title].bottom:after {
+  bottom: -3.5em !important;
+  /* Position tooltip below */
+}
+
+[data-title].top:after {
+  top: -3.5em !important;
+  /* Position tooltip above */
+}
+
+[data-title].bottom:before {
+  bottom: -1em !important;
+  border-color: transparent transparent #dcdcdf transparent;
+}
+
+[data-title].top:before {
+  top: -1em !important;
+  border-color: #dcdcdf transparent transparent transparent;
+}
+
 [data-title]:before {
   content: "";
   position: absolute;
-  top: -1em;
   left: 50%;
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #dcdcdf transparent transparent transparent;
   opacity: 0;
   visibility: hidden;
   z-index: 99998;
@@ -183,12 +213,14 @@ export default {
 [data-title].hidden:after {
   opacity: 0;
 }
+
 .show-tooltip[data-title]:hover::before,
 .show-tooltip[data-title]:hover::after {
   opacity: 0;
   transition: none;
   visibility: hidden;
 }
+
 .chip-wrapper-bg {
   min-width: 112px !important;
 

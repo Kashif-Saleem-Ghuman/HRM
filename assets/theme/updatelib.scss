@@ -256,4 +256,12 @@
   [data-title]:before {
     border-color: #2E2F31 transparent transparent transparent;
   }
+  [data-title].bottom:before {
+    border-color: transparent transparent #2E2F31 transparent;
+  }
+  
+  [data-title].top:before {
+    top: -1em !important;
+    border-color: #2E2F31 transparent transparent transparent;
+  }
 }

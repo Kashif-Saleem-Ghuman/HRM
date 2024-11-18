@@ -188,7 +188,6 @@
        </tr> -->
      </template>
   </table>
-   <div v-intersect="{ onIntersect: handlePagination }"></div>
  </div>
 </template>
 
@@ -283,10 +282,6 @@ export default {
     this.cols.shift();
   },
   methods: {
-
-    handlePagination() {
-      console.log('fetchData')
-    },
     meetLink,
      sendMessage,
      makeCall,

@@ -1,7 +1,6 @@
 <template>
   <div v-intersect="{ onIntersect: () => $emit('handle-pagination-load') }" :class="['observer', 'position-relative', { 'pagination-loading': paginationLoading }]">
-    <p class="text-center pb-05 font-md" v-if="hasNoMoreData">No more data...</p>
-    <loader :loading="!hasNoMoreData && paginationLoading"></loader>
+    <loader :loading="paginationLoading"></loader>
   </div>
 </template>
 
@@ -9,10 +8,6 @@
 import { debounce } from "lodash";
 export default {
   props: {
-    hasNoMoreData: {
-      type: Boolean,
-      default: false,
-    },
     paginationLoading: {
       type: Boolean,
       default: false,

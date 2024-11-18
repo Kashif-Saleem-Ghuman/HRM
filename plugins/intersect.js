@@ -11,16 +11,14 @@ Vue.directive('intersect', {
     const callback = (entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
-        console.log('Element is intersecting');
         if (typeof binding.value.onIntersect === 'function') {
-          binding.value.onIntersect(); // Trigger the callback
+          binding.value.onIntersect();
         } else {
           console.warn('onIntersect is not a function');
         }
       }
     };
 
-    // Add observer to element
     el.__observer__ = new IntersectionObserver(callback, options);
     el.__observer__.observe(el);
   },

@@ -22,7 +22,7 @@
           :loading="loading"
           type="year"
         ></custom-timesheet-list>
-        <intersect @handle-pagination-load="handlePaginationLoad" :has-no-more-data="hasNoMoreData" :pagination-loading="paginationLoading"></intersect>
+        <intersect @handle-pagination-load="handlePaginationLoad" :pagination-loading="paginationLoading"></intersect>
       </div>
     </div>
   </div>

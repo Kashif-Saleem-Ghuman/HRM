@@ -100,10 +100,6 @@ export default {
       this.paginationLoading = true;
       await this.fillTimesheetEntries(false, true);
 
-      if(this.remotePaginationData.next_page === null) {
-        this.hasNoMoreData = true;
-      }
-
       this.paginationLoading = false;
     },
 
@@ -118,7 +114,7 @@ export default {
 
       try {
 
-        const { data: employees, pagination } = await getTimeAttendanceCustomRange({
+        let employees = await getTimeAttendanceCustomRange({
           from,
           to,
           searchString,
@@ -126,7 +122,9 @@ export default {
           pagination: this.pagination,
         });
 
-        this.remotePaginationData = pagination;
+        if(employees?.length === 0)
+          this.hasNoMoreData = true;
+
 
         employees.forEach((employee) => {
         const { leavesByDate } = employee

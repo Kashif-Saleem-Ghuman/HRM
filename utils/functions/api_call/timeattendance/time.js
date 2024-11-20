@@ -274,7 +274,7 @@ export async function getTimesheets({ from, to, employeeId }) {
     config.params = { from, to };
     if (employeeId) config.params.employeeId = employeeId;
     const { data } = await hrmApiAxiosInstance.get(url, config);
-    return data?.timesheets || [];
+    return data || {};
   } catch (error) {
     throw error;
   }

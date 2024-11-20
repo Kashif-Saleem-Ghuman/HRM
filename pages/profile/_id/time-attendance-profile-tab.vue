@@ -378,10 +378,18 @@ export default {
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
 
-      let timesheets = await getTimesheets({ from, to, employeeId: this.id });
+      let { timesheets, leavesByDate } = await getTimesheets({ from, to, employeeId: this.id });
       timesheets = timesheets.map((employee) => {
         const parser = new TimesheetParser({ timesheets: employee });
-        return parser.parse("weekDays");
+
+        const parseData = parser.parse("weekDays");
+
+        const timesheetDate = DateTime.fromISO(parseData?.start, { zone: "utc" }).toISODate();
+        const timesheetLeaves = leavesByDate?.[timesheetDate];
+
+        parseData.weekData.leaves = timesheetLeaves || {};
+
+        return parseData;
       }).sort((a, b) => new Date(b.start) - new Date(a.start));
       this.timesheetsList = timesheets;
       this.loading = false;

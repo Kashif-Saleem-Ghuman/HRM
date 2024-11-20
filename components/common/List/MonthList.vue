@@ -37,11 +37,15 @@
         </div>
       </template>
 
-      <template v-for="day in weekDays" #[`cell(${day.value})`]="data">
+      <template v-for="value in weekDays" #[`cell(${value.day})`]="data">
         <chips
-          :key="day.value"
-          :title="getWeekdayValue(data.value.weekData, day)"
-          :class="$getWeekdayClassNames(data.value.weekData, day)"
+          :key="`${value.day}-${Math.random()}`"
+          :title="$getTimesheetDayValue(data.value, value, true)"
+          :leaveTypeHighlighterText="$getLeaveTypeValue(data.value, value, true)"
+          :className="[$getDayClassName(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveHighlighter="$getLeaveTypeValue(data.value, value, true) ? true : false"
+          :notifyClass="[$getHightlighterClass(data.value.weekData[value.index]?.totalHours, data.value, value, true)]"
+          :leaveTypeHighlighterTolltip="$getLeaveTooltipTitle(data.value, value, true)"
         ></chips>
       </template>
 
@@ -190,8 +194,8 @@ export default {
       timesheetModal: false,
       filteredData: [],
       weekDays: WEEK_DAY.map((day) => ({
-        ...day,
-        value: day.value.substring(0, 3),
+        day: day.value.substring(0, 3),
+        index: day.weekday
       })),
       sortByField: null,
       timesheetStatusOptions: [

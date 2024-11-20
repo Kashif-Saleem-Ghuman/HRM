@@ -697,14 +697,24 @@ export default {
           ),
           to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
         });
-        let timesheets = await getTimesheets({ from, to });
+        let { timesheets, leavesByDate } = await getTimesheets({ from, to });
         timesheets = timesheets
           .map((employee) => {
             const parser = new TimesheetParser({ timesheets: employee });
-            return parser.parse("weekDays");
+
+            const parseData = parser.parse("weekDays");
+
+            const timesheetDate = DateTime.fromISO(parseData?.start, { zone: "utc" }).toISODate();
+            const timesheetLeaves = leavesByDate?.[timesheetDate];
+
+            parseData.weekData.leaves = timesheetLeaves || {};
+
+            return parseData;
           })
           .sort((a, b) => new Date(b.start) - new Date(a.start));
         this.timesheetsList = timesheets;
+
+
         this.timesheetsList.length ? this.notFound : this.notFound = false;
       } catch (error) {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);

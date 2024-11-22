@@ -120,10 +120,11 @@ export default {
           from: new Date(this.weekDates.from),
           to: new Date(this.weekDates.to),
         });
-        let { data: timesheets } = await getTimeAttendanceCustomRange(
+        let timesheets = await getTimeAttendanceCustomRange(
           { from,
             to,
             searchString,
+            withPastDue: true,
           });
         timesheets = timesheets.map((employee) => {
           const parser = new TimesheetParser(employee);

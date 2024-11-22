@@ -22,7 +22,6 @@
           :pagination-loading="paginationLoading"
           type="month"
         ></custom-timesheet-list>
-        <intersect @handle-pagination-load="handlePaginationLoad" :pagination-loading="paginationLoading"></intersect>
       </div>
     </div>
   </div>
@@ -61,13 +60,6 @@ export default {
         from: null,
         to: null,
       },
-      pagination: {
-        page: 1,
-        limit: 10,
-      },
-      remotePaginationData: null,
-      paginationLoading: false,
-      hasNoMoreData: false,
     };
   },
 
@@ -92,21 +84,9 @@ export default {
       await this.fillTimesheetEntries();
     },
 
-    async handlePaginationLoad() {
-
-      if(this.hasNoMoreData || this.paginationLoading) return;
-
-      this.pagination.page += 1;
-      this.paginationLoading = true;
-      await this.fillTimesheetEntries(false, true);
-
-      this.paginationLoading = false;
-    },
-
     async fillTimesheetEntries(isWeekRange = false, isPaginationLoad = false) {
       const searchString = '';
 
-      if(!isPaginationLoad) this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
@@ -119,7 +99,6 @@ export default {
           to,
           searchString,
           withPastDue: true,
-          pagination: this.pagination,
         });
 
         if(employees?.length === 0)
@@ -163,8 +142,6 @@ export default {
       } catch (error) {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
-
-      if(!isPaginationLoad) this.loading = false;
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}

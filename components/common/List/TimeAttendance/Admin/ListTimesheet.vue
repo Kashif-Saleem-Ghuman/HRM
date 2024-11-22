@@ -63,7 +63,7 @@
           </div>
           <notifications
             v-if="shouldShowTimesheetReminderIcon(data.value.timesheets?.[0]?.status, data.value.timesheets?.[0]?.lastReminderSentAt)"
-            @submit-notification="submitTimesheetReminder(data.value.timesheets?.[0]?.id, data.value.id)"
+            @submit-notification="submitTimesheetReminder(data.value)"
             :isLoading="mapLoading[data.value.id]"
             iconName="send-solid"
             customClass="ml-05 mr-1"
@@ -286,10 +286,31 @@ export default {
       return TIMESHEET_STATUS.not_submitted.value;
     },
 
-    async submitTimesheetReminder(timesheetId, employeeId) {
+    isPastDueTimesheet(timesheetId) {
+      return timesheetId == -1;
+    },
+
+    async submitTimesheetReminder(employee) {
+
+      const timesheetId = employee.timesheets?.[0]?.id
+      const employeeId = employee.id;
+
       this.$set(this.mapLoading, employeeId, true);
       try {
-        await this.$submitTimesheetReminder({ timesheetIds: timesheetId });
+        if(!this.isPastDueTimesheet(timesheetId)) {
+          await this.$submitTimesheetReminder({ timesheetIds: timesheetId });
+        }else {
+          const date = employee.timesheets?.[0]?.end;
+          await this.$submitPastDueTimesheetReminder(timesheetId, {
+            employeeId,
+            date
+          })
+          this.$openPopupNotification({
+            text: "A reminder for past due timesheet submission has been successfully sent to the employee.",
+            variant: "primary-24"
+          });
+        }
+
         this.$nuxt.$emit('get-time-attendance');
       } catch (errorMessage) {
         this.$openPopupNotification({

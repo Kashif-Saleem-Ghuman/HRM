@@ -18,6 +18,8 @@
         <custom-timesheet-list
           :employees="timesheetsList"
           :loading="loading"
+          @handle-pagination-load="handlePaginationLoad"
+          :pagination-loading="paginationLoading"
           type="month"
         ></custom-timesheet-list>
       </div>
@@ -57,7 +59,7 @@ export default {
       timesheetDates: {
         from: null,
         to: null,
-      }
+      },
     };
   },
 
@@ -82,18 +84,28 @@ export default {
       await this.fillTimesheetEntries();
     },
 
-    async fillTimesheetEntries(isWeekRange = false) {
+    async fillTimesheetEntries(isWeekRange = false, isPaginationLoad = false) {
       const searchString = '';
 
-      this.loading = true;
       const { from, to } = this.weekToUTCWeek({
         from: new Date(isWeekRange ? this.weekDates.from : this.timesheetDates.from),
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
 
       try {
-        let employees = await getTimeAttendanceCustomRange({ from, to, searchString });
-      employees.forEach((employee) => {
+
+        let employees = await getTimeAttendanceCustomRange({
+          from,
+          to,
+          searchString,
+          withPastDue: true,
+        });
+
+        if(employees?.length === 0)
+          this.hasNoMoreData = true;
+
+
+        employees.forEach((employee) => {
         const { leavesByDate } = employee
         
         employee.timesheets.forEach((timesheet) => {
@@ -106,7 +118,9 @@ export default {
         });
       });
 
-      this.timesheetsList = employees;
+      this.timesheetsList = isPaginationLoad
+        ? [...this.timesheetsList, ...employees]
+        : employees
 
       function getWeekdayIndex(dateString) {
         const date = new Date(dateString);
@@ -128,8 +142,6 @@ export default {
       } catch (error) {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
-
-      this.loading = false;
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}

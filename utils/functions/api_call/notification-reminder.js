@@ -39,7 +39,6 @@ export async function clockInReminder({ employeeIds }) {
 }
 
 export async function submitPastDueTimesheetReminder(timesheetId, payload) {
-  console.log('$submitPastDueTimesheetReminder==', timesheetId, payload);
   try {
     const url = `/employees/reminder/submit-timesheets/past-due/${timesheetId}`;
     const config = createConfig();

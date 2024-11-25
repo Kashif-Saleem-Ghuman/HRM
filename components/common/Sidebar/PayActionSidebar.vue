@@ -1,22 +1,30 @@
 <template>
-  <div :class="themeClassCommon">
+  <div :class="themeClassCommon" style="background-color: red; width: 1000px">
+    <div
+      v-if="isSidebarExpanded"
+      class="overlay"
+      @click.stop="resetSidebar"
+    ></div>
+
     <div
       v-click-outside="handleClickOutside"
       id="side-panel"
-      :class="'side-panel ' + 'side-panel__' + className"
+      :class="['side-panel', 'side-panel__' + className, expandSidebarClass]"
     >
       <div
         class="d-flex justify-between align-center py-1"
         :class="borderClassBottom"
       >
-        <!-- Header Left Section -->
         <div class="d-flex align-center pl-1 flex-grow-1 pay-side-panel">
           <div class="pay-header-title">
             <bib-icon :icon="icon" :scale="1.2" class="mr-05"></bib-icon>
             <label>{{ heading }}</label>
           </div>
         </div>
-        <div class="d-flex gap-05 align-center pr-1 pl-1" id="icons-wrapper-sidebar">
+        <div
+          class="d-flex gap-05 align-center pr-1 pl-1"
+          id="icons-wrapper-sidebar"
+        >
           <div
             v-for="icon in sidebarIcons"
             :key="icon.id"
@@ -24,24 +32,19 @@
             class="p-025 cursor-pointer shape-circle width-2 height-2 d-flex align-center justify-center"
             :id="'header-icon-' + icon.id"
           >
-            <div @click="handleIconClick(icon)">
-              <bib-icon :icon="icon.icon" variant="gray5" :scale="1"></bib-icon>
+            <div v-if="!icon.component" @click="handleIconClick(icon)">
+              <bib-icon
+                :icon="icon.icon"
+                variant="gray5"
+                :scale="0.9"
+              ></bib-icon>
             </div>
-            <!-- Dropdown Menu -->
-            <div
-              v-if="icon.dropdown && visibleDropdown === icon.id"
-              class="dropdown-menu"
-            >
-            <div class="list position-absolute">
-            <span
-              class="list__item"
-                  v-for="item in icon.menuItems"
-                  :key="item.action"
-                  @click="$emit(item.action)"
-                >
-                  {{ item.label }}
-            </span>
-          </div>
+            <div v-else>
+              <component
+                :is="icon.component"
+                :menuItems="icon.menuItems"
+                @click="handleIconClick(icon)"
+              />
             </div>
           </div>
         </div>
@@ -54,9 +57,9 @@
         </div>
         <div
           class="sidebar-footer px-1 py-1 d-flex justify-end align-end h-100"
-          v-if="show == 'true'"
+          v-if="show === 'true'"
         >
-          <slot name="sidebar-footer"> </slot>
+          <slot name="sidebar-footer"></slot>
         </div>
       </div>
     </div>
@@ -65,6 +68,7 @@
 
 <script>
 import { PAY_SIDEBAR_ICONS } from "../../../utils/constant/pay/PaySidebarHeaderActions";
+
 export default {
   name: "ActionSidebar",
   props: {
@@ -80,48 +84,81 @@ export default {
     return {
       isFileFavorite: false,
       sidebarIcons: PAY_SIDEBAR_ICONS,
-      visibleDropdown: null, // Tracks the currently open dropdown
+      visibleDropdown: null,
+      isSidebarExpanded: false,
     };
   },
   computed: {
-    heightCalculate() {
-      return this.classMain;
-    },
     getIconClass() {
       return this.isLightThemeCheck
         ? "bg-light bg-hover-gray2"
         : "bg-dark-sub1 bg-hover-dark-sub3";
     },
+    expandSidebarClass() {
+      return this.isSidebarExpanded
+        ? "sidebar-expanded sidebar-slide-center"
+        : "sidebar-slide-default";
+    },
   },
   methods: {
-    handleClickOutside(event) {
-      const ignoreClickOutsideElement = document.getElementById(
-        "ignore-click-outside"
+    resetSidebar() {
+      this.isSidebarExpanded = false;
+      this.sidebarIcons = this.sidebarIcons.map((item) =>
+        item.id === "expand"
+          ? {
+              ...item,
+              icon: this.isSidebarExpanded
+                ? "collapse-fullscreen"
+                : "expand-fullscreen",
+            }
+          : item
       );
-      if (
-        ignoreClickOutsideElement &&
-        ignoreClickOutsideElement.contains(event.target)
-      ) {
-        return;
-      }
+    },
+    handleClickOutside(event) {
       const sidePanel = document.getElementById("side-panel");
-      if (sidePanel && !sidePanel.contains(event.target)) {
+      if (
+        !this.isSidebarExpanded &&
+        sidePanel &&
+        !sidePanel.contains(event.target)
+      ) {
         this.$emit("close");
       }
-      this.visibleDropdown = null; // Close the dropdown when clicking outside
+      this.visibleDropdown = null;
     },
     handleIconClick(icon) {
-      if (icon.dropdown) {
-        this.visibleDropdown = this.visibleDropdown === icon.id ? null : icon.id;
-      } else {
-        this.$emit(icon.emitEvent);
+      if (icon.id === "expand") {
+        this.isSidebarExpanded = !this.isSidebarExpanded;
+        this.sidebarIcons = this.sidebarIcons.map((item) =>
+          item.id === "expand"
+            ? {
+                ...item,
+                icon: this.isSidebarExpanded
+                  ? "collapse-fullscreen"
+                  : "expand-fullscreen",
+              }
+            : item
+        );
+        return;
       }
+
+      if (icon.id === "close" && this.isSidebarExpanded) {
+        this.resetSidebar();
+        return;
+      }
+
+      this.visibleDropdown = icon.dropdown
+        ? this.visibleDropdown === icon.id
+          ? null
+          : icon.id
+        : this.$emit(icon.emitEvent);
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import "@/assets/variable.scss";
+
 .pay-side-panel {
   .pay-header-title {
     display: flex;
@@ -134,12 +171,58 @@ export default {
   }
 }
 
-.dropdown-menu {
-  position: relative;
-  .list{
-    width: 200px;
-  border: 1px solid $dark-sub3;
-  border-radius: 6px;
+@keyframes slidein-right {
+  from {
+    transform: translateX(100%);
   }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideout {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.side-panel {
+  position: fixed;
+  z-index: 9999;
+  width: $sidebar-width;
+  top: 65px;
+  bottom: 0;
+  background-color: $white;
+  right: 0;
+  border-left: 1px solid $secondary-sub3;
+  transition: transform 0.8s ease;
+
+  &__slide-in {
+    animation: slidein-right 0.8s;
+  }
+  &__slide-out {
+    animation: slideout 0.8s;
+  }
+  &.sidebar-slide-default {
+    transform: translateX(0);
+  }
+  &.sidebar-expanded {
+    transform: translateX(-100%);
+    top: 0 !important;
+    border: 1px solid $dark-sub3;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9998;
 }
 </style>

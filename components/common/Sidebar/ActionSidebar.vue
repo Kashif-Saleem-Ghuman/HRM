@@ -138,61 +138,6 @@ export default {
   }
 }
 
-@keyframes slidein-right {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes slideout {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-@media screen and (max-width: 1600px) {
-  .side-panel {
-    max-width: $sidebar-width - 120px;
-    // width: 25rem;
-  }
-}
-@media (min-width: 1200px) {
-  body {
-    font-size: 12px !important;
-  }
-}
-.side-panel {
-  position: fixed;
-  z-index: 9999;
-  width: $sidebar-width;
-  top: 65px;
-  bottom: 0;
-  background-color: $white;
-  right: 0px;
-  border-left: 1px solid $secondary-sub3;
-  label {
-    font-size: 14px;
-    font-weight: 600;
-    color: $dark;
-  }
-  // box-shadow: 5px 2px 15px $gray6;
-  &__slide-in {
-    animation: slidein-right 0.8s;
-  }
-  &__slide-out {
-    animation: slideout 0.8s;
-  }
-  &__header__actions {
-    padding: 0.75rem 1.5rem;
-  }
-  .sidebar-body-scroll-y {
-    overflow-y: auto;
-  }
-}
 .sidebar-body {
   padding-bottom: 50px !important;
 }

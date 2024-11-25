@@ -24,32 +24,40 @@
       <div class="d-flex align-center text-left gap-05 position-relative">
         <div
           class="cursor-pointer"
-          v-on:mouseover="$profiletab('id_' + data.keyI + data.value.employee.id)"
-          v-on:mouseleave="$profiletab('id_' + data.keyI + data.value.employee.id, true)"
+          v-on:mouseover="
+            $profiletab('id_' + data.keyI + data.value.employee.id)
+          "
+          v-on:mouseleave="
+            $profiletab('id_' + data.keyI + data.value.employee.id, true)
+          "
         >
-        <div class="avtar-contain">
-          <bib-avatar
-            variant="secondary-sub3 font-w-600"
-            :text="$getEmployeeInitials(data.value.employee)"
-            text-variant="primary"
-            size="2.7rem"
-            v-show="data.value.employee.photo === null"
-          ></bib-avatar>
-          <bib-avatar
-            class="mt-auto mb-auto"
-            shape="circle"
-            :src="data.value.employee.photo"
-            v-show="data.value.employee.photo != null"
-            size="2.7rem"
-          >
-          </bib-avatar>
+          <div class="avtar-contain">
+            <bib-avatar
+              variant="secondary-sub3 font-w-600"
+              :text="$getEmployeeInitials(data.value.employee)"
+              text-variant="primary"
+              size="2.7rem"
+              v-show="data.value.employee.photo === null"
+            ></bib-avatar>
+            <bib-avatar
+              class="mt-auto mb-auto"
+              shape="circle"
+              :src="data.value.employee.photo"
+              v-show="data.value.employee.photo != null"
+              size="2.7rem"
+            >
+            </bib-avatar>
           </div>
-          <div :id="'id_' + data.keyI + data.value.employee.id" class="userCard">
-           
+          <div
+            :id="'id_' + data.keyI + data.value.employee.id"
+            class="userCard"
+          >
             <user-info-card
               :user="data.value.employee"
               @viewProfile="viewProfile(data.value.employee.id)"
-              @sendMeet.stop="makeCall(getUser.userId, data.value.employee.userId)"
+              @sendMeet.stop="
+                makeCall(getUser.userId, data.value.employee.userId)
+              "
               @sendMessage="sendMessage(data.value.employee.userId)"
               :contactButtons="$isActiveUser(data.value.employee.id)"
             ></user-info-card>
@@ -65,10 +73,45 @@
                 | truncate(truncateText, "...")
             }}
           </div>
-          <div :class="isLightThemeCheck ? 'description' :'text-gray1'">
+          <div :class="isLightThemeCheck ? 'description' : 'text-gray1'">
             {{ data.value.employee.jobTitle }}
           </div>
         </div>
+      </div>
+    </template>
+    <template #cell(role)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.role }}</span>
+      </div>
+    </template>
+    <template #cell(engagement-type)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.engagementType }}</span>
+      </div>
+    </template>
+    <template #cell(rate-annual)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.rateAnnual }}</span>
+      </div>
+    </template>
+    <template #cell(rate-hourly)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.rateHourly }}</span>
+      </div>
+    </template>
+    <template #cell(currency)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.currency }}</span>
+      </div>
+    </template>
+    <template #cell(pay-plan)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.payPlan }}</span>
+      </div>
+    </template>
+    <template #cell(payment-method)="data">
+      <div class="justify-between">
+        <span>{{ data.value.employee.paymentMethod }}</span>
       </div>
     </template>
   </custom-table>
@@ -98,10 +141,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    disabled:{
-      type:Boolean,
-      default:false
-    }
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -157,7 +200,7 @@ export default {
       this.sortColumn(column);
     },
     onLoad(item) {
-      return  DateTime.fromISO(item, { zone: 'utc' }).toFormat(DATETIME_FORMAT);
+      return DateTime.fromISO(item, { zone: "utc" }).toFormat(DATETIME_FORMAT);
     },
     // handleItemClick_Table($event, keyI, item) {
     //   this.$router.push("/profile/" + item.id);
@@ -176,8 +219,8 @@ export default {
     },
 
     async approveItem(id) {
-      this.$emit('approve-item-single', id);
-    }
+      this.$emit("approve-item-single", id);
+    },
   },
 };
 </script>

@@ -1,3 +1,5 @@
+import PaySidebarDropmenu from "../../../components/common/Pay/PaySidebarDropmenu.vue";
+
 export const PAY_SIDEBAR_ICONS = [
   { 
     id: "bookmark", 
@@ -16,6 +18,7 @@ export const PAY_SIDEBAR_ICONS = [
   { 
     id: "elipsis", 
     icon: "elipsis", 
+    component: PaySidebarDropmenu,
     tooltip: "Elipsis", 
     emitEvent: "elipsisClicked", 
     dropdown: true, 

@@ -14,8 +14,12 @@
       @elipsisClicked="handleElipsis"
     >
       <template v-slot:sidebar-body>
-        <h1>Hello World</h1>
-        <div class="row"></div>
+        <compensation-summary
+      :amount="85000.00"
+      label="Annual"
+      currency="CAD"
+      @edit-click="editSalary"
+    />
       </template>
     </pay-action-sidebar>
   </div>
@@ -38,6 +42,7 @@ export default {
       openSidebar: false,
       slideClass: "slide-in",
       employeeName:'',
+      isVisible: false,
     };
   },
   created() {
@@ -53,17 +58,21 @@ export default {
         this.openSidebar = false;
       }, 700);
     },
+    editSalary() {
+      console.log("Edit salary clicked");
+    },
     handleFlag() {
       return true;
     },
     handleBookmark() {
+      alert("Bookmark")
       return true;
     },
     handleElipsis() {
       return true;
     },
     handleExpand() {
-      return true;
+      this.isVisible = !this.isVisible;
     },
     async payDetail(item) {
       this.slideClass = "slide-in";
@@ -75,6 +84,7 @@ export default {
         this.slideClass = "slide-out";
         setTimeout(() => {
           this.openSidebar = false;
+          this.isVisible = true;
         }, 700);
       });
     },

@@ -1,17 +1,21 @@
 !
 <template>
   <div id="salaries-wrapper">
-    <loader :loading="loading"></loader>
+    <!-- <loader :loading="loading"></loader> -->
     <div>
       <div>
-        <no-record v-if="showNoData"></no-record>
+        <list-salaries
+            :listPending="requestListData"
+            :key="employeeList"
+          ></list-salaries>
+        <!-- <no-record v-if="showNoData"></no-record>
         <div v-else-if="showTable">
-          
+          {{ requestListData }}
           <list-salaries
             :listPending="requestListData"
             :key="employeeList"
           ></list-salaries>
-        </div>
+        </div> -->
         <pay-salaries-sidebar></pay-salaries-sidebar>
       </div>
     </div>
@@ -20,15 +24,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-
-import {
-  getPendingLeaveVacationsAdmin,
-} from "../../utils/functions/functions_lib_api";
+import {PAY_DUMMY_REQUESTS} from '../../utils/constant/pay/PayConstant'
 export default {
   data() {
     return {
       id: null,
-      requestListData: [],
+      requestListData: PAY_DUMMY_REQUESTS.requests,
       loading: true,
       fromDate: "",
       toDate: "",
@@ -49,14 +50,7 @@ export default {
       );
     },
   },
-  async created() {
-    this.getPendingLeaveVacationsAdmin({
-      from: this.fromDate,
-      to: this.toDate,
-    });
-  },
   methods: {
-    getPendingLeaveVacationsAdmin,
   },
 };
 </script>

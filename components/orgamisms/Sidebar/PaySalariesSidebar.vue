@@ -14,12 +14,48 @@
       @elipsisClicked="handleElipsis"
     >
       <template v-slot:sidebar-body>
-        <compensation-summary
-      :amount="85000.00"
-      label="Annual"
-      currency="CAD"
-      @edit-click="editSalary"
-    />
+        <!-- Sidebar layout with two columns -->
+        <div class="sidebar-content">
+          <!-- Left Column for Employee Details -->
+          <div class="left-column">
+            <editable-select
+              :options="options"
+              :showAvatar="true"
+              label="Pay plan"
+              avatarText="BG"
+              @update-value="updatedValue"
+            />
+            <compensation-summary
+              :amount="85000.0"
+              label="Salary"
+              currency="CAD"
+              @edit-click="editSalary"
+            />
+            <editable-select
+              :options="options"
+              label="Pay plan"
+              avatarText="BG"
+              @update-value="updatedValue"
+            />
+            <editable-select
+              :options="options"
+              label="Pay method"
+              avatarText="BG"
+              @update-value="updatedValue"
+            />
+          </div>
+
+          <!-- Right Column for Location -->
+          <div class="right-column">
+            <editable-input
+              :value="'Terrebonne'"
+              :showAvatar="true"
+              avatarText="BG"
+              label="Location"
+              @update-value="updatedValue"
+            />
+          </div>
+        </div>
       </template>
     </pay-action-sidebar>
   </div>
@@ -41,8 +77,13 @@ export default {
       loading: false,
       openSidebar: false,
       slideClass: "slide-in",
-      employeeName:'',
+      employeeName: "",
       isVisible: false,
+      options: [
+        { value: "opt1", label: "Option 1" },
+        { value: "opt2", label: "Option 2" },
+        { value: "opt3", label: "Option 3" },
+      ],
     };
   },
   created() {
@@ -65,7 +106,7 @@ export default {
       return true;
     },
     handleBookmark() {
-      alert("Bookmark")
+      alert("Bookmark");
       return true;
     },
     handleElipsis() {
@@ -77,7 +118,7 @@ export default {
     async payDetail(item) {
       this.slideClass = "slide-in";
       this.openSidebar = true;
-      this.employeeName = item
+      this.employeeName = item;
     },
     registerCloseSideBarRootListener() {
       this.$root.$on(CLOSE_SIDEBAR_EVENT, () => {
@@ -118,3 +159,27 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+/* Sidebar Content Layout */
+.sidebar-content {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid $dark-sub3;
+  padding: 1rem;
+  border-radius: 8px;
+  /* gap: 10px; */
+}
+
+/* Left Column for Employee Details */
+.left-column {
+  flex: 1;
+}
+
+/* Right Column for Location */
+.right-column {
+  flex: 1;
+}
+
+/* Optionally, you can add more specific styling to make the layout look cleaner */
+</style>

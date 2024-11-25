@@ -4,6 +4,7 @@
       {{ title }}
       <bib-icon
         :icon="icon"
+        v-if="icon"
         :scale="scale"
         :variant="variant"
         class="ml-05 icon"

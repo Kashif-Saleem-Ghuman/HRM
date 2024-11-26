@@ -62,12 +62,12 @@ export default {
   methods: {
 
     tabPressHandler(evt) {
-      const waitTime = !this.minute ? 3000 : 0;
+      const waitTime = !this.minute ? 5000 : 0;
       this.emitTimeChange(waitTime)
     },
     timeClickHandler(val) {
 
-      const waitTime = !this.minute ? 3000 : 0;
+      const waitTime = !this.minute ? 5000 : 0;
       this.emitTimeChange(waitTime);
     },
     formatTimeUnit(unit) {
@@ -75,19 +75,18 @@ export default {
       return unit?.toString()?.padStart(2, '0');
     },
     emitTimeChange(waitTime = 0) {
-      const formattedTime = `${this.formatTimeUnit(this.hour)}:${this.formatTimeUnit(this.minute)}`;
-      if (this.hour !== null && this.value !== formattedTime) {
-
         if(!this.isWaiting) {
           this.isWaiting = true;
           setTimeout(() => {
             this.isWaiting = false;
-            this.$emit('update:modelValue', formattedTime);
-            this.$emit('change', formattedTime);
+            const formattedTime = `${this.formatTimeUnit(this.hour)}:${this.formatTimeUnit(this.minute)}`;
+            if (this.hour !== null && this.value !== formattedTime) {
+              this.$emit('update:modelValue', formattedTime);
+              this.$emit('change', formattedTime);
+            }
           }, waitTime)
         }
 
-      }
     },
     setHourMinute(time) {
       if(!time) {
@@ -118,92 +117,6 @@ export default {
   height: 100%;
   width: 100%;
 
-  &.light-theme {
-
-    .dropdown-timepicker {
-      border-radius: 6px;
-      margin: 0;
-      color: $gray5;
-    }
-
-    .time-select {
-      display: inline;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      outline: none;
-      cursor: pointer;
-      background-color: $light;
-      max-width: 53px;
-      max-height: 30px;
-
-      &::-webkit-scrollbar {
-        width: 6px; /* Width of the scrollbar */
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $light; /* Track color */
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $gray5; /* Thumb color */
-        border-radius: 4px; /* Rounded corners for the thumb */
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: $gray6; /* Hover color for the thumb */
-      }
-
-    }
-
-    .time-select:focus {
-      border-color: $light-sub3;
-      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
-    }
-  }
-
-
-  &.dark-theme {
-
-    .dropdown-timepicker {
-      border-radius: 6px;
-      margin: 0;
-      color: $gray5;
-    }
-    .time-select {
-      padding: 8px;
-      border: 1px solid $dark-sub3;
-      border-radius: 4px;
-      font-size: 14px;
-      outline: none;
-      cursor: pointer;
-      background-color: $dark;
-      min-width: 70px;
-      color: $dark-sub3;
-
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $dark;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $light;
-        border-radius: 4px;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: $gray6; /* Hover color for the thumb */
-      }
-    }
-
-    .time-select:focus {
-      border-color: $dark-sub3;
-      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
-    }
-  }
 
   .time-separator {
     margin: 2px 3px;

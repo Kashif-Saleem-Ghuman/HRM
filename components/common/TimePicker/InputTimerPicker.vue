@@ -1,5 +1,5 @@
 <template>
-  <div :class="['time-select input-wrapper', themeClass]" v-click-outside="clickOutside">
+  <div @click="clickInside" :class="['time-select input-wrapper', themeClass]" v-click-outside="clickOutside">
     <input
       id="hour"
       type="text"
@@ -14,7 +14,7 @@
     />
     <bib-icon
       icon="arrowhead-down"
-      class="arrowdown--icon"
+      class="arrowdown--icon mr-05"
     ></bib-icon>
 
     <div v-if="dropdownOpen" class="dropdown-timepicker" ref="dropdown">
@@ -65,6 +65,12 @@ export default {
     }
   },
   methods: {
+
+    clickInside() {
+
+      this.dropdownOpen = true;
+      this.scrollToSelected();
+    },
 
     scrollToSelected() {
       this.$nextTick(() => {
@@ -195,216 +201,125 @@ export default {
 
 <style lang="scss" scoped>
 
+.input-wrapper {
+  display: inline-flex !important;
+  align-items: center;
+  position: relative;
 
+  border: 1px solid $border-light;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  background-color: $light;
+  max-width: 65px;
+  max-height: 33px;
 
-.light-theme {
-  .time-select {
-    display: inline;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-    background-color: $light;
-    max-width: 53px;
-    max-height: 30px;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: $light;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $gray5;
-      border-radius: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: $gray6;
-    }
-
+  &::-webkit-scrollbar {
+    width: 6px;
   }
-  .input-wrapper {
-    display: inline-flex !important;
-    align-items: center;
-    position: relative;
-    input {
-      padding: 0rem 0.5rem 0rem 0.5rem;
-      font-size: $base-size;
-      line-height: 1.2;
-      width: 100%;
-      border: 1px solid $gray4;
-      border-radius: 0.2rem;
-      margin: 0.5rem 0;
+
+  &::-webkit-scrollbar-track {
+    background: $light;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $gray5;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $gray6;
+  }
+  input {
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    font-size: $base-size;
+    line-height: 1.2;
+    width: 100%;
+    border: 1px solid $gray4;
+    border-radius: 0.2rem;
+    margin: 0.5rem 0;
+    color: $dark;
+    outline: none;
+
+    &:hover {
+      border-color: $gray5;
+      border: 1.5px solid $gray6;
+    }
+
+    ::placeholder {
       color: $dark;
-      outline: none;
-
-      &:hover {
-        border-color: $gray5;
-        border: 1.5px solid $gray6;
-      }
     }
-    .arrowdown--icon {
-      position: absolute;
-      right: 0;
-    }
+  }
 
-    .dropdown-timepicker {
-      border-radius: 6px;
-      display: flex;
-      max-width: 200px;
-      position: absolute;
-      top: 30px;
-      left: 1px;
-      z-index: 9999;
-      border: 1px solid $light;
+  .arrowdown--icon {
+    position: absolute;
+    right: 0;
+  }
+
+  .dropdown-timepicker {
+    border-radius: 6px;
+    display: flex;
+    max-width: 200px;
+    position: absolute;
+    top: 30px;
+    left: 1px;
+    z-index: 9999;
+    border: 1px solid $light;
+    margin: 0;
+    background-color: $white;
+    color: $gray5;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .time-options {
+      list-style-type: none;
+      padding: 0;
       margin: 0;
-      background-color: $white;
-      color: $gray5;
-      max-width: 200px;
-      max-height: 300px;
       overflow-y: auto;
+      scrollbar-width: thin;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
 
-      .time-options {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-          width: 4px;
+      &::-webkit-scrollbar-thumb {
+        background-color: $gray4;
+        border-radius: 4px;
+      }
+      li {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        &.active {
+          background-color: $gray5;
+          color: $white;
         }
 
-        &::-webkit-scrollbar-thumb {
+        &:hover {
           background-color: $gray4;
-          border-radius: 4px;
-        }
-        li {
-          padding: 0.5rem 1rem;
-          cursor: pointer;
-
-          &.active {
-            background-color: $gray5;
-            color: $white;
-          }
-
-          &:hover {
-            background-color: $gray4;
-          }
         }
       }
     }
   }
-}
 
-.dark-theme {
-  .time-select {
-    display: inline;
-    border: 1px solid $dark-sub3;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
+  &.dark-theme {
     background-color: $dark;
-    max-width: 53px;
-    max-height: 30px;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: $light;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $gray5;
-      border-radius: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: $gray6;
-    }
-
-  }
-  .input-wrapper {
-    display: inline-flex !important;
-    align-items: center;
-    position: relative;
-    input {
-      padding: 0rem 0.5rem 0rem 0.5rem;
-      font-size: $base-size;
-      line-height: 1.2;
-      width: 100%;
-      border: 1px solid $gray4;
-      border-radius: 0.2rem;
-      margin: 0.5rem 0;
-      color: $gray1;
-      outline: none;
-
-      &:hover {
-        border-color: $gray5;
-        border: 1.5px solid $gray6;
-      }
-    }
-    .arrowdown--icon {
-      position: absolute;
-      right: 0;
-    }
+    border-color: $gray1;
 
     .dropdown-timepicker {
-      border-radius: 6px;
-      display: flex;
-      max-width: 200px;
-      position: absolute;
-      top: 30px;
-      left: 1px;
-      z-index: 9999;
-      border: 1px solid $gray5;
-      margin: 0;
       background-color: $dark;
-      color: $gray5;
-      max-width: 200px;
-      max-height: 300px;
-      overflow-y: auto;
-
-      .time-options {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-          width: 4px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background-color: $gray4;
-          border-radius: 4px;
-        }
-        li {
-          padding: 0.5rem 1rem;
-          cursor: pointer;
-
-          &.active {
-            background-color: $gray1;
-            color: $white;
-          }
-
-          &:hover {
-            background-color: $dark-sub3;
-            color: $white;
-          }
-        }
-      }
+      color: $light;
+    }
+    input {
+      color: $light;
+    }
+    ::placeholder {
+      color: $light;
     }
   }
 }
+
 
 
 

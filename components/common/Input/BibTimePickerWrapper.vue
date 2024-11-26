@@ -1,6 +1,6 @@
 <template>
   <div style="display: block; position: relative;" :tabindex="isLoaderActive ? -1 : 0"  @keydown="handleKeydown" class="time-picker-wrapper">
-    <dropdown-time-picker-new
+    <time-picker
       v-model="time"
       :name="name"
       :placeholder="placeholder"
@@ -14,7 +14,7 @@
           : 'bib-time-picker--dark-theme'
       "
       id="timePickerId"
-    ></dropdown-time-picker-new>
+    ></time-picker>
     <div
       v-show="disabled"
       style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"

@@ -23,8 +23,7 @@ export default {
       this.dropdownOpen = false;
     },
     focusHandler() {
-      this.dropdownOpen = true;
-      this.scrollToSelected();
+      // this.scrollToSelected();
     },
     formatTimeUnit(unit) {
       return unit.toString().padStart(2, '0');

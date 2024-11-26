@@ -105,6 +105,32 @@ export const TABLE_HEAD = {
           label: "Action",
         },
       ],
+      tHeadPaySalaryEarningInfo: [
+        {
+          key: "",
+          label: "#",
+        },
+        {
+          key: "effective-date",
+          label: "Effective date",
+        },
+        {
+          key: "type",
+          label: "Type",
+        },
+        {
+          key: "augmentation",
+          label: "Augmentation",
+        },
+        {
+          key: "rate",
+          label: "Rate",
+        },
+        {
+          key: "amount",
+          label: "Amount",
+        },
+      ],
       
   };
   export const PAY_TAB = [
@@ -132,6 +158,18 @@ export const TABLE_HEAD = {
       title: "Pay Types",
       value: "Pay Types",
       route: "/pay/pay-types/",
+    },
+  ];
+  export const PAY_SALARY_SIDBAR_TAB = [
+    {
+      title: "Salary summary",
+      value: "Salary summary",
+      route: "salary-summary-tab",
+    },
+    {
+      title: "Earnings",
+      value: "earnings",
+      route: "earnings-tab",
     },
   ];
   export const PAY_DUMMY_REQUESTS = {
@@ -339,5 +377,43 @@ export const TABLE_HEAD = {
       },
     ],
   };
+  export const PAY_SALARY_DUMMY_DATA = [
+    {
+      id: 574,
+      employeeId: 76,
+      effectiveDate: "2024-10-23",
+      type: "leave",
+      augmentation: "+1",
+      rate: "60,000 USD",
+      amount: "5000 USD"
+    },
+    {
+      id: 575,
+      employeeId: 77,
+      effectiveDate: "2024-10-24",
+      type: "bonus",
+      augmentation: "+1",
+      rate: "70,000 USD",
+      amount: "6000 USD"
+    },
+    {
+      id: 576,
+      employeeId: 78,
+      effectiveDate: "2024-10-25",
+      type: "leave",
+      augmentation: "+1",
+      rate: "65,000 USD",
+      amount: "5400 USD"
+    },
+    {
+      id: 577,
+      employeeId: 79,
+      effectiveDate: "2024-10-26",
+      type: "bonus",
+      augmentation: "-1",
+      rate: "80,000 USD",
+      amount: "7000 USD"
+    }
+  ];
   
   

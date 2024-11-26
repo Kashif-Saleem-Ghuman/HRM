@@ -55,7 +55,9 @@
               @update-value="updatedValue"
             />
           </div>
+          
         </div>
+        <salary-earning-info></salary-earning-info>
       </template>
     </pay-action-sidebar>
   </div>
@@ -64,7 +66,6 @@
 <script>
 const OPEN_SIDEBAR_EVENT = "open-sidebar-salaries";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar-salaries";
-
 export default {
   props: {
     leaveData: {
@@ -99,6 +100,7 @@ export default {
         this.openSidebar = false;
       }, 700);
     },
+    
     editSalary() {
       console.log("Edit salary clicked");
     },

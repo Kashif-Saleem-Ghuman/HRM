@@ -55,6 +55,7 @@ export default {
     '~/plugins/table-sort-helpers.js',
     '~/plugins/timesheetValueDisplay.js', 
     '~/plugins/apiError.js',
+    '~/plugins/intersect.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

@@ -151,6 +151,7 @@ import {
 } from "../../../../../utils/functions/status";
 import {formatTime} from "../../../../../utils/functions/clock_functions";
 import {shouldShowReminderIcon} from "@/utils/timesheets";
+import {DateTime} from "luxon";
 
 export default {
   props: {
@@ -341,8 +342,23 @@ export default {
       );
       return ACTIVITY_TYPE_LABEL_VALUE[activity] ?? "";
     },
+
+    isTimesheetCurrentWeek(start) {
+      const now = DateTime.local().startOf('week').minus({days: 1});
+      const startDate = DateTime.fromISO(start);
+      return now.hasSame(startDate, 'day');
+    },
+
     shouldShowTimesheetReminderIcon(status, reminderAt) {
-      if(status === 'pending' || status === 'approved') return false;
+
+      if(
+        status === TIMESHEET_STATUSES.PENDING ||
+        status === TIMESHEET_STATUSES.APPROVED ||
+        status === TIMESHEET_STATUSES.REJECTED
+      ) return false;
+
+      if(this.isTimesheetCurrentWeek(this.startDate)) return false;
+
       return shouldShowReminderIcon(reminderAt);
     },
     getFormattedHoursWithVacation(weekData, vacationName) {

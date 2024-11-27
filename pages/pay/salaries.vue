@@ -5,9 +5,10 @@
     <div>
       <div>
         <list-salaries
-            :listPending="requestListData"
-            :key="employeeList"
-          ></list-salaries>
+          :tableFields="tableFields"
+          :listPending="requestListData"
+          :key="employeeList"
+        ></list-salaries>
         <!-- <no-record v-if="showNoData"></no-record>
         <div v-else-if="showTable">
           {{ requestListData }}
@@ -24,7 +25,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {PAY_DUMMY_REQUESTS} from '../../utils/constant/pay/PayConstant'
+import { PAY_DUMMY_REQUESTS } from "../../utils/constant/pay/PayConstant";
+import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
+
 export default {
   data() {
     return {
@@ -33,6 +36,7 @@ export default {
       loading: true,
       fromDate: "",
       toDate: "",
+      tableFields: TABLE_HEAD.tHeadPaySalaries,
     };
   },
   computed: {
@@ -50,7 +54,6 @@ export default {
       );
     },
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>

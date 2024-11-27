@@ -6,10 +6,15 @@
         :title="modalTitle"
         class="text-gray6 font-w-600 font-md"
         :class="isLightThemeCheck ? '' : 'modal__wrapper--dark'"
-        
+        :icon="headerIcon"
       >
         <template v-slot:content>
           <slot></slot>
+        </template>
+        <template slot="footer">
+            <div class="d-flex">
+            <slot name="footer"></slot>
+            </div>
         </template>
       </bib-modal-wrapper>
     </div>
@@ -27,6 +32,9 @@
         type: String,
         required: true,
       },
+      headerIcon: {
+        type: String,
+      }
     },
   };
   </script>

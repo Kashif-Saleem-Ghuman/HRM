@@ -1,8 +1,7 @@
 <template>
   <div id="pay-plan">
-    <!-- Uncomment loader if needed -->
-    <!-- <loader :loading="loading"></loader> -->
     <div>
+      <!-- Header with Action Button -->
       <div class="d-flex justify-between">
         <div>
           <action-button-header
@@ -15,6 +14,7 @@
           />
         </div>
         <div class="d-flex">
+          <!-- Filter Buttons -->
           <filter-button
             :primaryButton="{
               filterLabel: 'Show',
@@ -38,54 +38,76 @@
           />
         </div>
       </div>
+
+      <!-- List Pay Plans -->
       <div>
-        <list-pay-plans :listPending="requestListData" :key="employeeList" />
-        <!-- Uncomment no-record if needed -->
-        <!-- <no-record v-if="showNoData"></no-record> -->
-        <!-- Uncomment list-salaries if needed -->
-        <!-- <div v-else-if="showTable">
-          {{ requestListData }}
-          <list-salaries
-            :listPending="requestListData"
-            :key="employeeList"
-          ></list-salaries>
-        </div> -->
+        <list-pay-method
+          :listPending="requestListData"
+          :tableFields="tableFields"
+          :key="employeeList"
+        />
         <pay-salaries-sidebar />
+
+        <!-- Pay Methods Modal -->
         <pay-method-modal
           v-if="isModalVisible"
           :payMethodsModal="isModalVisible"
-          :modalTitle="'Pay Methods'"
+          modalTitle="Pay Methods"
           @close="addPayPlans"
         >
-        <div class="d-flex d-align justify-between">
-          <filter-button
-            :primaryButton="{
-              label: 'Credit card',
-              icon: 'add',
-              variant:'danger',
-              class:'increase-button-size',
-              onClick: handleShowAll,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
-              label: 'Bank account',
-              variant:'danger',
-              icon: 'add',
-              class:'increase-button-size',
-              onClick: handleGroupBy,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
-              label: 'PayPal',
-              variant:'danger',
-              icon: 'add',
-              class:'increase-button-size',
-              onClick: handleSortBy,
-            }"
-          />
-      </div>
+          <div class="d-flex d-align justify-between">
+            <filter-button
+              :primaryButton="{
+                label: 'Credit card',
+                icon: 'add',
+                variant: isLightThemeCheck ? 'light' : 'secondary',
+                class: 'increase-button-size',
+                onClick: () => addPayMethod('Credit or Debit card'),
+              }"
+            />
+            <filter-button
+              :primaryButton="{
+                label: 'Bank account',
+                variant: isLightThemeCheck ? 'light' : 'secondary',
+                icon: 'add',
+                class: 'increase-button-size',
+                onClick: () => addPayMethod('Bank account'),
+              }"
+            />
+            <filter-button
+              :primaryButton="{
+                label: 'PayPal',
+                variant: isLightThemeCheck ? 'light' : 'secondary',
+                icon: 'add',
+                class: 'increase-button-size',
+                onClick: () => addPayMethod('PayPal'),
+              }"
+            />
+          </div>
+        </pay-method-modal>
+
+        <!-- Add Pay Method Modal -->
+        <pay-method-modal
+          v-if="isModalVisibleAddPayMethod"
+          :payMethodsModal="isModalVisibleAddPayMethod"
+          :modalTitle="`Pay method / ${clickItemTitle}`"
+          @close="addPayMethod"
+          headerIcon="arrow-left"
+        >
+          <add-payment-method-form />
+          <template #footer>
+            <bib-button
+              label="Cancel"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              pill
+            ></bib-button>
+            <bib-button
+              label="Upload"
+              variant="primary-24"
+              class="ml-auto"
+              pill
+            ></bib-button>
+          </template>
         </pay-method-modal>
       </div>
     </div>
@@ -94,17 +116,21 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { PAY_DUMMY_REQUESTS_PAYPLANS } from "../../utils/constant/pay/PayConstant";
+import { PAY_DUMMY_REQUESTS_PAYMETHODS } from "../../utils/constant/pay/PayConstant";
+import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
 
 export default {
   data() {
     return {
       id: null,
-      requestListData: PAY_DUMMY_REQUESTS_PAYPLANS.requests,
+      requestListData: PAY_DUMMY_REQUESTS_PAYMETHODS.requests,
       loading: true,
       fromDate: "",
       toDate: "",
       isModalVisible: false,
+      isModalVisibleAddPayMethod: false,
+      clickItemTitle: null,
+      tableFields: TABLE_HEAD.tHeadPayPlans,
     };
   },
   computed: {
@@ -117,12 +143,16 @@ export default {
     },
     showNoData() {
       return (
-        !this.loading &&
-        (!this.requestListData || !this.requestListData?.length)
+        !this.loading && (!this.requestListData || !this.requestListData.length)
       );
     },
   },
   methods: {
+    addPayMethod(payMethod) {
+      this.isModalVisibleAddPayMethod = !this.isModalVisibleAddPayMethod;
+      this.isModalVisible = false;
+      this.clickItemTitle = payMethod;
+    },
     addPayPlans() {
       this.isModalVisible = !this.isModalVisible;
     },

@@ -201,6 +201,53 @@ export const TABLE_HEAD = {
       label: "Action",
     },
   ],
+  tHeadPayMethods: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "pay-method",
+      label: "Pay method",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "pay-method-sort",
+        isActive: false,
+        sortKey: "pay-method",
+        type: "string",
+      },
+    },
+    {
+      key: "pay-method-type",
+      label: "Pay method type   ",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "pay-method-type-sort",
+        isActive: false,
+        sortKey: "pay-method-type",
+        type: "string",
+      },
+    },
+
+    {
+      key: "created-on",
+      label: "Created on",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "created-on-sort",
+        isActive: false,
+        sortKey: "created-on",
+        type: "string",
+      },
+    },
+    {
+      key: "action",
+      label: "Action",
+    },
+  ],
   tHeadPaySalaryEarningInfo: [
     {
       key: "",
@@ -564,3 +611,44 @@ export const PAY_DUMMY_REQUESTS_PAYPLANS = {
     },
   ],
 };
+
+export const PAY_DUMMY_REQUESTS_PAYMETHODS = {
+  requests: [
+    {
+      id: 654689251,
+      employeeid: 76,
+      payMethod: "Checking - CIBC - 8233",
+      payMethodType: "Bank Transfer",
+      createdAt: "2024-10-23T00:00:00.000Z",
+    },
+    {
+      id: 654689252,
+      employeeid: 77,
+      payMethod: "Savings - TD Bank - 7456",
+      payMethodType: "Bank Transfer",
+      createdAt: "2024-10-22T00:00:00.000Z",
+    },
+    {
+      id: 654689253,
+      employeeid: 78,
+      payMethod: "MasterCard - RBC - 1203",
+      payMethodType: "Credit Card",
+      createdAt: "2024-10-21T00:00:00.000Z",
+    },
+    {
+      id: 654689254,
+      employeeid: 79,
+      payMethod: "PayPal - john.doe@example.com",
+      payMethodType: "PayPal",
+      createdAt: "2024-10-20T00:00:00.000Z",
+    },
+    {
+      id: 654689255,
+      employeeid: 80,
+      payMethod: "Debit - Scotiabank - 8967",
+      payMethodType: "Debit Card",
+      createdAt: "2024-10-19T00:00:00.000Z",
+    },
+  ],
+};
+

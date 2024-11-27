@@ -2,17 +2,9 @@
 <template>
   <div id="salaries-request-wrapper">
     <loader :loading="loading"></loader>
-    <div class="" id="salaries_request_wrapper">
-      <div>
-        <no-record v-if="showNoData"></no-record>
-        <div v-else-if="showTable">
-          <list-salaries
-            :listPending="requestListData"
-            :key="employeeList"
-          ></list-salaries>
-        </div>
+    <div class="px-3 pt-2 d-align" id="salaries_request_wrapper">
+      <h3>Coming Soon!</h3>
       </div>
-    </div>
   </div>
 </template>
 

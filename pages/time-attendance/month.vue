@@ -92,6 +92,8 @@ export default {
         to: new Date(isWeekRange ? this.weekDates.to : this.timesheetDates.to),
       });
 
+      this.loading = true;
+
       try {
 
         let employees = await getTimeAttendanceCustomRange({
@@ -142,6 +144,8 @@ export default {
       } catch (error) {
         this.$apiError(error?.code === "ERR_NETWORK" ? 'ERR_NETWORK' : 500);
       }
+
+      this.loading = false;
     },
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}

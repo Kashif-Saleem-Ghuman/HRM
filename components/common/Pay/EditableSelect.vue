@@ -63,20 +63,20 @@
   };
   </script>
   
-  <style lang="scss" scoped>
+  <style lang="scss">
   .editable-select {
     display: flex;
     align-items: center;
-    border: 1px solid var(--bib-dark-sub3);
+    border: 1px solid $gray2;
     padding: 0 0.5rem;
-    background-color: var(--bib-dark);
+    background-color: $light;
     border-radius: 1rem;
     position: relative;
     transition: background-color 0.3s ease;
     font-size: 14px;
   
     &:hover {
-        background-color: $surface-tertiary;
+        background-color: $gray2;
     }
   
     .edit-select {
@@ -88,9 +88,37 @@
         border: none;
         border-radius: 0.5rem;
         background-color: transparent;
-        color: $white;
+        color: $dark;
         outline: none;
         font-size: 14px;
+        option{
+            background-color: $light;
+        }
+        &:hover {
+          border-color: $gray2; /* Hover effect for select box */
+        }
+  
+        &:focus {
+            &:focus {
+        border-color: transparent;
+        box-shadow: none;
+      }
+        }
+      }
+    }
+  }
+  .dark-theme{
+    .editable-select {
+    border: 1px solid var(--bib-dark-sub3);
+    background-color: var(--bib-dark);
+    &:hover {
+        background-color: $surface-tertiary;
+    }
+  
+    .edit-select {  
+      .select-field {
+        color: $light;
+
         option{
             background-color: $dark;
         }
@@ -106,6 +134,7 @@
         }
       }
     }
+  }
   }
   </style>
   

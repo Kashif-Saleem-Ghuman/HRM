@@ -57,7 +57,12 @@
           </div>
           
         </div>
-        <salary-earning-info></salary-earning-info>
+        <div class="py-1">
+          <salary-earning-info></salary-earning-info>
+        </div>
+        <div class="py-1 mb-2">
+          <logs-section></logs-section>
+        </div>
       </template>
     </pay-action-sidebar>
   </div>

@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="sidebar-body">
-        <div :class="'sidebar-body-scroll-y ' + classMain">
+        <div :class="'sidebar-body-scroll-pay ' + classMain">
           <div class="sidebarBodyPadd">
             <slot name="sidebar-body"></slot>
           </div>
@@ -115,6 +115,15 @@ export default {
       );
     },
     handleClickOutside(event) {
+      const ignoreClickOutsideElement = document.getElementById(
+        "ignore-click-outside"
+      );
+      if (
+        ignoreClickOutsideElement &&
+        ignoreClickOutsideElement.contains(event.target)
+      ) {
+        return;
+      }
       const sidePanel = document.getElementById("side-panel");
       if (
         !this.isSidebarExpanded &&
@@ -215,7 +224,9 @@ export default {
     border: 1px solid $dark-sub3;
   }
 }
-
+.sidebar-body-scroll-pay{
+  overflow: auto;
+}
 .overlay {
   position: fixed;
   top: 0;

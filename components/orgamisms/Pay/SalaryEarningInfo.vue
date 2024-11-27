@@ -60,9 +60,14 @@
   
   <style lang="scss">
   .details-main-wrapper {
-    border: 1px $dark-sub3 solid;
+    border: 1px $light solid;
     border-radius: 8px;
     padding: 1rem;
+  }
+  .dark-theme{
+    .details-main-wrapper {
+    border: 1px $dark-sub3 solid;
+    }
   }
   </style>
   

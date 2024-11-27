@@ -27,7 +27,7 @@
       </div>
       <div class="sidebar-body">
         <div :class="'sidebar-body-scroll-y ' + classMain">
-          <div class="sidebarBodyPadd" :class="borderClassBottom">
+          <div class="sidebarBodyPadd sidebar-body-scroll-y" :class="borderClassBottom">
             <slot name="sidebar-body"></slot>
           </div>
         </div>

@@ -95,9 +95,9 @@ export default {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border: 1px solid var(--bib-dark-sub3);
+  border: 1px solid var(--bib-gray2);
   padding: 0.5rem;
-  background-color: var(--bib-dark);
+  background-color: var(--bib-light);
   border-radius: 1rem;
   transition: background-color 0.3s ease;
   font-size: 14px;
@@ -105,11 +105,11 @@ export default {
   max-width: 100%; /* Ensure consistent width across views */
 
   &:hover {
-    background-color: $surface-tertiary;
+    background-color: $gray2;
   }
 
   &.editing-mode {
-    background-color: black;
+    background-color: $gray4;
   }
 
   .value,
@@ -167,5 +167,28 @@ export default {
       opacity: 1;
     }
   }
+}
+.dark-theme{
+  .editable-value {
+  border: 1px solid var(--bib-dark-sub3);
+  background-color: var(--bib-dark);
+
+  &:hover {
+    background-color: $surface-tertiary;
+  }
+
+  &.editing-mode {
+    background-color: black;
+  }
+  .edit-input .input-field {
+    color: var(--bib-text-secondary);
+  }
+
+  .custom-icons-wrapper {
+    .seprator-right {
+      border-right: 1px solid var(--bib-text-secondary);
+    }
+  }
+}
 }
 </style>

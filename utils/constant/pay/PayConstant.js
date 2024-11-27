@@ -415,5 +415,59 @@ export const TABLE_HEAD = {
       amount: "7000 USD"
     }
   ];
+  export const PAY_DUMMY_REQUESTS_PAYMETHOD = {
+    requests: [
+      {
+        ID: 574,
+        employeeId: 76,
+        location: "Canada (Quebec)",
+        payPeriod: "Bi-weekly",
+        payMethod: "Bank Transfer",
+        nextCloseDay: "2024-10-23T00:00:00.000Z",
+        nextRunDay: "2024-10-24T00:00:00.000Z",
+        status: "pending",
+      },
+      {
+        ID: 575,
+        employeeId: 77,
+        location: "Canada (Quebec)",
+        payPeriod: "Weekly",
+        payMethod: "PayPal",
+        nextCloseDay: "2024-11-01T00:00:00.000Z",
+        nextRunDay: "2024-11-02T00:00:00.000Z",
+        status: "approved",
+      },
+      {
+        ID: 576,
+        employeeId: 78,
+        location: "Canada (Quebec)",
+        payPeriod: "Bi-weekly",
+        payMethod: "Bank Transfer",
+        nextCloseDay: "2024-12-15T00:00:00.000Z",
+        nextRunDay: "2024-12-20T00:00:00.000Z",
+        status: "pending",
+      },
+      {
+        ID: 577,
+        employeeId: 79,
+        location: "Canada (Quebec)",
+        payPeriod: "Monthly",
+        payMethod: "Direct Deposit",
+        nextCloseDay: "2024-11-10T00:00:00.000Z",
+        nextRunDay: "2024-11-12T00:00:00.000Z",
+        status: "rejected",
+      },
+      {
+        ID: 578,
+        employeeId: 80,
+        location: "Canada (Quebec)",
+        payPeriod: "Monthly",
+        payMethod: "Bank Transfer",
+        nextCloseDay: "2024-10-30T00:00:00.000Z",
+        nextRunDay: "2024-10-31T00:00:00.000Z",
+        status: "approved",
+      },
+    ],
+  };
   
   

@@ -3,50 +3,45 @@
       :fields="tableFields"
       :sections="leavePendingList"
       :hide-no-column="true"
-      @select-all="$emit('selectAllItems')"
       :allChecked="checkedAll"
       @column-header-clicked="headerColumnClick($event.column)"
     >
     <template #cell(id)="data">
-        <div class="justify-between">
-          <span>{{ data.value.employee.id }}</span>
+        <div class="justify-between"  @click="employeeDetail()">
+          <span>{{ data.value.id }}</span>
         </div>
       </template>
-      <template #cell(role)="data">
+      <template #cell(location)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.role }}</span>
+          <span>{{ data.value.location }}</span>
         </div>
       </template>
-      <template #cell(engagement-type)="data">
+      <template #cell(pay-period)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.engagementType }}</span>
+          <span>{{ data.value.payPeriod }}</span>
         </div>
       </template>
-      <template #cell(rate-annual)="data">
+      <template #cell(pay-method)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.rateAnnual }}</span>
+          <span>{{ data.value.payMethod }}</span>
         </div>
       </template>
-      <template #cell(rate-hourly)="data">
+      <template #cell(next-close-day)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.rateHourly }}</span>
+          <span>{{ data.value.nextCloseDay }}</span>
         </div>
       </template>
-      <template #cell(currency)="data">
+      <template #cell(next-run-day)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.currency }}</span>
+          <span>{{ data.value.nextRunDay }}</span>
         </div>
       </template>
-      <template #cell(pay-plan)="data">
+      <template #cell(status)="data">
         <div class="justify-between">
-          <span>{{ data.value.employee.payPlan }}</span>
+          <span>{{ data.value.status }}</span>
         </div>
       </template>
-      <template #cell(payment-method)="data">
-        <div class="justify-between">
-          <span>{{ data.value.employee.paymentMethod }}</span>
-        </div>
-      </template>
+      
     </custom-table>
   </template>
   
@@ -59,8 +54,6 @@
     sendMessage,
     makeCall,
   } from "../../../../utils/functions/functions_lib";
-  import { DateTime } from "luxon";
-  import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
   export default {
     props: {
       listPending: {
@@ -82,7 +75,7 @@
     data() {
       return {
         showRefusalModal: false,
-        tableFields: TABLE_HEAD.tHeadPaySalaries,
+        tableFields: TABLE_HEAD.tHeadPayPlans,
         attendanceClass: [],
         satisfaction: "",
         userPhotoClick: false,
@@ -126,34 +119,12 @@
         field.header_icon.isActive = !field.header_icon.isActive;
         this.sortByField = field;
       },
-      employeeDetail($event) {
-        this.$nuxt.$emit("open-sidebar-salaries", $event);
-      },
       headerColumnClick(column) {
         this.sortColumn(column);
       },
-      onLoad(item) {
-        return DateTime.fromISO(item, { zone: "utc" }).toFormat(DATETIME_FORMAT);
-      },
-      // handleItemClick_Table($event, keyI, item) {
-      //   this.$router.push("/profile/" + item.id);
-      // },
-      handleAction($event) {
-        this.$emit("get-id", $event);
-      },
-      viewProfile(id) {
-        this.$router.push("/profile/" + id);
-      },
-      mouseover() {
-        this.showTooltip = true;
-      },
-      mouseleave() {
-        this.showTooltip = false;
-      },
-  
-      async approveItem(id) {
-        this.$emit("approve-item-single", id);
-      },
+      employeeDetail() {
+      this.$nuxt.$emit("open-sidebar-salaries");
+    },
     },
   };
   </script>

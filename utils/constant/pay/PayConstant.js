@@ -214,7 +214,7 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         event: "pay-method-sort",
         isActive: false,
-        sortKey: "pay-method",
+        sortKey: "payMethod",
         type: "string",
       },
     },
@@ -226,7 +226,7 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         event: "pay-method-type-sort",
         isActive: false,
-        sortKey: "pay-method-type",
+        sortKey: "payMethodType",
         type: "string",
       },
     },
@@ -239,7 +239,42 @@ export const TABLE_HEAD = {
         icon: "long-arrow-up",
         event: "created-on-sort",
         isActive: false,
-        sortKey: "created-on",
+        sortKey: "createdAt",
+        type: "string",
+      },
+    },
+    {
+      key: "action",
+      label: "Action",
+    },
+  ],
+  tHeadPayType: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "pay-type",
+      label: "Pay type   ",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "pay-type-sort",
+        isActive: false,
+        sortKey: "payType",
+        type: "string",
+      },
+    },
+
+    {
+      key: "created-on",
+      label: "Created on",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "created-on-sort",
+        isActive: false,
+        sortKey: "createdAt",
         type: "string",
       },
     },
@@ -647,6 +682,40 @@ export const PAY_DUMMY_REQUESTS_PAYMETHODS = {
       employeeid: 80,
       payMethod: "Debit - Scotiabank - 8967",
       payMethodType: "Debit Card",
+      createdAt: "2024-10-19T00:00:00.000Z",
+    },
+  ],
+};
+export const PAY_DUMMY_REQUESTS_PAYTYPE = {
+  requests: [
+    {
+      id: 654689251,
+      employeeid: 76,
+      payType: "Bank Transfer",
+      createdAt: "2024-10-23T00:00:00.000Z",
+    },
+    {
+      id: 654689252,
+      employeeid: 77,
+      payType: "Bank Transfer",
+      createdAt: "2024-10-22T00:00:00.000Z",
+    },
+    {
+      id: 654689253,
+      employeeid: 78,
+      payType: "Credit Card",
+      createdAt: "2024-10-21T00:00:00.000Z",
+    },
+    {
+      id: 654689254,
+      employeeid: 79,
+      payType: "PayPal",
+      createdAt: "2024-10-20T00:00:00.000Z",
+    },
+    {
+      id: 654689255,
+      employeeid: 80,
+      payType: "Debit Card",
       createdAt: "2024-10-19T00:00:00.000Z",
     },
   ],

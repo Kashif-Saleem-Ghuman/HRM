@@ -17,22 +17,8 @@
           <!-- Filter Buttons -->
           <filter-button
             :primaryButton="{
-              filterLabel: 'Show',
-              label: 'All',
-              onClick: handleShowAll,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
-              filterLabel: 'Group by',
-              label: 'Date',
-              onClick: handleGroupBy,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
               filterLabel: 'Sort by',
-              label: 'Status',
+              label: 'Date created',
               onClick: handleSortBy,
             }"
           />
@@ -41,13 +27,11 @@
 
       <!-- List Pay Plans -->
       <div>
-        <list-pay-method
+        <list-pay-type
           :listPending="requestListData"
           :tableFields="tableFields"
           :key="employeeList"
         />
-        <pay-salaries-sidebar />
-
         <!-- Pay Methods Modal -->
         <pay-method-modal
           v-if="isModalVisible"
@@ -55,11 +39,30 @@
           modalTitle="Pay Types"
           @close="addPayTypes"
         >
-          <div class="d-flex d-align justify-between">
-            <h3>Coming Soon!</h3>
+          <div class="d-flex">
+            <bib-input
+              type="text"
+              name="payTypeName"
+              placeholder="Salary, Commission, Overtime, Expense, etc..."
+              label="Pay type name"
+              required
+              style="width: 100%"
+            />
           </div>
+          <template #footer>
+            <bib-button
+              label="Cancel"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              pill
+            ></bib-button>
+            <bib-button
+              label="Add"
+              variant="primary-24"
+              class="ml-auto"
+              pill
+            ></bib-button>
+          </template>
         </pay-method-modal>
-
       </div>
     </div>
   </div>
@@ -67,14 +70,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { PAY_DUMMY_REQUESTS_PAYMETHODS } from "../../utils/constant/pay/PayConstant";
+import { PAY_DUMMY_REQUESTS_PAYTYPE } from "../../utils/constant/pay/PayConstant";
 import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
 
 export default {
   data() {
     return {
       id: null,
-      requestListData: PAY_DUMMY_REQUESTS_PAYMETHODS.requests,
+      requestListData: PAY_DUMMY_REQUESTS_PAYTYPE.requests,
       loading: true,
       fromDate: "",
       toDate: "",

@@ -102,7 +102,7 @@
               pill
             ></bib-button>
             <bib-button
-              label="Upload"
+              label="Save"
               variant="primary-24"
               class="ml-auto"
               pill

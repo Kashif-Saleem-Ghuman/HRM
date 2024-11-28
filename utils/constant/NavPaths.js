@@ -58,6 +58,17 @@ export const navigationPathsAdmin = [
     defaultPath: "/time-attendance/attendance/",
   },
   {
+    name: "payPaths",
+    paths: [
+      "/pay/salaries/",
+      "/pay/payouts/",
+      "/pay/pay-plans/",
+      "/pay/pay-methods/",
+      "/pay/pay-types/",
+    ],
+    defaultPath: "/pay/salaries/",
+  },
+  {
     name: "reportsPaths",
     paths: [
       "/reports/leave-report/",

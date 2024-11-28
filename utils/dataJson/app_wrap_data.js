@@ -190,6 +190,13 @@ const data = () => {
         selected: false,
       },
       {
+        label: "Pay",
+        icon: "finance",
+        key: "pay",
+        url: "/pay/salaries/",
+        selected: false,
+      },
+      {
         label: "Reports",
         icon: "calendar-event",
         key: "reports",

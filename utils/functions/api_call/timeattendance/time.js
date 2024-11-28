@@ -253,10 +253,10 @@ export async function getTimeAttendanceDaily(date) {
   }
 }
 
-export async function getTimeAttendanceCustomRange({ from, to, searchString }) {
+export async function getTimeAttendanceCustomRange({ from, to, searchString, withPastDue = false, pagination }) {
   try {
     const config = createConfig();
-    config.params = { from, to, searchString };
+    config.params = { from, to, searchString, withPastDue, pagination };
     const { data } = await hrmApiAxiosInstance.get(
       "/timesheets/admin",
       config
@@ -274,7 +274,7 @@ export async function getTimesheets({ from, to, employeeId }) {
     config.params = { from, to };
     if (employeeId) config.params.employeeId = employeeId;
     const { data } = await hrmApiAxiosInstance.get(url, config);
-    return data?.timesheets || [];
+    return data || {};
   } catch (error) {
     throw error;
   }

@@ -28,7 +28,7 @@
       <!-- List Pay Plans -->
       <div>
         <list-pay-type
-          :listPending="requestListData"
+          :payTypeList="requestListData"
           :tableFields="tableFields"
           :key="employeeList"
         />
@@ -79,11 +79,7 @@ export default {
       id: null,
       requestListData: PAY_DUMMY_REQUESTS_PAYTYPE.requests,
       loading: true,
-      fromDate: "",
-      toDate: "",
       isModalVisible: false,
-      isModalVisibleAddPayMethod: false,
-      clickItemTitle: null,
       tableFields: TABLE_HEAD.tHeadPayPlans,
     };
   },
@@ -102,19 +98,8 @@ export default {
     },
   },
   methods: {
-    addPayMethod(payMethod) {
-      this.isModalVisibleAddPayMethod = !this.isModalVisibleAddPayMethod;
-      this.isModalVisible = false;
-      this.clickItemTitle = payMethod;
-    },
     addPayTypes() {
       this.isModalVisible = !this.isModalVisible;
-    },
-    handleShowAll() {
-      console.log("Show All clicked!");
-    },
-    handleGroupBy() {
-      console.log("Group By clicked!");
     },
     handleSortBy() {
       console.log("Sort By clicked!");

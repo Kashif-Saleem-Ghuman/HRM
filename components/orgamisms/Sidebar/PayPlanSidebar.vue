@@ -14,51 +14,7 @@
       @elipsisClicked="handleElipsis"
     >
       <template v-slot:sidebar-body>
-        <div class="sidebar-content">
-          <div class="two-column">
-            <editable-input
-              :options="optionsDummy"
-              :showAvatar="true"
-              label="Pay plan"
-              type="select"
-              avatarText="BG"
-              @update-value="updatedValue"
-            />
-            <editable-input
-              :value="'Terrebonne'"
-              :showAvatar="true"
-              avatarText="BG"
-              type="text"
-              label="Location"
-              @update-value="updatedValue"
-            />
-          </div>
-          <div class="single-column">
-            <compensation-summary
-              :amount="85000.0"
-              label="Salary"
-              currency="CAD"
-              @edit-click="editSalary"
-            />
-            </div>
-            <div class="single-row-two-column">
-            <editable-input
-              :options="optionsDummy"
-              label="Pay plan"
-              avatarText="BG"
-              type="select"
-              @update-value="updatedValue"
-            />
-            <editable-input
-              :options="optionsDummy"
-              label="Pay method"
-              avatarText="BG"
-              type="select"
-              @update-value="updatedValue"
-            />
-            
-          </div>
-        </div>
+        <pay-plan-info-form></pay-plan-info-form>
         <div class="py-1">
           <salary-earning-info></salary-earning-info>
         </div>
@@ -70,10 +26,12 @@
   </div>
 </template>
 
+
+
 <script>
 import { mapGetters } from "vuex";
-const OPEN_SIDEBAR_EVENT = "open-sidebar-salaries";
-const CLOSE_SIDEBAR_EVENT = "close-sidebar-salaries";
+const OPEN_SIDEBAR_EVENT = "open-sidebar-pay-paln";
+const CLOSE_SIDEBAR_EVENT = "close-sidebar-pay-plan";
 export default {
   props: {
     leaveData: {
@@ -180,35 +138,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.sidebar-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .two-column {
-    display: flex;
-    gap: 1rem;
-
-    > * {
-      flex: 1;
-    }
-  }
-
-  .single-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .single-row-two-column {
-    width: 50%;
-    
-    gap: 1rem;
-
-    > * {
-      flex: 1;
-    }
-  }
-}
-
-</style>

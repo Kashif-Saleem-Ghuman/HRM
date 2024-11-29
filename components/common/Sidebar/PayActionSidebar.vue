@@ -51,7 +51,7 @@
       </div>
       <div class="sidebar-body">
         <div :class="'sidebar-body-scroll-pay ' + classMain">
-          <div class="sidebarBodyPadd">
+          <div class="sidebarBodyPadd height">
             <slot name="sidebar-body"></slot>
           </div>
         </div>
@@ -180,6 +180,11 @@ export default {
   }
 }
 
+@media (min-width: 3000px) {
+  .height {
+    height: 8vh !important;
+  }
+}
 @keyframes slidein-right {
   from {
     transform: translateX(100%);
@@ -224,8 +229,26 @@ export default {
     border: 1px solid $dark-sub3;
   }
 }
-.sidebar-body-scroll-pay{
+.sidebar-body-scroll-pay {
   overflow: auto;
+  // Default height for small screens
+  height: 85vh !important;
+
+  @media (min-width: 600px) and (max-width: 799px) {
+    height: 40vh; // Adjust for mid-range screens
+  }
+
+  @media (min-width: 800px) and (max-width: 1199px) {
+    height: 60vh;
+  }
+
+  @media (min-width: 1200px) and (max-width: 1899px) {
+    height: 70vh;
+  }
+
+  @media (min-width: 1900px) {
+    height: 86vh !important;
+  }
 }
 .overlay {
   position: fixed;

@@ -40,7 +40,7 @@
         </div>
       </div>
       <div>
-        <list-pay-plans :listPending="requestListData" :key="employeeList" />
+        <list-pay-plans :listPending="requestListData" />
         <!-- Uncomment no-record if needed -->
         <!-- <no-record v-if="showNoData"></no-record> -->
         <!-- Uncomment list-salaries if needed -->
@@ -51,7 +51,7 @@
             :key="employeeList"
           ></list-salaries>
         </div> -->
-        <pay-salaries-sidebar />
+        <pay-plan-sidebar />
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     addPayPlans() {
-      this.$nuxt.$emit("open-sidebar-salaries");
+      this.$nuxt.$emit("open-sidebar-pay-paln");
     },
     handleShowAll() {
       console.log("Show All clicked!");

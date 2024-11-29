@@ -35,7 +35,7 @@
   } from "../../../../utils/functions/functions_lib";
   export default {
     props: {
-      listPending: {
+      payMethodList: {
         type: [Array, Object],
         default: "",
       },
@@ -69,9 +69,9 @@
     },
     computed: {
       leavePendingList() {
-        if (!this.sortByField) return this.listPending;
+        if (!this.sortByField) return this.payMethodList;
   
-        return sortColumn({ items: this.listPending, field: this.sortByField });
+        return sortColumn({ items: this.payMethodList, field: this.sortByField });
       },
       truncateText() {
         var screenWidth = window.screen.width;

@@ -24,7 +24,7 @@
   import { sortColumn } from "../../../../utils/functions/table-sort";
   export default {
     props: {
-      listPending: {
+        payTypeList: {
         type: [Array, Object],
         default: "",
       },
@@ -54,9 +54,9 @@
     },
     computed: {
       leavePendingList() {
-        if (!this.sortByField) return this.listPending;
+        if (!this.sortByField) return this.payTypeList;
   
-        return sortColumn({ items: this.listPending, field: this.sortByField });
+        return sortColumn({ items: this.payTypeList, field: this.sortByField });
       },
     },
   

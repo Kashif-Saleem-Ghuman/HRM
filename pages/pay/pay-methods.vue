@@ -9,7 +9,7 @@
               label: 'Pay Methods',
               icon: 'add',
               variant: 'primary',
-              onClick: addPayPlans,
+              onClick: addPayTypes,
             }"
           />
         </div>
@@ -42,18 +42,16 @@
       <!-- List Pay Plans -->
       <div>
         <list-pay-method
-          :listPending="requestListData"
+          :payMethodList="requestListData"
           :tableFields="tableFields"
           :key="employeeList"
         />
-        <pay-salaries-sidebar />
-
         <!-- Pay Methods Modal -->
         <pay-method-modal
           v-if="isModalVisible"
           :payMethodsModal="isModalVisible"
           modalTitle="Pay Methods"
-          @close="addPayPlans"
+          @close="addPayTypes"
         >
           <div class="d-flex d-align justify-between">
             <filter-button
@@ -153,7 +151,7 @@ export default {
       this.isModalVisible = false;
       this.clickItemTitle = payMethod;
     },
-    addPayPlans() {
+    addPayTypes() {
       this.isModalVisible = !this.isModalVisible;
     },
     handleShowAll() {

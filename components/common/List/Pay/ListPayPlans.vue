@@ -123,7 +123,7 @@
         this.sortColumn(column);
       },
       employeeDetail() {
-      this.$nuxt.$emit("open-sidebar-salaries");
+      this.$nuxt.$emit("open-sidebar-pay-plan");
     },
     },
   };

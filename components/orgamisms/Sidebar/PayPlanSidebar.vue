@@ -4,7 +4,7 @@
       @close="closeSidebar"
       :className="slideClass"
       classMain="heightEdit"
-      :heading="`Salary information - ${employeeName}`"
+      heading="Benefit plan name - ID"
       icon="help-circle-solid"
       v-show="openSidebar"
       @closeSidebar="closeSidebar"
@@ -44,7 +44,6 @@ export default {
       loading: false,
       openSidebar: false,
       slideClass: "slide-in",
-      employeeName: "",
       isVisible: false,
       options: null,
       optionsDummy: [
@@ -93,10 +92,9 @@ export default {
     handleExpand() {
       this.isVisible = !this.isVisible;
     },
-    async payDetail(item) {
+    async payDetail() {
       this.slideClass = "slide-in";
       this.openSidebar = true;
-      this.employeeName = item;
     },
     registerCloseSideBarRootListener() {
       this.$root.$on(CLOSE_SIDEBAR_EVENT, () => {

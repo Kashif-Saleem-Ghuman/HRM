@@ -127,8 +127,6 @@ export default {
 
 <style lang="scss">
 .editable-value {
-  display: flex;
-  align-items: center;
   gap: 1rem;
   border: 1px solid var(--bib-gray2);
   padding: 0.5rem;
@@ -136,7 +134,7 @@ export default {
   border-radius: 1rem;
   transition: background-color 0.3s ease;
   font-size: 14px;
-  width: 100%;
+  // width: 10%;
   max-width: 100%;
 
   &:hover {
@@ -156,8 +154,9 @@ export default {
 
   .edit-input .input-field,
   .edit-select .select-field {
-    width: 100%;
+    width: auto;
     border: none;
+    display: inline-flex;
     background: none;
     color: var(--bib-text-secondary);
     outline: none;

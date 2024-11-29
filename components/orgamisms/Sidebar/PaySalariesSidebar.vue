@@ -45,14 +45,12 @@
             <editable-input
               :options="optionsDummy"
               label="Pay plan"
-              avatarText="BG"
               type="select"
               @update-value="updatedValue"
             />
             <editable-input
               :options="optionsDummy"
               label="Pay method"
-              avatarText="BG"
               type="select"
               @update-value="updatedValue"
             />

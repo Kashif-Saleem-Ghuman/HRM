@@ -160,6 +160,10 @@ export default {
     getCurrentYear,
     generateYearList,
 
+    resetCheckBox() {
+      this.checkedAll = false;
+      this.updateCheckBox(false);
+    },
     async changeYearView(e) {
       this.selectedYear = e.label;
       this.getCurrentYear();
@@ -171,17 +175,23 @@ export default {
         "leavevacation/setActiveFromToDate",
         dateRange
       );
+      this.resetCheckBox();
       await this.getPendingLeaveVacationsAdmin(dateRange);
     },
     checkCount(){
       const checkedCount = this.requestListData.filter((item) => item.checked).length;
       this.disableButtonMultiselect = checkedCount > 1 ? true : false;
     },
+
+    updateCheckBox(isChecked) {
+      this.requestListData.forEach((item, index) => {
+        this.$set(this.requestListData[index], "checked", isChecked);
+      });
+    },
+
     selectAllItems() {
       this.checkedAll = !this.checkedAll;
-      this.requestListData.forEach((item, index) => {
-        this.$set(this.requestListData[index], "checked", this.checkedAll);
-      });
+      this.updateCheckBox(this.checkedAll);
       this.checkCount();
     },
     handleItemChecked({ id }) {

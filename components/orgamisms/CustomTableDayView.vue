@@ -188,6 +188,7 @@
        </tr> -->
      </template>
   </table>
+   <intersect v-if="enableInfiniteScroll" @handle-pagination-load="() => $emit('handle-pagination-load')" :pagination-loading="paginationLoading"></intersect>
  </div>
 </template>
 
@@ -265,7 +266,15 @@ export default {
     allChecked:{
       type: Boolean,
       default: false,
-    }
+    },
+    enableInfiniteScroll: {
+      type: Boolean,
+      default: false,
+    },
+    paginationLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

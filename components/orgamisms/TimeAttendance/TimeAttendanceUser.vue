@@ -606,6 +606,7 @@ export default {
       await this.$router.push(routeOptions);
     },
     onViewTimesheetsClick() {
+      this.$hideUserMenu();
       this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
       this.$router.push({ path: "/my-timesheet/", query: { view: "month" } });
     },

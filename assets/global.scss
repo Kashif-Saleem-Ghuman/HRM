@@ -393,3 +393,30 @@ table{
   
 }
 }
+.scale-125{
+  .app-wrapper__content {
+    height: calc(100vh - 65px) !important;
+  }
+  .items{
+    label{
+      font-size: 12px !important;
+    }
+    span{
+      font-size: 12px !important;
+    }
+    
+  }
+  table{
+    td{
+      span{
+        font-size: 12px !important;
+      }
+    }
+    th{
+      span{
+        font-size: 11px !important;
+      }
+    }
+    
+  }
+  }

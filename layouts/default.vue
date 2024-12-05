@@ -100,6 +100,7 @@ export default {
   async mounted() {
     this.loading = true;
     this.detectScale();
+    this.updateScaleStyles(this.scale);
     window.addEventListener("resize", this.detectScale);
     this.accountType = this.$store.state.token.accountType;
     this.setDebouncedSearch();
@@ -178,11 +179,11 @@ export default {
     },
     updateScaleStyles(scale) {
       const body = document.body;
-      console.log(scale, "scale")
-      if (scale === 150) {
+      body.classList.remove("scale-125", "scale-150");
+      if (scale === 125) {
+        body.classList.add("scale-125");
+      } else if (scale === 150) {
         body.classList.add("scale-150");
-      } else {
-        body.classList.remove("scale-150");
       }
     },
   },

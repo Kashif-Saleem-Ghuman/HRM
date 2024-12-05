@@ -84,6 +84,7 @@ export default {
       flag: false,
       isLightTheme: this.$cookies.get("isLightTheme"),
       updateHeader: 0,
+      scale: Math.round((window.devicePixelRatio || 1) * 100),
     };
   },
   computed: {
@@ -98,6 +99,8 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    this.detectScale();
+    window.addEventListener("resize", this.detectScale);
     this.accountType = this.$store.state.token.accountType;
     this.setDebouncedSearch();
     this.loading = false;
@@ -109,6 +112,16 @@ export default {
       this.handleRouteChange(to, from);
       next();
     });
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.detectScale);
+  },
+  watch: {
+    scale(newScale, oldScale) {
+      if (newScale !== oldScale) {
+        this.updateScaleStyles(newScale);
+      }
+    },
   },
   methods: {
     handleToggleWrapperTheme,
@@ -159,6 +172,18 @@ export default {
     },
     logout() {
       this.$signOut;
+    },
+    detectScale() {
+      this.scale = Math.round((window.devicePixelRatio || 1) * 100);
+    },
+    updateScaleStyles(scale) {
+      const body = document.body;
+      console.log(scale, "scale")
+      if (scale === 150) {
+        body.classList.add("scale-150");
+      } else {
+        body.classList.remove("scale-150");
+      }
     },
   },
 };

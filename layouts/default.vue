@@ -36,6 +36,7 @@
           :menuItems="appWrapItems.appItems"
           :isLightTheme="isLightTheme"
           @toggle-theme="toggleTheme"
+          id="ignore-click-outside"
         >
         </bib-app-switcher>
       </template>

@@ -116,7 +116,7 @@ export default {
   align-items: center;
   height: 100%;
   width: 100%;
-
+  background-color: transparent !important;
 
   .time-separator {
     margin: 2px 3px;

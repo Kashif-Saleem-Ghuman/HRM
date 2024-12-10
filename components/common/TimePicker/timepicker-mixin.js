@@ -17,21 +17,8 @@ export default {
       type: [String, Number],
       default: null,
     },
-    showTimePicker: {
-      type: Boolean,
-      default: false,
-    }
   },
   methods: {
-    blurHandler() {
-      this.dropdownOpen = false;
-    },
-    focusHandler() {
-      // this.scrollToSelected();
-    },
-    formatTimeUnit(unit) {
-      return unit.toString().padStart(2, '0');
-    },
     setHourOptions() {
       const maxHours = this.is24Hour ? 23 : 12;
       const startHour = this.is24Hour ? 0 : 1;

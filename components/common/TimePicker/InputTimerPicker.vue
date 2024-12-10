@@ -1,34 +1,19 @@
 <template>
   <div
-    :class="['time-select input-wrapper', themeClass, showTimePicker ? 'mx-width-75 mn-width-65' : 'mx-width-43 mn-width-32']"
-    @click="clickInside"
-    v-click-outside="clickOutside"  >
-    <div :class="['input-container', showTimePicker ? 'dropdown-icon' : '']">
+    :class="['time-select input-wrapper', themeClass ]">
+    <div :class="['input-container']">
       <input
-        id="hour"
+        id="timeInput"
         type="text"
         v-model="timeValue"
         :placeholder="placeholder"
         ref="time_input_ref"
         @keypress="keyPressHandler"
-        autocomplete="off"
-        @focus="focusHandler"
         @input="inputHandler"
+        autocomplete="off"
+        @change="timeChangeHandler(timeValue)"
         @keydown.tab="tabPressHandler"
       />
-    </div>
-    <div v-if="showTimePicker && dropdownOpen" class="dropdown-timepicker" ref="dropdown">
-      <ul class="time-options" ref="timeOptionsList">
-        <li
-          v-for="option in options"
-          :key="option"
-          @click.stop="timeClickHandler(option)"
-          :class="{ active: parseTime(timeValue) == parseTime(option) }"
-          :ref="parseTime(timeValue) == parseTime(option) ? 'activeOption' : ''"
-        >
-          {{ formatTimeUnit(option) }}
-        </li>
-      </ul>
     </div>
   </div>
 </template>
@@ -43,7 +28,6 @@ export default {
       selectedMinute: "",
       hourTime: null,
       minuteTime: null,
-      dropdownOpen: false,
       options: [],
       timeValue: null,
     };
@@ -61,38 +45,16 @@ export default {
     }
   },
   methods: {
-
-    clickInside(evt) {
-      this.dropdownOpen = true;
-      this.scrollToSelected();
-    },
-    scrollToSelected() {
-      this.$nextTick(() => {
-        const activeElement = this.$refs.activeOption?.[0];
-        const container = this.$refs.timeOptionsList;
-        if (activeElement && container) {
-          const containerHeight = container.offsetHeight;
-          const elementOffset = activeElement.offsetTop;
-          const elementHeight = activeElement.offsetHeight;
-          container.scrollTop =
-            elementOffset - containerHeight / 2 + elementHeight / 2;
-        }
-      });
-    },
-    clickOutside() {
-      this.dropdownOpen = false;
-    },
     parseString(time) {
       return typeof time && time === "string" ? time : time?.toString();
     },
     parseTime(time) {
       return this.parseString(time)?.length !== 1 ? time : `0${time}`;
     },
-    timeClickHandler(val) {
+    timeChangeHandler(val) {
       this.timeValue = this.parseTime(val);
       this.updateHourMinute();
       this.$emit("timeClick", this.timeValue);
-      this.dropdownOpen = false;
     },
     validateHour(value, charCode, cursorPos) {
       if (charCode < 48 || charCode > 57) {
@@ -139,11 +101,36 @@ export default {
       }
       return true;
     },
+
+    inputHandler(evt) {
+      this.$emit("update:minute", evt.target.value);
+
+    },
+
+    handleNextInput(evt, value) {
+      const charCode = evt.which ? evt.which : evt.keyCode;
+      const char = String.fromCharCode(charCode);
+      const inputs = document.querySelectorAll('#timeInput');
+      const currentIndex = Array.from(inputs).indexOf(evt.target);
+      if (currentIndex !== -1 && currentIndex + 1 < inputs.length) {
+        const nextInput = inputs[currentIndex + 1];
+        if (nextInput) {
+          nextInput.value = char;
+          nextInput.focus();
+        }
+      }
+      evt.preventDefault()
+    },
+
     keyPressHandler(evt) {
       const value = this.$refs.time_input_ref.value;
       const charCode = evt.which ? evt.which : evt.keyCode;
+      const char = String.fromCharCode(charCode);
       const selectionStart = this.$refs.time_input_ref.selectionStart;
       if (this.type === "hour") {
+        if (value.length >= 2 && this.value === null) {
+          this.handleNextInput(evt, value);
+        }
         if (this.validateHour(value, charCode, selectionStart)) {
           return true;
         } else {
@@ -164,12 +151,7 @@ export default {
         this.$emit("update:minute", this.timeValue);
       }
     },
-    inputHandler(evt) {
-      this.updateHourMinute();
-      this.$emit("input", evt);
-    },
     tabPressHandler(evt) {
-      this.dropdownOpen = false;
       this.$emit("tabpress", evt);
     },
   },
@@ -184,22 +166,9 @@ export default {
   outline: none;
   background-color: $light;
   max-height: 33px;
-}
-
-.mx-width-75 {
-  max-width: 75px;
-}
-.mx-width-43 {
   max-width: 43px;
-}
-
-.mn-width-32 {
   min-width: 32px;
 }
-.mn-width-65 {
-  min-width: 65px;
-}
-
 .input-wrapper {
   display: inline-flex !important;
   align-items: center;
@@ -208,37 +177,7 @@ export default {
     position: relative;
     display: inline-block;
     width: 100%;
-    //&::after {
-    //  content: "";
-    //  position: absolute;
-    //  right: 10px;
-    //  top: 50%;
-    //  transform: translateY(-50%);
-    //  width: 0;
-    //  height: 0;
-    //  border-style: solid;
-    //  border-width: 3px 3px 0 3px;
-    //  border-color: $dark transparent transparent transparent;
-    //  pointer-events: none;
-    //}
   }
-
-  .input-container.dropdown-icon {
-    &::after {
-      content: "";
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 3px 3px 0 3px;
-      border-color: $dark transparent transparent transparent;
-      pointer-events: none;
-    }
-  }
-
   input {
     padding: 0rem 0.5rem 0rem 0.5rem;
     font-size: $base-size;
@@ -253,48 +192,6 @@ export default {
     &:hover {
       border-color: $gray5;
       border: 1.5px solid $gray6;
-    }
-  }
-  .arrowdown--icon {
-    position: absolute;
-    right: 0;
-  }
-  .dropdown-timepicker {
-    border-radius: 6px;
-    display: flex;
-    max-width: 200px;
-    position: absolute;
-    top: 30px;
-    left: 1px;
-    z-index: 9999;
-    border: 1px solid $light;
-    margin: 0;
-    background-color: $white;
-    color: $gray5;
-    max-width: 200px;
-    max-height: 300px;
-    overflow-y: auto;
-    .time-options {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      -ms-overflow-style: none;
-      &::-webkit-scrollbar {
-        width: 4px;
-      }
-      li {
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        &.active {
-          background-color: $gray5;
-          color: $white;
-        }
-        &:hover {
-          background-color: $gray4;
-        }
-      }
     }
   }
 }
@@ -315,22 +212,6 @@ export default {
       color: $light;
       &:hover {
         border: 1.5px solid $dark-sub3;
-      }
-    }
-    .dropdown-timepicker {
-      border: 1px solid $dark-sub3;
-      background-color: $dark;
-      color: $gray5;
-      .time-options {
-        li {
-          &.active {
-            background-color: $black;
-            color: $white;
-          }
-          &:hover {
-            background-color: $black;
-          }
-        }
       }
     }
   }

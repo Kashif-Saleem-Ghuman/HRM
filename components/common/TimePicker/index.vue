@@ -62,22 +62,27 @@ export default {
   methods: {
 
     tabPressHandler(evt) {
-      const waitTime = !this.minute ? 4000 : 0;
-      this.emitTimeChange(waitTime)
+      this.emitTimeChange()
     },
     timeClickHandler(val) {
-
-      const waitTime = !this.minute ? 4000 : 0;
-      this.emitTimeChange(waitTime);
+      this.emitTimeChange();
     },
     formatTimeUnit(unit) {
       unit = unit || '00'
       return unit?.toString()?.padStart(2, '0');
     },
-    emitTimeChange(waitTime = 0) {
+    emitTimeChange() {
+
+      const waitTime = this.minute && this.hour ? 0 : 4000;
+
+      if(this.minute && this.hour) {
+        clearTimeout(this.timeoutId);
+        this.isWaiting = false;
+      }
+
       if(!this.isWaiting) {
         this.isWaiting = true;
-        setTimeout(() => {
+        this.timeoutId = setTimeout(() => {
           this.isWaiting = false;
           const formattedTime = `${this.formatTimeUnit(this.hour)}:${this.formatTimeUnit(this.minute)}`;
           if (this.hour !== null && this.value !== formattedTime) {

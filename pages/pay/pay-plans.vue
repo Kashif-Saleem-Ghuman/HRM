@@ -10,7 +10,7 @@
               label: 'Pay Plan',
               icon: 'add',
               variant: 'primary',
-              onClick: addPayPlans
+              onClick: addPayPlans,
             }"
           />
         </div>
@@ -19,22 +19,21 @@
             :primaryButton="{
               filterLabel: 'Show',
               label: 'All',
-              icon: 'save',
-              onClick: handleShowAll
+              onClick: handleShowAll,
             }"
           />
           <filter-button
             :primaryButton="{
               filterLabel: 'Group by',
               label: 'Date',
-              onClick: handleGroupBy
+              onClick: handleGroupBy,
             }"
           />
           <filter-button
             :primaryButton="{
               filterLabel: 'Sort by',
               label: 'Status',
-              onClick: handleSortBy
+              onClick: handleSortBy,
             }"
           />
         </div>
@@ -80,7 +79,10 @@ export default {
       return !this.loading && this.requestListData?.length;
     },
     showNoData() {
-      return !this.loading && (!this.requestListData || !this.requestListData?.length);
+      return (
+        !this.loading &&
+        (!this.requestListData || !this.requestListData?.length)
+      );
     },
   },
   methods: {
@@ -99,4 +101,3 @@ export default {
   },
 };
 </script>
-

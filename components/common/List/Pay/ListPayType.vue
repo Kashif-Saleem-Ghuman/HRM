@@ -1,79 +1,96 @@
 <template>
-    <custom-table
-      :fields="tableFields"
-      :sections="leavePendingList"
-      :hide-no-column="true"
-      :allChecked="checkedAll"
-      @column-header-clicked="headerColumnClick($event.column)"
-    >
-      <template #cell(pay-type)="data">
-        <div class="justify-between">
-          <span>{{ data.value.payType }}</span>
-        </div>
-      </template>
-      <template #cell(created-on)="data">
-        <div class="justify-between">
-          <span>{{ data.value.createdAt }}</span>
-        </div>
-      </template>      
-    </custom-table>
-  </template>
-  
-  <script>
-  import { TABLE_HEAD } from "../../../../utils/constant/pay/PayConstant";
-  import { sortColumn } from "../../../../utils/functions/table-sort";
-  export default {
-    props: {
-        payTypeList: {
-        type: [Array, Object],
-        default: "",
-      },
-      checked: {
-        type: Boolean,
-      },
-      checkedAll: {
-        type: Boolean,
-        default: false,
-      },
+  <custom-table
+    :fields="tableFields"
+    :sections="leavePendingList"
+    :hide-no-column="true"
+    :allChecked="checkedAll"
+    @column-header-clicked="headerColumnClick($event.column)"
+  >
+    <template #cell(pay-type)="data">
+      <div class="justify-between">
+        <span>{{ data.value.payType }}</span>
+      </div>
+    </template>
+    <template #cell(created-on)="data">
+      <div class="justify-between">
+        <span
+          >{{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
+          {{ getTimeFromDate(data.value.createdAt) }}</span
+        >
+      </div>
+    </template>
+  </custom-table>
+</template>
+
+<script>
+import { TABLE_HEAD } from "../../../../utils/constant/pay/PayConstant";
+import {
+  getTimeFromDate,
+  formatIsoDateToYYYYMMDD,
+} from "../../../../utils/functions/dates";
+import { sortColumn } from "../../../../utils/functions/table-sort";
+export default {
+  props: {
+    payTypeList: {
+      type: [Array, Object],
+      default: "",
     },
-    data() {
-      return {
-        showRefusalModal: false,
-        tableFields: TABLE_HEAD.tHeadPayType,
-        attendanceClass: [],
-        satisfaction: "",
-        userPhotoClick: false,
-        sortByField: null,
-      };
+    checked: {
+      type: Boolean,
     },
-    async created() {
-      await this.$store.dispatch("employee/setActiveUser");
+    checkedAll: {
+      type: Boolean,
+      default: false,
     },
-    beforeDestroy() {
-      this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
+  data() {
+    return {
+      showRefusalModal: false,
+      tableFields: TABLE_HEAD.tHeadPayType,
+      attendanceClass: [],
+      satisfaction: "",
+      userPhotoClick: false,
+      sortByField: null,
+    };
+  },
+  async created() {
+    await this.$store.dispatch("employee/setActiveUser");
+  },
+  beforeDestroy() {
+    this.$resetTableFieldsHeaderIcon(this.tableFields);
+  },
+  computed: {
+    leavePendingList() {
+      if (!this.sortByField) return this.payTypeList;
+
+      return sortColumn({ items: this.payTypeList, field: this.sortByField });
     },
-    computed: {
-      leavePendingList() {
-        if (!this.sortByField) return this.payTypeList;
-  
-        return sortColumn({ items: this.payTypeList, field: this.sortByField });
-      },
+  },
+
+  methods: {
+    getTimeFromDate,
+    formatIsoDateToYYYYMMDD,
+    sortColumn(columnKey) {
+      if (this.sortByField && this.sortByField.key != columnKey) {
+        this.sortByField.header_icon.isActive = false;
+      }
+      const field = this.tableFields.find((field) => field.key === columnKey);
+      field.header_icon.isActive = !field.header_icon.isActive;
+      this.sortByField = field;
     },
-  
-    methods: {
-      sortColumn(columnKey) {
-        if (this.sortByField && this.sortByField.key != columnKey) {
-          this.sortByField.header_icon.isActive = false;
-        }
-        const field = this.tableFields.find((field) => field.key === columnKey);
-        field.header_icon.isActive = !field.header_icon.isActive;
-        this.sortByField = field;
-      },
-      headerColumnClick(column) {
-        this.sortColumn(column);
-      },
+    headerColumnClick(column) {
+      this.sortColumn(column);
     },
-  };
-  </script>
-  
-  
+    formatDate(dateToConvert) {
+      const date = new Date(dateToConvert);
+      const year = date.getUTCFullYear().toString().slice(-2);
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      const hours = String(date.getUTCHours()).padStart(2, "0");
+      const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      const formattedDate = `${day}-${month}-${year} - ${hours}:${minutes}`;
+      return formattedDate;
+    },
+  },
+};
+</script>

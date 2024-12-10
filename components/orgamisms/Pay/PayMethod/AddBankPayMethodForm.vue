@@ -1,107 +1,137 @@
 <template>
   <div class="add-payment-method-form scrollable-container">
-    <div class="pb-2 input-wrapper">
+    <!-- Payment Method Name -->
+    <div class="pb-1 input-wrapper">
       <bib-input
         type="text"
         name="paymentMethodName"
         placeholder="Type your name"
-        label="Payment method name"
+        label="Payment Method Name"
         required
         v-model="localForm.paymentMethodName"
       />
     </div>
 
-    <div class="pb-2">
+    <!-- Account Information -->
+    <div>
       <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Card information</div>
-      </div>
-      <bib-input
-        type="text"
-        name="cardNumber"
-        placeholder="Enter your card number"
-        class="input-wrapper"
-        label="Card number"
-        required
-        v-model="localForm.cardNumber"
-      />
-    </div>
-
-    <div class="pb-2">
-      <bib-input
-        type="text"
-        name="cardholderName"
-        placeholder="Enter the cardholder name"
-        label="Cardholder name"
-        class="input-wrapper"
-        required
-        v-model="localForm.cardholderName"
-      />
-    </div>
-
-    <div class="pb-2 d-flex justify-between">
-      <bib-input
-        type="text"
-        name="expiryDate"
-        placeholder="MM/YY"
-        label="Expiry date"
-        class="pr-1 input-wrapper"
-        required
-        v-model="localForm.expiryDate"
-      />
-      <bib-input
-        type="password"
-        name="cvv"
-        placeholder="***"
-        label="CVV/CVC"
-        class="input-wrapper"
-        required
-        v-model="localForm.cvv"
-      />
-    </div>
-
-    <div class="pb-2">
-      <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Billing address</div>
+        <div class="section-label text-light">Account Information</div>
       </div>
     </div>
 
-    <div class="pb-2">
+    <!-- Country Selection -->
+    <div class="pb-1">
       <bib-input
         name="country"
         label="Country"
-        class="input-wrapper"
         :options="countries"
         placeholder="Select your country"
+        class="input-wrapper"
         required
         type="select"
         v-model="localForm.country"
       />
     </div>
 
-    <div class="pb-2">
+    <!-- Bank Name -->
+    <bib-input
+      type="text"
+      name="bankName"
+      placeholder="Enter your bank name"
+      class="input-wrapper pb-1"
+      label="Bank Name"
+      required
+      v-model="localForm.bankName"
+    />
+
+    <!-- Account Type and Currency -->
+    <div class="row w-100 pb-1 d-flex justify-between">
+      <bib-input
+        name="accountType"
+        label="Account Type"
+        :options="accountTypesList"
+        placeholder="Select Account Type"
+        required
+        class="input-wrapper flex-item"
+        type="select"
+        v-model="localForm.accountType"
+      />
+      <bib-input
+        name="accountCurrency"
+        label="Account Currency"
+        :options="accountCurrencyList"
+        placeholder="Select Currency"
+        class="input-wrapper flex-item"
+        required
+        type="select"
+        v-model="localForm.accountCurrency"
+      />
+    </div>
+
+    <!-- Routing, Account, and Branch Numbers -->
+    <div class="pb-1 d-flex justify-between">
+      <bib-input
+        type="text"
+        name="routingNumber"
+        placeholder="Enter routing number"
+        label="Routing Number"
+        class="pr-1 input-wrapper"
+        required
+        v-model="localForm.routingNumber"
+      />
+      <bib-input
+        type="text"
+        name="accountNumber"
+        placeholder="Enter account number"
+        label="Account Number"
+        class="pr-1 input-wrapper"
+        required
+        v-model="localForm.accountNumber"
+      />
+      <bib-input
+        type="text"
+        name="branchNumber"
+        placeholder="Enter branch number"
+        label="Branch Number"
+        class="input-wrapper"
+        required
+        v-model="localForm.branchNumber"
+      />
+    </div>
+
+    <!-- Billing Address Section -->
+    <div class="pb-1">
+      <div class="mb-2 pb-1 bottom_border_wrapper">
+        <div class="section-label text-light">Billing Address</div>
+      </div>
+    </div>
+
+    <!-- Address Fields -->
+    <div class="pb-1">
       <bib-input
         type="text"
         name="address1"
         placeholder="Enter address line 1"
-        class="input-wrapper"
         label="Address 1"
         required
+        class="input-wrapper"
         v-model="localForm.address1"
       />
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <bib-input
         type="text"
         name="address2"
-        class="input-wrapper"
         placeholder="Enter address line 2 (optional)"
         label="Address 2"
+        class="input-wrapper"
         v-model="localForm.address2"
       />
     </div>
 
-    <div class="pb-2 d-flex justify-between">
+    <!-- City, State, and Postal Code -->
+    <div class="pb-1 d-flex justify-between">
       <bib-input
         type="text"
         name="city"
@@ -125,7 +155,7 @@
         type="text"
         name="postalCode"
         placeholder="Enter ZIP/Postal code"
-        label="ZIP/Postal code"
+        label="ZIP/Postal Code"
         class="pl-1 input-wrapper"
         required
         v-model="localForm.postalCode"
@@ -136,7 +166,7 @@
 
 <script>
 export default {
-  name: "AddPaymentMethodForm",
+  name: "AddBankPaymentMethodForm",
   props: {
     modelValue: {
       type: Object,
@@ -149,12 +179,18 @@ export default {
       countries: [
         { value: "Canada", label: "Canada" },
         { value: "United States", label: "United States" },
-        // Add more countries as needed
+      ],
+      accountTypesList: [
+        { value: "Current", label: "Current" },
+        { value: "Saving", label: "Saving" },
+      ],
+      accountCurrencyList: [
+        { value: "USD", label: "USD" },
+        { value: "EUR", label: "EUR" },
       ],
       states: [
         { value: "Quebec", label: "Quebec" },
         { value: "Ontario", label: "Ontario" },
-        // Add more states/provinces as needed
       ],
     };
   },
@@ -162,7 +198,7 @@ export default {
     localForm: {
       deep: true,
       handler(newVal) {
-        console.log("Form data === ", newVal);
+        console.log("Updated Form Data: ", newVal);
         this.$emit("update:modelValue", newVal);
       },
     },
@@ -189,5 +225,13 @@ export default {
   overflow-y: auto;
   padding: 1rem;
   border-radius: 4px;
+}
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.flex-item {
+  padding-left: 7px;
 }
 </style>

@@ -26,8 +26,6 @@
   </div>
 </template>
 
-
-
 <script>
 import { mapGetters } from "vuex";
 const OPEN_SIDEBAR_EVENT = "open-sidebar-pay-paln";
@@ -56,7 +54,6 @@ export default {
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-
     }),
   },
   created() {
@@ -75,7 +72,7 @@ export default {
         this.openSidebar = false;
       }, 700);
     },
-    
+
     editSalary() {
       console.log("Edit salary clicked");
     },
@@ -135,4 +132,3 @@ export default {
   },
 };
 </script>
-

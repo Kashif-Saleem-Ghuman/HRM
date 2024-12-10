@@ -6,7 +6,6 @@
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
       v-click-outside="handleClickOutside"
-      @click="toggleEditing"
     >
       <div class="label-wrapper">
         <div v-if="isEditing" class="editable-label">
@@ -194,7 +193,7 @@ export default {
       }
       .select-dropdown {
         color: var(--bib-text-secondary);
-        option{
+        option {
           background-color: $dark !important;
         }
       }

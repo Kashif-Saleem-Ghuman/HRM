@@ -14,7 +14,7 @@
         <editable-input
           label="Status"
           type="select"
-          :options="optionsDummy"
+          :options="statusOptions"
           @update-value="updatedValue"
         />
       </div>
@@ -98,6 +98,30 @@
         />
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-6">Description</div>
+    </div>
+
+    <bib-rich-editor
+      :isLightTheme="isLightTheme"
+      :editingMessage="editingMessage"
+      :cover="cover"
+      :isClear="isClear"
+      :buttonObject="SubmitButtonOptions"
+      :isLinkActive="true"
+      @send-message="sendMessage"
+      @onFileSelect="onFileSelect"
+      @blur="onBlur"
+      @focus="onFocus"
+      @debounce="onDebounce"
+      :class="classes"
+      :contacts="users"
+    >
+      <template #action>
+        <slot name="action"></slot>
+      </template>
+    </bib-rich-editor>
   </div>
 </template>
 
@@ -106,6 +130,11 @@ export default {
   data() {
     return {
       addForm: {},
+      statusOptions: [
+        { value: "in progress ", label: "In Progress" },
+        { value: "active", label: "Active" },
+      ],
+
       optionsDummy: [
         { value: "opt1", label: "Option 1" },
         { value: "opt2", label: "Option 2" },

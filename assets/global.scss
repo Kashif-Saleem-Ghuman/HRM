@@ -13,7 +13,7 @@ body {
 }
 
 .header__search__input .search_input {
-  width: 28em !important; 
+  width: 28em !important;
 }
 
 .fc-event:focus::after {
@@ -343,7 +343,7 @@ body {
   position: relative !important;
   .menu-items {
     position: absolute !important;
-    width: 157px !important; 
+    width: 157px !important;
     box-shadow: 0 0 0.4rem 0.5rem rgba(var(--bib-gray3), 0.9);
     border-radius: 10px;
     right: 0;
@@ -365,4 +365,15 @@ body {
   a{
     background-color: $gray4 !important;
   }
+}
+
+.footer-button {
+  width: 49% !important;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-button div {
+  display: block;
 }

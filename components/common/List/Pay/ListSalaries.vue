@@ -66,7 +66,7 @@
         <div class="info_wrapper">
           <div
             :title="$getEmployeeFullName(data.value.employee)"
-            @click="employeeDetail($getEmployeeFullName(data.value.employee))"
+            @click="employeeDetail(data)"
           >
             {{
               $getEmployeeFullName(data.value.employee)
@@ -128,6 +128,7 @@ import {
 } from "../../../../utils/functions/functions_lib";
 import { DateTime } from "luxon";
 import { DATETIME_FORMAT } from "../../../../utils/functions/datetime-input";
+
 export default {
   props: {
     listPending: {
@@ -194,7 +195,9 @@ export default {
       this.sortByField = field;
     },
     employeeDetail($event) {
-      this.$nuxt.$emit("open-sidebar-salaries", $event);
+      console.log("event --- ", $event);
+
+      this.$nuxt.$emit("open-sidebar-salaries", $event.value);
     },
     headerColumnClick(column) {
       this.sortColumn(column);

@@ -19,10 +19,12 @@
             <editable-input
               :options="optionsDummy"
               :showAvatar="true"
-              label="Pay plan"
-              type="select"
+              label="Employee"
+              type="text"
               avatarText="BG"
               @update-value="updatedValue"
+              :value="employeeName"
+              :hideEditIcon="true"
             />
             <editable-input
               :value="'Terrebonne'"
@@ -35,26 +37,28 @@
           </div>
           <div class="single-column">
             <compensation-summary
-              :amount="85000.0"
+              :amount="salaryAmount"
               label="Salary"
-              currency="CAD"
               @edit-click="editSalary"
             />
-            </div>
-            <div class="single-row-two-column">
+          </div>
+
+          <div class="single-row-two-column">
             <editable-input
+              :value="payPlan"
               :options="optionsDummy"
               label="Pay plan"
               type="select"
               @update-value="updatedValue"
             />
+
             <editable-input
-              :options="optionsDummy"
+              :value="payMethod"
               label="Pay method"
-              type="select"
+              type="text"
               @update-value="updatedValue"
+              :hideEditIcon="true"
             />
-            
           </div>
         </div>
         <div class="py-1">
@@ -85,19 +89,22 @@ export default {
       openSidebar: false,
       slideClass: "slide-in",
       employeeName: "",
+      salaryAmount: "",
+      currency: "",
+      payPlan: "",
+      payMethod: "",
       isVisible: false,
       options: null,
       optionsDummy: [
-        { value: "opt1", label: "Option 1" },
-        { value: "opt2", label: "Option 2" },
-        { value: "opt3", label: "Option 3" },
+        { value: "Monthly", label: "Monthly" },
+        { value: "Annual", label: "Annual" },
+        { value: "Weekly", label: "Weekly" },
       ],
     };
   },
   computed: {
     ...mapGetters({
       getTeamListOptions: "teams/GET_TEAM_SELECT_OPTIONS",
-
     }),
   },
   created() {
@@ -116,7 +123,7 @@ export default {
         this.openSidebar = false;
       }, 700);
     },
-    
+
     editSalary() {
       console.log("Edit salary clicked");
     },
@@ -136,7 +143,12 @@ export default {
     async payDetail(item) {
       this.slideClass = "slide-in";
       this.openSidebar = true;
-      this.employeeName = item;
+
+      this.employeeName = `${item.employee.firstName} ${item.employee.lastName}`;
+      this.salaryAmount = item.employee.rateAnnual;
+      this.currency = item.employee.currency;
+      this.payPlan = item.employee.payPlan;
+      this.payMethod = item.employee.paymentMethod;
     },
     registerCloseSideBarRootListener() {
       this.$root.$on(CLOSE_SIDEBAR_EVENT, () => {
@@ -200,7 +212,7 @@ export default {
   }
   .single-row-two-column {
     width: 50%;
-    
+
     gap: 1rem;
 
     > * {
@@ -208,5 +220,4 @@ export default {
     }
   }
 }
-
 </style>

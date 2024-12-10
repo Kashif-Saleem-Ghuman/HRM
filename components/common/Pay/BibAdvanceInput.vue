@@ -1,16 +1,28 @@
 <template>
-  <div class="d-flex align-center salary-wrapper pb-1 pr-1">
-    <div class="pr-1 input-label" v-if="label">{{ label }}</div>
+  <div class="d-flex advance-input align-center">
+    <div class="pr-1 font-md input-label text-text-secondary" v-if="label">
+      {{ label }}
+    </div>
     <div
       class="editable-value d-flex align-center cursor-pointer gap-05"
-      :class="{ 'editing-mode': isEditing }"
+      :class="{
+        'editing-mode': isEditing,
+        'editable-value--light': isLight,
+        'editable-value--dark': !isLight,
+        'with-avatar': showAvatar,
+      }"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
       v-click-outside="handleClickOutside"
       @click="toggleEditing"
     >
       <div v-if="showAvatar">
-        <bib-avatar :src="avatarImg" size="1rem"></bib-avatar>
+        <bib-avatar v-if="avatarImg != ''" :src="avatarImg" size="1.5rem"
+          >BG</bib-avatar
+        >
+        <span class="initial" v-else-if="value && value != ''">{{
+          initials
+        }}</span>
       </div>
 
       <div v-if="isEditing && type === 'text'" class="edit-input">
@@ -24,6 +36,7 @@
       </div>
 
       <!-- Show select dropdown only if type is 'select' -->
+
       <div v-if="isEditing && type === 'select'" class="edit-select">
         <select
           v-model="editableValue"
@@ -43,12 +56,15 @@
         </select>
       </div>
 
-      <div v-else-if="type === 'select' && !isEditing" class="value">
+      <!-- <div
+        v-else-if="type === 'select' && !isEditing"
+        class="value position-relative"
+      >
         {{ editableValue || "Select an option" }}
-      </div>
+      </div> -->
 
-      <div v-else-if="!isEditing" class="value">
-        {{ editableValue || "Enter value" }}
+      <div v-else-if="!isEditing" class="value position-relative">
+        <slot name="value"></slot>
       </div>
 
       <div v-if="isEditing" class="custom-icons-wrapper">
@@ -56,16 +72,17 @@
           class="add-icon"
           icon="close"
           :scale="1"
-          @click="handleDeleteClick"
+          :variant="isLight ? 'gray1' : 'light'"
+          @click.stop="handleDeleteClick"
         />
       </div>
       <div
         class="edit-icon-wrapper"
         :class="{ visible: isHovered && !isEditing }"
         @click="toggleEditing"
-        v-if="!isEditing && !hideEditIcon"
+        v-if="!isEditing"
       >
-        <bib-icon class="edit-icon" icon="pencil" :scale="1" />
+        <bib-icon class="edit-icon" :icon="hoverIcon" :scale="1" />
       </div>
     </div>
   </div>
@@ -73,11 +90,11 @@
 
 <script>
 export default {
-  name: "EditableValue",
+  name: "BibAdvanceInput",
   props: {
     value: {
       type: String,
-      required: true,
+      required: false,
     },
     fieldKey: {
       type: String,
@@ -92,6 +109,7 @@ export default {
     options: {
       type: Array,
       default: () => [],
+      required: false,
     },
     showAvatar: {
       type: Boolean,
@@ -101,9 +119,17 @@ export default {
       type: String,
       default: "",
     },
-    hideEditIcon: {
-      type: Boolean,
-      default: false,
+    hoverIcon: {
+      type: String,
+      default: "pencil",
+    },
+  },
+  computed: {
+    isLight() {
+      return this.$store.state.uiLibStore.isLightMode;
+    },
+    initials() {
+      return this.value ? this.value.slice(0, 2) : "";
     },
   },
   data() {
@@ -114,10 +140,9 @@ export default {
     };
   },
   methods: {
-    toggleEditing() {
-      if (!this.hideEditIcon) {
-        this.isEditing = true;
-      }
+    toggleEditing(e) {
+      e.stopPropagation();
+      this.isEditing = true;
     },
     saveValue(event) {
       this.isEditing = false;
@@ -128,13 +153,7 @@ export default {
     },
     handleDeleteClick() {
       this.isEditing = false;
-    },
-  },
-
-  watch: {
-    value() {
-      console.log("Value ", this.value);
-      this.editableValue = this.value;
+      console.log(this.isEditing);
     },
   },
 };
@@ -143,23 +162,31 @@ export default {
 <style lang="scss">
 .editable-value {
   gap: 1rem;
-  border: 1px solid var(--bib-gray2);
-  padding: 0.5rem;
-  background-color: var(--bib-light);
-  border-radius: 1rem;
+  padding: 4px 12px;
+  border-radius: 360px;
   transition: background-color 0.3s ease;
   font-size: 14px;
   // width: 10%;
   max-width: 100%;
+  height: 32px;
 
-  &:hover {
-    background-color: $gray2;
+  &.with-avatar {
+    padding: 4px 12px 4px 4px;
   }
-
-  &.editing-mode {
-    background-color: $gray4;
+  .initial {
+    color: $text-secondary;
+    border: 1px solid $dark-sub5;
+    background: $border-primary;
+    text-transform: capitalize;
+    border-radius: 16px;
+    padding: 6px 5px;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    font-size: 10px;
+    /* text-align: center; */
+    align-items: center;
   }
-
   .value,
   .edit-input,
   .edit-select {
@@ -173,20 +200,27 @@ export default {
     border: none;
     display: inline-flex;
     background: none;
-    color: var(--bib-text-secondary);
     outline: none;
   }
 
   .edit-icon-wrapper {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: end;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s ease;
-
+    position: relative;
     &.visible {
       opacity: 1;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      width: 1px;
+      height: 13px;
+      left: -7px;
     }
   }
 
@@ -195,9 +229,18 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: relative;
 
     .add-icon {
-      color: var(--bib-text-secondary);
+      color: $light;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      width: 1px;
+      height: 13px;
+      left: -7px;
     }
   }
 
@@ -205,42 +248,72 @@ export default {
     .edit-icon-wrapper,
     .custom-icons-wrapper {
       opacity: 1;
+      display: flex;
+    }
+    .value {
+      &::before {
+        display: block;
+      }
     }
   }
-}
-
-.dark-theme {
-  .editable-value {
-    border: 1px solid var(--bib-dark-sub3);
-    background-color: var(--bib-dark);
-
+  &--light {
+    border: 1px solid $gray12;
+    background-color: $light;
+    .edit-input .input-field,
+    .edit-select .select-field {
+      color: $text-secondary;
+    }
+    .value,
+    .edit-input,
+    .edit-select {
+      color: $text-secondary;
+    }
     &:hover {
-      background-color: $surface-tertiary;
+      background-color: $gray2;
     }
-
+    .custom-icons-wrapper,
+    .edit-icon-wrapper {
+      &::before {
+        background-color: $text-secondary;
+      }
+    }
     &.editing-mode {
-      background-color: black;
+      background-color: $light;
     }
-
-    .edit-input .input-field {
-      color: var(--bib-text-light);
+    .initial {
+      color: $text-secondary;
+      border: 1px solid $text-secondary;
+      background: $gray13;
     }
-
+  }
+  &--dark {
+    border: 1px solid $dark-sub5;
+    background-color: $dark;
+    .edit-input .input-field,
     .edit-select .select-field {
       color: $light;
-
-      option {
-        background-color: $dark;
+    }
+    .value,
+    .edit-input,
+    .edit-select {
+      color: $light;
+    }
+    &:hover {
+      background-color: $dark;
+    }
+    .custom-icons-wrapper,
+    .edit-icon-wrapper {
+      &::before {
+        background-color: $dark-sub5;
       }
-
-      &:hover {
-        border-color: var(--bib-light);
-      }
-
-      &:focus {
-        border-color: transparent;
-        box-shadow: none;
-      }
+    }
+    &.editing-mode {
+      background-color: $dark;
+    }
+    .initial {
+      color: $text-secondary;
+      border: 1px solid $dark-sub5;
+      background: $border-primary;
     }
   }
 }

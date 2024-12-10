@@ -46,7 +46,8 @@
           :tableFields="tableFields"
           :key="employeeList"
         />
-        <!-- Pay Methods Modal -->
+
+        <!-- Conditional Modals -->
         <pay-method-modal
           v-if="isModalVisible"
           :payMethodsModal="isModalVisible"
@@ -60,7 +61,7 @@
                 icon: 'add',
                 variant: isLightThemeCheck ? 'light' : 'secondary',
                 class: 'increase-button-size',
-                onClick: () => addPayMethod('Credit or Debit card'),
+                onClick: () => openPayMethodModal('Credit or Debit card'),
               }"
             />
             <filter-button
@@ -69,7 +70,7 @@
                 variant: isLightThemeCheck ? 'light' : 'secondary',
                 icon: 'add',
                 class: 'increase-button-size',
-                onClick: () => addPayMethod('Bank account'),
+                onClick: () => openPayMethodModal('Bank account'),
               }"
             />
             <filter-button
@@ -78,34 +79,79 @@
                 variant: isLightThemeCheck ? 'light' : 'secondary',
                 icon: 'add',
                 class: 'increase-button-size',
-                onClick: () => addPayMethod('PayPal'),
+                onClick: () => openPayMethodModal('PayPal'),
               }"
             />
           </div>
         </pay-method-modal>
 
-        <!-- Add Pay Method Modal -->
+        <!-- Credit/Debit Card Modal -->
         <pay-method-modal
-          v-if="isModalVisibleAddPayMethod"
+          v-if="selectedModal === 'Credit or Debit card'"
           :payMethodsModal="isModalVisibleAddPayMethod"
           :modalTitle="`Pay method / ${clickItemTitle}`"
-          @close="addPayMethod"
+          @close="closeModal"
           headerIcon="arrow-left"
         >
-          <add-payment-method-form />
+          <add-payment-method-form
+            v-model="creditCardFormData"
+            @update:modelValue="creditCardFormData = $event"
+          />
           <template #footer>
             <bib-button
               label="Cancel"
               :variant="isLightThemeCheck ? 'light' : 'secondary'"
-              pill
+              class="footer-button"
             ></bib-button>
             <bib-button
               label="Save"
               variant="primary-24"
-              class="ml-auto"
-              pill
+              class="ml-auto footer-button"
+              @click="submitForm"
             ></bib-button>
           </template>
+        </pay-method-modal>
+
+        <!-- Bank Account Modal -->
+        <pay-method-modal
+          v-if="selectedModal === 'Bank account'"
+          :payMethodsModal="isModalVisibleAddPayMethod"
+          :modalTitle="`Pay method / ${clickItemTitle}`"
+          @close="closeModal"
+          headerIcon="arrow-left"
+        >
+          <add-bank-pay-method-form
+            v-model="bankAccountFormData"
+            @update:modelValue="bankAccountFormData = $event"
+          />
+
+          <template #footer>
+            <bib-button
+              label="Cancel"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              class="footer-button"
+            ></bib-button>
+            <bib-button
+              label="Save"
+              variant="primary-24"
+              class="ml-auto footer-button"
+              @click="submitForm"
+            ></bib-button>
+          </template>
+        </pay-method-modal>
+
+        <!-- PayPal Modal -->
+        <pay-method-modal
+          v-if="selectedModal === 'PayPal'"
+          :payMethodsModal="isModalVisibleAddPayMethod"
+          :modalTitle="`Pay method / ${clickItemTitle}`"
+          @close="closeModal"
+          headerIcon="arrow-left"
+        >
+          <add-paypal-payment-method-form
+            v-model="formData"
+            @update:modelValue="formData = $event"
+          />
         </pay-method-modal>
       </div>
     </div>
@@ -114,8 +160,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { PAY_DUMMY_REQUESTS_PAYMETHODS } from "../../utils/constant/pay/PayConstant";
-import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
+import {
+  PAY_DUMMY_REQUESTS_PAYMETHODS,
+  TABLE_HEAD,
+} from "../../utils/constant/pay/PayConstant";
 
 export default {
   data() {
@@ -128,7 +176,38 @@ export default {
       isModalVisible: false,
       isModalVisibleAddPayMethod: false,
       clickItemTitle: null,
+      selectedModal: null,
       tableFields: TABLE_HEAD.tHeadPayPlans,
+
+      creditCardFormData: {
+        paymentMethodName: "",
+        cardNumber: "",
+        cardholderName: "",
+        expiryDate: "",
+        cvv: "",
+        country: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        postalCode: "",
+      },
+
+      bankAccountFormData: {
+        paymentMethodName: "",
+        country: "",
+        bankName: "",
+        accountType: "",
+        accountCurrency: "",
+        routingNumber: "",
+        accountNumber: "",
+        branchNumber: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        postalCode: "",
+      },
     };
   },
   computed: {
@@ -136,32 +215,47 @@ export default {
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
     }),
-    showTable() {
-      return !this.loading && this.requestListData?.length;
-    },
-    showNoData() {
-      return (
-        !this.loading && (!this.requestListData || !this.requestListData.length)
-      );
-    },
   },
   methods: {
-    addPayMethod(payMethod) {
-      this.isModalVisibleAddPayMethod = !this.isModalVisibleAddPayMethod;
+    openPayMethodModal(type) {
+      this.selectedModal = type;
+      this.isModalVisibleAddPayMethod = true;
       this.isModalVisible = false;
-      this.clickItemTitle = payMethod;
+      this.clickItemTitle = type;
     },
     addPayTypes() {
       this.isModalVisible = !this.isModalVisible;
     },
-    handleShowAll() {
-      console.log("Show All clicked!");
+    closeModal() {
+      this.isModalVisibleAddPayMethod = false;
+      this.selectedModal = null;
     },
-    handleGroupBy() {
-      console.log("Group By clicked!");
+    submitForm() {
+      let formData;
+
+      if (this.selectedModal === "Credit or Debit card") {
+        formData = this.creditCardFormData;
+      } else if (this.selectedModal === "Bank account") {
+        formData = this.bankAccountFormData;
+      } else {
+        console.error("Unknown modal type or no modal is selected");
+        return;
+      }
+
+      const newRecord = {
+        id: this.generateUniqueId(),
+        payMethod: `${formData.paymentMethodName} - ${
+          formData.cardNumber || formData.accountNumber || ""
+        }`,
+        payMethodType: this.clickItemTitle,
+        createdAt: new Date().toISOString(),
+      };
+
+      this.requestListData.push(newRecord);
+      this.closeModal();
     },
-    handleSortBy() {
-      console.log("Sort By clicked!");
+    generateUniqueId() {
+      return Date.now();
     },
   },
 };

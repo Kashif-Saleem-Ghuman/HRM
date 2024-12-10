@@ -30,7 +30,6 @@
         <list-pay-type
           :payTypeList="requestListData"
           :tableFields="tableFields"
-          :key="employeeList"
         />
         <!-- Pay Methods Modal -->
         <pay-method-modal
@@ -46,20 +45,24 @@
               placeholder="Salary, Commission, Overtime, Expense, etc..."
               label="Pay type name"
               required
+              :variant="isLightThemeCheck ? 'light' : 'dark'"
               style="width: 100%"
+              v-model.trim="payTypeName"
             />
           </div>
           <template #footer>
             <bib-button
               label="Cancel"
               :variant="isLightThemeCheck ? 'light' : 'secondary'"
-              pill
+              @click="cancelPayType"
+              class="footer-button"
             ></bib-button>
             <bib-button
               label="Add"
               variant="primary-24"
-              class="ml-auto"
-              pill
+              class="ml-auto footer-button"
+              :disabled="!payTypeName"
+              @click="addPayType"
             ></bib-button>
           </template>
         </pay-method-modal>
@@ -81,6 +84,7 @@ export default {
       loading: true,
       isModalVisible: false,
       tableFields: TABLE_HEAD.tHeadPayPlans,
+      payTypeName: "",
     };
   },
   computed: {
@@ -103,6 +107,29 @@ export default {
     },
     handleSortBy() {
       console.log("Sort By clicked!");
+    },
+    cancelPayType() {
+      this.payTypeName = "";
+      this.isModalVisible = false;
+    },
+    addPayType() {
+      const newPayType = {
+        id: this.generateUniqueId(),
+        employeeid: Math.floor(Math.random() * 100) + 1,
+        payType: this.payTypeName,
+        createdAt: new Date().toISOString(),
+      };
+
+      PAY_DUMMY_REQUESTS_PAYTYPE.requests.push(newPayType);
+
+      this.payTypeName = "";
+      this.isModalVisible = false;
+    },
+    generateUniqueId() {
+      const existingIds = PAY_DUMMY_REQUESTS_PAYTYPE.requests.map(
+        (req) => req.id
+      );
+      return Math.max(...existingIds) + 1;
     },
   },
 };

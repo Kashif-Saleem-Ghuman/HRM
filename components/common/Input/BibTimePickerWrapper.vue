@@ -1,6 +1,6 @@
 <template>
   <div style="display: block; position: relative;" :tabindex="isLoaderActive ? -1 : 0"  @keydown="handleKeydown" class="time-picker-wrapper">
-    <bib-time-picker
+    <time-picker
       v-model="time"
       :name="name"
       :placeholder="placeholder"
@@ -14,7 +14,7 @@
           : 'bib-time-picker--dark-theme'
       "
       id="timePickerId"
-    ></bib-time-picker>
+    ></time-picker>
     <div
       v-show="disabled"
       style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"
@@ -49,7 +49,7 @@ export default {
         return {};
       },
     },
-    isLoaderActive: { 
+    isLoaderActive: {
       type: Boolean,
       default: false,
     },
@@ -75,7 +75,7 @@ export default {
     },
     handleKeydown(event) {
       if (this.isLoaderActive) {
-        event.preventDefault(); 
+        event.preventDefault();
       }
     },
   },
@@ -107,7 +107,7 @@ export default {
 .bib-time-picker--dark-theme:focus {
   outline: none;
   border: none !important;
-  box-shadow: none; 
+  box-shadow: none;
 }
 </style>
 

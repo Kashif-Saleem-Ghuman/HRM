@@ -17,6 +17,10 @@ export default {
       type: [String, Number],
       default: null,
     },
+    showTimePicker: {
+      type: Boolean,
+      default: false,
+    }
   },
   methods: {
     blurHandler() {

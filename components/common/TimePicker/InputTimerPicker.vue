@@ -1,9 +1,9 @@
 <template>
   <div
-    :class="['time-select input-wrapper', themeClass]"
+    :class="['time-select input-wrapper', themeClass, showTimePicker ? 'mx-width-75 mn-width-65' : 'mx-width-43 mn-width-32']"
     @click="clickInside"
     v-click-outside="clickOutside"  >
-    <div class="input-container">
+    <div :class="['input-container', showTimePicker ? 'dropdown-icon' : '']">
       <input
         id="hour"
         type="text"
@@ -17,7 +17,7 @@
         @keydown.tab="tabPressHandler"
       />
     </div>
-    <div v-if="dropdownOpen" class="dropdown-timepicker" ref="dropdown">
+    <div v-if="showTimePicker && dropdownOpen" class="dropdown-timepicker" ref="dropdown">
       <ul class="time-options" ref="timeOptionsList">
         <li
           v-for="option in options"
@@ -183,10 +183,23 @@ export default {
   font-size: 14px;
   outline: none;
   background-color: $light;
-  max-width: 75px;
-  min-width: 65px;
   max-height: 33px;
 }
+
+.mx-width-75 {
+  max-width: 75px;
+}
+.mx-width-43 {
+  max-width: 43px;
+}
+
+.mn-width-32 {
+  min-width: 32px;
+}
+.mn-width-65 {
+  min-width: 65px;
+}
+
 .input-wrapper {
   display: inline-flex !important;
   align-items: center;
@@ -195,6 +208,22 @@ export default {
     position: relative;
     display: inline-block;
     width: 100%;
+    //&::after {
+    //  content: "";
+    //  position: absolute;
+    //  right: 10px;
+    //  top: 50%;
+    //  transform: translateY(-50%);
+    //  width: 0;
+    //  height: 0;
+    //  border-style: solid;
+    //  border-width: 3px 3px 0 3px;
+    //  border-color: $dark transparent transparent transparent;
+    //  pointer-events: none;
+    //}
+  }
+
+  .input-container.dropdown-icon {
     &::after {
       content: "";
       position: absolute;
@@ -209,6 +238,7 @@ export default {
       pointer-events: none;
     }
   }
+
   input {
     padding: 0rem 0.5rem 0rem 0.5rem;
     font-size: $base-size;

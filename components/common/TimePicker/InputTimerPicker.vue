@@ -179,7 +179,6 @@ export default {
     width: 100%;
   }
   input {
-    padding: 0rem 0.5rem 0rem 0.5rem;
     font-size: $base-size;
     line-height: 2rem;
     width: 100%;
@@ -202,11 +201,6 @@ export default {
     background-color: $dark;
   }
   .input-wrapper {
-    .input-container {
-      &::after {
-        border-color: $light transparent transparent transparent;
-      }
-    }
     input {
       border: none !important;
       background-color: transparent !important;

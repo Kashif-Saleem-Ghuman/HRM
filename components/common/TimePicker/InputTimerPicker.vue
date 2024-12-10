@@ -103,8 +103,8 @@ export default {
     },
 
     inputHandler(evt) {
-      this.$emit("update:minute", evt.target.value);
-
+      if(this.type === 'minute')
+        this.$emit("update:minute", evt.target.value);
     },
 
     handleNextInput(evt, value) {
@@ -179,7 +179,6 @@ export default {
     width: 100%;
   }
   input {
-    padding: 0rem 0.5rem 0rem 0.5rem;
     font-size: $base-size;
     line-height: 2rem;
     width: 100%;
@@ -189,6 +188,7 @@ export default {
     margin: 0.5rem 0;
     color: $dark;
     outline: none;
+    text-align: center !important;
     &:hover {
       border-color: $gray5;
       border: 1.5px solid $gray6;
@@ -201,11 +201,6 @@ export default {
     background-color: $dark;
   }
   .input-wrapper {
-    .input-container {
-      &::after {
-        border-color: $light transparent transparent transparent;
-      }
-    }
     input {
       border: none !important;
       background-color: transparent !important;

@@ -128,32 +128,4 @@ export default {
 
 
 }
-
-.input-wrapper {
-  display: inline-flex !important;
-  align-items: center;
-  position: relative;
-  input {
-    padding: 0rem 0.5rem 0rem 0.5rem;
-    font-size: $base-size;
-    line-height: 1.2;
-    width: 100%;
-    border: 1px solid $gray4;
-    border-radius: 0.2rem;
-    margin: 0.5rem 0;
-    color: $dark;
-    outline: none;
-
-    &:hover {
-      border-color: $gray5;
-      border: 1.5px solid $gray6;
-    }
-  }
-  .arrowdown--icon {
-    position: absolute;
-    right: 0;
-  }
-}
-
-
 </style>

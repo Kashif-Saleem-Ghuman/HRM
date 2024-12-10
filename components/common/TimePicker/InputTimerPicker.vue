@@ -103,8 +103,8 @@ export default {
     },
 
     inputHandler(evt) {
-      this.$emit("update:minute", evt.target.value);
-
+      if(this.type === 'minute')
+        this.$emit("update:minute", evt.target.value);
     },
 
     handleNextInput(evt, value) {
@@ -189,6 +189,7 @@ export default {
     margin: 0.5rem 0;
     color: $dark;
     outline: none;
+    text-align: center !important;
     &:hover {
       border-color: $gray5;
       border: 1.5px solid $gray6;

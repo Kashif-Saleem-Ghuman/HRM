@@ -282,7 +282,6 @@ export default {
 
     input {
       border: 0px !important;
-      text-align: left !important;
       border-radius: 0px !important;
       background-color: transparent !important;
     }

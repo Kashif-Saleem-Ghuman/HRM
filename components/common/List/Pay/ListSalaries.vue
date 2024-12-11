@@ -195,8 +195,6 @@ export default {
       this.sortByField = field;
     },
     employeeDetail($event) {
-      console.log("event --- ", $event);
-
       this.$nuxt.$emit("open-sidebar-salaries", $event.value);
     },
     headerColumnClick(column) {

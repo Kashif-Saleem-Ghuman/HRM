@@ -165,6 +165,8 @@
 </template>
 
 <script>
+import countries from "@/utils/constant/countries";
+
 export default {
   name: "AddBankPaymentMethodForm",
   props: {
@@ -175,11 +177,8 @@ export default {
   },
   data() {
     return {
+      countries,
       localForm: { ...this.modelValue },
-      countries: [
-        { value: "Canada", label: "Canada" },
-        { value: "United States", label: "United States" },
-      ],
       accountTypesList: [
         { value: "Current", label: "Current" },
         { value: "Saving", label: "Saving" },

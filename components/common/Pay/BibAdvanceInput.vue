@@ -56,13 +56,6 @@
         </select>
       </div>
 
-      <!-- <div
-        v-else-if="type === 'select' && !isEditing"
-        class="value position-relative"
-      >
-        {{ editableValue || "Select an option" }}
-      </div> -->
-
       <div v-else-if="!isEditing" class="value position-relative">
         <slot name="value"></slot>
       </div>

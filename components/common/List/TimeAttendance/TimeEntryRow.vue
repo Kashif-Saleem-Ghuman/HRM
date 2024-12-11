@@ -46,8 +46,9 @@
       v-if="showDeleteIcon"
       class="cell cursor-pointer trash"
       @click="deleteEntry"
+      style=""
     >
-      <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
+      <bib-icon icon="trash-solid" class="mx-1" :scale="1"></bib-icon>
     </div>
     <loader :loading="loading"></loader>
   </div>

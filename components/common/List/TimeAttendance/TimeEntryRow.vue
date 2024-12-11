@@ -48,7 +48,7 @@
       @click="deleteEntry"
       style=""
     >
-      <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
+      <bib-icon icon="trash-solid" style="margin: 0 11px;" :scale="1"></bib-icon>
     </div>
     <loader :loading="loading"></loader>
   </div>

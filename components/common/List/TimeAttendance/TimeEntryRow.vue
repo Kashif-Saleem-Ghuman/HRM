@@ -48,7 +48,7 @@
       @click="deleteEntry"
       style=""
     >
-      <bib-icon icon="trash-solid" class="mx-1" :scale="1"></bib-icon>
+      <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
     </div>
     <loader :loading="loading"></loader>
   </div>
@@ -125,9 +125,10 @@ export default {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
     showDeleteIcon() {
+      if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       if(!this.editable) return false;
       if (!this.newData.id) return false;
-      if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
+      // if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       return true;
     },
     hasInEntry() {

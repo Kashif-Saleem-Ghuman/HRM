@@ -3,7 +3,7 @@
     <div class="custom-table">
       <div class="thead">
         <div class="cell" v-for="item in ACTIVITY_HEADER_DATA">{{ item }}</div>
-        <div class="cell trash" v-if="!disabled"></div>
+        <div class="cell trash" v-if="!disabled" style="width: 50px;"></div>
       </div>
       <time-entry-row
         v-for="(entry, index) in entries"

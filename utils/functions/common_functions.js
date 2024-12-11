@@ -65,7 +65,7 @@ export function generateYearList() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const years = [];
-  for (let year = START_YEAR; year <= currentYear + 0; year++) {
+  for (let year = START_YEAR; year <= currentYear + 1; year++) {
     const yearObject = {
       label: year.toString(),
       value: year,

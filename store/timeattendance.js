@@ -175,7 +175,7 @@ export const actions = {
 
       date && ctx.commit("SET_DAILY_TIME_ENTRIES", data.timeEntries);
 
-      data && ctx.commit("SET_TIMESHEET", {timesheet: data?.timesheet || {}})
+      date && data && ctx.commit("SET_TIMESHEET", {timesheet: data?.timesheet || {}})
 
       if (isDateToday(startOfDay)) {
 

@@ -2,7 +2,7 @@
   <div>
     <div class="custom-table">
       <div class="thead">
-        <div class="cell" v-for="item in ACTIVITY_HEADER_DATA">{{ item }}</div>
+        <div class="cell" v-for="item in ACTIVITY_HEADER_DATA" :style="item === 'Start' || item==='End' ? 'text-align:center' : ''">{{ item }}</div>
         <div class="cell trash" v-if="!disabled" style="width: 43px;"></div>
       </div>
       <time-entry-row

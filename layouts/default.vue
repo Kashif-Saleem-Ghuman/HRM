@@ -33,7 +33,7 @@
       <template #switcher>
         <bib-app-switcher
           v-if="!collapseNavigation1"
-          :menuItems="appWrapItems.appItems"
+          :menuItems="[]"
           :isLightTheme="isLightTheme"
           @toggle-theme="toggleTheme"
           id="ignore-click-outside"

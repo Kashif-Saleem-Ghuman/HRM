@@ -21,8 +21,10 @@
           :employees="timesheetsList"
           :loading="loading"
           type="year"
+          :enable-infinite-scroll="true"
+          @handle-pagination-load="handlePaginationLoad"
+          :pagination-loading="paginationLoading"
         ></custom-timesheet-list>
-        <intersect @handle-pagination-load="handlePaginationLoad" :pagination-loading="paginationLoading"></intersect>
       </div>
     </div>
   </div>
@@ -101,7 +103,7 @@ export default {
     async onWeeklyTimesheetSubmitted() {
       await this.fillTimesheetEntries();
     },
-    async fillTimesheetEntries(isWeekRange = false, isPaginationLoad) {
+    async fillTimesheetEntries(isWeekRange = false, isPaginationLoad = false) {
 
       const searchString = '';
       if(!isPaginationLoad) this.loading = true;
@@ -163,10 +165,14 @@ export default {
     setTimesheetDates(from, to) {
       this.timesheetDates = {from: from, to: to}
     },
+    resetPagination() {
+      this.pagination.page = 1;
+    },
   },
   watch: {
     dates(newval) {
       if(newval.from && newval.to) {
+        this.resetPagination();
         this.setTimesheetDates(newval.from, newval.to);
         this.fillTimesheetEntries();
       }

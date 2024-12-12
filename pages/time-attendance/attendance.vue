@@ -38,7 +38,7 @@
 
     <div>
       <base-widget-admin
-        @clickedWidget="generateOrganizationEntries"
+        @clickedWidget="clickWidgetHandler"
         :visibleWidgetKeys="visibleWidgetKeys"
         :totalData="widgetUser"
         :progressCountShow="true"
@@ -78,6 +78,8 @@ export default {
         'employees_on_leave_count',
       ],
       isWidgetUserUpdated: false,
+      widgetFilterKey: null,
+      widgetFilterValue: null
     };
   },
 
@@ -126,13 +128,21 @@ export default {
       this.generateOrganizationEntries();
     },
 
-    async generateOrganizationEntries(actionKey = null, actionValue = null) {
+    clickWidgetHandler(actionKey = null, actionValue = null) {
+      this.widgetFilterKey = actionKey;
+      this.widgetFilterValue = actionValue;
+
+      this.generateOrganizationEntries();
+    },
+
+    async generateOrganizationEntries() {
+
       const date = DateTime.fromFormat(this.date, DATETIME_FORMAT).toISODate();
-      const { searchString } = this;
+      const { searchString, widgetFilterKey, widgetFilterValue } = this;
       this.loading = true;
       try {
         this.employees = await this.$store
-          .dispatch("timeattendance/getEmployeesAttendance", { date, [actionKey]: actionValue, searchString: searchString })
+          .dispatch("timeattendance/getEmployeesAttendance", { date, [widgetFilterKey]: widgetFilterValue, searchString: searchString })
         if(!this.isWidgetUserUpdated){
           this.widgetUser = this.employees;
           this.isWidgetUserUpdated = true;

@@ -45,13 +45,15 @@
                   : 'border-bottom-dark-sub1'
               "
             >
-              <div style="min-width: 70px; min-height: 90px;">
+              <div style="min-height: 90px;">
+                <div class="mr-1">
                 <bib-avatar
-                  variant="secondary-sub2"
                   :text="$getEmployeeInitials(item)"
                   text-variant="primary"
                   size="4rem"
+                  :class="isLightThemeCheck ? 'border-gray4' : 'border-dark-sub3'"
                   v-show="item.photo === null"
+                  style="font-size: 14px;"
                 ></bib-avatar>
                 <bib-avatar
                   class="mt-auto mb-auto"
@@ -61,6 +63,7 @@
                   size="4rem"
                 >
                 </bib-avatar>
+              </div>
               </div>
 
               <div class="ml-05">

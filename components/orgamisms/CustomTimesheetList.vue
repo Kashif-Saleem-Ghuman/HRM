@@ -13,6 +13,9 @@
       :sections="employees"
       :hide-no-column="true"
       :fixHeader="true"
+      @handle-pagination-load="$emit('handle-pagination-load')"
+      :enable-infinite-scroll="enableInfiniteScroll"
+      :pagination-loading="paginationLoading"
     >
       <template v-if="type === PENDING_TYPE || type === PAST_DUE_TYPE" #cell_action="data">
         <div class="d-flex justify-center align-center">
@@ -175,6 +178,14 @@ export default {
     type: {
       type: String,
       required: true,
+    },
+    paginationLoading: {
+      type: Boolean,
+      default: false,
+    },
+    enableInfiniteScroll: {
+      type: Boolean,
+      default: false,
     },
   },
 

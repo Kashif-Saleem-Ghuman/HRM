@@ -334,6 +334,12 @@ export default {
         this[item.action](item);
       }
 
+      if(item.key === 'my-timesheets') {
+        this.$router.push(item.url + '?view=month');
+        this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
+        return;
+      }
+
       if (item.url) this.$router.push(item.url);
     },
     updateSelectedNavItems() {

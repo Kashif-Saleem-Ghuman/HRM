@@ -1,5 +1,5 @@
 <template>
-  <div class="align-wrapper"> 
+  <div class="align-wrapper-week"> 
     <bib-table
       :fields="tableFields"
       class="table table-week"
@@ -424,7 +424,7 @@ export default {
   }
   
 }
-.align-wrapper {
+.align-wrapper-week {
   tr.table__hrow {
     th {
       &:nth-child(2),

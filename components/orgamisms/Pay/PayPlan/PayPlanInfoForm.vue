@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-content2">
+  <div class="sidebar-content2 font-sm">
     <div class="row">
       <div class="col-6">
         <editable-input
@@ -102,26 +102,27 @@
     <div class="row">
       <div class="col-6">Description</div>
     </div>
-
-    <bib-rich-editor
-      :isLightTheme="isLightTheme"
-      :editingMessage="editingMessage"
-      :cover="cover"
-      :isClear="isClear"
-      :buttonObject="SubmitButtonOptions"
-      :isLinkActive="true"
-      @send-message="sendMessage"
-      @onFileSelect="onFileSelect"
-      @blur="onBlur"
-      @focus="onFocus"
-      @debounce="onDebounce"
-      :class="classes"
-      :contacts="users"
-    >
-      <template #action>
-        <slot name="action"></slot>
-      </template>
-    </bib-rich-editor>
+    <div class="row mt-1">
+      <bib-rich-editor
+        :isLightTheme="isLightThemeCheck"
+        :editingMessage="editingMessage"
+        :cover="cover"
+        :isClear="isClear"
+        :buttonObject="SubmitButtonOptions"
+        :isLinkActive="true"
+        @send-message="sendMessage"
+        @onFileSelect="onFileSelect"
+        @blur="onBlur"
+        @focus="onFocus"
+        @debounce="onDebounce"
+        :class="classes"
+        :contacts="users"
+      >
+        <template #action>
+          <slot name="action"></slot>
+        </template>
+      </bib-rich-editor>
+    </div>
   </div>
 </template>
 

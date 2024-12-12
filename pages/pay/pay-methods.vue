@@ -160,16 +160,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {
-  PAY_DUMMY_REQUESTS_PAYMETHODS,
-  TABLE_HEAD,
-} from "../../utils/constant/pay/PayConstant";
+import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
+import { getPayMethods } from "../../utils/functions/api_call/pay/pay-method";
 
 export default {
   data() {
     return {
       id: null,
-      requestListData: PAY_DUMMY_REQUESTS_PAYMETHODS.requests,
+      requestListData: [],
       loading: true,
       fromDate: "",
       toDate: "",
@@ -193,6 +191,31 @@ export default {
         postalCode: "",
       },
 
+      //       {
+      //   "name": "Direct Deposit",
+      //   "type": "bank_account",
+      //   "billing": {
+      //     "addressLine1": "string",
+      //     "addressLine2": "string",
+      //     "city": "string",
+      //     "country": "string",
+      //     "postalCode": "string",
+      //     "state": "string"
+      //   },
+      //   "bankCountryId": 12,
+      //   "bankName": "Indusind bank",
+      //   "bankAccountHolderName": "Test User",
+      //   "bankAccountType": "Current",
+      //   "bankAccountCurrency": "USD",
+      //   "bankRoutingNumber": "1234123412341234",
+      //   "bankAccountNumber": "1234123412341234",
+      //   "bankBranchNumber": "1234123412341234",
+      //   "cardNumber": "1234123412341234",
+      //   "cardHolderName": "Test User",
+      //   "expiryDate": "01/01/2025",
+      //   "cvv": "123"
+      // }
+
       bankAccountFormData: {
         paymentMethodName: "",
         country: "",
@@ -215,6 +238,9 @@ export default {
       getAccessToken: "token/getAccessToken",
       getformToDate: "leavevacation/getformToDate",
     }),
+  },
+  mounted() {
+    this.getPayMethods();
   },
   methods: {
     openPayMethodModal(type) {
@@ -256,6 +282,11 @@ export default {
     },
     generateUniqueId() {
       return Date.now();
+    },
+    async getPayMethods() {
+      try {
+        this.requestListData = await getPayMethods();
+      } catch (error) {}
     },
   },
 };

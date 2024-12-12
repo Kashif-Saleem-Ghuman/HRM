@@ -2,31 +2,16 @@
   <div>
     <div class="dropdown-chip-menu">
       <div class="position-relative" @mouseleave="handleMouseLeave">
-        <bib-button
-          :label="selected"
-          :variant="themeButtonVariant"
-          v-click-outside="clickOutside"
-          :icon-right="iconName"
-          @click="toggleDropdown"
-          @click-right-icon="resetMonth"
-        ></bib-button>
+        <bib-button :label="selected" :variant="themeButtonVariant" v-click-outside="clickOutside"
+          :icon-right="iconName" @click="toggleDropdown" @click-right-icon="resetMonth"></bib-button>
         <div class="menu-items chip-wrapper-com" style="left: 0;">
-        <div v-if="isDropdownOpen" class="chip-wrapper-inner">
-          <div
-            v-for="(item, index) in getMonthsOptions"
-            :key="index"
-            @click="selectOption(item)"
-            class="cursor-pointer"
-            :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]"
-          >
-            <bib-button
-              :label="item.label"
-              :variant="isLightThemeCheck ? 'light' : 'dark'"
-              size="lg"
-              class="pr-05 mb-05 w-100"
-            ></bib-button>
+          <div v-if="isDropdownOpen" class="chip-wrapper-inner">
+            <div v-for="(item, index) in getMonthsOptions" :key="index" @click="selectOption(item)"
+              class="cursor-pointer" :class="['cursor-pointer', { 'disabled-opacity': isDisabled(item) }]">
+              <bib-button :label="item.label" :variant="isLightThemeCheck ? 'light' : 'dark'" size="lg"
+                class="pr-05 mb-05 w-100"></bib-button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -35,9 +20,9 @@
 
 <script>
 import { MONTHS_LABEL_VALUE } from "../../../utils/constant/Calander";
-import {MONTH_SELECTOR_DEFAULT, MONTH_SELECTOR_ICONS} from "../../../utils/constant/Constant";
+import { MONTH_SELECTOR_DEFAULT, MONTH_SELECTOR_ICONS } from "../../../utils/constant/Constant";
 import BaseDateButton from "./BaseDateButton.vue";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 export default {
   extends: BaseDateButton,
   props: {
@@ -60,13 +45,13 @@ export default {
   },
   computed: {
     iconName() {
-      if(this.value === MONTH_SELECTOR_DEFAULT.value){
+      if (this.value === MONTH_SELECTOR_DEFAULT.value) {
         return MONTH_SELECTOR_ICONS.ARROW_DOWN
       }
       return MONTH_SELECTOR_ICONS.CLOSE;
     },
     getMonthsOptions() {
-      if(this.isCurrentYear(this.year)) {
+      if (this.isCurrentYear(this.year)) {
         return this.options.slice(0, this.options.findIndex((option) => option.value == DateTime.now().month) + 1)
       }
       return this.options;
@@ -93,9 +78,9 @@ export default {
       this.isDropdownOpen = false;
     },
     setDefaultValue() {
-      if(this.showFullYearList || this.isFromTimesheetViewCard || this.monthPickerDisabled) {
+      if (this.showFullYearList || this.isFromTimesheetViewCard || this.monthPickerDisabled) {
         this.setDefaultMonth();
-      }else {
+      } else {
         const month = new Date().getMonth();
         this.selected = this.options[month].label;
         this.value = this.options[month].value;
@@ -110,7 +95,9 @@ export default {
       this.value = MONTH_SELECTOR_DEFAULT.value;
     },
     resetMonth() {
-      this.iconName === MONTH_SELECTOR_ICONS.ARROW_DOWN && this.toggleDropdown();
+      if (this.iconName === MONTH_SELECTOR_ICONS.ARROW_DOWN) {
+        return this.toggleDropdown();
+      }
       this.setDefaultMonth();
       this.handleMouseLeave();
     },
@@ -124,7 +111,7 @@ export default {
 
   watch: {
     year(newVal, oldVal) {
-      if(oldVal != null && this.isCurrentYear(newVal)) {
+      if (oldVal != null && this.isCurrentYear(newVal)) {
         this.setDefaultValue();
       }
     }

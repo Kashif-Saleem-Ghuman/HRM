@@ -3,7 +3,7 @@
 
     <div class="dropdown-timepicker">
       <input-timer-picker
-        placeholder="HH"
+        :placeholder="getHourPlaceholder"
         :is24-hour="true"
         type="hour"
         :value="hour"
@@ -14,7 +14,7 @@
       </input-timer-picker>
       <span class="time-separator">:</span>
       <input-timer-picker
-        placeholder="MM"
+        :placeholder="getMinutePlaceholder"
         :is24-hour="true"
         type="minute"
         :value="minute"
@@ -43,6 +43,10 @@ export default {
     value: {
       type: String | Number,
       default: null,
+    },
+    placeholder: {
+      type: String,
+      default: 'HH:MM'
     }
   },
   data() {
@@ -58,6 +62,12 @@ export default {
     themeClass() {
       return this.isLightThemeCheck ? 'light-theme' : 'dark-theme';
     },
+    getHourPlaceholder() {
+      return this.placeholder.split(':')[0];
+    },
+    getMinutePlaceholder() {
+      return this.placeholder.split(':')[1];
+    }
   },
   methods: {
 
@@ -73,7 +83,7 @@ export default {
     },
     emitTimeChange() {
 
-      const waitTime = this.minute && this.hour ? 0 : 4000;
+      const waitTime = this.minute && this.hour ? 0 : 7000;
 
       if(this.minute && this.hour) {
         clearTimeout(this.timeoutId);

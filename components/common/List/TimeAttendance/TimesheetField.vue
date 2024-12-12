@@ -3,7 +3,7 @@
     <bib-time-picker-wrapper
       v-model="time"
       name="time"
-      placeholder="--"
+      :placeholder="placeholder"
       class="text-dark font-w-600"
       :class="entryExists ? 'week_timepicker': ''"
       :disabled="disabled"
@@ -52,10 +52,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    placeholder: {
+      type: String,
+      default: "HH",
+    }
   },
   data() {
     return {
-      time: '00:00',
+      time: null,
     };
   },
   computed: {
@@ -134,12 +138,12 @@ export default {
     },
   },
   mounted() {
-    this.time = this.value ?? "00:00";
+    this.time = this.value ?? null;
   },
 
   watch: {
     value (val) {
-      this.time = val ?? "00:00";
+      this.time = val ?? null;
     }
   },
 

@@ -9,7 +9,7 @@
         <bib-time-picker-wrapper
           v-model="startTime"
           name="startTime"
-          placeholder="--"
+          placeholder="HH:MM"
           @input="timeInputBlur"
           :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
           class="timepicker_input"
@@ -20,7 +20,7 @@
       <bib-time-picker-wrapper
         v-model="endTime"
         name="endTime"
-        placeholder="--"
+        placeholder="HH:MM"
         @input="timeInputBlur"
         :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
         class="timepicker_input"

@@ -107,41 +107,35 @@ export default {
         this.$emit("update:minute", evt.target.value);
     },
 
-    handleNextInput(evt, value) {
-      const charCode = evt.which ? evt.which : evt.keyCode;
-      const char = String.fromCharCode(charCode);
+    handleNextInput(currentInputEl) {
       const inputs = document.querySelectorAll('#timeInput');
-      const currentIndex = Array.from(inputs).indexOf(evt.target);
+      const currentIndex = Array.from(inputs).indexOf(currentInputEl);
       if (currentIndex !== -1 && currentIndex + 1 < inputs.length) {
         const nextInput = inputs[currentIndex + 1];
-        if (nextInput) {
-          nextInput.value = char;
-          nextInput.focus();
-        }
+        nextInput?.focus();
       }
-      evt.preventDefault()
     },
 
     keyPressHandler(evt) {
-      const value = this.$refs.time_input_ref.value;
-      const charCode = evt.which ? evt.which : evt.keyCode;
-      const char = String.fromCharCode(charCode);
-      const selectionStart = this.$refs.time_input_ref.selectionStart;
-      if (this.type === "hour") {
-        if (value.length >= 2 && this.value === null) {
-          this.handleNextInput(evt, value);
+      const inputElement = this.$refs.time_input_ref;
+      const value = inputElement.value;
+      const charCode = evt.which || evt.keyCode;
+      const selectionStart = inputElement.selectionStart;
+
+      const validators = {
+        hour: this.validateHour,
+        minute: this.validateMinute,
+      };
+
+      const validator = validators[this.type];
+
+      if (validator && validator(value, charCode, selectionStart)) {
+        if (this.type === "hour" && value.length === 1 && this.value === null) {
+          setTimeout(() => this.handleNextInput(inputElement), 0);
         }
-        if (this.validateHour(value, charCode, selectionStart)) {
-          return true;
-        } else {
-          evt.preventDefault();
-        }
-      } else if (this.type === "minute") {
-        if (this.validateMinute(value, charCode, selectionStart)) {
-          return true;
-        } else {
-          evt.preventDefault();
-        }
+        return true;
+      } else {
+        evt.preventDefault();
       }
     },
     updateHourMinute() {
@@ -185,7 +179,8 @@ export default {
     border: none !important;
     background-color: transparent !important;
     border-radius: 0.2rem;
-    margin: 0.5rem 0;
+    margin: 0 !important;
+    padding: 0px !important;
     color: $dark;
     outline: none;
     text-align: center !important;

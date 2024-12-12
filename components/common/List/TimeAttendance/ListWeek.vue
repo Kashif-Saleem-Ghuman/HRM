@@ -33,6 +33,7 @@
           :date="data.value.date"
           :activity="activityIn"
           :data="data.value"
+          placeholder="00:00"
           :status="status"
           :entryExists="data.value.entryExists"
           @onInput="handleClickTimeEntry"
@@ -60,6 +61,7 @@
           :data="data.value"
           :status="status"
           :entryExists="data.value.entryExists"
+          placeholder="00:00"
           @onInput="handleClickTimeEntry"
         ></timesheet-field>
       </div>
@@ -172,8 +174,8 @@ export default {
         )?.activityReport;
         return {
           weekDayLabel: label,
-          in: report?.in || "00:00",
-          out: report?.out || "00:00",
+          in: report?.in || null,
+          out: report?.out || null,
           break: report?.break || "00:00",
           total: report?.total || 0,
           entryExists: Boolean(report),

@@ -8,20 +8,32 @@
   >
     <template #cell(pay-method)="data">
       <div class="justify-between">
-        <span>{{ data.value.payMethod }}</span>
+        <span>{{ data.value.name }}</span>
       </div>
     </template>
     <template #cell(pay-method-type)="data">
       <div class="justify-between">
-        <span>{{ data.value.payMethodType }}</span>
+        <span>{{ data.value.type }}</span>
       </div>
     </template>
     <template #cell(created-on)="data">
       <div class="justify-between">
-        <span
-          >{{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
-          {{ getTimeFromDate(data.value.createdAt) }}</span
-        >
+        <span>
+          {{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
+          {{ getTimeFromDate(data.value.createdAt) }}
+        </span>
+      </div>
+    </template>
+
+    <template #cell(action)="data">
+      <div class="justify-between">
+       <bib-input
+      type="select" 
+      :options="actionOptions" 
+      placeholder="Select action"
+      :disabled="false"
+      @input="handleActionChange($event, data.value.id)"
+    ></bib-input>
       </div>
     </template>
   </custom-table>
@@ -40,6 +52,7 @@ import {
   getTimeFromDate,
   formatIsoDateToYYYYMMDD,
 } from "../../../../utils/functions/dates";
+
 export default {
   props: {
     payMethodList: {
@@ -66,6 +79,11 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
+      actionOptions: [
+        {label:"select action", value:''},
+        { label: "Edit", value: "edit" },
+        { label: "Delete", value: "delete" },
+      ],
     };
   },
   async created() {
@@ -113,6 +131,32 @@ export default {
     employeeDetail() {
       this.$nuxt.$emit("open-sidebar-salaries");
     },
+    handleActionChange(action, id) {
+      if (action === "edit") {
+        this.editRow(id);
+      } else if (action === "delete") {
+        this.deleteRow(id);
+      }
+      console.log("First place ", action, id);
+      this.$emit("action-selected", { action, id });
+    },
+    editRow(rowData) {
+      console.log("Editing row:", rowData);
+      // Implement the edit functionality here
+    },
+    deleteRow(rowData) {
+      console.log("Deleting row:", rowData);
+      // Implement the delete functionality here
+    },
   },
 };
 </script>
+
+<style scoped>
+.action-dropdown {
+  width: 100%;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+</style>

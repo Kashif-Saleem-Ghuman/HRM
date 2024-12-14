@@ -202,6 +202,9 @@ export default {
       },
     },
   },
+  mounted(){
+   console.log("Mouned last chil ---- ",this.modelValue)
+  }
 };
 </script>
 

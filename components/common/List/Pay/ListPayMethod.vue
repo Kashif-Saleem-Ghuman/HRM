@@ -7,21 +7,31 @@
     @column-header-clicked="headerColumnClick($event.column)"
   >
     <template #cell(pay-method)="data">
-      <div class="justify-between">
-        <span>{{ data.value.payMethod }}</span>
+      <div class="justify-between" :key="data.value.id">
+        <span class="text-capitalize">{{ data.value.name }}</span>
       </div>
     </template>
     <template #cell(pay-method-type)="data">
       <div class="justify-between">
-        <span>{{ data.value.payMethodType }}</span>
+        <span class="text-capitalize">{{ data.value.type.replaceAll('_', ' ') }}</span>
       </div>
     </template>
     <template #cell(created-on)="data">
       <div class="justify-between">
-        <span
-          >{{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
-          {{ getTimeFromDate(data.value.createdAt) }}</span
-        >
+        <span class="text-capitalize">
+          {{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
+          {{ getTimeFromDate(data.value.createdAt) }}
+        </span>
+      </div>
+    </template>
+
+    <template #cell(action)="data">
+      <div class="dropdown">
+          <bib-icon icon="elipsis" hover-variant="primary" :scale="1"></bib-icon>
+          <div class="dropdown-menu" :style="{'background-color': isLightThemeCheck ? '#f9f9f9' : '#1a1919', 'color': isLightThemeCheck ? '#000' : '#fff'}">
+              <span @click="handleActionChange('edit', data.value.id)">Edit</span>
+              <span @click="handleActionChange('delete', data.value.id)">Delete</span>
+          </div>
       </div>
     </template>
   </custom-table>
@@ -40,6 +50,7 @@ import {
   getTimeFromDate,
   formatIsoDateToYYYYMMDD,
 } from "../../../../utils/functions/dates";
+
 export default {
   props: {
     payMethodList: {
@@ -92,7 +103,6 @@ export default {
       getUser: "employee/GET_ACTIVE_USER",
     }),
   },
-
   methods: {
     meetLink,
     sendMessage,
@@ -113,6 +123,56 @@ export default {
     employeeDetail() {
       this.$nuxt.$emit("open-sidebar-salaries");
     },
+    handleActionChange(action, id) {
+      if (action === "edit" || action === "delete") {
+        this.$emit("action-selected", { action, id });
+      }
+    },
+   
   },
 };
 </script>
+
+<style scoped>
+  .text-capitalize{
+    text-transform: capitalize;
+  }
+  .dropdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+  }
+  .dropdown-menu {
+    display: none;
+    border-radius: 4px;
+    position: absolute;
+    min-width: 160px;
+    z-index: 1;
+    overflow: hidden;
+    right: -30px;
+    left: -70px;
+  }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu span {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-menu span:hover {
+        cursor: pointer;
+        width: 100%;
+        background-color: #292730;
+    }
+</style>

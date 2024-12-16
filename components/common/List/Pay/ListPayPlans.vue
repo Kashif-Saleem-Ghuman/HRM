@@ -71,7 +71,7 @@ import {
 } from "../../../../utils/functions/dates";
 export default {
   props: {
-    listPending: {
+    payPlansList: {
       type: [Array, Object],
       default: "",
     },
@@ -89,11 +89,7 @@ export default {
   },
   data() {
     return {
-      showRefusalModal: false,
-      tableFields: TABLE_HEAD.tHeadPayPlans,
-      attendanceClass: [],
-      satisfaction: "",
-      userPhotoClick: false,
+      tableFields: TABLE_HEAD.tHeadPayPlans, 
       sortByField: null,
     };
   },
@@ -105,9 +101,9 @@ export default {
   },
   computed: {
     leavePendingList() {
-      if (!this.sortByField) return this.listPending;
+      if (!this.sortByField) return this.payPlansList;
 
-      return sortColumn({ items: this.listPending, field: this.sortByField });
+      return sortColumn({ items: this.payPlansList, field: this.sortByField });
     },
     truncateText() {
       var screenWidth = window.screen.width;

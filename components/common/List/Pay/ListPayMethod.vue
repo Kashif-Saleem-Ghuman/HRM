@@ -7,18 +7,18 @@
     @column-header-clicked="headerColumnClick($event.column)"
   >
     <template #cell(pay-method)="data">
-      <div class="justify-between">
-        <span>{{ data.value.name }}</span>
+      <div class="justify-between" :key="data.value.id">
+        <span class="text-capitalize">{{ data.value.name }}</span>
       </div>
     </template>
     <template #cell(pay-method-type)="data">
       <div class="justify-between">
-        <span>{{ data.value.type }}</span>
+        <span class="text-capitalize">{{ data.value.type.replaceAll('_', ' ') }}</span>
       </div>
     </template>
     <template #cell(created-on)="data">
       <div class="justify-between">
-        <span>
+        <span class="text-capitalize">
           {{ formatIsoDateToYYYYMMDD(data.value.createdAt) }} -
           {{ getTimeFromDate(data.value.createdAt) }}
         </span>
@@ -26,14 +26,12 @@
     </template>
 
     <template #cell(action)="data">
-      <div class="justify-between">
-       <bib-input
-      type="select" 
-      :options="actionOptions" 
-      placeholder="Select action"
-      :disabled="false"
-      @input="handleActionChange($event, data.value.id)"
-    ></bib-input>
+      <div class="dropdown">
+          <bib-icon icon="elipsis" hover-variant="primary" :scale="1"></bib-icon>
+          <div class="dropdown-menu" :style="{'background-color': isLightThemeCheck ? '#f9f9f9' : '#1a1919', 'color': isLightThemeCheck ? '#000' : '#fff'}">
+              <span @click="handleActionChange('edit', data.value.id)">Edit</span>
+              <span @click="handleActionChange('delete', data.value.id)">Delete</span>
+          </div>
       </div>
     </template>
   </custom-table>
@@ -79,11 +77,6 @@ export default {
       satisfaction: "",
       userPhotoClick: false,
       sortByField: null,
-      actionOptions: [
-        {label:"select action", value:''},
-        { label: "Edit", value: "edit" },
-        { label: "Delete", value: "delete" },
-      ],
     };
   },
   async created() {
@@ -110,7 +103,6 @@ export default {
       getUser: "employee/GET_ACTIVE_USER",
     }),
   },
-
   methods: {
     meetLink,
     sendMessage,
@@ -132,31 +124,55 @@ export default {
       this.$nuxt.$emit("open-sidebar-salaries");
     },
     handleActionChange(action, id) {
-      if (action === "edit") {
-        this.editRow(id);
-      } else if (action === "delete") {
-        this.deleteRow(id);
+      if (action === "edit" || action === "delete") {
+        this.$emit("action-selected", { action, id });
       }
-      console.log("First place ", action, id);
-      this.$emit("action-selected", { action, id });
     },
-    editRow(rowData) {
-      console.log("Editing row:", rowData);
-      // Implement the edit functionality here
-    },
-    deleteRow(rowData) {
-      console.log("Deleting row:", rowData);
-      // Implement the delete functionality here
-    },
+   
   },
 };
 </script>
 
 <style scoped>
-.action-dropdown {
-  width: 100%;
-  padding: 4px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
+  .text-capitalize{
+    text-transform: capitalize;
+  }
+  .dropdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+  }
+  .dropdown-menu {
+    display: none;
+    border-radius: 4px;
+    position: absolute;
+    min-width: 160px;
+    z-index: 1;
+    overflow: hidden;
+    right: -30px;
+    left: -70px;
+  }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu span {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-menu span:hover {
+        cursor: pointer;
+        width: 100%;
+        background-color: #292730;
+    }
 </style>

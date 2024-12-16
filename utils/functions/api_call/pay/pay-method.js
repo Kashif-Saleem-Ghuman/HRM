@@ -39,3 +39,24 @@ export async function createPayMethod(body) {
 
 
 
+export async function updatePayMethod(id, body) {
+  try {
+    const url = `/pay-methods/${id}`;
+    const config = createConfig(); // Assuming this adds headers or tokens
+    const { data } = await hrmApiAxiosInstance.put(url, body, config);
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function deletePayMethod(id) {
+  try {
+    const url = `/pay-methods/${id}`;
+    const config = createConfig();
+    const { data } = await hrmApiAxiosInstance.delete(url, config);
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}

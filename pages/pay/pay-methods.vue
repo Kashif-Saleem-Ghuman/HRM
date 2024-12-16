@@ -33,8 +33,8 @@
 
       <!-- List Pay Plans -->
       <div>
-        <list-pay-method :payMethodList="requestListData" :tableFields="tableFields" :key="employeeList"
-          @action-selected="handleActionFromChild" />
+        <list-pay-method :payMethodList="requestListData" :tableFields="tableFields"
+         @action-selected="handleActionFromChild" />
 
         <!-- Conditional Modals --> 
         <pay-method-modal v-if="isModalVisible" :payMethodsModal="isModalVisible" modalTitle="Pay Methods"
@@ -65,33 +65,29 @@
         </pay-method-modal>
 
         <!-- Credit/Debit Card Modal -->
-        <pay-method-modal v-if="selectedModal === 'credit_card'" :payMethodsModal="isModalVisibleAddPayMethod"
+        <pay-method-modal v-if="selectedModal" :payMethodsModal="isModalVisibleAddPayMethod"
           :modalTitle="`Pay method / ${clickItemTitle}`" @close="closeModal" headerIcon="arrow-left">
-          <add-payment-method-form v-model="creditCardFormData" @update:modelValue="creditCardFormData = $event" />
+
+          <add-payment-method-form v-if="selectedModal === 'credit_card'" v-model="creditCardFormData" :modelValue.sync="creditCardFormData"/>
+          <add-bank-pay-method-form v-if="selectedModal === 'bank_account'" v-model="bankAccountFormData" :modelValue.sync="bankAccountFormData"/>
+          <add-paypal-payment-method-form v-if="selectedModal === 'PayPal'" v-model="formData" :modelValue.sync="formData"/>
           <template #footer>
             <bib-button label="Cancel" :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              class="footer-button" @click="closeModal"></bib-button>
+            <bib-button :label="selectedAction === 'edit' ? 'Update' : 'Save'" variant="primary-24" class="ml-auto footer-button" @click="submitForm"></bib-button>
+          </template>
+        </pay-method-modal>
+        <!-- Delete Modal -->
+        <pay-method-modal v-if="selectedModal == 'delete'" :payMethodsModal="isModalVisibleAddPayMethod"
+          modalTitle="" @close="closeModal" :headerIcon="selectedAction !== 'edit' && selectedAction !== 'delete' ? 'arrow-left' : ''">
+          <div class="section-label ml-1">Do you really want to delete pay method?</div>
+          <template #footer>
+            <bib-button @click="closeModal" label="Cancel" :variant="isLightThemeCheck ? 'light' : 'secondary'"
               class="footer-button"></bib-button>
-            <bib-button label="Save" variant="primary-24" class="ml-auto footer-button" @click="submitForm"></bib-button>
+            <bib-button label="Delete" variant="danger" class="ml-auto footer-button" @click="deletePayMethod"></bib-button>
           </template>
         </pay-method-modal>
 
-        <!-- Bank Account Modal -->
-        <pay-method-modal v-if="selectedModal === 'bank_account' && bankAccountFormData"  :payMethodsModal="isModalVisibleAddPayMethod"
-          :modalTitle="`Pay method / ${clickItemTitle}`" @close="closeModal" headerIcon="arrow-left">
-          <add-bank-pay-method-form v-model="bankAccountFormData" @update:modelValue="bankAccountFormData = $event" />
-
-          <template #footer>
-            <bib-button label="Cancel" :variant="isLightThemeCheck ? 'light' : 'secondary'"
-              class="footer-button"></bib-button>
-            <bib-button label="Save" variant="primary-24" class="ml-auto footer-button" @click="submitForm"></bib-button>
-          </template>
-        </pay-method-modal>
-
-        <!-- PayPal Modal -->
-        <pay-method-modal v-if="selectedModal === 'PayPal'" :payMethodsModal="isModalVisibleAddPayMethod"
-          :modalTitle="`Pay method / ${clickItemTitle}`" @close="closeModal" headerIcon="arrow-left">
-          <add-paypal-payment-method-form v-model="formData" @update:modelValue="formData = $event" />
-        </pay-method-modal>
       </div>
     </div>
   </div>
@@ -99,13 +95,14 @@
 <script>
 import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
-import { getPayMethods, createPayMethod, getPayMethodById } from "../../utils/functions/api_call/pay/pay-method";
+import { getPayMethods, createPayMethod, getPayMethodById, updatePayMethod, deletePayMethod } from "../../utils/functions/api_call/pay/pay-method";
 import moment from 'moment';
 
 export default {
   data() {
     return {
       id: null,
+      payMethodId: null,
       requestListData: [],
       loading: true,
       fromDate: "",
@@ -119,6 +116,9 @@ export default {
       // Form data for credit card and bank account
       creditCardFormData: this.initCreditCardForm(),
       bankAccountFormData: this.initBankAccountForm(),
+      employeeList: [],
+
+      selectedAction: null,
     };
   },
   computed: {
@@ -138,11 +138,21 @@ export default {
       this.clickItemTitle = type;
     },
     addPayTypes() {
+      this.selectedAction = 'create';
       this.isModalVisible = !this.isModalVisible;
     },
     closeModal() {
       this.isModalVisibleAddPayMethod = false;
       this.selectedModal = null;
+      this.resetFormData();
+      this.selectedAction = null;
+    },
+
+    // New method to reset form data to default values
+    resetFormData() {
+      this.creditCardFormData = this.initCreditCardForm();
+      this.bankAccountFormData = this.initBankAccountForm();
+      this.selectedAction = null;
     },
 
     // Submit the form data to create a payment method
@@ -153,15 +163,16 @@ export default {
         console.error("No payment method selected");
         return;
       }
-
-      console.log("Form Data ---- ", formData);
-
-
       const finalObject = this.buildPayMethodObject(formData);
 
       try {
-        const response = await createPayMethod(finalObject);
-        console.log("Pay method created:", response);
+        let response;
+        if(this.selectedAction === 'create'){
+          response = await createPayMethod(finalObject);
+        }else if(this.selectedAction === 'edit'){
+          await updatePayMethod(this.payMethodId, finalObject);
+          this.getPayMethods();
+        }
 
         this.requestListData.push(this.extractPayMethodDetails(response));
         console.log("New pay method added:", response);
@@ -275,6 +286,9 @@ export default {
       };
     },
     async handleActionFromChild({ action, id }) {
+      console.log("Action from child ---- ", action);
+      this.payMethodId = id;
+      this.selectedAction = action;
       if (action === "edit") {
         const payMethod = await getPayMethodById(id);
         if (!payMethod) {
@@ -291,17 +305,16 @@ export default {
           console.error("Unknown pay method type");
         }
       } else if (action === "delete") {
-        this.deletePayMethod(id);
+        this.selectedModal = "delete";
+        this.isModalVisibleAddPayMethod = true;
+        this.clickItemTitle = "Delete Pay Method";
       }
     },
 
-    editPayMethod(rowIndex) {
-      console.log("Edit action for row:", rowIndex);
-      // Implement the edit logic here
-    },
-    deletePayMethod(rowIndex) {
-      console.log("Delete action for row:", rowIndex);
-      // Implement the delete logic here
+    async deletePayMethod(){
+      await deletePayMethod(this.payMethodId);
+      this.requestListData = this.requestListData.filter(item => item.id !== this.payMethodId);
+      this.closeModal();
     },
 
     openCreditCardModal(payMethod) {
@@ -358,6 +371,21 @@ export default {
         return moment(expiryDate).format("MM/YY");
       }
       return "";
+    },
+
+    handleShowAll() {
+      // Implement the logic for showing all pay methods
+      console.log("Showing all pay methods");
+    },
+    
+    handleGroupBy() {
+      // Implement the logic for grouping pay methods
+      console.log("Grouping pay methods");
+    },
+    
+    handleSortBy() {
+      // Implement the logic for sorting pay methods
+      console.log("Sorting pay methods");
     },
 
   },

@@ -86,8 +86,8 @@ export default {
     },
   },
   methods: {
-    addPayPlans() {
-      this.$nuxt.$emit("open-sidebar-pay-paln");
+    addPayPlans() { 
+      this.$nuxt.$emit("open-sidebar-pay-paln", { /* pass any data if needed */ });
     },
     handleShowAll() {
       console.log("Show All clicked!");

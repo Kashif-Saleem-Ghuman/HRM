@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       loading: false,
-      openSidebar: false,
+      openSidebar: true,
       slideClass: "slide-in",
       isVisible: false,
       options: null,

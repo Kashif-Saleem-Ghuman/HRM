@@ -39,7 +39,7 @@
         </div>
       </div>
       <div>
-        <list-pay-plans :listPending="requestListData" />
+        <list-pay-plans :payPlansList="requestListData" />
         <!-- Uncomment no-record if needed -->
         <!-- <no-record v-if="showNoData"></no-record> -->
         <!-- Uncomment list-salaries if needed -->

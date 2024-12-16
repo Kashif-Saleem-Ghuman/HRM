@@ -9,7 +9,7 @@
         <bib-time-picker-wrapper
           v-model="startTime"
           name="startTime"
-          placeholder="--"
+          placeholder="HH:MM"
           @input="timeInputBlur"
           :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
           class="timepicker_input"
@@ -20,7 +20,7 @@
       <bib-time-picker-wrapper
         v-model="endTime"
         name="endTime"
-        placeholder="--"
+        placeholder="HH:MM"
         @input="timeInputBlur"
         :disabled="disabled || this.isTimerActive || this.isTimesheetLocked"
         class="timepicker_input"
@@ -46,8 +46,9 @@
       v-if="showDeleteIcon"
       class="cell cursor-pointer trash"
       @click="deleteEntry"
+      style=""
     >
-      <bib-icon icon="trash-solid" class="mx-05" :scale="1"></bib-icon>
+      <bib-icon icon="trash-solid" style="margin: 0 11px;" :scale="1"></bib-icon>
     </div>
     <loader :loading="loading"></loader>
   </div>
@@ -124,9 +125,10 @@ export default {
       return this.entry.activity === ACTIVITY_TYPE.BREAK;
     },
     showDeleteIcon() {
+      if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       if(!this.editable) return false;
       if (!this.newData.id) return false;
-      if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
+      // if (this.newData.status === TIMESHEET_STATUSES.APPROVED) return false;
       return true;
     },
     hasInEntry() {

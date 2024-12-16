@@ -2,8 +2,8 @@
   <div>
     <div class="custom-table">
       <div class="thead">
-        <div class="cell" v-for="item in ACTIVITY_HEADER_DATA">{{ item }}</div>
-        <div class="cell trash" v-if="!disabled"></div>
+        <div class="cell" v-for="item in ACTIVITY_HEADER_DATA" :style="item === 'Start' || item==='End' ? 'text-align:center' : ''">{{ item }}</div>
+        <div class="cell trash" v-if="!disabled" style="width: 43px;"></div>
       </div>
       <time-entry-row
         v-for="(entry, index) in entries"
@@ -282,7 +282,6 @@ export default {
 
     input {
       border: 0px !important;
-      text-align: left !important;
       border-radius: 0px !important;
       background-color: transparent !important;
     }

@@ -410,11 +410,7 @@ export default {
   },
   async created() {
     // this.loading = true;
-    let path = this.$route.fullPath;
-    if (path === "/my-timesheet/") {
-      this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
-      this.$router.push("?view=month");
-    }
+
     this.isTimesheetWidgetLoaded = true;
     this.setView();
     await this.$store.dispatch("employee/setActiveUser");
@@ -610,6 +606,7 @@ export default {
       await this.$router.push(routeOptions);
     },
     onViewTimesheetsClick() {
+      this.$hideUserMenu();
       this.$store.dispatch("timeattendance/setIsViewFromTimesheetCard", true);
       this.$router.push({ path: "/my-timesheet/", query: { view: "month" } });
     },

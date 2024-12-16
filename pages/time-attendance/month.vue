@@ -18,8 +18,6 @@
         <custom-timesheet-list
           :employees="timesheetsList"
           :loading="loading"
-          @handle-pagination-load="handlePaginationLoad"
-          :pagination-loading="paginationLoading"
           type="month"
         ></custom-timesheet-list>
       </div>

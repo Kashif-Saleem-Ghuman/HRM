@@ -27,7 +27,7 @@
           <div v-if="type === PAST_DUE_TYPE" class="ml-auto">
             <notifications
               v-if="shouldShowDueReminderIcon(data.value?.lastReminderSentAt)"
-              @submit-due-timesheet-reminder="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
+              @submit-notification="submitPastDueTimesheetReminder(data.value.id, data.value.end, data.value.employeeId)"
               :pastDueTimesheetReminderIcon="shouldShowDueReminderIcon(data.value?.last_reminder_sent_at)"
               iconName="send-solid"
               :isLoading="mapLoading[data.value.id + data.value.end + data.value.employeeId]"
@@ -396,9 +396,13 @@ export default {
     selectAllItems() {
       this.allChecked = !this.allChecked;
 
+      this.updateCheckBox(this.allChecked);
+    },
+
+    updateCheckBox(isChecked) {
       this.employees?.forEach((employee, empIndex) => {
         employee.timesheets.forEach((timesheet, timeSheetIndex) => {
-          this.$set(this.employees[empIndex].timesheets[timeSheetIndex], "checked", this.allChecked);
+          this.$set(this.employees[empIndex].timesheets[timeSheetIndex], "checked", isChecked);
         })
       });
       this.checkCount();
@@ -478,15 +482,21 @@ export default {
         ? "none"
         : "block";
     },
+    resetCheckBox() {
+      if(this.employees.length > 0) {
+        this.allChecked = false;
+        this.updateCheckBox(false);
+      }
+    },
   },
 
   watch: {
     dates: {
       deep: true,
       handler: async function (newVal, oldVal) {
-        //To make sure the dates really changed, avoid making useless api calls
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
           this.loading = true;
+          this.resetCheckBox();
           this.employees = await this.getAndParseTimesheets();
           this.loading = false;
         }

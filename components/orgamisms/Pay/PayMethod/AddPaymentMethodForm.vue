@@ -16,7 +16,7 @@
         <div class="section-label text-light">Card information</div>
       </div>
       <bib-input
-        type="text"
+        type="number"
         name="cardNumber"
         placeholder="Enter your card number"
         class="input-wrapper"
@@ -40,23 +40,31 @@
 
     <div class="pb-2 d-flex justify-between">
       <bib-input
-        type="text"
-        name="expiryDate"
-        placeholder="MM/YY"
-        label="Expiry date"
-        class="pr-1 input-wrapper"
-        required
-        v-model="localForm.expiryDate"
-      />
+      type="text"
+      name="expiryDate"
+      placeholder="MM/YY"
+      label="Expiry date"
+      class="pr-1 input-wrapper"
+      required
+      v-model="localForm.expiryDate"
+      maxlength="5"
+      @input="formatExpiryDate"
+    />
+
       <bib-input
-        type="password"
+        type="number"
         name="cvv"
         placeholder="***"
         label="CVV/CVC"
         class="input-wrapper"
         required
+        :maxlength="3"
         v-model="localForm.cvv"
+         
       />
+ 
+       
+           
     </div>
 
     <div class="pb-2">
@@ -114,7 +122,7 @@
       <bib-input
         name="state"
         label="State/Province"
-        :options="states"
+        :options="filteredStates"
         placeholder="Select state/province"
         class="pl-1 pr-1 input-wrapper"
         type="select"
@@ -136,6 +144,7 @@
 
 <script>
 import countries from "@/utils/constant/countries";
+import {STATES} from '../../../../utils/constant/Constant';
 
 export default {
   name: "AddPaymentMethodForm",
@@ -148,22 +157,89 @@ export default {
   data() {
     return {
       countries,
+      states:STATES,
       localForm: { ...this.modelValue },
-      states: [
-        { value: "Quebec", label: "Quebec" },
-        { value: "Ontario", label: "Ontario" },
-      ],
     };
   },
   watch: {
-    localForm: {
-      deep: true,
-      handler(newVal) {
-        console.log("Form data === ", newVal);
-        this.$emit("update:modelValue", newVal);
-      },
+  localForm: {
+    deep: true,
+    handler(newVal) {
+      console.log("Form data === ", newVal);
+      this.$emit("update:modelValue", newVal);
     },
+  } 
+},
+  computed: {
+    filteredStates() {
+      // Filter states based on the selected country code
+      console.log("Computed run stattes -- ")
+     const st = this.states.filter(
+        (state) => state.code === this.localForm.country
+      );
+
+      console.log("Count --- ",this.localForm.country);
+      console.log("St --- ",st);
+
+      return st;
+    }
   },
+
+  methods: {
+    validateExpiryDate() {
+  // Remove all non-digits
+  let input = this.localForm.expiryDate.replace(/\D/g, "");
+
+  // Limit input to a maximum of 4 digits
+  if (input.length > 4) {
+    input = input.slice(0, 4);
+  }
+
+  // Ensure the first two digits represent a valid month (01-12)
+  if (input.length >= 2) {
+    const month = parseInt(input.slice(0, 2), 10);
+    if (month < 1) {
+      input = "01" + input.slice(2); // Default to '01' if less than 1
+    } else if (month > 12) {
+      input = "12" + input.slice(2); // Cap at '12' if greater than 12
+    }
+  }
+
+  
+
+  // Format as MM/YY only if input has at least 3 digits
+  if (input.length > 2) {
+    input = input.slice(0, 2) + "/" + input.slice(2);
+  }
+
+  // Ensure the formatted value does not exceed 5 characters (MM/YY)
+  this.localForm.expiryDate = input.slice(0, 5);
+},
+
+formatExpiryDate(event) {
+      let value = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+
+      if (value.length > 2) {
+        // Insert a '/' after the first two digits
+        value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+      }
+
+      // Update the input value
+      this.localForm.expiryDate = value;
+    },
+
+    // Validate CVV/CVC input
+    validateCVV() {
+      let input = this.localForm.cvv.replace(/\D/g, ""); // Remove non-digits
+      if (input.length > 4) input = input.slice(0, 4); // Limit to 4 digits
+      this.localForm.cvv = input;
+    },
+
+  },
+
+  mounted(){
+    console.log("States --- ", this.states);
+  }
 };
 </script>
 

@@ -11,8 +11,8 @@
             onClick: addPayTypes,
           }" />
         </div>
-        <div class="d-flex">
-          <!-- Filter Buttons -->
+        <!-- <div class="d-flex">
+          
           <filter-button :primaryButton="{
             filterLabel: 'Show',
             label: 'All',
@@ -28,7 +28,7 @@
             label: 'Status',
             onClick: handleSortBy,
           }" />
-        </div>
+        </div> -->
       </div>
 
       <!-- List Pay Plans -->
@@ -54,13 +54,13 @@
               class: 'increase-button-size',
               onClick: () => openPayMethodModal('bank_account'),
             }" />
-            <filter-button :primaryButton="{
+            <!-- <filter-button :primaryButton="{
               label: 'PayPal',
               variant: isLightThemeCheck ? 'light' : 'secondary',
               icon: 'add',
               class: 'increase-button-size',
               onClick: () => openPayMethodModal('PayPal'),
-            }" />
+            }" /> -->
           </div>
         </pay-method-modal>
 
@@ -130,12 +130,19 @@ export default {
   mounted() {
     this.getPayMethods();
   },
-  methods: {
+  methods: { 
     openPayMethodModal(type) {
       this.selectedModal = type;
       this.isModalVisibleAddPayMethod = true;
       this.isModalVisible = false;
-      this.clickItemTitle = type;
+      this.clickItemTitle = this.formatTitle(type);
+    },
+
+    formatTitle(type){
+      return type
+      .split('_') // Split by underscores
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(' '); // Join the words with a space;
     },
     addPayTypes() {
       this.selectedAction = 'create';

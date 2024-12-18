@@ -71,7 +71,7 @@
     <!-- Routing, Account, and Branch Numbers -->
     <div class="pb-1 d-flex justify-between">
       <bib-input
-        type="text"
+        type="number"
         name="routingNumber"
         placeholder="Enter routing number"
         label="Routing Number"
@@ -80,7 +80,7 @@
         v-model="localForm.routingNumber"
       />
       <bib-input
-        type="text"
+        type="number"
         name="accountNumber"
         placeholder="Enter account number"
         label="Account Number"
@@ -89,7 +89,7 @@
         v-model="localForm.accountNumber"
       />
       <bib-input
-        type="text"
+        type="number"
         name="branchNumber"
         placeholder="Enter branch number"
         label="Branch Number"
@@ -144,7 +144,7 @@
       <bib-input
         name="state"
         label="State/Province"
-        :options="states"
+        :options="filteredStates"
         placeholder="Select state/province"
         class="pl-1 pr-1 input-wrapper"
         type="select"
@@ -166,6 +166,7 @@
 
 <script>
 import countries from "@/utils/constant/countries";
+import {STATES} from '../../../../utils/constant/Constant';
 
 export default {
   name: "AddBankPaymentMethodForm",
@@ -187,10 +188,7 @@ export default {
         { value: "USD", label: "USD" },
         { value: "EUR", label: "EUR" },
       ],
-      states: [
-        { value: "Quebec", label: "Quebec" },
-        { value: "Ontario", label: "Ontario" },
-      ],
+      states:STATES,
     };
   },
   watch: {
@@ -202,9 +200,14 @@ export default {
       },
     },
   },
-  mounted(){
-   console.log("Mouned last chil ---- ",this.modelValue)
-  }
+  computed: {
+    filteredStates() { 
+      return this.states.filter(
+        (state) => state.code === this.localForm.country
+      );
+    }
+  },
+   
 };
 </script>
 

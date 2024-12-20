@@ -12,16 +12,16 @@
       <div v-if="showAvatar">
         <bib-avatar :src="avatarImg" size="1rem"></bib-avatar>
       </div>
-
+    
       <div v-if="isEditing && type === 'text'" class="edit-input">
         <input
           v-model="editableValue"
           @blur="saveValue($event)"
           @keyup.enter="saveValue"
           class="input-field"
-          placeholder="Enter value"
-        />
-      </div>
+            
+        /> 
+      </div> 
 
       <!-- Show select dropdown only if type is 'select' -->
       <div v-if="isEditing && type === 'select'" class="edit-select">
@@ -44,11 +44,11 @@
       </div>
 
       <div v-else-if="type === 'select' && !isEditing" class="value">
-        {{ editableValue || "Select an option" }}
+        {{ editableValue || "Select option" }}
       </div>
 
       <div v-else-if="!isEditing" class="value">
-        {{ editableValue || "Enter value" }}
+        {{ editableValue || "Enter value1" }}
       </div>
 
       <div v-if="isEditing" class="custom-icons-wrapper">

@@ -1,127 +1,122 @@
 <template>
-  <div class="sidebar-content2 font-sm">
-    <div class="row">
+  <div class="font-sm form-container">
+    <div class="row name-and-status">
       <div class="col-6">
-        <editable-input
-          label="Reference"
-          type="text"
-          value="yash chauhan"
-          fieldKey="reference"
-          @update-value="updatedValue"
-        />
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Reference" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
       </div>
       <div class="col-6">
-        <editable-input
-          label="Status"
-          type="select"
-          :options="statusOptions"
-          @update-value="updatedValue"
-        />
+        <div class="input-container">
+          <BibAdvanceInput label="Status" type="select" :options="statusOptions" @update-value="updatedValue">
+            <template #value>
+              {{ "In-progress" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-7">
-        <editable-input
-          label="Name"
-          fieldKey="name"
-          @update-value="updatedValue"
-        />
-      </div>
-    </div>
+    <div class="divider"></div>
 
-    <div class="row">
-      <div class="col-6">
-        <editable-input
-          label="Type"
-          fieldKey="type"
-          @update-value="updatedValue"
-        />
-      </div>
-      <div class="col-6">
-        <editable-input
-          label="Location"
-          fieldKey="location"
-          @update-value="updatedValue"
-        />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <editable-input
-          label="Pay frequency"
-          type="select"
-          :options="optionsDummy"
-          fieldKey="payFrequency"
-          @update-value="updatedValue"
-        />
-      </div>
-      <div class="col-6">
-        <editable-input
-          label="Pay method"
-          type="select"
-          :options="optionsDummy"
-          fieldKey="payMethod"
-          @update-value="updatedValue"
-        />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <editable-input
-          label="Close day"
-          fieldKey="closeDay"
-          type="select"
-          :options="optionsDummy"
-          @update-value="updatedValue"
-        />
-      </div>
-      <div class="col-6">
-        <editable-input
-          label="Run day"
-          fieldKey="runDay"
-          type="select"
-          :options="optionsDummy"
-          @update-value="updatedValue"
-        />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <editable-input
-          label="Start date"
-          fieldKey="startDate"
-          @update-value="updatedValue"
-        />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">Description</div>
-    </div>
     <div class="row mt-1">
-      <bib-rich-editor
-        :isLightTheme="isLightThemeCheck"
-        :editingMessage="editingMessage"
-        :cover="cover"
-        :isClear="isClear"
-        :buttonObject="SubmitButtonOptions"
-        :isLinkActive="true"
-        @send-message="sendMessage"
-        @onFileSelect="onFileSelect"
-        @blur="onBlur"
-        @focus="onFocus"
-        @debounce="onDebounce"
-        :class="classes"
-        :contacts="users"
-      >
-        <template #action>
-          <slot name="action"></slot>
-        </template>
-      </bib-rich-editor>
+      <div class="col-7">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Name" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1">
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Type" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Location" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1">
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Pay frequency" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Pay method" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1">
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Close day" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Run day" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1">
+      <div class="col-6">
+        <div class="input-container">
+          <BibAdvanceInput type="text" :value="inputValue" label="Start date" fieldKey="name" hoverIcon="edit"
+            @update-value="handleUpdateValue">
+            <template #value>
+              {{ inputValue || "name" }}
+            </template>
+          </BibAdvanceInput>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -131,6 +126,8 @@ export default {
   data() {
     return {
       addForm: {},
+      referenceValue: "yash chauhan",
+      inputValue: "",
       statusOptions: [
         { value: "in progress ", label: "In Progress" },
         { value: "active", label: "Active" },
@@ -144,10 +141,53 @@ export default {
     };
   },
   methods: {
-    updatedValue(field, value) {
+    handleUpdateValue(field, value) {
       this.$set(this.addForm, field, value);
       console.log(this.addForm, "Updated form data");
     },
   },
 };
 </script>
+
+
+<style lang="scss">
+.form-container {
+  border: 1px solid #343437;
+  border-radius: 6px;
+  padding: 20px;
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%; // Ensures the container spans the full width of the column
+  }
+
+  .BibAdvanceInput {
+    width: 100%; // Ensures input fields span the full width
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    input {
+      text-align: left; // Aligns text to the left
+      padding-left: 0; // Removes extra padding if present
+    }
+  }
+
+
+  .name-and-status {
+    //  border: 1px solid white;
+    padding: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .divider {
+    border: 1px solid #343437;
+    margin: 4px 0px 8px 0px;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="themeClassCommon">
+  <div class="container" :class="themeClassCommon">
     <div
       v-if="isSidebarExpanded"
       class="overlay"
@@ -51,8 +51,8 @@
       </div>
       <div class="sidebar-body">
         <div :class="'sidebar-body-scroll-pay ' + classMain">
-          <div class="sidebarBodyPadd height">
-            <slot name="sidebar-body"></slot>
+          <div class="sidebarBodyPadd height">  
+            <slot name="sidebar-body"></slot> 
           </div>
         </div>
         <div
@@ -259,7 +259,21 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 9998;
 }
-.sidebarBodyPaddPay {
-  padding: 12px;
+// .sidebarBodyPadd {
+//   border: 1px solid #343437;
+//   padding: 20px;
+// }
+
+
+.sidebar-body{
+  // border: 1px solid white;
+  .form{
+    // border: 1px solid paleturquoise;
+  }
 }
+
+
+
+
+
 </style>

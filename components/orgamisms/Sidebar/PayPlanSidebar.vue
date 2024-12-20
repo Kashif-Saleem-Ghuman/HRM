@@ -4,7 +4,7 @@
       @close="closeSidebar"
       :className="slideClass"
       classMain="heightEdit"
-      heading="Benefit plan name - ID"
+      heading="Pay plan name - ID"
       icon="help-circle-solid"
       v-show="openSidebar"
       @closeSidebar="closeSidebar"

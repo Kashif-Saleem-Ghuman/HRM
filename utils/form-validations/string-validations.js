@@ -1,5 +1,4 @@
-
-import isUrl from 'is-url-superb';
+import isUrl from "is-url-superb";
 
 export const isRequired = (value) => (value ? true : "This field is required.");
 
@@ -26,7 +25,6 @@ export function isValidUSZIP(zip) {
   return regex.test(zip) || "Invalid US zip code.";
 }
 
-
 export function isValidSSN(ssn) {
   const regex = /^(?!000|666|9\d\d)\d{3}-(?!00)\d{2}-(?!0000)\d{4}$/;
   return regex.test(ssn) || "Invalid US SSN";
@@ -34,28 +32,37 @@ export function isValidSSN(ssn) {
 
 export function isValidSIN(sin) {
   const regex = /^(\d{9}|\d{3}-\d{3}-\d{3})$/;
-  return regex.test(sin) || "Invalid social security number"
+  return regex.test(sin) || "Invalid social security number";
 }
 
 export function validatePostalCode(value, form = {}) {
-    const country = form.country ?? form.address?.country
-    const isUsa = country == "United States" || country == 'USA'
-    const isCanada = country == "Canada";
-    if (isCanada || isUsa) {
-      if (isCanada) {
-        return isValidCanadianPostalCode(value)
-      } else if (isUsa) {
-        return isValidUSZIP(value)
-      }
+  const country = form.country ?? form.address?.country;
+  const isUsa = country == "United States" || country == "USA";
+  const isCanada = country == "Canada";
+  if (isCanada || isUsa) {
+    if (isCanada) {
+      return isValidCanadianPostalCode(value);
+    } else if (isUsa) {
+      return isValidUSZIP(value);
     }
+  }
 
-    return true
+  return true;
 }
 
 export function isValidUrl(url) {
-  if (isUrl(url)) return true
+  if (isUrl(url)) return true;
 
   const domainRegex = /^www\.[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-  return domainRegex.test(url) || "Invalid URL" 
+  return domainRegex.test(url) || "Invalid URL";
+}
 
+export function validateMonthDay(value) {
+  const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+  return regex.test(value) || "Invalid date";
+}
+
+export function validateCvvCvc(value) {
+  const regex = /^[0-9]{3,4}$/;
+  return regex.test(value) || "Invalid CVV/CVC";
 }

@@ -2,14 +2,13 @@
   <div class="add-payment-method-form scrollable-container">
     <!-- Payment Method Name -->
     <div class="pb-1 input-wrapper">
-      <bib-input
+      <form-input
         type="text"
-        name="paymentMethodName"
-        placeholder="Type your name"
-        label="Payment Method Name"
-        required
-        v-model="localForm.paymentMethodName"
-      />
+        label="Payment method name"
+        placeholder="Type payment method name"
+        field-key="paymentMethodName"
+        :value="bankAccountFields?.paymentMethodName"
+      ></form-input>
     </div>
 
     <!-- Account Information -->
@@ -21,82 +20,86 @@
 
     <!-- Country Selection -->
     <div class="pb-1">
-      <bib-input
-        name="country"
+      <form-input
+        type="select"
+        name="bankCountryId"
         label="Country"
         :options="countries"
         placeholder="Select your country"
         class="input-wrapper"
-        required
-        type="select"
-        v-model="localForm.country"
-      />
+        field-key="bankCountryId"
+        :value="bankAccountFields?.bankCountryId"
+      ></form-input>
     </div>
 
     <!-- Bank Name -->
-    <bib-input
+
+    <form-input
       type="text"
       name="bankName"
       placeholder="Enter your bank name"
       class="input-wrapper pb-1"
       label="Bank Name"
-      required
-      v-model="localForm.bankName"
-    />
+      field-key="bankName"
+      :value="bankAccountFields?.bankName"
+    ></form-input>
 
     <!-- Account Type and Currency -->
     <div class="row w-100 pb-1 d-flex justify-between">
-      <bib-input
+      <form-input
+        type="select"
         name="accountType"
         label="Account Type"
         :options="accountTypesList"
         placeholder="Select Account Type"
-        required
         class="input-wrapper flex-item"
+        field-key="accountType"
+        :value="bankAccountFields?.accountType"
+      ></form-input>
+
+      <form-input
         type="select"
-        v-model="localForm.accountType"
-      />
-      <bib-input
         name="accountCurrency"
         label="Account Currency"
         :options="accountCurrencyList"
         placeholder="Select Currency"
         class="input-wrapper flex-item"
-        required
-        type="select"
-        v-model="localForm.accountCurrency"
-      />
+        field-key="accountCurrency"
+        :value="bankAccountFields?.accountCurrency"
+      ></form-input>
     </div>
 
     <!-- Routing, Account, and Branch Numbers -->
     <div class="pb-1 d-flex justify-between">
-      <bib-input
+      <form-input
         type="number"
         name="routingNumber"
         placeholder="Enter routing number"
         label="Routing Number"
         class="pr-1 input-wrapper"
-        required
-        v-model="localForm.routingNumber"
-      />
-      <bib-input
+        field-key="routingNumber"
+        :value="bankAccountFields?.routingNumber"
+      ></form-input>
+
+      <form-input
         type="number"
         name="accountNumber"
         placeholder="Enter account number"
         label="Account Number"
         class="pr-1 input-wrapper"
-        required
-        v-model="localForm.accountNumber"
-      />
-      <bib-input
+        field-key="accountNumber"
+        :value="bankAccountFields?.accountNumber"
+      ></form-input>
+
+      <form-input
         type="number"
         name="branchNumber"
         placeholder="Enter branch number"
         label="Branch Number"
         class="input-wrapper"
-        required
-        v-model="localForm.branchNumber"
-      />
+        field-key="branchNumber"
+        :value="bankAccountFields?.branchNumber"
+      ></form-input>
     </div>
 
     <!-- Billing Address Section -->
@@ -106,72 +109,87 @@
       </div>
     </div>
 
-    <!-- Address Fields -->
-    <div class="pb-1">
-      <bib-input
+    <div class="pb-2">
+      <form-input
+        name="country"
+        label="Country"
+        class="input-wrapper"
+        :options="countries"
+        type="select"
+        placeholder="Select your country"
+        required
+        field-key="country"
+        :value="bankAccountFields?.country"
+      ></form-input>
+    </div>
+
+    <div class="pb-2">
+      <form-input
         type="text"
         name="address1"
         placeholder="Enter address line 1"
-        label="Address 1"
-        required
         class="input-wrapper"
-        v-model="localForm.address1"
-      />
+        label="Address 1"
+        field-key="address1"
+        :value="bankAccountFields?.address1"
+      ></form-input>
     </div>
 
     <div class="pb-1">
-      <bib-input
+      <form-input
         type="text"
         name="address2"
+        class="input-wrapper"
         placeholder="Enter address line 2 (optional)"
         label="Address 2"
-        class="input-wrapper"
-        v-model="localForm.address2"
-      />
+        field-key="address2"
+        :value="bankAccountFields?.address2"
+      ></form-input>
     </div>
 
-    <!-- City, State, and Postal Code -->
     <div class="pb-1 d-flex justify-between">
-      <bib-input
+      <form-input
         type="text"
         name="city"
         placeholder="Enter city"
         label="City"
+        field-key="city"
         class="pr-1 input-wrapper"
-        required
-        v-model="localForm.city"
-      />
-      <bib-input
+        :value="bankAccountFields?.city"
+      ></form-input>
+
+      <form-input
         name="state"
         label="State/Province"
         :options="filteredStates"
-        placeholder="Select state/province"
-        class="pl-1 pr-1 input-wrapper"
         type="select"
-        required
-        v-model="localForm.state"
-      />
-      <bib-input
+        placeholder="Select state/province"
+        field-key="state"
+        class="pl-1 pr-1 input-wrapper"
+        :value="bankAccountFields?.state"
+      ></form-input>
+
+      <form-input
         type="text"
         name="postalCode"
         placeholder="Enter ZIP/Postal code"
-        label="ZIP/Postal Code"
+        label="ZIP/Postal code"
+        field-key="postalCode"
         class="pl-1 input-wrapper"
-        required
-        v-model="localForm.postalCode"
-      />
+        :value="bankAccountFields?.postalCode"
+      ></form-input>
     </div>
   </div>
 </template>
 
 <script>
 import countries from "@/utils/constant/countries";
-import {STATES} from '../../../../utils/constant/Constant';
+import { STATES } from "../../../../utils/constant/Constant";
 
 export default {
   name: "AddBankPaymentMethodForm",
   props: {
-    modelValue: {
+    bankAccountFields: {
       type: Object,
       required: true,
     },
@@ -179,7 +197,6 @@ export default {
   data() {
     return {
       countries,
-      localForm: { ...this.modelValue },
       accountTypesList: [
         { value: "Current", label: "Current" },
         { value: "Saving", label: "Saving" },
@@ -188,26 +205,20 @@ export default {
         { value: "USD", label: "USD" },
         { value: "EUR", label: "EUR" },
       ],
-      states:STATES,
+      states: STATES,
     };
   },
-  watch: {
-    localForm: {
-      deep: true,
-      handler(newVal) {
-        console.log("Updated Form Data: ", newVal);
-        this.$emit("update:modelValue", newVal);
-      },
+  computed: {
+    filteredStates() {
+      const states = this.states.filter(
+        (state) => state.code === this.bankAccountFields.country
+      );
+
+      states.unshift({ label: "Select...", value: "" });
+
+      return states;
     },
   },
-  computed: {
-    filteredStates() { 
-      return this.states.filter(
-        (state) => state.code === this.localForm.country
-      );
-    }
-  },
-   
 };
 </script>
 

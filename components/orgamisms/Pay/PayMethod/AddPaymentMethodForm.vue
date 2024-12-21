@@ -1,70 +1,65 @@
 <template>
   <div class="add-payment-method-form scrollable-container">
     <div class="pb-2 input-wrapper">
-      <bib-input
+      <form-input
         type="text"
-        name="paymentMethodName"
-        placeholder="Type your name"
         label="Payment method name"
-        required
-        v-model="localForm.paymentMethodName"
-      />
+        placeholder="Type payment method name"
+        field-key="paymentMethodName"
+        class="input-wrapper"
+        :value="creditCardFormData?.paymentMethodName"
+      ></form-input>
     </div>
 
     <div class="pb-2">
       <div class="mb-2 pb-1 bottom_border_wrapper">
         <div class="section-label text-light">Card information</div>
       </div>
-      <bib-input
+
+      <form-input
         type="number"
         name="cardNumber"
+        label="Card Number"
         placeholder="Enter your card number"
+        field-key="cardNumber"
         class="input-wrapper"
-        label="Card number"
-        required
-        v-model="localForm.cardNumber"
-      />
+        :value="creditCardFormData?.cardNumber"
+      ></form-input>
     </div>
 
     <div class="pb-2">
-      <bib-input
+      <form-input
         type="text"
         name="cardholderName"
         placeholder="Enter the cardholder name"
         label="Cardholder name"
+        field-key="cardholderName"
+        :value="creditCardFormData?.cardholderName"
         class="input-wrapper"
-        required
-        v-model="localForm.cardholderName"
-      />
+      ></form-input>
     </div>
 
     <div class="pb-2 d-flex justify-between">
-      <bib-input
-      type="text"
-      name="expiryDate"
-      placeholder="MM/YY"
-      label="Expiry date"
-      class="pr-1 input-wrapper"
-      required
-      v-model="localForm.expiryDate"
-      maxlength="5"
-      @input="formatExpiryDate"
-    />
+      <form-input
+        type="text"
+        name="expiryDate"
+        placeholder="MM/YY"
+        label="Expiry date"
+        field-key="expiryDate"
+        :value="creditCardFormData?.expiryDate"
+        maxlength="5"
+        class="pr-1 input-wrapper"
+      ></form-input>
 
-      <bib-input
+      <form-input
         type="number"
         name="cvv"
         placeholder="***"
         label="CVV/CVC"
+        field-key="cvv"
         class="input-wrapper"
-        required
-        :maxlength="3"
-        v-model="localForm.cvv"
-         
-      />
- 
-       
-           
+        :value="creditCardFormData?.cvv"
+      ></form-input>
     </div>
 
     <div class="pb-2">
@@ -74,82 +69,86 @@
     </div>
 
     <div class="pb-2">
-      <bib-input
+      <form-input
         name="country"
         label="Country"
         class="input-wrapper"
         :options="countries"
+        type="select"
         placeholder="Select your country"
         required
-        type="select"
-        v-model="localForm.country"
-      />
+        field-key="country"
+        :value="creditCardFormData?.country"
+      ></form-input>
     </div>
 
     <div class="pb-2">
-      <bib-input
+      <form-input
         type="text"
         name="address1"
         placeholder="Enter address line 1"
         class="input-wrapper"
         label="Address 1"
-        required
-        v-model="localForm.address1"
-      />
+        field-key="address1"
+        :value="creditCardFormData?.address1"
+      ></form-input>
     </div>
 
     <div class="pb-2">
-      <bib-input
+      <form-input
         type="text"
         name="address2"
         class="input-wrapper"
         placeholder="Enter address line 2 (optional)"
         label="Address 2"
-        v-model="localForm.address2"
-      />
+        field-key="address2"
+        :value="creditCardFormData?.address2"
+      ></form-input>
     </div>
 
     <div class="pb-2 d-flex justify-between">
-      <bib-input
+      <form-input
         type="text"
         name="city"
         placeholder="Enter city"
         label="City"
+        field-key="city"
         class="pr-1 input-wrapper"
-        required
-        v-model="localForm.city"
-      />
-      <bib-input
+        :value="creditCardFormData?.city"
+      ></form-input>
+
+      <form-input
         name="state"
         label="State/Province"
         :options="filteredStates"
-        placeholder="Select state/province"
-        class="pl-1 pr-1 input-wrapper"
         type="select"
-        required
-        v-model="localForm.state"
-      />
-      <bib-input
+        placeholder="Select state/province"
+        field-key="state"
+        class="pl-1 pr-1 input-wrapper"
+        :value="creditCardFormData?.state"
+      ></form-input>
+
+      <form-input
         type="text"
         name="postalCode"
         placeholder="Enter ZIP/Postal code"
         label="ZIP/Postal code"
+        field-key="postalCode"
         class="pl-1 input-wrapper"
-        required
-        v-model="localForm.postalCode"
-      />
+        :value="creditCardFormData?.postalCode"
+      ></form-input>
     </div>
   </div>
 </template>
 
 <script>
 import countries from "@/utils/constant/countries";
-import {STATES} from '../../../../utils/constant/Constant';
+import { STATES } from "../../../../utils/constant/Constant";
 
 export default {
   name: "AddPaymentMethodForm",
   props: {
-    modelValue: {
+    creditCardFormData: {
       type: Object,
       required: true,
     },
@@ -157,89 +156,18 @@ export default {
   data() {
     return {
       countries,
-      states:STATES,
-      localForm: { ...this.modelValue },
+      states: STATES,
     };
   },
-  watch: {
-  localForm: {
-    deep: true,
-    handler(newVal) {
-      console.log("Form data === ", newVal);
-      this.$emit("update:modelValue", newVal);
-    },
-  } 
-},
   computed: {
     filteredStates() {
-      // Filter states based on the selected country code
-      console.log("Computed run stattes -- ")
-     const st = this.states.filter(
-        (state) => state.code === this.localForm.country
+      const states = this.states.filter(
+        (state) => state.code === this.creditCardFormData?.country
       );
-
-      console.log("Count --- ",this.localForm.country);
-      console.log("St --- ",st);
-
-      return st;
-    }
-  },
-
-  methods: {
-    validateExpiryDate() {
-  // Remove all non-digits
-  let input = this.localForm.expiryDate.replace(/\D/g, "");
-
-  // Limit input to a maximum of 4 digits
-  if (input.length > 4) {
-    input = input.slice(0, 4);
-  }
-
-  // Ensure the first two digits represent a valid month (01-12)
-  if (input.length >= 2) {
-    const month = parseInt(input.slice(0, 2), 10);
-    if (month < 1) {
-      input = "01" + input.slice(2); // Default to '01' if less than 1
-    } else if (month > 12) {
-      input = "12" + input.slice(2); // Cap at '12' if greater than 12
-    }
-  }
-
-  
-
-  // Format as MM/YY only if input has at least 3 digits
-  if (input.length > 2) {
-    input = input.slice(0, 2) + "/" + input.slice(2);
-  }
-
-  // Ensure the formatted value does not exceed 5 characters (MM/YY)
-  this.localForm.expiryDate = input.slice(0, 5);
-},
-
-formatExpiryDate(event) {
-      let value = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-
-      if (value.length > 2) {
-        // Insert a '/' after the first two digits
-        value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
-      }
-
-      // Update the input value
-      this.localForm.expiryDate = value;
+      states.unshift({ label: "Select...", value: "" });
+      return states;
     },
-
-    // Validate CVV/CVC input
-    validateCVV() {
-      let input = this.localForm.cvv.replace(/\D/g, ""); // Remove non-digits
-      if (input.length > 4) input = input.slice(0, 4); // Limit to 4 digits
-      this.localForm.cvv = input;
-    },
-
   },
-
-  mounted(){
-    console.log("States --- ", this.states);
-  }
 };
 </script>
 

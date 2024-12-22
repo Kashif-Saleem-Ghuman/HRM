@@ -14,7 +14,7 @@
             }"
           />
         </div>
-        <div class="d-flex">
+        <!-- <div class="d-flex">
           <filter-button
             :primaryButton="{
               filterLabel: 'Show',
@@ -36,10 +36,10 @@
               onClick: handleSortBy,
             }"
           />
-        </div>
+        </div> -->
       </div>
       <div>
-        <list-pay-plans :payPlansList="requestListData" />
+        <list-pay-plans :payPlansList="requestListData"  />
         <!-- Uncomment no-record if needed -->
         <!-- <no-record v-if="showNoData"></no-record> -->
         <!-- Uncomment list-salaries if needed -->
@@ -50,7 +50,7 @@
             :key="employeeList"
           ></list-salaries>
         </div> -->
-        <pay-plan-sidebar />
+        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods"/>
       </div>
     </div>
   </div>
@@ -58,13 +58,15 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { PAY_DUMMY_REQUESTS_PAYPLANS } from "../../utils/constant/pay/PayConstant";
+import { getPayPlans } from "../../utils/functions/api_call/pay/pay-plans";
+import { getPayMethods } from "../../utils/functions/api_call/pay/pay-method";
 
 export default {
   data() {
     return {
       id: null,
-      requestListData: PAY_DUMMY_REQUESTS_PAYPLANS.requests,
+      requestListData: [],
+      payMethods:[],
       loading: true,
       fromDate: "",
       toDate: "",
@@ -86,7 +88,34 @@ export default {
     },
   },
   methods: {
-    addPayPlans() { 
+    async fetchPayPlans() {
+      try {
+        this.loading = true;
+        const payPlans = await getPayPlans();
+        this.requestListData = payPlans || [];
+
+      } catch (error) {
+        console.error("Failed to fetch pay plans:", error);
+      } finally {
+        this.loading = false;
+      }
+    }, 
+      // Fetch existing pay methods
+      async getPayMethods() {
+      try {
+        this.payMethods = await getPayMethods();
+        console.log("parent pay methods --- ", this.payMethods)
+      } catch (error) {
+        console.error("Error fetching pay methods:", error);
+      }
+    },
+
+    addNewPayPlan(data){
+     console.log("End data --- ", data);
+     this.requestListData.push(data);
+    },
+
+    addPayPlans() {
       this.$nuxt.$emit("open-sidebar-pay-paln", { /* pass any data if needed */ });
     },
     handleShowAll() {
@@ -98,6 +127,10 @@ export default {
     handleSortBy() {
       console.log("Sort By clicked!");
     },
+  },
+  created() {
+    this.fetchPayPlans();  
+    this.getPayMethods();
   },
 };
 </script>

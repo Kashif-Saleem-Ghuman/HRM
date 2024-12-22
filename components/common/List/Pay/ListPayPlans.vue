@@ -18,27 +18,25 @@
     </template>
     <template #cell(pay-period)="data">
       <div class="justify-between">
-        <span>{{ data.value.payPeriod }}</span>
+        <span>{{ data.value.payFrequency }}</span>
       </div>
     </template>
     <template #cell(pay-method)="data">
       <div class="justify-between">
-        <span>{{ data.value.payMethod }}</span>
+        <span>{{ data.value.payMethod.name }}</span>
       </div>
     </template>
     <template #cell(next-close-day)="data">
       <div class="justify-between">
         <span
-          >{{ formatIsoDateToYYYYMMDD(data.value.nextCloseDay) }} -
-          {{ getTimeFromDate(data.value.nextCloseDay) }}</span
+          >{{ (data.value.closeDay) }} </span
         >
       </div>
     </template>
     <template #cell(next-run-day)="data">
       <div class="justify-between">
         <span>
-          {{ formatIsoDateToYYYYMMDD(data.value.nextRunDay) }} -
-          {{ getTimeFromDate(data.value.nextRunDay) }}
+          {{  (data.value.runDay) }} 
         </span>
       </div>
     </template>
@@ -53,6 +51,18 @@
         </div>
       </div>
     </template>
+
+
+    <template #cell(action)="data">
+      <div class="dropdown">
+          <bib-icon icon="elipsis" hover-variant="primary" :scale="1"></bib-icon>
+          <div class="dropdown-menu" :style="{'background-color': isLightThemeCheck ? '#f9f9f9' : '#1a1919', 'color': isLightThemeCheck ? '#000' : '#fff'}">
+              <span @click="handleActionChange('edit', data.value.id)">Edit</span>
+              <span @click="handleActionChange('delete', data.value.id)">Delete</span>
+          </div>
+      </div>
+    </template>
+
   </custom-table>
 </template>
 
@@ -75,6 +85,7 @@ export default {
       type: [Array, Object],
       default: "",
     },
+   
     checked: {
       type: Boolean,
     },
@@ -139,12 +150,12 @@ export default {
       this.$nuxt.$emit("open-sidebar-pay-plan");
     },
     getStatusClasses(status) {
-      if (status == "pending") {
-        return "bg-secondary";
-      } else if (status == "approved") {
+      if (status == "inactive") {
+        return "bg-danger"; 
+      } else if (status == "active") {
         return "bg-success ";
       } else {
-        return "bg-danger";
+        return "bg-secondary";
       }
     },
   },
@@ -177,4 +188,44 @@ export default {
   align-items: center;
   text-transform: capitalize;
 }
+
+
+.dropdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+  }
+  .dropdown-menu {
+    display: none;
+    border-radius: 4px;
+    position: absolute;
+    min-width: 160px;
+    z-index: 1;
+    overflow: hidden;
+    right: -30px;
+    left: -70px;
+  }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu span {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-menu span:hover {
+        cursor: pointer;
+        width: 100%;
+        background-color: #292730;
+    }
 </style>

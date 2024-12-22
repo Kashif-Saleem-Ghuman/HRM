@@ -1,7 +1,8 @@
 <template>
   <div id="pay-plan">
-    <loader v-if="loading" :loading="loading" />
-    <div v-else>
+    <!-- Uncomment loader if needed -->
+    <!-- <loader :loading="loading"></loader> -->
+    <div>
       <div class="d-flex justify-between">
         <div>
           <action-button-header
@@ -13,7 +14,6 @@
             }"
           />
         </div>
-        <!-- Uncomment this section if needed -->
         <!-- <div class="d-flex">
           <filter-button
             :primaryButton="{
@@ -39,11 +39,18 @@
         </div> -->
       </div>
       <div>
-        <list-pay-plans :payPlansList="requestListData" />
-        <pay-plan-sidebar
-          @created-pay-plan="addNewPayPlan"
-          :payMethodsList="payMethods"
-        />
+        <list-pay-plans :payPlansList="requestListData"  @row-clicked="rowClicked"/>
+        <!-- Uncomment no-record if needed -->
+        <!-- <no-record v-if="showNoData"></no-record> -->
+        <!-- Uncomment list-salaries if needed -->
+        <!-- <div v-else-if="showTable">
+          {{ requestListData }}
+          <list-salaries
+            :listPending="requestListData"
+            :key="employeeList"
+          ></list-salaries>
+        </div> -->
+        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" :editData="selectedPayPlan"/>
       </div>
     </div>
   </div>
@@ -59,10 +66,11 @@ export default {
     return {
       id: null,
       requestListData: [],
-      payMethods: [],
-      loading: true, // Indicates if all API calls are still in progress
+      payMethods:[],
+      loading: true,
       fromDate: "",
       toDate: "",
+      selectedPayPlan: null,
     };
   },
   computed: {
@@ -81,37 +89,53 @@ export default {
     },
   },
   methods: {
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification });
+    },
     async fetchPayPlans() {
       try {
+        this.loading = true;
         const payPlans = await getPayPlans();
         this.requestListData = payPlans || [];
+
       } catch (error) {
         console.error("Failed to fetch pay plans:", error);
+      } finally {
+        this.loading = false;
       }
-    },
-    async getPayMethods() {
+    }, 
+      // Fetch existing pay methods
+      async getPayMethods() {
       try {
         this.payMethods = await getPayMethods();
+        console.log("parent pay methods --- ", this.payMethods)
       } catch (error) {
         console.error("Error fetching pay methods:", error);
       }
     },
-    async initializeData() {
-      this.loading = true;
-      try {
-        await Promise.all([this.fetchPayPlans(), this.getPayMethods()]);
-      } catch (error) {
-        console.error("Failed to fetch initial data:", error);
-      } finally {
-        this.loading = false;
-      }
-    },
-    addNewPayPlan(data) {
-      console.log("End data --- ", data);
+
+    addNewPayPlan(data){
+     console.log("End data --- ", data);
+     if(data){
       this.requestListData.push(data);
+      this.$openPopupNotification({
+          text: "Pay Plan Created successfully",
+          variant: "success",
+        })
+     }else{
+      this.$openPopupNotification({
+          text: "Pay Plan Updated successfully",
+          variant: "success",
+        })
+      this.fetchPayPlans();  
+      this.getPayMethods();
+     }
+
     },
+
     addPayPlans() {
-      this.$nuxt.$emit("open-sidebar-pay-paln", { /* pass any data if needed */ });
+      this.selectedPayPlan = {};
+      this.$nuxt.$emit("open-sidebar-pay-paln", {});
     },
     handleShowAll() {
       console.log("Show All clicked!");
@@ -122,9 +146,14 @@ export default {
     handleSortBy() {
       console.log("Sort By clicked!");
     },
+    rowClicked(rowData) {
+      this.selectedPayPlan = rowData;
+      this.$nuxt.$emit("open-sidebar-pay-paln", { data: this.selectedPayPlan });
+    },
   },
   created() {
-    this.initializeData(); // Fetch all necessary data before rendering
+    this.fetchPayPlans();  
+    this.getPayMethods();
   },
 };
 </script>

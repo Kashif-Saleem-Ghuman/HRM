@@ -1,7 +1,5 @@
- 
-
 <template>
-  <div class="font-sm form-container">
+  <div class="font-sm form-container" :style="{ border: isLightThemeCheck ? '1px solid #e9e9e9' : '1px solid #343437' }">
     <div class="row name-and-status">
       <div class="col-6">
         <div class="input-container">
@@ -14,7 +12,7 @@
             @update-value="handleUpdateValue"
           >
             <template #value>
-              {{ addForm.reference || "name" }}
+              {{ addForm.reference || "Reference" }}
             </template>
           </BibAdvanceInput>
         </div>
@@ -29,17 +27,17 @@
             @update-value="handleUpdateValue"
           >
             <template #value>
-              {{ addForm.status || "active" }}
+              {{ addForm.status || "Select status" }}
             </template>
           </BibAdvanceInput>
         </div>
       </div>
     </div>
 
-    <div class="divider"></div>
+    <div :class="isLightThemeCheck ?'divider-light' : 'divider-dark'"></div>
 
     <div class="row mt-1">
-      <div class="col-7">
+      <div class="col-6">
         <div class="input-container">
           <BibAdvanceInput
             type="text"
@@ -84,7 +82,7 @@
             @update-value="handleUpdateValue"
           >
             <template #value>
-              {{ addForm.location || "name" }}
+              {{ addForm.location || "Location" }}
             </template>
           </BibAdvanceInput>
         </div>
@@ -100,10 +98,9 @@
             fieldKey="payFrequency"
             :options="payFrequencyOptions"
             @update-value="handleUpdateValue"
-
           >
             <template #value>
-              {{ addForm.payFrequency || "Select  frequency" }}
+              {{ addForm.payFrequency || "Select frequency" }}
             </template>
           </BibAdvanceInput>
         </div>
@@ -118,7 +115,7 @@
           @update-value="handleUpdateValue"
         >
             <template #value>
-              {{ addForm.payMethodName || "name" }}
+              {{ addForm.payMethodName || "Pay Method" }}
             </template>
           </BibAdvanceInput>
         </div>
@@ -162,7 +159,6 @@
       <div class="col-12">
         <div class="d-flex align-center picker-label font-md">
           <label for="time-picker" class="picker-label">Select Date and Time:</label>
-
           <bib-datetime-picker 
             id="time-picker"
             class="ml-2"
@@ -176,7 +172,7 @@
       </div>
     </div>
 
-    <div class="pt-1">
+    <div>
       <bib-input
         type="textarea"
         name="cardNumber"
@@ -184,6 +180,7 @@
         class="input-wrapper"
         label="Description"
         v-model="addForm.description"
+        :variant="isLightThemeCheck ? 'light' : 'dark'"
       />
     </div>
 
@@ -206,10 +203,6 @@
           </BibAdvanceInput> 
         </div>
       </div>
-
-
-
-    
   </div>
 </template>
 
@@ -222,14 +215,18 @@ export default {
     payMethodsList:{
       type: [Array, Object],
       default: "",
-      },
+    },
+    editData:{
+      type: [Array, Object],
+      default: null,
+    },
   },
   data() {
     return {
       addForm: {
-      reference: '',
+      reference: 'reference',
       status: '',
-      name: '',
+      name: 'name',
       type: '',
       location: '',
       payFrequency: '',
@@ -279,32 +276,28 @@ export default {
     };
   },
   methods: {
-    handleUpdateValue( field, value) {
- 
+    handleUpdateValue(field, value) {
+      // Handle pay method selection
       if (field === "payMethodId") {
-      
-      const selectedPayMethod = this.payMethodsList.find((method) => {
-   
-    return method.id == Number(value); // Ensure type compatibility
-  });
-      console.log("sel meth -- ",selectedPayMethod)
-      const payMethodName = selectedPayMethod ? selectedPayMethod.name : "name";
-      this.$set(this.addForm, "payMethodName", payMethodName); // Save the name (optional, if needed)
-    }
+        const selectedPayMethod = this.payMethodsList?.find((method) => 
+          method?.id === (value ? Number(value) : null)
+        );
+        const payMethodName = selectedPayMethod?.name || "";
+        this.$set(this.addForm, "payMethodName", payMethodName);
+        this.$set(this.addForm, field, value || "");
+      }
+      // Handle org default toggle
+      else if (field === "orgDefault") {
+        const orgValue = value === "true";
+        this.$set(this.addForm, field, orgValue);
+      }
+      // Handle all other fields
+      else {
+        this.$set(this.addForm, field, value);
+      }
 
-    else if(field === "orgDefault"){
-      const orgValue = value === "true"; 
-      this.$set(this.addForm, field, orgValue);
-      console.log( "org data ",value, orgValue);
+      // Always emit the updated form data
       this.$emit("form-updated", this.addForm);
-    }else{
-      console.log("only firld and vlue", field, value)
-      this.$set(this.addForm, field, value);
-      console.log(this.addForm, "Updated form data");
-      this.$emit("form-updated", this.addForm);
-    }
-
-     
     },
     parseDate(dateString) {
       return new Date(dateString);
@@ -322,11 +315,52 @@ export default {
       this.$emit("form-updated", this.addForm);
       this.startDate = date;
     },
+    mapEditData() {
+      console.log('Edit Data received:', this.editData);
+      
+      if (this.editData) {
+        this.addForm = {
+          reference: this.editData.reference || 'reference',
+          name: this.editData.name || 'name',
+          type: this.editData.type || '',
+          location: this.editData.location || '',
+          payFrequency: this.editData.payFrequency || '',
+          startDate: this.editData.startDate || '',
+          runDay: this.editData.runDay || '',
+          closeDay: this.editData.closeDay || '',
+          description: this.editData.description || '',
+          orgDefault: this.editData.orgDefault !== undefined ? this.editData.orgDefault : true,
+          status: this.editData.status || '',
+          payMethodId: this.editData.payMethod?.id || '',
+          payMethodName: this.editData.payMethod?.name || ''
+        };
+
+        if (this.editData.startDate) {
+          this.startDate = dayjs(this.editData.startDate).format('YYYY-MM-DD');
+        }
+
+        console.log('Updated Form Data:', this.addForm);
+      }
+    },
   },
 
-  mounted(){
-    console.log("pay methods list 000 ", this.payMethodsList)
+  watch: {
+    editData: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          this.mapEditData();
+        }
+      }
+    }
   },
+
+  // mounted() {
+  //   if(this.editData?.id){
+  //     this.mapEditData();
+  //   }
+  // },
+
   computed: {
     payMethodsOptions() {
       // Transform the prop into the required format
@@ -342,8 +376,26 @@ export default {
 </script>
 
 <style lang="scss">
+.picker-label,
+.input-wrapper label {
+  margin: 10px 0px; 
+  font-family: Inter;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 14.52px !important;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: var(--text-text-secondary, #8d8d8f) !important;
+}
+.advance-input {
+  width: 100%;
+  .input-label {
+    width: calc(40% - 0px);
+    flex: 0 0 auto;
+  }
+}
 .form-container {
-  border: 1px solid #343437;
   border-radius: 6px;
   padding: 20px;
 
@@ -376,8 +428,12 @@ export default {
     align-items: center;
   }
 
-  .divider {
+  .divider-dark {
     border: 1px solid #343437;
+    margin: 4px 0px 8px 0px;
+  }
+  .divider-light {
+    border: 1px solid #e9e9e9;
     margin: 4px 0px 8px 0px;
   }
 }

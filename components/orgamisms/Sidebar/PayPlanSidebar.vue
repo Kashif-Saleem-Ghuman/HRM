@@ -14,13 +14,15 @@
       @elipsisClicked="handleElipsis"
     >
       <template v-slot:sidebar-body>
-        <pay-plan-info-form></pay-plan-info-form>
+        <pay-plan-info-form @form-updated="updateFormData" :payMethodsList="payMethodsList" ></pay-plan-info-form>
         <div class="py-1">
-          <salary-earning-info></salary-earning-info>
+          <pay-plan-info></pay-plan-info>
         </div>
-        <div class="py-1 mb-2">
+        <div class="py-1">
           <logs-section></logs-section>
         </div>
+        <bib-button @click="closeSidebar" label="Cancel" variant="secondary" class="footer-button mb-3" />
+        <bib-button @click="saveFormData" label="Save" variant="primary" class="footer-button mb-3" />
       </template>
     </pay-action-sidebar>
   </div>
@@ -28,6 +30,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getPayPlans, createPayPlan } from "../../../utils/functions/api_call/pay/pay-plans"; 
 const OPEN_SIDEBAR_EVENT = "open-sidebar-pay-paln";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar-pay-plan";
 export default {
@@ -36,11 +39,15 @@ export default {
       type: [Array, String],
       default: "",
     },
+    payMethodsList:{
+      type: [Array, Object],
+      default: "",
+      },
   },
   data() {
     return {
       loading: false,
-      openSidebar: true,
+      openSidebar: false,
       slideClass: "slide-in",
       isVisible: false,
       options: null,
@@ -49,6 +56,7 @@ export default {
         { value: "opt2", label: "Option 2" },
         { value: "opt3", label: "Option 3" },
       ],
+      
     };
   },
   computed: {
@@ -64,15 +72,22 @@ export default {
   },
   mounted() {
     this.registerRootListeners();
+    console.log("Pay amm --- ", this.payMethodsList)
   },
   methods: {
+    
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {
         this.openSidebar = false;
       }, 700);
     },
-
+    async saveFormData() {
+      delete this.formData.payMethodName;
+     const res=  await createPayPlan(this.formData);
+     this.$emit("created-pay-plan", res); 
+     this.closeSidebar();
+    },
     editSalary() {
       console.log("Edit salary clicked");
     },
@@ -123,6 +138,10 @@ export default {
       this.unregisterCloseSideBarRootListener();
       this.unregisterOpenSideBarRootListener();
     },
+    updateFormData(data) {
+    console.log("Data in parent ",data)
+      this.formData = data; // Update the form data in the parent
+    },
   },
   handleClickOutside() {
     this.$nuxt.$emit("close-sidebar");
@@ -130,5 +149,8 @@ export default {
   beforeDestroy() {
     this.unregisterRootListeners();
   },
+
+   
+
 };
 </script>

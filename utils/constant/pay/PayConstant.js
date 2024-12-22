@@ -309,6 +309,24 @@ export const TABLE_HEAD = {
       label: "Amount",
     },
   ],
+  tHeadPayPlanInfo: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "added-on",
+      label: "Added on",
+    },
+    {
+      key: "action",
+      label: "Action",
+    },
+  ],
 };
 export const PAY_TAB = [
   {
@@ -347,6 +365,13 @@ export const PAY_SALARY_SIDBAR_TAB = [
     title: "Earnings",
     value: "earnings",
     route: "earnings-tab",
+  },
+];
+export const PAY_PLAN_SIDBAR_TAB = [
+  {
+    title: "Members",
+    value: "Members",
+    route: "members-tab",
   },
 ];
 export const PAY_DUMMY_REQUESTS = {
@@ -592,6 +617,29 @@ export const PAY_SALARY_DUMMY_DATA = [
     amount: "7000 USD",
   },
 ];
+export const PAY_PLAN_DUMMY_DATA = [
+  {
+    id: 574,
+    name: "Monthly",
+    addedOn: "2024-10-23",
+  },
+  {
+    id: 575,
+    name: "Weekly",
+    addedOn: "2024-10-24",
+  },
+  {
+    id: 576,
+    name: "Bi-weekly",
+    addedOn: "2024-10-25",
+  },
+  {
+    id: 577,
+    name: "Monthly",
+    addedOn: "2024-10-26",
+  },
+];
+
 export const PAY_DUMMY_REQUESTS_PAYPLANS = {
   requests: [
     {
@@ -720,4 +768,42 @@ export const PAY_DUMMY_REQUESTS_PAYTYPE = {
     },
   ],
 };
+
+export const DUMMY_USERS_LIST = [
+  {
+    id: 1,
+    name: 'John Doe',
+    employeeId: 'EMP001',
+    department: 'Engineering',
+    position: 'Senior Developer'
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    employeeId: 'EMP002',
+    department: 'Marketing',
+    position: 'Marketing Manager'
+  },
+  {
+    id: 3,
+    name: 'Robert Johnson',
+    employeeId: 'EMP003',
+    department: 'Finance',
+    position: 'Financial Analyst'
+  },
+  {
+    id: 4,
+    name: 'Sarah Williams',
+    employeeId: 'EMP004',
+    department: 'HR',
+    position: 'HR Specialist'
+  },
+  {
+    id: 5,
+    name: 'Michael Brown',
+    employeeId: 'EMP005',
+    department: 'Operations',
+    position: 'Operations Manager'
+  }
+];
 

@@ -1,8 +1,7 @@
 <template>
   <div id="pay-plan">
-    <!-- Uncomment loader if needed -->
-    <!-- <loader :loading="loading"></loader> -->
-    <div>
+    <loader v-if="loading" :loading="loading" />
+    <div v-else>
       <div class="d-flex justify-between">
         <div>
           <action-button-header
@@ -14,6 +13,7 @@
             }"
           />
         </div>
+        <!-- Uncomment this section if needed -->
         <!-- <div class="d-flex">
           <filter-button
             :primaryButton="{
@@ -39,18 +39,11 @@
         </div> -->
       </div>
       <div>
-        <list-pay-plans :payPlansList="requestListData"  />
-        <!-- Uncomment no-record if needed -->
-        <!-- <no-record v-if="showNoData"></no-record> -->
-        <!-- Uncomment list-salaries if needed -->
-        <!-- <div v-else-if="showTable">
-          {{ requestListData }}
-          <list-salaries
-            :listPending="requestListData"
-            :key="employeeList"
-          ></list-salaries>
-        </div> -->
-        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods"/>
+        <list-pay-plans :payPlansList="requestListData" />
+        <pay-plan-sidebar
+          @created-pay-plan="addNewPayPlan"
+          :payMethodsList="payMethods"
+        />
       </div>
     </div>
   </div>
@@ -66,8 +59,8 @@ export default {
     return {
       id: null,
       requestListData: [],
-      payMethods:[],
-      loading: true,
+      payMethods: [],
+      loading: true, // Indicates if all API calls are still in progress
       fromDate: "",
       toDate: "",
     };
@@ -90,31 +83,33 @@ export default {
   methods: {
     async fetchPayPlans() {
       try {
-        this.loading = true;
         const payPlans = await getPayPlans();
         this.requestListData = payPlans || [];
-
       } catch (error) {
         console.error("Failed to fetch pay plans:", error);
-      } finally {
-        this.loading = false;
       }
-    }, 
-      // Fetch existing pay methods
-      async getPayMethods() {
+    },
+    async getPayMethods() {
       try {
         this.payMethods = await getPayMethods();
-        console.log("parent pay methods --- ", this.payMethods)
       } catch (error) {
         console.error("Error fetching pay methods:", error);
       }
     },
-
-    addNewPayPlan(data){
-     console.log("End data --- ", data);
-     this.requestListData.push(data);
+    async initializeData() {
+      this.loading = true;
+      try {
+        await Promise.all([this.fetchPayPlans(), this.getPayMethods()]);
+      } catch (error) {
+        console.error("Failed to fetch initial data:", error);
+      } finally {
+        this.loading = false;
+      }
     },
-
+    addNewPayPlan(data) {
+      console.log("End data --- ", data);
+      this.requestListData.push(data);
+    },
     addPayPlans() {
       this.$nuxt.$emit("open-sidebar-pay-paln", { /* pass any data if needed */ });
     },
@@ -129,8 +124,7 @@ export default {
     },
   },
   created() {
-    this.fetchPayPlans();  
-    this.getPayMethods();
+    this.initializeData(); // Fetch all necessary data before rendering
   },
 };
 </script>

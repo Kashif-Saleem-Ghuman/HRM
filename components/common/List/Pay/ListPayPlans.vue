@@ -23,7 +23,7 @@
     </template>
     <template #cell(pay-method)="data">
       <div class="justify-between">
-        <span>{{ data.value.payMethod.name }}</span>
+        <span>{{ data.value.payMethod?.name }}</span>
       </div>
     </template>
     <template #cell(next-close-day)="data">

@@ -24,15 +24,15 @@
         </span>
       </div>
     </template>
-
     <template #cell(action)="data">
-      <div class="dropdown">
-          <bib-icon icon="elipsis" hover-variant="primary" :scale="1"></bib-icon>
-          <div class="dropdown-menu" :style="{'background-color': isLightThemeCheck ? '#f9f9f9' : '#1a1919', 'color': isLightThemeCheck ? '#000' : '#fff'}">
-              <span @click="handleActionChange('edit', data.value.id)">Edit</span>
-              <span @click="handleActionChange('delete', data.value.id)">Delete</span>
-          </div>
-      </div>
+      <bib-button pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
+          <template v-slot:menu>
+              <div class="list">
+                  <span @click="handleActionChange('edit', data.value.id)" class="list__item">Edit</span>
+                  <span @click="handleActionChange('delete', data.value.id)" class="list__item">Delete</span>
+              </div>
+          </template>
+      </bib-button>
     </template>
   </custom-table>
 </template>

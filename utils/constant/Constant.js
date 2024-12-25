@@ -1104,7 +1104,6 @@ export const USER_PROFILE_TAB = [
 //   { value: "Other", label: "Other" },
 // ];
 export const STATES = [
-  { value: "", label: "Select State" },
   {
     label: "Alabama",
     value: "Alabama",

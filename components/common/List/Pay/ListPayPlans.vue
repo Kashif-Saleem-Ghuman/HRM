@@ -52,29 +52,17 @@
           </div>
         </div>
       </template>
-
       <template #cell(action)="data">
-        <div class="dropdown">
-          <bib-icon
-            icon="elipsis"
-            hover-variant="primary"
-            :scale="1"
-          ></bib-icon>
-          <div
-            class="dropdown-menu"
-            :style="{
-              'background-color': isLightThemeCheck ? '#f9f9f9' : '#1a1919',
-              color: isLightThemeCheck ? '#000' : '#fff',
-            }"
-          >
-            <span @click="handleRowClick($event, data.index, data.value)"
-              >Edit</span
-            >
-            <span @click.stop="handleDelete('delete', data.value.id)">Delete</span>
-          </div>
-        </div>
-      </template>
-    </custom-table>
+      <bib-button pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
+          <template v-slot:menu>
+              <div class="list">
+                  <span @click="handleRowClick($event, data.index, data.value)" class="list__item">Edit</span>
+                  <span @click.stop="handleDelete('delete', data.value.id)" class="list__item">Delete</span>
+              </div>
+          </template>
+      </bib-button>
+    </template>
+  </custom-table>
     <confirmation-modal
       v-if="isDeleteModalVisible"
       title="Delete Confirmation"
@@ -284,7 +272,7 @@ export default {
 
 .dropdown-menu span:hover {
   cursor: pointer;
-  width: 100%;
-  background-color: #292730;
+  width: 100% !important;
+  background-color: #bebebe;
 }
 </style>

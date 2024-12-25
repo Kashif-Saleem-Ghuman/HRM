@@ -18,6 +18,7 @@
     @input="onInput"
     :variant="isLightThemeCheck ? (error ? 'alert' : 'light')  : (error ? 'alert' : 'dark')"
     :disable="disable"
+    :class="{ 'hide-number-spinners': $attrs.type === 'number' }"
   ></bib-input>
 </template>
 
@@ -31,7 +32,6 @@ export default {
     fieldKey: {
       type: String,
     },
-
     displayFormat: {
       type: String,
       required: false,
@@ -121,5 +121,19 @@ export default {
   // .vdpComponent__input:hover {
   //   border-color: var(--bib-gray6) !important;
   // }
+}
+
+.hide-number-spinners {
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 }
 </style>

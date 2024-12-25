@@ -7,6 +7,7 @@
       class="text-gray6 font-w-600 font-md"
       :class="isLightThemeCheck ? '' : 'modal__wrapper--dark'"
       :icon="headerIcon"
+      @icon-click="$emit('back-button-click')"
     >
       <template v-slot:content>
         <slot></slot>

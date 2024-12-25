@@ -84,6 +84,7 @@
           :modalTitle="`Pay method / ${clickItemTitle}`"
           @close="closeModal"
           headerIcon="arrow-left"
+          @back-button-click="handleBackButtonClick"
         >
           <!-- credit card -->
           <form-with-validations
@@ -129,35 +130,15 @@
           </template>
         </pay-method-modal>
         <!-- Delete Modal -->
-        <pay-method-modal
+        <confirmation-modal
           v-if="selectedModal == 'delete'"
-          :payMethodsModal="isModalVisibleAddPayMethod"
-          modalTitle=""
+          title="Delete Confirmation"
+          confirmationMessage="Are you sure you want to delete this item?"
+          :confirmastionMessageModal="true"
+          :loader="false"
           @close="closeModal"
-          :headerIcon="
-            selectedAction !== 'edit' && selectedAction !== 'delete'
-              ? 'arrow-left'
-              : ''
-          "
-        >
-          <div class="section-label ml-1">
-            Do you really want to delete pay method?
-          </div>
-          <template #footer>
-            <bib-button
-              @click="closeModal"
-              label="Cancel"
-              :variant="isLightThemeCheck ? 'light' : 'secondary'"
-              class="footer-button"
-            ></bib-button>
-            <bib-button
-              label="Delete"
-              variant="danger"
-              class="ml-auto footer-button"
-              @click="deletePayMethod"
-            ></bib-button>
-          </template>
-        </pay-method-modal>
+          @on-click="deletePayMethod"
+        />
       </div>
     </div>
   </div>
@@ -172,6 +153,7 @@ import {
   updatePayMethod,
   deletePayMethod,
 } from "../../utils/functions/api_call/pay/pay-method";
+import countries from "../../utils/constant/countries";
 
 import paymentMethodMainFields from "@/components/orgamisms/Pay/forms/payment-method-main-form-fields.js";
 import creditCardFields from "@/components/orgamisms/Pay/forms/credit-card-form-fields.js";
@@ -183,6 +165,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      countries,
       id: null,
       payMethodId: null,
       requestListData: [],
@@ -237,6 +220,9 @@ export default {
     this.getPayMethods();
   },
   methods: {
+    openPopupNotification(notification) {
+      this.$store.dispatch("app/addNotification", { notification });
+    },
     openPayMethodModal(type) {
       this.selectedModal = type;
       this.isModalVisibleAddPayMethod = true;
@@ -279,25 +265,39 @@ export default {
           : this.bankAccountFormData;
 
       if (!formData.paymentMethodName) {
-        console.error("No payment method selected");
+        this.$openPopupNotification({
+          text: "Please select payment method",
+          variant: "danger",
+        })
         return;
       }
+    
       const finalObject = this.buildPayMethodObject(formData);
 
       try {
-        let response;
         if (this.selectedAction === "create") {
-          response = await createPayMethod(finalObject);
+          const response = await createPayMethod(finalObject);
+          this.requestListData = [...this.requestListData, this.extractPayMethodDetails(response)];
+          this.$openPopupNotification({
+            text: "Pay method created successfully",
+            variant: "success",
+          });
         } else if (this.selectedAction === "edit") {
           await updatePayMethod(this.payMethodId, finalObject);
-          this.getPayMethods();
+          await this.getPayMethods(); // Refresh the list
+          this.$openPopupNotification({
+            text: "Pay method updated successfully",
+            variant: "success",
+          });
         }
-
-        this.requestListData.push(this.extractPayMethodDetails(response));
-
-        this.closeModal();
+        
+        this.closeModal(); // Move closeModal here, inside try block
       } catch (error) {
-        console.error("Error creating payment method:", error);
+        console.log("Error creating payment method:", error);
+        this.$openPopupNotification({
+          text: "Error processing payment method",
+          variant: "danger",
+        });
       }
     },
 
@@ -366,11 +366,15 @@ export default {
 
     // Build the final object for the payment method
     buildPayMethodObject(formData) {
+      const selectedCountry = this.countries.find(
+        country => country.value === formData.bankCountryId
+      );
+      
       return {
         name: formData.paymentMethodName,
         type: this.selectedModal,
         billing: this.buildBillingAddress(formData),
-        bankCountryId: formData.bankCountryId,
+        bankCountryId: selectedCountry?.id || 0,
         bankName: formData.bankName || "",
         bankAccountHolderName: formData.accountHolderName || "",
         bankAccountType: formData.accountType || "",
@@ -474,6 +478,7 @@ export default {
     mapBankAccountData(payMethod) {
       return {
         paymentMethodName: payMethod.name || "",
+        bankCountryId: payMethod?.bankCountryId || "",
         country: payMethod.billing.country || "",
         bankName: payMethod.bankName || "",
         accountType: payMethod.bankAccountType || "",
@@ -509,6 +514,11 @@ export default {
     handleSortBy() {
       // Implement the logic for sorting pay methods
       console.log("Sorting pay methods");
+    },
+
+    handleBackButtonClick() {
+      this.isModalVisibleAddPayMethod = false;
+      this.isModalVisible = true;
     },
   },
 };

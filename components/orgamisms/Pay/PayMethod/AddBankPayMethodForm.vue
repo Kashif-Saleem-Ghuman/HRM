@@ -14,7 +14,7 @@
     <!-- Account Information -->
     <div>
       <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Account Information</div>
+        <div class="section-label" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Account Information</div>
       </div>
     </div>
 
@@ -104,12 +104,12 @@
 
     <!-- Billing Address Section -->
     <div class="pb-1">
-      <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Billing Address</div>
+      <div class="pb-1 bottom_border_wrapper">
+        <div class="section-label" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Billing Address</div>
       </div>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         name="country"
         label="Country"
@@ -123,7 +123,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         type="text"
         name="address1"
@@ -147,7 +147,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-1 d-flex justify-between">
+    <div class="pb-1 d-flex align-center justify-between">
       <form-input
         type="text"
         name="city"
@@ -165,7 +165,7 @@
         type="select"
         placeholder="Select state/province"
         field-key="state"
-        class="pl-1 pr-1 input-wrapper"
+        class="input-wrapper"
         :value="bankAccountFields?.state"
       ></form-input>
 
@@ -208,6 +208,11 @@ export default {
       states: STATES,
     };
   },
+  mounted() {
+    if(this.bankAccountFields?.bankCountryId) {
+      this.bankAccountFields.bankCountryId = this.getSelectedCountry();
+    }
+  },
   computed: {
     filteredStates() {
       const states = this.states.filter(
@@ -219,11 +224,20 @@ export default {
       return states;
     },
   },
+  methods: {
+    getSelectedCountry() {
+      const country = this.countries.find(
+        country => country.id === this.bankAccountFields?.bankCountryId
+      );
+      return country?.value || '';
+    }
+  }
 };
 </script>
 
 <style>
 .input-wrapper label {
+  margin-bottom: 0px !important;
   font-family: Inter;
   font-size: 12px;
   font-weight: 600;

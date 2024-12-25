@@ -1,6 +1,6 @@
 <template>
   <div class="add-payment-method-form scrollable-container">
-    <div class="pb-2 input-wrapper">
+    <div class="pb-1 input-wrapper">
       <form-input
         type="text"
         label="Payment method name"
@@ -11,9 +11,9 @@
       ></form-input>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Card information</div>
+        <div class="section-label" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Card information</div>
       </div>
 
       <form-input
@@ -27,7 +27,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         type="text"
         name="cardholderName"
@@ -39,7 +39,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2 d-flex justify-between">
+    <div class="pb-1 d-flex justify-between">
       <form-input
         type="text"
         name="expiryDate"
@@ -47,7 +47,7 @@
         label="Expiry date"
         field-key="expiryDate"
         :value="creditCardFormData?.expiryDate"
-        maxlength="5"
+        :maxlength="5"
         class="pr-1 input-wrapper"
       ></form-input>
 
@@ -59,16 +59,17 @@
         field-key="cvv"
         class="input-wrapper"
         :value="creditCardFormData?.cvv"
+        :maxlength="3"
       ></form-input>
     </div>
 
-    <div class="pb-2">
-      <div class="mb-2 pb-1 bottom_border_wrapper">
-        <div class="section-label text-light">Billing address</div>
+    <div class="pb-1">
+      <div class="pb-1 bottom_border_wrapper">
+        <div class="section-label" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Billing address</div>
       </div>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         name="country"
         label="Country"
@@ -82,7 +83,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         type="text"
         name="address1"
@@ -94,7 +95,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2">
+    <div class="pb-1">
       <form-input
         type="text"
         name="address2"
@@ -106,7 +107,7 @@
       ></form-input>
     </div>
 
-    <div class="pb-2 d-flex justify-between">
+    <div class="d-flex align-center justify-between">
       <form-input
         type="text"
         name="city"
@@ -116,7 +117,6 @@
         class="pr-1 input-wrapper"
         :value="creditCardFormData?.city"
       ></form-input>
-
       <form-input
         name="state"
         label="State/Province"
@@ -124,7 +124,7 @@
         type="select"
         placeholder="Select state/province"
         field-key="state"
-        class="pl-1 pr-1 input-wrapper"
+        class="input-wrapper"
         :value="creditCardFormData?.state"
       ></form-input>
 
@@ -173,6 +173,7 @@ export default {
 
 <style>
 .input-wrapper label {
+  padding-bottom: 0px !important;
   font-family: Inter;
   font-size: 12px;
   font-weight: 600;

@@ -136,50 +136,50 @@ export const TABLE_HEAD = {
     },
 
     {
-      key: "pay-period",
+      key: "payFrequency",
       label: "Pay Period",
 
       header_icon: {
         icon: "long-arrow-up",
-        event: "pay-period-sort",
+        event: "payFrequency-sort",
         isActive: false,
-        sortKey: "pay-period",
+        sortKey: "payFrequency",
         type: "string",
       },
     },
     {
-      key: "pay-method",
+      key: "payMethod",
       label: "Pay Method",
 
       header_icon: {
         icon: "long-arrow-up",
-        event: "pay-method-sort",
+        event: "payMethod-sort",
         isActive: false,
-        sortKey: "pay-method",
+        sortKey: "payMethod.name",
         type: "string",
       },
     },
     {
-      key: "next-close-day",
+      key: "closeDay",
       label: "Next close day",
 
       header_icon: {
         icon: "long-arrow-up",
-        event: "next-close-day-sort",
+        event: "closeDay-sort",
         isActive: false,
-        sortKey: "next-close-day",
+        sortKey: "closeDay",
         type: "string",
       },
     },
     {
-      key: "next-run-day",
+      key: "runDay",
       label: "Next run day",
 
       header_icon: {
         icon: "long-arrow-up",
-        event: "next-run-day-sort",
+        event: "runDay-sort",
         isActive: false,
-        sortKey: "next-run-day",
+        sortKey: "runDay",
         type: "string",
       },
     },
@@ -196,6 +196,53 @@ export const TABLE_HEAD = {
       },
     },
 
+    {
+      key: "action",
+      label: "Action",
+    },
+  ],
+  tHeadPayMethods: [
+    {
+      key: "",
+      label: "#",
+    },
+    {
+      key: "name",
+      label: "Pay method",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "name-sort",
+        isActive: false,
+        sortKey: "name",
+        type: "string",
+      },
+    },
+    {
+      key: "type",
+      label: "Pay method type",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "type-sort",
+        isActive: false,
+        sortKey: "type",
+        type: "string",
+      },
+    },
+
+    {
+      key: "created-on",
+      label: "Created on",
+
+      header_icon: {
+        icon: "long-arrow-up",
+        event: "created-on-sort",
+        isActive: false,
+        sortKey: "createdAt",
+        type: "string",
+      },
+    },
     {
       key: "action",
       label: "Action",

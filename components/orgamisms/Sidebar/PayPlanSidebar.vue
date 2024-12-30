@@ -204,8 +204,5 @@ export default {
   beforeDestroy() {
     this.unregisterRootListeners();
   },
-
-   
-
 };
 </script>

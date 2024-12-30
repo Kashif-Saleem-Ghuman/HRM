@@ -3,7 +3,7 @@
     <bib-button 
       @click="toggleDropdown"
       label="Add Member" 
-      variant="primary--outline" 
+      variant="primary" 
       icon="add" 
       class="ms-2 mt-05 mb-05"
     ></bib-button>
@@ -52,10 +52,6 @@ export default {
       type: Array,
       required: true
     },
-    isLight: {
-      type: Boolean,
-      default: true
-    }
   },
 
   data() {

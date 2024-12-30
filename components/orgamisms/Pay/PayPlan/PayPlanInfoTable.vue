@@ -9,7 +9,7 @@
     <custom-table
       v-if="employeeData.length > 0"
       :fields="tableFields"
-      class="table"
+      class="table pay-plan-table"
       :class="{
         'table--light': isLightThemeCheck,
         'table--dark': !isLightThemeCheck,
@@ -18,6 +18,7 @@
       :hide-no-column="true"
       :fixHeader="true"
     >
+
       <template #cell(name)="data">
         <div class="justify-between">
           <span>{{ data.value.name }}</span>
@@ -38,6 +39,19 @@
           />
         </div>
       </template>
+
+      <template #row="{ row, index }">
+    <tr :class="{ 'highlight-row': index === 0 }">
+      <td>
+        <bib-icon 
+          v-if="index === 0" 
+          @click="deleteRow(row.id)"
+          icon="trash" 
+          class="cursor-pointer"
+        />
+      </td>
+    </tr>
+  </template>
     </custom-table>
   </div>
 </template>
@@ -95,6 +109,7 @@ export default {
       if (deletedUser) {
         this.selectedUsers = this.selectedUsers.filter(user => user.id !== id);
       }
+      this.emitSelectedUsersLength();
     },
     handleUserSelected(user) {
       const newRow = {
@@ -105,7 +120,32 @@ export default {
 
       this.employeeData.push(newRow);
       this.selectedUsers.push(user);
+      this.emitSelectedUsersLength();
+    },
+    emitSelectedUsersLength() {
+      this.$emit('selected-users-length', this.selectedUsers.length);
     }
   },
 };
 </script>
+<style lang="scss"> 
+.pay-plan-table{
+  border-radius: 6px !important;
+}
+.light-theme {
+  .pay-plan-table{
+    border: 1px solid #e9e9e9 !important;
+  }
+}
+.dark-theme{
+  .pay-plan-table{
+    border: 1px solid #343437 !important;
+  }
+  .pay-plan-table .table__irow td{
+    background-color: transparent !important;
+  }
+  .pay-plan-table .table__irow:hover td { // Added hover effect
+    background-color: #020202 !important; // Change to desired hover color
+  }
+}
+</style>

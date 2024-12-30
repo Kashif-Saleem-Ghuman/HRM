@@ -132,3 +132,37 @@
     border-top: 1px solid var(--bib-border-primary);
   }
 }
+
+
+
+.button-pop.button {
+  &--pop {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+
+    &.button--secondary--dark-theme {
+      .icon {
+        svg {
+          path {
+            fill: #f4f4f4 !important;
+          }
+        }
+      }
+    }
+
+    &.button--light {
+      .icon {
+        svg {
+          path {
+            fill: #1d1d20 !important;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      background: transparent !important;
+    }
+  }
+}

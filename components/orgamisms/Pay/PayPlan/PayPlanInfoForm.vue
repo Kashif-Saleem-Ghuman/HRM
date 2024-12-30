@@ -9,8 +9,7 @@
             label="Reference"
             fieldKey="reference"
             hoverIcon="edit"
-            @update-value="handleUpdateValue"
-          >
+            @update-value="handleUpdateValue">
             <template #value>
               {{ addForm.reference || "Reference" }}
             </template>
@@ -48,7 +47,7 @@
             @update-value="handleUpdateValue"
           >
             <template #value>
-              {{ addForm.name || "name" }}
+              {{ addForm.name || "Name" }}
             </template>
           </BibAdvanceInput>
         </div>
@@ -155,10 +154,10 @@
       </div>
     </div>
 
-    <div class="row mt-1">
+    <div class="row mt-05">
       <div class="col-12">
         <div class="d-flex align-center picker-label font-md">
-          <label for="time-picker" class="picker-label">Select Date and Time:</label>
+          <label for="time-picker" class="picker-label">Select Date and Time</label>
           <bib-datetime-picker 
             id="time-picker"
             class="ml-2"
@@ -184,9 +183,7 @@
       />
     </div>
 
-      <!-- Divider after first row -->
-      <div class="divider"></div>
-
+    <div :class="isLightThemeCheck ?'divider-light' : 'divider-dark'"></div>
 
     <div class="col-6">
         <div class="input-container">
@@ -316,12 +313,10 @@ export default {
       this.startDate = date;
     },
     mapEditData() {
-      console.log('Edit Data received:', this.editData);
-      
       if (this.editData) {
         this.addForm = {
-          reference: this.editData.reference || 'reference',
-          name: this.editData.name || 'name',
+          reference: this.editData.reference || 'Reference',
+          name: this.editData.name || 'Name',
           type: this.editData.type || '',
           location: this.editData.location || '',
           payFrequency: this.editData.payFrequency || '',
@@ -363,7 +358,6 @@ export default {
 
   computed: {
     payMethodsOptions() {
-      // Transform the prop into the required format
       return Array.isArray(this.payMethodsList)
         ? this.payMethodsList.map((item) => ({
             value: item.id, // Assuming each pay method has an `id`
@@ -377,8 +371,9 @@ export default {
 
 <style lang="scss">
 .picker-label,
+.input-label,
 .input-wrapper label {
-  margin: 10px 0px; 
+  margin: 2px 0px !important; 
   font-family: Inter;
   font-size: 12px !important;
   font-weight: 500 !important;
@@ -386,15 +381,95 @@ export default {
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
-  color: var(--text-text-secondary, #8d8d8f) !important;
 }
 .advance-input {
-  width: 100%;
+  width: 100% !important; 
   .input-label {
-    width: calc(40% - 0px);
+    width: calc(35% - 0px);
     flex: 0 0 auto;
   }
 }
+.light-theme {
+  .picker-label,
+  .input-label,
+  .input-wrapper label {
+    color: var(--text-text-secondary, #1d1d20) !important;
+  }
+
+  .editable-value {
+    border: 1px solid #e9e9e9 !important;
+    background-color: #f4f4f4 !important;
+  }
+  .value,
+  .edit-input,
+  .input-field,
+  select.select-field,
+  .edit-select {
+    color: #333 !important;
+  }
+
+  .edit-input .input-field:focus,
+  .edit-select .select-field:focus {
+    color: #000000 !important;
+  }
+  .editable-value svg {
+    fill: #000000 !important;
+  }
+}
+
+.dark-theme {
+  .picker-label,
+  .input-label,
+  .input-wrapper label {
+    color: var(--text-text-secondary-dark, #8d8d8f) !important;
+  }
+}
+.editable-value {
+  max-width: 60% !important;
+}
+.value,
+.edit-input,
+.input-field,
+select.select-field,
+.edit-select {
+  white-space: nowrap !important;       
+  overflow: hidden !important;          
+  text-overflow: ellipsis !important;
+}
+.vdpComponent {
+  &.input--dark {
+    .vdpComponent__input {
+      border: 1px solid #343437 !important;
+      border-radius: 20px !important;
+      color: #ffffff !important;
+    }
+    .vdpComponent__calendar-icon {
+      svg {
+        path {
+          fill: #8d8d8f !important;
+        }
+      }
+    }
+  }
+  
+  &.input--light {
+    .vdpComponent__input {
+      border: 1px solid #e9e9e9 !important;
+      border-radius: 20px !important;
+      background-color: #f4f4f4 !important;
+      color: #1a1a1c !important;
+    }
+    .vdpComponent__calendar-icon {
+      svg {
+        path {
+          fill: #8d8d8f !important;
+        }
+      }
+    }
+  }
+}
+
+
 .form-container {
   border-radius: 6px;
   padding: 20px;
@@ -404,24 +479,21 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
-    width: 100%; // Ensures the container spans the full width of the column
+    width: 100%;
   }
 
   .BibAdvanceInput {
-    width: 100%; // Ensures input fields span the full width
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
+    font-family: Inter;
     input {
-      text-align: left; // Aligns text to the left
-      padding-left: 0; // Removes extra padding if present
+      text-align: left;
+      padding-left: 0;
     }
   }
 
-
   .name-and-status {
-    //  border: 1px solid white;
     padding: 10px 0px 10px 0px;
     display: flex;
     justify-content: space-between;

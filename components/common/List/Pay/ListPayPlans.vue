@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <custom-table
@@ -8,9 +9,8 @@
       @column-header-clicked="headerColumnClick($event.column)"
       @item-clicked="handleRowClick"
       >
-      <!-- @item-clicked="handleRowClick" -->
       <template #cell(id)="data">
-        <div class="justify-between" @click="employeeDetail()">
+        <div class="justify-between">
           <span>{{ data.value.id }}</span>
         </div>
       </template>
@@ -19,44 +19,48 @@
           <span>{{ data.value.location }}</span>
         </div>
       </template>
-      <template #cell(pay-period)="data">
+      <template #cell(payFrequency)="data">
         <div class="justify-between">
           <span>{{ data.value.payFrequency }}</span>
         </div>
       </template>
-      <template #cell(pay-method)="data">
+      <template #cell(payMethod)="data">
         <div class="justify-between">
           <span>{{ data.value.payMethod?.name }}</span>
         </div>
       </template>
-      <template #cell(next-close-day)="data">
+      <template #cell(closeDay)="data">
         <div class="justify-between">
           <span>{{ data.value.closeDay }} </span>
         </div>
       </template>
-      <template #cell(next-run-day)="data">
+      <template #cell(runDay)="data">
         <div class="justify-between">
           <span>
             {{ data.value.runDay }}
           </span>
         </div>
       </template>
+
       <template #cell(status)="data">
-        <div class="justify-between">
-          <div
-            class="d-flex status-chip text-white cursor-pointer"
+        <div>
+          <select
+            v-model="data.value.status"
+            @change="updateStatus(data.value.id, data.value)"
+            @click.stop
+            class="select-field status-chip cursor-pointer"
             :class="getStatusClasses(data.value.status)"
           >
-            <span>{{ data.value.status }}</span>
-            <bib-icon icon="arrowhead-down" variant="white"></bib-icon>
-          </div>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
       </template>
       <template #cell(action)="data">
-      <bib-button pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
+      <bib-button class="button-pop" pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
           <template v-slot:menu>
               <div class="list">
-                  <span @click="handleRowClick($event, data.index, data.value)" class="list__item">Edit</span>
+                  <span @click="handleEditClick(data.value.id)" class="list__item">Edit</span>
                   <span @click.stop="handleDelete('delete', data.value.id)" class="list__item">Delete</span>
               </div>
           </template>
@@ -79,7 +83,7 @@
 import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/pay/PayConstant";
 import { sortColumn } from "../../../../utils/functions/table-sort";
-import { deletePayPlan } from "../../../../utils/functions/api_call/pay/pay-plans";
+import { deletePayPlan, updatePayPlan } from "../../../../utils/functions/api_call/pay/pay-plans";
 import {
   meetLink,
   sendMessage,
@@ -125,7 +129,7 @@ export default {
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.payPlansList;
-
+      console.log(">>>>>>>>")
       return sortColumn({ items: this.payPlansList, field: this.sortByField });
     },
     truncateText() {
@@ -148,18 +152,17 @@ export default {
     getTimeFromDate,
     formatIsoDateToYYYYMMDD,
     sortColumn(columnKey) {
-      if (this.sortByField && this.sortByField.key != columnKey) {
+      if (this.sortByField && this.sortByField?.key != columnKey) {
         this.sortByField.header_icon.isActive = false;
       }
       const field = this.tableFields.find((field) => field.key === columnKey);
-      field.header_icon.isActive = !field.header_icon.isActive;
+      field.header_icon.isActive = !field?.header_icon?.isActive;
       this.sortByField = field;
     },
     headerColumnClick(column) {
-      this.sortColumn(column);
-    },
-    employeeDetail() {
-      // this.$nuxt.$emit("open-sidebar-pay-plan");
+      if(column != "action"){
+        this.sortColumn(column);
+      }
     },
     getStatusClasses(status) {
       if (status == "inactive") {
@@ -172,6 +175,10 @@ export default {
     },
     handleRowClick(event, keyI, item) {
       const rowData = this.leavePendingList[keyI];
+      this.$emit("row-clicked", rowData);
+    },
+    handleEditClick(id) {
+      const rowData = this.leavePendingList.find(item => item.id === id);
       this.$emit("row-clicked", rowData);
     },
     handleDelete(action, id) {
@@ -195,7 +202,7 @@ export default {
         this.$toast.success("Item successfully deleted!");
       } catch (error) {
         console.error("Error deleting item:", error);
-        this.$toast.error("An error occurred while deleting the item.");
+        this.$toast.error("An error occurred while deleting the item");
       } finally {
         // Reset modal visibility and selected ID
         this.isDeleteModalVisible = false;
@@ -206,11 +213,38 @@ export default {
       this.isDeleteModalVisible = false;
       this.selectedDeleteId = null;
     },
+    async updateStatus(id, data) {
+      let addForm = {
+        reference: 'reference',
+        status: data.status,
+        name: data.payMethod.name,
+        type: data.type,
+        location: data.location,
+        payFrequency: data.payFrequency,
+        payMethodId: data.payMethod.id,
+        payMethodName: data.payMethod.name,
+        closeDay: data.closeDay,
+        runDay: data.runDay,
+        startDate: data.startDate,
+        description: data.description,
+        orgDefault: data.orgDefault,
+      };
+      try {
+        await updatePayPlan(id, addForm);
+        this.$toast.success("Status updated successfully");
+      } catch (error) {
+        this.$toast.error("An error occurred while updating status");
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss">
+.select-field{
+  color: white !important;
+  border: none !important;
+}
 .info_wrapper {
   color: $black;
   font-weight: normal;
@@ -274,5 +308,13 @@ export default {
   cursor: pointer;
   width: 100% !important;
   background-color: #bebebe;
+}
+
+.table tr td{
+  color: #f4f4f4 !important;
+}
+
+.table tr tr{
+  color: #8d8d8f !important;
 }
 </style>

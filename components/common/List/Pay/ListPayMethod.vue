@@ -6,12 +6,12 @@
     :allChecked="checkedAll"
     @column-header-clicked="headerColumnClick($event.column)"
   >
-    <template #cell(pay-method)="data">
+    <template #cell(name)="data">
       <div class="justify-between" :key="data.value.id">
         <span class="text-capitalize">{{ data.value.name }}</span>
       </div>
     </template>
-    <template #cell(pay-method-type)="data">
+    <template #cell(type)="data">
       <div class="justify-between">
         <span class="text-capitalize">{{ data.value.type.replaceAll('_', ' ') }}</span>
       </div>
@@ -25,7 +25,7 @@
       </div>
     </template>
     <template #cell(action)="data">
-      <bib-button pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
+      <bib-button class="button-pop" pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
           <template v-slot:menu>
               <div class="list">
                   <span @click="handleActionChange('edit', data.value.id)" class="list__item">Edit</span>
@@ -118,7 +118,9 @@ export default {
       this.sortByField = field;
     },
     headerColumnClick(column) {
-      this.sortColumn(column);
+      if(column != "action"){
+        this.sortColumn(column);
+      }
     },
     employeeDetail() {
       this.$nuxt.$emit("open-sidebar-salaries");
@@ -132,7 +134,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
   .text-capitalize{
     text-transform: capitalize;
@@ -174,5 +175,12 @@ export default {
         cursor: pointer;
         width: 100%;
         background-color: #292730;
+    }
+    .table tr td{
+      color: #f4f4f4 !important;
+    }
+
+    .table tr tr{
+      color: #8d8d8f !important;
     }
 </style>

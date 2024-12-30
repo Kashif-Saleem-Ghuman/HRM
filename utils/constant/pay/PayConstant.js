@@ -248,53 +248,7 @@ export const TABLE_HEAD = {
       label: "Action",
     },
   ],
-  tHeadPayMethods: [
-    {
-      key: "",
-      label: "#",
-    },
-    {
-      key: "pay-method",
-      label: "Pay method",
 
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "pay-method-sort",
-        isActive: false,
-        sortKey: "payMethod",
-        type: "string",
-      },
-    },
-    {
-      key: "pay-method-type",
-      label: "Pay method type   ",
-
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "pay-method-type-sort",
-        isActive: false,
-        sortKey: "payMethodType",
-        type: "string",
-      },
-    },
-
-    {
-      key: "created-on",
-      label: "Created on",
-
-      header_icon: {
-        icon: "long-arrow-up",
-        event: "created-on-sort",
-        isActive: false,
-        sortKey: "createdAt",
-        type: "string",
-      },
-    },
-    {
-      key: "action",
-      label: "Action",
-    },
-  ],
   tHeadPayType: [
     {
       key: "",
@@ -401,6 +355,18 @@ export const PAY_TAB = [
     value: "Pay Types",
     route: "/pay/pay-types/",
   },
+];
+export const BENEFITS_TAB = [
+  {
+    title: "Benefits Plan",
+    value: "benefits-plan",
+    route: "/benefits/benefits-plan/",
+  },
+  // {
+  //   title: "Payouts",
+  //   value: "Payouts",
+  //   route: "/pay/payouts/",
+  // },
 ];
 export const PAY_SALARY_SIDBAR_TAB = [
   {

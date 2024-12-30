@@ -1,6 +1,3 @@
-ListPayMethod
-
-
 <template>
   <custom-table
     :fields="tableFields"
@@ -10,7 +7,6 @@ ListPayMethod
     @column-header-clicked="headerColumnClick($event.column)"
   >
     <template #cell(name)="data">
-      
       <div class="justify-between" :key="data.value.id">
         <span class="text-capitalize">{{ data.value.name }}</span>
       </div>

@@ -60,7 +60,7 @@
       <bib-button class="button-pop" pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
           <template v-slot:menu>
               <div class="list">
-                  <span @click.stop="handleEditClick(data.value.id)" class="list__item">Edit</span>
+                  <span @click="handleEditClick(data.value.id)" class="list__item">Edit</span>
                   <span @click.stop="handleDelete('delete', data.value.id)" class="list__item">Delete</span>
               </div>
           </template>

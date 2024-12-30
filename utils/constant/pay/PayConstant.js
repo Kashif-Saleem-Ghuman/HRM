@@ -820,3 +820,9 @@ export const DUMMY_USERS_LIST = [
   }
 ];
 
+export const PAY_METHOD_TYPES = {
+  CREDIT_CARD: 'credit_card',
+  BANK_ACCOUNT: 'bank_account',
+  DELETE: 'delete'
+};
+

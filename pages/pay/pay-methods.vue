@@ -4,148 +4,76 @@
       <!-- Header with Action Button -->
       <div class="d-flex justify-between">
         <div>
-          <action-button-header
-            :primaryButton="{
-              label: 'Pay Methods',
-              icon: 'add',
-              variant: 'primary',
-              onClick: addPayTypes,
-            }"
-          />
+          <action-button-header :primaryButton="{
+            label: 'Pay Methods',
+            icon: 'add',
+            variant: 'primary',
+            onClick: addPayTypes,
+          }" />
         </div>
-        <!-- <div class="d-flex">
-
-          <filter-button :primaryButton="{
-            filterLabel: 'Show',
-            label: 'All',
-            onClick: handleShowAll,
-          }" />
-          <filter-button :primaryButton="{
-            filterLabel: 'Group by',
-            label: 'Date',
-            onClick: handleGroupBy,
-          }" />
-          <filter-button :primaryButton="{
-            filterLabel: 'Sort by',
-            label: 'Status',
-            onClick: handleSortBy,
-          }" />
-        </div> -->
       </div>
 
       <!-- List Pay Plans -->
       <div>
-        <list-pay-method
-          :payMethodList="requestListData"
-          :tableFields="tableFields"
-          @action-selected="handleActionFromChild"
-        />
+        <list-pay-method :payMethodList="requestListData" :tableFields="tableFields"
+          @action-selected="handleActionFromChild" />
 
         <!-- Conditional Modals -->
-        <pay-method-modal
-          v-if="isModalVisible"
-          :payMethodsModal="isModalVisible"
-          modalTitle="Pay Methods"
-          @close="addPayTypes"
-        >
+        <pay-method-modal v-if="isModalVisible" :payMethodsModal="isModalVisible" modalTitle="Pay Methods"
+          @close="addPayTypes">
           <div class="d-flex d-align justify-between">
-            <filter-button
-              :primaryButton="{
-                label: 'Credit card',
-                icon: 'add',
-                variant: isLightThemeCheck ? 'light' : 'secondary',
-                class: 'increase-button-size',
-                onClick: () => openPayMethodModal('credit_card'),
-              }"
-            />
-            <filter-button
-              :primaryButton="{
-                label: 'Bank account',
-                variant: isLightThemeCheck ? 'light' : 'secondary',
-                icon: 'add',
-                class: 'increase-button-size',
-                onClick: () => openPayMethodModal('bank_account'),
-              }"
-            />
-            <!-- <filter-button :primaryButton="{
-              label: 'PayPal',
+            <filter-button :primaryButton="{
+              label: 'Credit card',
+              icon: 'add',
+              variant: isLightThemeCheck ? 'light' : 'secondary',
+              class: 'increase-button-size',
+              onClick: () => openPayMethodModal('credit_card'),
+            }" />
+            <filter-button :primaryButton="{
+              label: 'Bank account',
               variant: isLightThemeCheck ? 'light' : 'secondary',
               icon: 'add',
               class: 'increase-button-size',
-              onClick: () => openPayMethodModal('PayPal'),
-            }" /> -->
+              onClick: () => openPayMethodModal('bank_account'),
+            }" />
           </div>
         </pay-method-modal>
 
         <!-- Credit/Debit Card Modal -->
-        <pay-method-modal
-          v-if="isOpenCreateEditModal"
-          :payMethodsModal="isModalVisibleAddPayMethod"
-          :modalTitle="`Pay method / ${clickItemTitle}`"
-          @close="closeModal"
-          headerIcon="arrow-left"
-          @back-button-click="handleBackButtonClick"
-        >
+        <pay-method-modal v-if="isOpenCreateEditModal" :payMethodsModal="isModalVisibleAddPayMethod"
+          :modalTitle="`Pay method / ${clickItemTitle}`" @close="closeModal" headerIcon="arrow-left"
+          @back-button-click="handleBackButtonClick">
           <!-- credit card -->
-          <form-with-validations
-            v-if="selectedModal === 'credit_card'"
-            :fields="creditCardFields"
-            :form="creditCardFormData"
-            :submit-fn="submitForm"
-            :update-form.sync="creditCardFormData"
-            :isCreateForm="true"
-            ref="formWithValidation"
-          >
+          <form-with-validations v-if="selectedModal === 'credit_card'" :fields="creditCardFields"
+            :form="creditCardFormData" :submit-fn="submitForm" :update-form.sync="creditCardFormData"
+            :isCreateForm="true" ref="formWithValidation">
             <add-payment-method-form :creditCardFormData="creditCardFormData" />
             <template #form-action-buttons></template>
           </form-with-validations>
           <!-- bank account -->
-          <form-with-validations
-            v-else
-            :fields="bankAccountFields"
-            :form="bankAccountFormData"
-            :submit-fn="submitForm"
-            :update-form.sync="bankAccountFormData"
-            :isCreateForm="true"
-            ref="formWithValidation"
-          >
-            <add-bank-pay-method-form
-              :bankAccountFields="bankAccountFormData"
-            />
+          <form-with-validations v-else :fields="bankAccountFields" :form="bankAccountFormData" :submit-fn="submitForm"
+            :update-form.sync="bankAccountFormData" :isCreateForm="true" ref="formWithValidation">
+            <add-bank-pay-method-form :bankAccountFields="bankAccountFormData" />
             <template #form-action-buttons></template>
           </form-with-validations>
           <template #footer>
-            <bib-button
-              label="Cancel"
-              :variant="isLightThemeCheck ? 'light' : 'secondary'"
-              class="footer-button"
-              @click="closeModal"
-            ></bib-button>
-            <bib-button
-              :label="selectedAction === 'edit' ? 'Update' : 'Save'"
-              variant="primary-24"
-              class="ml-auto footer-button"
-              @click="validateForm"
-            ></bib-button>
+            <bib-button label="Cancel" :variant="isLightThemeCheck ? 'light' : 'secondary'" class="footer-button"
+              @click="closeModal"></bib-button>
+            <bib-button :label="selectedAction === 'edit' ? 'Update' : 'Save'" variant="primary-24"
+              class="ml-auto footer-button" @click="validateForm"></bib-button>
           </template>
         </pay-method-modal>
         <!-- Delete Modal -->
-        <confirmation-modal
-          v-if="selectedModal == 'delete'"
-          title="Delete Confirmation"
-          confirmationMessage="Are you sure you want to delete this item?"
-          :confirmastionMessageModal="true"
-          :loader="false"
-          @close="closeModal"
-          @on-click="deletePayMethod"
-        />
+        <confirmation-modal v-if="selectedModal == 'delete'" title="Delete Confirmation"
+          confirmationMessage="Are you sure you want to delete this item?" :confirmastionMessageModal="true"
+          :loader="false" @close="closeModal" @on-click="deletePayMethod" />
       </div>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { TABLE_HEAD } from "../../utils/constant/pay/PayConstant";
+import { TABLE_HEAD, PAY_METHOD_TYPES } from "../../utils/constant/pay/PayConstant";
 import {
   getPayMethods,
   createPayMethod,
@@ -211,8 +139,8 @@ export default {
     },
     isOpenCreateEditModal() {
       return (
-        this.selectedModal === "credit_card" ||
-        this.selectedModal === "bank_account"
+        this.selectedModal === PAY_METHOD_TYPES.CREDIT_CARD ||
+        this.selectedModal === PAY_METHOD_TYPES.BANK_ACCOUNT
       );
     },
   },
@@ -257,48 +185,72 @@ export default {
       this.$refs.formWithValidation.handleSubmit();
     },
 
-    // Submit the form data to create a payment method
+    // Split submitForm into smaller functions
     async submitForm() {
-      const formData =
-        this.selectedModal === "credit_card"
-          ? this.creditCardFormData
-          : this.bankAccountFormData;
+      const formData = this.getFormData();
+      if (!this.validatePaymentMethodName(formData)) return;
+      
+      const payMethodObject = this.buildPayMethodObject(formData);
+      await this.processPaymentMethod(payMethodObject);
+    },
 
+    getFormData() {
+      return this.selectedModal === "credit_card"
+        ? this.creditCardFormData
+        : this.bankAccountFormData;
+    },
+
+    validatePaymentMethodName(formData) {
       if (!formData.paymentMethodName) {
         this.$openPopupNotification({
           text: "Please select payment method",
           variant: "danger",
-        })
-        return;
+        });
+        return false;
       }
-    
-      const finalObject = this.buildPayMethodObject(formData);
+      return true;
+    },
 
+    async processPaymentMethod(finalObject) {
       try {
         if (this.selectedAction === "create") {
-          const response = await createPayMethod(finalObject);
-          this.requestListData = [...this.requestListData, this.extractPayMethodDetails(response)];
-          this.$openPopupNotification({
-            text: "Pay method created successfully",
-            variant: "success",
-          });
+          await this.createNewPaymentMethod(finalObject);
         } else if (this.selectedAction === "edit") {
-          await updatePayMethod(this.payMethodId, finalObject);
-          await this.getPayMethods(); // Refresh the list
-          this.$openPopupNotification({
-            text: "Pay method updated successfully",
-            variant: "success",
-          });
+          await this.updateExistingPaymentMethod(finalObject);
         }
-        
-        this.closeModal(); // Move closeModal here, inside try block
+        this.closeModal();
       } catch (error) {
-        console.log("Error creating payment method:", error);
-        this.$openPopupNotification({
-          text: "Error processing payment method",
-          variant: "danger",
-        });
+        this.handlePaymentError(error);
       }
+    },
+
+    async createNewPaymentMethod(finalObject) {
+      const response = await createPayMethod(finalObject);
+      this.requestListData = [
+        ...this.requestListData,
+        this.extractPayMethodDetails(response),
+      ];
+      this.$openPopupNotification({
+        text: "Pay method created successfully",
+        variant: "success",
+      });
+    },
+
+    async updateExistingPaymentMethod(finalObject) {
+      await updatePayMethod(this.payMethodId, finalObject);
+      await this.getPayMethods();
+      this.$openPopupNotification({
+        text: "Pay method updated successfully",
+        variant: "success",
+      });
+    },
+
+    handlePaymentError(error) {
+      console.log("Error creating payment method:", error);
+      this.$openPopupNotification({
+        text: "Error processing payment method",
+        variant: "danger",
+      });
     },
 
     // Generate a unique ID based on the current timestamp
@@ -306,13 +258,31 @@ export default {
       return Date.now();
     },
 
-    // Fetch existing pay methods
+    // Split getPayMethods into smaller functions
     async getPayMethods() {
       try {
-        this.requestListData = await getPayMethods();
+        const payMethods = await getPayMethods();
+        this.requestListData = this.transformPayMethodsData(payMethods);
       } catch (error) {
-        console.error("Error fetching pay methods:", error);
+        this.handlePayMethodsError(error);
       }
+    },
+
+    transformPayMethodsData(payMethods) {
+      return payMethods.map(method => ({
+        name: method.name,
+        type: method.type, 
+        id: method.id,
+        createdAt: method.createdAt
+      }));
+    },
+
+    handlePayMethodsError(error) {
+      console.error("Error fetching pay methods:", error);
+      this.$openPopupNotification({
+        text: "Error loading payment methods",
+        variant: "danger"
+      });
     },
 
     // Calculate the expiry date of the credit card
@@ -321,8 +291,8 @@ export default {
         const [month, year] = expiryDate.split("/");
         return {
           expiryYear: Number(year),
-          expiryMonth: Number(month)
-        }
+          expiryMonth: Number(month),
+        };
       }
       return {};
     },
@@ -364,27 +334,49 @@ export default {
       };
     },
 
-    // Build the final object for the payment method
+    // Split buildPayMethodObject into smaller functions
     buildPayMethodObject(formData) {
+      return {
+        ...this.getBasicPayMethodDetails(formData),
+        ...this.getBankDetails(formData),
+        ...this.getCardDetails(formData),
+        billing: this.buildBillingAddress(formData)
+      };
+    },
+
+    getBasicPayMethodDetails(formData) {
       const selectedCountry = this.countries.find(
         country => country.value === formData.bankCountryId
       );
-      
+
       return {
         name: formData.paymentMethodName,
         type: this.selectedModal,
-        billing: this.buildBillingAddress(formData),
-        bankCountryId: selectedCountry?.id || 0,
-        bankName: formData.bankName || "",
-        bankAccountHolderName: formData.accountHolderName || "",
-        bankAccountType: formData.accountType || "",
-        bankAccountCurrency: formData.accountCurrency || "",
-        bankRoutingNumber: formData.routingNumber || "",
-        bankAccountNumber: formData.accountNumber || "",
-        bankBranchNumber: formData.branchNumber || "",
-        cardNumber: formData.cardNumber || "",
-        cardholderName: formData.cardholderName || "",
-        cvv: formData.cvv || "",
+        bankCountryId: selectedCountry?.id || 0
+      };
+    },
+
+    getBankDetails(formData) {
+      if (this.selectedModal !== 'bank_account') return {};
+      
+      return {
+        bankName: formData.bankName || '',
+        bankAccountHolderName: formData.accountHolderName || '',
+        bankAccountType: formData.accountType || '',
+        bankAccountCurrency: formData.accountCurrency || '',
+        bankRoutingNumber: formData.routingNumber || '',
+        bankAccountNumber: formData.accountNumber || '',
+        bankBranchNumber: formData.branchNumber || ''
+      };
+    },
+
+    getCardDetails(formData) {
+      if (this.selectedModal !== 'credit_card') return {};
+
+      return {
+        cardNumber: formData.cardNumber || '',
+        cardholderName: formData.cardholderName || '',
+        cvv: formData.cvv || '',
         ...this.calculateExpiryDate(formData.expiryDate)
       };
     },
@@ -411,26 +403,24 @@ export default {
       };
     },
     async handleActionFromChild({ action, id }) {
-      console.log("Action from child ---- ", action);
       this.payMethodId = id;
       this.selectedAction = action;
-      if (action === "edit") {
+      if (action === 'edit') {
         const payMethod = await getPayMethodById(id);
         if (!payMethod) {
           console.error("Pay method not found");
           return;
         }
 
-        // Check the type and open the corresponding modal
-        if (payMethod.type === "credit_card") {
+        if (payMethod.type === PAY_METHOD_TYPES.CREDIT_CARD) {
           this.openCreditCardModal(payMethod);
-        } else if (payMethod.type === "bank_account") {
+        } else if (payMethod.type === PAY_METHOD_TYPES.BANK_ACCOUNT) {
           this.openBankAccountModal(payMethod);
         } else {
           console.error("Unknown pay method type");
         }
-      } else if (action === "delete") {
-        this.selectedModal = "delete";
+      } else if (action === 'delete') {
+        this.selectedModal = PAY_METHOD_TYPES.DELETE;
         this.isModalVisibleAddPayMethod = true;
         this.clickItemTitle = "Delete Pay Method";
       }
@@ -441,6 +431,10 @@ export default {
       this.requestListData = this.requestListData.filter(
         (item) => item.id !== this.payMethodId
       );
+      this.$openPopupNotification({
+        text: "Pay method deleted successfully",
+        variant: "danger",
+      });
       this.closeModal();
     },
 
@@ -495,6 +489,8 @@ export default {
     },
 
     formatExpiryDate(expiryDate) {
+     
+      // Example implementation using Moment.js library
       if (expiryDate) {
         return moment(expiryDate).format("MM/YY");
       }

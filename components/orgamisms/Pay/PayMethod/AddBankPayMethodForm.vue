@@ -235,21 +235,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .input-wrapper label {
   margin-bottom: 0px !important;
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 14.52px;
-  text-align: left;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-  color: var(--text-text-secondary, #8d8d8f);
+  font-family: Inter !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 14.52px !important;
+  text-align: left !important;
+  text-underline-position: from-font !important;
+  text-decoration-skip-ink: none !important;
+  color: var(--text-text-secondary, #8d8d8f) !important;
 }
-</style>
-
-<style scoped>
 .scrollable-container {
   max-height: 50vh;
   overflow-y: auto;

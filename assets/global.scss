@@ -431,3 +431,14 @@ table{
     
   }
   }
+
+  .input-wrapper input {
+    background-color: transparent !important;
+  }
+  .input--alert span.input-instruction {
+      padding: 6px !important; 
+      color: rgb(202, 28, 28) !important;  
+  }
+  .input-wrapper .bg-alert select{
+    color: var(--text-text-secondary, #8d8d8f) !important;
+  }

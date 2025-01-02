@@ -66,6 +66,7 @@ export default {
   },
 
   methods: {
+
     getDatetimeCommonProps,
     formatDateToIso(value) {
       let dateTimeDate = DateTime.fromISO(value);
@@ -77,7 +78,10 @@ export default {
     },
     onInput(value) {
       const { fieldKey } = this;
-      if (this.isDate) {
+      if (this.$attrs.name === "expiryDate") {
+        this.formatExpiryDate({ target: { value } });
+        value = this.value;
+      } else if (this.isDate) {
         value = this.formatDateToIso(value);
       }
       this.emitFormInput({ fieldKey, value });
@@ -92,7 +96,17 @@ export default {
       }
       this.value = this.$attrs.value;
       
-    }
+    },
+    formatExpiryDate(event) {
+      let value = event.target.value.replace(/\D/g, '');
+      if (value.length > 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      event.target.value = value.slice(0, 5);
+      this.value = value;
+      console.log(value);
+      this.$emit('input', value);
+    },
   },
 
   mounted() {

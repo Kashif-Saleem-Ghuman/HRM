@@ -15,7 +15,6 @@
       <div class="mb-2 pb-1 bottom_border_wrapper">
         <div class="section-label" :class="isLightThemeCheck ? 'text-dark': 'text-light'">Card information</div>
       </div>
-
       <form-input
         type="number"
         name="cardNumber"
@@ -30,11 +29,11 @@
     <div class="pb-1">
       <form-input
         type="text"
-        name="cardholderName"
+        name="cardHolderName"
         placeholder="Enter the cardholder name"
         label="Cardholder name"
-        field-key="cardholderName"
-        :value="creditCardFormData?.cardholderName"
+        field-key="cardHolderName"
+        :value="creditCardFormData?.cardHolderName"
         class="input-wrapper"
       ></form-input>
     </div>

@@ -5,13 +5,13 @@ export default {
     type: "text",
     label: "Country",
     model: "country",
-    validations: [isRequired],
+    validations: [],
   },
   address1: {
     type: "text",
     label: "Address 1",
     model: "address1",
-    validations: [isRequired],
+    validations: [],
   },
   address2: {
     type: "text",
@@ -23,18 +23,18 @@ export default {
     type: "text",
     label: "City",
     model: "city",
-    validations: [isRequired],
+    validations: [],
   },
   state: {
     type: "text",
     label: "State/Province",
     model: "state",
-    validations: [isRequired],
+    validations: [],
   },
   postalCode: {
     type: "text",
     label: "ZIP/Postal code",
     model: "postalCode",
-    validations: [isRequired],
+    validations: [],
   },
 };

@@ -9,24 +9,24 @@ export default {
     type: "text",
     label: "Card Number",
     model: "cardNumber",
-    validations: [isRequired],
+    validations: [],
   },
-  cardholderName: {
+  cardHolderName: {
     type: "text",
     label: "Cardholder name",
-    model: "cardholderName",
-    validations: [isRequired],
+    model: "cardHolderName",
+    validations: [],
   },
   expiryDate: {
     type: "text",
     label: "Expiry date",
     model: "expiryDate",
-    validations: [isRequired, validateMonthDay],
+    validations: [],
   },
   cvv: {
     type: "number",
     label: "CVV/CVC",
     model: "cvv",
-    validations: [isRequired, validateCvvCvc],
+    validations: [],
   },
 };

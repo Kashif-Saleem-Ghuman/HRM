@@ -302,7 +302,7 @@ export default {
       return {
         paymentMethodName: "",
         cardNumber: "",
-        cardholderName: "",
+        cardHolderName: "",
         expiryDate: "",
         cvv: "",
         country: "",
@@ -375,7 +375,7 @@ export default {
 
       return {
         cardNumber: formData.cardNumber || '',
-        cardholderName: formData.cardholderName || '',
+        cardHolderName: formData.cardHolderName || '',
         cvv: formData.cvv || '',
         ...this.calculateExpiryDate(formData.expiryDate)
       };
@@ -457,7 +457,7 @@ export default {
       return {
         paymentMethodName: payMethod.name || "",
         cardNumber: payMethod.cardNumber || "",
-        cardholderName: payMethod.cardholderName || "",
+        cardHolderName: payMethod.cardHolderName || "",
         expiryDate: this.formatExpiryDate(payMethod.expiryDate) || "",
         cvv: payMethod.cvv || "",
         country: payMethod.billing.country || "",

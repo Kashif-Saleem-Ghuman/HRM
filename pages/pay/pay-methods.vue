@@ -42,7 +42,7 @@
         <!-- Credit/Debit Card Modal -->
         <pay-method-modal v-if="isOpenCreateEditModal" :payMethodsModal="isModalVisibleAddPayMethod"
           :modalTitle="`Pay method / ${clickItemTitle}`" @close="closeModal" headerIcon="arrow-left"
-          @back-button-click="handleBackButtonClick">
+          @backButtonClick="handleBackButtonClick">
           <!-- credit card -->
           <form-with-validations v-if="selectedModal === 'credit_card'" :fields="creditCardFields"
             :form="creditCardFormData" :submit-fn="submitForm" :update-form.sync="creditCardFormData"
@@ -458,7 +458,7 @@ export default {
         paymentMethodName: payMethod.name || "",
         cardNumber: payMethod.cardNumber || "",
         cardHolderName: payMethod.cardHolderName || "",
-        expiryDate: this.formatExpiryDate(payMethod.expiryDate) || "",
+        expiryDate: this.formatExpiryDate(payMethod) || "",
         cvv: payMethod.cvv || "",
         country: payMethod.billing.country || "",
         address1: payMethod.billing.addressLine1 || "",
@@ -488,11 +488,12 @@ export default {
       };
     },
 
-    formatExpiryDate(expiryDate) {
+    formatExpiryDate(methodData) {
+      console.log(methodData)
      
       // Example implementation using Moment.js library
-      if (expiryDate) {
-        return moment(expiryDate).format("MM/YY");
+      if (methodData?.expiryMonth && methodData?.expiryYear) {
+        return `${methodData?.expiryMonth}/${methodData?.expiryYear}`;
       }
       return "";
     },

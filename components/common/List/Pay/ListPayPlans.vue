@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <custom-table
@@ -190,23 +189,12 @@ export default {
     },
     async deleteSpecificEntry() {
       try {
-        // Call the delete API
-        const res = await deletePayPlan(this.selectedDeleteId);
-
-        // Remove the deleted item from the list
-        this.payPlansList = this.payPlansList.filter(
-          (item) => item.id !== this.selectedDeleteId
-        );
-
-        // Show a success message (if needed)
-        this.$toast.success("Item successfully deleted!");
+        // Emit the delete event to parent instead of handling it here
+        this.$emit('delete-pay-plan', this.selectedDeleteId);
+        this.closeConfirmationModal();
       } catch (error) {
         console.error("Error deleting item:", error);
         this.$toast.error("An error occurred while deleting the item");
-      } finally {
-        // Reset modal visibility and selected ID
-        this.isDeleteModalVisible = false;
-        this.selectedDeleteId = null;
       }
     },
     closeConfirmationModal() {

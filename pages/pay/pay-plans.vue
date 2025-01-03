@@ -39,7 +39,11 @@
         </div> -->
       </div>
       <div>
-        <list-pay-plans :payPlansList="requestListData"  @row-clicked="rowClicked"/>
+        <list-pay-plans 
+          :payPlansList="requestListData"  
+          @row-clicked="rowClicked"
+          @delete-pay-plan="handleDeletePlan"
+        />
         <!-- Uncomment no-record if needed -->
         <!-- <no-record v-if="showNoData"></no-record> -->
         <!-- Uncomment list-salaries if needed -->
@@ -50,7 +54,7 @@
             :key="employeeList"
           ></list-salaries>
         </div> -->
-        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" :editData="selectedPayPlan"/>
+        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" @handle-delete="handleDeletePlan" :editData="selectedPayPlan"/>
       </div>
     </div>
   </div>
@@ -58,7 +62,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPayPlans } from "../../utils/functions/api_call/pay/pay-plans";
+import { getPayPlans, deletePayPlan } from "../../utils/functions/api_call/pay/pay-plans";
 import { getPayMethods } from "../../utils/functions/api_call/pay/pay-method";
 
 export default {
@@ -149,6 +153,23 @@ export default {
     rowClicked(rowData) {
       this.selectedPayPlan = rowData;
       this.$nuxt.$emit("open-sidebar-pay-paln", { data: this.selectedPayPlan });
+    },
+    async handleDeletePlan(id) {
+      try {
+        await deletePayPlan(id);
+        // Remove the deleted item from the list
+        this.requestListData = this.requestListData.filter(item => item.id !== id);
+        this.$openPopupNotification({
+          text: "Pay Plan deleted successfully",
+          variant: "success",
+        });
+      } catch (error) {
+        console.error("Error deleting pay plan:", error);
+        this.$openPopupNotification({
+          text: "Failed to delete pay plan",
+          variant: "danger",
+        });
+      }
     },
   },
   created() {

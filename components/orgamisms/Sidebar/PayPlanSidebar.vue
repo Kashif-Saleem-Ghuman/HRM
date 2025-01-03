@@ -12,6 +12,7 @@
       @bookmarkClicked="handleBookmark"
       @expandClicked="handleExpand"
       @elipsisClicked="handleElipsis"
+      @handleDelete="handleDelete"
     >
       <template v-slot:sidebar-body>
         <pay-plan-info-form @form-updated="updateFormData" :payMethodsList="payMethodsList" :editData="editData"></pay-plan-info-form>
@@ -79,7 +80,10 @@ export default {
     console.log("Pay amm --- ", this.payMethodsList)
   },
   methods: {
-    
+    handleDelete() {
+      this.$emit("handle-delete", this.editData?.id);
+      this.closeSidebar();
+    },
     closeSidebar() {
       this.slideClass = "slide-out";
       setTimeout(() => {

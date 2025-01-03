@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="themeClassCommon">
+  <div :class="themeClassCommon">
     <div
       v-if="isSidebarExpanded"
       class="overlay"
@@ -43,7 +43,10 @@
               <component
                 :is="icon.component"
                 :menuItems="icon.menuItems"
-                @click="handleIconClick(icon)"
+                @handleBookmark="$emit('handleBookmark')"
+                @handleShareContact="$emit('handleShareContact')"
+                @handleArchive="$emit('handleArchive')"
+                @handleDelete="$emit('handleDelete')"
               />
             </div>
           </div>
@@ -51,8 +54,8 @@
       </div>
       <div class="sidebar-body">
         <div :class="'sidebar-body-scroll-pay ' + classMain">
-          <div class="sidebarBodyPadd height">  
-            <slot name="sidebar-body"></slot> 
+          <div class="sidebarBodyPadd height">
+            <slot name="sidebar-body"></slot>
           </div>
         </div>
         <div
@@ -259,21 +262,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 9998;
 }
-// .sidebarBodyPadd {
-//   border: 1px solid #343437;
-//   padding: 20px;
-// }
-
-
-.sidebar-body{
-  // border: 1px solid white;
-  .form{
-    // border: 1px solid paleturquoise;
-  }
+.sidebarBodyPaddPay {
+  padding: 12px;
 }
-
-
-
-
-
 </style>

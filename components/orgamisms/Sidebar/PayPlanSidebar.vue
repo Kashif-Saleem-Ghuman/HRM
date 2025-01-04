@@ -95,9 +95,7 @@ export default {
     },
     validateForm() {
       const requiredFields = {
-        reference: 'Reference',
         status: 'Status',
-        name: 'Name',
         type: 'Type',
         location: 'Location',
         payFrequency: 'Pay Frequency',

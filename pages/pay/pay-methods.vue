@@ -1,5 +1,6 @@
 <template>
   <div id="pay-plan">
+    <loader :loading="loading"></loader>
     <div>
       <!-- Header with Action Button -->
       <div class="d-flex justify-between">
@@ -97,7 +98,7 @@ export default {
       id: null,
       payMethodId: null,
       requestListData: [],
-      loading: true,
+      loading: false,
       fromDate: "",
       toDate: "",
       isModalVisible: false,
@@ -261,10 +262,13 @@ export default {
     // Split getPayMethods into smaller functions
     async getPayMethods() {
       try {
+        this.loading = true; // Set loading to true before fetching
         const payMethods = await getPayMethods();
         this.requestListData = this.transformPayMethodsData(payMethods);
       } catch (error) {
         this.handlePayMethodsError(error);
+      } finally {
+        this.loading = false; // Set loading to false after completion
       }
     },
 
@@ -433,7 +437,7 @@ export default {
       );
       this.$openPopupNotification({
         text: "Pay method deleted successfully",
-        variant: "danger",
+        variant: "success",
       });
       this.closeModal();
     },

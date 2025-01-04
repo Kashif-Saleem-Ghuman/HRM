@@ -220,22 +220,7 @@ export default {
   },
   data() {
     return {
-      addForm: {
-      reference: 'reference',
-      status: '',
-      name: 'name',
-      type: '',
-      location: '',
-      payFrequency: '',
-      payMethodId: '',
-      payMethodName:'',
-      closeDay: '',
-      runDay: '',
-      startDate:'',
-      description:'',
-      orgDefault:true,
-      orgDefaultName:''
-    },
+      addForm: this.getInitialFormState(),
       inputValue: "",
       startDate: dayjs("2023-01-25").format("MMM D, YYYY"),
       format: "MMM D, YYYY",
@@ -273,6 +258,24 @@ export default {
     };
   },
   methods: {
+    getInitialFormState() {
+      return {
+        reference: '',
+        status: '',
+        name: '',
+        type: '',
+        location: '',
+        payFrequency: '',
+        payMethodId: '',
+        payMethodName: '',
+        closeDay: '',
+        runDay: '',
+        startDate: '',
+        description: '',
+        orgDefault: true,
+        orgDefaultName: ''
+      };
+    },
     handleUpdateValue(field, value) {
       // Handle pay method selection
       if (field === "payMethodId") {
@@ -314,9 +317,9 @@ export default {
     },
     mapEditData() {
       if (this.editData) {
-        this.addForm = {
-          reference: this.editData.reference || 'Reference',
-          name: this.editData.name || 'Name',
+        this.addForm = Object.assign(this.getInitialFormState(), {
+          reference: this.editData.reference || '',
+          name: this.editData.name || '',
           type: this.editData.type || '',
           location: this.editData.location || '',
           payFrequency: this.editData.payFrequency || '',
@@ -328,14 +331,20 @@ export default {
           status: this.editData.status || '',
           payMethodId: this.editData.payMethod?.id || '',
           payMethodName: this.editData.payMethod?.name || ''
-        };
+        });
 
         if (this.editData.startDate) {
           this.startDate = dayjs(this.editData.startDate).format('YYYY-MM-DD');
         }
 
         console.log('Updated Form Data:', this.addForm);
+      } else {
+        this.resetForm();
       }
+    },
+    resetForm() {
+      this.addForm = this.getInitialFormState();
+      this.$emit("form-updated", this.addForm);
     },
   },
 
@@ -343,18 +352,20 @@ export default {
     editData: {
       immediate: true,
       handler(newVal) {
-        if (newVal) {
+        if (newVal?.id) {
           this.mapEditData();
+        } else {
+          this.resetForm();
         }
       }
     }
   },
 
-  // mounted() {
-  //   if(this.editData?.id){
-  //     this.mapEditData();
-  //   }
-  // },
+  created() {
+    if (!this.editData?.id) {
+      this.resetForm();
+    }
+  },
 
   computed: {
     payMethodsOptions() {

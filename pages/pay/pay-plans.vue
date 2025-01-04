@@ -1,7 +1,6 @@
 <template>
   <div id="pay-plan">
-    <!-- Uncomment loader if needed -->
-    <!-- <loader :loading="loading"></loader> -->
+    <loader :loading="loading"></loader>
     <div>
       <div class="d-flex justify-between">
         <div>
@@ -71,7 +70,7 @@ export default {
       id: null,
       requestListData: [],
       payMethods:[],
-      loading: true,
+      loading: false,
       fromDate: "",
       toDate: "",
       selectedPayPlan: null,

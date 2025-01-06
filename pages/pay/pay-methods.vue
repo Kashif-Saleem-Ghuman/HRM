@@ -16,8 +16,10 @@
 
       <!-- List Pay Plans -->
       <div>
-        <list-pay-method :payMethodList="requestListData" :tableFields="tableFields"
+        <list-pay-method v-if="requestListData?.length > 0" :payMethodList="requestListData" :tableFields="tableFields"
           @action-selected="handleActionFromChild" />
+        <NoRecord v-else-if="requestListData?.length == 0 && !loading" />
+        
 
         <!-- Conditional Modals -->
         <pay-method-modal v-if="isModalVisible" :payMethodsModal="isModalVisible" modalTitle="Pay Methods"
@@ -88,8 +90,6 @@ import paymentMethodMainFields from "@/components/orgamisms/Pay/forms/payment-me
 import creditCardFields from "@/components/orgamisms/Pay/forms/credit-card-form-fields.js";
 import billingAddressFields from "@/components/orgamisms/Pay/forms/billing-address-form-fields.js";
 import accountFields from "@/components/orgamisms/Pay/forms/account-form-fields.js";
-
-import moment from "moment";
 
 export default {
   data() {
@@ -233,7 +233,7 @@ export default {
       ];
       this.$openPopupNotification({
         text: "Pay method created successfully",
-        variant: "success",
+        variant: "primary-24",
       });
     },
 
@@ -242,7 +242,7 @@ export default {
       await this.getPayMethods();
       this.$openPopupNotification({
         text: "Pay method updated successfully",
-        variant: "success",
+        variant: "primary-24",
       });
     },
 
@@ -252,11 +252,6 @@ export default {
         text: "Error processing payment method",
         variant: "danger",
       });
-    },
-
-    // Generate a unique ID based on the current timestamp
-    generateUniqueId() {
-      return Date.now();
     },
 
     // Split getPayMethods into smaller functions
@@ -437,7 +432,7 @@ export default {
       );
       this.$openPopupNotification({
         text: "Pay method deleted successfully",
-        variant: "success",
+        variant: "primary-24",
       });
       this.closeModal();
     },
@@ -495,7 +490,6 @@ export default {
     formatExpiryDate(methodData) {
       console.log(methodData)
      
-      // Example implementation using Moment.js library
       if (methodData?.expiryMonth && methodData?.expiryYear) {
         return `${methodData?.expiryMonth}/${methodData?.expiryYear}`;
       }

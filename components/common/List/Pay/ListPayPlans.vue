@@ -6,8 +6,9 @@
       :hide-no-column="true"
       :allChecked="checkedAll"
       @column-header-clicked="headerColumnClick($event.column)"
+      :cellActionIcon="'table-column-solid'"
       @item-clicked="handleRowClick"
-      >
+    >
       <template #cell(id)="data">
         <div class="justify-between">
           <span>{{ data.value.id }}</span>
@@ -55,17 +56,27 @@
           </select>
         </div>
       </template>
-      <template #cell(action)="data">
-      <bib-button class="button-pop" pop="horizontal-dots" :variant="isLightThemeCheck ? 'light' : 'secondary'">
+      <template #cell_action_right="data">
+        <bib-button
+          class="button-pop"
+          pop="horizontal-dots"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+        >
           <template v-slot:menu>
-              <div class="list">
-                  <span @click="handleEditClick(data.value.id)" class="list__item">Edit</span>
-                  <span @click.stop="handleDelete('delete', data.value.id)" class="list__item">Delete</span>
-              </div>
+            <div class="list">
+              <span @click="handleEditClick(data.value.id)" class="list__item"
+                >Edit</span
+              >
+              <span
+                @click.stop="handleDelete('delete', data.value.id)"
+                class="list__item"
+                >Delete</span
+              >
+            </div>
           </template>
-      </bib-button>
-    </template>
-  </custom-table>
+        </bib-button>
+      </template>
+    </custom-table>
     <confirmation-modal
       v-if="isDeleteModalVisible"
       title="Delete Confirmation"
@@ -82,7 +93,10 @@
 import { mapGetters } from "vuex";
 import { TABLE_HEAD } from "../../../../utils/constant/pay/PayConstant";
 import { sortColumn } from "../../../../utils/functions/table-sort";
-import { deletePayPlan, updatePayPlan } from "../../../../utils/functions/api_call/pay/pay-plans";
+import {
+  deletePayPlan,
+  updatePayPlan,
+} from "../../../../utils/functions/api_call/pay/pay-plans";
 import {
   meetLink,
   sendMessage,
@@ -128,7 +142,7 @@ export default {
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.payPlansList;
-      console.log(">>>>>>>>")
+      console.log(">>>>>>>>");
       return sortColumn({ items: this.payPlansList, field: this.sortByField });
     },
     truncateText() {
@@ -159,7 +173,7 @@ export default {
       this.sortByField = field;
     },
     headerColumnClick(column) {
-      if(column != "action"){
+      if (column != "action") {
         this.sortColumn(column);
       }
     },
@@ -177,7 +191,7 @@ export default {
       this.$emit("row-clicked", rowData);
     },
     handleEditClick(id) {
-      const rowData = this.leavePendingList.find(item => item.id === id);
+      const rowData = this.leavePendingList.find((item) => item.id === id);
       this.$emit("row-clicked", rowData);
     },
     handleDelete(action, id) {
@@ -190,7 +204,7 @@ export default {
     async deleteSpecificEntry() {
       try {
         // Emit the delete event to parent instead of handling it here
-        this.$emit('delete-pay-plan', this.selectedDeleteId);
+        this.$emit("delete-pay-plan", this.selectedDeleteId);
         this.closeConfirmationModal();
       } catch (error) {
         console.error("Error deleting item:", error);
@@ -203,7 +217,7 @@ export default {
     },
     async updateStatus(id, data) {
       let addForm = {
-        reference: 'reference',
+        reference: "reference",
         status: data.status,
         name: data.payMethod.name,
         type: data.type,
@@ -219,9 +233,15 @@ export default {
       };
       try {
         await updatePayPlan(id, addForm);
-        this.$toast.success("Status updated successfully");
+        this.$openPopupNotification({
+          text: "Status updated successfully",
+          variant: "primary-24",
+        });
       } catch (error) {
-        this.$toast.error("An error occurred while updating status");
+        this.$openPopupNotification({
+          text: "An error occurred while updating status",
+          variant: "danger",
+        });
       }
     },
   },
@@ -229,7 +249,7 @@ export default {
 </script>
 
 <style lang="scss">
-.select-field{
+.select-field {
   color: white !important;
   border: none !important;
 }
@@ -298,11 +318,11 @@ export default {
   background-color: #bebebe;
 }
 
-.table tr td{
+.table tr td {
   color: #f4f4f4 !important;
 }
 
-.table tr tr{
+.table tr tr {
   color: #8d8d8f !important;
 }
 </style>

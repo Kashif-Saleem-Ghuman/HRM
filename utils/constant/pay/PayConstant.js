@@ -195,11 +195,6 @@ export const TABLE_HEAD = {
         type: "string",
       },
     },
-
-    {
-      key: "action",
-      label: "Action",
-    },
   ],
   tHeadPayMethods: [
     {
@@ -242,10 +237,6 @@ export const TABLE_HEAD = {
         sortKey: "createdAt",
         type: "string",
       },
-    },
-    {
-      key: "action",
-      label: "Action",
     },
   ],
 

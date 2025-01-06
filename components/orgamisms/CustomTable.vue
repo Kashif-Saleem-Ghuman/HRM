@@ -63,7 +63,7 @@
           </th>
           <th v-if="$scopedSlots.cell_action_right" class="cell_action_header">
             <div class="d-flex justify-center align-center">
-              <bib-icon icon="trash" :scale="0.9"></bib-icon>
+              <bib-icon :icon="cellActionIcon" :scale="0.9"></bib-icon>
             </div>
           </th>
         </tr>
@@ -197,6 +197,10 @@ export default {
     allChecked: {
       type: Boolean,
       default: false,
+    },
+    cellActionIcon: {
+      type: String,
+      default: 'trash',
     },
   },
   data() {

@@ -322,11 +322,11 @@ export const PAY_TAB = [
     value: "Salaries",
     route: "/pay/salaries/",
   },
-  {
-    title: "Payouts",
-    value: "Payouts",
-    route: "/pay/payouts/",
-  },
+  // {
+  //   title: "Payouts",
+  //   value: "Payouts",
+  //   route: "/pay/payouts/",
+  // },
   {
     title: "Pay Plans",
     value: "Pay Plans",

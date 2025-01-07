@@ -15,15 +15,29 @@
       @handleDelete="handleDelete"
     >
       <template v-slot:sidebar-body>
-        <pay-plan-info-form @form-updated="updateFormData" :payMethodsList="payMethodsList" :editData="editData"></pay-plan-info-form>
+        <pay-plan-info-form
+          @form-updated="updateFormData"
+          :payMethodsList="payMethodsList"
+          :editData="editData"
+        ></pay-plan-info-form>
         <div class="py-1">
           <pay-plan-info></pay-plan-info>
         </div>
-        <div v-if="editData?.id" class="py-1">
+        <!-- <div v-if="editData?.id" class="py-1">
           <logs-section></logs-section>
-        </div>
-        <bib-button @click="closeSidebar" label="Cancel" variant="secondary" class="footer-button mb-3" />
-        <bib-button @click="saveFormData" :label="editData?.id ? 'Update' : 'Save'" variant="primary" class="footer-button mb-3" />
+        </div> -->
+        <bib-button
+          @click="closeSidebar"
+          label="Cancel"
+          variant="secondary"
+          class="footer-button mb-3"
+        />
+        <bib-button
+          @click="saveFormData"
+          :label="editData?.id ? 'Update' : 'Save'"
+          variant="primary"
+          class="footer-button mb-3"
+        />
       </template>
     </pay-action-sidebar>
   </div>
@@ -31,7 +45,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPayPlans, createPayPlan, updatePayPlan } from "../../../utils/functions/api_call/pay/pay-plans"; 
+import {
+  getPayPlans,
+  createPayPlan,
+  updatePayPlan,
+} from "../../../utils/functions/api_call/pay/pay-plans";
 const OPEN_SIDEBAR_EVENT = "open-sidebar-pay-paln";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar-pay-plan";
 export default {
@@ -40,10 +58,10 @@ export default {
       type: [Array, String],
       default: "",
     },
-    payMethodsList:{
+    payMethodsList: {
       type: [Array, Object],
       default: "",
-      },
+    },
     editData: {
       type: Object,
       default: null,
@@ -61,7 +79,6 @@ export default {
         { value: "opt2", label: "Option 2" },
         { value: "opt3", label: "Option 3" },
       ],
-      
     };
   },
   computed: {
@@ -77,7 +94,7 @@ export default {
   },
   mounted() {
     this.registerRootListeners();
-    console.log("Pay amm --- ", this.payMethodsList)
+    console.log("Pay amm --- ", this.payMethodsList);
   },
   methods: {
     handleDelete() {
@@ -95,18 +112,22 @@ export default {
     },
     validateForm() {
       const requiredFields = {
-        status: 'Status',
-        type: 'Type',
-        location: 'Location',
-        payFrequency: 'Pay Frequency',
-        payMethodId: 'Pay Method',
-        closeDay: 'Close Day',
-        runDay: 'Run Day',
-        startDate: 'Start Date'
+        status: "Status",
+        type: "Type",
+        location: "Location",
+        payFrequency: "Pay Frequency",
+        payMethodId: "Pay Method",
+        closeDay: "Close Day",
+        runDay: "Run Day",
+        startDate: "Start Date",
       };
 
       for (const [field, label] of Object.entries(requiredFields)) {
-        if (!this.formData?.[field] || (typeof this.formData[field] === 'string' && this.formData[field].trim() === '')) {
+        if (
+          !this.formData?.[field] ||
+          (typeof this.formData[field] === "string" &&
+            this.formData[field].trim() === "")
+        ) {
           this.openPopupNotification({
             text: `Please fill the ${label} field.`,
             variant: "danger",
@@ -123,28 +144,28 @@ export default {
           return;
         }
         console.log("save form data --- ", this.formData);
-        if (!this.formData || typeof this.formData !== 'object') {
-          console.warn('No valid form data to save');
+        if (!this.formData || typeof this.formData !== "object") {
+          console.warn("No valid form data to save");
           return;
         }
-        
+
         // Create a copy of the form data to avoid mutating the original
         const dataToSave = { ...this.formData };
-        
-        if ('payMethodName' in dataToSave) {
+
+        if ("payMethodName" in dataToSave) {
           delete dataToSave.payMethodName;
         }
-        if(this.editData?.id){
+        if (this.editData?.id) {
           console.log("update pay plan --- ", this.editData.id, dataToSave);
           await updatePayPlan(this.editData.id, dataToSave);
-          this.$emit("created-pay-plan"); 
-        }else{
+          this.$emit("created-pay-plan");
+        } else {
           const res = await createPayPlan(dataToSave);
-          this.$emit("created-pay-plan", res); 
+          this.$emit("created-pay-plan", res);
         }
         this.closeSidebar();
       } catch (error) {
-        console.error('Error saving form data:', error);
+        console.error("Error saving form data:", error);
         // Handle error appropriately (maybe show an error message to user)
       }
     },
@@ -196,7 +217,7 @@ export default {
       this.unregisterOpenSideBarRootListener();
     },
     updateFormData(data) {
-    console.log("Data in parent::::::::: ",data)
+      console.log("Data in parent::::::::: ", data);
       this.formData = data; // Update the form data in the parent
     },
   },

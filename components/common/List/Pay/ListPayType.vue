@@ -5,10 +5,11 @@
     :hide-no-column="true"
     :allChecked="checkedAll"
     @column-header-clicked="headerColumnClick($event.column)"
+    cellActionIcon="table-column-solid"
   >
-    <template #cell(pay-type)="data">
+    <template #cell(name)="data">
       <div class="justify-between">
-        <span>{{ data.value.payType }}</span>
+        <span>{{ data.value.name }}</span>
       </div>
     </template>
     <template #cell(created-on)="data">
@@ -18,6 +19,28 @@
           {{ getTimeFromDate(data.value.createdAt) }}</span
         >
       </div>
+    </template>
+    <template #cell_action_right="data">
+      <bib-button
+        class="button-pop"
+        pop="horizontal-dots"
+        :variant="isLightThemeCheck ? 'light' : 'secondary'"
+      >
+        <template v-slot:menu>
+          <div class="list">
+            <span
+              @click="handleActionChange('edit', data.value)"
+              class="list__item"
+              >Edit</span
+            >
+            <span
+              @click.stop="handleActionChange('delete', data.value)"
+              class="list__item"
+              >Delete</span
+            >
+          </div>
+        </template>
+      </bib-button>
     </template>
   </custom-table>
 </template>
@@ -80,6 +103,11 @@ export default {
     },
     headerColumnClick(column) {
       this.sortColumn(column);
+    },
+    handleActionChange(action, data) {
+      if (action === "edit" || action === "delete") {
+        this.$emit("action-selected", { action, data });
+      }
     },
   },
 };

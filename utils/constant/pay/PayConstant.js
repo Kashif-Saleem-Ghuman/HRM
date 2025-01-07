@@ -246,14 +246,14 @@ export const TABLE_HEAD = {
       label: "#",
     },
     {
-      key: "pay-type",
-      label: "Pay type   ",
+      key: "name",
+      label: "Pay type",
 
       header_icon: {
         icon: "long-arrow-up",
         event: "pay-type-sort",
         isActive: false,
-        sortKey: "payType",
+        sortKey: "name",
         type: "string",
       },
     },
@@ -269,10 +269,6 @@ export const TABLE_HEAD = {
         sortKey: "createdAt",
         type: "string",
       },
-    },
-    {
-      key: "action",
-      label: "Action",
     },
   ],
   tHeadPaySalaryEarningInfo: [
@@ -776,44 +772,43 @@ export const PAY_DUMMY_REQUESTS_PAYTYPE = {
 export const DUMMY_USERS_LIST = [
   {
     id: 1,
-    name: 'John Doe',
-    employeeId: 'EMP001',
-    department: 'Engineering',
-    position: 'Senior Developer'
+    name: "John Doe",
+    employeeId: "EMP001",
+    department: "Engineering",
+    position: "Senior Developer",
   },
   {
     id: 2,
-    name: 'Jane Smith',
-    employeeId: 'EMP002',
-    department: 'Marketing',
-    position: 'Marketing Manager'
+    name: "Jane Smith",
+    employeeId: "EMP002",
+    department: "Marketing",
+    position: "Marketing Manager",
   },
   {
     id: 3,
-    name: 'Robert Johnson',
-    employeeId: 'EMP003',
-    department: 'Finance',
-    position: 'Financial Analyst'
+    name: "Robert Johnson",
+    employeeId: "EMP003",
+    department: "Finance",
+    position: "Financial Analyst",
   },
   {
     id: 4,
-    name: 'Sarah Williams',
-    employeeId: 'EMP004',
-    department: 'HR',
-    position: 'HR Specialist'
+    name: "Sarah Williams",
+    employeeId: "EMP004",
+    department: "HR",
+    position: "HR Specialist",
   },
   {
     id: 5,
-    name: 'Michael Brown',
-    employeeId: 'EMP005',
-    department: 'Operations',
-    position: 'Operations Manager'
-  }
+    name: "Michael Brown",
+    employeeId: "EMP005",
+    department: "Operations",
+    position: "Operations Manager",
+  },
 ];
 
 export const PAY_METHOD_TYPES = {
-  CREDIT_CARD: 'credit_card',
-  BANK_ACCOUNT: 'bank_account',
-  DELETE: 'delete'
+  CREDIT_CARD: "credit_card",
+  BANK_ACCOUNT: "bank_account",
+  DELETE: "delete",
 };
-

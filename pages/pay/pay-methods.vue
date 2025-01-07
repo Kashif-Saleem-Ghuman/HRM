@@ -1,5 +1,6 @@
 <template>
   <div id="pay-plan">
+    <loader :loading="loading"></loader>
     <div>
       <!-- Header with Action Button -->
       <div class="d-flex justify-between">
@@ -15,8 +16,10 @@
 
       <!-- List Pay Plans -->
       <div>
-        <list-pay-method :payMethodList="requestListData" :tableFields="tableFields"
+        <list-pay-method v-if="requestListData?.length > 0" :payMethodList="requestListData" :tableFields="tableFields"
           @action-selected="handleActionFromChild" />
+        <NoRecord v-else-if="requestListData?.length == 0 && !loading" />
+        
 
         <!-- Conditional Modals -->
         <pay-method-modal v-if="isModalVisible" :payMethodsModal="isModalVisible" modalTitle="Pay Methods"
@@ -88,8 +91,6 @@ import creditCardFields from "@/components/orgamisms/Pay/forms/credit-card-form-
 import billingAddressFields from "@/components/orgamisms/Pay/forms/billing-address-form-fields.js";
 import accountFields from "@/components/orgamisms/Pay/forms/account-form-fields.js";
 
-import moment from "moment";
-
 export default {
   data() {
     return {
@@ -97,7 +98,7 @@ export default {
       id: null,
       payMethodId: null,
       requestListData: [],
-      loading: true,
+      loading: false,
       fromDate: "",
       toDate: "",
       isModalVisible: false,
@@ -232,7 +233,7 @@ export default {
       ];
       this.$openPopupNotification({
         text: "Pay method created successfully",
-        variant: "success",
+        variant: "primary-24",
       });
     },
 
@@ -241,7 +242,7 @@ export default {
       await this.getPayMethods();
       this.$openPopupNotification({
         text: "Pay method updated successfully",
-        variant: "success",
+        variant: "primary-24",
       });
     },
 
@@ -253,18 +254,16 @@ export default {
       });
     },
 
-    // Generate a unique ID based on the current timestamp
-    generateUniqueId() {
-      return Date.now();
-    },
-
     // Split getPayMethods into smaller functions
     async getPayMethods() {
       try {
+        this.loading = true; // Set loading to true before fetching
         const payMethods = await getPayMethods();
         this.requestListData = this.transformPayMethodsData(payMethods);
       } catch (error) {
         this.handlePayMethodsError(error);
+      } finally {
+        this.loading = false; // Set loading to false after completion
       }
     },
 
@@ -433,7 +432,7 @@ export default {
       );
       this.$openPopupNotification({
         text: "Pay method deleted successfully",
-        variant: "danger",
+        variant: "primary-24",
       });
       this.closeModal();
     },
@@ -491,7 +490,6 @@ export default {
     formatExpiryDate(methodData) {
       console.log(methodData)
      
-      // Example implementation using Moment.js library
       if (methodData?.expiryMonth && methodData?.expiryYear) {
         return `${methodData?.expiryMonth}/${methodData?.expiryYear}`;
       }

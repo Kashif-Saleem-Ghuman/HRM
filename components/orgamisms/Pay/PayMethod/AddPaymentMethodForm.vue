@@ -105,7 +105,6 @@
         :value="creditCardFormData?.address2"
       ></form-input>
     </div>
-
     <div class="d-flex align-center justify-between">
       <form-input
         type="text"
@@ -116,16 +115,30 @@
         class="pr-1 input-wrapper"
         :value="creditCardFormData?.city"
       ></form-input>
-      <form-input
-        name="state"
-        label="State/Province"
-        :options="filteredStates"
-        type="select"
-        placeholder="Select state/province"
-        field-key="state"
-        class="input-wrapper"
-        :value="creditCardFormData?.state"
-      ></form-input>
+      
+      <template v-if="creditCardFormData?.country === 'United States' || creditCardFormData?.country === 'Canada'">
+        <form-input
+          name="state"
+          label="State/Province"
+          :options="filteredStates"
+          type="select"
+          placeholder="Select state/province"
+          field-key="state"
+          class="input-wrapper"
+          :value="creditCardFormData?.state"
+        ></form-input>
+      </template>
+      <template v-else>
+        <form-input
+          type="text"
+          name="state"
+          label="State/Province"
+          field-key="state"
+          class="input-wrapper"
+          placeholder="Enter state/province"
+          :value="creditCardFormData?.state"
+        ></form-input>
+      </template>
 
       <form-input
         type="text"
@@ -165,6 +178,11 @@ export default {
       );
       states.unshift({ label: "Select...", value: "" });
       return states;
+    },
+  },
+  watch: {
+    'creditCardFormData.country'(newCountry) {
+      this.creditCardFormData.state = ''; // Clear the state value
     },
   },
 };

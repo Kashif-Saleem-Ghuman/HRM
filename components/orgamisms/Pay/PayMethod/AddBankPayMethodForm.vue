@@ -158,16 +158,31 @@
         :value="bankAccountFields?.city"
       ></form-input>
 
-      <form-input
-        name="state"
-        label="State/Province"
-        :options="filteredStates"
-        type="select"
-        placeholder="Select state/province"
-        field-key="state"
-        class="input-wrapper"
-        :value="bankAccountFields?.state"
-      ></form-input>
+      <!-- Updated state input handling -->
+      <template v-if="bankAccountFields?.country === 'United States' || bankAccountFields?.country === 'Canada'">
+        <form-input
+          name="state"
+          label="State/Province"
+          :options="filteredStates"
+          type="select"
+          placeholder="Select state/province"
+          field-key="state"
+          class="input-wrapper"
+          :value="bankAccountFields?.state"
+        ></form-input>
+      </template>
+      <template v-else>
+        <form-input
+          type="text"
+          name="state"
+          label="State/Province"
+          field-key="state"
+          class="input-wrapper"
+          placeholder="Enter state/province"
+          :value="bankAccountFields?.state"
+        ></form-input>
+      </template>
+      <!-- End of updated state input handling -->
 
       <form-input
         type="text"
@@ -231,7 +246,12 @@ export default {
       );
       return country?.value || '';
     }
-  }
+  },
+  watch: {
+    'bankAccountFields.country'(newCountry) {
+      this.bankAccountFields.state = ''; // Clear the state value
+    },
+  },
 };
 </script>
 

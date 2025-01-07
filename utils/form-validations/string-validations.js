@@ -59,10 +59,18 @@ export function isValidUrl(url) {
 
 export function validateMonthDay(value) {
   const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-  return regex.test(value) || "Invalid date";
+  if (!regex.test(value)) return "Format is not correct";
+  
+  // if (/[^0-9\/]/.test(value)) return "Format is not correct";
+  
+  const [month, year] = value.split('/').map(Number);
+  const currentDate = new Date();
+  const inputDate = new Date(`20${year}`, month - 1);
+  
+  return inputDate > currentDate || "Format is not correct";
 }
 
 export function validateCvvCvc(value) {
   const regex = /^[0-9]{3,4}$/;
-  return regex.test(value) || "Invalid CVV/CVC";
+  return regex.test(value) || "Format is not correct";
 }

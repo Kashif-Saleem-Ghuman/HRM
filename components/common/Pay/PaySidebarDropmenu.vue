@@ -18,6 +18,7 @@
               class="list__item"
               v-for="(item, index) in menuItems"
               :key="index"
+              @click="$emit(item.action)"
             >
               {{ item.label }}
             </span>

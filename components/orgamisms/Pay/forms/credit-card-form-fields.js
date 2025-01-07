@@ -21,12 +21,12 @@ export default {
     type: "text",
     label: "Expiry date",
     model: "expiryDate",
-    validations: [],
+    validations: [isRequired, validateMonthDay],
   },
   cvv: {
     type: "number",
     label: "CVV/CVC",
     model: "cvv",
-    validations: [],
+    validations: [isRequired, validateCvvCvc],
   },
 };

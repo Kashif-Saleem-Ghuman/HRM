@@ -1,7 +1,6 @@
 <template>
   <div id="pay-plan">
-    <!-- Uncomment loader if needed -->
-    <!-- <loader :loading="loading"></loader> -->
+    <loader :loading="loading"></loader>
     <div>
       <div class="d-flex justify-between">
         <div>
@@ -14,43 +13,18 @@
             }"
           />
         </div>
-        <!-- <div class="d-flex">
-          <filter-button
-            :primaryButton="{
-              filterLabel: 'Show',
-              label: 'All',
-              onClick: handleShowAll,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
-              filterLabel: 'Group by',
-              label: 'Date',
-              onClick: handleGroupBy,
-            }"
-          />
-          <filter-button
-            :primaryButton="{
-              filterLabel: 'Sort by',
-              label: 'Status',
-              onClick: handleSortBy,
-            }"
-          />
-        </div> -->
+
       </div>
       <div>
-        <list-pay-plans :payPlansList="requestListData"  @row-clicked="rowClicked"/>
-        <!-- Uncomment no-record if needed -->
-        <!-- <no-record v-if="showNoData"></no-record> -->
-        <!-- Uncomment list-salaries if needed -->
-        <!-- <div v-else-if="showTable">
-          {{ requestListData }}
-          <list-salaries
-            :listPending="requestListData"
-            :key="employeeList"
-          ></list-salaries>
-        </div> -->
-        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" :editData="selectedPayPlan"/>
+        <list-pay-plans 
+          v-if="requestListData?.length > 0"
+          :payPlansList="requestListData"  
+          @row-clicked="rowClicked"
+          @delete-pay-plan="handleDeletePlan"
+        />
+        <NoRecord v-else-if="requestListData?.length == 0 && !loading" />
+
+        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" @handle-delete="handleDeletePlan" :editData="selectedPayPlan"/>
       </div>
     </div>
   </div>
@@ -58,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPayPlans } from "../../utils/functions/api_call/pay/pay-plans";
+import { getPayPlans, deletePayPlan } from "../../utils/functions/api_call/pay/pay-plans";
 import { getPayMethods } from "../../utils/functions/api_call/pay/pay-method";
 
 export default {
@@ -67,7 +41,7 @@ export default {
       id: null,
       requestListData: [],
       payMethods:[],
-      loading: true,
+      loading: false,
       fromDate: "",
       toDate: "",
       selectedPayPlan: null,
@@ -120,12 +94,12 @@ export default {
       this.requestListData.push(data);
       this.$openPopupNotification({
           text: "Pay Plan Created successfully",
-          variant: "success",
+          variant: "primary-24",
         })
      }else{
       this.$openPopupNotification({
           text: "Pay Plan Updated successfully",
-          variant: "success",
+          variant: "primary-24",
         })
       this.fetchPayPlans();  
       this.getPayMethods();
@@ -149,6 +123,23 @@ export default {
     rowClicked(rowData) {
       this.selectedPayPlan = rowData;
       this.$nuxt.$emit("open-sidebar-pay-paln", { data: this.selectedPayPlan });
+    },
+    async handleDeletePlan(id) {
+      try {
+        await deletePayPlan(id);
+        // Remove the deleted item from the list
+        this.requestListData = this.requestListData.filter(item => item.id !== id);
+        this.$openPopupNotification({
+          text: "Pay Plan deleted successfully",
+          variant: "primary-24",
+        });
+      } catch (error) {
+        console.error("Error deleting pay plan:", error);
+        this.$openPopupNotification({
+          text: "Failed to delete pay plan",
+          variant: "danger",
+        });
+      }
     },
   },
   created() {

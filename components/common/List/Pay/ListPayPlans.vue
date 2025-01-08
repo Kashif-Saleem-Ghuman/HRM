@@ -21,7 +21,7 @@
       </template>
       <template #cell(payFrequency)="data">
         <div class="justify-between">
-          <span>{{ data.value.payFrequency }}</span>
+          <span class="text-container">{{ data.value.payFrequency }}</span>
         </div>
       </template>
       <template #cell(payMethod)="data">
@@ -31,12 +31,12 @@
       </template>
       <template #cell(closeDay)="data">
         <div class="justify-between">
-          <span>{{ data.value.closeDay }} </span>
+          <span class="text-container">{{ data.value.closeDay }} </span>
         </div>
       </template>
       <template #cell(runDay)="data">
         <div class="justify-between">
-          <span>
+          <span class="text-container">
             {{ data.value.runDay }}
           </span>
         </div>
@@ -142,7 +142,6 @@ export default {
   computed: {
     leavePendingList() {
       if (!this.sortByField) return this.payPlansList;
-      console.log(">>>>>>>>");
       return sortColumn({ items: this.payPlansList, field: this.sortByField });
     },
     truncateText() {
@@ -324,5 +323,14 @@ export default {
 
 .table tr tr {
   color: #8d8d8f !important;
+}
+</style>
+<style scoped>
+.text-container {
+  text-transform: lowercase;
+}
+
+.text-container::first-letter {
+  text-transform: uppercase;
 }
 </style>

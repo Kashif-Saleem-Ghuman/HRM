@@ -261,7 +261,7 @@ export default {
 
       this.requestListData = this.requestListData.map((item) => ({
         ...item,
-        checked: allChecked,
+        checked: this.allChecked,
       }));
     },
 

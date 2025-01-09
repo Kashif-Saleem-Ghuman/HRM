@@ -4,13 +4,23 @@
     <div>
       <!-- Header with Action Button -->
       <div class="d-flex justify-between">
-        <div>
+        <div class="d-flex">
           <action-button-header
             :primaryButton="{
               label: 'Pay Type',
               icon: 'add',
               variant: 'primary',
               onClick: addPayTypes,
+            }"
+          />
+
+          <action-button-header
+            v-if="isShowMultiSelectButtons"
+            :primaryButton="{
+              label: 'Delete',
+              icon: 'trash',
+              variant: 'danger',
+              onClick: confirmDeleteSelectedItems,
             }"
           />
         </div>
@@ -32,8 +42,11 @@
         <list-pay-type
           v-if="requestListData?.length > 0"
           :payTypeList="requestListData"
+          :checkedAll="allChecked"
           ref="list-pay-type"
           @action-selected="handleActionFromListing"
+          @selectAllItems="updateAllItems"
+          @itemChecked="handleItemChecked"
         />
         <NoRecord v-else-if="requestListData?.length == 0 && !loading" />
         <!-- Pay Methods Modal -->
@@ -76,11 +89,11 @@
         <confirmation-modal
           v-if="isOpenDeleteModal"
           title="Delete Confirmation"
-          confirmationMessage="Are you sure you want to delete this pay type?"
+          confirmationMessage="Are you sure you want to delete the selected pay type(s)?"
           :confirmastionMessageModal="true"
           :loader="false"
           @close="closePayTypeModal"
-          @on-click="deletePayType"
+          @on-click="confirmDelete"
         />
       </div>
     </div>
@@ -107,6 +120,7 @@ export default {
       payTypeId: null,
       selectedAction: null,
       isOpenDeleteModal: false,
+      allChecked: false,
     };
   },
   computed: {
@@ -121,6 +135,12 @@ export default {
       return (
         !this.loading && (!this.requestListData || !this.requestListData.length)
       );
+    },
+
+    isShowMultiSelectButtons() {
+      const selectedItems = this.requestListData.filter((item) => item.checked);
+
+      return selectedItems.length;
     },
   },
   mounted() {
@@ -212,6 +232,14 @@ export default {
       }
     },
 
+    confirmDelete() {
+      if (this.payTypeId) {
+        this.deletePayType();
+      } else {
+        this.deletedSelectedItems();
+      }
+    },
+
     async deletePayType() {
       try {
         await deletePayType(this.payTypeId);
@@ -226,6 +254,40 @@ export default {
       } catch (error) {
         this.handleError(error);
       }
+    },
+
+    updateAllItems() {
+      this.allChecked = !this.allChecked;
+
+      this.requestListData = this.requestListData.map((item) => ({
+        ...item,
+        checked: allChecked,
+      }));
+    },
+
+    confirmDeleteSelectedItems() {
+      this.isOpenDeleteModal = true;
+    },
+
+    handleItemChecked({ id }) {
+      const requestIndex = this.requestListData.findIndex(
+        (item) => item.id === id
+      );
+      if (requestIndex === -1) {
+        console.error(`Request with id ${id} not found`);
+        return;
+      }
+      this.$set(this.requestListData, requestIndex, {
+        ...this.requestListData[requestIndex],
+        checked: !this.requestListData[requestIndex].checked,
+      });
+
+      this.allChecked = this.requestListData.every((item) => item.checked);
+    },
+
+    deletedSelectedItems() {
+      console.log("delete selected items ====>");
+      this.closePayTypeModal();
     },
   },
 };

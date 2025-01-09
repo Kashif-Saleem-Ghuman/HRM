@@ -13,18 +13,22 @@
             }"
           />
         </div>
-
       </div>
       <div>
-        <list-pay-plans 
+        <list-pay-plans
           v-if="requestListData?.length > 0"
-          :payPlansList="requestListData"  
+          :payPlansList="requestListData"
           @row-clicked="rowClicked"
           @delete-pay-plan="handleDeletePlan"
         />
         <NoRecord v-else-if="requestListData?.length == 0 && !loading" />
 
-        <pay-plan-sidebar @created-pay-plan="addNewPayPlan" :payMethodsList="payMethods" @handle-delete="handleDeletePlan" :editData="selectedPayPlan"/>
+        <pay-plan-sidebar
+          @created-pay-plan="addNewPayPlan"
+          :payMethodsList="payMethods"
+          @handle-delete="handleDeletePlan"
+          :editData="selectedPayPlan"
+        />
       </div>
     </div>
   </div>
@@ -32,7 +36,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPayPlans, deletePayPlan } from "../../utils/functions/api_call/pay/pay-plans";
+import {
+  getPayPlans,
+  deletePayPlan,
+} from "../../utils/functions/api_call/pay/pay-plans";
 import { getPayMethods } from "../../utils/functions/api_call/pay/pay-method";
 
 export default {
@@ -40,7 +47,7 @@ export default {
     return {
       id: null,
       requestListData: [],
-      payMethods:[],
+      payMethods: [],
       loading: false,
       fromDate: "",
       toDate: "",
@@ -71,40 +78,37 @@ export default {
         this.loading = true;
         const payPlans = await getPayPlans();
         this.requestListData = payPlans || [];
-
       } catch (error) {
         console.error("Failed to fetch pay plans:", error);
       } finally {
         this.loading = false;
       }
-    }, 
-      // Fetch existing pay methods
-      async getPayMethods() {
+    },
+    // Fetch existing pay methods
+    async getPayMethods() {
       try {
         this.payMethods = await getPayMethods();
-        console.log("parent pay methods --- ", this.payMethods)
       } catch (error) {
         console.error("Error fetching pay methods:", error);
       }
     },
 
-    addNewPayPlan(data){
-     console.log("End data --- ", data);
-     if(data){
-      this.requestListData.push(data);
-      this.$openPopupNotification({
+    addNewPayPlan(data) {
+      console.log("End data --- ", data);
+      if (data) {
+        this.requestListData.push(data);
+        this.$openPopupNotification({
           text: "Pay Plan Created successfully",
           variant: "primary-24",
-        })
-     }else{
-      this.$openPopupNotification({
+        });
+      } else {
+        this.$openPopupNotification({
           text: "Pay Plan Updated successfully",
           variant: "primary-24",
-        })
-      this.fetchPayPlans();  
-      this.getPayMethods();
-     }
-
+        });
+        this.fetchPayPlans();
+        this.getPayMethods();
+      }
     },
 
     addPayPlans() {
@@ -128,7 +132,9 @@ export default {
       try {
         await deletePayPlan(id);
         // Remove the deleted item from the list
-        this.requestListData = this.requestListData.filter(item => item.id !== id);
+        this.requestListData = this.requestListData.filter(
+          (item) => item.id !== id
+        );
         this.$openPopupNotification({
           text: "Pay Plan deleted successfully",
           variant: "primary-24",
@@ -143,7 +149,7 @@ export default {
     },
   },
   created() {
-    this.fetchPayPlans();  
+    this.fetchPayPlans();
     this.getPayMethods();
   },
 };

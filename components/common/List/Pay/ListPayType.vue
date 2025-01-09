@@ -4,9 +4,21 @@
     :sections="leavePendingList"
     :hide-no-column="true"
     :allChecked="checkedAll"
+    @select-all="$emit('selectAllItems')"
     @column-header-clicked="headerColumnClick($event.column)"
     cellActionIcon="table-column-solid"
   >
+    <template #cell_action="data">
+      <div class="d-flex justify-center align-center">
+        <bib-checkbox
+          size="md"
+          :key="data.value.id"
+          @change="$emit('itemChecked', { id: data.value.id })"
+          :checked="data.value.checked"
+          :variant="isLightThemeCheck ? 'light' : 'secondary'"
+        ></bib-checkbox>
+      </div>
+    </template>
     <template #cell(name)="data">
       <div class="justify-between">
         <span>{{ data.value.name }}</span>

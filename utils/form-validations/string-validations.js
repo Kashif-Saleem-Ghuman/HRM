@@ -60,14 +60,14 @@ export function isValidUrl(url) {
 export function validateMonthDay(value) {
   const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
   if (!regex.test(value)) return "Format is not correct";
-  
+
   // if (/[^0-9\/]/.test(value)) return "Format is not correct";
-  
-  const [month, year] = value.split('/').map(Number);
+
+  const [month, year] = value.split("/").map(Number);
   const currentDate = new Date();
   const inputDate = new Date(`20${year}`, month - 1);
-  
-  return inputDate > currentDate || "Format is not correct";
+
+  return inputDate > currentDate || "Expiry date must be in the future.";
 }
 
 export function validateCvvCvc(value) {

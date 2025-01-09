@@ -57,24 +57,26 @@
         </div>
       </template>
       <template #cell_action_right="data">
-        <bib-button
-          class="button-pop"
-          pop="horizontal-dots"
-          :variant="isLightThemeCheck ? 'light' : 'secondary'"
-        >
-          <template v-slot:menu>
-            <div class="list">
-              <span @click="handleEditClick(data.value.id)" class="list__item"
-                >Edit</span
-              >
-              <span
-                @click.stop="handleDelete('delete', data.value.id)"
-                class="list__item"
-                >Delete</span
-              >
-            </div>
-          </template>
-        </bib-button>
+        <div class="d-flex justify-center align-center">
+          <bib-button
+            class="button-pop"
+            pop="horizontal-dots"
+            :variant="isLightThemeCheck ? 'light' : 'secondary'"
+          >
+            <template v-slot:menu>
+              <div class="list">
+                <span @click="handleEditClick(data.value.id)" class="list__item"
+                  >Edit</span
+                >
+                <span
+                  @click.stop="handleDelete('delete', data.value.id)"
+                  class="list__item"
+                  >Delete</span
+                >
+              </div>
+            </template>
+          </bib-button>
+        </div>
       </template>
     </custom-table>
     <confirmation-modal

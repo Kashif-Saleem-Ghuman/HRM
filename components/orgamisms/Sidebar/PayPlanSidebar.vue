@@ -21,7 +21,7 @@
           :editData="editData"
         ></pay-plan-info-form>
         <div class="py-1">
-          <pay-plan-info></pay-plan-info>
+          <pay-plan-info @selected-users="handleSelectedUsers"></pay-plan-info>
         </div>
         <!-- <div v-if="editData?.id" class="py-1">
           <logs-section></logs-section>
@@ -50,6 +50,7 @@ import {
   createPayPlan,
   updatePayPlan,
 } from "../../../utils/functions/api_call/pay/pay-plans";
+import { addMembers } from "@/utils/functions/api_call/memebers/addMembers";
 const OPEN_SIDEBAR_EVENT = "open-sidebar-pay-paln";
 const CLOSE_SIDEBAR_EVENT = "close-sidebar-pay-plan";
 export default {
@@ -79,6 +80,7 @@ export default {
         { value: "opt2", label: "Option 2" },
         { value: "opt3", label: "Option 3" },
       ],
+      selectedUsers: [],
     };
   },
   computed: {
@@ -97,6 +99,9 @@ export default {
     console.log("Pay amm --- ", this.payMethodsList);
   },
   methods: {
+    handleSelectedUsers(selectedUsers){
+      this.selectedUsers = selectedUsers;
+    },
     handleDelete() {
       this.$emit("handle-delete", this.editData?.id);
       this.closeSidebar();
@@ -160,6 +165,17 @@ export default {
           this.$emit("created-pay-plan");
         } else {
           const res = await createPayPlan(dataToSave);
+          // add members to pay plan using selected users , we send the array of ids
+          // check if response is success then add members to pay plan
+          if (res && res.id){
+            await addMembers(res.id, this.selectedUsers.map(user => user.id));
+          } else {
+            this.openPopupNotification({
+              text: `Failed to add members to pay plan`,
+              variant: "danger",
+            });
+          }
+
           this.$emit("created-pay-plan", res);
         }
         this.closeSidebar();

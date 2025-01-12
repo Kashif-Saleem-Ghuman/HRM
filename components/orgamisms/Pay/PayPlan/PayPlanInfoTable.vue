@@ -128,6 +128,7 @@ export default {
 
       this.employeeData.push(newRow);
       this.selectedUsers.push(user);
+      this.$emit('selected-users', this.selectedUsers);
       this.emitSelectedUsersLength();
     },
     emitSelectedUsersLength() {

@@ -19,7 +19,7 @@
           @update-value="updatedValue"
         /> -->
       <div id="employee-profile-wrapper">
-        <pay-plan-info-table v-if="activeTab === payPlanTab[0].value" @selected-users-length="handleUserLength"></pay-plan-info-table>
+        <pay-plan-info-table v-if="activeTab === payPlanTab[0].value" @selected-users-length="handleUserLength" @selected-users="handleSelectedUsers"></pay-plan-info-table>
       </div>
     </div>
   </div>
@@ -62,6 +62,9 @@ components: { PayPlanInfoTable },
     },
     handleUserLength(selectedMemberCount){
       this.selectedMemberCount = selectedMemberCount;
+    },
+    handleSelectedUsers(selectedUsers){
+      this.$emit('selected-users', selectedUsers);
     }
   },
 };

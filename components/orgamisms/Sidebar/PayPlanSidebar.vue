@@ -143,7 +143,6 @@ export default {
         if (!this.validateForm()) {
           return;
         }
-        console.log("save form data --- ", this.formData);
         if (!this.formData || typeof this.formData !== "object") {
           console.warn("No valid form data to save");
           return;

@@ -28,13 +28,13 @@
         <ul class="m-0 p-0 text-left">
           <li 
             v-for="user in filteredUsers" 
-            :key="user.Id"
+            :key="user.id"
             @click="selectUser(user)"
             class="p-025 align-center gap-05 font-md cursor-pointer"
             :class="{ 'selected': user.isSelected }"
           >
-            <bib-avatar :src="user.Photo" size="1rem" class="flex-shrink-0" />
-            <span class="user-label d-inline-block text-truncate">{{ user.name }}</span>
+            <bib-avatar :src="user.photo" size="1rem" class="flex-shrink-0" />
+            <span class="user-label d-inline-block text-truncate text-capitalize">{{ user.firstName + " " + user.lastName }}</span>
           </li>
           <li v-if="filteredUsers.length === 0" class="p-025 align-center gap-05 font-md cursor-pointer">No users found</li>
         </ul>
@@ -65,9 +65,10 @@ export default {
     filteredUsers() {
       if (!this.searchQuery) return this.users;
       const regex = new RegExp(this.searchQuery, 'i');
-      return this.users.filter(user => 
-        regex.test(user.name) || regex.test(user.employeeId)
-      );
+      return this.users.filter(user => {
+        const name = `${user.firstName} ${user.lastName}`;
+        regex.test(name) || regex.test(user.id)
+      });
     },
     isLight() {
       return this.$store.state.theme.isLightTheme;

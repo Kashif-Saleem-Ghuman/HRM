@@ -7,7 +7,7 @@
       />
     </div>
     <custom-table
-      v-if="employeeData.length > 0"
+      v-if="employeeData?.length > 0"
       :fields="tableFields"
       class="table pay-plan-table"
       :class="{
@@ -21,6 +21,7 @@
 
       <template #cell(name)="data">
         <div class="justify-between">
+        
           <span>{{ data.value.name }}</span>
         </div>
       </template>
@@ -61,6 +62,7 @@ import {
   TABLE_HEAD, DUMMY_USERS_LIST
 } from "@/utils/constant/pay/PayConstant";
 import CustomDropdown from './CustomDropDown.vue'
+import { fetchMembers } from "@/utils/functions/api_call/memebers/fetchMembers";
 
 export default {
   components: {
@@ -70,7 +72,7 @@ export default {
     return {
       tableFields: TABLE_HEAD.tHeadPayPlanInfo,
       employeeData: [],
-      users: DUMMY_USERS_LIST,
+      users: [],
       selectedUsers: [],
     };
   },
@@ -79,6 +81,15 @@ export default {
       return this.users.filter(user => 
         !this.selectedUsers.some(selected => selected.id === user.id)
       );
+    }
+  },
+  async fetch() {
+    try {
+      const members = await fetchMembers();
+      console.log("members", members?.employees);
+      this.users = members?.employees;
+    } catch (error) {
+      console.error('Error fetching members:', error);
     }
   },
   methods: {
@@ -90,14 +101,10 @@ export default {
     },
     addRow() {
       const newRow = {
-        id: Date.now(),
-        employeeId: 80,
-        effectiveDate: "2024-10-28",
-        type: "bonus",
-        augmentation: "---",
-        rate: "38.84",
-        amount: "6500 USD",
-        isNew: true,
+        // 
+        id: this.selectedUsers[0].id,
+        name: this.selectedUsers[0].firstName + " " + this.selectedUsers[0].lastName,
+        addedOn: new Date().toLocaleDateString(),
       };
 
       this.employeeData.unshift(newRow);
@@ -112,9 +119,10 @@ export default {
       this.emitSelectedUsersLength();
     },
     handleUserSelected(user) {
+      console.log("user", user);
       const newRow = {
         id: user.id,
-        name: user.name,
+        name: user.firstName + " " + user.lastName,
         addedOn: new Date().toLocaleDateString(),
       };
 
@@ -123,7 +131,7 @@ export default {
       this.emitSelectedUsersLength();
     },
     emitSelectedUsersLength() {
-      this.$emit('selected-users-length', this.selectedUsers.length);
+      this.$emit('selected-users-length', this.selectedUsers?.length);
     }
   },
 };

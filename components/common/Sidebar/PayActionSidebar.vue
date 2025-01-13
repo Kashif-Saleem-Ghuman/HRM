@@ -217,19 +217,17 @@ export default {
   border-left: 1px solid $secondary-sub3;
   transition: transform 0.8s ease;
 
-  &__slide-in {
-    animation: slidein-right 0.8s;
-  }
-  &__slide-out {
-    animation: slideout 0.8s;
-  }
-  &.sidebar-slide-default {
-    transform: translateX(0);
-  }
   &.sidebar-expanded {
-    transform: translateX(-100%);
+    width: 100vw !important;
+    transform: translateX(0);
+    left: 0;
+    right: 0;
     top: 0 !important;
     border: 1px solid $dark-sub3;
+  }
+
+  &.sidebar-slide-default {
+    transform: translateX(0);
   }
 }
 .sidebar-body-scroll-pay {

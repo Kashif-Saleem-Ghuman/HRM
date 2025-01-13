@@ -58,24 +58,30 @@
       </template>
       <template #cell_action_right="data">
         <div class="d-flex justify-center align-center">
-          <bib-button
-            class="button-pop"
-            pop="horizontal-dots"
-            :variant="isLightThemeCheck ? 'light' : 'secondary'"
-          >
-            <template v-slot:menu>
+          <div class="menu-container">
+            <bib-button
+              class="button-pop"
+              icon="horizontal-dots"
+              :variant="isLightThemeCheck ? 'light' : 'secondary'"
+              @click.native.stop="toggleMenu(data.value.id)"
+            >
+            </bib-button>
+            <div 
+              v-show="activeMenuId === data.value.id"
+              class="menu-dropdown"
+            >
               <div class="list">
-                <span @click="handleEditClick(data.value.id)" class="list__item"
-                  >Edit</span
-                >
+                <span 
+                  @click.stop="handleEditClick(data.value.id)" 
+                  class="list__item"
+                >Edit</span>
                 <span
                   @click.stop="handleDelete('delete', data.value.id)"
                   class="list__item"
-                  >Delete</span
-                >
+                >Delete</span>
               </div>
-            </template>
-          </bib-button>
+            </div>
+          </div>
         </div>
       </template>
     </custom-table>
@@ -133,12 +139,14 @@ export default {
       sortByField: null,
       isDeleteModalVisible: false,
       selectedDeleteId: null,
+      activeMenuId: null,
     };
   },
   async created() {
     await this.$store.dispatch("employee/setActiveUser");
   },
   beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
     this.$resetTableFieldsHeaderIcon(this.tableFields);
   },
   computed: {
@@ -194,12 +202,14 @@ export default {
     handleEditClick(id) {
       const rowData = this.leavePendingList.find((item) => item.id === id);
       this.$emit("row-clicked", rowData);
+      this.activeMenuId = null;
     },
     handleDelete(action, id) {
       console.log("del", id, action);
       if (action === "delete") {
-        this.selectedDeleteId = id; // Store the ID of the item to delete
-        this.isDeleteModalVisible = true; // Show confirmation modal
+        this.selectedDeleteId = id;
+        this.isDeleteModalVisible = true;
+        this.activeMenuId = null;
       }
     },
     async deleteSpecificEntry() {
@@ -245,6 +255,19 @@ export default {
         });
       }
     },
+    toggleMenu(id) {
+      this.activeMenuId = this.activeMenuId === id ? null : id;
+    },
+    handleClickOutside(event) {
+      // Check if click is outside any menu button
+      const isClickInsideMenu = event.target.closest('.button-pop');
+      if (!isClickInsideMenu) {
+        this.activeMenuId = null;
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
   },
 };
 </script>
@@ -280,51 +303,39 @@ export default {
   text-transform: capitalize;
 }
 
-.dropdown {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  display: inline-block;
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-.dropdown-menu {
-  display: none;
+.list {
+  background: var(--color-surface);
   border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  &__item {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+    }
+  }
+}
+
+.button-pop {
+  position: relative;
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-dropdown {
   position: absolute;
-  min-width: 160px;
-  z-index: 100 !important;
-  overflow: hidden;
-  right: -30px;
-  left: -70px;
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-.dropdown-menu span {
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  transition: background-color 0.3s;
-}
-
-.dropdown-menu span:hover {
-  cursor: pointer;
-  width: 100% !important;
-  background-color: #bebebe;
-}
-
-.table tr td {
-  color: #f4f4f4 !important;
-}
-
-.table tr tr {
-  color: #8d8d8f !important;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  min-width: 120px;
+  margin-top: 4px;
 }
 </style>
 <style scoped>

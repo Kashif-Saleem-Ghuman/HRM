@@ -21,7 +21,7 @@
 
       <template #cell(name)="data">
         <div class="justify-between">
-        
+          
           <span>{{ data.value.name }}</span>
         </div>
       </template>
@@ -59,7 +59,7 @@
 
 <script>
 import {
-  TABLE_HEAD, DUMMY_USERS_LIST
+  TABLE_HEAD
 } from "@/utils/constant/pay/PayConstant";
 import CustomDropdown from './CustomDropDown.vue'
 import { fetchMembers } from "@/utils/functions/api_call/memebers/fetchMembers";

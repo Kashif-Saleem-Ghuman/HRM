@@ -1,3 +1,4 @@
+<!-- This component is used to display the pay plan info table to create or edit a pay plan -->
 <template>
   <div class="section-wrapper">
     <div class="tab-wrapper">

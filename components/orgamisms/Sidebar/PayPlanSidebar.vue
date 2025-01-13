@@ -4,7 +4,7 @@
       @close="closeSidebar"
       :className="slideClass"
       classMain="heightEdit"
-      heading="Pay plan name - ID"
+      :heading="editData?.id ? `Pay plan - ${editData.id}` : 'Create Pay Plan'"
       icon="help-circle-solid"
       v-show="openSidebar"
       @closeSidebar="closeSidebar"
@@ -16,12 +16,16 @@
     >
       <template v-slot:sidebar-body>
         <pay-plan-info-form
+          ref="payPlanForm"
           @form-updated="updateFormData"
           :payMethodsList="payMethodsList"
           :editData="editData"
         ></pay-plan-info-form>
         <div class="py-1">
-          <pay-plan-info @selected-users="handleSelectedUsers"></pay-plan-info>
+          <pay-plan-info 
+            ref="payPlanInfo"
+            @selected-users="handleSelectedUsers"
+          ></pay-plan-info>
         </div>
         <!-- <div v-if="editData?.id" class="py-1">
           <logs-section></logs-section>
@@ -232,7 +236,6 @@ export default {
       this.unregisterOpenSideBarRootListener();
     },
     updateFormData(data) {
-      console.log("Data in parent::::::::: ", data);
       this.formData = data; // Update the form data in the parent
     },
   },
